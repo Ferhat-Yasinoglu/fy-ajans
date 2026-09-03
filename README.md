@@ -35,7 +35,9 @@ js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
 img/course/ch1-7.svg  bölüm kapakları (vektör, sitede çizildi)
 img/logo.svg          logo ve favicon
-img/og.svg            paylaşım görseli
+img/og.svg, og.png    paylaşım görseli (PNG, SVG'den üretildi; sosyal ağlar PNG ister)
+img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest)
+404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```
 
