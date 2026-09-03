@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title>Öğrenci Girişi · FY</title>
+<title>Öğrenci Paneli · FY</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
@@ -15,15 +15,17 @@
 </head>
 <body>
 <main class="login">
-  <form class="glass-strong login__card form" id="loginForm" novalidate>
+  <!-- Panel açılana kadar bu sayfada şifre alanı YOK: gerçek bir panel olmadan şifre toplanmaz (README).
+       method="post": betik çalışmazsa bile tarayıcı alanları adres çubuğuna yazmaz. -->
+  <form class="glass-strong login__card form" id="loginForm" method="post" novalidate>
     <a href="../index.html" aria-label="FY ana sayfa"><svg viewBox="0 0 96 64" style="height:36px;width:auto" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d76e"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#a9821e"/></linearGradient></defs><text x="4" y="50" font-family="Vazirmatn, system-ui, sans-serif" font-size="52" font-weight="900" font-style="italic" fill="url(#lg)" letter-spacing="-3">FY</text></svg></a>
     <h1 class="font-display">Öğrenci paneli</h1>
-    <p class="sub">Kurs dosyaları, ek eğitimler ve soru-cevap için giriş yap. Panel henüz açık değil; yazdıkların hiçbir yere gönderilmez.</p>
-    <div class="field"><label for="u">E-posta</label><input id="u" class="input" type="email" name="email" autocomplete="off" placeholder="you@example.com"></div>
-    <div class="field"><label for="p">Şifre</label><input id="p" class="input" type="password" name="password" autocomplete="off" placeholder="••••••••"></div>
-    <button type="submit" class="btn btn-primary w-full">Giriş yap →</button>
+    <p class="sub">Kurs dosyaları, ek eğitimler ve soru-cevap burada olacak. Panel henüz açık değil; açıldığında giriş bilgilerin kurs kaydındaki e-posta adresine gönderilecek.</p>
+    <div class="field"><label for="u">E-posta *</label><input id="u" class="input" type="email" name="email" autocomplete="email" required placeholder="you@example.com"></div>
+    <button type="submit" class="btn btn-primary w-full">Panel açılınca haber ver →</button>
     <p class="form-status" id="loginStatus"></p>
-    <p class="foot"><a href="#" data-mail="Şifremi unuttum">Şifremi unuttum</a> · <a href="../index.html">Ana sayfa</a></p>
+    <p class="form-note">Şifre istemiyoruz: panel açılmadan hiçbir yerde şifre toplanmaz. Gönder deyince e-posta uygulaman açılır; adresin yalnızca bu bildirim için kullanılır.</p>
+    <p class="foot"><a href="../index.html#training">Kursu incele</a> · <a href="../index.html">Ana sayfa</a></p>
   </form>
 </main>
 <script src="../js/main.js"></script>

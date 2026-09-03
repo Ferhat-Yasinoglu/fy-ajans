@@ -4,6 +4,9 @@
    otomasyon akışı, SSS akordeonu, formlar. Bağımlılık yok. */
 (function () {
   'use strict';
+  // Betik çalışıyor: giriş animasyonlarının gizlemesi ancak bu sınıfla devreye girer (css: ".js …").
+  // Betik yüklenmez ya da ayrıştırılamazsa sınıf eklenmez, sayfa olduğu gibi görünür kalır.
+  document.documentElement.classList.add('js');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -25,15 +28,6 @@
     a.setAttribute('href', 'mailto:' + MAIL + (subj ? '?subject=' + encodeURIComponent(subj) : ''));
   });
   $$('[data-mail-text]').forEach(function (el) { el.textContent = MAIL; });
-
-  /* ---------- Öğrenci girişi (yalnızca arayüz) ---------- */
-  var loginForm = $('#loginForm');
-  if (loginForm) loginForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var s = $('#loginStatus');
-    s.textContent = 'Öğrenci paneli henüz açık değil. Girdiğin bilgiler hiçbir yere gönderilmedi.';
-    loginForm.reset();
-  });
 
   /* ---------- Üst çubuk ---------- */
   var nav = $('#nav');
@@ -490,7 +484,10 @@
     // Küçük modellerin yanıtını toparlar: boşluk, tekrar eden cümleler, uzunluk
     function tidy(text) {
       var t = String(text || '').replace(/\s+/g, ' ').replace(/^[\s:*#\-]+/, '').trim();
-      var parts = t.split(/(?<=[.!?…])\s+/), seen = {}, keep = [];
+      // Cümlelere böl: noktalama + boşluk. Lookbehind kullanılmaz (Safari 16.4 öncesi tüm betiği düşürürdü);
+      // yakalama grubu noktalamayı ayrı parça olarak verir, aşağıda geri yapıştırılır. "3.5" gibi sayılar bölünmez.
+      var raw = t.split(/([.!?…]+)\s+/), parts = [], seen = {}, keep = [];
+      for (var j = 0; j < raw.length; j += 2) { var piece = (raw[j] + (raw[j + 1] || '')).trim(); if (piece) parts.push(piece); }
       for (var i = 0; i < parts.length && keep.length < 3; i++) {
         var k = parts[i].toLowerCase().replace(/[^a-zçğıöşü0-9]/g, '');
         if (!k || seen[k]) continue; seen[k] = 1; keep.push(parts[i]);
@@ -695,6 +692,8 @@
   }
   wireForm('contactForm', 'contactStatus', 'FY — iletişim formu');
   wireForm('joinForm', 'joinStatus', 'FY — özgeçmiş başvurusu', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.');
+  // Öğrenci paneli: panel açılana kadar şifre alınmaz; yalnızca "açılınca haber ver" e-postası hazırlanır.
+  wireForm('loginForm', 'loginStatus', 'FY — öğrenci paneli açılınca haber ver');
   var jf = $('#jFile'), jn = $('#jFileName');
   if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : 'Dosya seç…'; jn.classList.toggle('text-dim', !jf.files[0]); });
 
