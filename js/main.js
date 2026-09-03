@@ -437,18 +437,37 @@
     input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0 || busy; });
     input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
     input.addEventListener('blur', function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); });
+    // Bilgi tabanı: [anahtar kelimeler (regex), yanıt]. En çok eşleşen kazanır.
     var canned = [
-      ['site|web|landing|sayfa', 'Site için üç paketimiz var: Temel, Profesyonel ve Uzman. En çok Profesyonel (site + CRM) tercih ediliyor. İstersen iletişim formundan bir görüşme ayıralım.'],
-      ['kurs|eğitim|bölüm|fiyat|ücret', 'Yapay Zekâ Yolculuğu 7 bölümlük, tamamen proje odaklı bir kurs. Sıfırdan başlar; prompt, n8n, Claude Code, site ve CRM kurma, video ve pazarlamayla biter. Fiyatı sayfada, eğitim bölümünde.'],
-      ['otomasyon|n8n|ajan|bot|crm', 'Tekrar eden işleri ajanlara devrediyoruz: DM yanıtları, müşteri adayı puanlama, raporlama, CRM eşitleme. Ücretsiz görüşmede hangi darboğazın önce çözüleceğine birlikte karar veririz.'],
-      ['claude|skill|kod', 'Claude Code kursun 4. bölümünün konusu: skill yazımı, alt ajanlar ve kalıcı hafıza. Bu sitedeki FYOS demosunun mantığı da orada anlatılıyor.'],
-      ['kim|sen|nesin|fyos', 'Ben FYOS — FY\'nin ajantik işletim sistemi demosuyum. Ajanlar, koçlar, hafıza, beceriler ve bilgi grafiğinden oluşan bir ağın küçük bir örneği. Kursun 5. bölümünde kendi sürümünü kuruyorsun.'],
-      ['merhaba|selam|hey|nasıl', 'Merhaba! Çevrimiçiyim. Site, kurs, otomasyon ya da FYOS hakkında sorabilirsin.']
+      ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! Çevrimiçiyim. Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum hakkında sorabilirsin.'],
+      ['teşekkür|sağ ol|sağol|eyvallah|süper|harika', 'Rica ederim. Başka bir şey merak edersen buradayım; ciddi bir konuysa iletişim formundan yaz, gerçek bir insan döner.'],
+      ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Yapay Zekâ Yolculuğu kursu şu an 100 €, normal fiyatı 200 €; yani %50 indirimli. Tek seferlik ödeme, taksit yok. Site paketleri ve otomasyon ise projeye göre fiyatlanır; ücretsiz görüşmede net bir tahmin verilir.'],
+      ['kaç bölüm|bölüm|müfredat|içerik|konular|ders|program', 'Kurs 7 bölüm: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code ve skill\'ler), 5 Laboratuvar (site, CRM ve FYOS kurmak), 6 Vitrin (video, Instagram, içerik), 7 Zirve (para kazandıran beceri). Her bölüm gerçek bir projeyle biter.'],
+      ['kurs|eğitim|yolculuğu|öğren|başla|sıfırdan|acemi|yeni başlayan', 'Yapay Zekâ Yolculuğu, mutlak sıfırdan başlayan 7 bölümlük proje odaklı bir kurs. Programlama bilgisi gerekmez; her bölüm bir öncekinin üstüne kurulur. Fiyatı 100 €. Ayrıntılar eğitim bölümünde.'],
+      ['prompt|promt|komut|chatgpt|model', 'Prompt yazımı kursun 2. bölümü: rol, bağlam, hedef, kısıt ve çıktı biçimi formülü. Bu formülle her model tam istediğini verir; sistem promptu ve yapılandırılmış çıktı da orada.'],
+      ['n8n|otomasyon|ajan|bot|akış|workflow|webhook|zapier|make', 'Otomasyonu iki şekilde yapıyoruz: kursun 3. bölümünde n8n ile kendin öğreniyorsun; ajans tarafında ise DM yanıtları, müşteri adayı puanlama, raporlama ve CRM eşitleme gibi işleri senin için ajanlara devrediyoruz. Ücretsiz görüşmede önce hangi darboğaz çözülecek, birlikte karar veririz.'],
+      ['claude|skill|kod|code|anthropic|alt ajan|hafıza', 'Claude Code kursun 4. bölümünün konusu: skill yazımı, alt ajanlar ve kalıcı hafıza. Bu sitedeki FYOS demosunun mantığı da orada anlatılıyor.'],
+      ['site|web|landing|sayfa|paket|crm|platform|tasarım', 'Site için üç paketimiz var: Temel (animasyonlu satış sayfası), Profesyonel (site + CRM + yönetim paneli, en çok tercih edilen) ve Uzman (yapay zekâ entegrasyonlu tam platform). Fiyat projeye göre; "Proje talep et" düğmesinden yazabilirsin.'],
+      ['video|kurgu|instagram|reels|içerik|sosyal|takipçi|algoritma', 'Bunlar kursun 6. bölümü, Vitrin: Claude ile video kurgusu, Instagram algoritması, DM akıllılaştırma, içerik ve kampanya. Amaç markanı büyüme makinesi gibi döndürmek.'],
+      ['para kazan|gelir|müşteri bul|freelance|iş bul|satış', 'Kursun 7. bölümü Zirve tam olarak bunun için: teklif hazırlama, fiyatlama ve müşteri kazanma. Bütün beceriler orada para kazandıran tek beceriye dönüşür.'],
+      ['kim|sen|nesin|fyos|ne işe yarar|nasıl çalış', 'Ben FYOS, FY\'nin ajantik işletim sistemi demosuyum. Ajanlar, koçlar, hafıza, beceriler ve bilgi grafiğinden oluşan bir ağın küçük bir örneği. Kursun 5. bölümünde kendi sürümünü kuruyorsun.'],
+      ['farhad|ferhat|kurucu|hoca|eğitmen|anlatan|kimdir|hakkında', 'Kursu FY\'nin kurucusu Farhad Yaqoobi anlatıyor. Almanya\'da yaşıyor, IT okuyor, dört dilde içerik üretiyor ve öğrendiklerini açık kaynak olarak GitHub\'da paylaşıyor. Ayrıntı Hakkımda bölümünde.'],
+      ['dil|türkçe|almanca|ingilizce|farsça|deutsch|english', 'Kurs Türkçe. Destek Türkçe, Almanca, İngilizce ve Farsça olarak veriliyor.'],
+      ['nerede|almanya|türkiye|şehir|yüz yüze|online|uzaktan|canlı', 'Her şey online. FY Almanya\'da, Kuzey Ren-Vestfalya\'da; kurs ve görüşmeler uzaktan yapılıyor, dünyanın her yerinden katılabilirsin.'],
+      ['destek|soru sor|yardım|panel|erişim|lisans|izle|ömür', 'Kayıt olunca 45 gün tam destek hediye; sorularını öğrenci panelinde sorarsın. Videolara sana özel erişimle istediğin zaman ulaşırsın, erişim ömür boyu.'],
+      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Ödeme tek seferde yapılıyor, taksit yok. Kursu almak için "Kursu hemen al" düğmesine bas; e-posta ile ödeme adımlarını gönderiyoruz, ödeme onaylanınca erişim bilgilerin gelir.'],
+      ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu: sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt gerçek bir insandan gelir.'],
+      ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak için "FY\'ye katıl" bölümünden özgeçmişini gönderebilirsin; uygun görürsek iletişime geçeriz.'],
+      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site hiçbir veri toplamaz, çerez kullanmaz ve dışarıya istek atmaz. Sohbet sayacı yalnızca senin tarayıcında tutulur. Ayrıntı Kurallar ve Gizlilik sayfasında.']
     ];
     function reply(q) {
-      var lq = q.toLowerCase();
-      for (var i = 0; i < canned.length; i++) if (new RegExp(canned[i][0]).test(lq)) return canned[i][1];
-      return 'Anladım: «' + q + '». Bu demo sürümü sınırlı yanıt veriyor; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
+      var lq = q.toLowerCase(), best = null, bestScore = 0;
+      for (var i = 0; i < canned.length; i++) {
+        var m = lq.match(new RegExp(canned[i][0], 'g')), score = m ? m.length : 0;
+        if (score > bestScore) { bestScore = score; best = canned[i][1]; }
+      }
+      if (best) return best;
+      return 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
     }
     function bubble(role, text) {
       var d = document.createElement('div');
