@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Bölüm 4 — Atölye">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#0f4a48"/><stop offset=".5" stop-color="#0b2a2a"/><stop offset="1" stop-color="#03100f"/></radialGradient>
+    <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1d1d"/><stop offset="1" stop-color="#071313"/></linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#35e0c8" stroke-opacity=".12"/></pattern>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <rect width="800" height="800" fill="url(#grid)"/>
+  <circle cx="400" cy="380" r="200" fill="#35e0c8" opacity=".18" filter="url(#glow)"/>
+  <g transform="translate(110 150)">
+    <rect width="580" height="470" rx="22" fill="url(#win)" stroke="#35e0c8" stroke-opacity=".5" stroke-width="2"/>
+    <rect width="580" height="48" rx="22" fill="#0e2626"/>
+    <rect y="24" width="580" height="24" fill="#0e2626"/>
+    <circle cx="30" cy="24" r="7" fill="#ff5f57"/><circle cx="54" cy="24" r="7" fill="#febc2e"/><circle cx="78" cy="24" r="7" fill="#28c840"/>
+    <text x="290" y="30" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="15" fill="#7fd9cc" text-anchor="middle">fy-atölye — claude</text>
+    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="19" fill="#bfeee6">
+      <text x="30" y="96"><tspan fill="#35e0c8">$</tspan> claude</text>
+      <text x="30" y="132" fill="#7fd9cc">› skill oluştur: instagram-dm</text>
+      <text x="30" y="168" fill="#7fd9cc">› alt ajan: rapor-yazar</text>
+      <text x="30" y="204"><tspan fill="#ffd166">✓</tspan> hafıza bağlandı (CLAUDE.md)</text>
+    </g>
+    <g fill="#35e0c8" opacity=".55">
+      <rect x="30" y="240" width="300" height="10" rx="5"/><rect x="30" y="266" width="420" height="10" rx="5" opacity=".7"/>
+      <rect x="30" y="292" width="220" height="10" rx="5" opacity=".8"/><rect x="30" y="318" width="360" height="10" rx="5" opacity=".6"/>
+      <rect x="30" y="344" width="150" height="10" rx="5" opacity=".9"/>
+    </g>
+    <text x="30" y="420" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="19" fill="#bfeee6"><tspan fill="#35e0c8">$</tspan> <tspan fill="#fff">▮</tspan></text>
+  </g>
+  <g transform="translate(640 620) rotate(-35)" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-70 0 H30"/>
+    <path d="M30 -28 a28 28 0 1 1 0 56 l-22 -12 v-32 z" fill="#ffd166" stroke-width="6"/>
+  </g>
+  <g transform="translate(120 660) rotate(30)" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-40 0 H60"/>
+    <rect x="-70" y="-24" width="46" height="48" rx="8" fill="#ffd166" stroke-width="6"/>
+  </g>
+  <g fill="#ffd166"><path d="M700 100 l5 15 15 5 -15 5 -5 15 -5 -15 -15 -5 15 -5z" opacity=".85"/><path d="M90 110 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" opacity=".5"/></g>
+</svg>

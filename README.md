@@ -33,6 +33,7 @@ portal/login.html     öğrenci girişi (yalnızca arayüz)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
+img/course/ch1-7.svg  bölüm kapakları (vektör, sitede çizildi)
 img/logo.svg          logo ve favicon
 img/og.svg            paylaşım görseli
 robots.txt  sitemap.xml  manifest.webmanifest
