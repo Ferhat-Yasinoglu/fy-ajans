@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /portal/
+Disallow: /dashboard/
+Disallow: /login
+
+Sitemap: https://ferhat-yasinoglu.github.io/fy-ajans/sitemap.xml
