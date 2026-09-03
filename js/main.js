@@ -1,6 +1,6 @@
 /* FY — Yapay Zekâ Ajansı · ana betik
    Bölümler: üst çubuk, mobil menü, görünürlük animasyonu, hero devre ağı,
-   kurs kapağı, FYOS sahnesi (ağ, ses çubuğu, sohbet), sekmeler, beyin grafiği,
+   kurs kapağı, FYOS sahnesi (ağ, ses dalgası, baloncuklu sohbet), sekmeler, beyin grafiği,
    otomasyon akışı, SSS akordeonu, formlar. Bağımlılık yok. */
 (function () {
   'use strict';
@@ -184,92 +184,259 @@
     build(); raf(draw); addEventListener('resize', build);
   })();
 
-  /* ---------- FYOS sahnesi: canlı ağ ---------- */
+  /* ---------- FYOS sahnesi: canlı ağ + ses dalgası ----------
+     Dört durum (idle/thinking/speaking/listening), kendi kendine renk gezintisi,
+     dokununca su gibi yayılan halka, lifler üzerinde akan ışık paketleri,
+     rastgele kıvılcımlar ve iz bırakan çizim. */
   (function mesh() {
-    var canvas = $('#meshCanvas'), area = $('#stageArea'); if (!canvas || !area) return;
-    var nodes = [], edges = [], mouse = { x: -1, y: -1 }, hue = 190, targetHue = 190, t0 = performance.now();
-    var pulse = 0;
-    document.documentElement.style.setProperty('--mesh-hue', hue);
+    var canvas = $('#meshCanvas'), area = $('#stageArea'), voiceC = $('#voiceCanvas');
+    if (!canvas || !area) return;
+    var STATES = {
+      idle:      { speed: 1,   fireEvery: 3,   bright: 1,    waveAmp: .25, waveFreq: 1,   shimmer: 0 },
+      thinking:  { speed: 2,   fireEvery: 1.1, bright: 1.25, waveAmp: .35, waveFreq: 1.6, shimmer: .3 },
+      speaking:  { speed: 1.4, fireEvery: 2,   bright: 1.35, waveAmp: 1,   waveFreq: 2.2, shimmer: 1 },
+      listening: { speed: .55, fireEvery: 4.5, bright: .72,  waveAmp: .12, waveFreq: .5,  shimmer: 0 }
+    };
+    var PALETTE = [190, 210, 265, 300, 160, 330, 45];
+    var BADGE = { idle: 'Canlı ve çevrimiçi', thinking: 'Düşünüyorum…', speaking: 'Yanıt veriyorum', listening: 'Dinliyorum' };
+    var badge = $('#liveState');
 
-    function build() {
-      var f = fit(canvas); nodes = []; edges = [];
-      var n = Math.round(Math.min(160, (f.w * f.h) / 6500)), cx = f.w / 2, cy = f.h / 2;
-      for (var i = 0; i < n; i++) {
-        var ang = rnd(0, 6.283), rad = Math.pow(Math.random(), .6) * Math.min(f.w, f.h) * .42;
-        nodes.push({ x: cx + Math.cos(ang) * rad * 1.35, y: cy + Math.sin(ang) * rad, bx: 0, by: 0, r: Math.random() < .08 ? rnd(5, 8) : rnd(1.5, 3.5), ph: rnd(0, 6.283), sp: rnd(.2, .6), hot: Math.random() < .12 });
-      }
-      nodes.forEach(function (a, i) { a.bx = a.x; a.by = a.y; });
-      for (var i = 0; i < n; i++) for (var j = i + 1; j < n; j++) {
-        var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 120 && Math.random() < .6) edges.push([i, j, d]);
+    var seed = 1337;
+    function srnd() { seed = seed * 16807 % 2147483647; return (seed - 1) / 2147483646; }
+    function gauss() { return (srnd() + srnd() + srnd() + srnd() - 2) / 2; }
+
+    var nodes = [], edges = [], packets = [], sparks = [], ripples = [];
+    for (var i = 0; i < 80; i++) {
+      var hub = i < 8;
+      nodes.push({
+        bx: .5 + .42 * gauss(), by: .5 + .4 * gauss(), x: 0, y: 0,
+        r: hub ? 6 + 2 * srnd() : 1.5 + 2.5 * srnd(), hub: hub,
+        seedA: 1000 * srnd(), seedB: 1000 * srnd(), purple: srnd() < .12
+      });
+    }
+
+    var w = 0, h = 0;
+    function buildEdges() {
+      edges = [];
+      var s2 = 4242, rr = function () { s2 = s2 * 16807 % 2147483647; return (s2 - 1) / 2147483646; };
+      var reach = .24 * Math.min(w, h);
+      for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
+        var d = Math.hypot((nodes[i].bx - nodes[j].bx) * w, (nodes[i].by - nodes[j].by) * h);
+        if (d < reach && rr() < .55) edges.push({
+          a: i, b: j, cpOff: (rr() - .5) * d * .55,
+          alpha: Math.max(.05, .35 * (1 - d / reach)),
+          purple: (nodes[i].purple || nodes[j].purple) ? rr() < .5 : rr() < .06
+        });
       }
     }
+
+    var hue = 190, hueTarget = 190, hueTimer = 9, hueLast = -999;
+    function col(l, a, off, sat) {
+      return 'hsla(' + ((hue + (off || 0) + 360) % 360) + ',' + (sat || 85) + '%,' + l + '%,' + a + ')';
+    }
+    // Kavisli lif üzerinde nokta (quadratic bezier)
+    function bez(e, t) {
+      var a = nodes[e.a], b = nodes[e.b];
+      var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      var dx = b.x - a.x, dy = b.y - a.y, dd = Math.hypot(dx, dy) || 1;
+      var cx = mx + -dy / dd * e.cpOff, cy = my + dx / dd * e.cpOff, m = 1 - t;
+      return { x: m * m * a.x + 2 * m * t * cx + t * t * b.x, y: m * m * a.y + 2 * m * t * cy + t * t * b.y, cx: cx, cy: cy };
+    }
+    function spawnPacket() {
+      if (edges.length) packets.push({ fiber: Math.floor(Math.random() * edges.length), t: 0, speed: .25 + .5 * Math.random(), dir: Math.random() < .5 ? 1 : -1, trail: [] });
+    }
+
+    var stateName = 'idle', target = assign({}, STATES.idle), cur = assign({}, STATES.idle);
+    function assign(o, s) { for (var k in s) o[k] = s[k]; return o; }
+    function setState(name) {
+      if (!STATES[name]) return;
+      stateName = name; target = assign({}, STATES[name]);
+      if (badge) badge.textContent = BADGE[name];
+    }
+
+    var sparkTimer = 0, tPrev = performance.now(), q = 0;
     function draw(now) {
-      if (!visible(canvas)) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx, time = (now - t0) / 1000;
-      hue += (targetHue - hue) * .04; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1));
-      pulse *= .96;
-      ctx.clearRect(0, 0, f.w, f.h);
+      if (!visible(canvas) && !ripples.length) { raf(draw); return; }
+      var f = fit(canvas), ctx = f.ctx;
+      if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); }
+      var s = Math.min((now - tPrev) / 1000, .05); tPrev = now; q += s;
+
+      var lerp = 2.2 * Math.min(1, s / .5);
+      for (var k in cur) cur[k] += (target[k] - cur[k]) * lerp;
+
+      // Renk kendi kendine gezinir
+      if ((hueTimer -= s) <= 0) { hueTarget = PALETTE[Math.floor(Math.random() * PALETTE.length)]; hueTimer = 12 + 10 * Math.random(); }
+      var hd = (hueTarget - hue + 540) % 360 - 180;
+      hue += hd * Math.min(1, .35 * s);
+      if (Math.abs(hue - hueLast) >= .5) { hueLast = hue; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1)); }
+
+      var osc = 1 + Math.sin(q * (stateName === 'listening' ? .9 : 1.6)) * (stateName === 'listening' ? .12 : .05);
+      var bright = cur.bright * osc;
+
+      // İz bırakan zemin
+      ctx.fillStyle = 'rgba(7, 6, 4, 0.28)';
+      ctx.fillRect(0, 0, w, h);
+
       nodes.forEach(function (nd) {
-        nd.x = nd.bx + Math.sin(time * nd.sp + nd.ph) * 6;
-        nd.y = nd.by + Math.cos(time * nd.sp * .8 + nd.ph) * 6;
-        if (mouse.x >= 0) { var dx = nd.x - mouse.x, dy = nd.y - mouse.y, d = Math.sqrt(dx * dx + dy * dy); if (d < 120) { var k = (120 - d) / 120 * 14; nd.x += dx / d * k; nd.y += dy / d * k; } }
+        nd.x = nd.bx * w + 6 * Math.sin(.3 * q + nd.seedA) + 4 * Math.cos(.17 * q + nd.seedB);
+        nd.y = nd.by * h + 6 * Math.cos(.26 * q + nd.seedB) + 4 * Math.sin(.21 * q + nd.seedA);
       });
-      var base = 'hsla(' + hue + ',85%,';
-      edges.forEach(function (e) {
-        var a = nodes[e[0]], b = nodes[e[1]];
-        ctx.strokeStyle = base + '65%,' + (.08 + (1 - e[2] / 120) * .22 + pulse * .2) + ')'; ctx.lineWidth = .8;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-      });
-      nodes.forEach(function (nd) {
-        if (nd.hot || nd.r > 4) {
-          var g = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, nd.r * 4);
-          g.addColorStop(0, base + '70%,.35)'); g.addColorStop(1, base + '70%,0)');
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * 4, 0, 6.283); ctx.fill();
+
+      // Su gibi yayılan halkalar
+      for (var ri = ripples.length - 1; ri >= 0; ri--) {
+        var rp = ripples[ri];
+        rp.r += s * Math.max(w, h) * .75; rp.alpha -= .75 * s;
+        if (rp.alpha <= 0) ripples.splice(ri, 1);
+      }
+      function boost(x, y) {
+        var a = 0;
+        for (var i = 0; i < ripples.length; i++) {
+          var d = Math.abs(Math.hypot(x - w / 2, y - h / 2) - ripples[i].r);
+          if (d < 90) a += (1 - d / 90) * ripples[i].alpha;
         }
-        ctx.fillStyle = nd.hot ? 'hsla(' + (hue + 140) + ',85%,72%,.95)' : base + '72%,.9)';
-        ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx.fill();
-      });
-      if (!reduce) raf(draw);
-    }
-    build(); raf(draw); addEventListener('resize', build);
-    area.addEventListener('mousemove', function (e) { var r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
-    area.addEventListener('mouseleave', function () { mouse.x = -1; mouse.y = -1; });
-    area.addEventListener('click', function () { targetHue = (targetHue + 47) % 360; pulse = 1; });
-    window.FYOS = { setHue: function (h) { targetHue = h; pulse = 1; }, ping: function () { pulse = 1; } };
-  })();
-
-  /* ---------- FYOS: ses çubuğu ---------- */
-  (function voice() {
-    var canvas = $('#voiceCanvas'); if (!canvas) return;
-    var t0 = performance.now(), level = .35; window.FYOS_voice = function (l) { level = l; };
-    function draw(now) {
-      if (!visible(canvas)) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx, time = (now - t0) / 1000, bars = 36, gap = 3, bw = (f.w - gap * (bars - 1)) / bars;
-      var hue = getComputedStyle(document.documentElement).getPropertyValue('--mesh-hue') || 190;
-      ctx.clearRect(0, 0, f.w, f.h);
-      for (var i = 0; i < bars; i++) {
-        var c = Math.abs(i - bars / 2) / (bars / 2);
-        var amp = (1 - c * .8) * (0.25 + level * Math.abs(Math.sin(time * 2.2 + i * .55)) * 0.75);
-        var h = Math.max(2, amp * f.h);
-        ctx.fillStyle = 'hsla(' + hue + ',85%,65%,' + (.35 + amp * .6) + ')';
-        ctx.fillRect(i * (bw + gap), (f.h - h) / 2, bw, h);
+        return a;
       }
-      if (!reduce) raf(draw);
+
+      // Kavisli lifler
+      ctx.lineWidth = .7;
+      for (var ei = 0; ei < edges.length; ei++) {
+        var e = edges[ei], a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
+        var al = e.alpha * bright * .9;
+        if (cur.shimmer > .01) al *= 1 + .5 * cur.shimmer * Math.sin(6 * q + 1.7 * ei);
+        al += .4 * boost((a.x + b.x) / 2, (a.y + b.y) / 2);
+        ctx.strokeStyle = e.purple ? col(75, Math.min(al, .7), 55) : col(60, Math.min(al, .7));
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx.stroke();
+      }
+
+      // Lifler üzerinde akan ışık paketleri
+      while (edges.length && packets.length < 10) spawnPacket();
+      ctx.shadowBlur = 0;
+      var heads = [];
+      for (var pi = packets.length - 1; pi >= 0; pi--) {
+        var pk = packets[pi];
+        pk.t += s * pk.speed * cur.speed;
+        if (pk.t >= 1) { packets.splice(pi, 1); continue; }
+        var ease = pk.t < .5 ? 2 * pk.t * pk.t : 1 - Math.pow(-2 * pk.t + 2, 2) / 2;
+        var pos = bez(edges[pk.fiber % edges.length], pk.dir === 1 ? ease : 1 - ease);
+        pk.trail.push({ x: pos.x, y: pos.y });
+        if (pk.trail.length > 9) pk.trail.shift();
+        for (var ti = 0; ti < pk.trail.length; ti++) {
+          var tp = pk.trail[ti];
+          ctx.fillStyle = col(70, ti / pk.trail.length * .5 * bright);
+          ctx.beginPath(); ctx.arc(tp.x, tp.y, 1.1, 0, 6.283); ctx.fill();
+        }
+        heads.push(pos);
+      }
+      ctx.shadowColor = col(62, .9); ctx.shadowBlur = 8;
+      ctx.fillStyle = col(85, .95 * bright);
+      heads.forEach(function (hp) { ctx.beginPath(); ctx.arc(hp.x, hp.y, 1.8, 0, 6.283); ctx.fill(); });
+      ctx.shadowBlur = 0;
+
+      // Rastgele kıvılcımlar
+      if ((sparkTimer -= s) <= 0) {
+        sparkTimer = (2 + 2 * Math.random()) / (cur.fireEvery > 0 ? 3 / cur.fireEvery : 1);
+        var sn = nodes[Math.floor(Math.random() * nodes.length)];
+        sparks.push({ x: sn.x, y: sn.y, r: 2, max: 34 + 22 * Math.random(), alpha: .75 });
+      }
+      for (var si = sparks.length - 1; si >= 0; si--) {
+        var sp = sparks[si];
+        sp.r += 46 * s; sp.alpha -= 1.15 * s;
+        if (sp.alpha <= 0 || sp.r >= sp.max) { sparks.splice(si, 1); continue; }
+        ctx.strokeStyle = col(70, sp.alpha * bright); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r, 0, 6.283); ctx.stroke();
+        ctx.fillStyle = col(93, .8 * sp.alpha * bright, 0, 60);
+        ctx.beginPath(); ctx.arc(sp.x, sp.y, 2.4, 0, 6.283); ctx.fill();
+      }
+
+      // Düğümler
+      ctx.lineWidth = .7; ctx.shadowBlur = 0;
+      nodes.forEach(function (nd) {
+        if (nd.hub) return;
+        var t = boost(nd.x, nd.y), a = Math.min(1, .65 * bright + t);
+        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(60, a);
+        ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
+      });
+      ctx.shadowBlur = 14;
+      nodes.forEach(function (nd) {
+        if (!nd.hub) return;
+        var t = boost(nd.x, nd.y), a = Math.min(1, .9 * bright + t);
+        ctx.shadowColor = nd.purple ? col(75, .8, 55) : col(62, .8);
+        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(70, a);
+        ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+
+      // Halkaların kendisi
+      ripples.forEach(function (rp) {
+        ctx.strokeStyle = col(62, .5 * rp.alpha); ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.arc(w / 2, h / 2, rp.r, 0, 6.283); ctx.stroke();
+      });
+
+      // Ses dalgası: tek parlayan çizgi
+      if (voiceC) {
+        var vf = fit(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
+        vc.clearRect(0, 0, C, E);
+        vc.strokeStyle = col(68, .75 + .25 * cur.waveAmp); vc.lineWidth = 1.6;
+        vc.shadowBlur = 8; vc.shadowColor = col(62, .8);
+        vc.beginPath();
+        var D = E / 2;
+        for (var x = 0; x <= C; x += 2) {
+          var env = Math.sin(x / C * Math.PI), yy;
+          if (stateName === 'speaking') yy = D + env * (4 * Math.sin(.11 * x + 14 * q) + 5 * Math.sin(.043 * x + 9 * q) + 3 * Math.sin(.021 * x + 21 * q)) * cur.waveAmp * .9;
+          else yy = D + env * Math.sin(.05 * x + 2.4 * q * cur.waveFreq) * 7 * cur.waveAmp * 4;
+          if (x === 0) vc.moveTo(x, yy); else vc.lineTo(x, yy);
+        }
+        vc.stroke(); vc.shadowBlur = 0;
+      }
+      raf(draw);
     }
-    raf(draw);
+
+    if (reduce) {
+      // Hareket azaltılmışsa: tek karelik durağan çizim
+      var f0 = fit(canvas); w = f0.w; h = f0.h; buildEdges();
+      var ctx0 = f0.ctx;
+      ctx0.fillStyle = '#070604'; ctx0.fillRect(0, 0, w, h);
+      nodes.forEach(function (nd) { nd.x = nd.bx * w; nd.y = nd.by * h; });
+      ctx0.lineWidth = .7;
+      edges.forEach(function (e) {
+        var a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
+        ctx0.strokeStyle = e.purple ? col(75, Math.min(.9 * e.alpha, .7), 55) : col(60, Math.min(.9 * e.alpha, .7));
+        ctx0.beginPath(); ctx0.moveTo(a.x, a.y); ctx0.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx0.stroke();
+      });
+      nodes.forEach(function (nd) {
+        ctx0.fillStyle = nd.purple ? col(75, nd.hub ? .9 : .65, 55) : col(nd.hub ? 70 : 60, nd.hub ? .9 : .65);
+        ctx0.beginPath(); ctx0.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx0.fill();
+      });
+      if (voiceC) {
+        var vf0 = fit(voiceC), vc0 = vf0.ctx;
+        vc0.strokeStyle = col(68, .8); vc0.lineWidth = 1.6;
+        vc0.beginPath(); vc0.moveTo(0, vf0.h / 2); vc0.lineTo(vf0.w, vf0.h / 2); vc0.stroke();
+      }
+    } else {
+      raf(draw);
+    }
+
+    area.addEventListener('pointerdown', function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); });
+    window.FYOS = {
+      setHue: function (hh) { hueTarget = hh; hueTimer = 15; if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
+      ping: function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
+      setState: setState
+    };
+    setState('idle');
   })();
 
-  /* ---------- FYOS: sohbet (çevrimdışı demo) ----------
+  /* ---------- FYOS: sohbet (çevrimdışı demo, baloncuklu geçmiş) ----------
      Gerçek bir modele bağlamak için reply() içindeki yanıt üretimini
      kendi API çağrınla değiştir. */
   (function ask() {
-    var form = $('#askForm'), input = $('#askInput'), send = $('#askSend'), out = $('#askReply'), sub = $('#stageSub'), left = $('#askLeft');
+    var form = $('#askForm'), input = $('#askInput'), send = $('#askSend'), log = $('#askLog'), sub = $('#stageSub'), left = $('#askLeft');
     if (!form) return;
-    var quota = 4, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10);
+    var quota = 4, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10), busy = false, idleTimer = 0;
     try { quota = Math.max(0, 4 - (parseInt(localStorage.getItem(key) || '0', 10))); } catch (e) {}
     if (left) left.textContent = quota;
-    input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0; });
+    input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0 || busy; });
+    input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
+    input.addEventListener('blur', function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); });
     var canned = [
       ['site|web|landing|sayfa', 'Site için üç paketimiz var: Temel, Profesyonel ve Uzman. En çok Profesyonel (site + CRM) tercih ediliyor. İstersen iletişim formundan bir görüşme ayıralım.'],
       ['kurs|eğitim|bölüm|fiyat|ücret', 'Yapay Zekâ Yolculuğu 7 bölümlük, tamamen proje odaklı bir kurs. Sıfırdan başlar; prompt, n8n, Claude Code, site ve CRM kurma, video ve pazarlamayla biter. Fiyatı sayfada, eğitim bölümünde.'],
@@ -283,21 +450,35 @@
       for (var i = 0; i < canned.length; i++) if (new RegExp(canned[i][0]).test(lq)) return canned[i][1];
       return 'Anladım: «' + q + '». Bu demo sürümü sınırlı yanıt veriyor; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
     }
+    function bubble(role, text) {
+      var d = document.createElement('div');
+      d.className = 'msg msg--' + role; d.textContent = text;
+      log.appendChild(d); log.scrollTop = log.scrollHeight;
+      return d;
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var q = input.value.trim(); if (!q || quota <= 0) return;
+      var q = input.value.trim(); if (!q || quota <= 0 || busy) return;
       quota--; if (left) left.textContent = quota;
       try { localStorage.setItem(key, String(4 - quota)); } catch (er) {}
-      input.value = ''; send.disabled = true;
+      input.value = ''; send.disabled = true; busy = true;
+      clearTimeout(idleTimer);
+      bubble('user', q);
+      if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = 'Düşünüyorum…';
-      if (window.FYOS) window.FYOS.ping(); if (window.FYOS_voice) window.FYOS_voice(1);
-      out.textContent = '';
-      var text = reply(q), i = 0;
-      setTimeout(function type() {
-        out.innerHTML = '<strong>FYOS:</strong> ' + text.slice(0, i);
-        if (i++ < text.length) setTimeout(type, 14);
-        else { if (sub) sub.textContent = quota > 0 ? 'Başka bir şey sor.' : 'Bugünlük bu kadar — yarın yine buradayım.'; if (window.FYOS_voice) window.FYOS_voice(.35); }
-      }, 500);
+      setTimeout(function () {
+        var text = reply(q), b = bubble('bot', ''), i = 0;
+        if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
+        (function type() {
+          b.textContent = text.slice(0, i); log.scrollTop = log.scrollHeight;
+          if (i++ < text.length) setTimeout(type, 14);
+          else {
+            busy = false;
+            if (sub) sub.textContent = quota > 0 ? 'Başka bir şey sor.' : 'Bugünlük bu kadar — yarın yine buradayım.';
+            idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
+          }
+        })();
+      }, 600);
     });
   })();
 

@@ -295,15 +295,15 @@
           <div class="hud" style="--c:#FB923C; left:16%; bottom:6%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono">4175</div><div class="hud__name">Knowledge</div><div class="hud__sub">4175 notes</div><div class="hud__bar"></div></div>
           <div class="hud" style="--c:#F87171; right:4%; top:60%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono">—</div><div class="hud__name">Analytics</div><div class="hud__sub">syncing…</div><div class="hud__bar"></div></div>
           <div class="hud" style="--c:#EAB308; right:19%; bottom:4%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono">2</div><div class="hud__name">Boardroom</div><div class="hud__sub">2 meetings</div><div class="hud__bar"></div></div>
-          <div class="live-badge"><span class="dot"></span>Canlı ve çevrimiçi<span class="mono font-mono">· AGENTIC OS v1.0</span></div>
+          <div class="live-badge"><span class="dot"></span><span id="liveState">Canlı ve çevrimiçi</span><span class="mono font-mono">· AGENTIC OS v1.0</span></div>
         </div>
         <div class="ask">
+          <div class="ask__log" id="askLog" aria-live="polite"></div>
           <form class="ask__pill" id="askForm" autocomplete="off">
             <input id="askInput" maxlength="300" placeholder="FYOS'a sor — bir şey yaz…" aria-label="FYOS'a sor">
             <button class="ask__send" id="askSend" type="submit" disabled aria-label="Gönder"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2-15 2z"/></svg></button>
           </form>
           <div class="ask__note">Yanıtlar yapay zekâ tarafından üretilir · günde en fazla <span id="askLeft">4</span> soru · ağa tıkla ✨</div>
-          <div class="ask__reply" id="askReply" aria-live="polite"></div>
         </div>
       </div>
     </div>
