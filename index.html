@@ -33,6 +33,7 @@
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -589,11 +590,11 @@
       <p class="modal__sub">Projeni anlat; ilk fırsatta yanıtlarız.</p>
       <div class="modal__topic" id="modalTopic" hidden></div>
       <form id="modalForm" class="modal__form" novalidate>
-        <input class="input" name="Ad" required placeholder="Adın" autocomplete="name">
-        <input class="input" name="E-posta" type="email" required placeholder="E-posta" autocomplete="email">
-        <input class="input" name="İşletme" placeholder="İşletme (isteğe bağlı)" autocomplete="organization">
-        <input class="input" name="Telefon" placeholder="Telefon ya da Instagram (isteğe bağlı)" autocomplete="tel">
-        <textarea class="input" name="Mesaj" rows="4" required placeholder="Neye ihtiyacın var, anlat…"></textarea>
+        <input class="input" name="Ad" required placeholder="Adın" aria-label="Adın" autocomplete="name">
+        <input class="input" name="E-posta" type="email" required placeholder="E-posta" aria-label="E-posta" autocomplete="email">
+        <input class="input" name="İşletme" placeholder="İşletme (isteğe bağlı)" aria-label="İşletme" autocomplete="organization">
+        <input class="input" name="Telefon" placeholder="Telefon ya da Instagram (isteğe bağlı)" aria-label="Telefon ya da Instagram" autocomplete="tel">
+        <textarea class="input" name="Mesaj" rows="4" required placeholder="Neye ihtiyacın var, anlat…" aria-label="Mesaj"></textarea>
         <button type="submit" class="btn btn-primary w-full">Mesaj gönder</button>
       </form>
     </div>
