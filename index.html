@@ -64,7 +64,7 @@
     </div>
     <div class="nav__actions">
       <a class="btn btn-ghost btn-sm" href="portal/login.html">Öğrenci Girişi</a>
-      <a class="btn btn-primary btn-sm" href="#contact">Bize Ulaşın</a>
+      <a class="btn btn-primary btn-sm" href="#contact" data-modal="">Bize Ulaşın</a>
     </div>
     <button class="nav__burger" id="burger" aria-label="Menüyü aç" aria-expanded="false" aria-controls="mobileMenu">
       <span class="sr-only">Menü</span>
@@ -81,7 +81,7 @@
   <a class="link" href="#about">Hakkımda</a>
   <a class="link" href="#faq">SSS</a>
   <div class="mobile-menu__actions">
-    <a class="btn btn-primary" href="#contact">Bize ulaşın →</a>
+    <a class="btn btn-primary" href="#contact" data-modal="">Bize ulaşın →</a>
     <a class="btn btn-ghost" href="portal/login.html">Öğrenci Girişi</a>
   </div>
 </div>
@@ -106,7 +106,7 @@
       <p class="hero__lead" data-reveal>Site, otomasyon ve eğitim — hepsi en yeni yapay zekâ modelleri üzerine; işin sen uyurken bile büyüsün.</p>
       <div class="hero__cta" data-reveal>
         <a href="#training" class="btn btn-primary">Yapay zekâda uzmanlaş →</a>
-        <a href="#contact" class="btn btn-ghost">Bize ulaşın</a>
+        <a href="#contact" data-modal="" class="btn btn-ghost">Bize ulaşın</a>
         <a href="#services" class="btn btn-ghost">Ne yaptığımıza bak</a>
       </div>
     </div>
@@ -364,7 +364,7 @@
         <div class="sub">Basit landing</div>
         <p>Animasyonlu, ilkeli metinli ve analitikli profesyonel bir satış sayfası — hızlı başlangıç için.</p>
         <ul class="check-list check-list--bright space-2"><li>Özel tasarım</li><li>Animasyon ve hareket</li><li>Tamamen duyarlı</li><li>Temel SEO</li><li>Analitik bağlantısı</li></ul>
-        <a href="#contact" class="btn btn-ghost">Proje talep et →</a>
+        <a href="#contact" data-modal="Web — Temel Sürüm" class="btn btn-ghost">Proje talep et →</a>
       </div></div>
       <div data-reveal><div class="glass package package--hot">
         <div class="eyebrow">En popüler</div>
@@ -372,14 +372,14 @@
         <div class="sub">Site + CRM</div>
         <p>Veritabanı, yönetim paneli ve özel CRM'li çok sayfalı site — müşteri adaylarını topla ve yönet.</p>
         <ul class="check-list check-list--bright space-2"><li>Temel sürümün tüm özellikleri</li><li>Veritabanı ve kimlik doğrulama</li><li>Özel CRM</li><li>Yönetim paneli</li><li>Sunucuya kurulum</li></ul>
-        <a href="#contact" class="btn btn-primary">Proje talep et →</a>
+        <a href="#contact" data-modal="Web — Profesyonel Sürüm" class="btn btn-primary">Proje talep et →</a>
       </div></div>
       <div data-reveal><div class="glass package">
         <h3 class="font-display text-h3">Uzman Sürüm</h3>
         <div class="sub">Yapay zekâ ile</div>
         <p>Yapay zekâ entegrasyonlu tam platform: otomatik müşteri adayı puanlama, akıllı e-posta ve otomasyon.</p>
         <ul class="check-list check-list--bright space-2"><li>Profesyonel sürümün tüm özellikleri</li><li>Akıllı müşteri adayı analizi</li><li>E-posta otomasyonu</li><li>Özel ajanlar</li><li>Sürekli destek</li></ul>
-        <a href="#contact" class="btn btn-ghost">Proje talep et →</a>
+        <a href="#contact" data-modal="Web — Uzman Sürüm" class="btn btn-ghost">Proje talep et →</a>
       </div></div>
     </div>
   </div>
@@ -418,7 +418,7 @@
           <h3 class="font-display text-h3">Ücretsiz akıllılaştırma danışmanlığı</h3>
           <p>Ücretsiz bir görüşmede işletmeni birlikte inceliyor ve hangi bölümlerin, hangi araçla ve hangi tahminle otomatikleştirilebileceğini tam olarak söylüyoruz. Taahhüt yok — sadece net bir harita.</p>
         </div>
-        <a href="#contact" class="btn btn-primary shrink-0">Ücretsiz görüşme ayırt →</a>
+        <a href="#contact" data-modal="Ücretsiz danışmanlık görüşmesi" class="btn btn-primary shrink-0">Ücretsiz görüşme ayırt →</a>
       </div>
     </div>
   </div>
@@ -573,6 +573,32 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<!-- ===== İLETİŞİM PENCERESİ ===== -->
+<div class="modal" id="contactModal" hidden>
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="glass-strong modal__card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal__x" type="button" data-modal-close aria-label="Kapat">✕</button>
+    <div id="modalMain">
+      <span class="eyebrow">Bize Ulaşın</span>
+      <h3 id="modalTitle" class="font-display modal__title">Hadi bir şey kuralım.</h3>
+      <p class="modal__sub">Projeni anlat; ilk fırsatta yanıtlarız.</p>
+      <div class="modal__topic" id="modalTopic" hidden></div>
+      <form id="modalForm" class="modal__form" novalidate>
+        <input class="input" name="Ad" required placeholder="Adın" autocomplete="name">
+        <input class="input" name="E-posta" type="email" required placeholder="E-posta" autocomplete="email">
+        <input class="input" name="İşletme" placeholder="İşletme (isteğe bağlı)" autocomplete="organization">
+        <input class="input" name="Telefon" placeholder="Telefon ya da Instagram (isteğe bağlı)" autocomplete="tel">
+        <textarea class="input" name="Mesaj" rows="4" required placeholder="Neye ihtiyacın var, anlat…"></textarea>
+        <button type="submit" class="btn btn-primary w-full">Mesaj gönder</button>
+      </form>
+    </div>
+    <div class="modal__done" id="modalDone" hidden>
+      <div class="big">✦</div>
+      <h3 class="font-display modal__title">Alındı.</h3>
+      <p class="modal__sub">E-posta uygulaman açıldı; mesajı gönderince ilk fırsatta dönüş yaparız.</p>
+      <button class="btn btn-ghost" type="button" data-modal-close>Kapat</button>
+    </div>
+  </div>
+</div><script src="js/main.js"></script>
 </body>
 </html>

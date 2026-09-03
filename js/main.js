@@ -581,9 +581,47 @@
   var jf = $('#jFile'), jn = $('#jFileName');
   if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : 'Dosya seç…'; jn.classList.toggle('text-dim', !jf.files[0]); });
 
+  /* ---------- İletişim penceresi ---------- */
+  (function modal() {
+    var root = $('#contactModal'); if (!root) return;
+    var main = $('#modalMain'), topic = $('#modalTopic'), form = $('#modalForm'), done = $('#modalDone');
+    var lastFocus = null, subject = '';
+    function open(subj) {
+      subject = subj || '';
+      lastFocus = document.activeElement;
+      if (topic) { topic.hidden = !subject; topic.textContent = subject ? 'Konu: ' + subject : ''; }
+      main.hidden = false; done.hidden = true;
+      root.hidden = false;
+      raf(function () { raf(function () { root.classList.add('is-open'); }); });
+      document.body.style.overflow = 'hidden';
+      var first = $('input', form); if (first) setTimeout(function () { first.focus(); }, 300);
+    }
+    function close() {
+      if (root.hidden) return;
+      root.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(function () { root.hidden = true; }, 260);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    $$('[data-modal]').forEach(function (el) {
+      el.addEventListener('click', function (e) { e.preventDefault(); open(el.getAttribute('data-modal')); });
+    });
+    $$('[data-modal-close]', root).forEach(function (el) { el.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var fd = new FormData(form), lines = [];
+      fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
+      var subj = 'FY — ' + (subject || 'iletişim');
+      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n'));
+      form.reset(); main.hidden = true; done.hidden = false;
+    });
+  })();
   /* ---------- Sayfa içi bağlantılarda sabit çubuk payı ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
+      if (a.hasAttribute('data-modal')) return;
       var id = a.getAttribute('href').slice(1), el = id && document.getElementById(id);
       if (!el) return; e.preventDefault();
       var top = el.getBoundingClientRect().top + scrollY - 64;

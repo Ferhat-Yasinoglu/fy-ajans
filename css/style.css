@@ -640,3 +640,20 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   [data-reveal], .step__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- İletişim penceresi ---------- */
+.modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.modal.is-open { opacity: 1; pointer-events: auto; }
+.modal__backdrop { position: absolute; inset: 0; background: rgba(7, 6, 4, .72); backdrop-filter: blur(6px); }
+.modal__card { position: relative; z-index: 1; width: 100%; max-width: 32rem; max-height: calc(100vh - 32px); overflow-y: auto; border-radius: var(--radius-2xl); padding: 28px; transform: translateY(24px) scale(.98); transition: transform .32s cubic-bezier(.2, .9, .3, 1.15); }
+.modal.is-open .modal__card { transform: none; }
+.modal__x { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; color: rgb(var(--fg-muted)); font-size: 14px; transition: color .15s, background .15s; }
+.modal__x:hover { color: rgb(var(--fg)); background: rgba(255, 255, 255, .05); }
+.modal__title { font-size: 24px; line-height: 1.2; margin: 8px 0 4px; }
+.modal__sub { color: rgb(var(--fg-muted)); font-size: 14px; margin-bottom: 20px; }
+.modal__topic { font-size: 12px; color: #22d3ee; margin: -8px 0 16px; }
+.modal__form { display: flex; flex-direction: column; gap: 12px; }
+.modal__form textarea.input { resize: vertical; min-height: 96px; }
+.modal__done { text-align: center; padding: 24px 0; }
+.modal__done .big { font-size: 36px; margin-bottom: 12px; color: rgb(var(--accent-gold)); }
+.modal__done .modal__sub { margin-bottom: 20px; }
