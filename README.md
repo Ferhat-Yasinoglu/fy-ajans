@@ -1,10 +1,31 @@
 # FY — Yapay Zekâ Ajansı
 
 Tek sayfalık ajans sitesi: yapay zekâ kursu, canlı «ajantik işletim sistemi» demosu,
-web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
+web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim. Dört dil:
+Türkçe (kaynak), Deutsch, English, فارسی.
 
 Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipi Vazirmatn
-`fonts/` klasöründen yüklenir; sayfa dışarıya hiçbir istek atmaz.
+`fonts/` klasöründen yüklenir; sayfa kendiliğinden dışarıya istek atmaz (tek istisna:
+FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
+
+## Diller
+
+Türkçe HTML kaynaktır; `de/`, `en/`, `fa/` klasörleri ondan **üretilir**:
+
+```
+node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js ve sitemap.xml'i yazar
+node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
+```
+
+- Çevrilecek her öğe kaynakta `data-i18n="anahtar"` (iç HTML) ya da `data-i18n-attr="öznitelik=anahtar"` taşır.
+- Çeviriler `i18n/de.json`, `i18n/en.json`, `i18n/fa.json`'da; biçim `i18n/README.md`'de.
+- Bir metni değiştirince: Türkçe HTML → aynı anahtar üç sözlükte → betiği çalıştır → üretilenlerle birlikte commit.
+- Üretilen dosyalar (`de/`, `en/`, `fa/`, `js/lang/`) elle düzenlenmez.
+- Her sayfada dört dilin `hreflang` bağlantıları ve bir dil seçici var; Farsça sayfalar `dir="rtl"` ile
+  sağdan sola akar (CSS mantıksal özellikler kullanır). `404.html` üretilmez; GitHub Pages her yol için
+  aynı dosyayı verdiğinden dört dili tek sayfada gösterir.
+- `js/main.js`'teki metinler `t('anahtar', 'Türkçe')` ile çekilir; diğer diller `js/lang/<dil>.js` üzerinden
+  `window.FY_STRINGS`'e yazılır. Dil dosyası yüklenmezse Türkçe kalır.
 
 ## Güvenlik ve gizlilik
 
@@ -14,8 +35,15 @@ web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
   iki parça olarak durur ve `data-mail` / `data-mail-text` öznitelikli öğelere sayfa açılınca yazılır.
 - Formlar sunucusuzdur, mailto ile e-posta uygulamasını açar. Özgeçmiş dosyası e-postaya
   kullanıcı tarafından eklenir.
-- Öğrenci girişi yalnızca arayüzdür; hiçbir veri gönderilmez. Gerçek bir panel kurmadan
-  şifre toplama.
+- Öğrenci paneli sayfasında şifre alanı yok; gerçek bir panel kurulana kadar da olmayacak
+  (statik sitede betik çalışmazsa form alanları adres çubuğuna ve sunucu günlüklerine düşer).
+  Sayfa yalnızca "panel açılınca haber ver" e-postası hazırlar; form `method="post"` taşır.
+- Giriş animasyonlarının gizlemesi (`[data-reveal]`, `.nav`, `.hero__logo`, `.step__card`)
+  yalnızca `<html class="js">` altında geçerlidir; sınıfı `js/main.js` ilk satırında ekler.
+  Betik yüklenmez, engellenir ya da ayrıştırılamazsa sayfa olduğu gibi görünür kalır. Yeni bir
+  giriş animasyonu eklerken gizleme kuralını `.js` altına yaz.
+- `js/main.js` bilerek ES5 sözdizimiyle yazıldı; regex'lerde lookbehind (`(?<=`) kullanma —
+  Safari 16.4 öncesi bunu ayrıştıramaz ve dosyanın tamamı çalışmaz.
 - FYOS'u gerçek bir modele bağlarken API anahtarını asla sayfaya koyma; küçük bir ara
   sunucu (ör. Cloudflare Worker) kullan, günlük sınırı ve istek boyutunu orada denetle.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
@@ -25,11 +53,15 @@ web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
 ## Dosyalar
 
 ```
-index.html            ana sayfa (bütün bölümler)
-terms.html            kurallar ve gizlilik
+index.html            ana sayfa (bütün bölümler) — Türkçe kaynak
+de/ en/ fa/           üretilmiş çeviriler (aynı klasör yapısı; elle düzenleme)
+i18n/*.json           çeviri sözlükleri;  tools/build-i18n.mjs  üretici betik
+js/lang/*.js          üretilmiş betik metinleri (FYOS hazır yanıtları, form mesajları)
+terms.html            kurallar, gizlilik (DSGVO Md. 13), cayma hakkı ve kurs şartları
+impressum.html        § 5 DDG sağlayıcı bilgileri (Almanya'da ticari site için zorunlu)
 contact/index.html    bağlantı sayfası (link-in-bio)
 contact/course.html   kurs sayfası
-portal/login.html     öğrenci girişi (yalnızca arayüz)
+portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
@@ -52,6 +84,35 @@ Dosyaları herhangi bir statik sunucuyla aç. Örnek:
 npx serve .
 ```
 
+## Yayına almadan önce doldurulacaklar (yasal)
+
+Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilgi yalnızca sende var; sayfalarda
+`⟦…⟧` ile ve sarı kesikli çerçeveyle işaretli (`.placeholder`). Yayından önce hepsini gerçek bilgiyle değiştir:
+
+- **Çağrı adresi** (sokak, posta kodu, şehir): `impressum.html` ve `terms.html` §6–§7. Posta kutusu geçerli değil (§ 5 DDG).
+- **KDV durumu**: `impressum.html` "Vergi" bölümünde ve fiyat satırının altında (`index.html`, `contact/course.html`)
+  iki seçenekten yalnızca doğru olanı bırak: USt-IdNr. ile "KDV dahil" ya da § 19 UStG küçük işletme notu.
+  Yanlış olanı seçmek de ihtar sebebi; emin değilsen vergi danışmanına sor.
+- **Üstü çizili 200 €**: PAngV § 11 gereği son 30 günün en düşük fiyatı olmalı. Kurs hiç 200 €'ya satılmadıysa
+  eski fiyatı ve "%50 indirim" rozetini kaldır (`index.html`, `contact/course.html`, JSON-LD'de eski fiyat yok).
+- **Cayma akışı** (dijital içerik, § 356 BGB; bildirim eksikse cayma süresi 12 ay + 14 güne uzar):
+  1. Ödeme adımları e-postasına cayma bildirimini, örnek formu ve `terms.html` §6'daki iki onay cümlesini ekle;
+     e-postada adres ve telefon açık yazılmalı (JS yok).
+  2. Hemen erişim isteyen alıcı iki cümleyi kendi yanıtına kopyalayıp gönderir; önceden işaretli kutu ya da
+     «tamam/evet» geçersiz.
+  3. Erişim bilgilerini göndermeden ÖNCE, alıcının onayını ve teyidini de içeren sözleşme teyidini e-postayla
+     gönder (§ 312f BGB) — bu adım atlanırsa cayma hakkı sona ermez.
+  4. Onay vermeyen alıcıya erişimi 14 gün sonra aç. Yazışmaları sakla.
+  Siteye gerçek bir sipariş/ödeme düğmesi eklenirse ayrıca § 356a BGB «cayma düğmesi» ve § 312j «ödeme yükümlülüğü
+  altına gir» düğmesi kuralları devreye girer; bugünkü mailto akışında gerekmiyor.
+- **Telefon**: cayma bildiriminin resmi model metni telefon numarası ister; Impressum'da isteğe bağlı. İş telefonu
+  yoksa `terms.html` §6'daki yer tutucuyu sil.
+- **Ticaret sicili**: e.K. olarak kayıtlıysan Impressum'a sicil mahkemesi ve HRA numarasını ekle; kayıtlı değilsen bir şey gerekmez.
+- Bir tüketiciyle uyuşmazlık çözülemezse § 37 VSBG gereği yetkili hakem heyetini (Universalschlichtungsstelle des Bundes,
+  Kehl) ve katılıp katılmayacağını yazılı (e-posta yeter) bildirmen gerekir.
+- AB çevrimiçi uyuşmazlık platformu (ODR) 20 Temmuz 2025'te kapatıldı; Impressum'a ODR bağlantısı **ekleme**.
+- Bu metinler hukuki tavsiye değildir; yayına almadan önce bir avukat ya da IHK kontrolü önerilir.
+
 ## Yayın adresi ve içerik kararları
 
 - Site adresi `https://ferhat-yasinoglu.github.io/fy-ajans/` olarak ayarlı (canonical, Open Graph, JSON-LD, sitemap, robots). GitHub'da `fy-ajans` deposu açıp Pages'i etkinleştirmen yeterli. Başka bir alan adına geçersen bu adresi topluca değiştir.
@@ -64,7 +125,7 @@ npx serve .
   2. `FYOS_LOCAL_AI` açıksa ve cihazda WebGPU varsa tarayıcı içi model (`js/fyos-local.js`, WebLLM + Qwen2.5-1.5B). Ücretsiz, hesapsız, sınırsız; model ilk soruda bir kez iner (~1 GB) ve tarayıcı önbelleğinde kalır. Telefon ve düşük bellekli cihazlarda atlanır (`FYOS_LOCAL_MODEL_SMALL` boş).
   3. Aksi hâlde 20 konulu hazır yanıtlı çevrimdışı demo.
   Yerel model için `index.html` CSP'sinde cdn.jsdelivr.net, huggingface.co ve *.hf.co izinli; kapatırsan CSP'yi de eski hâline döndür.
-- Öğrenci girişi yalnızca arayüzdür; kimlik doğrulama yoktur.
+- Öğrenci paneli henüz yok; sayfa şifre sormaz, yalnızca haber listesi e-postası hazırlar. Panel açılınca formu gerçek girişe çevir.
 
 ## Tasarım tokenları
 

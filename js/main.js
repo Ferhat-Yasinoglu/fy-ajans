@@ -4,6 +4,16 @@
    otomasyon akışı, SSS akordeonu, formlar. Bağımlılık yok. */
 (function () {
   'use strict';
+  // Betik çalışıyor: giriş animasyonlarının gizlemesi ancak bu sınıfla devreye girer (css: ".js …").
+  // Betik yüklenmez ya da ayrıştırılamazsa sınıf eklenmez, sayfa olduğu gibi görünür kalır.
+  document.documentElement.classList.add('js');
+  // Metinler: Türkçe varsayılanlar bu dosyada; diğer diller js/lang/<dil>.js ile window.FY_STRINGS'e yazılır
+  // (i18n/<dil>.json → tools/build-i18n.mjs). Dil dosyası yüklenmezse Türkçe kalır.
+  var T = window.FY_STRINGS || {};
+  function t(k, tr) { return T[k] != null ? T[k] : tr; }
+  // Bu betiğin bulunduğu kök: sonradan yüklenen dosyalar (js/fyos-local.js) sayfanın değil betiğin konumuna göre
+  // çözülür; böylece de/ en/ fa/ altındaki üretilmiş sayfalarda da doğru yol bulunur.
+  var SCRIPT_BASE = (document.currentScript && document.currentScript.src ? document.currentScript.src : '').replace(/js\/main\.js(\?.*)?$/, '');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -26,15 +36,6 @@
   });
   $$('[data-mail-text]').forEach(function (el) { el.textContent = MAIL; });
 
-  /* ---------- Öğrenci girişi (yalnızca arayüz) ---------- */
-  var loginForm = $('#loginForm');
-  if (loginForm) loginForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var s = $('#loginStatus');
-    s.textContent = 'Öğrenci paneli henüz açık değil. Girdiğin bilgiler hiçbir yere gönderilmedi.';
-    loginForm.reset();
-  });
-
   /* ---------- Üst çubuk ---------- */
   var nav = $('#nav');
   if (nav) raf(function () { nav.classList.add('is-ready'); });
@@ -44,7 +45,7 @@
     var setMenu = function (open) {
       menu.classList.toggle('is-open', open);
       burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      burger.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+      burger.setAttribute('aria-label', open ? t('menuClose', 'Menüyü kapat') : t('menuOpen', 'Menüyü aç'));
       document.body.style.overflow = open ? 'hidden' : '';
     };
     burger.addEventListener('click', function () { setMenu(!menu.classList.contains('is-open')); });
@@ -204,7 +205,7 @@
       listening: { speed: .55, fireEvery: 4.5, bright: .72,  waveAmp: .12, waveFreq: .5,  shimmer: 0 }
     };
     var PALETTE = [190, 210, 265, 300, 160, 330, 45];
-    var BADGE = { idle: 'Canlı ve çevrimiçi', thinking: 'Düşünüyorum…', speaking: 'Yanıt veriyorum', listening: 'Dinliyorum' };
+    var BADGE = { idle: t('badgeIdle', 'Canlı ve çevrimiçi'), thinking: t('badgeThinking', 'Düşünüyorum…'), speaking: t('badgeSpeaking', 'Yanıt veriyorum'), listening: t('badgeListening', 'Dinliyorum') };
     var badge = $('#liveState');
 
     var seed = 1337;
@@ -447,8 +448,8 @@
     input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
     input.addEventListener('blur', function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); });
 
-    // Bilgi tabanı: [anahtar kelimeler (regex), yanıt]. En çok eşleşen kazanır.
-    var canned = [
+    // Bilgi tabanı: [anahtar kelimeler (regex), yanıt]. En çok eşleşen kazanır. Diğer diller: i18n/<dil>.json "js.canned".
+    var canned = T.canned || [
       ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! Çevrimiçiyim. Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum hakkında sorabilirsin.'],
       ['teşekkür|sağ ol|sağol|eyvallah|süper|harika', 'Rica ederim. Başka bir şey merak edersen buradayım; ciddi bir konuysa iletişim formundan yaz, gerçek bir insan döner.'],
       ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Yapay Zekâ Yolculuğu kursu şu an 100 €, normal fiyatı 200 €; yani %50 indirimli. Tek seferlik ödeme, taksit yok. Site paketleri ve otomasyon ise projeye göre fiyatlanır; ücretsiz görüşmede net bir tahmin verilir.'],
@@ -477,22 +478,26 @@
         if (score > bestScore) { bestScore = score; best = canned[i][1]; }
       }
       if (best) return best;
-      return 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
+      return t('cannedFallback', 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.');
     }
 
     // Yerel modele verilen talimat ve FY bilgileri
-    var SYSTEM = 'Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki asistan. Doğal Türkçe, samimi ve kısa yaz: en fazla 3 cümle, düz metin. Soruyu tekrar etme, liste ve başlık yapma, emoji kullanma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
+    var SYSTEM = T.system || ('Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki asistan. Doğal Türkçe, samimi ve kısa yaz: en fazla 3 cümle, düz metin. Soruyu tekrar etme, liste ve başlık yapma, emoji kullanma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
       'FY: yapay zekâ eğitimi, web sitesi kurma ve işletmeleri otomasyonla akıllılaştırma ajansı. Kurucu Farhad Yaqoobi; Almanya\'da yaşıyor, IT okuyor, Türkçe/Almanca/İngilizce/Farsça biliyor.\n' +
       'Kurs "Yapay Zekâ Yolculuğu": 7 bölüm, proje odaklı, sıfırdan başlar, programlama gerekmez, tamamen online. Fiyat 100 € (normal 200 €), tek ödeme, taksit yok, 45 gün destek, ömür boyu erişim. Bölümler: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code, skill\'ler), 5 Laboratuvar (site, CRM, FYOS kurma), 6 Vitrin (video, Instagram, içerik), 7 Zirve (müşteri kazanma, gelir).\n' +
-      'Site paketleri: Temel (satış sayfası), Profesyonel (site + CRM, en popüler), Uzman (yapay zekâlı platform); fiyat projeye göre. Otomasyon: DM yanıtı, müşteri adayı puanlama, raporlama, CRM. Ücretsiz 30 dakikalık görüşme var. İletişim: sitedeki form. Site veri toplamaz; bu sohbet ziyaretçinin cihazında çalışır, sorular sunucuya gitmez.';
+      'Site paketleri: Temel (satış sayfası), Profesyonel (site + CRM, en popüler), Uzman (yapay zekâlı platform); fiyat projeye göre. Otomasyon: DM yanıtı, müşteri adayı puanlama, raporlama, CRM. Ücretsiz 30 dakikalık görüşme var. İletişim: sitedeki form. Site veri toplamaz; bu sohbet ziyaretçinin cihazında çalışır, sorular sunucuya gitmez.');
 
     var history = [], local = { mod: null, engine: null, failed: false };
     // Küçük modellerin yanıtını toparlar: boşluk, tekrar eden cümleler, uzunluk
     function tidy(text) {
       var t = String(text || '').replace(/\s+/g, ' ').replace(/^[\s:*#\-]+/, '').trim();
-      var parts = t.split(/(?<=[.!?…])\s+/), seen = {}, keep = [];
+      // Cümlelere böl: noktalama + boşluk. Lookbehind kullanılmaz (Safari 16.4 öncesi tüm betiği düşürürdü);
+      // yakalama grubu noktalamayı ayrı parça olarak verir, aşağıda geri yapıştırılır. "3.5" gibi sayılar bölünmez.
+      var raw = t.split(/([.!?…]+)\s+/), parts = [], seen = {}, keep = [];
+      for (var j = 0; j < raw.length; j += 2) { var piece = (raw[j] + (raw[j + 1] || '')).trim(); if (piece) parts.push(piece); }
       for (var i = 0; i < parts.length && keep.length < 3; i++) {
-        var k = parts[i].toLowerCase().replace(/[^a-zçğıöşü0-9]/g, '');
+        // Yinelenen cümle anahtarı: yalnızca boşluk ve noktalama atılır — harf sınıfı sınırlanmaz ki Farsça/Almanca metin boş kalmasın
+        var k = parts[i].toLowerCase().replace(/[\s.,;:!?…«»"'()\[\]\-–—]/g, '');
         if (!k || seen[k]) continue; seen[k] = 1; keep.push(parts[i]);
       }
       t = keep.join(' ');
@@ -509,7 +514,7 @@
       return new Promise(function (resolve, reject) {
         if (window.FYOS_LOCAL) return resolve(window.FYOS_LOCAL);
         try {
-          var sc = document.createElement('script'); sc.type = 'module'; sc.src = 'js/fyos-local.js';
+          var sc = document.createElement('script'); sc.type = 'module'; sc.src = SCRIPT_BASE + 'js/fyos-local.js';
           sc.onload = function () { if (window.FYOS_LOCAL) resolve(window.FYOS_LOCAL); else reject(new Error('modül boş')); };
           sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
           document.head.appendChild(sc);
@@ -561,25 +566,25 @@
       clearTimeout(idleTimer);
       bubble('user', q);
       if (window.FYOS) window.FYOS.setState('thinking');
-      if (sub) sub.textContent = 'Düşünüyorum…';
+      if (sub) sub.textContent = t('badgeThinking', 'Düşünüyorum…');
       history.push({ role: 'user', content: q });
       var b = null, streamed = false;
       function finish(text) {
         busy = false;
-        if (sub) sub.textContent = quota > 0 ? 'Başka bir şey sor.' : 'Bugünlük bu kadar — yarın yine buradayım.';
+        if (sub) sub.textContent = quota > 0 ? t('subMore', 'Başka bir şey sor.') : t('subDone', 'Bugünlük bu kadar — yarın yine buradayım.');
         idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
       }
       answer(q, {
         onProgress: function (pct) {
           if (!b) b = bubble('bot', '');
-          b.textContent = 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %' + pct + (pct < 100 ? ' — bu arada sayfayı gezebilirsin.' : '');
-          if (sub) sub.textContent = 'Model yükleniyor %' + pct;
+          b.textContent = t('modelLoading', 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %{pct}').replace('{pct}', pct) + (pct < 100 ? ' ' + t('modelLoadingHint', '— bu arada sayfayı gezebilirsin.') : '');
+          if (sub) sub.textContent = t('subLoading', 'Model yükleniyor %{pct}').replace('{pct}', pct);
         },
         onStream: function () {
           streamed = true;
           if (!b) b = bubble('bot', '');
           b.textContent = '…';
-          if (sub) sub.textContent = 'Yazıyorum…';
+          if (sub) sub.textContent = t('subTyping', 'Yazıyorum…');
           if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
         },
         onToken: function (text) { if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
@@ -684,19 +689,21 @@
     var form = $('#' + id), status = $('#' + statusId); if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) { status.textContent = 'Lütfen yıldızlı alanları doldur.'; form.reportValidity(); return; }
+      if (!form.checkValidity()) { status.textContent = t('formRequired', 'Lütfen yıldızlı alanları doldur.'); form.reportValidity(); return; }
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
       if (extra) lines.push('', extra);
-      status.textContent = extra ? 'E-posta uygulaman açılıyor — özgeçmişini ek olarak eklemeyi unutma.' : 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.';
+      status.textContent = extra ? t('formStatusResume', 'E-posta uygulaman açılıyor — özgeçmişini ek olarak eklemeyi unutma.') : t('formStatusSent', 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.');
       location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-      form.reset(); var fn = $('#jFileName'); if (fn) fn.textContent = 'Dosya seç…';
+      form.reset(); var fn = $('#jFileName'); if (fn) fn.textContent = t('fileChoose', 'Dosya seç…');
     });
   }
-  wireForm('contactForm', 'contactStatus', 'FY — iletişim formu');
-  wireForm('joinForm', 'joinStatus', 'FY — özgeçmiş başvurusu', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.');
+  wireForm('contactForm', 'contactStatus', t('subjContact', 'FY — iletişim formu'));
+  wireForm('joinForm', 'joinStatus', t('subjJoin', 'FY — özgeçmiş başvurusu'), t('resumeNote', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.'));
+  // Öğrenci paneli: panel açılana kadar şifre alınmaz; yalnızca "açılınca haber ver" e-postası hazırlanır.
+  wireForm('loginForm', 'loginStatus', t('subjPortal', 'FY — öğrenci paneli açılınca haber ver'));
   var jf = $('#jFile'), jn = $('#jFileName');
-  if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : 'Dosya seç…'; jn.classList.toggle('text-dim', !jf.files[0]); });
+  if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : t('fileChoose', 'Dosya seç…'); jn.classList.toggle('text-dim', !jf.files[0]); });
 
   /* ---------- İletişim penceresi ---------- */
   (function modal() {
@@ -730,7 +737,7 @@
       if (!form.checkValidity()) { form.reportValidity(); return; }
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
-      var subj = 'FY — ' + (subject || 'iletişim');
+      var subj = 'FY — ' + (subject || t('subjDefault', 'iletişim'));
       location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n'));
       form.reset(); main.hidden = true; done.hidden = false;
     });

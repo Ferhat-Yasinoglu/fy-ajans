@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title>Sayfa bulunamadı · FY</title>
+<title>Sayfa bulunamadı · Seite nicht gefunden · Page not found · FY</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
@@ -12,15 +12,17 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
 <style>
   /* Bu sayfa hangi derinlikte çağrılırsa çağrılsın çalışsın diye kendi kendine yeter:
-     dış CSS ve JS yok, yazı tipi mutlak yoldan yüklenir. */
+     dış CSS ve JS yok, yazı tipi mutlak yoldan yüklenir. GitHub Pages tüm dillerde bu tek dosyayı verir;
+     o yüzden dört dil aynı sayfada. */
   @font-face { font-family: "Vazirmatn"; font-weight: 100 900; font-display: swap; src: url("/fy-ajans/fonts/vazirmatn-latin.woff2") format("woff2"); }
   @font-face { font-family: "Vazirmatn"; font-weight: 100 900; font-display: swap; src: url("/fy-ajans/fonts/vazirmatn-latin-ext.woff2") format("woff2"); unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @font-face { font-family: "Vazirmatn"; font-weight: 100 900; font-display: swap; src: url("/fy-ajans/fonts/vazirmatn-arabic.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFC; }
   * { box-sizing: border-box; }
   html, body { margin: 0; min-height: 100%; }
   body { background: #070604; color: #f4ecd8; font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display: grid; place-items: center; padding: 24px; position: relative; overflow: hidden; }
   body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212, 175, 55, .14), transparent 70%); pointer-events: none; }
   body::after { content: ""; position: fixed; inset: 0; background-image: radial-gradient(rgba(212, 175, 55, .16) 1px, transparent 1px); background-size: 28px 28px; opacity: .5; pointer-events: none; }
-  main { position: relative; z-index: 1; text-align: center; max-width: 34rem; }
+  main { position: relative; z-index: 1; text-align: center; max-width: 36rem; }
   .mark { display: inline-block; padding: 0 .18em 0 .06em; font-size: 44px; font-weight: 900; font-style: italic; letter-spacing: -.06em; background: linear-gradient(135deg, #f5d76e, #d4af37 50%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
   .code { font-size: clamp(88px, 22vw, 160px); font-weight: 800; line-height: .9; letter-spacing: -.05em; background: linear-gradient(135deg, #f5d76e, #d4af37 45%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; }
   h1 { font-size: clamp(22px, 4vw, 30px); font-weight: 700; margin: 20px 0 10px; }
@@ -31,7 +33,13 @@
   .primary { color: #1a1206; background: linear-gradient(135deg, #f5d76e, #d4af37); box-shadow: 0 10px 30px -10px rgba(212, 175, 55, .6); }
   .ghost { color: #f4ecd8; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .12); }
   .ghost:hover { background: rgba(255, 255, 255, .08); }
-  .hint { margin-top: 36px; font-size: 12px; color: #6f6a5f; font-family: ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; }
+  .langs { display: grid; gap: 10px; margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .08); }
+  .langs a { color: #c9c1ad; text-decoration: none; font-size: 14px; line-height: 1.6; }
+  .langs a:hover { color: #f5d76e; }
+  .langs b { color: #f4ecd8; font-weight: 600; }
+  .langs [dir="rtl"] { font-size: 15px; }
+  .hint { margin-top: 28px; font-size: 12px; color: #8a8576; font-family: ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; }
+  .hint a { color: inherit; }
   @media (prefers-reduced-motion: reduce) { a.btn { transition: none; } }
 </style>
 </head>
@@ -46,7 +54,12 @@
     <a class="btn ghost" href="/fy-ajans/contact/course.html">Kurs</a>
     <a class="btn ghost" href="/fy-ajans/#contact">Bize ulaşın</a>
   </div>
-  <div class="hint">FYOS · ROUTE NOT FOUND</div>
+  <nav class="langs" aria-label="Diğer diller">
+    <a lang="de" hreflang="de" href="/fy-ajans/de/"><b>Deutsch</b> — Seite nicht gefunden · Zur Startseite →</a>
+    <a lang="en" hreflang="en" href="/fy-ajans/en/"><b>English</b> — Page not found · Go to the home page →</a>
+    <a lang="fa" hreflang="fa" dir="rtl" href="/fy-ajans/fa/"><b>فارسی</b> — صفحه پیدا نشد · رفتن به صفحهٔ اصلی ←</a>
+  </nav>
+  <div class="hint">FYOS · ROUTE NOT FOUND · <a href="/fy-ajans/impressum.html">Impressum</a></div>
 </main>
 </body>
 </html>

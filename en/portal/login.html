@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Student Portal · FY</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/portal/login.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/portal/login.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/portal/login.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/portal/login.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/portal/login.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/portal/login.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<main class="login">
+  <!-- Panel açılana kadar bu sayfada şifre alanı YOK: gerçek bir panel olmadan şifre toplanmaz (README).
+       method="post": betik çalışmazsa bile tarayıcı alanları adres çubuğuna yazmaz. -->
+  <form class="glass-strong login__card form" id="loginForm" method="post" novalidate>
+    <a href="../index.html" aria-label="FY home" data-i18n-attr="aria-label=nav.brand"><svg viewBox="0 0 96 64" style="height:36px;width:auto" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d76e"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#a9821e"/></linearGradient></defs><text x="4" y="50" font-family="Vazirmatn, system-ui, sans-serif" font-size="52" font-weight="900" font-style="italic" fill="url(#lg)" letter-spacing="-3">FY</text></svg></a>
+    <h1 class="font-display" data-i18n="login.title">Student portal</h1>
+    <p class="sub" data-i18n="login.sub">Course files, extra trainings and Q&A will live here. The portal isn't open yet; when it launches, your login details will be sent to the e-mail address from your course enrolment.</p>
+    <div class="field"><label for="u" data-i18n="login.email">E-mail *</label><input id="u" class="input" type="email" name="email" autocomplete="email" required placeholder="you@example.com"></div>
+    <button type="submit" class="btn btn-primary w-full" data-i18n="login.submit">Notify me when the portal opens →</button>
+    <p class="form-status" id="loginStatus"></p>
+    <p class="form-note" data-i18n="login.note">We don't ask for a password: no password is collected anywhere before the portal is open. When you submit, your e-mail app opens; your address is used only for this notification.</p>
+    <p class="foot"><a href="../index.html#training" data-i18n="login.course">See the course</a> · <a href="../index.html" data-i18n="footer.home">Home</a></p>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label=lang.label" style="justify-content:center;margin-top:12px">
+      <a href="../../portal/login.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/portal/login.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="login.html" data-lang="en" lang="en" hreflang="en" aria-current="page">EN</a>
+      <a href="../../fa/portal/login.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </form>
+</main>
+<script src="../../js/lang/en.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>
