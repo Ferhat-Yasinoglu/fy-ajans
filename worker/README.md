@@ -10,14 +10,15 @@ gelen isteklere yanıt verir.
 
 ## Kurulum (bir kez, ~15 dakika)
 
-Gerekenler: ücretsiz Cloudflare hesabı, bir Anthropic API anahtarı
-(console.anthropic.com → API Keys), bilgisayarda Node.js.
+Gerekenler: ücretsiz Cloudflare hesabı ve bilgisayarda Node.js. Anthropic API anahtarı
+isteğe bağlıdır: girilmezse Worker, Cloudflare'in ücretsiz Workers AI katmanındaki açık modeli
+(Llama 3.1 8B) kullanır; günde 10.000 nöron ücretsiz, bu site için fazlasıyla yeter.
 
 ```
 cd worker
 npx wrangler login                      # tarayıcıda Cloudflare'e giriş
 npx wrangler kv namespace create QUOTA  # çıkan id'yi wrangler.toml'daki KV_ID_BURAYA yerine yaz
-npx wrangler secret put ANTHROPIC_API_KEY   # anahtarı yapıştır, Enter
+npx wrangler secret put ANTHROPIC_API_KEY   # İSTEĞE BAĞLI: Claude istiyorsan anahtarı yapıştır; atlarsan ücretsiz Workers AI
 npx wrangler deploy
 ```
 

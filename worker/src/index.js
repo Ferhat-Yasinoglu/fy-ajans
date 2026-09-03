@@ -53,7 +53,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (request.method !== 'POST') return json({ error: 'Yalnızca POST.' }, 405, cors);
     if (allowed.length && !allowed.includes(origin)) return json({ error: 'Bu kaynaktan istek kabul edilmiyor.' }, 403, cors);
-    if (!env.ANTHROPIC_API_KEY) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
+    if (!env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
 
     // Girdi
     let body;
@@ -82,8 +82,21 @@ export default {
       if (count >= limit) return json({ reply: 'Bugünlük soru hakkın doldu; yarın yine buradayım. Acil bir şeyse iletişim formundan yaz.', limited: true, left: 0 }, 200, cors);
     }
 
-    // Claude'a sor
+    // Yanıt üret: Anthropic anahtarı varsa Claude; yoksa ücretsiz Cloudflare Workers AI (açık model)
     let reply;
+    if (!env.ANTHROPIC_API_KEY) {
+      try {
+        const out = await env.AI.run(env.AI_MODEL || '@cf/meta/llama-3.1-8b-instruct', {
+          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
+          max_tokens: MAX_TOKENS
+        });
+        reply = String((out && out.response) || '').trim();
+        if (!reply) reply = 'Bunu şu an yanıtlayamadım; iletişim formundan yaz, gerçek bir insan döner.';
+      } catch (e) {
+        console.error('Workers AI hatası', e && e.message);
+        return json({ reply: 'Şu an yanıt üretemiyorum; birazdan yeniden dene ya da iletişim formundan yaz.', counted: false }, 200, cors);
+      }
+    } else
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',

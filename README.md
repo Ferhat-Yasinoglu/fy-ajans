@@ -35,6 +35,7 @@ js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
 img/course/ch1-7.svg  bölüm kapakları (vektör, sitede çizildi)
 img/logo.svg          logo ve favicon
+js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.svg, og.png    paylaşım görseli (PNG, SVG'den üretildi; sosyal ağlar PNG ister)
@@ -58,7 +59,11 @@ npx serve .
 - Kurs sayıları: 7 bölüm · 49 ders · 7 gerçek proje · 14 şablon. Gerçek müfredata göre güncelle.
 - Kurucu fotoğrafı `img/founder.jpg` (1000×1250 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
 - Formlar sunucusuzdur: gönderince e-posta uygulamasını mailto ile açar. Gerçek bir uç nokta için `js/main.js` içindeki `wireForm` fonksiyonunu değiştir.
-- FYOS sohbeti varsayılan olarak çevrimdışı demodur (20 konulu hazır yanıt, `js/main.js` içindeki `ask()`). Gerçek yapay zekâ için `worker/` klasöründeki Cloudflare Worker'ı kur ve `main.js` başındaki `FYOS_ENDPOINT` değişkenine adresini yaz; adımlar `worker/README.md` içinde. Worker'a ulaşılamazsa site kendiliğinden demoya döner.
+- FYOS sohbetinin üç kaynağı var, `js/main.js` içindeki `answer()` sırayla dener:
+  1. `FYOS_ENDPOINT` doluysa Cloudflare Worker (`worker/`; Claude ya da ücretsiz Workers AI). Kurulum `worker/README.md`.
+  2. `FYOS_LOCAL_AI` açıksa ve cihazda WebGPU varsa tarayıcı içi model (`js/fyos-local.js`, WebLLM + Qwen2.5-1.5B). Ücretsiz, hesapsız, sınırsız; model ilk soruda bir kez iner (~1 GB) ve tarayıcı önbelleğinde kalır. Telefon ve düşük bellekli cihazlarda atlanır (`FYOS_LOCAL_MODEL_SMALL` boş).
+  3. Aksi hâlde 20 konulu hazır yanıtlı çevrimdışı demo.
+  Yerel model için `index.html` CSP'sinde cdn.jsdelivr.net, huggingface.co ve *.hf.co izinli; kapatırsan CSP'yi de eski hâline döndür.
 - Öğrenci girişi yalnızca arayüzdür; kimlik doğrulama yoktur.
 
 ## Tasarım tokenları

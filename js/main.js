@@ -10,6 +10,10 @@
   var raf = window.requestAnimationFrame;
   // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
   var FYOS_ENDPOINT = '';
+  // Tarayıcı içi ücretsiz model (WebGPU). Kapatmak için false yap. Model adları: https://mlc.ai/models
+  var FYOS_LOCAL_AI = true;
+  var FYOS_LOCAL_MODEL = 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC';       // masaüstü (~1 GB, bir kez iner)
+  var FYOS_LOCAL_MODEL_SMALL = '';                                   // telefon / düşük bellek: boş = model indirme, hazır yanıtlı demo kullan (0.5B modelin Türkçesi yetersiz)
 
   /* ---------- Yıl ---------- */
   var y = $('#year'); if (y) y.textContent = new Date().getFullYear();
@@ -427,9 +431,12 @@
     setState('idle');
   })();
 
-  /* ---------- FYOS: sohbet (çevrimdışı demo, baloncuklu geçmiş) ----------
-     Gerçek bir modele bağlamak için reply() içindeki yanıt üretimini
-     kendi API çağrınla değiştir. */
+  /* ---------- FYOS: sohbet ----------
+     Yanıt kaynağı sırası:
+       1) FYOS_ENDPOINT doluysa Cloudflare Worker (bkz. worker/README.md)
+       2) FYOS_LOCAL_AI açıksa ve cihaz WebGPU destekliyorsa tarayıcı içi model (js/fyos-local.js;
+          ücretsiz, hesapsız; model ilk seferde bir kez iner)
+       3) Aksi hâlde hazır yanıtlı çevrimdışı demo */
   (function ask() {
     var form = $('#askForm'), input = $('#askInput'), send = $('#askSend'), log = $('#askLog'), sub = $('#stageSub'), left = $('#askLeft');
     if (!form) return;
@@ -439,6 +446,7 @@
     input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0 || busy; });
     input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
     input.addEventListener('blur', function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); });
+
     // Bilgi tabanı: [anahtar kelimeler (regex), yanıt]. En çok eşleşen kazanır.
     var canned = [
       ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! Çevrimiçiyim. Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum hakkında sorabilirsin.'],
@@ -460,7 +468,7 @@
       ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Ödeme tek seferde yapılıyor, taksit yok. Kursu almak için "Kursu hemen al" düğmesine bas; e-posta ile ödeme adımlarını gönderiyoruz, ödeme onaylanınca erişim bilgilerin gelir.'],
       ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu: sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt gerçek bir insandan gelir.'],
       ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak için "FY\'ye katıl" bölümünden özgeçmişini gönderebilirsin; uygun görürsek iletişime geçeriz.'],
-      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site hiçbir veri toplamaz, çerez kullanmaz ve dışarıya istek atmaz. Sohbet sayacı yalnızca senin tarayıcında tutulur. Ayrıntı Kurallar ve Gizlilik sayfasında.']
+      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamaz ve çerez kullanmaz. FYOS yanıtları senin cihazında üretilir; sorduğun hiçbir şey bir sunucuya gitmez, yalnızca model dosyaları bir kez indirilir. Ayrıntı Kurallar ve Gizlilik sayfasında.']
     ];
     function reply(q) {
       var lq = q.toLowerCase(), best = null, bestScore = 0;
@@ -471,16 +479,73 @@
       if (best) return best;
       return 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
     }
-    var history = [];
-    function answer(q, cb) {
-      if (!FYOS_ENDPOINT || !window.fetch) { setTimeout(function () { cb(reply(q)); }, 600); return; }
-      var ctrl = window.AbortController ? new AbortController() : null;
-      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : 0;
-      fetch(FYOS_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: q, history: history.slice(-6) }), signal: ctrl ? ctrl.signal : undefined })
-        .then(function (res) { return res.json(); })
-        .then(function (d) { clearTimeout(timer); cb((d && d.reply) || reply(q), d); })
-        .catch(function () { clearTimeout(timer); cb(reply(q)); });
+
+    // Yerel modele verilen talimat ve FY bilgileri
+    var SYSTEM = 'Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki asistan. Doğal Türkçe, samimi ve kısa yaz: en fazla 3 cümle, düz metin. Soruyu tekrar etme, liste ve başlık yapma, emoji kullanma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
+      'FY: yapay zekâ eğitimi, web sitesi kurma ve işletmeleri otomasyonla akıllılaştırma ajansı. Kurucu Farhad Yaqoobi; Almanya\'da yaşıyor, IT okuyor, Türkçe/Almanca/İngilizce/Farsça biliyor.\n' +
+      'Kurs "Yapay Zekâ Yolculuğu": 7 bölüm, proje odaklı, sıfırdan başlar, programlama gerekmez, tamamen online. Fiyat 100 € (normal 200 €), tek ödeme, taksit yok, 45 gün destek, ömür boyu erişim. Bölümler: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code, skill\'ler), 5 Laboratuvar (site, CRM, FYOS kurma), 6 Vitrin (video, Instagram, içerik), 7 Zirve (müşteri kazanma, gelir).\n' +
+      'Site paketleri: Temel (satış sayfası), Profesyonel (site + CRM, en popüler), Uzman (yapay zekâlı platform); fiyat projeye göre. Otomasyon: DM yanıtı, müşteri adayı puanlama, raporlama, CRM. Ücretsiz 30 dakikalık görüşme var. İletişim: sitedeki form. Site veri toplamaz; bu sohbet ziyaretçinin cihazında çalışır, sorular sunucuya gitmez.';
+
+    var history = [], local = { mod: null, engine: null, failed: false };
+    // Küçük modellerin yanıtını toparlar: boşluk, tekrar eden cümleler, uzunluk
+    function tidy(text) {
+      var t = String(text || '').replace(/\s+/g, ' ').replace(/^[\s:*#\-]+/, '').trim();
+      var parts = t.split(/(?<=[.!?…])\s+/), seen = {}, keep = [];
+      for (var i = 0; i < parts.length && keep.length < 3; i++) {
+        var k = parts[i].toLowerCase().replace(/[^a-zçğıöşü0-9]/g, '');
+        if (!k || seen[k]) continue; seen[k] = 1; keep.push(parts[i]);
+      }
+      t = keep.join(' ');
+      if (t.length > 420) { t = t.slice(0, 420); var cut = Math.max(t.lastIndexOf('. '), t.lastIndexOf('! '), t.lastIndexOf('? ')); if (cut > 120) t = t.slice(0, cut + 1); }
+      return t.trim();
     }
+    function localModel() {
+      var small = (navigator.deviceMemory && navigator.deviceMemory <= 4) || Math.min(screen.width, screen.height) < 700;
+      return small ? FYOS_LOCAL_MODEL_SMALL : FYOS_LOCAL_MODEL;
+    }
+    function localAvailable() { return FYOS_LOCAL_AI && !local.failed && !!navigator.gpu && !!localModel(); }
+    // Modül dosyası CSP'ye uygun biçimde (eval'siz) <script type="module"> ile yüklenir; kendini window.FYOS_LOCAL'a yazar.
+    function importLocal() {
+      return new Promise(function (resolve, reject) {
+        if (window.FYOS_LOCAL) return resolve(window.FYOS_LOCAL);
+        try {
+          var sc = document.createElement('script'); sc.type = 'module'; sc.src = 'js/fyos-local.js';
+          sc.onload = function () { if (window.FYOS_LOCAL) resolve(window.FYOS_LOCAL); else reject(new Error('modül boş')); };
+          sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
+          document.head.appendChild(sc);
+        } catch (e) { reject(e); }
+      });
+    }
+    function loadLocal(onProgress) {
+      var p = local.mod ? Promise.resolve(local.mod) : importLocal().then(function (m) { local.mod = m; return m; });
+      return p.then(function (m) { return m.load(localModel(), onProgress); }).then(function (e) { local.engine = e; return e; });
+    }
+
+    /* answer(q, ui, done): ui.onToken(metin) akış, ui.onProgress(yüzde) model inişi; done(metin, meta) */
+    function answer(q, ui, done) {
+      if (FYOS_ENDPOINT && window.fetch) {
+        var ctrl = window.AbortController ? new AbortController() : null;
+        var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : 0;
+        fetch(FYOS_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: q, history: history.slice(-6) }), signal: ctrl ? ctrl.signal : undefined })
+          .then(function (res) { return res.json(); })
+          .then(function (d) { clearTimeout(timer); done((d && d.reply) || reply(q), d); })
+          .catch(function () { clearTimeout(timer); done(reply(q)); });
+        return;
+      }
+      if (localAvailable()) {
+        var run = function () {
+          var msgs = [{ role: 'system', content: SYSTEM }].concat(history.slice(-6)).concat([{ role: 'user', content: q }]);
+          local.mod.ask(local.engine, msgs, function (partial) { ui.onToken(tidy(partial)); }).then(function (t) { t = tidy(t); done(t || reply(q), { local: true }); })
+            .catch(function () { done(reply(q)); });
+        };
+        if (local.engine) { ui.onStream(); run(); return; }
+        loadLocal(ui.onProgress).then(function () { ui.onStream(); run(); })
+          .catch(function (e) { local.failed = true; try { console.warn('Yerel model yüklenemedi', e); } catch (er) {} done(reply(q)); });
+        return;
+      }
+      setTimeout(function () { done(reply(q)); }, 600);
+    }
+
     function bubble(role, text) {
       var d = document.createElement('div');
       d.className = 'msg msg--' + role; d.textContent = text;
@@ -498,19 +563,37 @@
       if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = 'Düşünüyorum…';
       history.push({ role: 'user', content: q });
-      answer(q, function (text, meta) {
+      var b = null, streamed = false;
+      function finish(text) {
+        busy = false;
+        if (sub) sub.textContent = quota > 0 ? 'Başka bir şey sor.' : 'Bugünlük bu kadar — yarın yine buradayım.';
+        idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
+      }
+      answer(q, {
+        onProgress: function (pct) {
+          if (!b) b = bubble('bot', '');
+          b.textContent = 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %' + pct + (pct < 100 ? ' — bu arada sayfayı gezebilirsin.' : '');
+          if (sub) sub.textContent = 'Model yükleniyor %' + pct;
+        },
+        onStream: function () {
+          streamed = true;
+          if (!b) b = bubble('bot', '');
+          b.textContent = '…';
+          if (sub) sub.textContent = 'Yazıyorum…';
+          if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
+        },
+        onToken: function (text) { if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
+      }, function (text, meta) {
         if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, '4'); } catch (er) {} }
         history.push({ role: 'assistant', content: text });
-        var b = bubble('bot', ''), i = 0;
+        if (streamed) { if (b) b.textContent = text; finish(text); return; }
+        if (!b) b = bubble('bot', '');
+        var i = 0;
         if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
         (function type() {
           b.textContent = text.slice(0, i); log.scrollTop = log.scrollHeight;
           if (i++ < text.length) setTimeout(type, 14);
-          else {
-            busy = false;
-            if (sub) sub.textContent = quota > 0 ? 'Başka bir şey sor.' : 'Bugünlük bu kadar — yarın yine buradayım.';
-            idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
-          }
+          else finish(text);
         })();
       });
     });

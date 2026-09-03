@@ -9,6 +9,8 @@ ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
 DAILY_LIMIT = "4"
 # Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5-20251001
 MODEL = "claude-sonnet-5"
+# Anthropic anahtarı girilmezse Workers AI kullanılır (ücretsiz katman: günde 10.000 nöron). İstersen modeli değiştir.
+AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 
 # Günlük sayaç için KV alanı. `npx wrangler kv namespace create QUOTA` çıktısındaki id'yi buraya yaz.
 [[kv_namespaces]]
@@ -17,3 +19,7 @@ id = "KV_ID_BURAYA"
 
 # Gizli anahtar wrangler.toml'a YAZILMAZ; terminalden girilir:
 #   npx wrangler secret put ANTHROPIC_API_KEY
+
+# Ücretsiz açık model için Workers AI bağlantısı (Anthropic anahtarı yoksa devreye girer)
+[ai]
+binding = "AI"

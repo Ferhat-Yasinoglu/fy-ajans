@@ -34,11 +34,12 @@
       <h2>2. Çerez ve tarayıcı hafızası</h2>
       <ul>
         <li>Site çerez kullanmaz. Reklam ya da üçüncü taraf izleyici yoktur.</li>
-        <li>FYOS demosu günlük soru sayacını yalnızca senin tarayıcının hafızasında tutar; bu sayı bize gönderilmez ve tarayıcı verilerini silince kaybolur.</li>
+        <li>FYOS sohbeti günlük soru sayacını yalnızca senin tarayıcının hafızasında tutar; bu sayı bize gönderilmez ve tarayıcı verilerini silince kaybolur.</li>
+<li>FYOS'un yanıtları senin cihazında üretilir: uygun cihazlarda tarayıcın, ilk soruda açık kaynak bir yapay zekâ modelini bir kez indirir ve sonraki yanıtları cihaz üzerinde hesaplar. Sorduğun sorular ve aldığın yanıtlar ne bize ne de başka bir sunucuya gönderilir; model önbelleği tarayıcı verilerini silince kaybolur.</li>
       </ul>
       <h2>3. Dış servisler ve barındırma</h2>
       <ul>
-        <li>Yazı tipi dahil sitenin bütün dosyaları bu siteden yüklenir; sayfa üçüncü taraf hiçbir adrese istek atmaz.</li>
+        <li>Yazı tipi dahil sitenin bütün dosyaları bu siteden yüklenir. Tek istisna FYOS sohbeti: ona ilk soruyu sorduğunda tarayıcın yapay zekâ kütüphanesini cdn.jsdelivr.net, model dosyalarını huggingface.co adresinden indirir. Bu indirme yalnızca sen soru sorunca başlar ve o adreslere senin sorun değil, yalnızca dosya isteği gider.</li>
         <li>Site GitHub Pages üzerinde barındırılır. GitHub, her web sunucusu gibi erişim günlükleri tutabilir; bunlar GitHub'ın kendi gizlilik politikasına tabidir ve bizim erişimimizde değildir.</li>
         <li>Siteyle iletişimin şifrelidir (HTTPS).</li>
       </ul>
