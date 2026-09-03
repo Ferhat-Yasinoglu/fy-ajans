@@ -25,12 +25,6 @@
   <div class="container-x">
     <div class="page__head">
       <a class="back" href="index.html" data-i18n="back.home">← Zur Startseite</a>
-      <div class="lang" role="group" aria-label="Sprache" data-i18n-attr="aria-label=lang.label" style="float:right">
-        <a href="../terms.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
-        <a href="terms.html" data-lang="de" lang="de" hreflang="de" aria-current="page">DE</a>
-        <a href="../en/terms.html" data-lang="en" lang="en" hreflang="en">EN</a>
-        <a href="../fa/terms.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
-      </div>
       <span class="eyebrow" data-i18n="terms.eyebrow">Bedingungen</span>
       <h1 class="font-display text-h1 mt-4" data-i18n="terms.title">Nutzungsbedingungen & Datenschutz</h1>
       <p class="text-muted mt-4" data-i18n="terms.intro">Mit der Nutzung der FY-Website und der Anmeldung zum Kurs akzeptierst du die folgenden Bedingungen. Diese deutsche Fassung ist maßgeblich. Stand: 3. September 2026.</p>
@@ -137,10 +131,16 @@
 </main>
 <footer class="footer" style="margin-top:64px">
   <div class="container-x footer__inner">
-    <div class="footer__brand"><div class="mark font-display text-accent-gradient">FY</div></div>
+    <div class="footer__brand"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="240" height="140" loading="lazy"></div>
     <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Alle Rechte vorbehalten.</span></div>
     <div class="footer__links"><a href="index.html#training" data-i18n="footer.course">Kurs</a><a href="index.html#web" data-i18n="footer.web">Webdesign</a><a href="impressum.html">Impressum</a><a href="portal/login.html" data-i18n="footer.portal">Lernportal</a></div>
-  </div>
+        <div class="lang" role="group" aria-label="Sprache" data-i18n-attr="aria-label=lang.label">
+        <a href="../terms.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+        <a href="terms.html" data-lang="de" lang="de" hreflang="de" aria-current="page">DE</a>
+        <a href="../en/terms.html" data-lang="en" lang="en" hreflang="en">EN</a>
+        <a href="../fa/terms.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+      </div>
+</div>
 </footer>
 <script src="../js/lang/de.js"></script><script src="../js/main.js"></script>
 </body>

@@ -27,12 +27,6 @@
   <div class="container-x">
     <div class="page__head">
       <a class="back" href="index.html" data-i18n="back.home">← Ana sayfaya dön</a>
-      <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label" style="float:right">
-        <a href="impressum.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
-        <a href="de/impressum.html" data-lang="de" lang="de" hreflang="de">DE</a>
-        <a href="en/impressum.html" data-lang="en" lang="en" hreflang="en">EN</a>
-        <a href="fa/impressum.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
-      </div>
       <span class="eyebrow">Impressum</span>
       <h1 class="font-display text-h1 mt-4" data-i18n="imp.title">Künye <span class="text-muted">(Impressum)</span></h1>
       <p class="text-muted mt-4" data-i18n="imp.intro">Alman Dijital Hizmetler Kanunu § 5 DDG uyarınca sağlayıcı bilgileri (Angaben gemäß § 5 DDG). Son güncelleme: 3 Eylül 2026.</p>
@@ -80,10 +74,16 @@
 </main>
 <footer class="footer" style="margin-top:64px">
   <div class="container-x footer__inner">
-    <div class="footer__brand"><div class="mark font-display text-accent-gradient">FY</div></div>
+    <div class="footer__brand"><img class="footer__mark" src="img/logo-mark.svg" alt="FY" width="240" height="140" loading="lazy"></div>
     <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
     <div class="footer__links"><a href="index.html#training" data-i18n="footer.course">Kurs</a><a href="index.html#web" data-i18n="footer.web">Web Tasarım</a><a href="terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
-  </div>
+        <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+        <a href="impressum.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+        <a href="de/impressum.html" data-lang="de" lang="de" hreflang="de">DE</a>
+        <a href="en/impressum.html" data-lang="en" lang="en" hreflang="en">EN</a>
+        <a href="fa/impressum.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+      </div>
+</div>
 </footer>
 <script src="js/main.js"></script>
 </body>

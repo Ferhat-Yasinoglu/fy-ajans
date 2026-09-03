@@ -285,8 +285,10 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .hero__logo-wrap { flex: 1; display: grid; place-items: center; padding: 24px 0; pointer-events: none; }
 .hero__logo { position: relative; width: min(40vw, 30vh); height: min(40vw, 30vh); transition: opacity .9s ease, transform .9s cubic-bezier(.22,1,.36,1); }
 .js .hero__logo:not(.is-in) { opacity: 0; transform: scale(.9); }
-.hero__logo svg { width: 100%; height: 100%; filter: drop-shadow(0 18px 60px rgba(212,175,55,.5)); }
-.hero__frame { position: absolute; inset: -14%; border: 2px solid rgb(var(--accent-gold) / .65); border-radius: 6px; box-shadow: 0 0 0 1px rgb(var(--accent-gold) / .15), 0 30px 120px -30px rgba(212,175,55,.45); background: rgb(var(--ink-0) / .55); backdrop-filter: blur(2px); }
+.hero__logo svg, .hero__logo img.hero__mark { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 60px rgba(212,175,55,.5)); }
+.nav__brand img.nav__mark { display: block; height: 34px; width: auto; }
+.footer__brand img.footer__mark { display: block; height: 26px; width: auto; }
+.hero__frame { position: absolute; inset: -14%; border: 2px solid rgb(var(--accent-gold) / .65); border-radius: 6px; box-shadow: 0 0 0 1px rgb(var(--accent-gold) / .15), 0 30px 120px -30px rgba(212,175,55,.45); background: radial-gradient(circle at 50% 42%, #15110a, #0a0804 58%, #070604); }
 .hero__frame::before, .hero__frame::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: #d4af37; }
 .hero__frame::before { top: -12px; left: -12px; box-shadow: calc(100% + 2px) 0 0 0 #d4af37; }
 .hero__frame::after { bottom: -12px; left: -12px; box-shadow: calc(100% + 2px) 0 0 0 #d4af37; }
