@@ -1,0 +1,14 @@
+# Gizli bilgiler asla depoya girmesin
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+
+# Araç ve sistem dosyaları
+node_modules/
+.DS_Store
+Thumbs.db
+debug.log
+*.log
+.vscode/

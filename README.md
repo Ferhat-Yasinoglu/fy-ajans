@@ -3,8 +3,24 @@
 Tek sayfalık ajans sitesi: yapay zekâ kursu, canlı «ajantik işletim sistemi» demosu,
 web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
 
-Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipi Google Fonts
-üzerinden Vazirmatn; dışarıdan başka hiçbir şey yüklenmez.
+Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipi Vazirmatn
+`fonts/` klasöründen yüklenir; sayfa dışarıya hiçbir istek atmaz.
+
+## Güvenlik ve gizlilik
+
+- Her sayfada bir İçerik Güvenliği Politikası (CSP) meta etiketi var: script yalnızca
+  bu siteden, dış bağlantı ve font yok, nesne yok. Yeni bir dış kaynak eklersen CSP'yi de güncelle.
+- E-posta adresi HTML'de düz metin durmaz; `js/main.js` içindeki `MAIL` değişkeninde
+  iki parça olarak durur ve `data-mail` / `data-mail-text` öznitelikli öğelere sayfa açılınca yazılır.
+- Formlar sunucusuzdur, mailto ile e-posta uygulamasını açar. Özgeçmiş dosyası e-postaya
+  kullanıcı tarafından eklenir.
+- Öğrenci girişi yalnızca arayüzdür; hiçbir veri gönderilmez. Gerçek bir panel kurmadan
+  şifre toplama.
+- FYOS'u gerçek bir modele bağlarken API anahtarını asla sayfaya koyma; küçük bir ara
+  sunucu (ör. Cloudflare Worker) kullan, günlük sınırı ve istek boyutunu orada denetle.
+- `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
+- GitHub tarafında: hesapta iki aşamalı doğrulama açık olsun; Pages ayarında
+  "Enforce HTTPS" işaretli olsun.
 
 ## Dosyalar
 

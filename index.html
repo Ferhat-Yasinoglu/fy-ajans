@@ -27,13 +27,11 @@
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="img/logo.svg">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY yapay zekâ ajansı — yapay zekâ eğitimi, web tasarım ve işletme akıllılaştırma.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"email":"farhadyaqoobi.kunduz@gmail.com","contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"farhadyaqoobi.kunduz@gmail.com","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},
+{"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY yapay zekâ ajansı — yapay zekâ eğitimi, web tasarım ve işletme akıllılaştırma.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#contact","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},
 {"@type":"ImageObject","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo","url":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg","contentUrl":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg"},
 {"@type":"Person","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder","name":"Farhad Yaqoobi","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#about","jobTitle":"Kurucu","worksFor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"knowsAbout":["Yapay zekâ","Prompt yazımı","n8n ile otomasyon","Claude Code","Web geliştirme"]},
 {"@type":"WebSite","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website","url":"https://ferhat-yasinoglu.github.io/fy-ajans","name":"FY","publisher":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"tr"},
@@ -478,7 +476,7 @@
         </div>
         <button type="submit" class="btn btn-primary w-full">Özgeçmiş gönder →</button>
         <p class="form-status" id="joinStatus"></p>
-        <p class="form-note">Bilgilerin yalnızca iş birliği değerlendirmesi için kullanılır ve kimseyle paylaşılmaz.</p>
+        <p class="form-note">Gönder deyince e-posta uygulaman açılır; özgeçmişini o e-postaya ek olarak ekle. Bilgilerin yalnızca iş birliği değerlendirmesi için kullanılır ve kimseyle paylaşılmaz.</p>
       </form>
     </div>
   </div>
@@ -529,7 +527,7 @@
           </ul>
           <div class="info-card__mail">
             <div class="k">Ya da doğrudan e-posta at</div>
-            <a href="mailto:farhadyaqoobi.kunduz@gmail.com" class="font-display">farhadyaqoobi.kunduz@gmail.com</a>
+            <a href="#contact" data-mail="" data-mail-text class="font-display">e-posta adresi için JavaScript gerekli</a>
           </div>
         </div>
       </div>

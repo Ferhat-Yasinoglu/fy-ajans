@@ -12,6 +12,23 @@
   /* ---------- Yıl ---------- */
   var y = $('#year'); if (y) y.textContent = new Date().getFullYear();
 
+  /* ---------- E-posta: adres HTML'de düz metin durmaz, burada birleşir ---------- */
+  var MAIL = ['farhadyaqoobi.kunduz', 'gmail.com'].join('@');
+  $$('[data-mail]').forEach(function (a) {
+    var subj = a.getAttribute('data-mail');
+    a.setAttribute('href', 'mailto:' + MAIL + (subj ? '?subject=' + encodeURIComponent(subj) : ''));
+  });
+  $$('[data-mail-text]').forEach(function (el) { el.textContent = MAIL; });
+
+  /* ---------- Öğrenci girişi (yalnızca arayüz) ---------- */
+  var loginForm = $('#loginForm');
+  if (loginForm) loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var s = $('#loginStatus');
+    s.textContent = 'Öğrenci paneli henüz açık değil. Girdiğin bilgiler hiçbir yere gönderilmedi.';
+    loginForm.reset();
+  });
+
   /* ---------- Üst çubuk ---------- */
   var nav = $('#nav');
   if (nav) raf(function () { nav.classList.add('is-ready'); });
@@ -365,20 +382,21 @@
   })();
 
   /* ---------- Formlar (sunucusuz: mailto ile devam) ---------- */
-  function wireForm(id, statusId, subject) {
+  function wireForm(id, statusId, subject, extra) {
     var form = $('#' + id), status = $('#' + statusId); if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { status.textContent = 'Lütfen yıldızlı alanları doldur.'; form.reportValidity(); return; }
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
-      status.textContent = 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.';
-      location.href = 'mailto:farhadyaqoobi.kunduz@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+      if (extra) lines.push('', extra);
+      status.textContent = extra ? 'E-posta uygulaman açılıyor — özgeçmişini ek olarak eklemeyi unutma.' : 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.';
+      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
       form.reset(); var fn = $('#jFileName'); if (fn) fn.textContent = 'Dosya seç…';
     });
   }
   wireForm('contactForm', 'contactStatus', 'FY — iletişim formu');
-  wireForm('joinForm', 'joinStatus', 'FY — özgeçmiş başvurusu');
+  wireForm('joinForm', 'joinStatus', 'FY — özgeçmiş başvurusu', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.');
   var jf = $('#jFile'), jn = $('#jFileName');
   if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : 'Dosya seç…'; jn.classList.toggle('text-dim', !jf.files[0]); });
 

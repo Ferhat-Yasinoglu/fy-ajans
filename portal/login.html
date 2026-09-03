@@ -8,9 +8,7 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="../img/logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -18,21 +16,14 @@
   <form class="glass-strong login__card form" id="loginForm" novalidate>
     <a href="../index.html" aria-label="FY ana sayfa"><svg viewBox="0 0 96 64" style="height:36px;width:auto" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d76e"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#a9821e"/></linearGradient></defs><text x="4" y="50" font-family="Vazirmatn, system-ui, sans-serif" font-size="52" font-weight="900" font-style="italic" fill="url(#lg)" letter-spacing="-3">FY</text></svg></a>
     <h1 class="font-display">Öğrenci paneli</h1>
-    <p class="sub">Kurs dosyaları, ek eğitimler ve soru-cevap için giriş yap.</p>
-    <div class="field"><label for="u">E-posta</label><input id="u" class="input" type="email" name="email" required placeholder="you@example.com"></div>
-    <div class="field"><label for="p">Şifre</label><input id="p" class="input" type="password" name="password" required placeholder="••••••••"></div>
+    <p class="sub">Kurs dosyaları, ek eğitimler ve soru-cevap için giriş yap. Panel henüz açık değil; yazdıkların hiçbir yere gönderilmez.</p>
+    <div class="field"><label for="u">E-posta</label><input id="u" class="input" type="email" name="email" autocomplete="off" placeholder="you@example.com"></div>
+    <div class="field"><label for="p">Şifre</label><input id="p" class="input" type="password" name="password" autocomplete="off" placeholder="••••••••"></div>
     <button type="submit" class="btn btn-primary w-full">Giriş yap →</button>
     <p class="form-status" id="loginStatus"></p>
-    <p class="foot"><a href="mailto:farhadyaqoobi.kunduz@gmail.com?subject=%C5%9Eifremi%20unuttum">Şifremi unuttum</a> · <a href="../index.html">Ana sayfa</a></p>
+    <p class="foot"><a href="#" data-mail="Şifremi unuttum">Şifremi unuttum</a> · <a href="../index.html">Ana sayfa</a></p>
   </form>
 </main>
-<script>
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var s = document.getElementById('loginStatus');
-  if (!this.checkValidity()) { s.textContent = 'E-posta ve şifreni gir.'; this.reportValidity(); return; }
-  s.textContent = 'Panel henüz bağlı değil — bu sayfa yalnızca arayüz. Kimlik doğrulamayı kendi sunucuna bağla.';
-});
-</script>
+<script src="../js/main.js"></script>
 </body>
 </html>
