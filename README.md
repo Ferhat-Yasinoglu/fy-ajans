@@ -19,8 +19,8 @@ web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
 - FYOS'u gerçek bir modele bağlarken API anahtarını asla sayfaya koyma; küçük bir ara
   sunucu (ör. Cloudflare Worker) kullan, günlük sınırı ve istek boyutunu orada denetle.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
-- GitHub tarafında: hesapta iki aşamalı doğrulama açık olsun; Pages ayarında
-  "Enforce HTTPS" işaretli olsun.
+- GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
+  için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
 
 ## Dosyalar
 
