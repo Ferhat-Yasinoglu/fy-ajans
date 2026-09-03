@@ -507,7 +507,7 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .portrait { position: relative; aspect-ratio: 1 / 1; max-width: 28rem; margin-inline: auto; border-radius: 50%; overflow: hidden; padding: 8px; }
 @media (min-width: 1024px) { .portrait { margin-inline: 0; } }
 .portrait__inner { position: absolute; inset: 8px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 35%, #2a1f6b, #0b0620 60%, #050310); display: grid; place-items: center; box-shadow: inset 0 0 0 3px rgba(120,80,255,.5), inset 0 0 60px rgba(80,140,255,.35); }
-.portrait__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.portrait__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
 .portrait__initials { font-size: clamp(4rem, 12vw, 8rem); font-weight: 800; letter-spacing: -.04em; background: linear-gradient(135deg, #c084fc, #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; }
 .portrait__ring { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 180deg, #7c3aed, #38bdf8, #c084fc, #7c3aed); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); animation: spin 14s linear infinite; }
 .about__text h2 { margin-top: 16px; margin-bottom: 12px; }
@@ -593,6 +593,7 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .links-page { min-height: 100svh; display: flex; flex-direction: column; align-items: center; padding: 48px 20px 40px; }
 .links-page__avatar { width: 112px; height: 112px; border-radius: 50%; padding: 4px; background: conic-gradient(from 180deg, #7c3aed, #38bdf8, #c084fc, #7c3aed); }
 .links-page__avatar div { width: 100%; height: 100%; border-radius: 50%; background: #0b0620; display: grid; place-items: center; font-size: 36px; font-weight: 800; color: #c084fc; }
+.links-page__avatar img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 28%; background: #0b0620; }
 .links-page h1 { margin-top: 20px; font-size: 32px; font-weight: 800; line-height: 1.2; text-align: center; }
 .links-page .role { color: rgb(var(--fg-muted)); font-size: 14px; margin-top: 6px; text-align: center; }
 .links-page .quote { color: rgb(var(--accent-gold)); font-size: 15px; margin-top: 12px; text-align: center; }
