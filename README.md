@@ -71,9 +71,23 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
   Yanlış olanı seçmek de ihtar sebebi; emin değilsen vergi danışmanına sor.
 - **Üstü çizili 200 €**: PAngV § 11 gereği son 30 günün en düşük fiyatı olmalı. Kurs hiç 200 €'ya satılmadıysa
   eski fiyatı ve "%50 indirim" rozetini kaldır (`index.html`, `contact/course.html`, JSON-LD'de eski fiyat yok).
-- **Cayma onayı**: hemen erişim isteyen alıcıya `terms.html` §6'daki onay cümlesini kayıt e-postasında kendisine
-  yazdır; önceden işaretli kutu ya da varsayılan onay geçersiz (§ 356 Abs. 5 BGB). Onay yoksa erişimi 14 gün sonra aç.
+- **Cayma akışı** (dijital içerik, § 356 BGB; bildirim eksikse cayma süresi 12 ay + 14 güne uzar):
+  1. Ödeme adımları e-postasına cayma bildirimini, örnek formu ve `terms.html` §6'daki iki onay cümlesini ekle;
+     e-postada adres ve telefon açık yazılmalı (JS yok).
+  2. Hemen erişim isteyen alıcı iki cümleyi kendi yanıtına kopyalayıp gönderir; önceden işaretli kutu ya da
+     «tamam/evet» geçersiz.
+  3. Erişim bilgilerini göndermeden ÖNCE, alıcının onayını ve teyidini de içeren sözleşme teyidini e-postayla
+     gönder (§ 312f BGB) — bu adım atlanırsa cayma hakkı sona ermez.
+  4. Onay vermeyen alıcıya erişimi 14 gün sonra aç. Yazışmaları sakla.
+  Siteye gerçek bir sipariş/ödeme düğmesi eklenirse ayrıca § 356a BGB «cayma düğmesi» ve § 312j «ödeme yükümlülüğü
+  altına gir» düğmesi kuralları devreye girer; bugünkü mailto akışında gerekmiyor.
+- **Telefon**: cayma bildiriminin resmi model metni telefon numarası ister; Impressum'da isteğe bağlı. İş telefonu
+  yoksa `terms.html` §6'daki yer tutucuyu sil.
+- **Ticaret sicili**: e.K. olarak kayıtlıysan Impressum'a sicil mahkemesi ve HRA numarasını ekle; kayıtlı değilsen bir şey gerekmez.
+- Bir tüketiciyle uyuşmazlık çözülemezse § 37 VSBG gereği yetkili hakem heyetini (Universalschlichtungsstelle des Bundes,
+  Kehl) ve katılıp katılmayacağını yazılı (e-posta yeter) bildirmen gerekir.
 - AB çevrimiçi uyuşmazlık platformu (ODR) 20 Temmuz 2025'te kapatıldı; Impressum'a ODR bağlantısı **ekleme**.
+- Bu metinler hukuki tavsiye değildir; yayına almadan önce bir avukat ya da IHK kontrolü önerilir.
 
 ## Yayın adresi ve içerik kararları
 
