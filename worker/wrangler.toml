@@ -1,0 +1,19 @@
+name = "fyos-chat"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+# Yalnızca bu kaynaklardan gelen isteklere yanıt verilir (virgülle ayır). Alan adı değişince güncelle.
+ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
+# Ziyaretçi başına günlük soru hakkı
+DAILY_LIMIT = "4"
+# Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5-20251001
+MODEL = "claude-sonnet-5"
+
+# Günlük sayaç için KV alanı. `npx wrangler kv namespace create QUOTA` çıktısındaki id'yi buraya yaz.
+[[kv_namespaces]]
+binding = "QUOTA"
+id = "KV_ID_BURAYA"
+
+# Gizli anahtar wrangler.toml'a YAZILMAZ; terminalden girilir:
+#   npx wrangler secret put ANTHROPIC_API_KEY

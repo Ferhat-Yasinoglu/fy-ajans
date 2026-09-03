@@ -8,6 +8,8 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var raf = window.requestAnimationFrame;
+  // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
+  var FYOS_ENDPOINT = '';
 
   /* ---------- Yıl ---------- */
   var y = $('#year'); if (y) y.textContent = new Date().getFullYear();
@@ -469,6 +471,16 @@
       if (best) return best;
       return 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.';
     }
+    var history = [];
+    function answer(q, cb) {
+      if (!FYOS_ENDPOINT || !window.fetch) { setTimeout(function () { cb(reply(q)); }, 600); return; }
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : 0;
+      fetch(FYOS_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: q, history: history.slice(-6) }), signal: ctrl ? ctrl.signal : undefined })
+        .then(function (res) { return res.json(); })
+        .then(function (d) { clearTimeout(timer); cb((d && d.reply) || reply(q), d); })
+        .catch(function () { clearTimeout(timer); cb(reply(q)); });
+    }
     function bubble(role, text) {
       var d = document.createElement('div');
       d.className = 'msg msg--' + role; d.textContent = text;
@@ -485,8 +497,11 @@
       bubble('user', q);
       if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = 'Düşünüyorum…';
-      setTimeout(function () {
-        var text = reply(q), b = bubble('bot', ''), i = 0;
+      history.push({ role: 'user', content: q });
+      answer(q, function (text, meta) {
+        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, '4'); } catch (er) {} }
+        history.push({ role: 'assistant', content: text });
+        var b = bubble('bot', ''), i = 0;
         if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
         (function type() {
           b.textContent = text.slice(0, i); log.scrollTop = log.scrollHeight;
@@ -497,7 +512,7 @@
             idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
           }
         })();
-      }, 600);
+      });
     });
   })();
 

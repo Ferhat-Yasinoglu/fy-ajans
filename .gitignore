@@ -12,3 +12,8 @@ Thumbs.db
 debug.log
 *.log
 .vscode/
+
+# Cloudflare Worker
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
