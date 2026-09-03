@@ -1,10 +1,31 @@
 # FY — Yapay Zekâ Ajansı
 
 Tek sayfalık ajans sitesi: yapay zekâ kursu, canlı «ajantik işletim sistemi» demosu,
-web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
+web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim. Dört dil:
+Türkçe (kaynak), Deutsch, English, فارسی.
 
 Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipi Vazirmatn
-`fonts/` klasöründen yüklenir; sayfa dışarıya hiçbir istek atmaz.
+`fonts/` klasöründen yüklenir; sayfa kendiliğinden dışarıya istek atmaz (tek istisna:
+FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
+
+## Diller
+
+Türkçe HTML kaynaktır; `de/`, `en/`, `fa/` klasörleri ondan **üretilir**:
+
+```
+node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js ve sitemap.xml'i yazar
+node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
+```
+
+- Çevrilecek her öğe kaynakta `data-i18n="anahtar"` (iç HTML) ya da `data-i18n-attr="öznitelik=anahtar"` taşır.
+- Çeviriler `i18n/de.json`, `i18n/en.json`, `i18n/fa.json`'da; biçim `i18n/README.md`'de.
+- Bir metni değiştirince: Türkçe HTML → aynı anahtar üç sözlükte → betiği çalıştır → üretilenlerle birlikte commit.
+- Üretilen dosyalar (`de/`, `en/`, `fa/`, `js/lang/`) elle düzenlenmez.
+- Her sayfada dört dilin `hreflang` bağlantıları ve bir dil seçici var; Farsça sayfalar `dir="rtl"` ile
+  sağdan sola akar (CSS mantıksal özellikler kullanır). `404.html` üretilmez; GitHub Pages her yol için
+  aynı dosyayı verdiğinden dört dili tek sayfada gösterir.
+- `js/main.js`'teki metinler `t('anahtar', 'Türkçe')` ile çekilir; diğer diller `js/lang/<dil>.js` üzerinden
+  `window.FY_STRINGS`'e yazılır. Dil dosyası yüklenmezse Türkçe kalır.
 
 ## Güvenlik ve gizlilik
 
@@ -32,7 +53,10 @@ web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim.
 ## Dosyalar
 
 ```
-index.html            ana sayfa (bütün bölümler)
+index.html            ana sayfa (bütün bölümler) — Türkçe kaynak
+de/ en/ fa/           üretilmiş çeviriler (aynı klasör yapısı; elle düzenleme)
+i18n/*.json           çeviri sözlükleri;  tools/build-i18n.mjs  üretici betik
+js/lang/*.js          üretilmiş betik metinleri (FYOS hazır yanıtları, form mesajları)
 terms.html            kurallar, gizlilik (DSGVO Md. 13), cayma hakkı ve kurs şartları
 impressum.html        § 5 DDG sağlayıcı bilgileri (Almanya'da ticari site için zorunlu)
 contact/index.html    bağlantı sayfası (link-in-bio)

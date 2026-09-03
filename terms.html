@@ -3,9 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title>Kurallar ve Gizlilik · FY</title>
-<meta name="description" content="FY sitesinin kullanım kuralları, gizlilik ilkeleri (DSGVO Md. 13), cayma hakkı ve kurs şartları: hangi veriler işlenir, çerez kullanılır mı, nasıl cayılır.">
+<title data-i18n="meta.title">Kurallar ve Gizlilik · FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="FY sitesinin kullanım kuralları, gizlilik ilkeleri (DSGVO Md. 13), cayma hakkı ve kurs şartları: hangi veriler işlenir, çerez kullanılır mı, nasıl cayılır.">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/terms.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/terms.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/terms.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/terms.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/terms.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/terms.html">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
@@ -18,12 +24,20 @@
 <main class="page">
   <div class="container-x">
     <div class="page__head">
-      <a class="back" href="index.html">← Ana sayfaya dön</a>
-      <span class="eyebrow">Kurallar</span>
-      <h1 class="font-display text-h1 mt-4">Kurallar ve Gizlilik</h1>
-      <p class="text-muted mt-4">FY sitesini kullanmak ve kursa kayıt olmak aşağıdaki maddeleri kabul etmek anlamına gelir. Son güncelleme: 3 Eylül 2026.</p>
+      <a class="back" href="index.html" data-i18n="back.home">← Ana sayfaya dön</a>
+      <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label" style="float:right">
+        <a href="terms.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+        <a href="de/terms.html" data-lang="de" lang="de" hreflang="de">DE</a>
+        <a href="en/terms.html" data-lang="en" lang="en" hreflang="en">EN</a>
+        <a href="fa/terms.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+      </div>
+      <span class="eyebrow" data-i18n="terms.eyebrow">Kurallar</span>
+      <h1 class="font-display text-h1 mt-4" data-i18n="terms.title">Kurallar ve Gizlilik</h1>
+      <p class="text-muted mt-4" data-i18n="terms.intro">FY sitesini kullanmak ve kursa kayıt olmak aşağıdaki maddeleri kabul etmek anlamına gelir. Son güncelleme: 3 Eylül 2026.</p>
     </div>
-    <div class="prose">
+    <!-- Yasal metin tek anahtarla çevrilir (terms.prose): çeviride bölüm bölüm değil, sayfa bütün olarak yeniden yazılır.
+         Almanca sürüm bağlayıcı metindir; EN/FA sürümlerinin başına bu not konur. -->
+    <div class="prose" data-i18n="terms.prose">
       <h2>1. Bu site ne toplar?</h2>
       <ul>
         <li>Bu site statik bir sitedir: sunucusu, veritabanı ve kullanıcı hesabı yoktur. Sayfaları ziyaret ettiğinde bize hiçbir bilgi iletilmez.</li>
@@ -123,8 +137,8 @@
 <footer class="footer" style="margin-top:64px">
   <div class="container-x footer__inner">
     <div class="footer__brand"><div class="mark font-display text-accent-gradient">FY</div></div>
-    <div>© <span id="year">2026</span> FY — Tüm hakları saklıdır.</div>
-    <div class="footer__links"><a href="index.html#training">Kurs</a><a href="index.html#web">Web Tasarım</a><a href="impressum.html">Impressum</a><a href="portal/login.html">Öğrenci Paneli</a></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="index.html#training" data-i18n="footer.course">Kurs</a><a href="index.html#web" data-i18n="footer.web">Web Tasarım</a><a href="impressum.html">Impressum</a><a href="portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
   </div>
 </footer>
 <script src="js/main.js"></script>
