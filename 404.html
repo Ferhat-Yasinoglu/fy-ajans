@@ -23,7 +23,7 @@
   body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212, 175, 55, .14), transparent 70%); pointer-events: none; }
   body::after { content: ""; position: fixed; inset: 0; background-image: radial-gradient(rgba(212, 175, 55, .16) 1px, transparent 1px); background-size: 28px 28px; opacity: .5; pointer-events: none; }
   main { position: relative; z-index: 1; text-align: center; max-width: 36rem; }
-  .mark { display: inline-block; padding: 0 .18em 0 .06em; font-size: 44px; font-weight: 900; font-style: italic; letter-spacing: -.06em; background: linear-gradient(135deg, #f5d76e, #d4af37 50%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
+  .mark { display: inline-block; height: 64px; width: auto; margin-bottom: 20px; filter: drop-shadow(0 10px 30px rgba(212, 175, 55, .45)); }
   .code { font-size: clamp(88px, 22vw, 160px); font-weight: 800; line-height: .9; letter-spacing: -.05em; background: linear-gradient(135deg, #f5d76e, #d4af37 45%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; }
   h1 { font-size: clamp(22px, 4vw, 30px); font-weight: 700; margin: 20px 0 10px; }
   p { color: #a8a08f; line-height: 1.65; margin: 0 0 28px; font-size: 15px; }
@@ -45,7 +45,7 @@
 </head>
 <body>
 <main>
-  <img class="mark" src="/fy-ajans/img/logo-mark.svg" alt="FY" width="240" height="140" style="height:56px;width:auto;display:inline-block">
+  <picture><source media="(prefers-reduced-motion: reduce)" srcset="/fy-ajans/img/logo-mark-static.svg"><img class="mark" src="/fy-ajans/img/logo-mark.svg" alt="FY" width="738" height="513"></picture>
   <div class="code" aria-hidden="true">404</div>
   <h1>Bu sayfa haritada yok.</h1>
   <p>Aradığın adres taşınmış ya da hiç var olmamış olabilir. Ağ hâlâ çevrimiçi; seni doğru yere götürelim.</p>

@@ -50,6 +50,24 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
 - GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
   için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
 
+## Logo
+
+Logo geometrisi (harf köşeleri, halka, ağ düğümleri, yüz paneli) `tools/build-logo.mjs` içinde kaynak görselin
+piksel koordinatlarıyla tanımlı; beş SVG oradan üretilir. Logoyu değiştirirken SVG'leri elle düzenleme, betiği düzenleyip çalıştır:
+
+```
+node tools/build-logo.mjs            # img/logo-mark.svg, logo-hero.svg, ikisinin -static kopyaları, logo.svg
+node tools/build-logo.mjs --raster   # + icon-180/192/512.png ve og.png (Playwright + Chromium gerekir:
+                                     #   npm i --no-save playwright && npx playwright install chromium)
+```
+
+- Animasyonlar SVG'lerin içinde CSS ile yazıldı (gezen ışık, ağ düğümleri, göz, devre izleri; hero'da dönen halka ışığı,
+  ışın damlası, parçacıklar, zemin yansıması) ve `<img>` içinde çalışır. `prefers-reduced-motion` için her logo `<picture>`
+  içindedir: `<source media="(prefers-reduced-motion: reduce)" srcset="…-static.svg">` animasyonsuz kopyayı seçer
+  (SVG içindeki media sorgusuna `<img>` altında her tarayıcı bakmaz). Betik iki kopyayı da üretir.
+- Hero'da `js/main.js` fareyle hafif 3B eğim verir ve kaydırma dönüşümüyle birleştirir; kutu oranı `.hero__logo` içinde SVG viewBox'ıyla aynıdır.
+- Küçük boyutlar için favicon sade tutuldu (dolu altın harfler); harf logosu 30 px altında da okunur.
+
 ## Dosyalar
 
 ```
@@ -66,12 +84,17 @@ css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
 img/course/ch1-7.svg  bölüm kapakları (vektör, sitede çizildi)
-img/logo.svg          logo ve favicon
+img/logo-master.png   logo tasarımının kaynak görseli (1536×1024); og.png buradan üretilir, sitede doğrudan kullanılmaz
+img/logo-mark.svg     harf logosu (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — animasyonlu, tools/build-logo.mjs üretir
+img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yansıma) — animasyonlu, aynı betik üretir
+img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
+img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
-img/og.svg, og.png    paylaşım görseli (PNG, SVG'den üretildi; sosyal ağlar PNG ister)
-img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest)
+img/og.png            paylaşım görseli (1200×630; logo-master.png + slogan, betik üretir; sosyal ağlar PNG ister)
+img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest; logo.svg'den betik üretir)
+tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```

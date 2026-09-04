@@ -96,9 +96,16 @@
   (function hero() {
     var canvas = $('#heroCanvas'), logo = $('#heroLogo');
     if (!canvas) return;
+    // Logo belirir (opaklık kutuda, büyüme resimde — css). Kutunun transform'u yalnız aşağıdaki eğim + kaydırma için.
     if (logo) setTimeout(function () { logo.classList.add('is-in'); }, 250);
     var traces = [], pulses = [], mouse = { x: 0.5, y: 0.5 }, t0 = performance.now();
     var cell = 44;
+    // Logo dönüşümü iki parçadan birleşir: kaydırma (ölçek + kayma) ve fare eğimi (3B). Azaltılmış hareket: ikisi de kapalı.
+    var scrollT = '', tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+    function applyLogo() {
+      if (!logo) return;
+      logo.style.transform = scrollT + (tilt.x || tilt.y ? ' rotateX(' + tilt.y.toFixed(2) + 'deg) rotateY(' + tilt.x.toFixed(2) + 'deg)' : '');
+    }
 
     function build() {
       var f = fit(canvas); traces = []; pulses = [];
@@ -155,15 +162,28 @@
         ctx.globalAlpha = tw * .6; ctx.fillRect(sx, sy, 1.5, 1.5);
       }
       ctx.globalAlpha = 1;
+      // fare eğimi yumuşakça hedefe yaklaşır
+      if (!reduce && logo && (Math.abs(tilt.tx - tilt.x) > .01 || Math.abs(tilt.ty - tilt.y) > .01)) {
+        tilt.x += (tilt.tx - tilt.x) * .08; tilt.y += (tilt.ty - tilt.y) * .08; applyLogo();
+      }
       if (!reduce) raf(draw);
     }
     build(); raf(draw);
     addEventListener('resize', build);
-    addEventListener('mousemove', function (e) { mouse.x = e.clientX / innerWidth; mouse.y = e.clientY / innerHeight; });
+    // Eğim yalnız gerçek imleçle: dokunmatikte tarayıcı her dokunuşa sahte mousemove üretir ve logo eğik kalırdı
+    var finePointer = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+    addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX / innerWidth; mouse.y = e.clientY / innerHeight;
+      if (!finePointer || (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents)) return;
+      tilt.tx = (mouse.x - .5) * 16; tilt.ty = -(mouse.y - .5) * 12;
+    });
+    document.documentElement.addEventListener('mouseleave', function () { tilt.tx = 0; tilt.ty = 0; });
+    addEventListener('touchstart', function () { tilt.tx = 0; tilt.ty = 0; }, { passive: true });
     // kaydırdıkça hero içeriği hafifçe geride kalsın
     if (!reduce) addEventListener('scroll', function () {
       var s = Math.min(1, scrollY / innerHeight);
-      if (logo) logo.style.transform = 'scale(' + (1 - s * .15) + ') translateY(' + (s * 60) + 'px)';
+      scrollT = 'scale(' + (1 - s * .15) + ') translateY(' + (s * 60) + 'px)';
+      applyLogo();
       canvas.style.opacity = String(1 - s * .9);
     }, { passive: true });
   })();

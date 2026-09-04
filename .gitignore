@@ -17,3 +17,6 @@ debug.log
 worker/node_modules/
 worker/.wrangler/
 worker/.dev.vars
+
+# tools/build-logo.mjs --raster geçici sayfası
+og-tmp.html
