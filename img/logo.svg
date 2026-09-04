@@ -1,54 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="96" rx="20" fill="#070604"/><g transform="translate(4 21) scale(0.3667)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="FY"><rect width="96" height="96" rx="20" fill="#0b0904"/>
   <defs>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fff0b0"/>
-      <stop offset=".28" stop-color="#f5d76e"/>
-      <stop offset=".62" stop-color="#d4af37"/>
-      <stop offset="1" stop-color="#9c7a1c"/>
-    </linearGradient>
-    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff" stop-opacity=".35"/>
-      <stop offset=".5" stop-color="#ffffff" stop-opacity="0"/>
-      <stop offset="1" stop-color="#5c4408" stop-opacity=".35"/>
-    </linearGradient>
-    <!-- Fırça kenarı: kenarları pürüzlendiren yer değiştirme -->
-    <filter id="brush" x="-10%" y="-10%" width="120%" height="135%">
-      <feTurbulence type="fractalNoise" baseFrequency=".055 .09" numOctaves="3" seed="11" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <!-- Boya dokusu: harflerin içinde hafif leke -->
-    <filter id="grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="g"/>
-      <feColorMatrix in="g" type="matrix" values="0 0 0 0 1  0 0 0 0 .9  0 0 0 0 .55  0 0 0 .22 0"/>
-      <feComposite in2="SourceGraphic" operator="in"/>
-    </filter>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
-    <!-- Harfler ve damlalar aynı eğik grupta: kalın, elle çizilmiş poligonlar (yazı tipine bağımlı değil) -->
-    <g id="letters" transform="skewX(-13)">
-      <!-- F -->
-      <path d="M38 22 H112 L107 40 H62 L59 52 H100 L95 70 H54 L46 104 H24 Z"/>
-      <!-- Y -->
-      <path d="M128 22 H152 L166 50 L190 22 H216 L176 68 L168 104 H145 L153 68 Z"/>
-      <!-- Damlalar: harf gövdesinin içinden başlar, aşağı incelerek akar -->
-      <path d="M33 98 h9 c1 10 0 18 -1 28 c-1 5 -6 5 -7 0 c-1 -10 -2 -18 -1 -28 z"/>
-      <path d="M99 64 h6 c1 7 0 13 -1 20 c-1 3 -4 3 -4 0 c-1 -7 -2 -13 -1 -20 z"/>
-      <path d="M150 98 h11 c1 12 0 22 -1 36 c-1 5 -8 5 -9 0 c-1 -14 -2 -24 -1 -36 z"/>
-      <path d="M182 60 h6 c1 6 0 11 -1 17 c-1 3 -4 3 -4 0 c-1 -6 -2 -11 -1 -17 z"/>
-      <path d="M106 34 h4 c1 4 0 7 0 11 c0 2 -3 2 -3 0 c-1 -4 -1 -7 -1 -11 z"/>
-    </g>
+    <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".3" stop-color="#f5d76e"/><stop offset=".65" stop-color="#d4af37"/><stop offset="1" stop-color="#9c7a1c"/></linearGradient>
+    <clipPath id="fc"><path d="M471 243 H821 L918 403 L1026 243 H1145 L972 497 V708 H855 V497 L753 329 H578 V400 H767 L708 500 H578 V708 H455 V259 A16 16 0 0 1 471 243 Z"/></clipPath>
   </defs>
-  <!-- Arka parıltı -->
-  <use href="#letters" fill="#d4af37" opacity=".45" filter="url(#glow)"/>
-  <!-- Ana harfler -->
-  <use href="#letters" fill="url(#gold)" filter="url(#brush)"/>
-  <!-- Işık ve doku katmanı -->
-  <use href="#letters" fill="url(#sheen)" filter="url(#brush)"/>
-  <use href="#letters" filter="url(#grain)"/>
-  <!-- Sıçrantılar -->
-  <g fill="#e6c352">
-    <circle cx="20" cy="40" r="2.2" opacity=".8"/><circle cx="118" cy="16" r="1.6" opacity=".7"/>
-    <circle cx="224" cy="34" r="2.6" opacity=".75"/><circle cx="206" cy="14" r="1.3" opacity=".6"/>
-    <circle cx="112" cy="112" r="1.8" opacity=".6"/><circle cx="30" cy="118" r="1.4" opacity=".55"/>
-    <circle cx="232" cy="96" r="1.5" opacity=".5"/><circle cx="60" cy="126" r="1.2" opacity=".5"/>
+  <g transform="translate(-44.754 -7.130) scale(0.11594)">
+    <path d="M471 243 H821 L918 403 L1026 243 H1145 L972 497 V708 H855 V497 L753 329 H578 V400 H767 L708 500 H578 V708 H455 V259 A16 16 0 0 1 471 243 Z" fill="url(#fg)"/>
+    <g clip-path="url(#fc)" opacity=".62">
+      <path d="M460 259 A11 11 0 0 1 471 248 H573 V703 H460 Z" fill="#0b0904"/>
+      <path d="M460 274 C 486 262, 528 280, 548 316 C 559 334, 566 350, 567 372 L 566 396 C 571 401, 573 407, 569 413 L 568 428 C 575 440, 590 450, 592 457 C 588 463, 580 466, 578 468 L 580 474 C 585 479, 585 486, 580 489 C 583 493, 582 498, 577 502 C 573 508, 566 513, 559 515 L 548 525 L 541 547 V703 H460 Z" fill="#0b0904" stroke="#f5d76e" stroke-width="4"/>
+      <circle cx="474" cy="424" r="28" fill="none" stroke="#f5d76e" stroke-width="7"/>
+      <path d="M1026 243 H1145 L972 497 L918 403 Z M972 497 V708 H877 V628 Z" fill="#0b0904"/>
+      <g stroke="#f5d76e" stroke-width="3"><line x1="1093" y1="257" x2="1028" y2="287"/><line x1="1093" y1="257" x2="1062" y2="324"/><line x1="1028" y1="287" x2="1062" y2="324"/><line x1="1011" y1="269" x2="1028" y2="287"/><line x1="1028" y1="287" x2="1029" y2="357"/><line x1="1062" y1="324" x2="1029" y2="357"/><line x1="1011" y1="269" x2="995" y2="335"/><line x1="995" y1="335" x2="954" y2="351"/><line x1="995" y1="335" x2="1029" y2="357"/><line x1="954" y1="351" x2="963" y2="379"/><line x1="1029" y1="357" x2="963" y2="379"/><line x1="1029" y1="357" x2="982" y2="429"/><line x1="963" y1="379" x2="982" y2="429"/><line x1="963" y1="379" x2="940" y2="417"/><line x1="940" y1="417" x2="982" y2="429"/><line x1="1062" y1="324" x2="982" y2="429"/><line x1="1093" y1="257" x2="1136" y2="251"/><line x1="1136" y1="251" x2="1062" y2="324"/><line x1="1035" y1="251" x2="1011" y2="269"/><line x1="1035" y1="251" x2="1028" y2="287"/><line x1="982" y1="429" x2="936" y2="536"/><line x1="936" y1="536" x2="961" y2="609"/><line x1="936" y1="536" x2="898" y2="604"/><line x1="898" y1="604" x2="961" y2="609"/><line x1="898" y1="604" x2="923" y2="637"/><line x1="961" y1="609" x2="923" y2="637"/><line x1="923" y1="637" x2="897" y2="657"/><line x1="923" y1="637" x2="943" y2="678"/><line x1="961" y1="609" x2="943" y2="678"/><line x1="897" y1="657" x2="943" y2="678"/><line x1="943" y1="678" x2="966" y2="700"/><line x1="897" y1="657" x2="880" y2="700"/><line x1="898" y1="604" x2="880" y2="636"/><line x1="880" y1="636" x2="897" y2="657"/><line x1="961" y1="609" x2="966" y2="700"/><line x1="936" y1="536" x2="923" y2="637"/></g>
+      <g fill="#fff3c4"><circle cx="1093" cy="257" r="8"/><circle cx="1011" cy="269" r="7"/><circle cx="1028" cy="287" r="8"/><circle cx="1062" cy="324" r="8"/><circle cx="995" cy="335" r="6"/><circle cx="954" cy="351" r="8"/><circle cx="1029" cy="357" r="8"/><circle cx="963" cy="379" r="8"/><circle cx="940" cy="417" r="6"/><circle cx="982" cy="429" r="8"/><circle cx="936" cy="536" r="8"/><circle cx="898" cy="604" r="8"/><circle cx="961" cy="609" r="9"/><circle cx="923" cy="637" r="6.5"/><circle cx="897" cy="657" r="7.5"/><circle cx="943" cy="678" r="8.5"/><circle cx="1136" cy="251" r="6"/><circle cx="1035" cy="251" r="6"/><circle cx="966" cy="700" r="6"/><circle cx="880" cy="700" r="6"/><circle cx="880" cy="636" r="6"/></g>
+    </g>
+    <circle cx="556" cy="415" r="9" fill="#fffbe6"/>
+    <path d="M471 243 H821 L918 403 L1026 243 H1145 L972 497 V708 H855 V497 L753 329 H578 V400 H767 L708 500 H578 V708 H455 V259 A16 16 0 0 1 471 243 Z" fill="none" stroke="#ffe9a8" stroke-width="8" stroke-linejoin="round"/>
   </g>
-</g></svg>
+</svg>
