@@ -1,7 +1,7 @@
 /* FY — Yapay Zekâ Ajansı · ana betik
    Bölümler: üst çubuk, mobil menü, görünürlük animasyonu, hero devre ağı,
    kurs kapağı, FYOS sahnesi (ağ, ses dalgası, baloncuklu sohbet), sekmeler, beyin grafiği,
-   otomasyon akışı, SSS akordeonu, formlar. Bağımlılık yok. */
+   otomasyon yolculuk şeması, SSS akordeonu, formlar. Bağımlılık yok. */
 (function () {
   'use strict';
   // Betik çalışıyor: giriş animasyonlarının gizlemesi ancak bu sınıfla devreye girer (css: ".js …").
@@ -664,24 +664,102 @@
     build(); raf(draw); addEventListener('resize', build);
   })();
 
-  /* ---------- Otomasyon akışı: bağlantı çizgileri ---------- */
-  (function flow() {
-    var wrap = $('#flow'), g = $('#flowPaths'); if (!wrap || !g) return;
-    // kartlar: (x%, y%, genişlik%) — sol kartların sağ kenarından sağ kartların sol kenarına
-    var cards = [[0, 10, 46], [54, 30, 46], [0, 50, 46], [54, 70, 46], [0, 90, 46]];
-    var d = '';
-    for (var i = 0; i < cards.length - 1; i++) {
-      var a = cards[i], b = cards[i + 1];
-      var ax = a[0] === 0 ? a[2] : a[0], ay = a[1], bx = b[0] === 0 ? b[2] : b[0], by = b[1];
-      var mx = (ax + bx) / 2;
-      d += 'M' + ax + ' ' + ay + ' C' + mx + ' ' + ay + ' ' + mx + ' ' + by + ' ' + bx + ' ' + by + ' ';
+  /* ---------- Otomasyon: "Hedefine adım adım" yolculuk şeması ----------
+     Kartlar ve rozetler HTML/CSS'te; burada rozet merkezlerinden geçen yılan yolu çizilir, görünür olunca
+     yol çizilir + kartlar sırayla belirir, sonra yol boyunca gezen ışık hangi rozeti geçtiyse o adım "sıcak" olur. */
+  (function journey() {
+    var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'); if (!root || !body || !svg) return;
+    var steps = $$('.jstep', root), nums = steps.map(function (s) { return $('.jstep__num', s); });
+    var line = $('#jLine'), glow = $('#jGlow'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
+    if (!line || !glow || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
+    var DUR = 11000, TAIL = 72, TAIL2 = 26;                 // tur süresi (ms), kuyruk uzunlukları (px)
+    var total = 0, marks = [], drawn = false, live = false, visible = false, running = false, phase = 0, t0 = 0, hot = -1;
+
+    /* Altın bokeh: kenarlara yığılmış, yavaşça süzülen ışık lekeleri (CSSOM ile; CSP satır içi stile izin verir) */
+    var bk = $('.journey__bokeh', root);
+    if (bk) for (var i = 0; i < 22; i++) {
+      var sp = document.createElement('i'), sz = 3 + Math.random() * 28, side = Math.random();
+      var x = side < .4 ? Math.random() * 16 : side < .8 ? 84 + Math.random() * 16 : Math.random() * 100;
+      sp.style.left = x.toFixed(1) + '%'; sp.style.top = (Math.random() * 100).toFixed(1) + '%';
+      sp.style.width = sp.style.height = sz.toFixed(1) + 'px';
+      sp.style.setProperty('--o', (.2 + Math.random() * .5).toFixed(2));
+      if (sz > 10) sp.style.filter = 'blur(' + (1 + sz / 8).toFixed(1) + 'px)';
+      sp.style.animationDuration = (8 + Math.random() * 8).toFixed(1) + 's';
+      sp.style.animationDelay = '-' + (Math.random() * 12).toFixed(1) + 's';
+      bk.appendChild(sp);
     }
-    g.innerHTML = '<path d="' + d + '"/><path class="glow" d="' + d + '"/>';
-    var cardsEl = $$('.step__card', wrap);
+
+    /* Catmull-Rom → kübik Bézier: verilen noktalardan geçen yumuşak eğri; parça parça döner (rozet uzaklıkları ölçülsün diye) */
+    function spline(p) {
+      var segs = [];
+      for (var i = 0; i < p.length - 1; i++) {
+        var p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+        segs.push(' C' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ' ' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) +
+          ' ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ' ' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) +
+          ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1));
+      }
+      return { head: 'M' + p[0][0].toFixed(1) + ' ' + p[0][1].toFixed(1), segs: segs };
+    }
+
+    function build() {
+      var br = body.getBoundingClientRect(), W = br.width, H = br.height; if (!W || !H) return;
+      svg.setAttribute('viewBox', '0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1));
+      // Rozet merkezleri (ölçek 0 olsa da dikdörtgen merkezi doğru kalır), aralara sağa-sola salınan ara noktalar
+      var pts = nums.map(function (n) { var r = n.getBoundingClientRect(); return [r.left + r.width / 2 - br.left, r.top + r.height / 2 - br.top]; });
+      var ctrl = [], amp = Math.min(W * .075, 48);
+      for (var i = 0; i < pts.length; i++) {
+        ctrl.push(pts[i]);
+        if (i < pts.length - 1) ctrl.push([(pts[i][0] + pts[i + 1][0]) / 2 + (i % 2 ? -amp : amp), (pts[i][1] + pts[i + 1][1]) / 2]);
+      }
+      var sp = spline(ctrl), d = sp.head + sp.segs.join('');
+      marks = [];
+      for (var k = 0; k < pts.length; k++) { line.setAttribute('d', sp.head + sp.segs.slice(0, 2 * k).join('')); marks.push(line.getTotalLength()); }
+      [line, glow, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
+      total = line.getTotalLength();
+      [line, glow].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
+      tail.style.strokeDasharray = TAIL + ' ' + total; comet.style.strokeDasharray = TAIL2 + ' ' + total;
+      if (live && !running) place(phase);               // duraklamışsa gezen ışığı yeni yola oturt (hareket azaltılmışken 3. adım sabit kalır)
+    }
+
+    function setHot(k) { if (k === hot) return; if (hot >= 0) steps[hot].classList.remove('is-hot'); hot = k; if (k >= 0) steps[k].classList.add('is-hot'); }
+    function place(ph) {
+      if (!total) return;
+      var u = Math.min(1, ph / .88), pos = u * total, p = line.getPointAtLength(pos);   // turun son %12'si: ışık sönüp başa döner
+      dot.setAttribute('cx', p.x.toFixed(1)); dot.setAttribute('cy', p.y.toFixed(1));
+      halo.setAttribute('cx', p.x.toFixed(1)); halo.setAttribute('cy', p.y.toFixed(1));
+      tail.style.strokeDashoffset = (TAIL - pos).toFixed(1); comet.style.strokeDashoffset = (TAIL2 - pos).toFixed(1);
+      rider.style.opacity = ph < .04 ? (ph / .04).toFixed(2) : ph > .86 ? Math.max(0, (.93 - ph) / .07).toFixed(2) : '1';
+      var k = 0; for (var i = 1; i < marks.length; i++) if (pos >= marks[i] - 1) k = i;
+      setHot(k);
+    }
+    function frame(now) { if (!running) return; phase = ((now - t0) % DUR) / DUR; place(phase); raf(frame); }
+    function start() { if (running || reduce || !live || !visible) return; running = true; t0 = performance.now() - phase * DUR; raf(frame); }
+    function stop() { running = false; }
+
+    function intro() {
+      build();
+      steps.forEach(function (s, i) { setTimeout(function () { s.classList.add('is-in'); }, reduce ? 0 : 150 * i); });
+      root.classList.add('journey--drawn'); drawn = true;
+      [line, glow].forEach(function (p) { p.style.strokeDashoffset = '0'; });
+      if (reduce) { setHot(2); return; }                    // hareket azaltılmışsa: sabit görünüm, 3. adım vurgulu
+      setTimeout(function () { live = true; root.classList.add('is-live'); start(); }, 1900);
+    }
+
+    if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(body);
+    else addEventListener('resize', build);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+    build();
+
+    var seen = false;
     if ('IntersectionObserver' in window && !reduce) {
-      var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { cardsEl.forEach(function (c, i) { setTimeout(function () { c.classList.add('is-in'); }, 120 * i); }); io.disconnect(); } }, { threshold: .3 });
-      io.observe(wrap);
-    } else cardsEl.forEach(function (c) { c.classList.add('is-in'); });
+      var io = new IntersectionObserver(function (en) {
+        var e = en[en.length - 1];
+        visible = e.isIntersecting;
+        if (!seen && visible && e.intersectionRatio >= .2) { seen = true; intro(); }
+        if (seen) { if (visible) start(); else stop(); }
+      }, { threshold: [0, .2] });
+      io.observe(root);
+    } else { visible = true; intro(); }
   })();
 
   /* ---------- SSS akordeonu ---------- */
