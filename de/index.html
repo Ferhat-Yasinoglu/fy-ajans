@@ -407,10 +407,12 @@
             </div>
             <div class="journey__aside">
               <span class="journey__tag" data-i18n="auto.j.tag1">Weiter<br>für mehr</span>
-              <span class="journey__script"><span data-i18n="auto.j.script">Von der Idee zum Ergebnis</span><svg class="journey__swash" viewBox="0 0 140 14" aria-hidden="true" focusable="false"><path d="M3 10C40 2 92 1 137 6" pathLength="100"/></svg></span>
+              <span class="journey__script"><span data-i18n="auto.j.script">Von der Idee zum Ergebnis</span><svg class="journey__swash" viewBox="0 0 140 14" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 10C40 2 92 1 137 6" pathLength="100"/></svg></span>
             </div>
           </div>
           <div class="journey__body" id="journeyBody">
+            <!-- İki katman: durağan yol (bulanık parıltıyla) ve her karede güncellenen gezen ışık ayrı SVG'lerde;
+                 böylece kare başına değişiklik bulanık yolun yeniden çizilmesine yol açmaz. -->
             <svg class="journey__svg" id="journeySvg" aria-hidden="true" focusable="false">
               <defs>
                 <linearGradient id="jgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
@@ -419,6 +421,8 @@
               </defs>
               <path class="journey__glow" id="jGlow"/>
               <path class="journey__line" id="jLine"/>
+            </svg>
+            <svg class="journey__svg" id="journeySvgLive" aria-hidden="true" focusable="false">
               <path class="journey__dash" id="jDash"/>
               <g class="journey__rider" id="jRider">
                 <path class="journey__tail" id="jTail"/>
