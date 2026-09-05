@@ -8,6 +8,8 @@
 @font-face { font-family: "Vazirmatn"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/vazirmatn-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Vazirmatn"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/vazirmatn-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "Vazirmatn"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/vazirmatn-arabic.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+/* El yazısı vurgular (otomasyon şeması "Fikirden Sonuca", "Better Together"): Great Vibes, SIL OFL — fonts/GreatVibes-OFL.txt. Yalnız Latin alt kümesi; Farsça metin Vazirmatn'e düşer. */
+@font-face { font-family: "Great Vibes"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/greatvibes-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+FEFF, U+FFFD; }
 
 /* ---------- Tokenlar ---------- */
 :root {
@@ -205,7 +207,7 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 /* ---------- Reveal ----------
    Gizleme yalnızca betik çalışınca devreye girer: main.js ilk iş <html>'e "js" sınıfı ekler.
    Betik yüklenmez, engellenir ya da ayrıştırılamazsa sınıf eklenmez ve sayfa olduğu gibi görünür kalır.
-   Aynı kural .nav, .hero__logo ve .step__card için de geçerli (aşağıda). */
+   Aynı kural .nav, .hero__logo ve .jstep__card için de geçerli (aşağıda). */
 [data-reveal] { transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
 .js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(24px); }
 .js [data-reveal="x"]:not(.is-in) { transform: translateX(10px); }
@@ -499,30 +501,131 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 
 /* ---------- Otomasyon ---------- */
 .automation__grid { display: grid; gap: 48px; align-items: center; }
+.automation__grid > * { min-width: 0; }
 @media (min-width: 1024px) { .automation__grid { grid-template-columns: 1fr 1fr; } }
 .automation__text h2 { margin-top: 16px; margin-bottom: 20px; }
 .automation__text p { color: rgb(var(--fg-muted)); line-height: 1.625; margin-bottom: 12px; }
 .automation__text p:last-child { margin-bottom: 32px; }
-.flow { position: relative; width: 100%; aspect-ratio: .9; padding: 24px; border-radius: var(--radius-2xl); }
-.flow__inner { position: relative; width: 100%; height: 100%; }
-.flow__svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.flow__svg path { fill: none; stroke: url(#flowLine); stroke-width: .5; stroke-dasharray: 1.4 1.4; vector-effect: non-scaling-stroke; }
-.flow__svg path.glow { stroke: #f5d76e; stroke-width: 2; stroke-dasharray: 3 12; opacity: .55; animation: flow-dash 2.4s linear infinite; }
-.step { position: absolute; width: 46%; transform: translateY(-50%); }
-.step__card { display: flex; align-items: center; width: 100%; padding: 12px 16px; gap: 12px; border-radius: 10px; transition: opacity .6s ease, transform .6s ease; }
-.js .step__card:not(.is-in) { opacity: 0; transform: translateY(12px); }
-.step__card.is-hot { box-shadow: 0 0 0 1px rgb(var(--accent-gold) / .45), 0 8px 40px -8px rgba(212,175,55,.5); }
-.step__icon { display: grid; place-items: center; border-radius: 6px; flex-shrink: 0; width: 40px; height: 40px; background: rgb(var(--line) / .05); color: rgb(var(--fg)); font-size: 16px; }
-.step__card.is-hot .step__icon { background: rgb(var(--accent-gold) / .2); color: rgb(var(--accent-gold-bright)); }
-.step__label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: rgb(var(--fg-muted)); font-weight: 600; }
-.step__name { font-size: 14px; line-height: 1.25; color: rgb(var(--fg)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
-@media (max-width: 639px) {
-  .flow { padding: 16px; aspect-ratio: .8; }
-  .step__card { padding: 10px 12px; gap: 10px; }
-  .step__icon { width: 32px; height: 32px; font-size: 14px; }
-  .step__label { font-size: 9px; }
-  .step__name { font-size: 12px; white-space: normal; overflow: visible; text-overflow: clip; }
+/* ---------- Otomasyon: "Hedefine adım adım" yolculuk şeması ----------
+   Beş kart sağa-sola zikzak, iç kenarlarında numaralı rozet; rozetlerden geçen yılan yolu, gezen ışık
+   ve altın bokeh js/main.js (journey) ile çizilir. Boyutlar --j* değişkenleriyle kırılım noktalarına göre. */
+.journey {
+  --jtile: 56px; --jnum: 44px; --jname: 16px; --jdesc: 13px; --jgap: 18px; --jpad: 14px;
+  position: relative; isolation: isolate; overflow: hidden;
+  padding: clamp(18px, 4.5%, 30px); border-radius: 24px;
+  border: 1px solid rgba(212,175,55,.3);
+  background:
+    radial-gradient(55% 40% at 0% 100%, rgba(212,175,55,.13), transparent 70%),
+    radial-gradient(45% 40% at 100% 0%, rgba(212,175,55,.1), transparent 70%),
+    linear-gradient(160deg, #16130a 0%, #0a0906 55%, #0d0b06 100%);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 40px 100px -40px rgba(212,175,55,.35);
 }
+/* Çapraz ışık huzmeleri */
+.journey::before { content: ""; position: absolute; inset: -20%; z-index: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 36%, rgba(245,215,110,.055) 45%, transparent 52%, transparent 62%, rgba(245,215,110,.035) 69%, transparent 76%); }
+.journey__bokeh { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.journey__bokeh i { position: absolute; border-radius: 50%; opacity: var(--o, .3);
+  background: radial-gradient(circle, rgba(252,232,160,.95) 0%, rgba(212,175,55,.55) 38%, rgba(212,175,55,0) 70%);
+  animation: jbokeh 10s ease-in-out infinite alternate; }
+.journey__head, .journey__body, .journey__foot { position: relative; z-index: 1; }
+
+.journey__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px 16px; margin-bottom: 20px; }
+.journey__heading { flex: 1 1 240px; min-width: 0; }
+.journey__kicker { display: block; font-weight: 300; font-size: clamp(15px, 1.6vw, 21px); letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg)); line-height: 1.15; }
+.journey__title { display: block; font-weight: 800; font-size: clamp(24px, 2.8vw, 36px); letter-spacing: .06em; text-transform: uppercase; line-height: 1.1;
+  padding: .16em .1em .08em; margin: calc(2px - .16em) -.1em -.08em;   /* boya alanı: background-clip:text üst noktaları (Ü, Farsça) kesmesin */
+  background: linear-gradient(180deg, #fbe9a6, #d4af37 55%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.journey__sub { margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgb(var(--fg-muted)); }
+.journey__aside { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex: 0 1 auto; max-width: 100%; margin-inline-start: auto; text-align: end; }
+.journey__tag { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.75; }
+.journey__tag::after { content: ""; display: block; width: 36px; height: 1px; margin-top: 6px; background: rgb(var(--accent-gold) / .7); }
+.journey__aside .journey__tag::after, .journey__tag--b::after { margin-inline-start: auto; }
+.journey__script { position: relative; display: inline-block; max-width: 100%; font-family: "Great Vibes", var(--font-body), cursive; font-weight: 400; font-size: clamp(26px, 3vw, 38px); line-height: 1; white-space: nowrap; color: #f0cf6a; text-shadow: 0 0 18px rgba(245,215,110,.35); transform: rotate(-7deg); padding: 6px 10px 10px; }
+.journey__swash { position: absolute; left: 4px; right: 0; bottom: 0; width: calc(100% - 4px); height: 12px; overflow: visible; }
+.journey__swash path { fill: none; stroke: #d4af37; stroke-width: 1.2; stroke-linecap: round; stroke-dasharray: 100; transition: stroke-dashoffset 1.2s ease .7s; }
+.js .journey:not(.journey--drawn) .journey__swash path { stroke-dashoffset: 100; }
+html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2vw, 26px); transform: none; }
+
+.journey__body { min-height: 120px; }
+.journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.journey__line, .journey__glow, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
+.journey__line { stroke: url(#jline); stroke-width: 2; }
+.journey__glow { stroke: #f5d76e; stroke-width: 7; opacity: .32; filter: url(#jglow); }
+.journey--drawn .journey__line, .journey--drawn .journey__glow { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
+.journey__dash { stroke: #fbe9a6; stroke-width: 1.5; stroke-dasharray: 2 9; opacity: 0; transition: opacity .8s; animation: jdash 1.5s linear infinite; }
+.journey__rider { opacity: 0; transition: opacity .5s; }
+.journey__tail { stroke: #f5d76e; stroke-width: 4; opacity: .35; }
+.journey__comet { stroke: #fff4c8; stroke-width: 2.4; }
+.journey__halo { fill: #f5d76e; opacity: .85; filter: url(#jglow); }
+.journey__dot { fill: #fff8dc; }
+.journey.is-live .journey__dash { opacity: .5; }
+.journey.is-live .journey__rider { opacity: 1; }
+
+.journey__grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3.5%; row-gap: var(--jgap); direction: ltr; }
+.jstep { position: relative; grid-column: 1; --nx: 50%; }
+.jstep--r { grid-column: 2; --nx: -50%; }
+.jstep:nth-child(1) { grid-row: 1; } .jstep:nth-child(2) { grid-row: 2; } .jstep:nth-child(3) { grid-row: 3; } .jstep:nth-child(4) { grid-row: 4; } .jstep:nth-child(5) { grid-row: 5; }
+.journey__tag--a { grid-row: 2; grid-column: 1; align-self: center; justify-self: start; }
+.journey__tag--b { grid-row: 3; grid-column: 2; align-self: center; justify-self: end; text-align: end; }
+.journey__tag--c { grid-row: 4; grid-column: 1; align-self: center; justify-self: start; }
+.jstep__card { position: relative; display: flex; align-items: center; gap: 12px; padding: var(--jpad); border-radius: 16px;
+  background: linear-gradient(180deg, rgba(32,27,15,.88), rgba(14,12,8,.92)); border: 1px solid rgba(212,175,55,.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 12px 30px -18px rgba(0,0,0,.9);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1), border-color .5s, box-shadow .5s; }
+.js .jstep:not(.is-in) .jstep__card { opacity: 0; transform: translateY(16px); }
+.jstep.is-hot .jstep__card { border-color: rgba(245,215,110,.85);
+  box-shadow: 0 0 0 1px rgba(245,215,110,.3), 0 0 30px -4px rgba(212,175,55,.5), 0 18px 50px -20px rgba(212,175,55,.6), inset 0 0 26px -12px rgba(212,175,55,.45); }
+.jstep__icon { flex-shrink: 0; width: var(--jtile); height: var(--jtile); border-radius: 22%; display: grid; place-items: center;
+  background: linear-gradient(160deg, #1b170d, #0b0a06); border: 1px solid rgba(212,175,55,.45);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06); transition: box-shadow .5s, border-color .5s; }
+.jstep__icon svg { width: 54%; height: 54%; filter: drop-shadow(0 2px 6px rgba(212,175,55,.35)); }
+.jstep.is-hot .jstep__icon { border-color: rgba(245,215,110,.9); box-shadow: inset 0 0 0 1px rgba(0,0,0,.6), 0 0 18px -2px rgba(245,215,110,.6); }
+.jstep__text { min-width: 0; flex: 1; display: flex; flex-direction: column; }
+.jstep__label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--fg-muted)); font-weight: 600; }
+.jstep__name { font-size: var(--jname); font-weight: 700; line-height: 1.2; margin-top: 2px; color: rgb(var(--fg)); }
+.jstep__desc { font-size: var(--jdesc); line-height: 1.45; margin-top: 4px; color: rgb(var(--fg-muted)); }
+.jstep__num { position: absolute; top: 50%; right: 0; z-index: 2; width: var(--jnum); height: var(--jnum); border-radius: 50%; display: grid; place-items: center;
+  font-weight: 700; font-size: calc(var(--jnum) * .42); line-height: 1; color: #f5d76e;
+  background: radial-gradient(circle at 50% 35%, #2b2311, #0a0906 70%); border: 2px solid rgba(212,175,55,.8);
+  box-shadow: 0 0 0 4px rgba(7,6,4,.92), 0 0 16px -2px rgba(212,175,55,.5);
+  transform: translate(var(--nx), -50%) scale(var(--ns, 1));
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1), box-shadow .5s, background-color .5s, color .5s, border-color .5s; }
+.jstep--r .jstep__num { right: auto; left: 0; }
+/* Rozet kartın iç kenarına yarı taşar: o kenarda metne yer aç */
+.jstep .jstep__card { padding-right: calc(var(--jpad) + var(--jnum) * .5); }
+.jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
+.js .jstep:not(.is-in) { --ns: 0; }
+.jstep.is-hot { --ns: 1.12; }
+.jstep.is-hot .jstep__num { color: #0b0906; background: radial-gradient(circle at 50% 30%, #fff0b8, #d4af37 60%, #a9821e); border-color: #fbe9a6; box-shadow: 0 0 0 4px rgba(7,6,4,.92), 0 0 28px 2px rgba(245,215,110,.6); }
+.jstep__num::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid rgba(245,215,110,.9); opacity: 0; }
+.jstep.is-hot .jstep__num::after { animation: jping 1.2s cubic-bezier(0, 0, .2, 1) both; }
+
+.journey__foot { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
+.journey__brand { font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.9; white-space: nowrap; }
+.journey__brand b { display: block; color: rgb(var(--fg)); font-weight: 600; }
+.journey__rule { flex: 1; height: 1px; background: linear-gradient(90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }
+html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }
+.journey__script--end { font-size: clamp(22px, 2.4vw, 30px); }
+
+@media (min-width: 1024px) { .journey { --jtile: 46px; --jnum: 38px; --jname: 14.5px; --jdesc: 12px; --jpad: 12px; } .jstep__card { gap: 10px; } }
+@media (min-width: 1280px) { .journey { --jtile: 52px; --jnum: 42px; --jname: 15px; --jdesc: 12.5px; --jpad: 14px; } .jstep__card { gap: 12px; } }
+@media (max-width: 639px) {
+  .journey { --jtile: 46px; --jnum: 36px; --jname: 15px; --jdesc: 12.5px; --jgap: 14px; --jpad: 12px; border-radius: 20px; }
+  .journey__head { flex-direction: column; margin-bottom: 16px; }
+  .journey__heading { flex: 0 0 auto; }
+  .journey__aside { width: 100%; flex-direction: row; justify-content: flex-end; }
+  .journey__aside .journey__tag { display: none; }
+  .journey__script { font-size: clamp(18px, 6vw, 38px); }
+  .journey__grid { grid-template-columns: 1fr; padding-left: 24px; }
+  .jstep, .jstep--r { grid-column: 1; --nx: -50%; }
+  .jstep__num { right: auto; left: 0; }
+  .jstep .jstep__card, .jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
+  .journey__tag--a, .journey__tag--b, .journey__tag--c { display: none; }
+  .journey__foot { flex-wrap: wrap; gap: 6px 12px; }
+  .journey__rule { flex-basis: 100%; order: 1; }
+  .journey__script--end { margin-inline-start: auto; }
+}
+
 .consult { margin-top: 56px; padding: 28px; border-radius: var(--radius-2xl); display: flex; flex-direction: column; align-items: center; gap: 24px; }
 @media (min-width: 768px) { .consult { padding: 40px; flex-direction: row; gap: 40px; } }
 .consult__icon { width: 56px; height: 56px; border-radius: var(--radius-2xl); display: grid; place-items: center; font-size: 30px; background: rgb(var(--accent-gold) / .1); border: 1px solid rgb(var(--accent-gold) / .3); flex-shrink: 0; }
@@ -691,12 +794,11 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 /* ---------- Sağdan sola (Farsça) ---------- */
 /* Bağlı harflerde eksi harf aralığı bozuk görünür; Latin etiketler (FYOS, bölüm adları) etkilenmez */
 html[lang="fa"], html[lang="fa"] body { line-height: 1.85; }
-html[lang="fa"] :is(h1, h2, h3, h4, p, li, .btn, .text-h1, .text-h2, .text-h3, .hero__title, .cover__text .big, .link-row .l, .step__name, .price) { letter-spacing: 0; }
+html[lang="fa"] :is(h1, h2, h3, h4, p, li, .btn, .text-h1, .text-h2, .text-h3, .hero__title, .cover__text .big, .link-row .l, .jstep__name, .jstep__label, .journey__kicker, .journey__title, .journey__tag, .price) { letter-spacing: 0; }
 html[lang="fa"] .text-h1 { line-height: 1.45; }
 html[lang="fa"] .hero__title { line-height: 1.5; }
 /* Otomasyon diyagramının geometrisi soldan sağa kalır (SVG yolları JS'te LTR hesaplanır); kart metinleri RTL */
-html[dir="rtl"] .flow__inner { direction: ltr; }
-html[dir="rtl"] .step__card { direction: rtl; }
+html[dir="rtl"] .jstep__card, html[dir="rtl"] .journey__tag { direction: rtl; }
 /* Satır içi SVG simgeler (sosyal, ok, elmas) belge yönünü miras almasın; logolar <img> olduğundan zaten etkilenmez */
 html[dir="rtl"] svg { direction: ltr; }
 /* Latin kısaltmalar RTL akışta yön karışıklığı yaratmasın */
@@ -707,12 +809,15 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 @keyframes pulse { 50% { opacity: .5; } }
 @keyframes voice-bar { 0%, 100% { transform: scaleY(.55); } 50% { transform: scaleY(1.15); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes flow-dash { to { stroke-dashoffset: -30; } }
+@keyframes jdash { to { stroke-dashoffset: -22; } }
+@keyframes jping { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.1); opacity: 0; } }
+@keyframes jbokeh { 0% { transform: translate3d(0, 0, 0); opacity: calc(var(--o, .3) * .35); } 50% { opacity: var(--o, .3); } 100% { transform: translate3d(8px, -26px, 0); opacity: calc(var(--o, .3) * .5); } }
 .animate-pulse { animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  [data-reveal], .step__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
+  [data-reveal], .jstep__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
+  .jstep { --ns: 1 !important; }
 }
 
 /* ---------- İletişim penceresi ---------- */

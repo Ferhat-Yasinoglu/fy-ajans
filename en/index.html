@@ -395,17 +395,103 @@
         <p data-i18n="auto.p2">Replying to DMs and messages, lead scoring, content production, reporting, internal tools, customer support — you pick the bottleneck; we automate it.</p>
       </div>
       <div data-reveal>
-        <div class="glass flow">
-          <div class="flow__inner" id="flow">
-            <svg class="flow__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <defs><linearGradient id="flowLine" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a9821e" stop-opacity=".6"/><stop offset="50%" stop-color="#f5d76e" stop-opacity="1"/><stop offset="100%" stop-color="#a9821e" stop-opacity=".6"/></linearGradient></defs>
-              <g id="flowPaths"></g>
+        <!-- "Hedefine adım adım": beş adımlı yolculuk şeması. Yılan yolu, gezen ışık ve bokeh js/main.js (journey) ile çizilir;
+             betik yoksa kartlar ve rozetler yine görünür, yalnız yol çizilmez. -->
+        <div class="journey" id="journey">
+          <div class="journey__bokeh" aria-hidden="true"></div>
+          <div class="journey__head">
+            <div class="journey__heading">
+              <span class="journey__kicker" data-i18n="auto.j.kicker">To your goal</span>
+              <strong class="journey__title font-display" data-i18n="auto.j.title">Step by step</strong>
+              <p class="journey__sub" data-i18n="auto.j.sub">Smarter solutions, stronger results.</p>
+            </div>
+            <div class="journey__aside">
+              <span class="journey__tag" data-i18n="auto.j.tag1">Keep moving<br>forward</span>
+              <span class="journey__script"><span data-i18n="auto.j.script">From Idea to Result</span><svg class="journey__swash" viewBox="0 0 140 14" aria-hidden="true" focusable="false"><path d="M3 10C40 2 92 1 137 6" pathLength="100"/></svg></span>
+            </div>
+          </div>
+          <div class="journey__body" id="journeyBody">
+            <svg class="journey__svg" id="journeySvg" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="jgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
+                <linearGradient id="jline" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9821e" stop-opacity=".55"/><stop offset=".5" stop-color="#f5d76e"/><stop offset="1" stop-color="#a9821e" stop-opacity=".55"/></linearGradient>
+                <filter id="jglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+              </defs>
+              <path class="journey__glow" id="jGlow"/>
+              <path class="journey__line" id="jLine"/>
+              <path class="journey__dash" id="jDash"/>
+              <g class="journey__rider" id="jRider">
+                <path class="journey__tail" id="jTail"/>
+                <path class="journey__comet" id="jComet"/>
+                <circle class="journey__halo" id="jHalo" r="11"/>
+                <circle class="journey__dot" id="jDot" r="3.5"/>
+              </g>
             </svg>
-            <div class="step" style="left:0;top:10%"><div class="glass-strong step__card"><span class="step__icon">⚡</span><div style="min-width:0;flex:1"><div class="step__label" data-i18n="auto.step.1.label">Step 1</div><div class="step__name font-display" data-i18n="auto.step.1.name">Trigger</div></div></div></div>
-            <div class="step" style="left:54%;top:30%"><div class="glass-strong step__card"><span class="step__icon">◆</span><div style="min-width:0;flex:1"><div class="step__label" data-i18n="auto.step.2.label">Step 2</div><div class="step__name font-display" data-i18n="auto.step.2.name">Enrich</div></div></div></div>
-            <div class="step" style="left:0;top:50%"><div class="glass-strong step__card is-hot"><span class="step__icon">✦</span><div style="min-width:0;flex:1"><div class="step__label" data-i18n="auto.step.3.label">Step 3</div><div class="step__name font-display" data-i18n="auto.step.3.name">AI Score</div></div></div></div>
-            <div class="step" style="left:54%;top:70%"><div class="glass-strong step__card"><span class="step__icon">◈</span><div style="min-width:0;flex:1"><div class="step__label" data-i18n="auto.step.4.label">Step 4</div><div class="step__name font-display" data-i18n="auto.step.4.name">CRM Sync</div></div></div></div>
-            <div class="step" style="left:0;top:90%"><div class="glass-strong step__card"><span class="step__icon">✉</span><div style="min-width:0;flex:1"><div class="step__label" data-i18n="auto.step.5.label">Step 5</div><div class="step__name font-display" data-i18n="auto.step.5.name">Notify</div></div></div></div>
+            <div class="journey__grid">
+            <div class="jstep">
+              <span class="jstep__num" aria-hidden="true">1</span>
+              <div class="jstep__card">
+                <span class="jstep__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.2 2 4.6 13.4h6.2L9.4 22l10-11.6h-6.1z" fill="url(#jgold)"/></svg></span>
+                <div class="jstep__text">
+                  <span class="jstep__label" data-i18n="auto.step.1.label">Step 1</span>
+                  <span class="jstep__name font-display" data-i18n="auto.step.1.name">Trigger</span>
+                  <span class="jstep__desc" data-i18n="auto.step.1.desc">Set the idea in motion. Define the need.</span>
+                </div>
+              </div>
+            </div>
+            <div class="jstep jstep--r">
+              <span class="jstep__num" aria-hidden="true">2</span>
+              <div class="jstep__card">
+                <span class="jstep__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6 21.4 9.6 12 21.4 2.6 9.6z" fill="url(#jgold)"/><path d="M12 2.6v18.8M2.6 9.6h18.8M12 2.6 7.6 9.6 12 21.4M12 2.6l4.4 7L12 21.4" fill="none" stroke="#2d2205" stroke-opacity=".7" stroke-width=".9"/></svg></span>
+                <div class="jstep__text">
+                  <span class="jstep__label" data-i18n="auto.step.2.label">Step 2</span>
+                  <span class="jstep__name font-display" data-i18n="auto.step.2.name">Enrich</span>
+                  <span class="jstep__desc" data-i18n="auto.step.2.desc">Strengthen it with data, knowledge and resources.</span>
+                </div>
+              </div>
+            </div>
+            <div class="jstep">
+              <span class="jstep__num" aria-hidden="true">3</span>
+              <div class="jstep__card">
+                <span class="jstep__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="url(#jgold)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.6c-.6-1.2-2-1.7-3.3-1.1S6.9 5.2 7.1 6.4C5.5 6.5 4.5 8 4.8 9.5c-1.3.9-1.5 2.8-.3 4-.6 1.5.3 3.2 1.8 3.5.2 1.7 1.9 2.8 3.5 2.2.5 1 1.6 1.5 2.5 1.2"/><path d="M12 4.6c.6-1.2 2-1.7 3.3-1.1s1.8 1.7 1.6 2.9c1.6.1 2.6 1.6 2.3 3.1 1.3.9 1.5 2.8.3 4 .6 1.5-.3 3.2-1.8 3.5-.2 1.7-1.9 2.8-3.5 2.2-.5 1-1.6 1.5-2.5 1.2"/><path d="M12 4.6v15.8M8.3 8.7c.9.3 1.5 1.1 1.6 2M7.7 13.6c.9-.1 1.7-.7 2.1-1.5M15.7 8.7c-.9.3-1.5 1.1-1.6 2M16.3 13.6c-.9-.1-1.7-.7-2.1-1.5"/></g></svg></span>
+                <div class="jstep__text">
+                  <span class="jstep__label" data-i18n="auto.step.3.label">Step 3</span>
+                  <span class="jstep__name font-display" data-i18n="auto.step.3.name">AI Score</span>
+                  <span class="jstep__desc" data-i18n="auto.step.3.desc">Analyse, evaluate, discover opportunities.</span>
+                </div>
+              </div>
+            </div>
+            <div class="jstep jstep--r">
+              <span class="jstep__num" aria-hidden="true">4</span>
+              <div class="jstep__card">
+                <span class="jstep__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8 21.2 12 12 21.2 2.8 12z" fill="none" stroke="url(#jgold)" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 7.4 16.6 12 12 16.6 7.4 12z" fill="url(#jgold)"/></svg></span>
+                <div class="jstep__text">
+                  <span class="jstep__label" data-i18n="auto.step.4.label">Step 4</span>
+                  <span class="jstep__name font-display" data-i18n="auto.step.4.name">CRM Sync</span>
+                  <span class="jstep__desc" data-i18n="auto.step.4.desc">Sync the whole system. Boost efficiency.</span>
+                </div>
+              </div>
+            </div>
+            <div class="jstep">
+              <span class="jstep__num" aria-hidden="true">5</span>
+              <div class="jstep__card">
+                <span class="jstep__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="5" width="19" height="14" rx="2.2" fill="url(#jgold)"/><path d="M3.6 6.6 12 13.2l8.4-6.6M3.6 17.6l6-5.2M20.4 17.6l-6-5.2" fill="none" stroke="#2d2205" stroke-opacity=".75" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+                <div class="jstep__text">
+                  <span class="jstep__label" data-i18n="auto.step.5.label">Step 5</span>
+                  <span class="jstep__name font-display" data-i18n="auto.step.5.name">Notify</span>
+                  <span class="jstep__desc" data-i18n="auto.step.5.desc">Get the results, take action. Miss no opportunity.</span>
+                </div>
+              </div>
+            </div>
+            <span class="journey__tag journey__tag--a" data-i18n="auto.j.tag2">Small steps<br>big results</span>
+            <span class="journey__tag journey__tag--b" data-i18n="auto.j.tag3">Technology<br>always by your side</span>
+            <span class="journey__tag journey__tag--c" data-i18n="auto.j.tag4">For a better<br>tomorrow</span>
+            </div>
+          </div>
+          <div class="journey__foot">
+            <span class="journey__brand"><b>FERHAT YASİNOĞLU</b>BUILD · AUTOMATE · GROW</span>
+            <span class="journey__rule" aria-hidden="true"></span>
+            <span class="journey__script journey__script--end">Better Together</span>
           </div>
         </div>
       </div>

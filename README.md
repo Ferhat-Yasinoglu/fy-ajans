@@ -4,8 +4,8 @@ Tek sayfalık ajans sitesi: yapay zekâ kursu, canlı «ajantik işletim sistemi
 web tasarım paketleri, otomasyon, hakkında, başvuru formu, SSS ve iletişim. Dört dil:
 Türkçe (kaynak), Deutsch, English, فارسی.
 
-Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipi Vazirmatn
-`fonts/` klasöründen yüklenir; sayfa kendiliğinden dışarıya istek atmaz (tek istisna:
+Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipleri (Vazirmatn; otomasyon şemasındaki
+el yazısı vurgular için Great Vibes, SIL OFL) `fonts/` klasöründen yüklenir; sayfa kendiliğinden dışarıya istek atmaz (tek istisna:
 FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
 
 ## Diller
@@ -38,7 +38,7 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
 - Öğrenci paneli sayfasında şifre alanı yok; gerçek bir panel kurulana kadar da olmayacak
   (statik sitede betik çalışmazsa form alanları adres çubuğuna ve sunucu günlüklerine düşer).
   Sayfa yalnızca "panel açılınca haber ver" e-postası hazırlar; form `method="post"` taşır.
-- Giriş animasyonlarının gizlemesi (`[data-reveal]`, `.nav`, `.hero__logo`, `.step__card`)
+- Giriş animasyonlarının gizlemesi (`[data-reveal]`, `.nav`, `.hero__logo`, `.jstep__card`)
   yalnızca `<html class="js">` altında geçerlidir; sınıfı `js/main.js` ilk satırında ekler.
   Betik yüklenmez, engellenir ya da ayrıştırılamazsa sayfa olduğu gibi görünür kalır. Yeni bir
   giriş animasyonu eklerken gizleme kuralını `.js` altına yaz.
