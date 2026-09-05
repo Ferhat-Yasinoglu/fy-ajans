@@ -40,6 +40,30 @@
   var nav = $('#nav');
   if (nav) raf(function () { nav.classList.add('is-ready'); });
 
+  /* ---------- Tema: koyu varsayılan; açık tema düğmeyle, tercih localStorage'da (js/theme.js boyamadan önce uygular) ---------- */
+  var root = document.documentElement;
+  function applyTheme(light, save) {
+    if (light) root.setAttribute('data-theme', 'light'); else root.removeAttribute('data-theme');
+    var meta = $('meta[name="theme-color"]'); if (meta) meta.setAttribute('content', light ? '#f6f1e6' : '#0a0a0a');
+    var label = light ? t('themeDark', 'Koyu temaya geç') : t('themeLight', 'Açık temaya geç');
+    $$('[data-theme-toggle]').forEach(function (b) {
+      b.setAttribute('aria-pressed', light ? 'true' : 'false'); b.setAttribute('aria-label', label); b.title = label;
+      var lbl = b.parentNode && b.parentNode.querySelector('.theme-btn__label');
+      if (lbl) lbl.textContent = light ? t('themeDarkShort', 'Koyu tema') : t('themeLightShort', 'Açık tema');
+    });
+    // Hero sahnesi açık zeminde koyu altın tonlu ayrı SVG kullanır (img içindeki SVG sayfanın CSS'ini göremez)
+    $$('img.hero__mark').forEach(function (img) {
+      var src = img.getAttribute('src'), to = light ? src.replace('logo-hero.svg', 'logo-hero-light.svg') : src.replace('logo-hero-light.svg', 'logo-hero.svg');
+      if (to !== src) img.setAttribute('src', to);
+      var source = img.parentNode && img.parentNode.querySelector ? img.parentNode.querySelector('source[srcset]') : null;
+      if (source) { var ss = source.getAttribute('srcset'), to2 = light ? ss.replace('logo-hero-static.svg', 'logo-hero-light-static.svg') : ss.replace('logo-hero-light-static.svg', 'logo-hero-static.svg'); if (to2 !== ss) source.setAttribute('srcset', to2); }
+    });
+    if (save) { try { localStorage.setItem('fy-theme', light ? 'light' : 'dark'); } catch (e) {} }
+    try { document.dispatchEvent(new CustomEvent('fy:theme', { detail: { light: light } })); } catch (e) {}
+  }
+  $$('[data-theme-toggle]').forEach(function (b) { b.addEventListener('click', function () { applyTheme(root.getAttribute('data-theme') !== 'light', true); }); });
+  applyTheme(root.getAttribute('data-theme') === 'light', false);
+
   var burger = $('#burger'), menu = $('#mobileMenu');
   if (burger && menu) {
     var setMenu = function (open) {
@@ -99,6 +123,14 @@
     // Logo belirir (opaklık kutuda, büyüme resimde — css). Kutunun transform'u yalnız aşağıdaki eğim + kaydırma için.
     if (logo) setTimeout(function () { logo.classList.add('is-in'); }, 250);
     var traces = [], pulses = [], mouse = { x: 0.5, y: 0.5 }, t0 = performance.now();
+    // Altın tonu CSS tokenlarından (açık temada daha koyu altın); tema değişince ağ yeniden kurulur
+    var gold = '212,175,55', goldB = '245,215,110';
+    function readGold() {
+      var cs = getComputedStyle(document.documentElement);
+      var g = cs.getPropertyValue('--accent-gold').trim().split(/\s+/).join(','), b = cs.getPropertyValue('--accent-gold-bright').trim().split(/\s+/).join(',');
+      if (/^\d+,\d+,\d+$/.test(g)) gold = g;
+      if (/^\d+,\d+,\d+$/.test(b)) goldB = b;
+    }
     var cell = 44;
     // Logo dönüşümü iki parçadan birleşir: kaydırma (ölçek + kayma) ve fare eğimi (3B). Azaltılmış hareket: ikisi de kapalı.
     var scrollT = '', tilt = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -108,7 +140,7 @@
     }
 
     function build() {
-      var f = fit(canvas); traces = []; pulses = [];
+      var f = fit(canvas); traces = []; pulses = []; readGold();
       var cols = Math.ceil(f.w / cell), rows = Math.ceil(f.h / cell);
       var n = Math.round((cols * rows) / 14);
       for (var i = 0; i < n; i++) {
@@ -134,11 +166,11 @@
         var ox = px * tr.depth, oy = py * tr.depth;
         ctx.beginPath();
         tr.pts.forEach(function (p, i) { i ? ctx.lineTo(p[0] + ox, p[1] + oy) : ctx.moveTo(p[0] + ox, p[1] + oy); });
-        ctx.strokeStyle = 'rgba(212,175,55,' + (tr.a * .75) + ')';
+        ctx.strokeStyle = 'rgba(' + gold + ',' + (tr.a * .75) + ')';
         ctx.lineWidth = tr.w; ctx.stroke();
         tr.pts.forEach(function (p, i) {
           var isEnd = i === 0 || i === tr.pts.length - 1;
-          ctx.fillStyle = 'rgba(212,175,55,' + (isEnd ? tr.a + .25 : tr.a * .9) + ')';
+          ctx.fillStyle = 'rgba(' + gold + ',' + (isEnd ? tr.a + .25 : tr.a * .9) + ')';
           if (tr.big && isEnd) { ctx.beginPath(); ctx.arc(p[0] + ox, p[1] + oy, 9 * tr.depth + 3, 0, 6.283); ctx.fill(); }
           else ctx.fillRect(p[0] + ox - tr.node / 2, p[1] + oy - tr.node / 2, tr.node, tr.node);
         });
@@ -151,11 +183,11 @@
         var a = tr.pts[si], b = tr.pts[si + 1];
         var x = a[0] + (b[0] - a[0]) * lt + px * tr.depth, yy = a[1] + (b[1] - a[1]) * lt + py * tr.depth;
         var g = ctx.createRadialGradient(x, yy, 0, x, yy, 14);
-        g.addColorStop(0, 'rgba(245,215,110,.9)'); g.addColorStop(1, 'rgba(245,215,110,0)');
+        g.addColorStop(0, 'rgba(' + goldB + ',.9)'); g.addColorStop(1, 'rgba(' + goldB + ',0)');
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, yy, 14, 0, 6.283); ctx.fill();
       });
       // yıldız tozu
-      ctx.fillStyle = 'rgba(245,215,110,.35)';
+      ctx.fillStyle = 'rgba(' + goldB + ',.35)';
       for (var i = 0; i < 40; i++) {
         var sx = (Math.sin(i * 12.9898) * .5 + .5) * f.w, sy = (Math.sin(i * 78.233) * .5 + .5) * f.h;
         var tw = .5 + .5 * Math.sin(time * 1.5 + i);
@@ -170,6 +202,7 @@
     }
     build(); raf(draw);
     addEventListener('resize', build);
+    document.addEventListener('fy:theme', function () { build(); if (reduce) draw(performance.now()); });
     // Eğim yalnız gerçek imleçle: dokunmatikte tarayıcı her dokunuşa sahte mousemove üretir ve logo eğik kalırdı
     var finePointer = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
     addEventListener('mousemove', function (e) {

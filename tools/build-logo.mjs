@@ -6,6 +6,7 @@
    Çıktı (vektör, bağımlılık yok):
      img/logo-mark.svg   yalnız harfler (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — canlı
      img/logo-hero.svg   tam sahne: halka, ışın, parçacıklar, zemin yansıması — canlı, açılış animasyonlu (ana sayfa hero)
+     img/logo-hero-light.svg  aynı sahne açık tema için (koyu altın; halka plakası sitede CSS ile çizilir)
      img/logo-mark-static.svg, logo-hero-static.svg   aynıları animasyonsuz; sayfalar <picture> ile
                          prefers-reduced-motion açıkken bunları seçer (SVG içindeki media sorgusu <img>'de her tarayıcıda çalışmaz)
      img/logo.svg        favicon: koyu yuvarlak kare + harfler (durağan)
@@ -137,7 +138,7 @@ const PARTICLES = [
    ============================================================ */
 const GOLD = { hi: '#fff3c4', bright: '#f5d76e', mid: '#d4af37', deep: '#a9821e', dark: '#5a4210', ink: '#0b0904' };
 
-function defs(prefix, { hero = false } = {}) {
+function defs(prefix, { hero = false, scene = SCENE.dark } = {}) {
   const p = prefix;
   return `
   <defs>
@@ -187,10 +188,10 @@ function defs(prefix, { hero = false } = {}) {
       <stop offset="0" stop-color="#1c160a"/><stop offset=".55" stop-color="#0e0b05"/><stop offset="1" stop-color="#070604" stop-opacity=".92"/>
     </radialGradient>
     <linearGradient id="${p}gBeam" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffe8a3" stop-opacity="0"/><stop offset=".6" stop-color="#ffe8a3" stop-opacity=".55"/><stop offset="1" stop-color="#fff5cf"/>
+      <stop offset="0" stop-color="${scene.beam}" stop-opacity="0"/><stop offset=".6" stop-color="${scene.beam}" stop-opacity=".55"/><stop offset="1" stop-color="${scene.beamTip}"/>
     </linearGradient>
     <linearGradient id="${p}gFloorLine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f5d76e" stop-opacity="0"/><stop offset=".5" stop-color="#fff2c0" stop-opacity=".9"/><stop offset="1" stop-color="#f5d76e" stop-opacity="0"/>
+      <stop offset="0" stop-color="${scene.floorGlow}" stop-opacity="0"/><stop offset=".5" stop-color="${scene.floorLine}" stop-opacity=".9"/><stop offset="1" stop-color="${scene.floorGlow}" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="${p}gReflect" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity=".45"/>
@@ -345,7 +346,7 @@ function letters(prefix, { anim = true, detail = true, intro = false } = {}) {
    ============================================================ */
 // Profil fotoğrafı: halka merkezli kare sahne. Dairesel kırpmada Y'nin sağ üst köşesi de içeride kalır
 // (merkezden 436 birim; yarım kenar 460).
-function avatarSvg() { return heroSvg(false, [RING.cx - 460, RING.cy - 460, 920, 920]); }
+function avatarSvg() { return heroSvg(false, [RING.cx - 460, RING.cy - 460, 920, 920], { plate: true }); }
 
 // Tek renk: paneller boş, yüz ve ağ aynı renkte çizgi/dolgu. Baskı, kabartma, tek renkli zeminler için.
 function monoSvg(c) {
@@ -447,50 +448,56 @@ function faviconSvg() {
 `;
 }
 
-function heroSvg(anim = true, VB = [292, 30, 960, 880]) {
+// Sahne renkleri: koyu zemin (site varsayılanı) ve açık zemin (açık tema; daha koyu altın, plaka yok)
+const SCENE = {
+  dark: { ring: '#d9b544', ringGlow: '#d4af37', arc: '#fff3c6', arc2: '#ffe08a', beam: '#ffe8a3', beamTip: '#fff5cf', dot: '#fff4cf', dotCore: '#fffdf2', drop: '#fff9e0', dropGlow: '#ffe9a3', pt: '#f5d76e', sq: '#d4af37', ln: '#e6c352', floorGlow: '#f5d76e', floorLine: '#fff2c0', floorHaze: '#d4af37', floorDot: '#fffaea', floorDotGlow: '#ffe9a3', grid: '#d4af37' },
+  light: { ring: '#a9821e', ringGlow: '#b8902a', arc: '#8a6a1c', arc2: '#a9821e', beam: '#a9821e', beamTip: '#8a6a1c', dot: '#c39a30', dotCore: '#7a5c16', drop: '#8a6a1c', dropGlow: '#c39a30', pt: '#a9821e', sq: '#8a6a1c', ln: '#b8902a', floorGlow: '#c9a544', floorLine: '#a9821e', floorHaze: '#b8902a', floorDot: '#7a5c16', floorDotGlow: '#c9a544', grid: '#a9821e' },
+};
+// plate: halka içi koyu plaka SVG'de çizilsin mi (profil fotoğrafı: evet; sitede hayır — CSS tema tokenlarıyla çizer)
+function heroSvg(anim = true, VB = [292, 30, 960, 880], { plate = false, light = false } = {}) {
   const p = 'h';
+  const C = light ? SCENE.light : SCENE.dark;
   const circ = 2 * Math.PI * RING.r;
   const particles = PARTICLES.map(([x, y, t, s, d, dl]) => {
     const st = `style="--d:${d}s;--dl:${-dl}s"`;
-    if (t === 'd') return `<circle class="${p}pt" ${st} cx="${x}" cy="${y}" r="${s}" fill="#f5d76e"/>`;
-    if (t === 'k') return `<rect class="${p}pt" ${st} x="${x - s / 2}" y="${y - s / 2}" width="${s}" height="${s}" fill="#d4af37"/>`;
-    return `<g class="${p}ln" ${st}><line x1="${x}" y1="${y - s / 2}" x2="${x}" y2="${y + s / 2}" stroke="#e6c352" stroke-width="2"/><circle cx="${x}" cy="${y + s / 2}" r="4" fill="#f5d76e"/></g>`;
+    if (t === 'd') return `<circle class="${p}pt" ${st} cx="${x}" cy="${y}" r="${s}" fill="${C.pt}"/>`;
+    if (t === 'k') return `<rect class="${p}pt" ${st} x="${x - s / 2}" y="${y - s / 2}" width="${s}" height="${s}" fill="${C.sq}"/>`;
+    return `<g class="${p}ln" ${st}><line x1="${x}" y1="${y - s / 2}" x2="${x}" y2="${y + s / 2}" stroke="${C.ln}" stroke-width="2"/><circle cx="${x}" cy="${y + s / 2}" r="4" fill="${C.pt}"/></g>`;
   }).join('');
   const fade = (t, d = .8) => anim ? `class="${p}iFade" style="--t:${t}s;--d:${d}s"` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB.join(' ')}" role="img" aria-label="FY">${defs(p, { hero: true })}${style(p, { hero: true, anim, intro: anim, vbTop: VB[1] })}
-  <!-- halka içi plaka -->
-  <circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="url(#${p}gPlate)"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB.join(' ')}" role="img" aria-label="FY">${defs(p, { hero: true, scene: C })}${style(p, { hero: true, anim, intro: anim, vbTop: VB[1] })}
+  ${plate ? `<!-- halka içi plaka --><circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="url(#${p}gPlate)"/>` : ''}
   <!-- ışın (açılışta yukarıdan iner) -->
   <g ${anim ? `class="${p}iGrow"` : ''}><g class="${p}beam">
     <rect x="${BEAM_X - 1.5}" y="${VB[1]}" width="3" height="${F.top - VB[1]}" fill="url(#${p}gBeam)"/>
     <rect x="${BEAM_X - 6}" y="${VB[1]}" width="12" height="${F.top - VB[1]}" fill="url(#${p}gBeam)" opacity=".35" filter="url(#${p}glowS)"/>
-    <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="12" fill="#fff4cf" opacity=".8" filter="url(#${p}glowS)"/>
-    <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="4" fill="#fffdf2"/>
+    <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="12" fill="${C.dot}" opacity=".8" filter="url(#${p}glowS)"/>
+    <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="4" fill="${C.dotCore}"/>
   </g></g>
-  ${anim ? `<g class="${p}drop"><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="5" fill="#fff9e0"/><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="11" fill="#ffe9a3" opacity=".6" filter="url(#${p}glowS)"/></g>` : ''}
+  ${anim ? `<g class="${p}drop"><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="5" fill="${C.drop}"/><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="11" fill="${C.dropGlow}" opacity=".6" filter="url(#${p}glowS)"/></g>` : ''}
   <!-- halka (açılışta çizilir; parıltı ve dönen ışıklar çizim bitince belirir) -->
-  <circle class="${p}ring" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#d9b544" stroke-width="3"/>
+  <circle class="${p}ring" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="${C.ring}" stroke-width="3"/>
   <g ${fade(1.5, .6)}>
-  <circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#d4af37" stroke-width="8" opacity=".28" filter="url(#${p}glow)"/>
-  <circle class="${p}arc" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#fff3c6" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="${(circ * .13).toFixed(1)} ${(circ * .87).toFixed(1)}" filter="url(#${p}glowS)"/>
-  <circle class="${p}arc2" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#ffe08a" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(circ * .05).toFixed(1)} ${(circ * .95).toFixed(1)}" opacity=".9"/>
+  <circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="${C.ringGlow}" stroke-width="8" opacity=".28" filter="url(#${p}glow)"/>
+  <circle class="${p}arc" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="${C.arc}" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="${(circ * .13).toFixed(1)} ${(circ * .87).toFixed(1)}" filter="url(#${p}glowS)"/>
+  <circle class="${p}arc2" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="${C.arc2}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(circ * .05).toFixed(1)} ${(circ * .95).toFixed(1)}" opacity=".9"/>
   </g>
   <!-- parçacıklar -->
   <g ${fade(2)}>${particles}</g>
   <!-- zemin -->
   <g ${fade(2)}><g class="${p}floor">
-    <ellipse cx="${BEAM_X}" cy="${F.bottom + 6}" rx="300" ry="14" fill="#f5d76e" opacity=".5" filter="url(#${p}glowXL)"/>
+    <ellipse cx="${BEAM_X}" cy="${F.bottom + 6}" rx="300" ry="14" fill="${C.floorGlow}" opacity=".5" filter="url(#${p}glowXL)"/>
     <rect x="${VB[0]}" y="${F.bottom + 4}" width="${VB[2]}" height="2.5" fill="url(#${p}gFloorLine)"/>
-    <ellipse cx="${BEAM_X}" cy="${F.bottom + 60}" rx="420" ry="70" fill="#d4af37" opacity=".16" filter="url(#${p}glowXL)"/>
-    <g stroke="#d4af37" stroke-opacity=".16" stroke-width="1">
+    <ellipse cx="${BEAM_X}" cy="${F.bottom + 60}" rx="420" ry="70" fill="${C.floorHaze}" opacity=".16" filter="url(#${p}glowXL)"/>
+    <g stroke="${C.grid}" stroke-opacity=".16" stroke-width="1">
       <line x1="${VB[0]}" y1="${F.bottom + 110}" x2="${VB[0] + VB[2]}" y2="${F.bottom + 110}"/>
       <line x1="${BEAM_X - 130}" y1="${F.bottom + 8}" x2="${VB[0]}" y2="${F.bottom + 190}"/>
       <line x1="${BEAM_X + 130}" y1="${F.bottom + 8}" x2="${VB[0] + VB[2]}" y2="${F.bottom + 190}"/>
       <line x1="${BEAM_X - 40}" y1="${F.bottom + 8}" x2="${BEAM_X - 130}" y2="${VB[1] + VB[3]}"/>
       <line x1="${BEAM_X + 40}" y1="${F.bottom + 8}" x2="${BEAM_X + 130}" y2="${VB[1] + VB[3]}"/>
     </g>
-    <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="7" fill="#fffaea"/>
-    <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="22" fill="#ffe9a3" opacity=".65" filter="url(#${p}glowS)"/>
+    <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="7" fill="${C.floorDot}"/>
+    <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="22" fill="${C.floorDotGlow}" opacity=".65" filter="url(#${p}glowS)"/>
   </g></g>
   <!-- harfler ve aynadaki yansımaları birlikte yüzer -->
   <g class="${p}float">
@@ -506,6 +513,8 @@ out('img/logo-mark.svg', markSvg());
 out('img/logo-hero.svg', heroSvg());
 out('img/logo-mark-static.svg', markSvg(false));   // prefers-reduced-motion: <picture><source media=…> ile seçilir
 out('img/logo-hero-static.svg', heroSvg(false));
+out('img/logo-hero-light.svg', heroSvg(true, undefined, { light: true }));          // açık tema: js/main.js src'yi değiştirir
+out('img/logo-hero-light-static.svg', heroSvg(false, undefined, { light: true }));
 out('img/logo.svg', faviconSvg());
 
 /* ============================================================

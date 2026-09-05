@@ -1,5 +1,9 @@
 /* Üretilmiş dosya — elle düzenleme: i18n/fa.json → node tools/build-i18n.mjs */
 window.FY_STRINGS = {
+ "themeLight": "تغییر به پوستهٔ روشن",
+ "themeDark": "تغییر به پوستهٔ تیره",
+ "themeLightShort": "پوستهٔ روشن",
+ "themeDarkShort": "پوستهٔ تیره",
  "menuOpen": "باز کردن منو",
  "menuClose": "بستن منو",
  "badgeIdle": "زنده و آنلاین",

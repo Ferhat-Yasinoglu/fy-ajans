@@ -90,6 +90,8 @@ img/logo-master.png   logo tasarımının kaynak görseli (1536×1024); og.png b
 img/logo-mark.svg     harf logosu (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — animasyonlu, tools/build-logo.mjs üretir
 img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yansıma) — animasyonlu, aynı betik üretir
 img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
+img/logo-hero-light*.svg  hero sahnesinin açık tema sürümü (js/main.js tema değişince src'yi değiştirir)
+js/theme.js           tema tercihini boyamadan önce uygular (head'de, eşzamanlı)
 img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
@@ -158,4 +160,8 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
 
 `css/style.css` başında RGB üçlüsü olarak tanımlı: zemin (`--ink-0…3`), metin
 (`--fg`, `--fg-muted`, `--fg-dim`), altın vurgu (`--accent-gold`, `-bright`, `-deep`).
-`<html data-theme="light">` ile açık tema paleti devreye girer.
+`<html data-theme="light">` ile açık tema paleti devreye girer. Üst çubuktaki güneş/ay düğmesi (`[data-theme-toggle]`,
+`js/main.js`) bunu açıp kapar ve tercihi `localStorage`'a (`fy-theme`) yazar; `js/theme.js` her sayfanın `<head>`'inde
+eşzamanlı yüklenir ve tercihi boyamadan önce uygular (satır içi betik CSP'de yasak). Açık temada hero sahnesi
+`img/logo-hero-light.svg`'ye geçer (koyu altın tonlar); halka içindeki plaka SVG'de değil `.hero__logo::before`'da,
+tema tokenlarıyla çizilir. 404 sayfası betik çalıştırmadığından hep koyudur.
