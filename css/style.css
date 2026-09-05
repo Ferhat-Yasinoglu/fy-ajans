@@ -519,10 +519,17 @@ html[dir="rtl"] .cover__panels--r .cpanel__in { flex-direction: row; }
 
 .brain { max-width: 64rem; margin: 64px auto 0; display: grid; gap: 32px; align-items: center; }
 @media (min-width: 1024px) { .brain { grid-template-columns: 1fr 1fr; } }
-.brain__frame { border-radius: var(--radius-2xl); overflow: hidden; border: 1px solid rgba(56,189,248,.25); background: #0d0d0f; box-shadow: 0 30px 90px -20px rgba(167,139,250,.25); }
-.brain__canvas { position: relative; aspect-ratio: 6 / 5; }
-.brain__canvas canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.brain__bar { padding: 10px 16px; border-top: 1px solid rgba(56,189,248,.15); background: #0a0f1e; font-size: 11px; color: #22d3ee; letter-spacing: .15em; }
+/* Bilgi grafiği çerçevesi: gece dünyası haritası (img/brain-map.svg, kendi animasyonları) + durum çubuğu, sağda canlı sinyal çubukları */
+.brain__frame { border-radius: var(--radius-2xl); overflow: hidden; border: 1px solid rgba(120,150,200,.32); background: #04070f; box-shadow: 0 30px 90px -20px rgba(212,175,55,.25), inset 0 0 0 1px rgba(255,255,255,.02); }
+.brain__map { position: relative; aspect-ratio: 16 / 10; background: #04070f; }
+.brain__map img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.brain__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-top: 1px solid rgba(120,150,200,.22); background: #05080f; font-size: 11.5px; color: #9fb3d1; letter-spacing: .18em; }
+.brain__label b { color: #f5d76e; font-weight: 500; }
+.brain__signal { display: flex; align-items: flex-end; gap: 3px; height: 14px; flex-shrink: 0; }
+.brain__signal i { display: block; width: 3px; border-radius: 1px; background: #f5d76e; height: var(--h, 40%); transform-origin: bottom; animation: brain-sig 1.4s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+.brain__signal i:nth-child(1) { --h: 30%; --d: 0s; } .brain__signal i:nth-child(2) { --h: 45%; --d: -.3s; } .brain__signal i:nth-child(3) { --h: 60%; --d: -.6s; }
+.brain__signal i:nth-child(4) { --h: 80%; --d: -.9s; } .brain__signal i:nth-child(5) { --h: 100%; --d: -1.2s; }
+@keyframes brain-sig { from { opacity: .35; transform: scaleY(.6); } to { opacity: 1; transform: scaleY(1); } }
 .brain__list { display: flex; flex-direction: column; gap: 20px; }
 .brain__item { display: flex; align-items: flex-start; gap: 16px; }
 .brain__item .ico { width: 44px; height: 44px; border-radius: var(--radius-xl); display: grid; place-items: center; background: #0a0f1e; border: 1px solid rgba(56,189,248,.25); font-size: 20px; flex-shrink: 0; }
