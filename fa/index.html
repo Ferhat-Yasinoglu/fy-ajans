@@ -342,9 +342,21 @@
     <div data-reveal>
       <div class="brain">
         <div class="brain__frame">
-          <!-- Gece dünyası: altın kıyılar, şehir ışıkları, merkezler ve akan paketler — img/brain-map.svg (tools/build-brain.mjs üretir) -->
-          <div class="brain__map"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/brain-map-static.svg"><img src="../img/brain-map.svg" alt="گراف دانش FYOS" data-i18n-attr="alt=brain.canvasAria" width="1600" height="1000" loading="lazy" decoding="async"></picture></div>
-          <div class="brain__bar"><span class="font-mono brain__label"><b>FYOS</b> · KNOWLEDGE GRAPH — <b>LIVE</b></span><span class="brain__signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+          <!-- Bilgi grafı: FY çekirdeği, altı küme ve uyduları, akan ışık paketleri — img/brain-graph.svg (tools/build-brain.mjs üretir).
+               Küme etiketleri ve logo HTML katmanı (dört dilde); etiket konumları css .brain__label — betiğin yazdırdığı yüzdeler. -->
+          <div class="brain__map">
+            <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/brain-graph-static.svg"><img class="brain__scene" src="../img/brain-graph.svg" alt="گراف دانش FYOS" data-i18n-attr="alt=brain.canvasAria" width="1600" height="1000" loading="lazy" decoding="async"></picture>
+            <div class="brain__logo" aria-hidden="true"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img src="../img/logo-mark.svg" alt="" width="738" height="513" loading="lazy" decoding="async"></picture></div>
+            <ul class="brain__labels">
+              <li class="brain__label" data-i18n="brain.c.1">پروژه‌ها</li>
+              <li class="brain__label" data-i18n="brain.c.2">مشتریان</li>
+              <li class="brain__label" data-i18n="brain.c.3">محتوا</li>
+              <li class="brain__label" data-i18n="brain.c.4">تصمیم‌ها</li>
+              <li class="brain__label" data-i18n="brain.c.5">تجربه</li>
+              <li class="brain__label" data-i18n="brain.c.6">ابزارها</li>
+            </ul>
+          </div>
+          <div class="brain__bar"><span class="font-mono brain__caption"><b>FYOS</b> · KNOWLEDGE GRAPH — <b>LIVE</b></span><span class="brain__signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
         </div>
         <div>
           <h3 class="font-display text-h2" data-i18n="brain.title">مغز FYOS — واقعی، زنده، متصل</h3>

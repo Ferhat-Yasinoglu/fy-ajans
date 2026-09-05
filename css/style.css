@@ -519,12 +519,25 @@ html[dir="rtl"] .cover__panels--r .cpanel__in { flex-direction: row; }
 
 .brain { max-width: 64rem; margin: 64px auto 0; display: grid; gap: 32px; align-items: center; }
 @media (min-width: 1024px) { .brain { grid-template-columns: 1fr 1fr; } }
-/* Bilgi grafiği çerçevesi: gece dünyası haritası (img/brain-map.svg, kendi animasyonları) + durum çubuğu, sağda canlı sinyal çubukları */
+/* Bilgi grafiği çerçevesi: bilgi grafı sahnesi (img/brain-graph.svg, kendi animasyonları) + üstünde FY logosu ve dört dilde
+   küme etiketleri (konumlar tools/build-brain.mjs'in yazdırdığı yüzdeler) + durum çubuğu, sağda canlı sinyal çubukları */
 .brain__frame { border-radius: var(--radius-2xl); overflow: hidden; border: 1px solid rgba(120,150,200,.32); background: #04070f; box-shadow: 0 30px 90px -20px rgba(212,175,55,.25), inset 0 0 0 1px rgba(255,255,255,.02); }
 .brain__map { position: relative; aspect-ratio: 16 / 10; background: #04070f; }
-.brain__map img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.brain__scene { display: block; width: 100%; height: 100%; object-fit: cover; }
+.brain__logo { position: absolute; left: 50%; top: 50%; width: 8.6%; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 0 8px rgba(245,215,110,.55)); }
+.brain__logo img { display: block; width: 100%; height: auto; }
+.brain__labels { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.brain__label { position: absolute; transform: translate(-50%, 0); font-size: clamp(10px, 1.05vw, 13px); font-weight: 600; letter-spacing: .04em; line-height: 1.2; color: #fff3c4; white-space: nowrap;
+  text-shadow: 0 0 2px rgba(3,5,10,1), 0 0 8px rgba(3,5,10,.95); }
+.brain__label:nth-child(1) { left: 50%; top: 27.9%; }
+.brain__label:nth-child(2) { left: 71.16%; top: 38.95%; }
+.brain__label:nth-child(3) { left: 68.67%; top: 66.15%; }
+.brain__label:nth-child(4) { left: 50%; top: 82.3%; }
+.brain__label:nth-child(5) { left: 31.33%; top: 66.15%; }
+.brain__label:nth-child(6) { left: 28.84%; top: 38.95%; }
+@media (max-width: 1023px) { .brain__label { font-size: clamp(10px, 2.6vw, 14px); } }
 .brain__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-top: 1px solid rgba(120,150,200,.22); background: #05080f; font-size: 11.5px; color: #9fb3d1; letter-spacing: .18em; }
-.brain__label b { color: #f5d76e; font-weight: 500; }
+.brain__caption b { color: #f5d76e; font-weight: 500; }
 .brain__signal { display: flex; align-items: flex-end; gap: 3px; height: 14px; flex-shrink: 0; }
 .brain__signal i { display: block; width: 3px; border-radius: 1px; background: #f5d76e; height: var(--h, 40%); transform-origin: bottom; animation: brain-sig 1.4s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
 .brain__signal i:nth-child(1) { --h: 30%; --d: 0s; } .brain__signal i:nth-child(2) { --h: 45%; --d: -.3s; } .brain__signal i:nth-child(3) { --h: 60%; --d: -.6s; }
