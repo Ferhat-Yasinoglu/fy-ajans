@@ -85,6 +85,7 @@ portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" fo
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 img/founder.jpg       kurucu fotoğrafı
+img/portrait-aura*.svg kurucu fotoğrafının altın aurası (canlı + sabit); tools/build-portrait.mjs üretir
 img/course/ch1-7.svg  bölüm kapakları (vektör, sitede çizildi)
 img/logo-master.png   logo tasarımının kaynak görseli (1536×1024); og.png buradan üretilir, sitede doğrudan kullanılmaz
 img/logo-mark.svg     harf logosu (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — animasyonlu, tools/build-logo.mjs üretir

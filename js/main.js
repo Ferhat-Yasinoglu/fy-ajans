@@ -762,6 +762,34 @@
     } else { visible = true; intro(); }
   })();
 
+  /* ---------- Portre çerçevesi: imleç eğimi, paralaks ve parlama (yalnız gerçek imleç) ---------- */
+  (function portrait() {
+    var els = $$('[data-portrait]'); if (!els.length || reduce) return;
+    if (!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches)) return;
+    els.forEach(function (el) {
+      var cur = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, running = false;
+      function step() {
+        cur.x += (tgt.x - cur.x) * .1; cur.y += (tgt.y - cur.y) * .1;
+        el.style.setProperty('--rx', (cur.x * 12).toFixed(2) + 'deg');
+        el.style.setProperty('--ry', (-cur.y * 12).toFixed(2) + 'deg');
+        el.style.setProperty('--px', (cur.x * -8).toFixed(1) + 'px');
+        el.style.setProperty('--py', (cur.y * -8).toFixed(1) + 'px');
+        el.style.setProperty('--sx', (50 + cur.x * 50).toFixed(1) + '%');
+        el.style.setProperty('--sy', (40 + cur.y * 50).toFixed(1) + '%');
+        if (Math.abs(tgt.x - cur.x) > .002 || Math.abs(tgt.y - cur.y) > .002) raf(step); else running = false;
+      }
+      function kick() { if (!running) { running = true; raf(step); } }
+      el.addEventListener('mousemove', function (e) {
+        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+        var r = el.getBoundingClientRect(); if (!r.width) return;
+        tgt.x = Math.max(-.5, Math.min(.5, (e.clientX - r.left) / r.width - .5));
+        tgt.y = Math.max(-.5, Math.min(.5, (e.clientY - r.top) / r.height - .5));
+        kick();
+      });
+      el.addEventListener('mouseleave', function () { tgt.x = 0; tgt.y = 0; kick(); });
+    });
+  })();
+
   /* ---------- SSS akordeonu ---------- */
   (function faq() {
     var items = $$('.faq-item'); if (!items.length) return;

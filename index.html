@@ -533,10 +533,12 @@
 <section id="about" class="section">
   <div class="container-x about__grid">
     <div data-reveal>
-      <div class="glass portrait">
-        <div class="portrait__ring"></div>
+      <!-- Portre çerçevesi: altın aura (img/portrait-aura.svg, tools/build-portrait.mjs üretir) + fotoğraf; imleç eğimi js/main.js (portrait). -->
+      <div class="portrait" data-portrait>
+        <picture class="portrait__aura" aria-hidden="true"><source media="(prefers-reduced-motion: reduce)" srcset="img/portrait-aura-static.svg"><img src="img/portrait-aura.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></picture>
         <div class="portrait__inner">
           <img src="img/founder.jpg" alt="Farhad Yaqoobi — FY kurucusu" data-i18n-attr="alt=about.imgAlt" width="1000" height="1250" loading="lazy" decoding="async">
+          <span class="portrait__shine" aria-hidden="true"></span>
         </div>
       </div>
     </div>
