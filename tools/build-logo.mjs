@@ -13,18 +13,24 @@
      img/icon-180.png  icon-192.png  icon-512.png   logo.svg'den
      img/og.png                                      logo-master.png + slogan, 1200×630
 
+   Marka kiti (--kit ile; Playwright + Chromium gerekir) → brand/ :
+     profil fotoğrafı (halkalı, kare, koyu zemin), şeffaf PNG'ler, tek renk siyah/beyaz (SVG+PNG),
+     yatay kilit (logo + "Yapay Zekâ Ajansı", TR/EN/DE; SVG+PNG). Liste brand/README.md'de.
+
    Kullanım (depo kökünde):   node tools/build-logo.mjs            yalnız SVG'ler
                               node tools/build-logo.mjs --raster   SVG'ler + PNG'ler
+                              node tools/build-logo.mjs --kit      SVG'ler + brand/ marka kiti
 
    Animasyonlar CSS ile yazıldı (SMIL değil): <img> içinde de çalışır, prefers-reduced-motion'a uyar. */
 
-import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync, unlinkSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const RASTER = process.argv.includes('--raster');
+const KIT = process.argv.includes('--kit');
 
 /* ============================================================
    1) GEOMETRİ (kaynak görsel pikselleri)
@@ -72,7 +78,7 @@ const PANEL_NET = `M${Y.armR[0]} ${Y.top} H${Y.armR[1]} L${Y.stemR} ${Y.stemTop}
 const PANEL_NET_INNER = `M${Y.armR[0] + 9} ${Y.top + 6} H${Y.armR[1] - 14} L${Y.stemR - 6} ${Y.stemTop - 12} L${Y.notch[0] + 6} ${Y.notch[1] + 2} Z M${Y.stemR - 6} ${Y.stemTop + 8} V${Y.bottom - 6} H${Y.stemL + 28} V${Y.diagEnd[1] + 4} Z`;
 
 // Yüz: sağa bakan profil (panel içinde)
-const HEAD = [
+const HEAD_PARTS = [
   `M${F.left + 5} 274`,
   'C 486 262, 528 280, 548 316',      // saç/alın kavisi
   'C 559 334, 566 350, 567 372',      // alın
@@ -90,7 +96,9 @@ const HEAD = [
   `V${F.bottom - 5}`,
   `H${F.left + 5}`,
   'Z',
-].join(' ');
+];
+const HEAD = HEAD_PARTS.join(' ');
+const HEAD_OPEN = HEAD_PARTS.slice(0, -3).join(' ');   // kapanış kenarları olmadan: yalnız profil çizgisi (tek renk kontur)
 const HEADBAND = 'M 468 292 C 500 292, 526 316, 538 344';
 const EAR = { cx: 474, cy: 424, rOuter: 28, rInner: 17 };
 const EYE = { cx: 556, cy: 415 };
@@ -309,6 +317,74 @@ function letters(prefix, { anim = true, detail = true } = {}) {
 }
 
 /* ============================================================
+   2b) MARKA KİTİ PARÇALARI
+   ============================================================ */
+// Profil fotoğrafı: halka merkezli kare sahne. Dairesel kırpmada Y'nin sağ üst köşesi de içeride kalır
+// (merkezden 436 birim; yarım kenar 460).
+function avatarSvg() { return heroSvg(false, [RING.cx - 460, RING.cy - 460, 920, 920]); }
+
+// Tek renk: paneller boş, yüz ve ağ aynı renkte çizgi/dolgu. Baskı, kabartma, tek renkli zeminler için.
+function monoSvg(c) {
+  const [vx, vy, vw, vh] = MARK_VB;
+  // clipPath çocukları yalnız şekil olabilir (<g> yok sayılır); yüz için kırpma clip-path özniteliğiyle şekle verilir.
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${MARK_VB.join(' ')}" role="img" aria-label="FY">
+  <defs>
+    <clipPath id="cp"><rect x="${F.left}" y="${F.top}" width="145" height="305"/></clipPath>
+    <!-- paneller, baş ve profil çizgisi çevresindeki 5 birimlik boşluk harflerden oyulur -->
+    <mask id="k">
+      <rect x="${vx}" y="${vy}" width="${vw}" height="${vh}" fill="#fff"/>
+      <path d="${PANEL_F}" fill="#000"/><path d="${PANEL_NET}" fill="#000"/>
+      <path d="${HEAD}" fill="#000" clip-path="url(#cp)"/>
+      <path d="${HEAD_OPEN}" fill="none" stroke="#000" stroke-width="10" stroke-linejoin="round" clip-path="url(#cp)"/>
+    </mask>
+    <clipPath id="cf"><rect x="${F.left}" y="${F.top}" width="145" height="${F.bottom - F.top}"/></clipPath>
+    <clipPath id="cn"><path d="${PANEL_NET_INNER}"/></clipPath>
+  </defs>
+  <path d="${SILHOUETTE}" fill="${c}" mask="url(#k)"/>
+  <path d="${SILHOUETTE}" fill="none" stroke="${c}" stroke-width="6" stroke-linejoin="round" mask="url(#k)"/>
+  <path d="${PANEL_NET}" fill="none" stroke="${c}" stroke-width="5" stroke-linejoin="round"/>
+  <g clip-path="url(#cf)">
+    <path d="${HEAD_OPEN}" fill="none" stroke="${c}" stroke-width="5" stroke-linejoin="round" stroke-linecap="butt" clip-path="url(#cp)"/>
+    <circle cx="${EYE.cx}" cy="${EYE.cy}" r="7" fill="${c}"/>
+    <path d="${HEADBAND}" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="${EAR.cx}" cy="${EAR.cy}" r="${EAR.rOuter}" fill="none" stroke="${c}" stroke-width="5"/>
+    <circle cx="${EAR.cx}" cy="${EAR.cy}" r="${EAR.rInner}" fill="none" stroke="${c}" stroke-width="6"/>
+    <g fill="none" stroke="${c}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">${TRACES.map(pts => `<polyline points="${pts.map(q => q.join(',')).join(' ')}"/>`).join('')}</g>
+    <g fill="${c}">${TRACE_NODES.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5.5"/>`).join('')}</g>
+  </g>
+  <g clip-path="url(#cn)">
+    <g stroke="${c}" stroke-width="2.4">${EDGES.map(([a, b]) => `<line x1="${NODES[a][0]}" y1="${NODES[a][1]}" x2="${NODES[b][0]}" y2="${NODES[b][1]}"/>`).join('')}</g>
+    <g fill="${c}">${NODES.map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${NODE_R[i] + 1.5}"/>`).join('')}</g>
+  </g>
+</svg>
+`;
+}
+
+// Yatay kilit: harf logosu + ayraç + iki satır metin. Yazı tipi dosyaya gömülür (kit SVG'leri tek başına açılsın).
+const LOCKUP_TEXT = {
+  tr: ['Yapay Zekâ Ajansı', 'Eğitim · Web Tasarım · Otomasyon'],
+  en: ['AI Agency', 'Training · Web Design · Automation'],
+  de: ['KI-Agentur', 'Schulung · Webdesign · Automatisierung'],
+};
+function lockupSvg(lang, textW, dark = false) {
+  const [l1, l2] = LOCKUP_TEXT[lang];
+  const fontCss = ['vazirmatn-latin', 'vazirmatn-latin-ext'].map(f => `@font-face{font-family:"V";font-weight:100 900;src:url(data:font/woff2;base64,${readFileSync(join(ROOT, 'fonts', f + '.woff2')).toString('base64')}) format("woff2")}`).join('');
+  const markH = 240, markW = Math.round(markH * MARK_VB[2] / MARK_VB[3]);
+  const tx = markW + 62, W = Math.ceil(tx + textW + 24), H = 300;
+  const fg = dark ? '#f4ecd8' : '#f4ecd8', muted = dark ? '#cbbf9c' : '#cbbf9c';
+  const [vx, vy, vw, vh] = MARK_VB;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="FY — ${l1}">
+  <style>${fontCss} text{font-family:"V",Vazirmatn,system-ui,sans-serif}</style>
+  ${dark ? `<rect width="${W}" height="${H}" fill="#070604"/>` : ''}
+  <svg x="0" y="${(H - markH) / 2}" width="${markW}" height="${markH}" viewBox="${vx} ${vy} ${vw} ${vh}">${defs('l')}${letters('l', { anim: false })}</svg>
+  <line x1="${markW + 30}" y1="72" x2="${markW + 30}" y2="228" stroke="#d4af37" stroke-opacity=".55" stroke-width="2"/>
+  <text x="${tx}" y="152" font-size="74" font-weight="800" fill="${fg}" letter-spacing="-.5">${l1}</text>
+  <text x="${tx + 2}" y="206" font-size="26" font-weight="500" fill="${muted}" letter-spacing="1.2">${l2}</text>
+</svg>
+`;
+}
+
+/* ============================================================
    3) DOSYALAR
    ============================================================ */
 const PAD = 24;
@@ -347,9 +423,8 @@ function faviconSvg() {
 `;
 }
 
-function heroSvg(anim = true) {
+function heroSvg(anim = true, VB = [292, 30, 960, 880]) {
   const p = 'h';
-  const VB = [292, 30, 960, 880];
   const circ = 2 * Math.PI * RING.r;
   const particles = PARTICLES.map(([x, y, t, s, d, dl]) => {
     const st = `style="--d:${d}s;--dl:${-dl}s"`;
@@ -447,5 +522,55 @@ if (RASTER) {
     await page.screenshot({ path: join(ROOT, 'img/og.png') });
   } finally { unlinkSync(tmp); }
   console.log('img/og.png');
+  await browser.close();
+}
+
+/* ============================================================
+   5) MARKA KİTİ (isteğe bağlı)
+   ============================================================ */
+if (KIT) {
+  const require = createRequire(import.meta.url);
+  let chromium;
+  try { ({ chromium } = require('playwright')); }
+  catch { console.error('Playwright bulunamadı — kit üretilmedi. Depo kökünde:  npm i --no-save playwright && npx playwright install chromium'); process.exit(1); }
+  const DIR = join(ROOT, 'brand');
+  mkdirSync(DIR, { recursive: true });
+  const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
+  const page = await browser.newPage({ viewport: { width: 2200, height: 1200 }, deviceScaleFactor: 1 });
+
+  // Bir SVG dizgesini istenen genişlikte PNG'ye çevirir (transparent=true: zemin yok)
+  async function png(svg, file, width, transparent) {
+    const data = 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64');
+    await page.setContent(`<html><body style="margin:0;background:${transparent ? 'transparent' : '#070604'}"><img id="i" src="${data}" style="display:block;width:${width}px;height:auto"></body></html>`);
+    await page.waitForFunction(() => document.getElementById('i').complete && document.getElementById('i').naturalWidth > 0);
+    const box = await page.evaluate(() => { const r = document.getElementById('i').getBoundingClientRect(); return { x: 0, y: 0, width: Math.ceil(r.width), height: Math.ceil(r.height) }; });
+    await page.setViewportSize({ width: Math.max(box.width, 10), height: Math.max(box.height, 10) });
+    await page.screenshot({ path: join(DIR, file), omitBackground: !!transparent, clip: box });
+    console.log(`brand/${file}  ${box.width}×${box.height}`);
+  }
+  const svgOut = (file, svg) => { writeFileSync(join(DIR, file), svg); console.log(`brand/${file}`); };
+
+  // 1) profil fotoğrafı (kare, koyu; platformlar daire kırpar)
+  const avatar = avatarSvg();
+  await png(avatar, 'fy-profil-1024.png', 1024, false);
+  await png(avatar, 'fy-profil-512.png', 512, false);
+  // 2) şeffaf harf logosu
+  const mark = markSvg(false);
+  for (const w of [2048, 1024, 512]) await png(mark, `fy-logo-seffaf-${w}.png`, w, true);
+  // 3) tek renk
+  for (const [name, c] of [['siyah', '#000000'], ['beyaz', '#ffffff']]) {
+    const svg = monoSvg(c); svgOut(`fy-logo-${name}.svg`, svg);
+    await png(svg, `fy-logo-${name}-1024.png`, 1024, true);
+  }
+  // 4) yatay kilit: önce metin genişliği ölçülür (gömülü yazı tipiyle), sonra viewBox tam sığdırılır
+  for (const lang of Object.keys(LOCKUP_TEXT)) {
+    const probe = lockupSvg(lang, 1200);
+    await page.setContent(`<html><body style="margin:0">${probe.replace(/<svg /, '<svg id="s" style="width:2000px" ')}</body></html>`);
+    await page.evaluate(() => document.fonts.ready);
+    const textW = await page.evaluate(() => Math.max(...[...document.querySelectorAll('#s > text')].map(t => t.getComputedTextLength())));
+    const svg = lockupSvg(lang, Math.ceil(textW)); svgOut(`fy-yatay-${lang}.svg`, svg);
+    await png(svg, `fy-yatay-${lang}-2048.png`, 2048, true);
+    await png(lockupSvg(lang, Math.ceil(textW), true), `fy-yatay-${lang}-koyu-2048.png`, 2048, false);
+  }
   await browser.close();
 }
