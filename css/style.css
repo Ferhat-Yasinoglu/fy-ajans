@@ -225,16 +225,6 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .nav__links a { transition: color .2s; }
 .nav__links a:hover { color: rgb(var(--fg)); }
 .nav__actions { display: none; align-items: center; gap: 8px; }
-/* Tema düğmesi: güneş (koyu temada, açığa geçer) / ay (açık temada, koyuya geçer) */
-.theme-btn { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 10px; border: 1px solid rgb(var(--line) / .1); background: rgb(var(--line) / .04); color: rgb(var(--fg-muted)); cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
-.theme-btn:hover { color: rgb(var(--fg)); border-color: rgb(var(--accent-gold) / .4); }
-.theme-btn:focus-visible { outline: 2px solid rgb(var(--accent-gold)); outline-offset: 2px; }
-.theme-btn svg { display: block; }
-.theme-btn .ico-moon { display: none; }
-:root[data-theme="light"] .theme-btn .ico-sun { display: none; }
-:root[data-theme="light"] .theme-btn .ico-moon { display: block; }
-.nav__actions .theme-btn { margin-inline-end: 4px; }
-.mobile-menu__theme { display: flex; align-items: center; gap: 12px; margin-top: 20px; font-size: 14px; color: rgb(var(--fg-muted)); }
 .nav__burger {
   position: relative; width: 40px; height: 40px; display: grid; place-items: center;
   border-radius: 10px; border: 1px solid rgb(var(--line) / .1); background: rgb(var(--line) / .04);
@@ -297,11 +287,7 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .hero__logo { position: relative; width: min(82vw, 40vh); aspect-ratio: 960 / 880; transition: opacity .5s ease; transform-style: preserve-3d; will-change: transform; }
 /* Belirme kısa bir opaklık geçişi; asıl açılış (halka çizimi, harfler, ağ) SVG'nin içinde. Kutunun transform'u JS'e ait (eğim + kaydırma). */
 .js .hero__logo:not(.is-in) { opacity: 0; }
-.hero__logo img.hero__mark { display: block; width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }
-/* Halka içi plaka: SVG'de değil burada, tema tokenlarıyla — açık temada krem, koyuda is. Halka merkezi ve yarıçapı
-   SVG viewBox'ından (960×880; merkez 480,439; r 380) yüzdeyle taşındı. */
-.hero__logo::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 39.6% 43.2% at 50% 49.9%, rgb(var(--ink-3)) 0%, rgb(var(--ink-1)) 55%, rgb(var(--ink-0) / .92) 99.5%, transparent 100%); }
+.hero__logo img.hero__mark { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* Harf logosu (img/logo-mark.svg, 738×513): parıltı ve animasyon dosyanın içinde, CSS filtre gerekmez */
 .nav__brand img.nav__mark { display: block; height: 38px; width: auto; }
 .footer__brand img.footer__mark { display: block; height: 30px; width: auto; }

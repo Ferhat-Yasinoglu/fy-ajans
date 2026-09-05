@@ -2,7 +2,6 @@
   "lang": "de", "dir": "ltr", "locale": "de_DE", "name": "Deutsch",
 
   "common": {
-    "theme.toLight": "Zum hellen Design wechseln", "theme.light": "Helles Design",
     "nav.brand": "FY Startseite",
     "nav.home": "Startseite",
     "nav.training": "Kurs",
@@ -319,7 +318,6 @@
   },
 
   "js": {
-    "themeLight": "Zum hellen Design wechseln", "themeDark": "Zum dunklen Design wechseln", "themeLightShort": "Helles Design", "themeDarkShort": "Dunkles Design",
     "menuOpen": "Menü öffnen", "menuClose": "Menü schließen",
     "badgeIdle": "Live und online", "badgeThinking": "Ich denke nach…", "badgeSpeaking": "Ich antworte", "badgeListening": "Ich höre zu",
     "subMore": "Frag noch etwas.", "subDone": "Das war's für heute — morgen bin ich wieder da.",

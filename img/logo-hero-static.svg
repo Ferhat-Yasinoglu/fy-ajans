@@ -59,7 +59,8 @@
     <filter id="hglowXL" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter>
 
   </defs>
-  
+  <!-- halka içi plaka -->
+  <circle cx="772" cy="469" r="380" fill="url(#hgPlate)"/>
   <!-- ışın (açılışta yukarıdan iner) -->
   <g ><g class="hbeam">
     <rect x="770.5" y="30" width="3" height="213" fill="url(#hgBeam)"/>

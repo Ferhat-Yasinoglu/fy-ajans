@@ -110,7 +110,8 @@
     @keyframes hiFlash { from { transform: scale(0); } 60% { transform: scale(1.6); } to { transform: scale(1); } }
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>
-  
+  <!-- halka içi plaka -->
+  <circle cx="772" cy="469" r="380" fill="url(#hgPlate)"/>
   <!-- ışın (açılışta yukarıdan iner) -->
   <g class="hiGrow"><g class="hbeam">
     <rect x="770.5" y="30" width="3" height="213" fill="url(#hgBeam)"/>
