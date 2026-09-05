@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="431 219 738 513" role="img" aria-label="FY">
+  <defs>
+    <clipPath id="cp"><rect x="455" y="243" width="145" height="305"/></clipPath>
+    <!-- paneller, baş ve profil çizgisi çevresindeki 5 birimlik boşluk harflerden oyulur -->
+    <mask id="k">
+      <rect x="431" y="219" width="738" height="513" fill="#fff"/>
+      <path d="M460 259 A11 11 0 0 1 471 248 H573 V703 H460 Z" fill="#000"/><path d="M1026 243 H1145 L972 497 L918 403 Z M972 497 V708 H877 V628 Z" fill="#000"/>
+      <path d="M460 274 C 486 262, 528 280, 548 316 C 559 334, 566 350, 567 372 L 566 396 C 571 401, 573 407, 569 413 L 568 428 C 575 440, 590 450, 592 457 C 588 463, 580 466, 578 468 L 580 474 C 585 479, 585 486, 580 489 C 583 493, 582 498, 577 502 C 573 508, 566 513, 559 515 L 548 525 L 541 547 V703 H460 Z" fill="#000" clip-path="url(#cp)"/>
+      <path d="M460 274 C 486 262, 528 280, 548 316 C 559 334, 566 350, 567 372 L 566 396 C 571 401, 573 407, 569 413 L 568 428 C 575 440, 590 450, 592 457 C 588 463, 580 466, 578 468 L 580 474 C 585 479, 585 486, 580 489 C 583 493, 582 498, 577 502 C 573 508, 566 513, 559 515 L 548 525 L 541 547" fill="none" stroke="#000" stroke-width="10" stroke-linejoin="round" clip-path="url(#cp)"/>
+    </mask>
+    <clipPath id="cf"><rect x="455" y="243" width="145" height="465"/></clipPath>
+    <clipPath id="cn"><path d="M1035 249 H1131 L966 485 L924 405 Z M966 505 V702 H883 V632 Z"/></clipPath>
+  </defs>
+  <path d="M471 243 H821 L918 403 L1026 243 H1145 L972 497 V708 H855 V497 L753 329 H578 V400 H767 L708 500 H578 V708 H455 V259 A16 16 0 0 1 471 243 Z" fill="#ffffff" mask="url(#k)"/>
+  <path d="M471 243 H821 L918 403 L1026 243 H1145 L972 497 V708 H855 V497 L753 329 H578 V400 H767 L708 500 H578 V708 H455 V259 A16 16 0 0 1 471 243 Z" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" mask="url(#k)"/>
+  <path d="M1026 243 H1145 L972 497 L918 403 Z M972 497 V708 H877 V628 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+  <g clip-path="url(#cf)">
+    <path d="M460 274 C 486 262, 528 280, 548 316 C 559 334, 566 350, 567 372 L 566 396 C 571 401, 573 407, 569 413 L 568 428 C 575 440, 590 450, 592 457 C 588 463, 580 466, 578 468 L 580 474 C 585 479, 585 486, 580 489 C 583 493, 582 498, 577 502 C 573 508, 566 513, 559 515 L 548 525 L 541 547" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round" stroke-linecap="butt" clip-path="url(#cp)"/>
+    <circle cx="556" cy="415" r="7" fill="#ffffff"/>
+    <path d="M 468 292 C 500 292, 526 316, 538 344" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="474" cy="424" r="28" fill="none" stroke="#ffffff" stroke-width="5"/>
+    <circle cx="474" cy="424" r="17" fill="none" stroke="#ffffff" stroke-width="6"/>
+    <g fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><polyline points="497,300 497,344"/><polyline points="474,452 474,540 484,552 484,700"/><polyline points="502,431 516,431 516,560 510,566 510,700"/><polyline points="548,528 541,547"/><polyline points="541,547 541,700"/><polyline points="556,517 556,545 563,553 563,640 556,648 556,700"/></g>
+    <g fill="#ffffff"><circle cx="497" cy="322" r="5.5"/><circle cx="484" cy="557" r="5.5"/><circle cx="477" cy="617" r="5.5"/><circle cx="510" cy="690" r="5.5"/><circle cx="563" cy="600" r="5.5"/><circle cx="556" cy="686" r="5.5"/></g>
+  </g>
+  <g clip-path="url(#cn)">
+    <g stroke="#ffffff" stroke-width="2.4"><line x1="1093" y1="257" x2="1028" y2="287"/><line x1="1093" y1="257" x2="1062" y2="324"/><line x1="1028" y1="287" x2="1062" y2="324"/><line x1="1011" y1="269" x2="1028" y2="287"/><line x1="1028" y1="287" x2="1029" y2="357"/><line x1="1062" y1="324" x2="1029" y2="357"/><line x1="1011" y1="269" x2="995" y2="335"/><line x1="995" y1="335" x2="954" y2="351"/><line x1="995" y1="335" x2="1029" y2="357"/><line x1="954" y1="351" x2="963" y2="379"/><line x1="1029" y1="357" x2="963" y2="379"/><line x1="1029" y1="357" x2="982" y2="429"/><line x1="963" y1="379" x2="982" y2="429"/><line x1="963" y1="379" x2="940" y2="417"/><line x1="940" y1="417" x2="982" y2="429"/><line x1="1062" y1="324" x2="982" y2="429"/><line x1="1093" y1="257" x2="1136" y2="251"/><line x1="1136" y1="251" x2="1062" y2="324"/><line x1="1035" y1="251" x2="1011" y2="269"/><line x1="1035" y1="251" x2="1028" y2="287"/><line x1="982" y1="429" x2="936" y2="536"/><line x1="936" y1="536" x2="961" y2="609"/><line x1="936" y1="536" x2="898" y2="604"/><line x1="898" y1="604" x2="961" y2="609"/><line x1="898" y1="604" x2="923" y2="637"/><line x1="961" y1="609" x2="923" y2="637"/><line x1="923" y1="637" x2="897" y2="657"/><line x1="923" y1="637" x2="943" y2="678"/><line x1="961" y1="609" x2="943" y2="678"/><line x1="897" y1="657" x2="943" y2="678"/><line x1="943" y1="678" x2="966" y2="700"/><line x1="897" y1="657" x2="880" y2="700"/><line x1="898" y1="604" x2="880" y2="636"/><line x1="880" y1="636" x2="897" y2="657"/><line x1="961" y1="609" x2="966" y2="700"/><line x1="936" y1="536" x2="923" y2="637"/></g>
+    <g fill="#ffffff"><circle cx="1093" cy="257" r="6.5"/><circle cx="1011" cy="269" r="5.5"/><circle cx="1028" cy="287" r="6.5"/><circle cx="1062" cy="324" r="6.5"/><circle cx="995" cy="335" r="4.5"/><circle cx="954" cy="351" r="6.5"/><circle cx="1029" cy="357" r="6.5"/><circle cx="963" cy="379" r="6.5"/><circle cx="940" cy="417" r="4.5"/><circle cx="982" cy="429" r="6.5"/><circle cx="936" cy="536" r="6.5"/><circle cx="898" cy="604" r="6.5"/><circle cx="961" cy="609" r="7.5"/><circle cx="923" cy="637" r="5"/><circle cx="897" cy="657" r="6"/><circle cx="943" cy="678" r="7"/><circle cx="1136" cy="251" r="4.5"/><circle cx="1035" cy="251" r="4.5"/><circle cx="966" cy="700" r="4.5"/><circle cx="880" cy="700" r="4.5"/><circle cx="880" cy="636" r="4.5"/></g>
+  </g>
+</svg>

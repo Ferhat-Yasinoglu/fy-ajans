@@ -59,6 +59,7 @@ piksel koordinatlarıyla tanımlı; beş SVG oradan üretilir. Logoyu değiştir
 node tools/build-logo.mjs            # img/logo-mark.svg, logo-hero.svg, ikisinin -static kopyaları, logo.svg
 node tools/build-logo.mjs --raster   # + icon-180/192/512.png ve og.png (Playwright + Chromium gerekir:
                                      #   npm i --no-save playwright && npx playwright install chromium)
+node tools/build-logo.mjs --kit      # + brand/ marka kiti (aynı gereksinim)
 ```
 
 - Animasyonlar SVG'lerin içinde CSS ile yazıldı (gezen ışık, ağ düğümleri, göz, devre izleri; hero'da dönen halka ışığı,
@@ -95,6 +96,7 @@ tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.png            paylaşım görseli (1200×630; logo-master.png + slogan, betik üretir; sosyal ağlar PNG ister)
 img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest; logo.svg'den betik üretir)
 tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
+brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```
