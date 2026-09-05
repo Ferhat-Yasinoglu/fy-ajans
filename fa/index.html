@@ -517,15 +517,9 @@
 <section id="about" class="section">
   <div class="container-x about__grid">
     <div data-reveal>
-      <!-- Portre çerçevesi: dönen altın halka, yörüngede kıvılcımlar, nefes alan parıltı; imleç eğimi js/main.js (portrait). -->
+      <!-- Portre çerçevesi: altın aura (img/portrait-aura.svg, tools/build-portrait.mjs üretir) + fotoğraf; imleç eğimi js/main.js (portrait). -->
       <div class="portrait" data-portrait>
-        <span class="portrait__glow" aria-hidden="true"></span>
-        <span class="portrait__ticks" aria-hidden="true"></span>
-        <span class="portrait__halo" aria-hidden="true"></span>
-        <span class="portrait__ring" aria-hidden="true"></span>
-        <span class="portrait__orbit" aria-hidden="true"><i></i></span>
-        <span class="portrait__orbit portrait__orbit--2" aria-hidden="true"><i></i></span>
-        <span class="portrait__orbit portrait__orbit--3" aria-hidden="true"><i></i></span>
+        <picture class="portrait__aura" aria-hidden="true"><source media="(prefers-reduced-motion: reduce)" srcset="../img/portrait-aura-static.svg"><img src="../img/portrait-aura.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></picture>
         <div class="portrait__inner">
           <img src="../img/founder.jpg" alt="فرهاد یعقوبی — بنیان‌گذار FY" data-i18n-attr="alt=about.imgAlt" width="1000" height="1250" loading="lazy" decoding="async">
           <span class="portrait__shine" aria-hidden="true"></span>
