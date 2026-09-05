@@ -5,7 +5,7 @@
 
    Çıktı (vektör, bağımlılık yok):
      img/logo-mark.svg   yalnız harfler (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — canlı
-     img/logo-hero.svg   tam sahne: halka, ışın, parçacıklar, zemin yansıması — canlı (ana sayfa hero)
+     img/logo-hero.svg   tam sahne: halka, ışın, parçacıklar, zemin yansıması — canlı, açılış animasyonlu (ana sayfa hero)
      img/logo-mark-static.svg, logo-hero-static.svg   aynıları animasyonsuz; sayfalar <picture> ile
                          prefers-reduced-motion açıkken bunları seçer (SVG içindeki media sorgusu <img>'de her tarayıcıda çalışmaz)
      img/logo.svg        favicon: koyu yuvarlak kare + harfler (durağan)
@@ -203,14 +203,17 @@ function defs(prefix, { hero = false } = {}) {
 }
 
 // Ortak stil: harf animasyonları. `anim=false` favicon için durağan.
-function style(prefix, { anim = true, hero = false } = {}) {
+function style(prefix, { anim = true, hero = false, intro = false, vbTop = 30 } = {}) {
   const p = prefix;
   if (!anim) return '';
+  const circ = (2 * Math.PI * RING.r).toFixed(1);
+  // Açılış (intro): döngüler açılış bitince başlasın diye gecikmeli; 'backwards' gecikme boyunca ilk kareyi gösterir
+  const sheenDelay = intro ? ' 2.6s' : '', sheenFill = intro ? ' backwards' : '';
   return `
   <style>
-    .${p}sheen { animation: ${p}sheen 7s cubic-bezier(.4,0,.2,1) infinite; }
+    .${p}sheen { animation: ${p}sheen 7s${sheenDelay} cubic-bezier(.4,0,.2,1) infinite${sheenFill}; }
     @keyframes ${p}sheen { 0% { transform: translateX(-560px); } 55%, 100% { transform: translateX(900px); } }
-    .${p}nd { transform-box: fill-box; transform-origin: center; animation: ${p}tw 3.2s ease-in-out infinite; }
+    .${p}nd { transform-box: fill-box; transform-origin: center; animation: ${p}tw 3.2s ease-in-out infinite${intro ? ' backwards' : ''}; }
     @keyframes ${p}tw { 0%, 100% { opacity: .55; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.25); } }
     .${p}pk { stroke-dasharray: 7 93; animation: ${p}pk 4s linear infinite; }
     @keyframes ${p}pk { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
@@ -226,11 +229,11 @@ function style(prefix, { anim = true, hero = false } = {}) {
     .${p}arc { transform-box: view-box; transform-origin: ${RING.cx}px ${RING.cy}px; animation: ${p}spin 14s linear infinite; }
     .${p}arc2 { transform-box: view-box; transform-origin: ${RING.cx}px ${RING.cy}px; animation: ${p}spinR 23s linear infinite; }
     @keyframes ${p}spinR { to { transform: rotate(-360deg); } }
-    .${p}ring { animation: ${p}ring 6s ease-in-out infinite; }
+    .${p}ring { ${intro ? `stroke-dasharray: ${circ}; stroke-dashoffset: ${circ}; animation: ${p}iRing 1.3s .35s cubic-bezier(.4,0,.2,1) both, ${p}ring 6s 1.7s ease-in-out infinite;` : `animation: ${p}ring 6s ease-in-out infinite;`} }
     @keyframes ${p}ring { 0%, 100% { opacity: .55; } 50% { opacity: .9; } }
     .${p}beam { animation: ${p}beam 4.5s ease-in-out infinite; }
     @keyframes ${p}beam { 0%, 100% { opacity: .55; } 40% { opacity: 1; } 60% { opacity: .7; } }
-    .${p}drop { animation: ${p}drop 4.5s cubic-bezier(.5,0,.8,.4) infinite; }
+    .${p}drop { animation: ${p}drop 4.5s${intro ? ' 2.8s' : ''} cubic-bezier(.5,0,.8,.4) infinite${intro ? ' backwards' : ''}; }
     @keyframes ${p}drop { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(150px); opacity: 0; } }
     .${p}pt { animation: ${p}pt var(--d, 6s) ease-in-out var(--dl, 0s) infinite; }
     @keyframes ${p}pt { 0%, 100% { transform: translateY(0); opacity: .35; } 50% { transform: translateY(-16px); opacity: 1; } }
@@ -242,21 +245,39 @@ function style(prefix, { anim = true, hero = false } = {}) {
     @keyframes ${p}refl { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
     .${p}float { animation: ${p}float 6s ease-in-out infinite; }
     @keyframes ${p}float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }` : ''}
+    ${intro ? `
+    /* Açılış, bir kez: halka çizilir (.35–1.65 s), ışın iner, harf kenarları çizilir (.5–2 s), yüzeyler ve paneller dolar,
+       ağ hatları çizilip düğümler sırayla yanar (1.6–2.8 s), göz parlar (2.4 s); parçacıklar ve zemin en son belirir. */
+    @keyframes ${p}iRing { to { stroke-dashoffset: 0; } }
+    .${p}iLine { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: ${p}iLine var(--d, 1.4s) var(--t, .6s) cubic-bezier(.4,0,.2,1) both; }
+    @keyframes ${p}iLine { to { stroke-dashoffset: 0; } }
+    .${p}iFade { animation: ${p}iFade var(--d, .7s) var(--t, 1.2s) ease-out both; }
+    @keyframes ${p}iFade { from { opacity: 0; } to { opacity: 1; } }
+    .${p}iEdge { stroke-dasharray: 100; stroke-dashoffset: 100; animation: ${p}iEdge .5s calc(1.6s + var(--i, 0) * .03s) ease-out both; }
+    @keyframes ${p}iEdge { to { stroke-dashoffset: 0; } }
+    .${p}iGrow { transform-box: view-box; transform-origin: ${BEAM_X}px ${vbTop}px; animation: ${p}iGrow .7s .2s cubic-bezier(.2,.7,.3,1) both; }
+    @keyframes ${p}iGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    .${p}iFlash { transform-box: fill-box; transform-origin: center; animation: ${p}iFlash .6s 2.4s cubic-bezier(.2,.7,.3,1.4) both; }
+    @keyframes ${p}iFlash { from { transform: scale(0); } 60% { transform: scale(1.6); } to { transform: scale(1); } }` : ''}
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   </style>`;
 }
 
 // Harfler: id'li grup, yansımada <use> ile yeniden kullanılır
-function letters(prefix, { anim = true, detail = true } = {}) {
+function letters(prefix, { anim = true, detail = true, intro = false } = {}) {
   const p = prefix;
+  // Açılışta: fade = grup belirmesi, line = kenar çizimi (pathLength 1000); t başlangıç, d süre (saniye)
+  const fade = (t, d = .7) => intro ? `class="${p}iFade" style="--t:${t}s;--d:${d}s"` : '';
+  const line = (t, d) => intro ? `class="${p}iLine" pathLength="1000" style="--t:${t}s;--d:${d}s"` : '';
   const nodesSvg = NODES.map(([x, y], i) => {
     const r = NODE_R[i];
-    return `<circle class="${anim ? p + 'nd' : ''}" style="animation-delay:${(-(i * .37) % 3.2).toFixed(2)}s" cx="${x}" cy="${y}" r="${r}" fill="url(#${p}gNode)"/>`;
+    const delay = intro ? (2 + i * .12).toFixed(2) : (-(i * .37) % 3.2).toFixed(2);   // açılışta sırayla yanar
+    return `<circle class="${anim ? p + 'nd' : ''}" style="animation-delay:${delay}s" cx="${x}" cy="${y}" r="${r}" fill="url(#${p}gNode)"/>`;
   }).join('');
   const nodeGlow = NODES.filter((_, i) => NODE_R[i] >= 5).map(([x, y]) => `<circle cx="${x}" cy="${y}" r="9" fill="#ffd966" opacity=".55"/>`).join('');
-  const edgesSvg = EDGES.map(([a, b]) => `<line x1="${NODES[a][0]}" y1="${NODES[a][1]}" x2="${NODES[b][0]}" y2="${NODES[b][1]}"/>`).join('');
+  const edgesSvg = EDGES.map(([a, b], i) => `<line ${intro ? `class="${p}iEdge" pathLength="100" style="--i:${i}"` : ''} x1="${NODES[a][0]}" y1="${NODES[a][1]}" x2="${NODES[b][0]}" y2="${NODES[b][1]}"/>`).join('');
   const packets = anim ? [[0, 3], [2, 6], [6, 9], [10, 12], [13, 15], [4, 5], [9, 10]].map(([a, b], i) =>
-    `<line class="${p}pk" pathLength="100" style="animation-delay:${(-i * .6).toFixed(1)}s" x1="${NODES[a][0]}" y1="${NODES[a][1]}" x2="${NODES[b][0]}" y2="${NODES[b][1]}"/>`).join('') : '';
+    `<line class="${p}pk" pathLength="100" style="animation-delay:${intro ? (2.6 + i * .6).toFixed(1) : (-i * .6).toFixed(1)}s" x1="${NODES[a][0]}" y1="${NODES[a][1]}" x2="${NODES[b][0]}" y2="${NODES[b][1]}"/>`).join('') : '';
   const tracesSvg = TRACES.map(pts => `<polyline points="${pts.map(q => q.join(',')).join(' ')}"/>`).join('');
   const tracePulse = anim ? TRACES.slice(1, 4).map((pts, i) => `<polyline class="${p}tr" pathLength="100" style="animation-delay:${(-i * 1.1).toFixed(1)}s" points="${pts.map(q => q.join(',')).join(' ')}"/>`).join('') : '';
   const traceNodes = TRACE_NODES.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="#f9dc7a"/>`).join('');
@@ -264,9 +285,9 @@ function letters(prefix, { anim = true, detail = true } = {}) {
   return `
   <g id="${p}letters">
     <!-- arka parıltı -->
-    <path d="${SILHOUETTE}" fill="none" stroke="${GOLD.mid}" stroke-width="10" opacity=".55" filter="url(#${p}glow)"/>
+    <g ${fade(1, .8)}><path d="${SILHOUETTE}" fill="none" stroke="${GOLD.mid}" stroke-width="10" opacity=".55" filter="url(#${p}glow)"/></g>
     <!-- yüzeyler -->
-    <g filter="url(#${p}grain)">
+    <g filter="url(#${p}grain)" ${fade(1.2, .8)}>
       <path d="${FACE_BAR}" fill="url(#${p}gFace)"/>
       <path d="${FACE_ARM}" fill="url(#${p}gArm)"/>
       <path d="${BAND_L}" fill="url(#${p}gBand)"/>
@@ -274,17 +295,17 @@ function letters(prefix, { anim = true, detail = true } = {}) {
       <path d="M${Y.armL[1] - 16} ${Y.top} H${Y.armL[1]} L${Y.stemR} ${Y.stemTop} H${Y.stemR - 14} Z" fill="url(#${p}gBand)" opacity=".55"/>
     </g>
     <!-- üst yüzey ışığı -->
-    <g clip-path="url(#${p}cLetters)">
+    <g clip-path="url(#${p}cLetters)" ${fade(1.4)}>
       <rect x="${F.left}" y="${F.top}" width="${Y.armR[1] - F.left}" height="14" fill="url(#${p}gTop)" opacity=".9"/>
       <rect x="${F.stemR}" y="${F.midTop}" width="${F.midRight - F.stemR}" height="7" fill="url(#${p}gTop)" opacity=".7"/>
     </g>
     <!-- F gövdesi: yapay zekâ yüzü paneli -->
-    <path d="${PANEL_F}" fill="url(#${p}gPanel)"/>
-    <g clip-path="url(#${p}cPanel)">
+    <path d="${PANEL_F}" fill="url(#${p}gPanel)" ${fade(1.3)}/>
+    <g clip-path="url(#${p}cPanel)" ${fade(1.4)}>
       <ellipse cx="588" cy="430" rx="52" ry="150" fill="url(#${p}gHaze)"/>
-      <path d="${HEAD}" fill="none" stroke="#f5d76e" stroke-width="7" stroke-linejoin="round" opacity=".7" filter="url(#${p}glowS)"/>
+      <path d="${HEAD}" fill="none" stroke="#f5d76e" stroke-width="7" stroke-linejoin="round" opacity=".7" filter="url(#${p}glowS)" ${line(1.5, .9)}/>
       <path d="${HEAD}" fill="#030201"/>
-      <path d="${HEAD}" fill="none" stroke="#ffe9a8" stroke-width="3.2" stroke-linejoin="round"/>
+      <path d="${HEAD}" fill="none" stroke="#ffe9a8" stroke-width="3.2" stroke-linejoin="round" ${line(1.5, .9)}/>
       ${detail ? `
       <path d="${HEADBAND}" fill="none" stroke="#f3d475" stroke-width="3" stroke-linecap="round"/>
       <path d="M 462 312 C 490 310, 514 330, 527 356" fill="none" stroke="#c9a544" stroke-width="2" stroke-linecap="round"/>
@@ -295,21 +316,23 @@ function letters(prefix, { anim = true, detail = true } = {}) {
       <g fill="none" stroke="#d9b64a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${tracesSvg}</g>
       <g fill="none" stroke="#fff4c8" stroke-width="2.6" stroke-linecap="round">${tracePulse}</g>
       ${traceNodes}` : ''}
-      <circle class="${anim ? p + 'eye' : ''}" cx="${EYE.cx}" cy="${EYE.cy}" r="9" fill="url(#${p}gEye)"/>
-      <ellipse cx="${EYE.cx}" cy="${EYE.cy}" rx="5" ry="2.6" fill="#fffbea"/>
+      <g ${intro ? `class="${p}iFlash"` : ''}>
+        <circle class="${anim ? p + 'eye' : ''}" cx="${EYE.cx}" cy="${EYE.cy}" r="9" fill="url(#${p}gEye)"/>
+        <ellipse cx="${EYE.cx}" cy="${EYE.cy}" rx="5" ry="2.6" fill="#fffbea"/>
+      </g>
     </g>
     <!-- Y sağ kolu: ağ paneli -->
-    <path d="${PANEL_NET}" fill="url(#${p}gPanel)"/>
-    <g clip-path="url(#${p}cNet)">
+    <path d="${PANEL_NET}" fill="url(#${p}gPanel)" ${fade(1.5)}/>
+    <g clip-path="url(#${p}cNet)" ${fade(1.7)}>
       <g stroke="#e3bd52" stroke-width="1.4" opacity=".9">${edgesSvg}</g>
       <g stroke="#fff4c8" stroke-width="2.6" stroke-linecap="round">${packets}</g>
       <g filter="url(#${p}glowS)">${nodeGlow}</g>
       ${nodesSvg}
     </g>
     <!-- kenarlar -->
-    <path d="${PANEL_NET}" fill="none" stroke="#ffe9a8" stroke-width="3" stroke-linejoin="round"/>
-    <path d="${PANEL_F}" fill="none" stroke="#f0cd62" stroke-width="2.2" stroke-linejoin="round" opacity=".9"/>
-    <path d="${SILHOUETTE}" fill="none" stroke="#fff0b8" stroke-width="3" stroke-linejoin="round"/>
+    <path d="${PANEL_NET}" fill="none" stroke="#ffe9a8" stroke-width="3" stroke-linejoin="round" ${line(1, 1.1)}/>
+    <path d="${PANEL_F}" fill="none" stroke="#f0cd62" stroke-width="2.2" stroke-linejoin="round" opacity=".9" ${line(.9, 1)}/>
+    <path d="${SILHOUETTE}" fill="none" stroke="#fff0b8" stroke-width="3" stroke-linejoin="round" ${line(.5, 1.5)}/>
     ${anim ? `<!-- gezen ışık: eğiklik üst grupta, animasyon rect'te (CSS transform animasyonu öznitelik transform'unu ezer) -->
     <g clip-path="url(#${p}cLetters)"><g transform="skewX(-22)">
       <rect class="${p}sheen" x="${F.left}" y="${F.top - 20}" width="220" height="${F.bottom - F.top + 40}" fill="url(#${p}gSheen)"/>
@@ -433,26 +456,29 @@ function heroSvg(anim = true, VB = [292, 30, 960, 880]) {
     if (t === 'k') return `<rect class="${p}pt" ${st} x="${x - s / 2}" y="${y - s / 2}" width="${s}" height="${s}" fill="#d4af37"/>`;
     return `<g class="${p}ln" ${st}><line x1="${x}" y1="${y - s / 2}" x2="${x}" y2="${y + s / 2}" stroke="#e6c352" stroke-width="2"/><circle cx="${x}" cy="${y + s / 2}" r="4" fill="#f5d76e"/></g>`;
   }).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB.join(' ')}" role="img" aria-label="FY">${defs(p, { hero: true })}${style(p, { hero: true, anim })}
+  const fade = (t, d = .8) => anim ? `class="${p}iFade" style="--t:${t}s;--d:${d}s"` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB.join(' ')}" role="img" aria-label="FY">${defs(p, { hero: true })}${style(p, { hero: true, anim, intro: anim, vbTop: VB[1] })}
   <!-- halka içi plaka -->
   <circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="url(#${p}gPlate)"/>
-  <!-- ışın -->
-  <g class="${p}beam">
+  <!-- ışın (açılışta yukarıdan iner) -->
+  <g ${anim ? `class="${p}iGrow"` : ''}><g class="${p}beam">
     <rect x="${BEAM_X - 1.5}" y="${VB[1]}" width="3" height="${F.top - VB[1]}" fill="url(#${p}gBeam)"/>
     <rect x="${BEAM_X - 6}" y="${VB[1]}" width="12" height="${F.top - VB[1]}" fill="url(#${p}gBeam)" opacity=".35" filter="url(#${p}glowS)"/>
     <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="12" fill="#fff4cf" opacity=".8" filter="url(#${p}glowS)"/>
     <circle cx="${BEAM_X}" cy="${RING.cy - RING.r}" r="4" fill="#fffdf2"/>
-  </g>
+  </g></g>
   ${anim ? `<g class="${p}drop"><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="5" fill="#fff9e0"/><circle cx="${BEAM_X}" cy="${RING.cy - RING.r + 4}" r="11" fill="#ffe9a3" opacity=".6" filter="url(#${p}glowS)"/></g>` : ''}
-  <!-- halka -->
+  <!-- halka (açılışta çizilir; parıltı ve dönen ışıklar çizim bitince belirir) -->
   <circle class="${p}ring" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#d9b544" stroke-width="3"/>
+  <g ${fade(1.5, .6)}>
   <circle cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#d4af37" stroke-width="8" opacity=".28" filter="url(#${p}glow)"/>
   <circle class="${p}arc" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#fff3c6" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="${(circ * .13).toFixed(1)} ${(circ * .87).toFixed(1)}" filter="url(#${p}glowS)"/>
   <circle class="${p}arc2" cx="${RING.cx}" cy="${RING.cy}" r="${RING.r}" fill="none" stroke="#ffe08a" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(circ * .05).toFixed(1)} ${(circ * .95).toFixed(1)}" opacity=".9"/>
+  </g>
   <!-- parçacıklar -->
-  <g>${particles}</g>
+  <g ${fade(2)}>${particles}</g>
   <!-- zemin -->
-  <g class="${p}floor">
+  <g ${fade(2)}><g class="${p}floor">
     <ellipse cx="${BEAM_X}" cy="${F.bottom + 6}" rx="300" ry="14" fill="#f5d76e" opacity=".5" filter="url(#${p}glowXL)"/>
     <rect x="${VB[0]}" y="${F.bottom + 4}" width="${VB[2]}" height="2.5" fill="url(#${p}gFloorLine)"/>
     <ellipse cx="${BEAM_X}" cy="${F.bottom + 60}" rx="420" ry="70" fill="#d4af37" opacity=".16" filter="url(#${p}glowXL)"/>
@@ -465,11 +491,11 @@ function heroSvg(anim = true, VB = [292, 30, 960, 880]) {
     </g>
     <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="7" fill="#fffaea"/>
     <circle cx="${BEAM_X}" cy="${F.bottom + 6}" r="22" fill="#ffe9a3" opacity=".65" filter="url(#${p}glowS)"/>
-  </g>
+  </g></g>
   <!-- harfler ve aynadaki yansımaları birlikte yüzer -->
   <g class="${p}float">
     <g class="${p}refl" mask="url(#${p}mReflect)" filter="url(#${p}blurR)" transform="matrix(1 0 0 -1 0 ${2 * F.bottom + 4})"><use href="#${p}letters"/></g>
-    ${letters(p, { anim })}
+    ${letters(p, { anim, intro: anim })}
   </g>
 </svg>
 `;

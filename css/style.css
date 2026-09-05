@@ -284,11 +284,10 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 /* Hero logosu: img/logo-hero.svg (halka, ışın, parçacıklar, yansıma — animasyonlar SVG'nin içinde, CSS ile).
    Kutu oranı SVG'nin viewBox'ıyla aynı (960×880); JS fare ile hafif 3B eğim verir (.hero__logo-wrap perspective). */
 .hero__logo-wrap { flex: 1; display: grid; place-items: center; padding: 24px 0; pointer-events: none; perspective: 1200px; }
-.hero__logo { position: relative; width: min(82vw, 40vh); aspect-ratio: 960 / 880; transition: opacity .9s ease; transform-style: preserve-3d; will-change: transform; }
-/* Belirme: opaklık kutuda, büyüme resimde — kutunun transform'u JS'e ait (eğim + kaydırma), geçişle çakışmasın */
+.hero__logo { position: relative; width: min(82vw, 40vh); aspect-ratio: 960 / 880; transition: opacity .5s ease; transform-style: preserve-3d; will-change: transform; }
+/* Belirme kısa bir opaklık geçişi; asıl açılış (halka çizimi, harfler, ağ) SVG'nin içinde. Kutunun transform'u JS'e ait (eğim + kaydırma). */
 .js .hero__logo:not(.is-in) { opacity: 0; }
-.hero__logo img.hero__mark { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .9s cubic-bezier(.22,1,.36,1); }
-.js .hero__logo:not(.is-in) img.hero__mark { transform: scale(.9); }
+.hero__logo img.hero__mark { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* Harf logosu (img/logo-mark.svg, 738×513): parıltı ve animasyon dosyanın içinde, CSS filtre gerekmez */
 .nav__brand img.nav__mark { display: block; height: 38px; width: auto; }
 .footer__brand img.footer__mark { display: block; height: 30px; width: auto; }
@@ -713,7 +712,7 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  [data-reveal], .step__card, .hero__logo, .hero__logo img.hero__mark, .nav { opacity: 1 !important; transform: none !important; }
+  [data-reveal], .step__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
 }
 
 /* ---------- İletişim penceresi ---------- */
