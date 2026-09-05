@@ -639,12 +639,38 @@ html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--a
 /* ---------- Hakkında ---------- */
 .about__grid { display: grid; gap: 48px; align-items: center; }
 @media (min-width: 1024px) { .about__grid { grid-template-columns: 1fr 1fr; } }
-.portrait { position: relative; aspect-ratio: 1 / 1; max-width: 28rem; margin-inline: auto; border-radius: 50%; overflow: hidden; padding: 8px; }
-@media (min-width: 1024px) { .portrait { margin-inline: 0; } }
-.portrait__inner { position: absolute; inset: 8px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 35%, #2a1f6b, #0b0620 60%, #050310); display: grid; place-items: center; box-shadow: inset 0 0 0 3px rgba(120,80,255,.5), inset 0 0 60px rgba(80,140,255,.35); }
-.portrait__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
-.portrait__initials { font-size: clamp(4rem, 12vw, 8rem); font-weight: 800; letter-spacing: -.04em; background: linear-gradient(135deg, #c084fc, #60a5fa); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; }
-.portrait__ring { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 180deg, #7c3aed, #38bdf8, #c084fc, #7c3aed); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px)); animation: spin 14s linear infinite; }
+/* Portre çerçevesi (Hakkında + bağlantı sayfası): fotoğraf sabit, çerçeve canlı.
+   Katmanlar dıştan içe: parıltı, kesikli tik halkası (ters yönde döner), nabız halkası, konik altın halka (ışık süpürmeli),
+   üç yörüngede kıvılcım, koyu boşluk, fotoğraf (yavaş yakınlaşma + imleç paralaksı), parlama.
+   Boyut bağlamdan gelir; --pr halka kalınlığı. İmleç eğimi --rx/--ry, paralaks --px/--py, parlama --sx/--sy (js). */
+.portrait { position: relative; aspect-ratio: 1 / 1; width: min(100% - 48px, 28rem); margin-inline: auto; border-radius: 50%; --pr: 7px;
+  transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)); transform-style: preserve-3d; }
+@media (min-width: 1024px) { .about__grid .portrait { margin-inline: 0; } }
+.links-page .portrait { width: min(62vw, 230px); --pr: 5px; }
+.portrait > span { position: absolute; border-radius: 50%; pointer-events: none; }
+.portrait__glow { inset: -10%; background: radial-gradient(circle, rgba(212,175,55,0) 52%, rgba(212,175,55,.2) 66%, rgba(212,175,55,0) 76%); animation: portrait-breathe 5s ease-in-out infinite; }
+.portrait__ticks { inset: -7%; border: 1px dashed rgb(var(--accent-gold) / .35); animation: spin 48s linear infinite reverse; }
+.portrait__halo { inset: -3.5%; border: 1px solid rgb(var(--accent-gold) / .35); animation: halo 4.5s ease-in-out infinite; }
+.portrait__ring { inset: 0;
+  background: conic-gradient(from 0deg, #a9821e 0deg, #d4af37 60deg, #fff3c4 95deg, #d4af37 130deg, #a9821e 200deg, #f5d76e 260deg, #a9821e 320deg, #a9821e 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--pr) - 1px), #000 calc(100% - var(--pr)));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--pr) - 1px), #000 calc(100% - var(--pr)));
+  animation: portrait-in 1s ease-out both, spin 18s linear infinite; }
+.portrait__orbit { inset: calc(var(--pr) * -1 - 2px); animation: portrait-in 1.2s ease-out .3s both, spin 9s linear infinite; }
+.portrait__orbit i { position: absolute; top: 0; left: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #fff6d0; box-shadow: 0 0 10px 3px rgba(245,215,110,.75); }
+.portrait__orbit--2 { inset: -3.5%; animation: portrait-in 1.2s ease-out .6s both, spin 14s linear infinite reverse; }
+.portrait__orbit--2 i { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; opacity: .85; }
+.portrait__orbit--3 { inset: -7%; animation: portrait-in 1.2s ease-out .9s both, spin 23s linear infinite; }
+.portrait__orbit--3 i { width: 4px; height: 4px; margin: -2px 0 0 -2px; opacity: .7; }
+.portrait__inner { position: absolute; inset: calc(var(--pr) + 4px); border-radius: 50%; overflow: hidden; background: #0b0906;
+  box-shadow: inset 0 0 0 3px rgb(var(--ink-0)), 0 30px 80px -30px rgba(212,175,55,.5); transform: translateZ(0); }
+.portrait__inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transform-origin: 50% 35%;
+  animation: portrait-zoom 14s ease-in-out infinite alternate; translate: var(--px, 0) var(--py, 0); transition: translate .1s linear; }
+.portrait__shine { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(circle at var(--sx, 32%) var(--sy, 22%), rgba(255,244,200,.22), rgba(255,244,200,0) 42%); }
+@keyframes portrait-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes portrait-breathe { 0%, 100% { opacity: .65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.04); } }
+@keyframes portrait-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
 .about__text h2 { margin-top: 16px; margin-bottom: 12px; }
 .about__name { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .about__name .n { font-size: 18px; font-weight: 700; }
@@ -734,11 +760,7 @@ html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--a
 .links-page { min-height: 100svh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 40px; }
 .links-page__logo { display: block; margin-bottom: 28px; }
 .links-page__logo img { display: block; height: 46px; width: auto; filter: drop-shadow(0 10px 30px rgba(212,175,55,.45)); }
-.links-page__avatar { position: relative; width: min(62vw, 230px); height: min(62vw, 230px); border-radius: 50%; padding: 6px; background: linear-gradient(135deg, #f5d76e, #d4af37 45%, #a9821e); box-shadow: 0 0 0 10px rgb(var(--ink-0)), 0 0 0 11px rgb(var(--accent-gold) / .35), 0 30px 80px -30px rgba(212,175,55,.55); }
-/* Su gibi yayılan halka: 4,5 saniyede bir büyüyüp söner (XO ile aynı değerler) */
-.links-page__avatar::after { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 1px solid rgba(212,175,55,.28); animation: halo 4.5s ease-in-out infinite; pointer-events: none; }
 @keyframes halo { 0%, 100% { transform: scale(1); opacity: .75; } 50% { transform: scale(1.06); opacity: .25; } }
-.links-page__avatar img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 28%; background: #0b0620; border: 4px solid rgb(var(--ink-0)); }
 .links-page h1 { margin-top: 30px; font-size: clamp(30px, 8vw, 36px); font-weight: 800; line-height: 1.15; text-align: center; letter-spacing: -.02em; }
 .links-page h1 br { display: none; }
 .links-page .role { color: rgb(var(--fg-muted)); font-size: 15px; margin-top: 10px; text-align: center; }
@@ -838,4 +860,4 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 .modal__done { text-align: center; padding: 24px 0; }
 .modal__done .big { font-size: 36px; margin-bottom: 12px; color: rgb(var(--accent-gold)); }
 .modal__done .modal__sub { margin-bottom: 20px; }
-@media (prefers-reduced-motion: reduce) { .links-page__avatar::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .portrait__orbit, .portrait__ticks { display: none; } .portrait__halo { animation: none; } .portrait__inner img { animation: none; } }
