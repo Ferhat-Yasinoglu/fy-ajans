@@ -119,6 +119,8 @@ function translate(src, html, dict, report) {
   html = html.replace(new RegExp(`(<link rel="canonical" href=")${esc(trUrl)}(")`), `$1${langUrl}$2`);
   html = html.replace(new RegExp(`(<meta property="og:url" content=")${esc(trUrl)}(")`), `$1${langUrl}$2`);
   html = html.replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1${dict.locale}$2`);
+  // paylaşım görseli dile göre: img/og.png → img/og-<dil>.png (og:image ve twitter:image)
+  html = html.replace(new RegExp(`(<meta (?:property="og:image"|name="twitter:image") content="${esc(BASE)}img/og)(\\.png")`, 'g'), `$1-${lang}$2`);
 
   // 6) JSON-LD: dize çevirisi, inLanguage, sayfa url'leri
   html = html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (all, a, body, c) => {
