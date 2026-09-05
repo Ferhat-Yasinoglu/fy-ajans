@@ -2,7 +2,6 @@
   "lang": "en", "dir": "ltr", "locale": "en_GB", "name": "English",
 
   "common": {
-    "theme.toLight": "Switch to light theme", "theme.light": "Light theme",
     "nav.brand": "FY home",
     "nav.home": "Home",
     "nav.training": "Course",
@@ -319,7 +318,6 @@
   },
 
   "js": {
-    "themeLight": "Switch to light theme", "themeDark": "Switch to dark theme", "themeLightShort": "Light theme", "themeDarkShort": "Dark theme",
     "menuOpen": "Open menu", "menuClose": "Close menu",
     "badgeIdle": "Live and online", "badgeThinking": "Thinking…", "badgeSpeaking": "Answering", "badgeListening": "Listening",
     "subMore": "Ask something else.", "subDone": "That's it for today — I'll be here again tomorrow.",

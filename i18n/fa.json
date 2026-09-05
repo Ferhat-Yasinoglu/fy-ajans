@@ -2,7 +2,6 @@
   "lang": "fa", "dir": "rtl", "locale": "fa_IR", "name": "فارسی",
 
   "common": {
-    "theme.toLight": "تغییر به پوستهٔ روشن", "theme.light": "پوستهٔ روشن",
     "nav.brand": "صفحهٔ اصلی FY",
     "nav.home": "صفحهٔ اصلی",
     "nav.training": "دوره",
@@ -319,7 +318,6 @@
   },
 
   "js": {
-    "themeLight": "تغییر به پوستهٔ روشن", "themeDark": "تغییر به پوستهٔ تیره", "themeLightShort": "پوستهٔ روشن", "themeDarkShort": "پوستهٔ تیره",
     "menuOpen": "باز کردن منو", "menuClose": "بستن منو",
     "badgeIdle": "زنده و آنلاین", "badgeThinking": "دارم فکر می‌کنم…", "badgeSpeaking": "دارم پاسخ می‌دهم", "badgeListening": "دارم گوش می‌دهم",
     "subMore": "چیز دیگری بپرسید.", "subDone": "برای امروز کافی است — فردا دوباره اینجا هستم.",

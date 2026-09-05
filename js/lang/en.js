@@ -1,9 +1,5 @@
 /* Üretilmiş dosya — elle düzenleme: i18n/en.json → node tools/build-i18n.mjs */
 window.FY_STRINGS = {
- "themeLight": "Switch to light theme",
- "themeDark": "Switch to dark theme",
- "themeLightShort": "Light theme",
- "themeDarkShort": "Dark theme",
  "menuOpen": "Open menu",
  "menuClose": "Close menu",
  "badgeIdle": "Live and online",
