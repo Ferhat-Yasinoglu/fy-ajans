@@ -375,7 +375,9 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .cover__kicker { display: block; font-size: 2cqw; letter-spacing: .5em; text-transform: uppercase; color: rgb(var(--fg-muted)); font-weight: 600; }
 .cover__title { display: block; margin-top: 1cqw; font-size: 6.8cqw; line-height: 1; font-weight: 800; letter-spacing: -.02em; color: #fff8e6; text-shadow: 0 0 4cqw rgba(245,215,110,.35); }
 .cover__title span { display: inline-block; padding: 0 .1em; background: linear-gradient(90deg, #fbe9a6, #d4af37 40%, #fff3c4 55%, #d4af37 70%, #b8891c); background-size: 200% 100%;
-  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: cover-sheen 6s linear infinite; }
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: cover-sheen 6s linear infinite;
+  text-shadow: none; filter: drop-shadow(0 0 1.5cqw rgba(245,215,110,.35)); }   /* gölge gradyanın üstüne binmesin */
+html[lang="fa"] .cover__title { line-height: 1.35; }
 .cover__sub { display: block; margin: 1.6cqw auto 0; max-width: 40cqw; font-size: 1.9cqw; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--fg)); opacity: .9; }
 .cover__foot { left: 0; right: 0; bottom: 3.5cqw; text-align: center; font-size: 2.2cqw; letter-spacing: .5em; text-transform: uppercase; color: #e9c552; font-weight: 600; line-height: 1.6; pointer-events: none; }
 .cover__panels { list-style: none; margin: 0; padding: 0; top: 0; bottom: 0; width: 27.5cqw; perspective: 120cqw; pointer-events: none; translate: calc(var(--px) * 2.6cqw) calc(var(--py) * 1.6cqw); }
@@ -410,6 +412,8 @@ html[dir="rtl"] .cover__panels--r .cpanel__in { flex-direction: row; }
   .cpanel__t { font-size: 3.4cqw; } .cpanel__n { font-size: 2.8cqw; } .cpanel__in { gap: 1.2cqw; padding: 1.5cqw 1.8cqw; }
   .cover__kicker { font-size: 2.4cqw; } .cover__sub { font-size: 2.2cqw; letter-spacing: .08em; max-width: 42cqw; } .cover__foot { font-size: 2.5cqw; letter-spacing: .35em; }
 }
+/* cqw desteklemeyen eski tarayıcılar (Safari 15, Chrome <105): üst katmanlar boyutsuz kalır; yalnız sahne görünsün */
+@supports not (width: 1cqw) { .cover > :not(.cover__scene, .cover__defs) { display: none; } }
 @keyframes cover-walk { 0%, 100% { transform: translateY(0) rotate(-.5deg); } 50% { transform: translateY(-.6cqw) rotate(.5deg); } }
 @keyframes cover-sheen { to { background-position: -200% 0; } }
 @keyframes cpanel-float { from { transform: translateY(0); } to { transform: translateY(-1cqw); } }
