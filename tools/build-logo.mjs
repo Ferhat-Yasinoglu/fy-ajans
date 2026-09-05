@@ -11,7 +11,7 @@
      img/logo.svg        favicon: koyu yuvarlak kare + harfler (durağan)
    Çıktı (piksel, --raster ile; Playwright + Chromium gerekir):
      img/icon-180.png  icon-192.png  icon-512.png   logo.svg'den
-     img/og.png                                      logo-master.png + slogan, 1200×630
+     img/og.png, og-en.png, og-de.png, og-fa.png      logo-master.png + dil dilinde slogan, 1200×630
 
    Marka kiti (--kit ile; Playwright + Chromium gerekir) → brand/ :
      profil fotoğrafı (halkalı, kare, koyu zemin), şeffaf PNG'ler, tek renk siyah/beyaz (SVG+PNG),
@@ -501,27 +501,40 @@ if (RASTER) {
     console.log(`img/icon-${size}.png`);
   }
   await page.setViewportSize({ width: 1200, height: 630 });
-  // Yazı tipi file:// altından yalnızca aynı kökten yüklenir; sayfa geçici olarak depo köküne yazılır
+  // Paylaşım görseli dört dilde: og.png (TR, kaynak) ve og-en/de/fa.png; her dilin sayfaları kendi görselini gösterir
+  // (build-i18n og:image yolunu çevirir). Yazı tipi file:// altında yalnızca aynı kökten yüklendiği için
+  // sayfa geçici olarak depo köküne yazılır.
+  const OG = {
+    tr: { file: 'og.png', dir: 'ltr', t1: 'Yapay Zekâ Ajansı', t2: 'Eğitim · Web Tasarım · İşletme Akıllılaştırma' },
+    en: { file: 'og-en.png', dir: 'ltr', t1: 'AI Agency', t2: 'Training · Web Design · Business Automation' },
+    de: { file: 'og-de.png', dir: 'ltr', t1: 'KI-Agentur', t2: 'Schulung · Webdesign · Automatisierung' },
+    fa: { file: 'og-fa.png', dir: 'rtl', t1: 'آژانس هوش مصنوعی', t2: 'آموزش · طراحی وب · هوشمندسازی کسب‌وکار' },
+  };
   const tmp = join(ROOT, 'og-tmp.html');
-  writeFileSync(tmp, `<!doctype html><html><head><meta charset="utf-8"><style>
-    @font-face { font-family: V; src: url("fonts/vazirmatn-latin.woff2") format("woff2"); font-weight: 100 900; }
+  for (const [lang, o] of Object.entries(OG)) {
+    writeFileSync(tmp, `<!doctype html><html lang="${lang}" dir="${o.dir}"><head><meta charset="utf-8"><style>
+    @font-face { font-family: V; src: url("fonts/vazirmatn-latin.woff2") format("woff2"); font-weight: 100 900; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122; }
+    @font-face { font-family: V; src: url("fonts/vazirmatn-latin-ext.woff2") format("woff2"); font-weight: 100 900; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F; }
+    @font-face { font-family: V; src: url("fonts/vazirmatn-arabic.woff2") format("woff2"); font-weight: 100 900; unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+200C-200E, U+FB50-FDFF, U+FE70-FEFC; }
     body { margin: 0; width: 1200px; height: 630px; background: #000; position: relative; overflow: hidden; font-family: V, system-ui, sans-serif; }
     img { position: absolute; left: 50%; top: 0; height: 630px; transform: translateX(-50%); }
     .t { position: absolute; left: 0; right: 0; text-align: center; color: #f4ecd8; }
     .t1 { top: 500px; font-size: 44px; font-weight: 800; letter-spacing: -.01em; text-shadow: 0 2px 24px rgba(0,0,0,.9); }
     .t2 { top: 560px; font-size: 24px; color: #cbbf9c; text-shadow: 0 2px 16px rgba(0,0,0,.9); }
+    [dir="rtl"] .t1 { letter-spacing: 0; font-size: 46px; } [dir="rtl"] .t2 { font-size: 26px; }
   </style></head><body>
     <img src="img/logo-master.png">
-    <div class="t t1">Yapay Zekâ Ajansı</div>
-    <div class="t t2">Eğitim · Web Tasarım · İşletme Akıllılaştırma</div>
+    <div class="t t1">${o.t1}</div>
+    <div class="t t2">${o.t2}</div>
   </body></html>`);
-  try {
-    await page.goto('file://' + tmp, { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    await page.waitForTimeout(300);
-    await page.screenshot({ path: join(ROOT, 'img/og.png') });
-  } finally { unlinkSync(tmp); }
-  console.log('img/og.png');
+    try {
+      await page.goto('file://' + tmp, { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(300);
+      await page.screenshot({ path: join(ROOT, 'img/' + o.file) });
+    } finally { unlinkSync(tmp); }
+    console.log('img/' + o.file);
+  }
   await browser.close();
 }
 

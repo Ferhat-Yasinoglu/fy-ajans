@@ -93,7 +93,7 @@ img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üreti
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
-img/og.png            paylaşım görseli (1200×630; logo-master.png + slogan, betik üretir; sosyal ağlar PNG ister)
+img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
 img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest; logo.svg'den betik üretir)
 tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
