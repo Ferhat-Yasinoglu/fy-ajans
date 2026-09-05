@@ -188,27 +188,43 @@
     }, { passive: true });
   })();
 
-  /* ---------- Kurs kapağı: mavi parçacık kapısı ---------- */
+  /* ---------- Kurs kapağı: imleç paralaksı (yalnız gerçek imleç) ----------
+     Sahne, logo, figür, başlık ve paneller --px/--py ile derinliğine göre kayar (css .cover*). Dokunmatikte kapalı. */
   (function cover() {
-    var canvas = $('#coverCanvas'); if (!canvas) return;
-    var parts = [];
-    function build() { var f = fit(canvas); parts = []; for (var i = 0; i < 140; i++) parts.push({ x: rnd(0, f.w), y: rnd(0, f.h), r: rnd(.5, 2), v: rnd(.05, .35), h: Math.random() < .8 ? 215 : 265 }); }
-    function draw() {
-      if (!visible(canvas)) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx;
-      var g = ctx.createLinearGradient(0, 0, 0, f.h); g.addColorStop(0, '#050a1a'); g.addColorStop(1, '#02040c');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, f.w, f.h);
-      // ızgara
-      ctx.strokeStyle = 'rgba(80,140,255,.08)'; ctx.lineWidth = 1;
-      for (var x = 0; x < f.w; x += 28) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, f.h); ctx.stroke(); }
-      for (var yy = 0; yy < f.h; yy += 28) { ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(f.w, yy); ctx.stroke(); }
-      parts.forEach(function (p) {
-        p.y -= p.v; if (p.y < -4) { p.y = f.h + 4; p.x = rnd(0, f.w); }
-        ctx.fillStyle = 'hsla(' + p.h + ',90%,70%,.8)'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+    var els = $$('[data-cover]'); if (!els.length) return;
+    // Panel yazıları tek satır: kutuya sığmayan dildeki başlık (ör. Almanca "Analysieren") yarım puan adımlarla küçülür
+    function fitText() {
+      $$('.cpanel__t, .cpanel__s', document).forEach(function (el) {
+        el.style.fontSize = ''; el.style.textOverflow = 'clip';           // üç nokta açıkken ölçüm kesilmiş genişliği verir
+        var fs = parseFloat(getComputedStyle(el).fontSize), guard = 0, rg = document.createRange();
+        rg.selectNodeContents(el);
+        // kesirli ölçüm: tam sayı scrollWidth yarım pikselden küçük taşmayı kaçırır, üç nokta yine çıkardı
+        while (rg.getBoundingClientRect().width > el.getBoundingClientRect().width - 1 && fs > 6 && guard++ < 40) { fs -= .5; el.style.fontSize = fs + 'px'; }
+        el.style.textOverflow = '';
       });
-      if (!reduce) raf(draw);
     }
-    build(); raf(draw); addEventListener('resize', build);
+    var fitTimer;
+    function fitSoon() { clearTimeout(fitTimer); fitTimer = setTimeout(fitText, 120); }
+    fitText(); addEventListener('resize', fitSoon);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitText);
+    if (reduce || !(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches)) return;
+    els.forEach(function (el) {
+      var cur = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, running = false;
+      function step() {
+        cur.x += (tgt.x - cur.x) * .08; cur.y += (tgt.y - cur.y) * .08;
+        el.style.setProperty('--px', cur.x.toFixed(3)); el.style.setProperty('--py', cur.y.toFixed(3));
+        if (Math.abs(tgt.x - cur.x) > .002 || Math.abs(tgt.y - cur.y) > .002) raf(step); else running = false;
+      }
+      function kick() { if (!running) { running = true; raf(step); } }
+      el.addEventListener('mousemove', function (e) {
+        if (e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+        var r = el.getBoundingClientRect(); if (!r.width) return;
+        tgt.x = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - .5) * 2));
+        tgt.y = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - .5) * 2));
+        kick();
+      });
+      el.addEventListener('mouseleave', function () { tgt.x = 0; tgt.y = 0; kick(); });
+    });
   })();
 
   /* ---------- FYOS sahnesi: canlı ağ + ses dalgası ----------

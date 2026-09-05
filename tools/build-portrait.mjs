@@ -17,46 +17,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PR = 320;                       // fotoğraf yarıçapı
 const RING = { r: 344, w: 22 };       // kalın altın halka (iç kenar 333, dış kenar 355)
 
-/* ---------- Tohumlu rastgele ---------- */
-function rng(seed) {
-  let a = seed >>> 0;
-  return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-}
+import { rng, f1, P, smooth, ribbon, arc } from './lib/gold.mjs';
+
 const R = rng(20260905);
 const rnd = (a, b) => a + (b - a) * R();
-const f1 = n => (Math.round(n * 10) / 10).toString();
-
-/* ---------- Geometri ---------- */
-const P = (r, deg) => { const t = deg * Math.PI / 180; return [r * Math.cos(t), r * Math.sin(t)]; };
-/** Catmull-Rom → kübik Bézier; closed ise halka kapanır */
-function smooth(pts, closed) {
-  const n = pts.length, get = i => pts[closed ? (i + n) % n : Math.max(0, Math.min(n - 1, i))];
-  let d = 'M' + f1(pts[0][0]) + ' ' + f1(pts[0][1]);
-  const last = closed ? n : n - 1;
-  for (let i = 0; i < last; i++) {
-    const p0 = get(i - 1), p1 = get(i), p2 = get(i + 1), p3 = get(i + 2);
-    d += ' C' + f1(p1[0] + (p2[0] - p0[0]) / 6) + ' ' + f1(p1[1] + (p2[1] - p0[1]) / 6) + ' ' + f1(p2[0] - (p3[0] - p1[0]) / 6) + ' ' + f1(p2[1] - (p3[1] - p1[1]) / 6) + ' ' + f1(p2[0]) + ' ' + f1(p2[1]);
-  }
-  return d + (closed ? ' Z' : '');
-}
-/** Sıvı altın şerit: dalgalı yarıçap, uçları sivrilen değişken kalınlık. widthMul parıltı kopyaları için. */
-function ribbon(o, widthMul = 1) {
-  const N = 48, outer = [], inner = [], center = [];
-  for (let i = 0; i <= N; i++) {
-    const t = i / N, deg = o.a0 + o.span * t, th = deg * Math.PI / 180;
-    const wave = o.A * Math.sin(o.k * th + o.ph) + o.A * .45 * Math.sin(2.6 * o.k * th + o.ph * 1.7) + o.A * .2 * Math.sin(5.1 * o.k * th + o.ph * .6);
-    const r = o.R + wave;
-    const w = widthMul * o.W * Math.pow(Math.sin(t * Math.PI), .75) * (.55 + .45 * Math.sin(3.3 * th + o.ph * 2.1));
-    outer.push([(r + w / 2) * Math.cos(th), (r + w / 2) * Math.sin(th)]);
-    inner.push([(r - w / 2) * Math.cos(th), (r - w / 2) * Math.sin(th)]);
-    center.push([r * Math.cos(th), r * Math.sin(th)]);
-  }
-  return { body: smooth(outer.concat(inner.reverse()), true), core: smooth(center, false) };
-}
-function arc(r, a0, a1) {
-  const [x0, y0] = P(r, a0), [x1, y1] = P(r, a1);
-  return `M${f1(x0)} ${f1(y0)} A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${f1(x1)} ${f1(y1)}`;
-}
 
 /* ---------- Şeritler ---------- */
 const ribbonsA = [], ribbonsB = [];
