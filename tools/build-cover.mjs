@@ -43,6 +43,10 @@ const rays = [-300, -100, 150, 850, 1100, 1300].map((xb, i) => {
   return `<path class="ray" d="M${f1(x0)} 600L${xb} 1000" style="animation-duration:${f1(rnd(2.2, 3.6))}s;animation-delay:-${f1(rnd(0, 3))}s" opacity="${f1(rnd(.35, .6))}"/>`;
 }).join('');
 
+// koridor ışık bantları: 240 px aralıkla, kırpma alanının (y 560–1000) üstünden altına kadar; döngü 240 px kaydırır → kesintisiz
+let bands = '';
+for (let y = -240; y <= 960; y += 240) bands += `<rect x="0" y="${y}" width="1000" height="80" fill="url(#gBand)"/>`;
+
 /* ---------- Yan bloklar (perspektifli) ---------- */
 function pillar(mirror) {
   const M = x => mirror ? 1000 - x : x;
@@ -140,7 +144,7 @@ ${style(anim)}
 <g clip-path="url(#cFloor)" fill="none" stroke="#d4af37" stroke-width="1.2" opacity=".14">${floorLines}</g>
 <g clip-path="url(#cFloor)" fill="none" stroke="#fff3c4" stroke-width="2.2" stroke-dasharray="40 120" stroke-linecap="round">${rays}</g>
 <polygon points="462,560 538,560 790,1000 210,1000" fill="url(#gCorr)" opacity=".9"/>
-<g clip-path="url(#cCorr)"><g class="band"><rect x="0" y="480" width="1000" height="80" fill="url(#gBand)"/><rect x="0" y="240" width="1000" height="80" fill="url(#gBand)"/><rect x="0" y="0" width="1000" height="80" fill="url(#gBand)"/><rect x="0" y="-240" width="1000" height="80" fill="url(#gBand)"/></g></g>
+<g clip-path="url(#cCorr)"><g class="band">${bands}</g></g>
 <path d="M462 560L210 1000" fill="none" stroke="#f5d76e" stroke-width="7" opacity=".14"/><path d="M462 560L210 1000" fill="none" stroke="#ffe680" stroke-width="1.6" opacity=".7"/>
 <path d="M538 560L790 1000" fill="none" stroke="#f5d76e" stroke-width="7" opacity=".14"/><path d="M538 560L790 1000" fill="none" stroke="#ffe680" stroke-width="1.6" opacity=".7"/>
 ${pillar(false)}${pillar(true)}

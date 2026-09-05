@@ -1,6 +1,6 @@
 /* FY — Yapay Zekâ Ajansı · ana betik
    Bölümler: üst çubuk, mobil menü, görünürlük animasyonu, hero devre ağı,
-   kurs kapağı, FYOS sahnesi (ağ, ses dalgası, baloncuklu sohbet), sekmeler, beyin grafiği,
+   kurs kapağı, FYOS sahnesi (ağ, ses dalgası, baloncuklu sohbet), sekmeler,
    otomasyon yolculuk şeması, SSS akordeonu, formlar. Bağımlılık yok. */
 (function () {
   'use strict';
@@ -649,36 +649,6 @@
       var sub = $('#stageSub'); if (sub) sub.textContent = tab.title + '.';
     });
   });
-
-  /* ---------- Beyin: bilgi grafiği ---------- */
-  (function brain() {
-    var canvas = $('#brainCanvas'); if (!canvas) return;
-    var pts = [], t0 = performance.now();
-    function build() {
-      var f = fit(canvas); pts = [];
-      var cx = f.w * .5, cy = f.h * .5, n = 900;
-      for (var i = 0; i < n; i++) {
-        var cl = Math.random();
-        var ox = cl < .75 ? 0 : (cl < .9 ? f.w * .28 : -f.w * .3), oy = cl < .75 ? 0 : (cl < .9 ? -f.h * .22 : f.h * .25);
-        var ang = rnd(0, 6.283), rad = Math.pow(Math.random(), .5) * (cl < .75 ? f.h * .36 : f.h * .13);
-        pts.push({ x: cx + ox + Math.cos(ang) * rad, y: cy + oy + Math.sin(ang) * rad, r: Math.random() < .04 ? rnd(2, 3.5) : rnd(.6, 1.4), a: rnd(.25, .9), ph: rnd(0, 6.283) });
-      }
-    }
-    function draw(now) {
-      if (!visible(canvas)) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx, time = (now - t0) / 1000;
-      ctx.fillStyle = '#0d0d0f'; ctx.fillRect(0, 0, f.w, f.h);
-      ctx.strokeStyle = 'rgba(200,200,215,.08)'; ctx.lineWidth = .5;
-      for (var i = 0; i < pts.length; i += 3) { var a = pts[i], b = pts[(i * 7 + 13) % pts.length]; var dx = a.x - b.x, dy = a.y - b.y; if (dx * dx + dy * dy < 2600) { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); } }
-      pts.forEach(function (p) {
-        var tw = .6 + .4 * Math.sin(time * .8 + p.ph);
-        ctx.fillStyle = p.r > 2 ? 'rgba(34,211,238,' + (p.a * tw) + ')' : 'rgba(225,225,235,' + (p.a * tw * .8) + ')';
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
-      });
-      if (!reduce) raf(draw);
-    }
-    build(); raf(draw); addEventListener('resize', build);
-  })();
 
   /* ---------- Otomasyon: "Hedefine adım adım" yolculuk şeması ----------
      Kartlar ve rozetler HTML/CSS'te; burada rozet merkezlerinden geçen yılan yolu çizilir, görünür olunca
