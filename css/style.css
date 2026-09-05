@@ -537,7 +537,7 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
   background: linear-gradient(180deg, #fbe9a6, #d4af37 55%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
 .journey__sub { margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgb(var(--fg-muted)); }
 .journey__aside { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex: 0 1 auto; max-width: 100%; margin-inline-start: auto; text-align: end; }
-.journey__tag { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.75; }
+.journey__tag { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.75; }
 .journey__tag::after { content: ""; display: block; width: 36px; height: 1px; margin-top: 6px; background: rgb(var(--accent-gold) / .7); }
 .journey__aside .journey__tag::after, .journey__tag--b::after { margin-inline-start: auto; }
 .journey__script { position: relative; display: inline-block; max-width: 100%; font-family: "Great Vibes", var(--font-body), cursive; font-weight: 400; font-size: clamp(26px, 3vw, 38px); line-height: 1; white-space: nowrap; color: #f0cf6a; text-shadow: 0 0 18px rgba(245,215,110,.35); transform: rotate(-7deg); padding: 6px 10px 10px; }
@@ -591,6 +591,8 @@ html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2v
   transform: translate(var(--nx), -50%) scale(var(--ns, 1));
   transition: transform .6s cubic-bezier(.34,1.56,.64,1), box-shadow .5s, background-color .5s, color .5s, border-color .5s; }
 .jstep--r .jstep__num { right: auto; left: 0; }
+/* Kaydırma (kenar) ile ölçek (belirme) ayrı: kırılım noktası değişince rozet kart boyunca kaymaz, yalnız ölçek geçişlidir */
+@supports (translate: 1px) { .jstep__num { translate: var(--nx) -50%; transform: scale(var(--ns, 1)); } }
 /* Rozet kartın iç kenarına yarı taşar: o kenarda metne yer aç */
 .jstep .jstep__card { padding-right: calc(var(--jpad) + var(--jnum) * .5); }
 .jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
@@ -601,7 +603,7 @@ html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2v
 .jstep.is-hot .jstep__num::after { animation: jping 1.2s cubic-bezier(0, 0, .2, 1) both; }
 
 .journey__foot { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
-.journey__brand { font-size: 9.5px; letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.9; white-space: nowrap; }
+.journey__brand { font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.9; white-space: nowrap; }
 .journey__brand b { display: block; color: rgb(var(--fg)); font-weight: 600; }
 .journey__rule { flex: 1; height: 1px; background: linear-gradient(90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }
 html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }

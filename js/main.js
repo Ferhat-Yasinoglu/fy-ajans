@@ -668,7 +668,7 @@
      Kartlar ve rozetler HTML/CSS'te; burada rozet merkezlerinden geçen yılan yolu çizilir, görünür olunca
      yol çizilir + kartlar sırayla belirir, sonra yol boyunca gezen ışık hangi rozeti geçtiyse o adım "sıcak" olur. */
   (function journey() {
-    var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'); if (!root || !body || !svg) return;
+    var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'), svgLive = $('#journeySvgLive'); if (!root || !body || !svg || !svgLive) return;
     var steps = $$('.jstep', root), nums = steps.map(function (s) { return $('.jstep__num', s); });
     var line = $('#jLine'), glow = $('#jGlow'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
     if (!line || !glow || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
@@ -703,7 +703,7 @@
 
     function build() {
       var br = body.getBoundingClientRect(), W = br.width, H = br.height; if (!W || !H) return;
-      svg.setAttribute('viewBox', '0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1));
+      var vb = '0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1); svg.setAttribute('viewBox', vb); svgLive.setAttribute('viewBox', vb);
       // Rozet merkezleri (ölçek 0 olsa da dikdörtgen merkezi doğru kalır), aralara sağa-sola salınan ara noktalar
       var pts = nums.map(function (n) { var r = n.getBoundingClientRect(); return [r.left + r.width / 2 - br.left, r.top + r.height / 2 - br.top]; });
       var ctrl = [], amp = Math.min(W * .075, 48);
