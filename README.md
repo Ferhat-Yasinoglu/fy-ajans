@@ -66,6 +66,7 @@ node tools/build-logo.mjs --kit      # + brand/ marka kiti (aynı gereksinim)
   ışın damlası, parçacıklar, zemin yansıması) ve `<img>` içinde çalışır. `prefers-reduced-motion` için her logo `<picture>`
   içindedir: `<source media="(prefers-reduced-motion: reduce)" srcset="…-static.svg">` animasyonsuz kopyayı seçer
   (SVG içindeki media sorgusuna `<img>` altında her tarayıcı bakmaz). Betik iki kopyayı da üretir.
+- Hero sahnesi her açılışta bir kez kendini çizer (halka, ışın, harf kenarları, yüzeyler, ağ düğümleri; ~3 s), sonra döngüler sürer; animasyonsuz kopyada açılış yok.
 - Hero'da `js/main.js` fareyle hafif 3B eğim verir ve kaydırma dönüşümüyle birleştirir; kutu oranı `.hero__logo` içinde SVG viewBox'ıyla aynıdır.
 - Küçük boyutlar için favicon sade tutuldu (dolu altın harfler); harf logosu 30 px altında da okunur.
 
