@@ -11,6 +11,7 @@
      img/logo.svg        favicon: koyu yuvarlak kare + harfler (durağan)
    Çıktı (piksel, --raster ile; Playwright + Chromium gerekir):
      img/icon-180.png  icon-192.png  icon-512.png   logo.svg'den
+     img/favicon.ico (16/32/48)                     logo.svg'den; SVG favicon okumayan tarayıcı ve araçlar için
      img/og.png, og-en.png, og-de.png, og-fa.png      logo-master.png + dil dilinde slogan, 1200×630
 
    Marka kiti (--kit ile; Playwright + Chromium gerekir) → brand/ :
@@ -500,6 +501,27 @@ if (RASTER) {
     await page.screenshot({ path: join(ROOT, `img/icon-${size}.png`), clip: { x: 0, y: 0, width: size, height: size } });
     console.log(`img/icon-${size}.png`);
   }
+  // favicon.ico: eski tarayıcılar ve SVG favicon okumayan araçlar için; 16/32/48 px PNG'ler tek ICO kabında
+  // (ICO 6 baytlık başlık + her görsel için 16 baytlık dizin girdisi + PNG verileri; PNG içeren ICO Vista'dan beri desteklenir)
+  const icoPngs = [];
+  for (const size of [16, 32, 48]) {
+    await page.setViewportSize({ width: size, height: size });
+    await page.setContent(`<html><body style="margin:0;background:transparent"><img src="${svgData}" width="${size}" height="${size}" style="display:block"></body></html>`);
+    icoPngs.push({ size, buf: await page.screenshot({ omitBackground: true, clip: { x: 0, y: 0, width: size, height: size } }) });
+  }
+  const icoHead = Buffer.alloc(6 + 16 * icoPngs.length);
+  icoHead.writeUInt16LE(0, 0); icoHead.writeUInt16LE(1, 2); icoHead.writeUInt16LE(icoPngs.length, 4);
+  let off = icoHead.length;
+  icoPngs.forEach((p, i) => {
+    const e = 6 + 16 * i;
+    icoHead[e] = p.size; icoHead[e + 1] = p.size; icoHead[e + 2] = 0; icoHead[e + 3] = 0;
+    icoHead.writeUInt16LE(1, e + 4); icoHead.writeUInt16LE(32, e + 6);
+    icoHead.writeUInt32LE(p.buf.length, e + 8); icoHead.writeUInt32LE(off, e + 12);
+    off += p.buf.length;
+  });
+  writeFileSync(join(ROOT, 'img/favicon.ico'), Buffer.concat([icoHead, ...icoPngs.map(p => p.buf)]));
+  console.log('img/favicon.ico  (16, 32, 48 px)');
+
   await page.setViewportSize({ width: 1200, height: 630 });
   // Paylaşım görseli dört dilde: og.png (TR, kaynak) ve og-en/de/fa.png; her dilin sayfaları kendi görselini gösterir
   // (build-i18n og:image yolunu çevirir). Yazı tipi file:// altında yalnızca aynı kökten yüklendiği için
