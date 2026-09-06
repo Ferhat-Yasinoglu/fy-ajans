@@ -148,10 +148,12 @@ function ch3(R, anim) {
   const nodeSvg = nodes.map(([x, y], i) => `<g transform="translate(${f1(x)} ${f1(y)})">` +
     `<circle r="58" fill="url(#soft)" opacity=".45"/>` +
     `<g class="nd" style="animation-delay:-${f1(i * .8)}s"><path d="M${hex(37)}Z" fill="#1c1307" stroke="url(#brass)" stroke-width="4"/>` +
-    `<path d="M${P(37, -150).map(f1).join(' ')}L${P(37, -90).map(f1).join(' ')}L${P(37, -30).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="2.6" opacity=".8"/></g></g>`).join('');
+    `<path d="M${P(37, -150).map(f1).join(' ')}L${P(37, -90).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="2.8" opacity=".85"/>` +
+    `<path d="M${P(37, -90).map(f1).join(' ')}L${P(37, -30).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="2.4" opacity=".35"/></g></g>`).join('');
   const core = `<g transform="translate(${CX} ${CY})"><circle r="106" fill="url(#soft)" opacity=".45"/>
 <g class="core"><path d="M${hex(68)}Z" fill="#160f05" stroke="url(#brass)" stroke-width="5.5"/>
-<path d="M${P(68, -150).map(f1).join(' ')}L${P(68, -90).map(f1).join(' ')}L${P(68, -30).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="3.4" opacity=".85"/></g></g>`;
+<path d="M${P(68, -150).map(f1).join(' ')}L${P(68, -90).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="3.6" opacity=".9"/>
+<path d="M${P(68, -90).map(f1).join(' ')}L${P(68, -30).map(f1).join(' ')}" fill="none" stroke="#ffe9a3" stroke-width="3" opacity=".38"/></g></g>`;
   const web = `<g fill="none" stroke="#e9c552" stroke-width="2.4" stroke-opacity=".5">${links}</g>
 <g fill="none" stroke="#e2bd4a" stroke-width="1.6" stroke-opacity=".22" stroke-dasharray="4 12">${ring}</g>
 ${nodeSvg}${core}`;
@@ -279,7 +281,8 @@ function ch6(R, anim) {
 ${bars}`;
   const plinth = `<path d="M${PX - 152} ${GY}h304l30 82H${f1(PX - 182)}Z" fill="url(#stone)"/>
 <path d="M${PX - 152} ${GY}h304" stroke="#ffe9a3" stroke-width="3" opacity=".75"/>
-<path d="M${PX - 152} ${GY}L${PX - 182} ${GY + 82}M${PX + 152} ${GY}L${PX + 182} ${GY + 82}" stroke="#c99a20" stroke-width="2" opacity=".45"/>`;
+<path d="M${PX - 152} ${GY}L${PX - 182} ${GY + 82}" stroke="#e9c552" stroke-width="2" opacity=".5"/>
+<path d="M${PX + 152} ${GY}L${PX + 182} ${GY + 82}" stroke="#8c6a14" stroke-width="2" opacity=".4"/>`;
   return {
     defs: `<linearGradient id="stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241a06"/><stop offset=".5" stop-color="#120d05"/><stop offset="1" stop-color="#0b0803"/></linearGradient>
 <linearGradient id="screen" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#2a1e07"/><stop offset=".55" stop-color="#120d05"/><stop offset="1" stop-color="#0b0803"/></linearGradient>
