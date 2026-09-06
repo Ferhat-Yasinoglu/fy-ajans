@@ -37,12 +37,12 @@ export const SCENE_CSS = `
 
 /** Hacimsel ışık konisi: tepe (sx,sy), tabanı by yüksekliğinde bx1..bx2 arası.
     Koni ince dilimlere bölünür, her dilimin opaklığı çan eğrisiyle söner — kenar süzgeçsiz yumuşar. */
-export function shaft(sx, sy, bx1, bx2, by, op = 1, N = 26, fill = 'url(#beam)') {
+export function shaft(sx, sy, bx1, bx2, by, op = 1, N = 16, fill = 'url(#beam)') {
   let s = '';
   for (let i = 0; i < N; i++) {
     const u0 = i / N, u1 = (i + 1) / N;
     const a = Math.exp(-Math.pow((u0 + u1 - 1) * 1.9, 2));
-    if (a < .012) continue;
+    if (a < .03) continue;                        // görünmeyen dilim çizilmez: kare başına yeniden çizim ucuzlar
     s += `<path d="M${f1(sx)} ${f1(sy)}L${f1(bx1 + (bx2 - bx1) * u0)} ${f1(by)}L${f1(bx1 + (bx2 - bx1) * u1)} ${f1(by)}Z" opacity="${f1(a * op)}"/>`;
   }
   return `<g fill="${fill}">${s}</g>`;
@@ -68,7 +68,9 @@ export const haze = (y, h, op = .1) => `<rect x="0" y="${f1(y)}" width="800" hei
 /** Zemine düşen ışık havuzu. */
 export const pool = (cx, cy, rx, ry) => `<ellipse cx="${f1(cx)}" cy="${f1(cy)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="url(#pool)"/>`;
 
-/** Işıkta asılı toz. box = {x, y, w, h} */
+/** Işıkta asılı toz. box = {x, y, w, h}
+    Sayı bilerek düşük tutulur: SVG bir <img> içinde olduğu için tek öğe kıpırdasa bile tüm kare
+    yeniden çizilir; maliyeti belirleyen şey sahnedeki toplam öğe sayısıdır. */
 export function motes(R, n, box) {
   let s = '';
   for (let i = 0; i < n; i++) {

@@ -69,10 +69,10 @@ ${ridge([[0, 500], [170, 466], [360, 502], [540, 472], [700, 504], [800, 486]], 
 </g>
 <rect x="0" y="${HY}" width="${W}" height="${H - HY}" fill="url(#water)"/>
 <path d="M0 ${HY}H${W}" stroke="#ffe9a3" stroke-width="2.5" opacity=".8"/>
-${shaft(CX, HY - 8, CX - 176, CX + 206, H, 1, 22)}
-${shaft(CX, HY - 8, CX - 74, CX + 88, H, .85, 14)}
+${shaft(CX, HY - 8, CX - 176, CX + 206, H, 1, 14)}
+${shaft(CX, HY - 8, CX - 74, CX + 88, H, .85, 9)}
 <ellipse cx="${CX}" cy="${HY}" rx="190" ry="18" fill="url(#pool)"/>
-${motes(R, 16, { x: 120, y: 170, w: 540, h: 320 })}`,
+${motes(R, 9, { x: 120, y: 170, w: 540, h: 320 })}`,
   };
 }
 
@@ -120,7 +120,7 @@ ${pool(612, GY, 196, 42)}
 <path class="flow" d="M470 408H540" fill="none" stroke="#fff3c4" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 18"/>
 <g transform="translate(612 408)"><circle class="oh" r="168" fill="url(#halo)"/>${gem}</g>
 ${mirror(`<g transform="translate(612 408)">${gem}</g>`, GY, .32, 140)}
-${motes(R, 14, { x: 150, y: 180, w: 520, h: 330 })}`,
+${motes(R, 8, { x: 150, y: 180, w: 520, h: 330 })}`,
   };
 }
 
@@ -167,10 +167,10 @@ ${pkCss}
 <rect x="0" y="${GY}" width="${W}" height="${H - GY}" fill="url(#near)"/>
 <path d="M0 ${GY}H${W}" stroke="#ffe9a3" stroke-width="2" opacity=".3"/>
 ${pool(CX, GY, 256, 48)}
-${mirror(web, GY, .26, 130)}
+${mirror(nodeSvg + core, GY, .26, 130)}
 ${web}
 <g fill="none" stroke-linecap="round">${pk}</g>
-${motes(R, 16, { x: 130, y: 170, w: 540, h: 380 })}`,
+${motes(R, 9, { x: 130, y: 170, w: 540, h: 380 })}`,
   };
 }
 
@@ -208,7 +208,7 @@ ${code}
 <path d="M${X + 20} ${GY}L40 ${H}H760L${X + WW - 20} ${GY}Z" fill="url(#spill)"/>
 ${mirror(screen + stand, GY, .22, 120)}
 <g>${stand}${screen}</g>
-${motes(R, 14, { x: 150, y: 170, w: 500, h: 300 })}`,
+${motes(R, 8, { x: 150, y: 170, w: 500, h: 300 })}`,
   };
 }
 
@@ -250,7 +250,7 @@ ${mod(470, 512)}<circle r="11"/><circle cx="-26" cy="19" r="7.5"/><circle cx="26
 ${pool(400, GY, 236, 44)}
 ${mirror(glass, GY, .34, 150)}
 <g>${glass}</g>
-${motes(R, 18, { x: 170, y: 160, w: 460, h: 400 })}`,
+${motes(R, 10, { x: 170, y: 160, w: 460, h: 400 })}`,
   };
 }
 
@@ -291,14 +291,14 @@ ${bars}`;
 @keyframes rise{0%{transform:translateY(80px) scale(.55);opacity:0}14%,80%{opacity:1}100%{transform:translateY(-230px) scale(1.1);opacity:0}}
 @keyframes play{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}`,
     svg: `${shaft(140, -210, 30, 640, GY, .6)}
-${shaft(PX, PT + 156, PX - 286, PX + 286, 20, .95, 24, 'url(#beamUp)')}
+${shaft(PX, PT + 156, PX - 286, PX + 286, 20, .95, 16, 'url(#beamUp)')}
 <g transform="translate(${PX} ${PT + 170})"><circle class="glow" r="268" fill="url(#halo)"/></g>
 <g fill="#ffe27a" opacity=".92">${rise}</g>
 ${plinth}
 ${pool(PX, GY, 190, 34)}
 ${mirror(phone, GY, .18, 110)}
 <g>${phone}</g>
-${motes(R, 14, { x: 180, y: 160, w: 440, h: 340 })}`,
+${motes(R, 8, { x: 180, y: 160, w: 440, h: 340 })}`,
   };
 }
 
@@ -336,7 +336,7 @@ ${haze(536, 110, .07)}
 <path class="flag" d="M4 -84h72l-20 25 20 25H4Z" fill="url(#gold)"/>
 <circle class="star" cy="-100" r="11" fill="#fff8e0"/></g>
 ${ridge([[0, 686], [190, 648], [420, 698], [640, 656], [800, 700]], '#0d0904')}
-${motes(R, 16, { x: 120, y: 260, w: 520, h: 340 })}`,
+${motes(R, 9, { x: 120, y: 260, w: 520, h: 340 })}`,
   };
 }
 
