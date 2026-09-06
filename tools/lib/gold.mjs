@@ -1,4 +1,4 @@
-/* Altın sahneler için ortak geometri yardımcıları (tools/build-portrait.mjs, tools/build-cover.mjs).
+/* Altın sahneler için ortak geometri yardımcıları (tools/build-portrait.mjs, tools/build-cover.mjs, tools/build-brain.mjs).
    Saf fonksiyonlar; rastgelelik çağıran betiğin kendi tohumlu üreteciyle gelir. */
 
 /** Tohumlu rastgele üreteç (mulberry32): aynı tohum → aynı dizi, üretilen dosyalar kararlı kalır */
@@ -38,8 +38,10 @@ export function ribbon(o, widthMul = 1, N = 48) {
   return { body: smooth(outer.concat(inner.reverse()), true), core: smooth(center, false) };
 }
 
-/** Bir şeridin üç katmanlı (iki parıltı kopyası + gövde + parlak çekirdek) SVG'si */
-export function ribbonLayers(o, { glow = 'url(#gGlow)', body = 'url(#gRib)', core = '#fff7d6', coreW = 2.2, g1 = .2, g2 = .34 } = {}) {
+/** Bir şeridin üç katmanlı (iki parıltı kopyası + gövde + parlak çekirdek) SVG'si.
+    g1/g2 (parıltı kopyalarının opaklığı) dizgi olarak yazılır: sayı verilirse ".2" yerine "0.2" üretilir ve
+    üretilen SVG'ler gereksiz yere değişir. */
+export function ribbonLayers(o, { glow = 'url(#gGlow)', body = 'url(#gRib)', core = '#fff7d6', coreW = 2.2, g1 = '.2', g2 = '.34' } = {}) {
   const gl = ribbon(o, 3.2), m = ribbon(o, 1.9), c = ribbon(o, 1);
   return `<path d="${gl.body}" fill="${glow}" opacity="${g1}"/>` +
     `<path d="${m.body}" fill="${glow}" opacity="${g2}"/>` +
