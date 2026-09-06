@@ -189,24 +189,9 @@
   })();
 
   /* ---------- Kurs kapağı: imleç paralaksı (yalnız gerçek imleç) ----------
-     Sahne, logo, figür, başlık ve paneller --px/--py ile derinliğine göre kayar (css .cover*). Dokunmatikte kapalı. */
+     Sahne, halka, duraklar, logo ve başlık --px/--py ile derinliğine göre kayar (css .cover*). Dokunmatikte kapalı. */
   (function cover() {
     var els = $$('[data-cover]'); if (!els.length) return;
-    // Panel yazıları tek satır: kutuya sığmayan dildeki başlık (ör. Almanca "Analysieren") yarım puan adımlarla küçülür
-    function fitText() {
-      $$('.cpanel__t, .cpanel__s', document).forEach(function (el) {
-        el.style.fontSize = ''; el.style.textOverflow = 'clip';           // üç nokta açıkken ölçüm kesilmiş genişliği verir
-        var fs = parseFloat(getComputedStyle(el).fontSize), guard = 0, rg = document.createRange();
-        rg.selectNodeContents(el);
-        // kesirli ölçüm: tam sayı scrollWidth yarım pikselden küçük taşmayı kaçırır, üç nokta yine çıkardı
-        while (rg.getBoundingClientRect().width > el.getBoundingClientRect().width - 1 && fs > 6 && guard++ < 40) { fs -= .5; el.style.fontSize = fs + 'px'; }
-        el.style.textOverflow = '';
-      });
-    }
-    var fitTimer;
-    function fitSoon() { clearTimeout(fitTimer); fitTimer = setTimeout(fitText, 120); }
-    fitText(); addEventListener('resize', fitSoon);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitText);
     if (reduce || !(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches)) return;
     els.forEach(function (el) {
       var cur = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, running = false;
