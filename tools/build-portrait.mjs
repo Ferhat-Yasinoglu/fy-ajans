@@ -17,7 +17,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PR = 320;                       // fotoğraf yarıçapı
 const RING = { r: 344, w: 22 };       // kalın altın halka (iç kenar 333, dış kenar 355)
 
-import { rng, f1, P, smooth, ribbonLayers, arc } from './lib/gold.mjs';
+import { rng, f1, P, smooth, ribbon, arc } from './lib/gold.mjs';
 
 const R = rng(20260905);
 const rnd = (a, b) => a + (b - a) * R();
@@ -27,9 +27,16 @@ const ribbonsA = [], ribbonsB = [];
 for (let i = 0; i < 5; i++) ribbonsA.push({ a0: i * 72 + rnd(-20, 20), span: rnd(150, 240), R: rnd(376, 434), A: rnd(16, 32), k: rnd(1.6, 3.2), ph: rnd(0, 6.28), W: rnd(20, 42) });
 for (let i = 0; i < 4; i++) ribbonsB.push({ a0: i * 90 + rnd(-30, 30), span: rnd(120, 210), R: rnd(398, 462), A: rnd(12, 26), k: rnd(1.8, 3.6), ph: rnd(0, 6.28), W: rnd(12, 28) });
 
-// katmanlar (iki parıltı kopyası + gövde + parlak çekirdek) gold.mjs'teki ortak ribbonLayers'tan gelir
 function ribbonSvg(list, cls) {
-  return list.map((o, i) => `<g class="${cls} rb${i}">${ribbonLayers(o)}</g>`).join('\n');
+  return list.map((o, i) => {
+    const g = ribbon(o, 3.2), m = ribbon(o, 1.9), c = ribbon(o, 1);
+    return `<g class="${cls} rb${i}">` +
+      `<path d="${g.body}" fill="url(#gGlow)" opacity=".2"/>` +
+      `<path d="${m.body}" fill="url(#gGlow)" opacity=".34"/>` +
+      `<path d="${c.body}" fill="url(#gRib)"/>` +
+      `<path d="${c.core}" fill="none" stroke="#fff7d6" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>` +
+      `</g>`;
+  }).join('\n');
 }
 
 /* ---------- Noktalı yaylar ---------- */

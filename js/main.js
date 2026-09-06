@@ -189,9 +189,24 @@
   })();
 
   /* ---------- Kurs kapağı: imleç paralaksı (yalnız gerçek imleç) ----------
-     Sahne, halka, duraklar, logo ve başlık --px/--py ile derinliğine göre kayar (css .cover*). Dokunmatikte kapalı. */
+     Sahne, logo, figür, başlık ve paneller --px/--py ile derinliğine göre kayar (css .cover*). Dokunmatikte kapalı. */
   (function cover() {
     var els = $$('[data-cover]'); if (!els.length) return;
+    // Panel yazıları tek satır: kutuya sığmayan dildeki başlık (ör. Almanca "Analysieren") yarım puan adımlarla küçülür
+    function fitText() {
+      $$('.cpanel__t, .cpanel__s', document).forEach(function (el) {
+        el.style.fontSize = ''; el.style.textOverflow = 'clip';           // üç nokta açıkken ölçüm kesilmiş genişliği verir
+        var fs = parseFloat(getComputedStyle(el).fontSize), guard = 0, rg = document.createRange();
+        rg.selectNodeContents(el);
+        // kesirli ölçüm: tam sayı scrollWidth yarım pikselden küçük taşmayı kaçırır, üç nokta yine çıkardı
+        while (rg.getBoundingClientRect().width > el.getBoundingClientRect().width - 1 && fs > 6 && guard++ < 40) { fs -= .5; el.style.fontSize = fs + 'px'; }
+        el.style.textOverflow = '';
+      });
+    }
+    var fitTimer;
+    function fitSoon() { clearTimeout(fitTimer); fitTimer = setTimeout(fitText, 120); }
+    fitText(); addEventListener('resize', fitSoon);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitText);
     if (reduce || !(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches)) return;
     els.forEach(function (el) {
       var cur = { x: 0, y: 0 }, tgt = { x: 0, y: 0 }, running = false;
@@ -839,40 +854,6 @@
       form.reset(); main.hidden = true; done.hidden = false;
     });
   })();
-  /* ---------- Bölüm kapakları: canlı sahne yalnız gerektiğinde ----------
-     Kapaklar <img> ile gömülü SVG; içlerinde bir şey kıpırdadığı anda görüntünün tamamı her karede
-     yeniden rasterize ediliyor. Yedisi birden canlanınca bölüm ızgarası ekrandayken kare süresi ikiye
-     katlanıyordu (ölçüldü: 1280 px'de 60 fps → 35 fps). Bu yüzden varsayılan sabit sürüm: ince imleçte
-     kartın üstüne gelince ya da klavyeyle odaklanınca o kart canlanır; dokunmatikte kart görünür oldukça
-     canlanır (orada ızgara tek sütun, aynı anda en çok iki kart görünür). Hareket azaltmada ve JavaScript
-     kapalıyken hep sabit kalır. */
-  (function chapters() {
-    var imgs = $$('.chapter__img[data-live]');
-    if (!imgs.length || reduce) return;
-    imgs.forEach(function (img) { img.setAttribute('data-still', img.getAttribute('src')); });
-    function show(img, live) {
-      var next = img.getAttribute(live ? 'data-live' : 'data-still');
-      if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);
-    }
-    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      imgs.forEach(function (img) {
-        var card = img.parentNode;
-        while (card && !(card.classList && card.classList.contains('chapter'))) card = card.parentNode;
-        if (!card) return;
-        card.addEventListener('mouseenter', function () { show(img, true); });
-        card.addEventListener('mouseleave', function () { show(img, false); });
-        card.addEventListener('focusin', function () { show(img, true); });
-        card.addEventListener('focusout', function () { show(img, false); });
-      });
-      return;
-    }
-    if (!('IntersectionObserver' in window)) { imgs.forEach(function (img) { show(img, true); }); return; }
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { show(e.target, e.isIntersecting); });
-    }, { rootMargin: '15% 0px' });
-    imgs.forEach(function (img) { io.observe(img); });
-  })();
-
   /* ---------- Sayfa içi bağlantılarda sabit çubuk payı ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
