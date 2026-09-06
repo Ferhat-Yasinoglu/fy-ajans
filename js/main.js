@@ -839,6 +839,40 @@
       form.reset(); main.hidden = true; done.hidden = false;
     });
   })();
+  /* ---------- Bölüm kapakları: canlı sahne yalnız gerektiğinde ----------
+     Kapaklar <img> ile gömülü SVG; içlerinde bir şey kıpırdadığı anda görüntünün tamamı her karede
+     yeniden rasterize ediliyor. Yedisi birden canlanınca bölüm ızgarası ekrandayken kare süresi ikiye
+     katlanıyordu (ölçüldü: 1280 px'de 60 fps → 35 fps). Bu yüzden varsayılan sabit sürüm: ince imleçte
+     kartın üstüne gelince ya da klavyeyle odaklanınca o kart canlanır; dokunmatikte kart görünür oldukça
+     canlanır (orada ızgara tek sütun, aynı anda en çok iki kart görünür). Hareket azaltmada ve JavaScript
+     kapalıyken hep sabit kalır. */
+  (function chapters() {
+    var imgs = $$('.chapter__img[data-live]');
+    if (!imgs.length || reduce) return;
+    imgs.forEach(function (img) { img.setAttribute('data-still', img.getAttribute('src')); });
+    function show(img, live) {
+      var next = img.getAttribute(live ? 'data-live' : 'data-still');
+      if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);
+    }
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      imgs.forEach(function (img) {
+        var card = img.parentNode;
+        while (card && !(card.classList && card.classList.contains('chapter'))) card = card.parentNode;
+        if (!card) return;
+        card.addEventListener('mouseenter', function () { show(img, true); });
+        card.addEventListener('mouseleave', function () { show(img, false); });
+        card.addEventListener('focusin', function () { show(img, true); });
+        card.addEventListener('focusout', function () { show(img, false); });
+      });
+      return;
+    }
+    if (!('IntersectionObserver' in window)) { imgs.forEach(function (img) { show(img, true); }); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { show(e.target, e.isIntersecting); });
+    }, { rootMargin: '15% 0px' });
+    imgs.forEach(function (img) { io.observe(img); });
+  })();
+
   /* ---------- Sayfa içi bağlantılarda sabit çubuk payı ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {

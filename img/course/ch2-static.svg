@@ -6,7 +6,6 @@
 <radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
 <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
-<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
 <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient><radialGradient id="out"><stop offset="0" stop-color="#fff8e0"/><stop offset=".5" stop-color="#f5d76e"/><stop offset="1" stop-color="#b8891c"/></radialGradient></defs>
 
 <rect width="800" height="800" fill="url(#bg)"/>

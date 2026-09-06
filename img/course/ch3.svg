@@ -6,18 +6,17 @@
 <radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
 <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
-<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
 <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient></defs>
 <style>
 .tw{animation:tw 3s ease-in-out infinite alternate}
 .breathe{transform-box:fill-box;transform-origin:center;animation:breathe 5s ease-in-out infinite alternate}
 @keyframes tw{from{opacity:.18}to{opacity:1}}
 @keyframes breathe{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}
-@keyframes spin{to{transform:rotate(360deg)}}
 .nd{transform-box:fill-box;transform-origin:center;animation:nd 4.8s ease-in-out infinite}
 .core{transform-box:fill-box;transform-origin:center;animation:core 3.6s ease-in-out infinite alternate}
 .orb{animation:spin 64s linear infinite}
 @keyframes pk0{from{stroke-dashoffset:22}to{stroke-dashoffset:-183}}.pk0{animation:pk0 3.4s linear -1.5s infinite}@keyframes pk1{from{stroke-dashoffset:22}to{stroke-dashoffset:-202}}.pk1{animation:pk1 3.1s linear -0.5s infinite}@keyframes pk2{from{stroke-dashoffset:22}to{stroke-dashoffset:-202}}.pk2{animation:pk2 4.1s linear -2.3s infinite}@keyframes pk3{from{stroke-dashoffset:22}to{stroke-dashoffset:-183}}.pk3{animation:pk3 4s linear -1.2s infinite}@keyframes pk4{from{stroke-dashoffset:22}to{stroke-dashoffset:-202}}.pk4{animation:pk4 3s linear -1.7s infinite}@keyframes pk5{from{stroke-dashoffset:22}to{stroke-dashoffset:-202}}.pk5{animation:pk5 3.4s linear -2.5s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 @keyframes nd{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes core{from{transform:scale(.95)}to{transform:scale(1.08)}}</style>
 <rect width="800" height="800" fill="url(#bg)"/>
