@@ -1,39 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Bölüm 4 — Atölye">
-  <defs>
-    <radialGradient id="bg" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#0f4a48"/><stop offset=".5" stop-color="#0b2a2a"/><stop offset="1" stop-color="#03100f"/></radialGradient>
-    <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1d1d"/><stop offset="1" stop-color="#071313"/></linearGradient>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#35e0c8" stroke-opacity=".12"/></pattern>
-  </defs>
-  <rect width="800" height="800" fill="url(#bg)"/>
-  <rect width="800" height="800" fill="url(#grid)"/>
-  <circle cx="400" cy="380" r="200" fill="#35e0c8" opacity=".18" filter="url(#glow)"/>
-  <g transform="translate(110 150)">
-    <rect width="580" height="470" rx="22" fill="url(#win)" stroke="#35e0c8" stroke-opacity=".5" stroke-width="2"/>
-    <rect width="580" height="48" rx="22" fill="#0e2626"/>
-    <rect y="24" width="580" height="24" fill="#0e2626"/>
-    <circle cx="30" cy="24" r="7" fill="#ff5f57"/><circle cx="54" cy="24" r="7" fill="#febc2e"/><circle cx="78" cy="24" r="7" fill="#28c840"/>
-    <text x="290" y="30" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="15" fill="#7fd9cc" text-anchor="middle">fy-atölye — claude</text>
-    <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="19" fill="#bfeee6">
-      <text x="30" y="96"><tspan fill="#35e0c8">$</tspan> claude</text>
-      <text x="30" y="132" fill="#7fd9cc">› skill oluştur: instagram-dm</text>
-      <text x="30" y="168" fill="#7fd9cc">› alt ajan: rapor-yazar</text>
-      <text x="30" y="204"><tspan fill="#ffd166">✓</tspan> hafıza bağlandı (CLAUDE.md)</text>
-    </g>
-    <g fill="#35e0c8" opacity=".55">
-      <rect x="30" y="240" width="300" height="10" rx="5"/><rect x="30" y="266" width="420" height="10" rx="5" opacity=".7"/>
-      <rect x="30" y="292" width="220" height="10" rx="5" opacity=".8"/><rect x="30" y="318" width="360" height="10" rx="5" opacity=".6"/>
-      <rect x="30" y="344" width="150" height="10" rx="5" opacity=".9"/>
-    </g>
-    <text x="30" y="420" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="19" fill="#bfeee6"><tspan fill="#35e0c8">$</tspan> <tspan fill="#fff">▮</tspan></text>
-  </g>
-  <g transform="translate(640 620) rotate(-35)" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-70 0 H30"/>
-    <path d="M30 -28 a28 28 0 1 1 0 56 l-22 -12 v-32 z" fill="#ffd166" stroke-width="6"/>
-  </g>
-  <g transform="translate(120 660) rotate(30)" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-40 0 H60"/>
-    <rect x="-70" y="-24" width="46" height="48" rx="8" fill="#ffd166" stroke-width="6"/>
-  </g>
-  <g fill="#ffd166"><path d="M700 100 l5 15 15 5 -15 5 -5 15 -5 -15 -15 -5 15 -5z" opacity=".85"/><path d="M90 110 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z" opacity=".5"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" aria-hidden="true">
+<!-- Üretildi: tools/build-chapters.mjs — elle düzenleme, betiği çalıştır. -->
+<defs>
+<radialGradient id="bg" cx=".5" cy=".62" r=".78"><stop offset="0" stop-color="#2a1e07"/><stop offset=".45" stop-color="#120d05"/><stop offset="1" stop-color="#060503"/></radialGradient>
+<radialGradient id="soft"><stop offset="0" stop-color="#fff3c4" stop-opacity=".85"/><stop offset=".5" stop-color="#f5d76e" stop-opacity=".3"/><stop offset="1" stop-color="#f5d76e" stop-opacity="0"/></radialGradient>
+<radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
+<radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
+<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient><linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1206"/><stop offset="1" stop-color="#0b0803"/></linearGradient></defs>
+<style>
+.tw{animation:tw 3s ease-in-out infinite alternate}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 5s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.18}to{opacity:1}}
+@keyframes breathe{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ln{transform-box:fill-box;transform-origin:left center;animation:ln 6s ease-out infinite}
+.cur{animation:cur 1.1s steps(1) infinite}
+@keyframes ln{0%{transform:scaleX(0)}10%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+@keyframes cur{0%,50%{opacity:1}51%,100%{opacity:.1}}</style>
+<rect width="800" height="800" fill="url(#bg)"/>
+<g fill="none" stroke="#d4af37" stroke-width="1" opacity=".05"><path d="M50 0V800"/><path d="M100 0V800"/><path d="M150 0V800"/><path d="M200 0V800"/><path d="M250 0V800"/><path d="M300 0V800"/><path d="M350 0V800"/><path d="M400 0V800"/><path d="M450 0V800"/><path d="M500 0V800"/><path d="M550 0V800"/><path d="M600 0V800"/><path d="M650 0V800"/><path d="M700 0V800"/><path d="M750 0V800"/><path d="M0 50H800"/><path d="M0 100H800"/><path d="M0 150H800"/><path d="M0 200H800"/><path d="M0 250H800"/><path d="M0 300H800"/><path d="M0 350H800"/><path d="M0 400H800"/><path d="M0 450H800"/><path d="M0 500H800"/><path d="M0 550H800"/><path d="M0 600H800"/><path d="M0 650H800"/><path d="M0 700H800"/><path d="M0 750H800"/></g>
+<g transform="translate(400 380) scale(1)"><circle class="breathe" r="330" fill="url(#halo)"/></g>
+<g>
+<rect x="130" y="180" width="540" height="400" rx="24" fill="url(#win)" stroke="url(#gold)" stroke-width="3"/>
+<path d="M130 228H670" stroke="#e9c552" stroke-width="2" opacity=".45"/>
+<circle cx="164" cy="204" r="8" fill="#8c6a14"/><circle cx="192" cy="204" r="8" fill="#c99a20"/><circle cx="220" cy="204" r="8" fill="#ffe27a"/>
+<rect x="340" y="197" width="120" height="14" rx="7" fill="#e9c552" opacity=".3"/>
+<rect class="ln" x="186" y="272" width="210" height="14" rx="7" fill="#ffe27a" opacity=".9" style="animation-delay:-6s"/><rect class="ln" x="186" y="312" width="300" height="14" rx="7" fill="#e9c552" opacity=".55" style="animation-delay:-5.6s"/><rect class="ln" x="214" y="352" width="250" height="14" rx="7" fill="#e9c552" opacity=".55" style="animation-delay:-5.1s"/><rect class="ln" x="214" y="392" width="180" height="14" rx="7" fill="#ffe27a" opacity=".9" style="animation-delay:-4.7s"/><rect class="ln" x="186" y="432" width="330" height="14" rx="7" fill="#e9c552" opacity=".55" style="animation-delay:-4.2s"/><rect class="ln" x="214" y="472" width="220" height="14" rx="7" fill="#e9c552" opacity=".55" style="animation-delay:-3.8s"/><rect class="ln" x="186" y="512" width="160" height="14" rx="7" fill="#ffe27a" opacity=".9" style="animation-delay:-3.3s"/>
+<rect class="cur" x="158" y="552" width="18" height="16" rx="3" fill="#fff8e0"/>
+</g>
+<g fill="none" stroke="url(#gold)" stroke-width="2.6">
+<path d="M96 250h-34a14 14 0 0 0-14 14v52a14 14 0 0 0 14 14h34"/>
+<path d="M704 250h34a14 14 0 0 1 14 14v52a14 14 0 0 1-14 14h-34"/></g>
+<circle class="tw" cx="440.1" cy="64.7" r="1.3" fill="#ffd766" style="animation-duration:2.9s;animation-delay:-1.3s"/><circle class="tw" cx="143.1" cy="8.6" r="2.2" fill="#fff3c4" style="animation-duration:5s;animation-delay:-2.3s"/><circle class="tw" cx="772.7" cy="153.5" r="1.7" fill="#fff3c4" style="animation-duration:3.5s;animation-delay:-0.6s"/><circle class="tw" cx="392.2" cy="730.3" r="1.4" fill="#fff3c4" style="animation-duration:3.9s;animation-delay:-4.3s"/><circle class="tw" cx="27.7" cy="469.7" r="1.4" fill="#fff3c4" style="animation-duration:2.9s;animation-delay:-2.1s"/><circle class="tw" cx="70.3" cy="757.4" r="1" fill="#fff3c4" style="animation-duration:3.9s;animation-delay:-4.6s"/><circle class="tw" cx="80.1" cy="623.8" r="1.8" fill="#ffd766" style="animation-duration:3.4s;animation-delay:-0.3s"/><circle class="tw" cx="451.7" cy="718.1" r="1.9" fill="#fff3c4" style="animation-duration:2.7s;animation-delay:-2s"/><circle class="tw" cx="724.4" cy="555.5" r="1.3" fill="#fff3c4" style="animation-duration:4.3s;animation-delay:-0.6s"/><circle class="tw" cx="744.7" cy="3.2" r="1.4" fill="#fff3c4" style="animation-duration:3.2s;animation-delay:-1.4s"/><circle class="tw" cx="759.1" cy="426.3" r="1.6" fill="#fff3c4" style="animation-duration:3.1s;animation-delay:-3.1s"/><circle class="tw" cx="6.7" cy="118.5" r="2.1" fill="#fff3c4" style="animation-duration:3.7s;animation-delay:-2s"/><circle class="tw" cx="750.8" cy="222.3" r="2.1" fill="#fff3c4" style="animation-duration:2.3s;animation-delay:-2.4s"/><circle class="tw" cx="134.8" cy="232.4" r="2" fill="#fff3c4" style="animation-duration:2.6s;animation-delay:-3.8s"/><circle class="tw" cx="758.1" cy="41.6" r="1.5" fill="#fff3c4" style="animation-duration:4.4s;animation-delay:-4.5s"/><circle class="tw" cx="748.3" cy="528" r="1.8" fill="#fff3c4" style="animation-duration:2.2s;animation-delay:-1.7s"/><circle class="tw" cx="605.1" cy="691" r="0.9" fill="#fff3c4" style="animation-duration:2.5s;animation-delay:-2.9s"/><circle class="tw" cx="43.2" cy="341" r="2" fill="#fff3c4" style="animation-duration:4.4s;animation-delay:-4.2s"/><circle class="tw" cx="72.2" cy="278.9" r="1.6" fill="#fff3c4" style="animation-duration:2.8s;animation-delay:-1.4s"/><circle class="tw" cx="267.9" cy="49" r="2.1" fill="#fff3c4" style="animation-duration:4.7s;animation-delay:-2.7s"/><circle class="tw" cx="749.5" cy="141" r="1.4" fill="#fff3c4" style="animation-duration:4.6s;animation-delay:-4.1s"/><circle class="tw" cx="470.5" cy="53.8" r="1" fill="#fff3c4" style="animation-duration:2.9s;animation-delay:-2.2s"/><circle class="tw" cx="772.3" cy="795" r="1.6" fill="#fff3c4" style="animation-duration:2.2s;animation-delay:-0.7s"/><circle class="tw" cx="594.9" cy="51.5" r="1.6" fill="#fff3c4" style="animation-duration:4.3s;animation-delay:-0.7s"/><circle class="tw" cx="213.2" cy="22.6" r="1.9" fill="#fff3c4" style="animation-duration:2.6s;animation-delay:-4.1s"/><circle class="tw" cx="549.3" cy="734.7" r="1.9" fill="#fff3c4" style="animation-duration:2.3s;animation-delay:-3.9s"/><circle class="tw" cx="775.9" cy="30.2" r="1.8" fill="#ffd766" style="animation-duration:2.3s;animation-delay:-4.5s"/><circle class="tw" cx="792.7" cy="441.2" r="1" fill="#fff3c4" style="animation-duration:2.8s;animation-delay:-0.5s"/>
+<rect width="800" height="800" fill="url(#vig)"/>
 </svg>

@@ -441,13 +441,14 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .chapter__body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
 .chapter__body h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 .chapter__body p { color: rgb(var(--fg-muted)); font-size: 13px; line-height: 1.625; margin-bottom: 16px; flex: 1; }
-.art-1 { background: radial-gradient(circle at 30% 30%, #4aa3ff, #0b1d3a 55%, #050b16); }
-.art-2 { background: radial-gradient(circle at 60% 40%, #ffb347, #3a1d0b 55%, #160905); }
-.art-3 { background: radial-gradient(circle at 40% 60%, #ff4fa3, #2a0b23 55%, #12040f); }
-.art-4 { background: radial-gradient(circle at 50% 30%, #35e0c8, #0b2a2a 55%, #041212); }
-.art-5 { background: radial-gradient(circle at 50% 50%, #7c6bff, #16103a 55%, #080616); }
-.art-6 { background: radial-gradient(circle at 70% 30%, #ffd166, #3a2a0b 55%, #161005); }
-.art-7 { background: radial-gradient(circle at 50% 40%, #f5d76e, #4a3708 50%, #0e0a02); }
+/* Bölüm kartı zeminleri: görsel yüklenene kadar görünen renk; her bölümün ışık odağı kendi kapağıyla aynı yerde */
+.art-1 { background: radial-gradient(circle at 50% 64%, #3a2a09, #120d05 55%, #060503); }
+.art-2 { background: radial-gradient(circle at 78% 44%, #3a2a09, #120d05 55%, #060503); }
+.art-3 { background: radial-gradient(circle at 50% 48%, #3a2a09, #120d05 55%, #060503); }
+.art-4 { background: radial-gradient(circle at 50% 46%, #33250a, #110c05 55%, #060503); }
+.art-5 { background: radial-gradient(circle at 50% 54%, #3a2a09, #120d05 55%, #060503); }
+.art-6 { background: radial-gradient(circle at 50% 50%, #33250a, #110c05 55%, #060503); }
+.art-7 { background: radial-gradient(circle at 70% 27%, #3a2a09, #120d05 55%, #060503); }
 
 /* ---------- XOS / FYOS sahnesi ---------- */
 .xos { overflow: hidden; }
