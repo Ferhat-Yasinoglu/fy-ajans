@@ -6,7 +6,6 @@
 <radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
 <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
-<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
 <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient><radialGradient id="sun7"><stop offset="0" stop-color="#fff8e0"/><stop offset=".55" stop-color="#ffe27a"/><stop offset="1" stop-color="#e0ab28"/></radialGradient>
 <linearGradient id="m1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9c552"/><stop offset="1" stop-color="#4a3708"/></linearGradient>
 <linearGradient id="m2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c99a20"/><stop offset="1" stop-color="#2a1e07"/></linearGradient>
@@ -19,8 +18,9 @@
 <path d="M0 800V620l150-132 128 120 118-118 180 176 224-158v292Z" fill="url(#m2)" opacity=".9"/>
 <path d="M120 800L392 372 664 800Z" fill="url(#m1)"/>
 <path d="M392 372L470 494l-78 42-64-32Z" fill="#fff8e0" opacity=".85"/>
-<path class="trail" d="M120 742q90-34 128-96t120-84q40-80 24-190" fill="none" stroke="#fff3c4" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 20" opacity=".9"/>
-<path d="M120 742q90-34 128-96t120-84q40-80 24-190" fill="none" stroke="#ffd766" stroke-width="13" stroke-linecap="round" opacity=".14"/>
+<path d="M120 742q90-34 128-96t120-84q40-80 24-190" fill="none" stroke="#2a1e07" stroke-width="11" stroke-linecap="round" opacity=".75"/>
+<path d="M120 742q90-34 128-96t120-84q40-80 24-190" fill="none" stroke="#ffd766" stroke-width="15" stroke-linecap="round" opacity=".12"/>
+<path class="trail" d="M120 742q90-34 128-96t120-84q40-80 24-190" fill="none" stroke="#fff3c4" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 20" opacity=".95"/>
 <g transform="translate(392 372)">
 <path d="M0 0v-92" stroke="#fff8e0" stroke-width="6" stroke-linecap="round"/>
 <path class="flag" d="M4 -88h74l-20 26 20 26H4Z" fill="url(#gold)"/>

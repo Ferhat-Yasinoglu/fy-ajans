@@ -27,15 +27,13 @@ const SHARED_DEFS = `
 <radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
 <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
-<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
 <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient>`;
 
 const SHARED_CSS = `
 .tw{animation:tw 3s ease-in-out infinite alternate}
 .breathe{transform-box:fill-box;transform-origin:center;animation:breathe 5s ease-in-out infinite alternate}
 @keyframes tw{from{opacity:.18}to{opacity:1}}
-@keyframes breathe{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}
-@keyframes spin{to{transform:rotate(360deg)}}`;
+@keyframes breathe{from{opacity:.72;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}`;
 
 let grid = '';
 for (let x = 50; x < W; x += 50) grid += `<path d="M${x} 0V${H}"/>`;
@@ -59,7 +57,6 @@ function sparks(R, n, avoid) {
 
 /* 1 · UYANIŞ — ufuktan doğan altın güneş, içinde açılan göz */
 function ch1(R) {
-  const rnd = (a, b) => a + (b - a) * R();
   const CX = 400, HY = 520, SR = 150;
   let ticks = '';
   for (let i = 0; i < 9; i++) {
@@ -83,10 +80,10 @@ function ch1(R) {
 <g transform="translate(${CX} ${HY})">
 <circle class="breathe" r="${SR + 210}" fill="url(#halo)"/>
 <g fill="none" stroke="#e9c552" stroke-width="2">${arcs}</g>
-<g class="tick-g" fill="none" stroke="#fff3c4" stroke-width="4" stroke-linecap="round">${ticks}</g>
+<g fill="none" stroke="#fff3c4" stroke-width="4" stroke-linecap="round">${ticks}</g>
 <circle r="${SR}" fill="url(#sun)"/>
 <circle r="${SR}" fill="none" stroke="#fff8e0" stroke-width="2" opacity=".55"/>
-<g transform="translate(0 -22)" fill="none" stroke="#3a2a06" stroke-width="7" stroke-linecap="round">
+<g transform="translate(0 -52)" fill="none" stroke="#3a2a06" stroke-width="7" stroke-linecap="round">
 <path d="M-92 0Q0 -76 92 0"/><path d="M-92 0Q0 76 92 0"/>
 <circle class="iris" cx="0" cy="0" r="31" fill="#120d05" stroke="#3a2a06" stroke-width="6"/>
 <circle class="iris" cx="0" cy="0" r="13" fill="#ffe27a" stroke="none"/>
@@ -140,16 +137,19 @@ ${sparks(R, 30, { x: 628, y: 350, r: 180 })}`,
 }
 
 /* 3 · AJAN — merkezdeki çekirdek, altı düğüm, kenarlarda akan ışık paketleri */
-function ch3(R) {
+function ch3(R, anim) {
   const rnd = (a, b) => a + (b - a) * R();
   const CX = 400, CY = 388, RAD = 208;
   const nodes = [];
   for (let i = 0; i < 6; i++) { const [x, y] = P(RAD, -90 + i * 60); nodes.push([CX + x, CY + y * .88]); }
   const hex = a => Array.from({ length: 6 }, (_, i) => P(a, -90 + i * 60).map(f1).join(' ')).join('L');
+  // Işık paketleri yalnız canlı sürümde: konumları stroke-dashoffset animasyonundan geliyor, sabit
+  // sürümde <style> olmadığı için hepsi yolun başına (çekirdeğin altına) düşüp görünmez ölü işaretleme kalıyordu.
   let links = '', pk = '', pkCss = '';
   nodes.forEach(([x, y], i) => {
     const d = `M${CX} ${CY}L${f1(x)} ${f1(y)}`, L = Math.hypot(x - CX, y - CY), dur = f1(rnd(2.6, 4.2));
     links += `<path d="${d}"/>`;
+    if (!anim) return;
     pkCss += `@keyframes pk${i}{from{stroke-dashoffset:22}to{stroke-dashoffset:${f1(-L)}}}.pk${i}{animation:pk${i} ${dur}s linear -${f1(rnd(0, 3))}s infinite}`;
     pk += `<path class="pk${i}" d="${d}" stroke="#ffd766" stroke-width="7" stroke-opacity=".22" stroke-dasharray="22 ${f1(L + 4)}"/>` +
       `<path class="pk${i}" d="${d}" stroke="#fff8e0" stroke-width="2.6" stroke-dasharray="22 ${f1(L + 4)}"/>`;
@@ -165,6 +165,7 @@ function ch3(R) {
 .core{transform-box:fill-box;transform-origin:center;animation:core 3.6s ease-in-out infinite alternate}
 .orb{animation:spin 64s linear infinite}
 ${pkCss}
+@keyframes spin{to{transform:rotate(360deg)}}
 @keyframes nd{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes core{from{transform:scale(.95)}to{transform:scale(1.08)}}`,
     svg: `<g transform="translate(${CX} ${CY})"><circle class="breathe" r="300" fill="url(#halo)"/>
@@ -231,8 +232,8 @@ function ch5(R) {
 @keyframes wave{from{transform:translateX(-14px)}to{transform:translateX(14px)}}`,
     svg: `<g transform="translate(400 400)"><circle class="breathe" r="320" fill="url(#halo)"/></g>
 <g clip-path="url(#inFlask)">
-<rect x="150" y="420" width="500" height="240" fill="url(#liq)" opacity=".9"/>
-<path class="wave" d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0v-40H120Z" fill="#fff3c4" opacity=".5"/>
+<path d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0V680H120Z" fill="url(#liq)" opacity=".9"/>
+<path class="wave" d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0v26H120Z" fill="#fff3c4" opacity=".45"/>
 ${bub}
 <g opacity=".85">
 ${mod(322, 486, 1)}<rect x="-30" y="-24" width="60" height="48" rx="7"/><path d="M-30 -8h60"/></g>
@@ -304,8 +305,9 @@ function ch7(R) {
 <path d="M0 800V620l150-132 128 120 118-118 180 176 224-158v292Z" fill="url(#m2)" opacity=".9"/>
 <path d="M120 800L392 372 664 800Z" fill="url(#m1)"/>
 <path d="M392 372L470 494l-78 42-64-32Z" fill="#fff8e0" opacity=".85"/>
-<path class="trail" d="${path}" fill="none" stroke="#fff3c4" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 20" opacity=".9"/>
-<path d="${path}" fill="none" stroke="#ffd766" stroke-width="13" stroke-linecap="round" opacity=".14"/>
+<path d="${path}" fill="none" stroke="#2a1e07" stroke-width="11" stroke-linecap="round" opacity=".75"/>
+<path d="${path}" fill="none" stroke="#ffd766" stroke-width="15" stroke-linecap="round" opacity=".12"/>
+<path class="trail" d="${path}" fill="none" stroke="#fff3c4" stroke-width="5" stroke-linecap="round" stroke-dasharray="14 20" opacity=".95"/>
 <g transform="translate(392 372)">
 <path d="M0 0v-92" stroke="#fff8e0" stroke-width="6" stroke-linecap="round"/>
 <path class="flag" d="M4 -88h74l-20 26 20 26H4Z" fill="url(#gold)"/>
@@ -342,8 +344,8 @@ ${scene.svg}
 mkdirSync(join(ROOT, 'img/course'), { recursive: true });
 let total = 0;
 for (const c of CHAPTERS) {
-  const live = render(c.build(rng(c.seed)), true);
-  const stat = render(c.build(rng(c.seed)), false).replace(/ style="animation-[^"]*"/g, '');
+  const live = render(c.build(rng(c.seed), true), true);
+  const stat = render(c.build(rng(c.seed), false), false).replace(/ style="animation-[^"]*"/g, '');
   writeFileSync(join(ROOT, `img/course/ch${c.n}.svg`), live);
   writeFileSync(join(ROOT, `img/course/ch${c.n}-static.svg`), stat);
   total += live.length + stat.length;

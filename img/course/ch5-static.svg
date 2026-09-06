@@ -6,7 +6,6 @@
 <radialGradient id="halo"><stop offset="0" stop-color="#fff2c8" stop-opacity=".55"/><stop offset=".35" stop-color="#e9bf48" stop-opacity=".26"/><stop offset=".72" stop-color="#d4af37" stop-opacity=".07"/><stop offset="1" stop-color="#d4af37" stop-opacity="0"/></radialGradient>
 <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#060503" stop-opacity="0"/><stop offset="1" stop-color="#060503" stop-opacity=".72"/></radialGradient>
 <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
-<linearGradient id="goldUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8c6a14"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient>
 <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4af37" stop-opacity="0"/><stop offset="1" stop-color="#d4af37" stop-opacity=".16"/></linearGradient><linearGradient id="liq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#b8891c"/></linearGradient>
 <clipPath id="inFlask"><path d="M336 168h128v146l138 250q22 40-24 40H222q-46 0-24-40l138-250Z"/></clipPath></defs>
 
@@ -14,8 +13,8 @@
 <g fill="none" stroke="#d4af37" stroke-width="1" opacity=".05"><path d="M50 0V800"/><path d="M100 0V800"/><path d="M150 0V800"/><path d="M200 0V800"/><path d="M250 0V800"/><path d="M300 0V800"/><path d="M350 0V800"/><path d="M400 0V800"/><path d="M450 0V800"/><path d="M500 0V800"/><path d="M550 0V800"/><path d="M600 0V800"/><path d="M650 0V800"/><path d="M700 0V800"/><path d="M750 0V800"/><path d="M0 50H800"/><path d="M0 100H800"/><path d="M0 150H800"/><path d="M0 200H800"/><path d="M0 250H800"/><path d="M0 300H800"/><path d="M0 350H800"/><path d="M0 400H800"/><path d="M0 450H800"/><path d="M0 500H800"/><path d="M0 550H800"/><path d="M0 600H800"/><path d="M0 650H800"/><path d="M0 700H800"/><path d="M0 750H800"/></g>
 <g transform="translate(400 400)"><circle class="breathe" r="320" fill="url(#halo)"/></g>
 <g clip-path="url(#inFlask)">
-<rect x="150" y="420" width="500" height="240" fill="url(#liq)" opacity=".9"/>
-<path class="wave" d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0v-40H120Z" fill="#fff3c4" opacity=".5"/>
+<path d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0V680H120Z" fill="url(#liq)" opacity=".9"/>
+<path class="wave" d="M120 424q60 -18 120 0t120 0t120 0t120 0t120 0v26H120Z" fill="#fff3c4" opacity=".45"/>
 <circle class="bub" cx="361" cy="526.5" r="5.4" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="310.9" cy="514.5" r="5.2" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="445.2" cy="504.3" r="6.9" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="415.5" cy="479.4" r="11.3" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="392.2" cy="565.4" r="7.2" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="429" cy="556.5" r="9.9" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="499.4" cy="598.9" r="8.5" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="310.4" cy="487.3" r="7.1" fill="#fff3c4" opacity=".7"/><circle class="bub" cx="442.3" cy="490.8" r="5.2" fill="#fff3c4" opacity=".7"/>
 <g opacity=".85">
 <g transform="translate(322 486) scale(1)" fill="none" stroke="#120d05" stroke-width="4"><rect x="-30" y="-24" width="60" height="48" rx="7"/><path d="M-30 -8h60"/></g>
