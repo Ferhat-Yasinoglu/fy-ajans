@@ -473,9 +473,9 @@
     var canned = T.canned || [
       ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! Çevrimiçiyim. Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum hakkında sorabilirsin.'],
       ['teşekkür|sağ ol|sağol|eyvallah|süper|harika', 'Rica ederim. Başka bir şey merak edersen buradayım; ciddi bir konuysa iletişim formundan yaz, gerçek bir insan döner.'],
-      ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Yapay Zekâ Yolculuğu kursu şu an tamamen ücretsiz; ödeme yok. Kurs ileride ücretli olabilir. Site paketleri ve otomasyon ise projeye göre fiyatlanır; ücretsiz görüşmede net bir tahmin verilir.'],
+      ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Yapay Zekâ Yolculuğu kursu şu an 100 €, normal fiyatı 200 €; yani %50 indirimli. Tek seferlik ödeme, taksit yok. Site paketleri ve otomasyon ise projeye göre fiyatlanır; ücretsiz görüşmede net bir tahmin verilir.'],
       ['kaç bölüm|bölüm|müfredat|içerik|konular|ders|program', 'Kurs 7 bölüm: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code ve skill\'ler), 5 Laboratuvar (site, CRM ve FYOS kurmak), 6 Vitrin (video, Instagram, içerik), 7 Zirve (para kazandıran beceri). Her bölüm gerçek bir projeyle biter.'],
-      ['kurs|eğitim|yolculuğu|öğren|başla|sıfırdan|acemi|yeni başlayan', 'Yapay Zekâ Yolculuğu, mutlak sıfırdan başlayan 7 bölümlük proje odaklı bir kurs. Programlama bilgisi gerekmez; her bölüm bir öncekinin üstüne kurulur. Şu an ücretsiz. Ayrıntılar eğitim bölümünde.'],
+      ['kurs|eğitim|yolculuğu|öğren|başla|sıfırdan|acemi|yeni başlayan', 'Yapay Zekâ Yolculuğu, mutlak sıfırdan başlayan 7 bölümlük proje odaklı bir kurs. Programlama bilgisi gerekmez; her bölüm bir öncekinin üstüne kurulur. Fiyatı 100 €. Ayrıntılar eğitim bölümünde.'],
       ['prompt|promt|komut|chatgpt|model', 'Prompt yazımı kursun 2. bölümü: rol, bağlam, hedef, kısıt ve çıktı biçimi formülü. Bu formülle her model tam istediğini verir; sistem promptu ve yapılandırılmış çıktı da orada.'],
       ['n8n|otomasyon|ajan|bot|akış|workflow|webhook|zapier|make', 'Otomasyonu iki şekilde yapıyoruz: kursun 3. bölümünde n8n ile kendin öğreniyorsun; ajans tarafında ise DM yanıtları, müşteri adayı puanlama, raporlama ve CRM eşitleme gibi işleri senin için ajanlara devrediyoruz. Ücretsiz görüşmede önce hangi darboğaz çözülecek, birlikte karar veririz.'],
       ['claude|skill|kod|code|anthropic|alt ajan|hafıza', 'Claude Code kursun 4. bölümünün konusu: skill yazımı, alt ajanlar ve kalıcı hafıza. Bu sitedeki FYOS demosunun mantığı da orada anlatılıyor.'],
@@ -487,7 +487,7 @@
       ['dil|türkçe|almanca|ingilizce|farsça|deutsch|english', 'Kurs Türkçe. Destek Türkçe, Almanca, İngilizce ve Farsça olarak veriliyor.'],
       ['nerede|almanya|türkiye|şehir|yüz yüze|online|uzaktan|canlı', 'Her şey online. FY Almanya\'da, Kuzey Ren-Vestfalya\'da; kurs ve görüşmeler uzaktan yapılıyor, dünyanın her yerinden katılabilirsin.'],
       ['destek|soru sor|yardım|panel|erişim|lisans|izle|ömür', 'Kayıt olunca 45 gün tam destek hediye; sorularını öğrenci panelinde sorarsın. Videolara sana özel erişimle istediğin zaman ulaşırsın, erişim ömür boyu.'],
-      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme yok. Kaydolmak için "Ücretsiz katıl" düğmesine bas; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
+      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Ödeme tek seferde yapılıyor, taksit yok. Kursu almak için "Kursu hemen al" düğmesine bas; e-posta ile ödeme adımlarını gönderiyoruz, ödeme onaylanınca erişim bilgilerin gelir.'],
       ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu: sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt gerçek bir insandan gelir.'],
       ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak için "FY\'ye katıl" bölümünden özgeçmişini gönderebilirsin; uygun görürsek iletişime geçeriz.'],
       ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamaz ve çerez kullanmaz. FYOS yanıtları senin cihazında üretilir; sorduğun hiçbir şey bir sunucuya gitmez, yalnızca model dosyaları bir kez indirilir. Ayrıntı Kurallar ve Gizlilik sayfasında.']
@@ -505,7 +505,7 @@
     // Yerel modele verilen talimat ve FY bilgileri
     var SYSTEM = T.system || ('Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki asistan. Doğal Türkçe, samimi ve kısa yaz: en fazla 3 cümle, düz metin. Soruyu tekrar etme, liste ve başlık yapma, emoji kullanma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
       'FY: yapay zekâ eğitimi, web sitesi kurma ve işletmeleri otomasyonla akıllılaştırma ajansı. Kurucu Farhad Yaqoobi; Almanya\'da yaşıyor, IT okuyor, Türkçe/Almanca/İngilizce/Farsça biliyor.\n' +
-      'Kurs "Yapay Zekâ Yolculuğu": 7 bölüm, proje odaklı, sıfırdan başlar, programlama gerekmez, tamamen online. Şu an tamamen ücretsiz (ileride ücretli olabilir), 45 gün destek, ömür boyu erişim. Bölümler: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code, skill\'ler), 5 Laboratuvar (site, CRM, FYOS kurma), 6 Vitrin (video, Instagram, içerik), 7 Zirve (müşteri kazanma, gelir).\n' +
+      'Kurs "Yapay Zekâ Yolculuğu": 7 bölüm, proje odaklı, sıfırdan başlar, programlama gerekmez, tamamen online. Fiyat 100 € (normal 200 €), tek ödeme, taksit yok, 45 gün destek, ömür boyu erişim. Bölümler: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code, skill\'ler), 5 Laboratuvar (site, CRM, FYOS kurma), 6 Vitrin (video, Instagram, içerik), 7 Zirve (müşteri kazanma, gelir).\n' +
       'Site paketleri: Temel (satış sayfası), Profesyonel (site + CRM, en popüler), Uzman (yapay zekâlı platform); fiyat projeye göre. Otomasyon: DM yanıtı, müşteri adayı puanlama, raporlama, CRM. Ücretsiz 30 dakikalık görüşme var. İletişim: sitedeki form. Site veri toplamaz; bu sohbet ziyaretçinin cihazında çalışır, sorular sunucuya gitmez.');
 
     var history = [], local = { mod: null, engine: null, failed: false };
@@ -641,8 +641,8 @@
   (function journey() {
     var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'), svgLive = $('#journeySvgLive'); if (!root || !body || !svg || !svgLive) return;
     var steps = $$('.jstep', root), nums = steps.map(function (s) { return $('.jstep__num', s); });
-    var line = $('#jLine'), glow = $('#jGlow'), glow2 = $('#jGlow2'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
-    if (!line || !glow || !glow2 || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
+    var line = $('#jLine'), glow = $('#jGlow'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
+    if (!line || !glow || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
     var DUR = 11000, TAIL = 72, TAIL2 = 26;                 // tur süresi (ms), kuyruk uzunlukları (px)
     var total = 0, marks = [], drawn = false, live = false, visible = false, running = false, phase = 0, t0 = 0, hot = -1;
 
@@ -654,6 +654,7 @@
       sp.style.left = x.toFixed(1) + '%'; sp.style.top = (Math.random() * 100).toFixed(1) + '%';
       sp.style.width = sp.style.height = sz.toFixed(1) + 'px';
       sp.style.setProperty('--o', (.2 + Math.random() * .5).toFixed(2));
+      if (sz > 10) sp.style.filter = 'blur(' + (1 + sz / 8).toFixed(1) + 'px)';
       sp.style.animationDuration = (8 + Math.random() * 8).toFixed(1) + 's';
       sp.style.animationDelay = '-' + (Math.random() * 12).toFixed(1) + 's';
       bk.appendChild(sp);
@@ -684,9 +685,9 @@
       var sp = spline(ctrl), d = sp.head + sp.segs.join('');
       marks = [];
       for (var k = 0; k < pts.length; k++) { line.setAttribute('d', sp.head + sp.segs.slice(0, 2 * k).join('')); marks.push(line.getTotalLength()); }
-      [line, glow, glow2, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
+      [line, glow, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
       total = line.getTotalLength();
-      [line, glow, glow2].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
+      [line, glow].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
       tail.style.strokeDasharray = TAIL + ' ' + total; comet.style.strokeDasharray = TAIL2 + ' ' + total;
       if (live && !running) place(phase);               // duraklamışsa gezen ışığı yeni yola oturt (hareket azaltılmışken 3. adım sabit kalır)
     }
@@ -710,7 +711,7 @@
       build();
       steps.forEach(function (s, i) { setTimeout(function () { s.classList.add('is-in'); }, reduce ? 0 : 150 * i); });
       root.classList.add('journey--drawn'); drawn = true;
-      [line, glow, glow2].forEach(function (p) { p.style.strokeDashoffset = '0'; });
+      [line, glow].forEach(function (p) { p.style.strokeDashoffset = '0'; });
       if (reduce) { setHot(2); return; }                    // hareket azaltılmışsa: sabit görünüm, 3. adım vurgulu
       setTimeout(function () { live = true; root.classList.add('is-live'); start(); }, 1900);
     }
@@ -809,7 +810,7 @@
     function open(subj) {
       subject = subj || '';
       lastFocus = document.activeElement;
-      if (topic) { topic.hidden = !subject; topic.textContent = subject ? t('modalTopic', 'Konu: ') + subject : ''; }
+      if (topic) { topic.hidden = !subject; topic.textContent = subject ? 'Konu: ' + subject : ''; }
       main.hidden = false; done.hidden = true;
       root.hidden = false;
       raf(function () { raf(function () { root.classList.add('is-open'); }); });
