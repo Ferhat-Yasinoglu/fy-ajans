@@ -843,9 +843,9 @@
      Kapaklar <img> ile gömülü SVG; içlerinde bir şey kıpırdadığı anda görüntünün tamamı her karede
      yeniden rasterize ediliyor. Yedisi birden canlanınca bölüm ızgarası ekrandayken kare süresi ikiye
      katlanıyordu (ölçüldü: 1280 px'de 60 fps → 35 fps). Bu yüzden varsayılan sabit sürüm: ince imleçte
-     kartın üstüne gelince ya da klavyeyle odaklanınca o kart canlanır; dokunmatikte kart görünür oldukça
-     canlanır (orada ızgara tek sütun, aynı anda en çok iki kart görünür). Hareket azaltmada ve JavaScript
-     kapalıyken hep sabit kalır. */
+     kartın üstüne gelince o kart canlanır; dokunmatikte ekranda en çok görünen iki kart canlanır — sayı
+     bilerek sınırlı: dokunmatik tablette ızgara üç ya da dört sütun olduğu için "görünen her kart" demek
+     yedisinin birden canlanması demekti. Hareket azaltmada ve JavaScript kapalıyken hep sabit kalır. */
   (function chapters() {
     var imgs = $$('.chapter__img[data-live]');
     if (!imgs.length || reduce) return;
@@ -861,15 +861,31 @@
         if (!card) return;
         card.addEventListener('mouseenter', function () { show(img, true); });
         card.addEventListener('mouseleave', function () { show(img, false); });
-        card.addEventListener('focusin', function () { show(img, true); });
-        card.addEventListener('focusout', function () { show(img, false); });
       });
+      // Canlı dosyaları boşta ısıt: ilk üstüne gelmede ağdan çekme ile ölçek geçişi çakışmasın.
+      var warm = function () {
+        imgs.forEach(function (img) { var w = new Image(); w.src = img.getAttribute('data-live'); });
+      };
+      if (window.requestIdleCallback) requestIdleCallback(warm, { timeout: 4000 }); else setTimeout(warm, 2500);
       return;
     }
     if (!('IntersectionObserver' in window)) { imgs.forEach(function (img) { show(img, true); }); return; }
+    var seen = [];                                  // {img, ratio} — o an ekranda olanlar
+    function mark(img, ratio) {
+      var i, hit = -1;
+      for (i = 0; i < seen.length; i++) if (seen[i].img === img) { hit = i; break; }
+      if (ratio > 0) { if (hit < 0) seen.push({ img: img, ratio: ratio }); else seen[hit].ratio = ratio; }
+      else if (hit >= 0) seen.splice(hit, 1);
+    }
+    function apply() {
+      var win = seen.slice().sort(function (a, b) { return b.ratio - a.ratio; }).slice(0, 2)
+        .map(function (o) { return o.img; });
+      imgs.forEach(function (img) { show(img, win.indexOf(img) >= 0); });
+    }
     var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { show(e.target, e.isIntersecting); });
-    }, { rootMargin: '15% 0px' });
+      es.forEach(function (e) { mark(e.target, e.isIntersecting ? e.intersectionRatio : 0); });
+      apply();
+    }, { threshold: [0, .25, .5, .75] });
     imgs.forEach(function (img) { io.observe(img); });
   })();
 
