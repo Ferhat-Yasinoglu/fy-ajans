@@ -620,15 +620,18 @@ html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2v
 
 .journey__body { min-height: 120px; }
 .journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.journey__line, .journey__glow, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
+.journey__line, .journey__glow, .journey__glow2, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
 .journey__line { stroke: url(#jline); stroke-width: 2; }
-.journey__glow { stroke: #f5d76e; stroke-width: 7; opacity: .32; filter: url(#jglow); }
-.journey--drawn .journey__line, .journey--drawn .journey__glow { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
+/* Yolun ışığı: SVG bulanıklık süzgeci yerine üst üste iki geniş ve sönük darbe.
+   Süzgeç, gezen ışıkla birlikte her karede yeniden hesaplanıyordu. */
+.journey__glow2 { stroke: #f5d76e; stroke-width: 15; opacity: .07; }
+.journey__glow { stroke: #f5d76e; stroke-width: 8; opacity: .17; }
+.journey--drawn .journey__line, .journey--drawn .journey__glow, .journey--drawn .journey__glow2 { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
 .journey__dash { stroke: #fbe9a6; stroke-width: 1.5; stroke-dasharray: 2 9; opacity: 0; transition: opacity .8s; animation: jdash 1.5s linear infinite; }
 .journey__rider { opacity: 0; transition: opacity .5s; }
 .journey__tail { stroke: #f5d76e; stroke-width: 4; opacity: .35; }
 .journey__comet { stroke: #fff4c8; stroke-width: 2.4; }
-.journey__halo { fill: #f5d76e; opacity: .85; filter: url(#jglow); }
+.journey__halo { fill: url(#jhalo); opacity: .9; }
 .journey__dot { fill: #fff8dc; }
 .journey.is-live .journey__dash { opacity: .5; }
 .journey.is-live .journey__rider { opacity: 1; }

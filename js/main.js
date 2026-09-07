@@ -641,8 +641,8 @@
   (function journey() {
     var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'), svgLive = $('#journeySvgLive'); if (!root || !body || !svg || !svgLive) return;
     var steps = $$('.jstep', root), nums = steps.map(function (s) { return $('.jstep__num', s); });
-    var line = $('#jLine'), glow = $('#jGlow'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
-    if (!line || !glow || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
+    var line = $('#jLine'), glow = $('#jGlow'), glow2 = $('#jGlow2'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
+    if (!line || !glow || !glow2 || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
     var DUR = 11000, TAIL = 72, TAIL2 = 26;                 // tur süresi (ms), kuyruk uzunlukları (px)
     var total = 0, marks = [], drawn = false, live = false, visible = false, running = false, phase = 0, t0 = 0, hot = -1;
 
@@ -654,7 +654,6 @@
       sp.style.left = x.toFixed(1) + '%'; sp.style.top = (Math.random() * 100).toFixed(1) + '%';
       sp.style.width = sp.style.height = sz.toFixed(1) + 'px';
       sp.style.setProperty('--o', (.2 + Math.random() * .5).toFixed(2));
-      if (sz > 10) sp.style.filter = 'blur(' + (1 + sz / 8).toFixed(1) + 'px)';
       sp.style.animationDuration = (8 + Math.random() * 8).toFixed(1) + 's';
       sp.style.animationDelay = '-' + (Math.random() * 12).toFixed(1) + 's';
       bk.appendChild(sp);
@@ -685,9 +684,9 @@
       var sp = spline(ctrl), d = sp.head + sp.segs.join('');
       marks = [];
       for (var k = 0; k < pts.length; k++) { line.setAttribute('d', sp.head + sp.segs.slice(0, 2 * k).join('')); marks.push(line.getTotalLength()); }
-      [line, glow, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
+      [line, glow, glow2, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
       total = line.getTotalLength();
-      [line, glow].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
+      [line, glow, glow2].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
       tail.style.strokeDasharray = TAIL + ' ' + total; comet.style.strokeDasharray = TAIL2 + ' ' + total;
       if (live && !running) place(phase);               // duraklamışsa gezen ışığı yeni yola oturt (hareket azaltılmışken 3. adım sabit kalır)
     }
@@ -711,7 +710,7 @@
       build();
       steps.forEach(function (s, i) { setTimeout(function () { s.classList.add('is-in'); }, reduce ? 0 : 150 * i); });
       root.classList.add('journey--drawn'); drawn = true;
-      [line, glow].forEach(function (p) { p.style.strokeDashoffset = '0'; });
+      [line, glow, glow2].forEach(function (p) { p.style.strokeDashoffset = '0'; });
       if (reduce) { setHot(2); return; }                    // hareket azaltılmışsa: sabit görünüm, 3. adım vurgulu
       setTimeout(function () { live = true; root.classList.add('is-live'); start(); }, 1900);
     }

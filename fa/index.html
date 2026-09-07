@@ -457,8 +457,9 @@
               <defs>
                 <linearGradient id="jgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
                 <linearGradient id="jline" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9821e" stop-opacity=".55"/><stop offset=".5" stop-color="#f5d76e"/><stop offset="1" stop-color="#a9821e" stop-opacity=".55"/></linearGradient>
-                <filter id="jglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+                <radialGradient id="jhalo"><stop offset="0" stop-color="#f5d76e" stop-opacity=".95"/><stop offset=".4" stop-color="#f5d76e" stop-opacity=".42"/><stop offset="1" stop-color="#f5d76e" stop-opacity="0"/></radialGradient>
               </defs>
+              <path class="journey__glow2" id="jGlow2"/>
               <path class="journey__glow" id="jGlow"/>
               <path class="journey__line" id="jLine"/>
             </svg>
@@ -467,7 +468,7 @@
               <g class="journey__rider" id="jRider">
                 <path class="journey__tail" id="jTail"/>
                 <path class="journey__comet" id="jComet"/>
-                <circle class="journey__halo" id="jHalo" r="11"/>
+                <circle class="journey__halo" id="jHalo" r="17"/>
                 <circle class="journey__dot" id="jDot" r="3.5"/>
               </g>
             </svg>
