@@ -348,7 +348,7 @@
         </div>
         <div class="ask">
           <div class="ask__log" id="askLog" aria-live="polite"></div>
-          <form class="ask__pill" id="askForm" autocomplete="off">
+          <form class="ask__pill" id="askForm" method="post" autocomplete="off">
             <input id="askInput" maxlength="300" placeholder="FYOS'a sor — bir şey yaz…" aria-label="FYOS'a sor" data-i18n-attr="placeholder=fyos.askPlaceholder|aria-label=fyos.askAria">
             <button class="ask__send" id="askSend" type="submit" disabled aria-label="Gönder" data-i18n-attr="aria-label=fyos.send"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2-15 2z"/></svg></button>
           </form>
@@ -646,7 +646,7 @@
       </div>
     </div>
     <div data-reveal>
-      <form class="glass-strong form-card form" id="joinForm" novalidate>
+      <form class="glass-strong form-card form" id="joinForm" method="post" novalidate>
         <div class="form-row">
           <div class="field"><label for="jName" data-i18n="join.name.label">Ad ve soyad *</label><input id="jName" class="input" name="name" required placeholder="Ad ve soyad" data-i18n-attr="placeholder=join.name.ph"></div>
           <div class="field"><label for="jContact" data-i18n="join.contact.label">E-posta veya telefon *</label><input id="jContact" class="input" name="contact" required placeholder="email@example.com veya 05…" data-i18n-attr="placeholder=join.contact.ph"></div>
@@ -757,7 +757,7 @@
         </div>
       </div>
       <div data-reveal>
-        <form class="glass-strong form-card form" id="contactForm" novalidate>
+        <form class="glass-strong form-card form" id="contactForm" method="post" novalidate>
           <div class="form-row">
             <div class="field"><label for="cName" data-i18n="contact.name.label">Ad *</label><input id="cName" class="input" name="name" required placeholder="Ad ve soyad" data-i18n-attr="placeholder=contact.name.ph"></div>
             <div class="field"><label for="cMail" data-i18n="contact.email.label">E-posta *</label><input id="cMail" class="input" type="email" name="email" required placeholder="you@example.com"></div>
@@ -815,7 +815,7 @@
       <h3 id="modalTitle" class="font-display modal__title" data-i18n="modal.title">Hadi bir şey kuralım.</h3>
       <p class="modal__sub" data-i18n="modal.sub">Projeni anlat; ilk fırsatta yanıtlarız.</p>
       <div class="modal__topic" id="modalTopic" hidden></div>
-      <form id="modalForm" class="modal__form" novalidate>
+      <form id="modalForm" class="modal__form" method="post" novalidate>
         <input class="input" name="Ad" required placeholder="Adın" aria-label="Adın" autocomplete="name" data-i18n-attr="name=modal.name.f|placeholder=modal.name.ph|aria-label=modal.name.ph">
         <input class="input" name="E-posta" type="email" required placeholder="E-posta" aria-label="E-posta" autocomplete="email" data-i18n-attr="name=modal.email.f|placeholder=modal.email.f|aria-label=modal.email.f">
         <input class="input" name="İşletme" placeholder="İşletme (isteğe bağlı)" aria-label="İşletme" autocomplete="organization" data-i18n-attr="name=modal.company.f|placeholder=modal.company.ph|aria-label=modal.company.f">
