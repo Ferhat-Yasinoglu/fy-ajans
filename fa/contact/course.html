@@ -80,22 +80,24 @@
           </div>
         </div>
         <div class="training__cover-wrap">
-          <!-- Kurs kapağı "Yapay Zekâ Yolculuğu" — portal: arka plan ../img/cover-scene.svg (tools/build-cover.mjs üretir); dönen altın halka ve üzerinde
-               gezen kuyruklu ışık (satır içi SVG), ortada FY logosu, halka üstünde yedi durak, başlık ve alt yazı HTML katmanları — dört dilde değişir.
-               Kuyruklu ışık bir durağın üstünden geçerken durak nabız atar (css .cstop, aynı 12 sn'lik döngü). İmleç paralaksı js/main.js (cover). -->
+          <!-- Kurs kapağı "Yapay Zekâ Yolculuğu" — takımyıldız: arka plan ../img/cover-scene.svg (tools/build-cover.mjs üretir); yedi durak ince altın
+               çizgilerle bağlı bir takımyıldız, arkasında soluk FY filigranı, başlık ve alt yazı HTML katmanları — dört dilde değişir.
+               Kuyruklu ışık yolu 1'den 7'ye kat eder; geçtiği durak nabız atar (css .cstop, aynı 12 sn'lik döngü). İmleç paralaksı js/main.js (cover). -->
           <div class="cover" role="group" aria-label="جلد دورهٔ سفر هوش مصنوعی" data-i18n-attr="aria-label=training.coverAria" data-cover>
             <picture class="cover__scene" aria-hidden="true"><source media="(prefers-reduced-motion: reduce)" srcset="../../img/cover-scene-static.svg"><img src="../../img/cover-scene.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></picture>
-            <svg class="cover__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-              <defs><linearGradient id="cring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b4e0e"/><stop offset=".3" stop-color="#d4af37"/><stop offset=".5" stop-color="#fff3c4"/><stop offset=".7" stop-color="#d4af37"/><stop offset="1" stop-color="#6b4e0e"/></linearGradient></defs>
-              <g class="cover__ring-spin"><circle cx="50" cy="50" r="43.75" fill="none" stroke="url(#cring)" stroke-width="1.9"/></g>
-              <circle class="cover__ring-dash" cx="50" cy="50" r="38" fill="none" stroke="#f5d76e" stroke-opacity=".35" stroke-width=".25" stroke-dasharray=".6 1.6"/>
-              <g class="cover__comet" fill="none" stroke-linecap="round">
-                <circle cx="50" cy="50" r="43.75" pathLength="1000" stroke="#ffd766" stroke-opacity=".38" stroke-width="8" stroke-dasharray="120 880"/>
-                <circle cx="50" cy="50" r="43.75" pathLength="1000" stroke="#ffe9a3" stroke-opacity=".85" stroke-width="3.8" stroke-dasharray="75 925"/>
-                <circle cx="50" cy="50" r="43.75" pathLength="1000" stroke="#ffffff" stroke-width="1.7" stroke-dasharray="45 955"/>
+            <div class="cover__logo" aria-hidden="true"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img src="../../img/logo-mark.svg" alt="" width="738" height="513" loading="lazy" decoding="async"></picture></div>
+            <svg class="cover__lines" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+              <defs><linearGradient id="cline" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7a5c14"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#fff3c4"/></linearGradient></defs>
+              <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 12 86 L 28 74 L 19 60 L 42 52 L 62 66 L 74 44 L 88 34" stroke="#f5d76e" stroke-opacity=".07" stroke-width="2.4"/>
+                <path d="M 12 86 L 28 74 L 19 60 L 42 52 L 62 66 L 74 44 L 88 34" stroke="url(#cline)" stroke-opacity=".6" stroke-width=".45"/>
+              </g>
+              <g class="cover__comet" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 12 86 L 28 74 L 19 60 L 42 52 L 62 66 L 74 44 L 88 34" pathLength="1000" stroke="#ffd766" stroke-opacity=".34" stroke-width="2.4" stroke-dasharray="120 880"/>
+                <path d="M 12 86 L 28 74 L 19 60 L 42 52 L 62 66 L 74 44 L 88 34" pathLength="1000" stroke="#ffe9a3" stroke-opacity=".8" stroke-width="1.1" stroke-dasharray="75 925"/>
+                <path d="M 12 86 L 28 74 L 19 60 L 42 52 L 62 66 L 74 44 L 88 34" pathLength="1000" stroke="#ffffff" stroke-width=".5" stroke-dasharray="45 955"/>
               </g>
             </svg>
-            <div class="cover__logo" aria-hidden="true"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img src="../../img/logo-mark.svg" alt="" width="738" height="513" loading="lazy" decoding="async"></picture></div>
             <ol class="cover__stops">
               <li class="cstop"><b class="cstop__n" data-i18n="training.cover.1.n">۱</b><span class="cstop__t" data-i18n="training.cover.1.t">بیاموز</span></li>
               <li class="cstop"><b class="cstop__n" data-i18n="training.cover.2.n">۲</b><span class="cstop__t" data-i18n="training.cover.2.t">تحلیل کن</span></li>

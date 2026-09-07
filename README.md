@@ -88,7 +88,7 @@ data/fy-stats.json    sahne kartlarındaki sayılar (Agents, Skills, Knowledge�
 img/founder.jpg       kurucu fotoğrafı
 img/portrait-aura*.svg kurucu fotoğrafının altın aurası (canlı + sabit); tools/build-portrait.mjs üretir
 img/course/ch1-7*.svg bölüm kapakları — yedi altın sahne (canlı + sabit); tools/build-chapters.mjs üretir
-img/cover-scene*.svg  kurs kapağı arka planı — portal (yıldızlar, ışık, toz; canlı + sabit); tools/build-cover.mjs üretir; halka, duraklar ve yazılar HTML'de
+img/cover-scene*.svg  kurs kapağı arka planı — yıldızlı gece (yıldızlar, geniş altın ışık, toz; canlı + sabit); tools/build-cover.mjs üretir; takımyıldız, duraklar ve yazılar HTML'de
 img/brain-graph*.svg  FYOS bilgi grafı: FY çekirdeği, altı küme, akan paketler (canlı + sabit); tools/build-brain.mjs üretir, etiketler HTML'de
 img/logo-master.png   logo tasarımının kaynak görseli (1536×1024); og.png buradan üretilir, sitede doğrudan kullanılmaz
 img/logo-mark.svg     harf logosu (üst çubuk, alt bilgi, bağlantı sayfası, panel, 404) — animasyonlu, tools/build-logo.mjs üretir

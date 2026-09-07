@@ -378,35 +378,42 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .cover > * { position: absolute; }
 .cover__scene { inset: -3%; translate: calc(var(--px) * .6cqw) calc(var(--py) * .4cqw); }
 .cover__scene img { display: block; width: 100%; height: 100%; }
-.cover__ring { left: 50%; top: 60cqw; width: 56cqw; height: 56cqw; overflow: visible; transform: translate(-50%, -50%); translate: calc(var(--px) * 1cqw) calc(var(--py) * .7cqw);
-  filter: drop-shadow(0 0 1.6cqw rgba(245,215,110,.45)); transition: transform 1.1s cubic-bezier(.22,1,.36,1), opacity .9s; }
-.js [data-reveal]:not(.is-in) .cover__ring { transform: translate(-50%, -50%) scale(.72) rotate(-40deg); opacity: 0; }
-.cover__ring-spin { transform-box: fill-box; transform-origin: center; animation: cover-spin 22s linear infinite; }
-.cover__ring-dash { transform-box: fill-box; transform-origin: center; animation: cover-spin 70s linear infinite reverse; }
+/* Takımyıldız: yedi durak ince altın çizgilerle bağlı. Kuyruklu ışık yolu 1'den 7'ye kat eder ve geçtiği
+   durağı yakar — .cstop --hd gecikmeleri, durağın yol üzerindeki uzaklık oranından türetilmiştir. */
+.cover__lines { inset: 0; width: 100%; height: 100%; overflow: visible; translate: calc(var(--px) * 1cqw) calc(var(--py) * .7cqw);
+  filter: drop-shadow(0 0 1.4cqw rgba(245,215,110,.35)); transition: transform 1.1s cubic-bezier(.22,1,.36,1), opacity .9s; }
+.js [data-reveal]:not(.is-in) .cover__lines { transform: scale(.86); opacity: 0; }
 /* kuyruklu ışık: üç katman (parıltı / orta / çekirdek) farklı kuyruk uzunluğuyla ama başları aynı noktada — offset kuyruk uzunluğundan başlar,
    bir turda (pathLength 1000) 1000 azalır. Değerler keyframe'lerde açık yazılı: var()+calc() ile stroke-dashoffset Chromium'da canlanmıyor. */
-.cover__comet circle { animation: cover-comet-a 12s linear infinite; }
-.cover__comet circle:nth-child(2) { animation-name: cover-comet-b; }
-.cover__comet circle:nth-child(3) { animation-name: cover-comet-c; }
-.cover__logo { left: 50%; top: 60cqw; width: 19cqw; transform: translate(-50%, -50%); translate: calc(var(--px) * 1.6cqw) calc(var(--py) * 1.1cqw);
-  filter: drop-shadow(0 0 2.2cqw rgba(245,215,110,.55)); transition: transform 1s cubic-bezier(.22,1,.36,1) .2s, opacity .8s .2s; }
-.js [data-reveal]:not(.is-in) .cover__logo { transform: translate(-50%, -50%) scale(.5); opacity: 0; }
+.cover__comet path { animation: cover-comet-a 12s linear infinite; }
+.cover__comet path:nth-child(2) { animation-name: cover-comet-b; }
+.cover__comet path:nth-child(3) { animation-name: cover-comet-c; }
+.cover__logo { left: 50%; top: 57cqw; width: 46cqw; opacity: .09; transform: translate(-50%, -50%); translate: calc(var(--px) * 1.6cqw) calc(var(--py) * 1.1cqw);
+  transition: transform 1s cubic-bezier(.22,1,.36,1) .2s, opacity .8s .2s; }
+.js [data-reveal]:not(.is-in) .cover__logo { transform: translate(-50%, -50%) scale(.86); opacity: 0; }
 .cover__logo img { display: block; width: 100%; height: auto; }
 .cover__stops { list-style: none; margin: 0; padding: 0; inset: 0; pointer-events: none; translate: calc(var(--px) * 1.2cqw) calc(var(--py) * .8cqw); }
-.cstop { position: absolute; left: var(--x); top: var(--y); width: 0; height: 0; transition: transform .8s cubic-bezier(.22,1,.36,1), opacity .8s; transition-delay: var(--rd); }
-.js [data-reveal]:not(.is-in) .cstop { transform: scale(.2); opacity: 0; }
-.cstop:nth-child(1) { --x: 50.00cqw; --y: 35.50cqw; --lx: 0.00cqw; --ly: -4.60cqw; --lt: translate(-50%, -100%); --hd: 9.00s; --rd: 0.1s; }
-.cstop:nth-child(2) { --x: 69.15cqw; --y: 44.72cqw; --lx: 3.60cqw; --ly: -2.87cqw; --lt: translate(0, -50%); --hd: 10.71s; --rd: 0.2s; }
-.cstop:nth-child(3) { --x: 73.89cqw; --y: 65.45cqw; --lx: 4.48cqw; --ly: 1.02cqw; --lt: translate(0, -50%); --hd: 0.43s; --rd: 0.3s; }
-.cstop:nth-child(4) { --x: 60.63cqw; --y: 82.07cqw; --lx: 2.00cqw; --ly: 4.14cqw; --lt: translate(-50%, 0); --hd: 2.14s; --rd: 0.4s; }
-.cstop:nth-child(5) { --x: 39.37cqw; --y: 82.07cqw; --lx: -2.00cqw; --ly: 4.14cqw; --lt: translate(-50%, 0); --hd: 3.86s; --rd: 0.5s; }
-.cstop:nth-child(6) { --x: 26.11cqw; --y: 65.45cqw; --lx: -4.48cqw; --ly: 1.02cqw; --lt: translate(-100%, -50%); --hd: 5.57s; --rd: 0.6s; }
-.cstop:nth-child(7) { --x: 30.85cqw; --y: 44.72cqw; --lx: -3.60cqw; --ly: -2.87cqw; --lt: translate(-100%, -50%); --hd: 7.29s; --rd: 0.7s; }
-.cstop__n { position: absolute; left: -2.6cqw; top: -2.6cqw; width: 5.2cqw; height: 5.2cqw; border-radius: 50%; display: grid; place-items: center; font-size: 2.3cqw; font-weight: 700; line-height: 1;
-  color: #f5d76e; background: #120e06; border: .3cqw solid rgba(245,215,110,.9); box-shadow: 0 0 0 .5cqw #070604, 0 0 2.6cqw rgba(212,175,55,.5);
-  animation: cstop-hot 12s ease-out infinite; animation-delay: var(--hd); }
-.cstop__t { position: absolute; left: var(--lx); top: var(--ly); transform: var(--lt); white-space: nowrap; font-size: 2.4cqw; font-weight: 600; letter-spacing: .02em; line-height: 1.2;
-  color: #efe4c6; text-shadow: 0 0 .6cqw #070604, 0 0 2cqw #070604; animation: cstop-lit 12s ease-out infinite; animation-delay: var(--hd); }
+/* Durak: parlayan yıldız + numara + ad, tek satırda. Soldaki dördü yıldızdan sağa, sağdaki üçü sola yazar
+   (order ile); yön RTL'de de sabit kalsın diye .cstop yerel olarak ltr. */
+.cstop { position: absolute; left: var(--x); top: var(--y); direction: ltr; display: flex; align-items: center; gap: .9cqw;
+  white-space: nowrap; transform: var(--ct); transition: transform .8s cubic-bezier(.22,1,.36,1), opacity .8s; transition-delay: var(--rd); }
+.js [data-reveal]:not(.is-in) .cstop { transform: var(--ct) scale(.4); opacity: 0; }
+.cstop:nth-child(-n+4) { --ct: translate(-.75cqw, -50%); --do: 0; }
+.cstop:nth-child(n+5)  { --ct: translate(calc(-100% + .75cqw), -50%); --do: 3; }
+.cstop:nth-child(1) { --x: 12cqw; --y: 86cqw; --hd:  0.20s; --rd: .10s; }
+.cstop:nth-child(2) { --x: 28cqw; --y: 74cqw; --hd:  1.88s; --rd: .20s; }
+.cstop:nth-child(3) { --x: 19cqw; --y: 60cqw; --hd:  3.44s; --rd: .30s; }
+.cstop:nth-child(4) { --x: 42cqw; --y: 52cqw; --hd:  5.73s; --rd: .40s; }
+.cstop:nth-child(5) { --x: 62cqw; --y: 66cqw; --hd:  8.03s; --rd: .50s; }
+.cstop:nth-child(6) { --x: 74cqw; --y: 44cqw; --hd: 10.38s; --rd: .60s; }
+.cstop:nth-child(7) { --x: 88cqw; --y: 34cqw; --hd: 11.70s; --rd: .70s; }
+.cstop::before { content: ""; order: var(--do); flex: none; width: 1.5cqw; height: 1.5cqw; border-radius: 50%;
+  background: #fff3c4; box-shadow: 0 0 1.5cqw .3cqw rgba(245,215,110,.7);
+  animation: cstop-star 12s ease-out infinite; animation-delay: var(--hd); }
+.cstop__n { order: 1; font-size: 1.9cqw; font-weight: 700; line-height: 1; letter-spacing: .1em; color: #a9821e;
+  animation: cstop-num 12s ease-out infinite; animation-delay: var(--hd); }
+.cstop__t { order: 2; font-size: 2.4cqw; font-weight: 600; letter-spacing: .01em; line-height: 1.2; color: #e8dcc0;
+  text-shadow: 0 0 .6cqw #070604, 0 0 2cqw #070604; animation: cstop-lit 12s ease-out infinite; animation-delay: var(--hd); }
 .cover__head { left: 50%; top: 4.6cqw; width: 60cqw; transform: translateX(-50%); text-align: center; pointer-events: none; translate: calc(var(--px) * .5cqw) calc(var(--py) * .35cqw); }
 .cover__kicker { display: block; font-size: 2cqw; letter-spacing: .55em; text-transform: uppercase; color: rgb(var(--fg-muted)); font-weight: 600; }
 .cover__title { display: block; margin-top: 1cqw; font-size: 7cqw; line-height: 1.03; font-weight: 800; letter-spacing: -.02em; color: #fff8e6; text-shadow: 0 0 4cqw rgba(245,215,110,.35); }
@@ -417,21 +424,24 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .cover__foot { left: 0; right: 0; bottom: 3.4cqw; text-align: center; font-size: 2cqw; letter-spacing: .45em; text-transform: uppercase; color: #e9c552; font-weight: 600; line-height: 1.6; pointer-events: none; }
 @container (max-width: 480px) {
   .cover__kicker { font-size: 2.4cqw; } .cover__foot { font-size: 2.5cqw; letter-spacing: .35em; }
-  .cstop__n { font-size: 3cqw; width: 6cqw; height: 6cqw; left: -3cqw; top: -3cqw; }
-  .cstop__t { font-size: 3.3cqw; }
+  .cstop__n { font-size: 2.4cqw; }
+  .cstop__t { font-size: 3cqw; }
+  .cstop::before { width: 1.9cqw; height: 1.9cqw; }
 }
 /* cqw desteklemeyen eski tarayıcılar (Safari 15, Chrome <105): üst katmanlar boyutsuz kalır; yalnız sahne görünsün */
 @supports not (width: 1cqw) { .cover > :not(.cover__scene) { display: none; } }
-@keyframes cover-spin { to { transform: rotate(360deg); } }
 @keyframes cover-comet-a { from { stroke-dashoffset: 120px; } to { stroke-dashoffset: -880px; } }
 @keyframes cover-comet-b { from { stroke-dashoffset: 75px; } to { stroke-dashoffset: -925px; } }
 @keyframes cover-comet-c { from { stroke-dashoffset: 45px; } to { stroke-dashoffset: -955px; } }
 @keyframes cover-sheen { to { background-position: -200% 0; } }
-@keyframes cstop-hot {
-  0%, 12%, 100% { transform: scale(1); color: #f5d76e; background: #120e06; border-color: rgba(245,215,110,.9); box-shadow: 0 0 0 .5cqw #070604, 0 0 2.6cqw rgba(212,175,55,.5); }
-  2% { transform: scale(1.32); color: #1a1408; background: #ffe27a; border-color: #fff6d6; box-shadow: 0 0 0 .5cqw #070604, 0 0 4.5cqw rgba(255,232,150,1); } }
+@keyframes cstop-star {
+  0%, 12%, 100% { transform: scale(1); background: #fff3c4; box-shadow: 0 0 1.5cqw .3cqw rgba(245,215,110,.7); }
+  2% { transform: scale(1.7); background: #fff; box-shadow: 0 0 3.4cqw .7cqw rgba(255,232,150,1); } }
+@keyframes cstop-num {
+  0%, 12%, 100% { color: #a9821e; }
+  2% { color: #ffe27a; } }
 @keyframes cstop-lit {
-  0%, 12%, 100% { color: #efe4c6; text-shadow: 0 0 .6cqw #070604, 0 0 2cqw #070604; }
+  0%, 12%, 100% { color: #e8dcc0; text-shadow: 0 0 .6cqw #070604, 0 0 2cqw #070604; }
   2% { color: #fff8e6; text-shadow: 0 0 .6cqw #070604, 0 0 2cqw rgba(255,226,140,.9); } }
 
 .chapters-head { text-align: center; margin-top: 80px; margin-bottom: 8px; }
