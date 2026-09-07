@@ -49,8 +49,8 @@
 {"@type":"WebSite","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website","url":"https://ferhat-yasinoglu.github.io/fy-ajans","name":"FY","publisher":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"tr"},
 {"@type":"WebPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#webpage","url":"https://ferhat-yasinoglu.github.io/fy-ajans","name":"FY — Yapay Zekâ Ajansı","isPartOf":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website"},"about":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"tr"},
 {"@type":"ProfessionalService","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#service","name":"FY — Yapay Zekâ Ajansı","url":"https://ferhat-yasinoglu.github.io/fy-ajans","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"serviceType":["Web tasarım","İşletme akıllılaştırma","Yapay zekâ eğitimi"]},
-{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"Yapay Zekâ Yolculuğu","description":"7 bölümlük, tamamen proje odaklı yapay zekâ kursu: prompt yazımı, n8n otomasyon, Claude Code, site ve CRM kurma, video ve pazarlama.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training","inLanguage":"tr","educationalLevel":"Beginner","hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},
-{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"100","priceCurrency":"EUR","category":"Paid","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training"},
+{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"Yapay Zekâ Yolculuğu","description":"7 bölümlük, tamamen proje odaklı yapay zekâ kursu: prompt yazımı, n8n otomasyon, Claude Code, site ve CRM kurma, video ve pazarlama.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training","inLanguage":"tr","educationalLevel":"Beginner","isAccessibleForFree":true,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},
+{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"0","priceCurrency":"EUR","category":"Free","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training"},
 {"@type":"FAQPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#faq","mainEntity":[
 {"@type":"Question","name":"Kurs online mı?","acceptedAnswer":{"@type":"Answer","text":"Evet. Kurs tamamen online sunuluyor; güvenli oynatma ve size özel lisans ile. 7 bölümün tamamı hazır."}},
 {"@type":"Question","name":"Sıfırdan başlayabilir miyim?","acceptedAnswer":{"@type":"Answer","text":"Tam olarak bunun için tasarlandı. 1. bölüm mutlak sıfırdan başlar; ne programlama bilgisi ne de yapay zekâ ile önceden tanışıklık gerekir."}}
@@ -71,6 +71,7 @@
       <a href="#fyos">FYOS</a>
       <a href="#web" data-i18n="nav.web">Web Tasarım</a>
       <a href="#automation" data-i18n="nav.automation">Otomasyon</a>
+        <a href="#works" data-i18n="nav.works">İşler</a>
       <a href="#about" data-i18n="nav.about">Hakkımda</a>
       <a href="#faq" data-i18n="nav.faq">SSS</a>
     </div>
@@ -90,6 +91,7 @@
   <a class="link" href="#fyos">FYOS</a>
   <a class="link" href="#web" data-i18n="nav.web">Web Tasarım</a>
   <a class="link" href="#automation" data-i18n="nav.automation">Otomasyon</a>
+      <a class="link" href="#works" data-i18n="nav.works">İşler</a>
   <a class="link" href="#about" data-i18n="nav.about">Hakkımda</a>
   <a class="link" href="#faq" data-i18n="nav.faq">SSS</a>
   <div class="mobile-menu__actions">
@@ -190,19 +192,18 @@
             </div>
             <div class="flex flex-col gap-4">
               <div class="price-row">
-                <span class="font-display price text-accent-gradient">100</span>
+                <span class="font-display price text-accent-gradient">0</span>
                 <span class="text-muted">€</span>
-                <span class="price-old">200 €</span>
-                <span class="discount" data-i18n="training.discount">%50 indirim</span>
+                <span class="discount" data-i18n="training.discount">Şimdilik ücretsiz</span>
               </div>
               <div class="price-meta" data-i18n="training.priceMeta">7 tam bölüm · güvenli oynatma · 45 gün hediye destek · özel öğrenci paneli</div>
-              <!-- DOLDUR (PAngV § 3): aşağıdaki iki ifadeden KDV durumuna uyan tek birini bırak.
-                   Ayrıca PAngV § 11: üstü çizili 200 € referans fiyatı, son 30 gündeki en düşük fiyat olmak zorunda;
-                   kurs hiç 200 €'ya satılmadıysa üstü çizili fiyatı ve "%50 indirim" rozetini kaldır. -->
-              <div class="price-note" data-i18n="training.priceNote">Toplam fiyat, <span class="placeholder">⟦KDV dahil⟧</span> <span class="placeholder">⟦ya da: § 19 UStG uyarınca KDV gösterilmez⟧</span> · tek seferlik ödeme · <a href="terms.html#widerruf" class="text-gold">14 gün cayma hakkı</a></div>
+              <!-- Kurs şu an ücretsiz (fiyat 0). Fiyat geri eklenirse şunlar da geri gelmeli: PAngV § 3 uyarınca KDV
+                   ifadesi (⟦KDV dahil⟧ ya da ⟦§ 19 UStG⟧), 14 gün cayma hakkı bağlantısı ve — üstü çizili referans fiyat
+                   kullanılacaksa — PAngV § 11 gereği o fiyatın son 30 gündeki en düşük fiyat olması. -->
+              <div class="price-note" data-i18n="training.priceNote">Şu an tamamen ücretsiz — ödeme yok, kart bilgisi istenmiyor. Kurs ileride ücretli olabilir.</div>
               <div class="flex flex-wrap gap-3">
-                <a href="contact/course.html" class="btn btn-primary" data-i18n="training.buy">Kursu hemen al →</a>
-                <a href="#contact" class="btn btn-ghost" data-i18n="training.ask">Sorun mu var? Sor</a>
+                <a href="#contact" data-modal="Yapay Zekâ Yolculuğu — ücretsiz kayıt" data-i18n-attr="data-modal=training.joinModal" class="btn btn-primary" data-i18n="training.buy">Ücretsiz katıl →</a>
+                <a href="contact/course.html" class="btn btn-ghost" data-i18n="training.chapters">Bölümleri gör →</a>
               </div>
             </div>
           </div>
@@ -473,8 +474,9 @@
               <defs>
                 <linearGradient id="jgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a6"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#8c6a14"/></linearGradient>
                 <linearGradient id="jline" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9821e" stop-opacity=".55"/><stop offset=".5" stop-color="#f5d76e"/><stop offset="1" stop-color="#a9821e" stop-opacity=".55"/></linearGradient>
-                <filter id="jglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+                <radialGradient id="jhalo"><stop offset="0" stop-color="#f5d76e" stop-opacity=".95"/><stop offset=".4" stop-color="#f5d76e" stop-opacity=".42"/><stop offset="1" stop-color="#f5d76e" stop-opacity="0"/></radialGradient>
               </defs>
+              <path class="journey__glow2" id="jGlow2"/>
               <path class="journey__glow" id="jGlow"/>
               <path class="journey__line" id="jLine"/>
             </svg>
@@ -483,7 +485,7 @@
               <g class="journey__rider" id="jRider">
                 <path class="journey__tail" id="jTail"/>
                 <path class="journey__comet" id="jComet"/>
-                <circle class="journey__halo" id="jHalo" r="11"/>
+                <circle class="journey__halo" id="jHalo" r="17"/>
                 <circle class="journey__dot" id="jDot" r="3.5"/>
               </g>
             </svg>
@@ -570,6 +572,47 @@
 </section>
 
 <!-- ===== HAKKIMDA ===== -->
+<section id="works" class="section">
+  <div class="container-x">
+    <div data-reveal>
+      <div class="proc__head">
+        <span class="eyebrow" data-i18n="works.eyebrow">İşler</span>
+        <h2 class="font-display text-h1" data-i18n="works.title">Söylediğimizin kanıtı, sayfanın kendisi</h2>
+        <p class="text-muted" data-i18n="works.p">Referans listesi yerine çalışan üç şey — üçünü de şu anda burada deneyebilirsin.</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div data-reveal>
+        <a href="#fyos" class="glass service-card">
+          <div class="icon-box">🧠</div>
+          <h3 class="font-display text-h3" data-i18n="works.1.title">FYOS — ajantik işletim sistemi</h3>
+          <p data-i18n="works.1.text">Sitedeki demo bir maket değil, çalışan sistemin kendisi. Aşağı kaydır ve onunla konuş.</p>
+          <span class="work-facts font-mono" data-i18n="works.1.facts">8 modül · 35 skill · ziyaretçinin tarayıcısında çalışır, sorular sunucuya gitmez</span>
+          <span class="more" data-i18n="works.1.more">Konuş →</span>
+        </a>
+      </div>
+      <div data-reveal>
+        <a href="#web" class="glass service-card">
+          <div class="icon-box">🌐</div>
+          <h3 class="font-display text-h3" data-i18n="works.2.title">Bu sitenin kendisi</h3>
+          <p data-i18n="works.2.text">Web hizmetinin canlı örneği, şu an baktığın sayfa. Aynı yaklaşımla seninkini de kuruyoruz.</p>
+          <span class="work-facts font-mono" data-i18n="works.2.facts">4 dil · 25 sayfa · sunucusuz · izleme kodu ve çerez yok</span>
+          <span class="more" data-i18n="works.2.more">Paketleri gör →</span>
+        </a>
+      </div>
+      <div data-reveal>
+        <a href="#training" class="glass service-card">
+          <div class="icon-box">🎓</div>
+          <h3 class="font-display text-h3" data-i18n="works.3.title">Yapay Zekâ Yolculuğu</h3>
+          <p data-i18n="works.3.text">Mutlak sıfırdan para kazandıran beceriye giden yedi bölümlük kurs — şimdilik ücretsiz.</p>
+          <span class="work-facts font-mono" data-i18n="works.3.facts">7 bölüm · her bölümde gerçek bir proje · arayüz dört dilde</span>
+          <span class="more" data-i18n="works.3.more">Kursu gör →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="about" class="section">
   <div class="container-x about__grid">
     <div data-reveal>
@@ -638,19 +681,61 @@
       </div>
     </div>
     <div class="faq__list" id="faqList">
-      <div data-reveal><div class="glass faq-item is-open"><button class="faq-item__btn" aria-expanded="true"><h3 class="font-display" data-i18n="faq.1.q">Kurs online mı?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.1.a">Evet. Kurs tamamen online: videoları istediğin yerden, istediğin zaman, sana özel erişimle izlersin. 7 bölümün tamamı hazır; hemen alabilirsin.</p></div></div></div>
+      <div data-reveal><div class="glass faq-item is-open"><button class="faq-item__btn" aria-expanded="true"><h3 class="font-display" data-i18n="faq.1.q">Kurs online mı?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.1.a">Evet. Kurs tamamen online: videoları istediğin yerden, istediğin zaman, sana özel erişimle izlersin. 7 bölümün tamamı hazır; hemen başlayabilirsin.</p></div></div></div>
       <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.2.q">Neden en kapsamlı Türkçe yapay zekâ kursu diyorsunuz?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.2.a">Çünkü başka hiçbir Türkçe kurs bu tam yolu tek yerde kapsamıyor: profesyonel prompt yazımı, n8n ile otomasyon, Claude Code sıfırdan yüze, skill'ler ve özel «beyin» kurmak, gerçek site ve CRM kurmak, FYOS, yapay zekâ ile video kurgusu, Instagram algoritması ve sonunda hepsini gelire dönüştürmek — 7 bölüm, tamamen proje odaklı; her bölüm gerçek bir projeyle biter.</p></div></div></div>
       <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.3.q">Kursu kim anlatıyor?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.3.a">Farhad Yaqoobi — FY'nin kurucusu. Almanya'da IT okuyor, dört dilde içerik üretiyor ve öğrendiklerini açık kaynak projelerle GitHub'da paylaşıyor — kursun 6. bölümünde anlattığı yöntemlerin aynısıyla.</p></div></div></div>
-      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.4.q">Taksitle alınabilir mi?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.4.a">Hayır. Kurs ödemesi yalnızca tek seferde yapılır.</p></div></div></div>
-      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.5.q">Destek nasıl işliyor?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.5.a">Kayıt olunca 45 gün tam destek hediye — sorularını öğrenci panelinde sorar ve yanıt alırsın. 45 günden sonra destek uzatması, kursu aldığın tutarın %10'u kadardır.</p></div></div></div>
+      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.4.q">Kurs hangi dilde?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.4.a">Kurs videoları Türkçe. Öğrenci panelindeki soruları Türkçe, Almanca, İngilizce ve Farsça yanıtlıyoruz.</p></div></div></div>
+      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.5.q">Destek nasıl işliyor?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.5.a">Kayıt olunca 45 gün tam destek hediye — sorularını öğrenci panelinde sorar ve yanıt alırsın. 45 günden sonra destek uzatması ayrıca ücretlendirilir.</p></div></div></div>
       <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.6.q">Sıfırdan başlayabilir miyim?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.6.a">Tam olarak bunun için tasarlandı. 1. bölüm mutlak sıfırdan başlar — ne programlama bilgisi ne de yapay zekâ ile önceden tanışıklık gerekir. Adım adım ilerleriz ve her bölüm bir öncekinin üstüne kurulur.</p></div></div></div>
       <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.7.q">Kursta hangi projeleri yapacağım?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.7.a">Kurs tamamen proje odaklı: n8n ile gerçek botlar ve otomasyonlar, Claude için skill'ler ve özel beyin, özel CRM'li gerçek bir site, kişisel ajantik işletim sistemi (FYOS), yapay zekâ ile kurgulanmış videolar ve Instagram içerik kampanyası — her bölüm sunulabilir bir projeyle biter.</p></div></div></div>
-      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.8.q">Satın aldıktan sonra kursa nasıl erişirim?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.8.a">Ödeme onaylandıktan sonra lisansın, öğrenci paneli kullanıcı adı ve şifrenle birlikte sana gönderilir — videoları güvenli oynatıcıda izler; soruları, dosyaları ve ek eğitimleri öğrenci panelinde takip edersin.</p></div></div></div>
+      <div data-reveal><div class="glass faq-item"><button class="faq-item__btn" aria-expanded="false"><h3 class="font-display" data-i18n="faq.8.q">Kursa nasıl erişirim?</h3><span class="pm">+</span></button><div class="faq-item__panel"><p data-i18n="faq.8.a">Kaydın onaylandıktan sonra lisansın, öğrenci paneli kullanıcı adı ve şifrenle birlikte sana gönderilir — videoları güvenli oynatıcıda izler; soruları, dosyaları ve ek eğitimleri öğrenci panelinde takip edersin.</p></div></div></div>
     </div>
   </div>
 </section>
 
 <!-- ===== İLETİŞİM ===== -->
+<section id="process" class="section">
+  <div class="container-x">
+    <div data-reveal>
+      <div class="proc__head">
+        <span class="eyebrow" data-i18n="process.eyebrow">Süreç</span>
+        <h2 class="font-display text-h1" data-i18n="process.title">Yazdıktan sonra ne oluyor</h2>
+        <p class="text-muted" data-i18n="process.p">Dört adım. Sürpriz yok.</p>
+      </div>
+    </div>
+    <div class="proc-grid">
+      <div data-reveal>
+        <div class="glass proc-card">
+          <span class="proc-card__n" aria-hidden="true">1</span>
+          <h3 class="font-display text-h3" data-i18n="process.1.t">Konuşuruz</h3>
+          <p data-i18n="process.1.d">30 dakika, ücretsiz. Ne kurmak istediğini dinleriz; neyin gerektiğini, neyin gereksiz olduğunu söyleriz. Taahhüt yok, ısrar yok.</p>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="glass proc-card">
+          <span class="proc-card__n" aria-hidden="true">2</span>
+          <h3 class="font-display text-h3" data-i18n="process.2.t">Teklif</h3>
+          <p data-i18n="process.2.d">Kapsam, süre ve kesin fiyat tek sayfada. Saatlik değil, «duruma göre» değil. Kabul edersen başlarız.</p>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="glass proc-card">
+          <span class="proc-card__n" aria-hidden="true">3</span>
+          <h3 class="font-display text-h3" data-i18n="process.3.t">Kurarız</h3>
+          <p data-i18n="process.3.d">İş parça parça teslim edilir. Her adımda görürsün, yön değiştirmek istersen değiştiririz — sonunda sürpriz olmaz.</p>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="glass proc-card">
+          <span class="proc-card__n" aria-hidden="true">4</span>
+          <h3 class="font-display text-h3" data-i18n="process.4.t">Anahtarlar sende</h3>
+          <p data-i18n="process.4.d">Teslim ettiğimiz şey senin: nasıl çalıştığını öğretiriz, erişimleri sana devrederiz. Sonrasında da yanındayız.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contact" class="section contact">
   <div class="contact__glow"><i></i></div>
   <div class="container-x">
@@ -684,7 +769,7 @@
             <div class="field"><label for="cMail" data-i18n="contact.email.label">E-posta *</label><input id="cMail" class="input" type="email" name="email" required placeholder="you@example.com"></div>
           </div>
           <div class="form-row">
-            <div class="field"><label for="cPhone" data-i18n="contact.phone.label">Telefon *</label><input id="cPhone" class="input" type="tel" name="phone" required pattern="[0-9+\-() ]{8,20}" placeholder="05xxxxxxxxx" data-i18n-attr="placeholder=contact.phone.ph"></div>
+            <div class="field"><label for="cPhone" data-i18n="contact.phone.label">Telefon (isteğe bağlı)</label><input id="cPhone" class="input" type="tel" name="phone" pattern="[0-9+\-() ]{8,20}" placeholder="05xxxxxxxxx" data-i18n-attr="placeholder=contact.phone.ph"></div>
             <div class="field"><label for="cCompany" data-i18n="contact.company.label">İşletme / şirket</label><input id="cCompany" class="input" name="company" placeholder="İsteğe bağlı" data-i18n-attr="placeholder=contact.company.ph"></div>
           </div>
           <div class="field"><label for="cMsg" data-i18n="contact.msg.label">Ne üzerinde çalışıyorsun? *</label><textarea id="cMsg" class="input" name="message" required placeholder="Kısa bir paragraf yeter — neyin var, ne istiyorsun, teslim tarihi varsa söyle." data-i18n-attr="placeholder=contact.msg.ph"></textarea></div>
