@@ -92,6 +92,9 @@
   }
   function rnd(a, b) { return a + Math.random() * (b - a); }
 
+  // Ağdan bir karta paket ulaştığında çağrılır; aşağıdaki istatistik bölümü doldurur.
+  var onDeliver = null;
+
   /* ---------- Hero: altın devre ağı ---------- */
   (function hero() {
     var canvas = $('#heroCanvas'), logo = $('#heroLogo');
@@ -234,6 +237,7 @@
     function gauss() { return (srnd() + srnd() + srnd() + srnd() - 2) / 2; }
 
     var nodes = [], edges = [], packets = [], sparks = [], ripples = [];
+    var linkC = $('#linkCanvas'), links = [], flows = [], linksReady = false;
     for (var i = 0; i < 80; i++) {
       var hub = i < 8;
       nodes.push({
@@ -255,6 +259,104 @@
           alpha: Math.max(.05, .35 * (1 - d / reach)),
           purple: (nodes[i].purple || nodes[j].purple) ? rr() < .5 : rr() < .06
         });
+      }
+    }
+
+    /* ---------- Ağ ile kartlar arasındaki omurga bağlantıları ----------
+       Her kart, ağın içindeki kendisine en yakın düğüme bir kabloyla bağlanır. Kablo üzerinde
+       akan paket karta ulaşınca kart o işi işliyormuş gibi canlanır (bkz. css ".hud.is-hit").
+       Kartlar 768px altında gizli olduğundan orada bağlantı da kurulmaz. */
+    function buildLinks() {
+      links = []; flows = []; linksReady = true;
+      if (!linkC || !w || !h) return;
+      var ar = area.getBoundingClientRect(), cx = w / 2, cy = h / 2;
+      $$('.hud', area).forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (!r.width || !r.height) return;                      // gizli kart: bağlantı yok
+        var x0 = r.left - ar.left, y0 = r.top - ar.top;
+        // Kablonun karta girdiği yer: kartın merkeze bakan kenarı
+        var px = Math.min(Math.max(cx, x0), x0 + r.width);
+        var py = Math.min(Math.max(cy, y0), y0 + r.height);
+        if (cx < x0) px = x0; else if (cx > x0 + r.width) px = x0 + r.width;
+        if (cy < y0) py = y0; else if (cy > y0 + r.height) py = y0 + r.height;
+
+        // Ağın içinde bu karta en yakın düğüm: kablonun çıkış geçidi
+        var gate = 0, gd = Infinity, lim = Math.min(w, h) * .42;
+        for (var i = 0; i < nodes.length; i++) {
+          var nx = nodes[i].bx * w, ny = nodes[i].by * h;
+          if (Math.hypot(nx - cx, ny - cy) > lim) continue;      // uçtaki düğümler geçit olamaz
+          var d = Math.hypot(nx - px, ny - py);
+          if (d < gd) { gd = d; gate = i; }
+        }
+        var c = (getComputedStyle(el).getPropertyValue('--c') || '').trim();
+        if (!/^#[0-9a-fA-F]{6}$/.test(c)) c = '#38BDF8';
+        links.push({
+          el: el, key: el.getAttribute('data-stat') || '', gate: gate, px: px, py: py, color: c,
+          curve: (Math.random() - .5) * .22, next: .6 + Math.random() * 2.2
+        });
+
+        var port = $('.hud__port', el);
+        if (!port) { port = document.createElement('i'); port.className = 'hud__port'; el.appendChild(port); }
+        port.style.left = (px - x0 - 3.5) + 'px';
+        port.style.top = (py - y0 - 3.5) + 'px';
+      });
+    }
+    function linkPath(L) {
+      var g = nodes[L.gate];
+      var dx = L.px - g.x, dy = L.py - g.y, dd = Math.hypot(dx, dy) || 1, off = dd * L.curve;
+      return { ax: g.x, ay: g.y, bx: L.px, by: L.py,
+        cx: (g.x + L.px) / 2 + -dy / dd * off, cy: (g.y + L.py) / 2 + dx / dd * off };
+    }
+    function onPath(P, t) {
+      var m = 1 - t;
+      return { x: m * m * P.ax + 2 * m * t * P.cx + t * t * P.bx, y: m * m * P.ay + 2 * m * t * P.cy + t * t * P.by };
+    }
+    function hexA(hex, a) {
+      var n = parseInt(hex.slice(1), 16);
+      return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+    }
+    function fireFlow(L, dir) { if (flows.length < 24) flows.push({ L: L, t: 0, dir: dir, speed: .5 + Math.random() * .35 }); }
+    function landed(L) {
+      L.el.classList.add('is-hit');
+      clearTimeout(L.hitT);
+      L.hitT = setTimeout(function () { L.el.classList.remove('is-hit'); }, 1100);
+      if (onDeliver) onDeliver(L.key);
+      setTimeout(function () {                                   // iş bitti, yanıt merkeze döner
+        if (links.indexOf(L) >= 0) fireFlow(L, -1);              // arada yeniden kurulduysa bırak
+      }, 420);
+    }
+    function drawLinks(lc, lw, lh, dt) {
+      lc.clearRect(0, 0, lw, lh);
+      for (var li = 0; li < links.length; li++) {
+        var L = links[li], P = linkPath(L), live = L.el.classList.contains('is-hit');
+        var grad = lc.createLinearGradient(P.ax, P.ay, P.bx, P.by);
+        grad.addColorStop(0, hexA(L.color, live ? .10 : .05));
+        grad.addColorStop(.55, hexA(L.color, live ? .40 : .20));
+        grad.addColorStop(1, hexA(L.color, live ? .85 : .55));
+        lc.strokeStyle = grad; lc.lineWidth = live ? 1.5 : 1;
+        lc.beginPath(); lc.moveTo(P.ax, P.ay); lc.quadraticCurveTo(P.cx, P.cy, P.bx, P.by); lc.stroke();
+        lc.strokeStyle = hexA(L.color, .5); lc.lineWidth = 1;
+        lc.beginPath(); lc.arc(P.ax, P.ay, 4.5, 0, 6.283); lc.stroke();
+        if (dt && (L.next -= dt) <= 0) { L.next = 1.4 + Math.random() * 3.2; fireFlow(L, 1); }
+      }
+      if (!dt) return;
+      for (var fi = flows.length - 1; fi >= 0; fi--) {
+        var F = flows[fi];
+        F.t += dt * F.speed;
+        if (F.t >= 1) { flows.splice(fi, 1); if (F.dir === 1) landed(F.L); continue; }
+        var FP = linkPath(F.L), ft = F.dir === 1 ? F.t : 1 - F.t;
+        for (var k = 1; k < 7; k++) {                             // kuyruk
+          var kt = ft - k * .022 * F.dir;
+          if (kt < 0 || kt > 1) continue;
+          var kp = onPath(FP, kt);
+          lc.fillStyle = hexA(F.L.color, (1 - k / 7) * .55);
+          lc.beginPath(); lc.arc(kp.x, kp.y, 1.3, 0, 6.283); lc.fill();
+        }
+        var hp = onPath(FP, ft);
+        lc.shadowColor = F.L.color; lc.shadowBlur = 9;
+        lc.fillStyle = hexA(F.L.color, .95);
+        lc.beginPath(); lc.arc(hp.x, hp.y, 2.4, 0, 6.283); lc.fill();
+        lc.shadowBlur = 0;
       }
     }
 
@@ -286,7 +388,7 @@
     function draw(now) {
       if (!visible(canvas) && !ripples.length) { raf(draw); return; }
       var f = fit(canvas), ctx = f.ctx;
-      if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); }
+      if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); linksReady = false; }
       var s = Math.min((now - tPrev) / 1000, .05); tPrev = now; q += s;
 
       var lerp = 2.2 * Math.min(1, s / .5);
@@ -400,6 +502,13 @@
         ctx.beginPath(); ctx.arc(w / 2, h / 2, rp.r, 0, 6.283); ctx.stroke();
       });
 
+      // Kartlara giden bağlantılar (sahne maskesinin dışındaki katman)
+      if (linkC) {
+        if (!linksReady) buildLinks();
+        var lf = fit(linkC);
+        drawLinks(lf.ctx, lf.w, lf.h, s);
+      }
+
       // Ses dalgası: tek parlayan çizgi
       if (voiceC) {
         var vf = fit(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
@@ -435,6 +544,11 @@
         ctx0.fillStyle = nd.purple ? col(75, nd.hub ? .9 : .65, 55) : col(nd.hub ? 70 : 60, nd.hub ? .9 : .65);
         ctx0.beginPath(); ctx0.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx0.fill();
       });
+      if (linkC) {
+        buildLinks();
+        var lf0 = fit(linkC);
+        drawLinks(lf0.ctx, lf0.w, lf0.h, 0);
+      }
       if (voiceC) {
         var vf0 = fit(voiceC), vc0 = vf0.ctx;
         vc0.strokeStyle = col(68, .8); vc0.lineWidth = 1.6;
@@ -444,6 +558,7 @@
       raf(draw);
     }
 
+    addEventListener('resize', function () { linksReady = false; });
     area.addEventListener('pointerdown', function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); });
     window.FYOS = {
       setHue: function (hh) { hueTarget = hh; hueTimer = 15; if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
@@ -451,6 +566,69 @@
       setState: setState
     };
     setState('idle');
+  })();
+
+  /* ---------- Sahne kartları: canlı sayılar ----------
+     Kaynak: data/fy-stats.json — dakikada bir tazelenir. Dosya yoksa, ağ yoksa ya da değer
+     geçersizse HTML'deki sayılar olduğu gibi kalır (sayfa hiçbir durumda boşa düşmez).
+     Analytics kartı dosyadan değil, sahnedeki ağın bu oturumda tamamladığı istek sayısından beslenir. */
+  (function stats() {
+    var cards = $$('.hud[data-stat]');
+    if (!cards.length) return;
+    var SUB = {
+      agents: function (v, d) { return v + ' online · ' + (num(d.agentsOffline) || 0) + ' off'; },
+      studio: function (v) { return v + ' posts'; },
+      coaches: function (v) { return v + ' minds'; },
+      memory: function (v) { return v + ' memories'; },
+      skills: function (v) { return v + ' skills'; },
+      knowledge: function (v) { return v + ' notes'; },
+      analytics: function (v) { return v + ' events'; },
+      boardroom: function (v) { return v + ' meetings'; }
+    };
+    var data = {}, events = 0;
+    function num(v) { return typeof v === 'number' && isFinite(v) && v >= 0 && v < 1e12 ? Math.floor(v) : null; }
+    function valueOf(key) {
+      if (key === 'analytics') return (num(data.analytics) || 0) + events;
+      return num(data[key]);
+    }
+    function paint(card, flash) {
+      var key = card.getAttribute('data-stat'), v = valueOf(key);
+      if (v === null || !SUB[key]) return;
+      var nEl = $('[data-stat-num]', card), sEl = $('[data-stat-sub]', card);
+      if (!nEl) return;
+      var txt = String(v), sub = SUB[key](v, data);
+      if (nEl.textContent === txt && (!sEl || sEl.textContent === sub)) return;   // değişmediyse dokunma
+      nEl.textContent = txt;
+      if (sEl) sEl.textContent = sub;
+      if (flash && !reduce) {                                    // yeni veri geldi: kart bir an canlanır
+        card.classList.add('is-hit');
+        clearTimeout(card._statT);
+        card._statT = setTimeout(function () { card.classList.remove('is-hit'); }, 1100);
+      }
+    }
+    function paintAll(flash) { cards.forEach(function (c) { paint(c, flash); }); }
+
+    // Ağdan bir karta paket ulaştığında Analytics'in saydığı gerçek trafik artar
+    onDeliver = function () {
+      events++;
+      for (var i = 0; i < cards.length; i++) {
+        if (cards[i].getAttribute('data-stat') === 'analytics') { paint(cards[i], false); break; }
+      }
+    };
+
+    var first = true;
+    function pull() {
+      if (!window.fetch || (!first && document.hidden)) return;
+      fetch(SCRIPT_BASE + 'data/fy-stats.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || typeof d !== 'object') return;
+          data = d; paintAll(!first); first = false;
+        })
+        .catch(function () {});                                  // sessizce HTML değerlerinde kal
+    }
+    pull();
+    setInterval(pull, 60000);
   })();
 
   /* ---------- FYOS: sohbet ----------

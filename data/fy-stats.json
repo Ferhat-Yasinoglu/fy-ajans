@@ -1,0 +1,13 @@
+{
+  "_": "FY sahnesindeki kartların sayıları. Bu dosyayı güncelle, site 60 saniye içinde kendini tazeler. Bir anahtarı silersen o kart HTML'deki değerinde kalır. Analytics kartı bu dosyadan değil, sayfadaki ağın o oturumda tamamladığı istek sayısından beslenir; buradaki analytics değeri ona eklenen başlangıçtır.",
+  "updated": "2026-09-07",
+  "agents": 1,
+  "agentsOffline": 0,
+  "studio": 1,
+  "coaches": 3,
+  "memory": 7,
+  "skills": 35,
+  "knowledge": 4175,
+  "boardroom": 2,
+  "analytics": 0
+}

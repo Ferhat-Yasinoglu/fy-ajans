@@ -84,6 +84,7 @@ contact/course.html   kurs sayfası
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
+data/fy-stats.json    sahne kartlarındaki sayılar (Agents, Skills, Knowledge…); sayfa 60 sn'de bir okur
 img/founder.jpg       kurucu fotoğrafı
 img/portrait-aura*.svg kurucu fotoğrafının altın aurası (canlı + sabit); tools/build-portrait.mjs üretir
 img/course/ch1-7*.svg bölüm kapakları — yedi altın sahne (canlı + sabit); tools/build-chapters.mjs üretir
@@ -105,6 +106,17 @@ brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siya
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```
+
+## Sahne kartlarının sayıları
+
+Ana sayfadaki FY sahnesinde ağın çevresindeki kartlar (Agents, Studio, Coaches, Memory, Skills,
+Knowledge, Boardroom) sayılarını `data/fy-stats.json`'dan okur. Dosyayı düzenleyip gönderdiğinde
+açık duran sayfalar bile 60 saniye içinde yeni sayıya geçer; yenilemek gerekmez.
+
+- Bir anahtarı silersen o kart HTML'deki değerinde kalır. Dosya hiç yoksa ya da ağ yoksa hiçbir
+  şey bozulmaz: bütün kartlar HTML'deki sayılarla görünür.
+- `analytics` kartı ayrıdır: dosyadan değil, sahnedeki ağın o ziyarette tamamladığı istek
+  sayısından beslenir (dosyadaki `analytics` değeri ona eklenen başlangıçtır).
 
 ## Çalıştırma
 
