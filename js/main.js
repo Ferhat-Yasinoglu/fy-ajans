@@ -791,11 +791,15 @@
     });
   })();
 
-  /* ---------- Formlar (sunucusuz: mailto ile devam) ---------- */
-  function wireForm(id, statusId, subject, extra) {
+  /* ---------- Formlar (sunucusuz: mailto ile devam) ----------
+     guard: tarayıcının kendi doğrulamasının gösteremediği durumlar için (gizli alan odaklanamadığı
+     için reportValidity hiçbir balon çıkaramaz, form sessizce takılırdı). Hata metnini döndürür. */
+  function wireForm(id, statusId, subject, extra, guard) {
     var form = $('#' + id), status = $('#' + statusId); if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var own = guard && guard();
+      if (own) { status.textContent = own.msg; if (own.focus && own.focus.focus) own.focus.focus(); return; }
       if (!form.checkValidity()) { status.textContent = t('formRequired', 'Lütfen yıldızlı alanları doldur.'); form.reportValidity(); return; }
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
@@ -806,19 +810,36 @@
     });
   }
   wireForm('contactForm', 'contactStatus', t('subjContact', 'FY — iletişim formu'));
-  wireForm('joinForm', 'joinStatus', t('subjJoin', 'FY — özgeçmiş başvurusu'), t('resumeNote', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.'));
+  wireForm('joinForm', 'joinStatus', t('subjJoin', 'FY — özgeçmiş başvurusu'), t('resumeNote', 'Özgeçmiş: lütfen bu e-postaya dosya olarak ekleyin.'), function () {
+    var f = $('#jFile');
+    if (f && !(f.files && f.files.length)) return { msg: t('fileRequired', 'Lütfen özgeçmiş dosyanı seç (PDF veya Word).'), focus: $('#jFileBtn') };
+    return null;
+  });
   // Öğrenci paneli: panel açılana kadar şifre alınmaz; yalnızca "açılınca haber ver" e-postası hazırlanır.
   wireForm('loginForm', 'loginStatus', t('subjPortal', 'FY — öğrenci paneli açılınca haber ver'));
-  var jf = $('#jFile'), jn = $('#jFileName');
+  var jf = $('#jFile'), jn = $('#jFileName'), jb = $('#jFileBtn');
   if (jf && jn) jf.addEventListener('change', function () { jn.textContent = jf.files[0] ? jf.files[0].name : t('fileChoose', 'Dosya seç…'); jn.classList.toggle('text-dim', !jf.files[0]); });
+  // Dosya alanı gizli olduğu için etiket klavyeyle çalışmıyordu: Enter ve boşluk seçiciyi açar.
+  if (jf && jb) jb.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); jf.click(); }
+  });
 
   /* ---------- İletişim penceresi ---------- */
   (function modal() {
     var root = $('#contactModal'); if (!root) return;
     var main = $('#modalMain'), topic = $('#modalTopic'), form = $('#modalForm'), done = $('#modalDone');
-    var lastFocus = null, subject = '';
+    var card = $('.modal__card', root);
+    var lastFocus = null, subject = '', trapped = false;
+    /* Kart aria-modal="true" diyor; klavyede de öyle davranmalı. Tab pencerenin içinde döner,
+       dışarı kaçan odak geri çekilir — yoksa arkadaki bağlantıya Enter basıldığında sayfa
+       yeniden yükleniyor ve yazılmış mesaj siliniyordu. */
+    var FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    function tabbables() {
+      return $$(FOCUSABLE, card).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
+    }
     function open(subj) {
       subject = subj || '';
+      trapped = true;
       lastFocus = document.activeElement;
       if (topic) { topic.hidden = !subject; topic.textContent = subject ? t('modalTopic', 'Konu: ') + subject : ''; }
       main.hidden = false; done.hidden = true;
@@ -829,6 +850,7 @@
     }
     function close() {
       if (root.hidden) return;
+      trapped = false;
       root.classList.remove('is-open');
       document.body.style.overflow = '';
       setTimeout(function () { root.hidden = true; }, 260);
@@ -838,7 +860,19 @@
       el.addEventListener('click', function (e) { e.preventDefault(); open(el.getAttribute('data-modal')); });
     });
     $$('[data-modal-close]', root).forEach(function (el) { el.addEventListener('click', close); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { close(); return; }
+      if (!trapped || e.key !== 'Tab') return;
+      var f = tabbables(); if (!f.length) return;
+      var first = f[0], last = f[f.length - 1], a = document.activeElement;
+      if (!card.contains(a)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+      else if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+    });
+    document.addEventListener('focusin', function (e) {
+      if (!trapped || card.contains(e.target)) return;
+      var f = tabbables(); if (f.length) f[0].focus();
+    });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }

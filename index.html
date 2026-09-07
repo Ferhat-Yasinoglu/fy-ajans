@@ -654,11 +654,11 @@
         <div class="field"><label for="jMsg" data-i18n="join.msg.label">Kendin hakkında birkaç satır</label><textarea id="jMsg" class="input" name="message" placeholder="Neyi biliyorsun, neyi seviyorsun ve neden FY?" data-i18n-attr="placeholder=join.msg.ph"></textarea></div>
         <div class="field">
           <label for="jFile" data-i18n="join.file.label">Özgeçmiş dosyası (PDF veya Word, en fazla 10 MB) *</label>
-          <label class="input file-input" for="jFile"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">Dosya seç…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">Seç</span></label>
-          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" required hidden>
+          <label class="input file-input" for="jFile" id="jFileBtn" tabindex="0" role="button" aria-describedby="joinStatus"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">Dosya seç…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">Seç</span></label>
+          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" hidden>
         </div>
         <button type="submit" class="btn btn-primary w-full" data-i18n="join.submit">Özgeçmiş gönder →</button>
-        <p class="form-status" id="joinStatus"></p>
+        <p class="form-status" id="joinStatus" role="status" aria-live="polite"></p>
         <p class="form-note" data-i18n="join.note">Gönder deyince e-posta uygulaman açılır; özgeçmişini o e-postaya ek olarak ekle. Bilgilerin yalnızca iş birliği değerlendirmesi için kullanılır ve kimseyle paylaşılmaz.</p>
       </form>
     </div>
@@ -768,7 +768,7 @@
           </div>
           <div class="field"><label for="cMsg" data-i18n="contact.msg.label">Ne üzerinde çalışıyorsun? *</label><textarea id="cMsg" class="input" name="message" required placeholder="Kısa bir paragraf yeter — neyin var, ne istiyorsun, teslim tarihi varsa söyle." data-i18n-attr="placeholder=contact.msg.ph"></textarea></div>
           <button type="submit" class="btn btn-primary w-full" data-i18n="contact.submit">Mesaj gönder →</button>
-          <p class="form-status" id="contactStatus"></p>
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
           <p class="form-note" data-i18n="contact.note">Bilgilerini kimseyle paylaşmayız. Yanıtlar gerçek bir insandan gelir.</p>
         </form>
       </div>

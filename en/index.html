@@ -638,11 +638,11 @@
         <div class="field"><label for="jMsg" data-i18n="join.msg.label">A few lines about you</label><textarea id="jMsg" class="input" name="message" placeholder="What do you know, what do you love, and why FY?" data-i18n-attr="placeholder=join.msg.ph"></textarea></div>
         <div class="field">
           <label for="jFile" data-i18n="join.file.label">CV file (PDF or Word, max. 10 MB) *</label>
-          <label class="input file-input" for="jFile"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">Choose a file…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">Choose</span></label>
-          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" required hidden>
+          <label class="input file-input" for="jFile" id="jFileBtn" tabindex="0" role="button" aria-describedby="joinStatus"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">Choose a file…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">Choose</span></label>
+          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" hidden>
         </div>
         <button type="submit" class="btn btn-primary w-full" data-i18n="join.submit">Send CV →</button>
-        <p class="form-status" id="joinStatus"></p>
+        <p class="form-status" id="joinStatus" role="status" aria-live="polite"></p>
         <p class="form-note" data-i18n="join.note">When you submit, your e-mail app opens; attach your CV to that e-mail. Your details are used only to evaluate a collaboration and are never shared.</p>
       </form>
     </div>
@@ -752,7 +752,7 @@
           </div>
           <div class="field"><label for="cMsg" data-i18n="contact.msg.label">What are you working on? *</label><textarea id="cMsg" class="input" name="message" required placeholder="A short paragraph is enough — what you have, what you want, and any deadline." data-i18n-attr="placeholder=contact.msg.ph"></textarea></div>
           <button type="submit" class="btn btn-primary w-full" data-i18n="contact.submit">Send message →</button>
-          <p class="form-status" id="contactStatus"></p>
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
           <p class="form-note" data-i18n="contact.note">We never share your details. Replies come from a real human.</p>
         </form>
       </div>

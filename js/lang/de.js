@@ -17,6 +17,7 @@ window.FY_STRINGS = {
  "formStatusResume": "Dein E-Mail-Programm öffnet sich — vergiss nicht, den Lebenslauf anzuhängen.",
  "formStatusSent": "Danke — deine Nachricht ist vorbereitet, dein E-Mail-Programm öffnet sich.",
  "fileChoose": "Datei wählen…",
+ "fileRequired": "Bitte wähle deine Lebenslauf-Datei aus (PDF oder Word).",
  "subjContact": "FY — Kontaktformular",
  "subjJoin": "FY — Bewerbung",
  "resumeNote": "Lebenslauf: bitte als Datei an diese E-Mail anhängen.",

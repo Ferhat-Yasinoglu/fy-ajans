@@ -638,11 +638,11 @@
         <div class="field"><label for="jMsg" data-i18n="join.msg.label">چند خط دربارهٔ خودتان</label><textarea id="jMsg" class="input" name="message" placeholder="چه بلدید، چه دوست دارید و چرا FY؟" data-i18n-attr="placeholder=join.msg.ph"></textarea></div>
         <div class="field">
           <label for="jFile" data-i18n="join.file.label">فایل رزومه (PDF یا Word، حداکثر ۱۰ مگابایت) *</label>
-          <label class="input file-input" for="jFile"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">انتخاب فایل…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">انتخاب</span></label>
-          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" required hidden>
+          <label class="input file-input" for="jFile" id="jFileBtn" tabindex="0" role="button" aria-describedby="joinStatus"><span class="text-dim" id="jFileName" data-i18n="join.file.choose">انتخاب فایل…</span><span class="btn btn-ghost btn-sm" data-i18n="join.file.btn">انتخاب</span></label>
+          <input id="jFile" type="file" name="resume" accept=".pdf,.doc,.docx" hidden>
         </div>
         <button type="submit" class="btn btn-primary w-full" data-i18n="join.submit">ارسال رزومه ←</button>
-        <p class="form-status" id="joinStatus"></p>
+        <p class="form-status" id="joinStatus" role="status" aria-live="polite"></p>
         <p class="form-note" data-i18n="join.note">با زدن «ارسال» برنامهٔ ایمیل شما باز می‌شود؛ رزومه را به همان ایمیل پیوست کنید. اطلاعات شما فقط برای بررسی همکاری استفاده می‌شود و با کسی به اشتراک گذاشته نمی‌شود.</p>
       </form>
     </div>
@@ -752,7 +752,7 @@
           </div>
           <div class="field"><label for="cMsg" data-i18n="contact.msg.label">روی چه چیزی کار می‌کنید؟ *</label><textarea id="cMsg" class="input" name="message" required placeholder="یک پاراگراف کوتاه کافی است — چه دارید، چه می‌خواهید، و اگر مهلتی هست بگویید." data-i18n-attr="placeholder=contact.msg.ph"></textarea></div>
           <button type="submit" class="btn btn-primary w-full" data-i18n="contact.submit">ارسال پیام ←</button>
-          <p class="form-status" id="contactStatus"></p>
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
           <p class="form-note" data-i18n="contact.note">اطلاعات شما را با کسی به اشتراک نمی‌گذاریم. پاسخ‌ها از یک انسان واقعی می‌آید.</p>
         </form>
       </div>
