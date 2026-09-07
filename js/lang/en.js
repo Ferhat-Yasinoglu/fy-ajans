@@ -17,6 +17,7 @@ window.FY_STRINGS = {
  "formStatusResume": "Your e-mail app is opening — don't forget to attach your CV.",
  "formStatusSent": "Thanks — your message is ready, your e-mail app is opening.",
  "fileChoose": "Choose a file…",
+ "fileRequired": "Please choose your CV file (PDF or Word).",
  "subjContact": "FY — contact form",
  "subjJoin": "FY — job application",
  "resumeNote": "CV: please attach it to this e-mail as a file.",
