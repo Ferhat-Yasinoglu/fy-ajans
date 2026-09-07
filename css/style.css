@@ -694,6 +694,14 @@ html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--a
   .jstep, .jstep--r { grid-column: 1; --nx: -50%; }
   .jstep__num { right: auto; left: 0; }
   .jstep .jstep__card, .jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
+  /* Tek sütunlu telefon düzeninde numara rayı, okuma yönünün başına geçer: RTL'de sağa.
+     Aksi hâlde kartın bütün metni sağa yaslıyken rozet tek başına solda kalıyor, yani numara
+     adımın önünde değil arkasında duruyordu. Yol SVG'si rozet konumlarından ölçüldüğü için
+     kendiliğinden uyuyor. */
+  html[dir="rtl"] .journey__grid { padding-left: 0; padding-right: 24px; }
+  html[dir="rtl"] :is(.jstep, .jstep--r) { --nx: 50%; }
+  html[dir="rtl"] .jstep__num { left: auto; right: 0; }
+  html[dir="rtl"] :is(.jstep, .jstep--r) .jstep__card { padding-left: var(--jpad); padding-right: calc(var(--jpad) + var(--jnum) * .5); }
   .journey__tag--a, .journey__tag--b, .journey__tag--c { display: none; }
   .journey__foot { flex-wrap: wrap; gap: 6px 12px; }
   .journey__rule { flex-basis: 100%; order: 1; }
