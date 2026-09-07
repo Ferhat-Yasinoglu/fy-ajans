@@ -49,8 +49,8 @@
 {"@type":"WebSite","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website","url":"https://ferhat-yasinoglu.github.io/fy-ajans","name":"FY","publisher":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"tr"},
 {"@type":"WebPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#webpage","url":"https://ferhat-yasinoglu.github.io/fy-ajans","name":"FY — Yapay Zekâ Ajansı","isPartOf":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website"},"about":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"tr"},
 {"@type":"ProfessionalService","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#service","name":"FY — Yapay Zekâ Ajansı","url":"https://ferhat-yasinoglu.github.io/fy-ajans","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"serviceType":["Web tasarım","İşletme akıllılaştırma","Yapay zekâ eğitimi"]},
-{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"Yapay Zekâ Yolculuğu","description":"7 bölümlük, tamamen proje odaklı yapay zekâ kursu: prompt yazımı, n8n otomasyon, Claude Code, site ve CRM kurma, video ve pazarlama.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training","inLanguage":"tr","educationalLevel":"Beginner","hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},
-{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"100","priceCurrency":"EUR","category":"Paid","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training"},
+{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"Yapay Zekâ Yolculuğu","description":"7 bölümlük, tamamen proje odaklı yapay zekâ kursu: prompt yazımı, n8n otomasyon, Claude Code, site ve CRM kurma, video ve pazarlama.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training","inLanguage":"tr","educationalLevel":"Beginner","isAccessibleForFree":true,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},
+{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"0","priceCurrency":"EUR","category":"Free","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#training"},
 {"@type":"FAQPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#faq","mainEntity":[
 {"@type":"Question","name":"Kurs online mı?","acceptedAnswer":{"@type":"Answer","text":"Evet. Kurs tamamen online sunuluyor; güvenli oynatma ve size özel lisans ile. 7 bölümün tamamı hazır."}},
 {"@type":"Question","name":"Sıfırdan başlayabilir miyim?","acceptedAnswer":{"@type":"Answer","text":"Tam olarak bunun için tasarlandı. 1. bölüm mutlak sıfırdan başlar; ne programlama bilgisi ne de yapay zekâ ile önceden tanışıklık gerekir."}}
@@ -190,18 +190,17 @@
             </div>
             <div class="flex flex-col gap-4">
               <div class="price-row">
-                <span class="font-display price text-accent-gradient">100</span>
+                <span class="font-display price text-accent-gradient">0</span>
                 <span class="text-muted">€</span>
-                <span class="price-old">200 €</span>
-                <span class="discount" data-i18n="training.discount">%50 indirim</span>
+                <span class="discount" data-i18n="training.discount">Şimdilik ücretsiz</span>
               </div>
               <div class="price-meta" data-i18n="training.priceMeta">7 tam bölüm · güvenli oynatma · 45 gün hediye destek · özel öğrenci paneli</div>
-              <!-- DOLDUR (PAngV § 3): aşağıdaki iki ifadeden KDV durumuna uyan tek birini bırak.
-                   Ayrıca PAngV § 11: üstü çizili 200 € referans fiyatı, son 30 gündeki en düşük fiyat olmak zorunda;
-                   kurs hiç 200 €'ya satılmadıysa üstü çizili fiyatı ve "%50 indirim" rozetini kaldır. -->
-              <div class="price-note" data-i18n="training.priceNote">Toplam fiyat, <span class="placeholder">⟦KDV dahil⟧</span> <span class="placeholder">⟦ya da: § 19 UStG uyarınca KDV gösterilmez⟧</span> · tek seferlik ödeme · <a href="terms.html#widerruf" class="text-gold">14 gün cayma hakkı</a></div>
+              <!-- Kurs şu an ücretsiz (fiyat 0). Fiyat geri eklenirse şunlar da geri gelmeli: PAngV § 3 uyarınca KDV
+                   ifadesi (⟦KDV dahil⟧ ya da ⟦§ 19 UStG⟧), 14 gün cayma hakkı bağlantısı ve — üstü çizili referans fiyat
+                   kullanılacaksa — PAngV § 11 gereği o fiyatın son 30 gündeki en düşük fiyat olması. -->
+              <div class="price-note" data-i18n="training.priceNote">Şu an tamamen ücretsiz — ödeme yok, kart bilgisi istenmiyor. Kurs ileride ücretli olabilir.</div>
               <div class="flex flex-wrap gap-3">
-                <a href="contact/course.html" class="btn btn-primary" data-i18n="training.buy">Kursu hemen al →</a>
+                <a href="contact/course.html" class="btn btn-primary" data-i18n="training.buy">Ücretsiz katıl →</a>
                 <a href="#contact" class="btn btn-ghost" data-i18n="training.ask">Sorun mu var? Sor</a>
               </div>
             </div>
