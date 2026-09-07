@@ -102,9 +102,11 @@ function translate(src, html, dict, report) {
   // 2) <html lang dir>
   html = html.replace(/<html\b[^>]*>/, `<html lang="${lang}" dir="${dict.dir}">`);
 
-  // 3) varlık yolları bir seviye derine iner (css/ js/ img/ fonts/ manifest); srcset: <picture> içindeki statik logo
+  // 3) varlık yolları bir seviye derine iner (css/ js/ img/ fonts/ manifest); srcset: <picture> içindeki statik logo.
+  //    data-live de buraya dahil: bölüm kapağının canlı sürümünün yolu; çevrilmiş sayfalarda yeniden yazılmazsa
+  //    kart canlanınca 404 alıyor ve görsel kayboluyordu.
   const d = depthOf(src);
-  html = html.replace(/\b(href|src|srcset|content)="((?:\.\.\/)*)([^"]+)"/g, (all, a, ups, rest) => {
+  html = html.replace(/\b(href|src|srcset|content|data-live)="((?:\.\.\/)*)([^"]+)"/g, (all, a, ups, rest) => {
     if (ups.length / 3 !== d) return all;                                     // yalnızca köke işaret eden göreli yollar
     return ASSET_DIRS.some(p => rest.startsWith(p)) ? `${a}="${ups}../${rest}"` : all;
   });
