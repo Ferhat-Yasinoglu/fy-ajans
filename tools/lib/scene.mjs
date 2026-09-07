@@ -4,6 +4,10 @@
    Saf fonksiyonlar; rastgelelik çağıran betiğin tohumlu üretecinden gelir. */
 import { f1 } from './gold.mjs';
 
+/** Opaklık biçimlendirici. f1() tek ondalığa yuvarladığı için .12/.09/.07 gibi üç ayrı pus yoğunluğu
+    aynı "0.1" değerine çöküyordu; hava perspektifinin kademesi bu yüzden kayboluyordu. */
+const fo = n => (Math.round(n * 1000) / 1000).toString().replace(/^0\./, '.');
+
 /* ---------- Ortak tanımlar ----------
    Işık serinin her sahnesinde AYNI yerden gelir: sol üstten, sıcak (#ffe9a3); parlak kenarlar sola-yukarı,
    gölgeler sağa-aşağı bakar. Aşağıdaki gradyanlardan sahne başına yalnız gerçekten başvurulanlar yazılır
@@ -31,9 +35,9 @@ export function defsFor(body) {
 /** Sahnelerin ortak hareket sözlüğü. Her sahne bunun üstüne kendi 1-2 kuralını ekler. */
 export const SCENE_CSS = `
 .mote{animation-name:mote;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-direction:alternate}
-.glow{transform-box:fill-box;transform-origin:center;animation:glow 6s ease-in-out infinite alternate}
+.glow{animation:glow 6s ease-in-out infinite alternate}
 @keyframes mote{from{transform:translateY(9px);opacity:.14}to{transform:translateY(-13px);opacity:.85}}
-@keyframes glow{from{opacity:.68;transform:scale(.97)}to{opacity:1;transform:scale(1.04)}}`;
+@keyframes glow{from{opacity:.72}to{opacity:1}}`;
 
 /** Hacimsel ışık konisi: tepe (sx,sy), tabanı by yüksekliğinde bx1..bx2 arası.
     Koni ince dilimlere bölünür, her dilimin opaklığı çan eğrisiyle söner — kenar süzgeçsiz yumuşar. */
@@ -41,9 +45,9 @@ export function shaft(sx, sy, bx1, bx2, by, op = 1, N = 16, fill = 'url(#beam)')
   let s = '';
   for (let i = 0; i < N; i++) {
     const u0 = i / N, u1 = (i + 1) / N;
-    const a = Math.exp(-Math.pow((u0 + u1 - 1) * 1.9, 2));
-    if (a < .03) continue;                        // görünmeyen dilim çizilmez: kare başına yeniden çizim ucuzlar
-    s += `<path d="M${f1(sx)} ${f1(sy)}L${f1(bx1 + (bx2 - bx1) * u0)} ${f1(by)}L${f1(bx1 + (bx2 - bx1) * u1)} ${f1(by)}Z" opacity="${f1(a * op)}"/>`;
+    const v = Math.exp(-Math.pow((u0 + u1 - 1) * 1.9, 2)) * op;
+    if (v < .012) continue;                       // yazılacak değer üzerinden elenir: görünmeyen dilim dosyaya girmez
+    s += `<path d="M${f1(sx)} ${f1(sy)}L${f1(bx1 + (bx2 - bx1) * u0)} ${f1(by)}L${f1(bx1 + (bx2 - bx1) * u1)} ${f1(by)}Z" opacity="${fo(v)}"/>`;
   }
   return `<g fill="${fill}">${s}</g>`;
 }
@@ -53,17 +57,24 @@ export function shaft(sx, sy, bx1, bx2, by, op = 1, N = 16, fill = 'url(#beam)')
 let mirrorSeq = 0;
 export function mirror(inner, ground, op = .4, depth = 170) {
   const id = `mr${++mirrorSeq}`;
+  // Yansıma donuk kopyadır: sınıf ve animasyon stilleri sökülür. Aksi hâlde maskeli katman her karede
+  // yeniden bileşiliyor ve sahnedeki animasyonlu öğe sayısı görünmeyen bir kopya için ikiye katlanıyor.
+  inner = inner.replace(/ class="[^"]*"/g, '').replace(/ style="animation-[^"]*"/g, '');
   return `<defs><linearGradient id="g${id}" x1="0" y1="${f1(ground)}" x2="0" y2="${f1(ground + depth)}" gradientUnits="userSpaceOnUse">` +
     `<stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".55" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>` +
     `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="${f1(ground)}" width="800" height="${f1(depth)}"><rect x="0" y="${f1(ground)}" width="800" height="${f1(depth)}" fill="url(#g${id})"/></mask></defs>` +
-    `<g mask="url(#${id})" opacity="${f1(op)}"><g transform="translate(0 ${f1(2 * ground)}) scale(1 -1)">${inner}</g></g>`;
+    `<g mask="url(#${id})" opacity="${fo(op)}"><g transform="translate(0 ${f1(2 * ground)}) scale(1 -1)">${inner}</g></g>`;
 }
 
 /** Sahneler arası kararlı çıktı için sayaç sıfırlanır (her dosya üretiminden önce çağrılır). */
 export const resetScene = () => { mirrorSeq = 0; };
 
+/** Nefes alan hale. Sabit ikizde donuk kaldığı için öznitelikte ortalama değeri taşır;
+    canlı sürümde CSS animasyonu bu değeri zaten ezer. */
+export const glow = r => `<circle class="glow" r="${f1(r)}" opacity=".86" fill="url(#halo)"/>`;
+
 /** Hava perspektifi: uzaktaki katmanı yutan yatay pus bandı. */
-export const haze = (y, h, op = .1) => `<rect x="0" y="${f1(y)}" width="800" height="${f1(h)}" fill="url(#beam)" opacity="${f1(op)}"/>`;
+export const haze = (y, h, op = .1) => `<rect x="0" y="${f1(y)}" width="800" height="${f1(h)}" fill="url(#beam)" opacity="${fo(op)}"/>`;
 
 /** Zemine düşen ışık havuzu. */
 export const pool = (cx, cy, rx, ry) => `<ellipse cx="${f1(cx)}" cy="${f1(cy)}" rx="${f1(rx)}" ry="${f1(ry)}" fill="url(#pool)"/>`;
@@ -75,7 +86,7 @@ export function motes(R, n, box) {
   let s = '';
   for (let i = 0; i < n; i++) {
     const d = 4 + R() * 5;
-    s += `<circle class="mote" cx="${f1(box.x + R() * box.w)}" cy="${f1(box.y + R() * box.h)}" r="${f1(.8 + R() * 2)}" style="animation-duration:${f1(d)}s;animation-delay:-${f1(R() * d)}s"/>`;
+    s += `<circle class="mote" cx="${f1(box.x + R() * box.w)}" cy="${f1(box.y + R() * box.h)}" r="${f1(.8 + R() * 2)}" opacity=".5" style="animation-duration:${f1(d)}s;animation-delay:-${f1(R() * d)}s"/>`;
   }
   return `<g fill="#fff3c4" opacity=".55">${s}</g>`;
 }

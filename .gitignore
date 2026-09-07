@@ -20,3 +20,9 @@ worker/.dev.vars
 
 # tools/build-logo.mjs --raster geçici sayfası
 og-tmp.html
+
+# Ölçüm/ekran görüntüsü için depo içinde açılan geçici dosyalar
+.tmp-probe/
+__probe*
+_shot.html
+**/_shot.html

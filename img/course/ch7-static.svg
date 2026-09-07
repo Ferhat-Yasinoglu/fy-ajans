@@ -11,13 +11,13 @@
 <linearGradient id="rock" x1=".2" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#e9c552"/><stop offset=".38" stop-color="#8c6a14"/><stop offset="1" stop-color="#1b1305"/></linearGradient></defs>
 
 <rect width="800" height="800" fill="url(#sky)"/>
-<g transform="translate(238 246)"><circle class="glow" r="238" fill="url(#halo)"/><circle r="78" fill="url(#soft)"/><circle r="50" fill="url(#sun7)"/></g>
-<g fill="url(#beam)"><path d="M238 246L60 720L100 720Z" opacity="0"/><path d="M238 246L100 720L140 720Z" opacity="0.1"/><path d="M238 246L140 720L180 720Z" opacity="0.1"/><path d="M238 246L180 720L220 720Z" opacity="0.2"/><path d="M238 246L220 720L260 720Z" opacity="0.3"/><path d="M238 246L260 720L300 720Z" opacity="0.4"/><path d="M238 246L300 720L340 720Z" opacity="0.5"/><path d="M238 246L340 720L380 720Z" opacity="0.5"/><path d="M238 246L380 720L420 720Z" opacity="0.5"/><path d="M238 246L420 720L460 720Z" opacity="0.5"/><path d="M238 246L460 720L500 720Z" opacity="0.4"/><path d="M238 246L500 720L540 720Z" opacity="0.3"/><path d="M238 246L540 720L580 720Z" opacity="0.2"/><path d="M238 246L580 720L620 720Z" opacity="0.1"/><path d="M238 246L620 720L660 720Z" opacity="0.1"/><path d="M238 246L660 720L700 720Z" opacity="0"/></g>
-<rect x="0" y="392" width="800" height="120" fill="url(#beam)" opacity="0.1"/>
+<g transform="translate(238 246)"><circle class="glow" r="238" opacity=".86" fill="url(#halo)"/><circle r="78" fill="url(#soft)"/><circle r="50" fill="url(#sun7)"/></g>
+<g fill="url(#beam)"><path d="M238 246L60 720L100 720Z" opacity=".023"/><path d="M238 246L100 720L140 720Z" opacity=".051"/><path d="M238 246L140 720L180 720Z" opacity=".1"/><path d="M238 246L180 720L220 720Z" opacity=".176"/><path d="M238 246L220 720L260 720Z" opacity=".276"/><path d="M238 246L260 720L300 720Z" opacity=".387"/><path d="M238 246L300 720L340 720Z" opacity=".484"/><path d="M238 246L340 720L380 720Z" opacity=".542"/><path d="M238 246L380 720L420 720Z" opacity=".542"/><path d="M238 246L420 720L460 720Z" opacity=".484"/><path d="M238 246L460 720L500 720Z" opacity=".387"/><path d="M238 246L500 720L540 720Z" opacity=".276"/><path d="M238 246L540 720L580 720Z" opacity=".176"/><path d="M238 246L580 720L620 720Z" opacity=".1"/><path d="M238 246L620 720L660 720Z" opacity=".051"/><path d="M238 246L660 720L700 720Z" opacity=".023"/></g>
+<rect x="0" y="392" width="800" height="120" fill="url(#beam)" opacity=".12"/>
 <path d="M0 800V470L0 470L128 424L300 476L468 412L640 470L800 436L800 800Z" fill="url(#far)"/>
-<rect x="0" y="462" width="800" height="110" fill="url(#beam)" opacity="0.1"/>
+<rect x="0" y="462" width="800" height="110" fill="url(#beam)" opacity=".1"/>
 <path d="M0 800V546L0 546L176 470L352 552L524 476L700 556L800 512L800 800Z" fill="url(#mid)"/>
-<rect x="0" y="536" width="800" height="110" fill="url(#beam)" opacity="0.1"/>
+<rect x="0" y="536" width="800" height="110" fill="url(#beam)" opacity=".07"/>
 <g><path d="M172 720L470 286L768 720Z" fill="url(#rock)"/>
 <path d="M470 286L768 720H470Z" fill="#0b0803" opacity=".55"/>
 <path d="M470 286l58 108-64 34-52-26Z" fill="#fff8e0" opacity=".9"/>
@@ -28,8 +28,8 @@
 <g transform="translate(470 286)">
 <path d="M0 0v-88" stroke="#fff8e0" stroke-width="6" stroke-linecap="round"/>
 <path class="flag" d="M4 -84h72l-20 25 20 25H4Z" fill="url(#gold)"/>
-<circle class="star" cy="-100" r="11" fill="#fff8e0"/></g>
+<circle class="star" cy="-100" r="11" opacity=".72" fill="#fff8e0"/></g>
 <path d="M0 800V686L0 686L190 648L420 698L640 656L800 700L800 800Z" fill="#0d0904"/>
-<g fill="#fff3c4" opacity=".55"><circle class="mote" cx="202.7" cy="287.2" r="1.8"/><circle class="mote" cx="340.4" cy="531.9" r="2.5"/><circle class="mote" cx="281.8" cy="361.6" r="2"/><circle class="mote" cx="203.5" cy="425.7" r="2.5"/><circle class="mote" cx="527.1" cy="431" r="0.8"/><circle class="mote" cx="602.8" cy="277.3" r="2"/><circle class="mote" cx="182.6" cy="309.9" r="2.3"/><circle class="mote" cx="220.6" cy="587.2" r="1.2"/><circle class="mote" cx="166.6" cy="299.9" r="1.5"/></g>
+<g fill="#fff3c4" opacity=".55"><circle class="mote" cx="202.7" cy="287.2" r="1.8" opacity=".5"/><circle class="mote" cx="340.4" cy="531.9" r="2.5" opacity=".5"/><circle class="mote" cx="281.8" cy="361.6" r="2" opacity=".5"/><circle class="mote" cx="203.5" cy="425.7" r="2.5" opacity=".5"/><circle class="mote" cx="527.1" cy="431" r="0.8" opacity=".5"/><circle class="mote" cx="602.8" cy="277.3" r="2" opacity=".5"/><circle class="mote" cx="182.6" cy="309.9" r="2.3" opacity=".5"/><circle class="mote" cx="220.6" cy="587.2" r="1.2" opacity=".5"/><circle class="mote" cx="166.6" cy="299.9" r="1.5" opacity=".5"/></g>
 <rect width="800" height="800" fill="url(#vig)"/>
 </svg>
