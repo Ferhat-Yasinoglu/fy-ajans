@@ -475,7 +475,7 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .stage__mask canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .stage__center { pointer-events: none; position: absolute; left: 50%; top: 50%; z-index: 10; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); }
 .stage__center::before { content: ""; position: absolute; inset: -48px -112px; background: radial-gradient(closest-side, rgba(7,6,4,.82), rgba(7,6,4,.35) 60%, transparent); }
-.stage__title { position: relative; font-size: 44px; font-weight: 700; line-height: 1; letter-spacing: .2em; color: #fff; text-shadow: 0 0 30px hsla(var(--mesh-hue), 85%, 60%, .55); padding-inline-start: .2em; }
+.stage__title { position: relative; font-size: 34px; font-weight: 700; line-height: 1; letter-spacing: .35em; color: #fff; text-shadow: 0 0 30px hsla(var(--mesh-hue), 85%, 60%, .55); padding-inline-start: .35em; }
 .stage__voice { position: relative; margin-top: 10px; height: 32px; width: 260px; }
 .stage__sub { position: relative; margin-top: 6px; font-size: 13px; color: #8b93a7; }
 @media (min-width: 768px) { .stage__title { font-size: 52px; } .stage__voice { width: 340px; } .stage__sub { font-size: 14px; } }
