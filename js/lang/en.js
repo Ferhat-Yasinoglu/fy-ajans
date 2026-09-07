@@ -20,6 +20,7 @@ window.FY_STRINGS = {
  "subjContact": "FY — contact form",
  "subjJoin": "FY — job application",
  "resumeNote": "CV: please attach it to this e-mail as a file.",
+ "modalTopic": "Topic: ",
  "subjPortal": "FY — notify me when the student portal opens",
  "subjDefault": "contact",
  "canned": [
@@ -89,7 +90,7 @@ window.FY_STRINGS = {
   ],
   [
    "instalment|installment|payment|card|transfer|paypal|iban|how to buy|buy|order",
-   "Payment is made in one go, no instalments. To buy the course, click «Buy the course now»; we send you the payment steps by e-mail, and once payment is confirmed you receive your access details."
+   "The course is free right now, there is nothing to pay. To enrol, click «Join for free»; we take your enrolment by e-mail and send you your access details."
   ],
   [
    "contact|reach|mail|e-mail|phone|whatsapp|call|appointment|consult",

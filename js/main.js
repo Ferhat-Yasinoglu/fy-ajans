@@ -487,7 +487,7 @@
       ['dil|türkçe|almanca|ingilizce|farsça|deutsch|english', 'Kurs Türkçe. Destek Türkçe, Almanca, İngilizce ve Farsça olarak veriliyor.'],
       ['nerede|almanya|türkiye|şehir|yüz yüze|online|uzaktan|canlı', 'Her şey online. FY Almanya\'da, Kuzey Ren-Vestfalya\'da; kurs ve görüşmeler uzaktan yapılıyor, dünyanın her yerinden katılabilirsin.'],
       ['destek|soru sor|yardım|panel|erişim|lisans|izle|ömür', 'Kayıt olunca 45 gün tam destek hediye; sorularını öğrenci panelinde sorarsın. Videolara sana özel erişimle istediğin zaman ulaşırsın, erişim ömür boyu.'],
-      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Ödeme tek seferde yapılıyor, taksit yok. Kursu almak için "Kursu hemen al" düğmesine bas; e-posta ile ödeme adımlarını gönderiyoruz, ödeme onaylanınca erişim bilgilerin gelir.'],
+      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme yok. Kaydolmak için "Ücretsiz katıl" düğmesine bas; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
       ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu: sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt gerçek bir insandan gelir.'],
       ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak için "FY\'ye katıl" bölümünden özgeçmişini gönderebilirsin; uygun görürsek iletişime geçeriz.'],
       ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamaz ve çerez kullanmaz. FYOS yanıtları senin cihazında üretilir; sorduğun hiçbir şey bir sunucuya gitmez, yalnızca model dosyaları bir kez indirilir. Ayrıntı Kurallar ve Gizlilik sayfasında.']
@@ -809,7 +809,7 @@
     function open(subj) {
       subject = subj || '';
       lastFocus = document.activeElement;
-      if (topic) { topic.hidden = !subject; topic.textContent = subject ? 'Konu: ' + subject : ''; }
+      if (topic) { topic.hidden = !subject; topic.textContent = subject ? t('modalTopic', 'Konu: ') + subject : ''; }
       main.hidden = false; done.hidden = true;
       root.hidden = false;
       raf(function () { raf(function () { root.classList.add('is-open'); }); });

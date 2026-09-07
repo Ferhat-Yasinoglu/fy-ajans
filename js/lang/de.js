@@ -20,6 +20,7 @@ window.FY_STRINGS = {
  "subjContact": "FY — Kontaktformular",
  "subjJoin": "FY — Bewerbung",
  "resumeNote": "Lebenslauf: bitte als Datei an diese E-Mail anhängen.",
+ "modalTopic": "Thema: ",
  "subjPortal": "FY — Benachrichtigung zum Start des Lernportals",
  "subjDefault": "Kontakt",
  "canned": [
@@ -89,7 +90,7 @@ window.FY_STRINGS = {
   ],
   [
    "raten|zahlung|karte|überweisung|paypal|iban|wie kaufe|kaufen|bestellen",
-   "Bezahlt wird in einer Zahlung, keine Raten. Zum Kauf klickst du auf «Kurs jetzt kaufen»; wir schicken dir die Zahlungsschritte per E-Mail, und nach Bestätigung der Zahlung bekommst du deine Zugangsdaten."
+   "Der Kurs ist aktuell kostenlos, es wird nichts bezahlt. Zum Anmelden klickst du auf «Kostenlos beitreten»; wir nehmen deine Anmeldung per E-Mail entgegen und schicken dir die Zugangsdaten."
   ],
   [
    "kontakt|erreichen|mail|e-mail|telefon|whatsapp|gespräch|termin|beratung",

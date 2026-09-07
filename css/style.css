@@ -273,6 +273,15 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .mobile-menu a.link { display: block; padding: 20px 0; font-size: 28px; font-weight: 500; border-bottom: 1px solid rgb(var(--line) / .08); }
 .mobile-menu__actions { display: flex; gap: 12px; margin-top: 28px; }
 .mobile-menu__actions .btn { flex: 1; }
+/* Menü içeriği ekranı aşarsa kaydırılabilsin: bağlantı sayısı arttıkça alttaki iletişim düğmesi
+   ekranın dışında kalıyordu ve menü kaydırılamadığı için hiç ulaşılamıyordu. */
+.mobile-menu { overflow-y: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: max(32px, env(safe-area-inset-bottom)); overscroll-behavior: contain; }
+@media (max-height: 860px) {
+  .mobile-menu a.link { padding: 13px 0; font-size: 23px; }
+  .mobile-menu__actions { margin-top: 20px; }
+  .mobile-menu .lang { padding: 14px 0 4px; }
+}
 @media (min-width: 768px) { .mobile-menu { display: none !important; } }
 
 /* ---------- Hero ---------- */
