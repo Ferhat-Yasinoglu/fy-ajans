@@ -461,6 +461,11 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .chapter__meta .tag { font-size: 11px; color: rgb(var(--fg-muted)); }
 .chapter__body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
 .chapter__body :is(h3, h4) { font-size: 18px; font-weight: 700; margin-bottom: 8px; }   /* ana sayfada h4, kurs sayfasında h3 */
+/* Dersi hazır olan bölüm kartı: kutunun tamamı bağlantıdır */
+.chapter--open { transition: border-color .25s, transform .25s, box-shadow .25s; }
+.chapter--open:hover { border-color: rgb(var(--accent-gold) / .38); transform: translateY(-3px); box-shadow: 0 18px 50px -22px rgba(212,175,55,.5); }
+.chapter__go { display: block; padding: 0 20px 18px; font-size: 13px; font-weight: 600; color: rgb(var(--accent-gold-bright)); }
+.chapter--open:hover .chapter__go { color: #fff3c4; }
 .chapter__body p { color: rgb(var(--fg-muted)); font-size: 13px; line-height: 1.625; margin-bottom: 16px; flex: 1; }
 /* Bölüm kartı zeminleri: görsel yüklenene kadar görünen renk; her bölümün ışık odağı kendi kapağıyla aynı yerde */
 .art-1 { background: radial-gradient(circle at 50% 64%, #3a2a09, #120d05 55%, #060503); }
@@ -998,6 +1003,112 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   [data-reveal], .jstep__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
 }
+
+
+/* ---------- Ders sayfası (course/chapter-*.html) ----------
+   Okuma sütunu dar tutulur; ızgaralar aynı sütunun genişliğini kullanır. */
+.lesson__head { max-width: 46rem; margin-inline: auto; text-align: center; }
+.lesson__head h1 { margin-top: 16px; }
+.lesson__lead { margin-top: 20px; font-size: 17px; line-height: 1.75; color: rgb(var(--fg-muted)); }
+.lesson__meta { margin-top: 18px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--fg-dim)); }
+
+.lesson__goals { max-width: 46rem; margin: 56px auto 0; padding: 28px; }
+.lesson__goals h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+
+.lesson__block { max-width: 52rem; margin: 72px auto 0; }
+.lesson__block > h2 { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+.lesson__num { flex: none; font-size: 14px; font-weight: 700; color: rgb(var(--accent-gold)); letter-spacing: .1em; }
+.lesson__block p { color: rgb(var(--fg-muted)); line-height: 1.75; max-width: 46rem; }
+.lesson__block > p + p { margin-top: 14px; }
+.lesson__block > :is(.try, .compare, .steps, .myth, .fact, .skills, .tiers, .cross-list, .note) + p { margin-top: 24px; }
+.lesson__block h3 { font-size: 16px; font-weight: 700; color: rgb(var(--fg)); margin-bottom: 6px; }
+
+/* Yanlış inanışlar */
+.myth { display: grid; gap: 16px; margin-top: 24px; }
+@media (min-width: 720px) { .myth { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.myth__item { border-inline-start: 2px solid rgb(var(--accent-gold) / .35); padding-inline-start: 16px; }
+.myth__item h3::before { content: "✕"; color: #f87171; margin-inline-end: 8px; font-weight: 400; }
+.myth__item p { font-size: 14px; }
+
+/* Vurgu kutusu */
+.note { margin-top: 24px; padding: 20px 24px; }
+.note p { margin: 0; font-size: 14.5px; }
+.note--gold { border-color: rgb(var(--accent-gold) / .35); background: rgb(var(--accent-gold) / .05); }
+.note--warn { border-color: rgba(248,113,113,.32); background: rgba(248,113,113,.05); }
+
+/* Üç temel gerçek */
+.fact { display: flex; gap: 18px; margin-top: 28px; }
+.fact__n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 700;
+  color: rgb(var(--accent-gold)); border: 1px solid rgb(var(--accent-gold) / .4); background: rgb(var(--accent-gold) / .07); }
+.fact p { font-size: 14.5px; }
+
+/* Yetenek kartları */
+.skills { display: grid; gap: 14px; margin-top: 24px; }
+@media (min-width: 640px) { .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.skills__card { padding: 20px; }
+.skills__card p { font-size: 13.5px; margin: 0; }
+
+/* Yapamadıklarım */
+.cross-list { list-style: none; margin: 24px 0 0; padding: 0; }
+.cross-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.7; color: rgb(var(--fg-muted)); }
+.cross-list li::before { content: "✕"; color: #f87171; flex: none; margin-top: 2px; }
+.cross-list.space-2 > li + li { margin-top: 12px; }
+
+/* Zayıf / güçlü istek karşılaştırması */
+.compare { display: grid; gap: 16px; margin-top: 24px; }
+@media (min-width: 720px) { .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.compare__col { border-radius: var(--radius-xl); border: 1px solid; padding: 20px; }
+.compare__col--weak { border-color: rgba(248,113,113,.28); background: rgba(248,113,113,.04); }
+.compare__col--strong { border-color: rgb(var(--accent-gold) / .38); background: rgb(var(--accent-gold) / .05); }
+.compare__tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 12px; }
+.compare__col--weak .compare__tag { color: #f87171; }
+.compare__col--strong .compare__tag { color: rgb(var(--accent-gold-bright)); }
+.compare__text { font-size: 13px; line-height: 1.7; color: rgb(var(--fg)); }
+.compare__note { font-size: 13px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgb(var(--line) / .08); }
+
+/* İlk adımlar */
+.steps { list-style: none; margin: 24px 0 0; padding: 0; counter-reset: none; }
+.steps li { display: flex; align-items: flex-start; gap: 14px; font-size: 14.5px; line-height: 1.7; color: rgb(var(--fg-muted)); }
+.steps li + li { margin-top: 14px; }
+.steps__n { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700;
+  color: #070604; background: linear-gradient(150deg, #f5d76e, #d4af37); }
+
+/* Kopyalanacak ilk istekler */
+.try { margin-top: 20px; display: grid; gap: 10px; }
+.try__item { margin: 0; padding: 14px 18px; border-radius: var(--radius-xl); font-size: 13px; line-height: 1.7;
+  color: rgb(var(--fg)); background: rgb(var(--ink-1)); border: 1px dashed rgb(var(--accent-gold) / .32); }
+
+/* Kademeler */
+.tiers { display: grid; gap: 14px; margin-top: 24px; }
+@media (min-width: 720px) { .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tiers__card { padding: 20px; }
+.tiers__card h3 { margin-top: 10px; }
+.tiers__card p { font-size: 13.5px; margin: 0; }
+
+/* Alıştırmalar */
+.ex { display: grid; gap: 14px; margin-top: 24px; }
+@media (min-width: 860px) { .ex { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ex__card { padding: 20px; }
+.ex__card p { font-size: 13.5px; }
+.ex__goal { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgb(var(--line) / .08); font-size: 12.5px; }
+
+/* Kendini sına */
+.quiz { display: grid; gap: 10px; margin-top: 24px; }
+.quiz__item { padding: 0; overflow: hidden; }
+.quiz__item summary { cursor: pointer; padding: 16px 20px; font-size: 14.5px; font-weight: 600; color: rgb(var(--fg)); list-style: none; display: flex; align-items: center; gap: 12px; }
+.quiz__item summary::-webkit-details-marker { display: none; }
+.quiz__item summary::before { content: "+"; flex: none; color: rgb(var(--accent-gold)); font-weight: 700; transition: transform .2s; }
+.quiz__item[open] summary::before { transform: rotate(45deg); }
+.quiz__item p { margin: 0; padding: 0 20px 18px 44px; font-size: 14px; }
+
+/* Özet ve sonraki bölüm */
+.lesson__recap { padding: 28px; border-color: rgb(var(--accent-gold) / .35); background: rgb(var(--accent-gold) / .05); }
+.lesson__recap p { margin-top: 10px; font-size: 15.5px; color: rgb(var(--fg)); }
+.lesson__next { margin-top: 24px; padding: 28px; border-radius: var(--radius-2xl); border: 1px solid rgb(var(--line) / .08);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+.lesson__next h3 { margin: 12px 0 8px; }
+.lesson__next p { font-size: 14px; max-width: 34rem; }
+.btn.is-soon { opacity: .55; cursor: default; }
 
 /* ---------- İletişim penceresi ---------- */
 .modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }

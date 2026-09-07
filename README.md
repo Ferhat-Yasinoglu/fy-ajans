@@ -81,6 +81,7 @@ terms.html            kurallar, gizlilik (DSGVO Md. 13), cayma hakkı ve kurs ş
 impressum.html        § 5 DDG sağlayıcı bilgileri (Almanya'da ticari site için zorunlu)
 contact/index.html    bağlantı sayfası (link-in-bio)
 contact/course.html   kurs sayfası
+course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (şimdilik yalnızca Türkçe; çeviri gelince tools/build-i18n.mjs SOURCES'a eklenecek)
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
