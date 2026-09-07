@@ -4,15 +4,19 @@ compatibility_date = "2026-09-01"
 
 [vars]
 # Yalnızca bu kaynaklardan gelen isteklere yanıt verilir (virgülle ayır). Alan adı değişince güncelle.
+# BOŞ BIRAKILIRSA worker hiçbir isteğe yanıt vermez (eskiden tam tersiydi: boşsa herkese açılıyordu).
 ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
 # Ziyaretçi başına günlük soru hakkı
 DAILY_LIMIT = "4"
-# Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5-20251001
+# Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5 (yarı fiyat).
+# Model kimliğine tarih eki YAZMA — bu dizeler olduğu gibi tamdır.
 MODEL = "claude-sonnet-5"
-# Anthropic anahtarı girilmezse Workers AI kullanılır (ücretsiz katman: günde 10.000 nöron). İstersen modeli değiştir.
+# Anthropic anahtarı girilmezse Workers AI kullanılır (ücretsiz katman: günde 10.000 nöron).
 AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 
-# Günlük sayaç için KV alanı. `npx wrangler kv namespace create QUOTA` çıktısındaki id'yi buraya yaz.
+# Günlük sayaç için KV alanı. `npx wrangler kv namespace create QUOTA` çıktısındaki id'yi
+# aşağıya yaz. YAZILMAZSA worker hiçbir soruya yanıt vermez (503): sayaç bağlı değilken
+# sınır uygulanamıyor, o yüzden açık bırakmak yerine kapalı kalıyor.
 [[kv_namespaces]]
 binding = "QUOTA"
 id = "KV_ID_BURAYA"
@@ -23,3 +27,20 @@ id = "KV_ID_BURAYA"
 # Ücretsiz açık model için Workers AI bağlantısı (Anthropic anahtarı yoksa devreye girer)
 [ai]
 binding = "AI"
+
+# ---------------------------------------------------------------------------
+# İSTEĞE BAĞLI AMA ÖNERİLİR: Cloudflare'in yerleşik hız sınırı bağlantısı.
+# Günlük sayaç KV'de tutuluyor ve KV atomik artırma yapamaz; yani eşzamanlı isteklerde
+# sayaç tam güvenilir değil. Kenarda atomik çalışan tek fren budur. Bağlanırsa
+# src/index.js kendiliğinden kullanır (env.RATE_LIMITER), bağlanmazsa atlar.
+#
+# DİKKAT: aşağıdaki blok yorumdadır ve buradan doğrulanamadı (bu ortamda Cloudflare
+# dokümanına ağ erişimi yok). Açmadan önce güncel söz dizimini Cloudflare Workers
+# «Rate Limiting» dokümanından doğrula; `period` yalnızca 10 ya da 60 saniye olabilir.
+#
+# [[unsafe.bindings]]
+# name = "RATE_LIMITER"
+# type = "ratelimit"
+# namespace_id = "1001"
+# simple = { limit = 3, period = 10 }
+# ---------------------------------------------------------------------------

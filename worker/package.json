@@ -1,0 +1,9 @@
+{
+  "name": "fyos-chat",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test/security.mjs",
+    "deploy": "wrangler deploy"
+  }
+}
