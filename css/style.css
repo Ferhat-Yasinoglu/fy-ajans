@@ -584,17 +584,21 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 /* ---------- Otomasyon ---------- */
 .automation__grid { display: grid; gap: 48px; align-items: center; }
 .automation__grid > * { min-width: 0; }
-@media (min-width: 1024px) { .automation__grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .automation__grid { grid-template-columns: minmax(0, .74fr) minmax(0, 1.26fr); } }
 .automation__text h2 { margin-top: 16px; margin-bottom: 20px; }
 .automation__text p { color: rgb(var(--fg-muted)); line-height: 1.625; margin-bottom: 12px; }
 .automation__text p:last-child { margin-bottom: 32px; }
-/* ---------- Otomasyon: "Hedefine adım adım" yolculuk şeması ----------
-   Beş kart sağa-sola zikzak, iç kenarlarında numaralı rozet; rozetlerden geçen yılan yolu, gezen ışık
-   ve altın bokeh js/main.js (journey) ile çizilir. Boyutlar --j* değişkenleriyle kırılım noktalarına göre. */
+/* ---------- Otomasyon: «Kaynak» merkez-ve-kollar şeması ----------
+   Solda marka bloğu, parlayan kaynak dairesi ve alt yazı; sağda beş adım kartı. Merkezden her kartın
+   kenarındaki noktaya birer eğri gider. Eğriler js/main.js (journey) tarafından öğelerin ÖLÇÜLEN
+   konumlarından çizilir; böylece kart yüksekliği dört dilde değişse, yazı tipi geç yüklense ya da
+   pencere yeniden boyutlansa da hizada kalır. SVG süzgeci yok — hâle katmanlı gradyanlarla kurulur.
+   Kare başına iş yok: akan ışık ve sıcak kart vurgusu saf CSS animasyonu, JS yalnız yeniden ölçüyor. */
 .journey {
-  --jtile: 56px; --jnum: 44px; --jname: 16px; --jdesc: 13px; --jgap: 18px; --jpad: 14px;
+  container: journey / inline-size;
+  --jtile: 54px; --jname: 17px; --jdesc: 13px; --jgap: 14px; --jpad: 16px; --jhub: 300px; --jdot: 13px;
   position: relative; isolation: isolate; overflow: hidden;
-  padding: clamp(18px, 4.5%, 30px); border-radius: 24px;
+  padding: clamp(18px, 4.5%, 34px); border-radius: 24px;
   border: 1px solid rgba(212,175,55,.3);
   background:
     radial-gradient(55% 40% at 0% 100%, rgba(212,175,55,.13), transparent 70%),
@@ -602,123 +606,147 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
     linear-gradient(160deg, #16130a 0%, #0a0906 55%, #0d0b06 100%);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 40px 100px -40px rgba(212,175,55,.35);
 }
-/* Çapraz ışık huzmeleri */
 .journey::before { content: ""; position: absolute; inset: -20%; z-index: 0; pointer-events: none;
   background: linear-gradient(115deg, transparent 36%, rgba(245,215,110,.055) 45%, transparent 52%, transparent 62%, rgba(245,215,110,.035) 69%, transparent 76%); }
 .journey__bokeh { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .journey__bokeh i { position: absolute; border-radius: 50%; opacity: var(--o, .3);
   background: radial-gradient(circle, rgba(252,232,160,.95) 0%, rgba(212,175,55,.55) 38%, rgba(212,175,55,0) 70%);
   animation: jbokeh 10s ease-in-out infinite alternate; }
-.journey__head, .journey__body, .journey__foot { position: relative; z-index: 1; }
 
-.journey__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px 16px; margin-bottom: 20px; }
-.journey__heading { flex: 1 1 240px; min-width: 0; }
-.journey__kicker { display: block; font-weight: 300; font-size: clamp(15px, 1.6vw, 21px); letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg)); line-height: 1.15; }
-.journey__title { display: block; font-weight: 800; font-size: clamp(24px, 2.8vw, 36px); letter-spacing: .06em; text-transform: uppercase; line-height: 1.1;
-  padding: .16em .1em .08em; margin: calc(2px - .16em) -.1em -.08em;   /* boya alanı: background-clip:text üst noktaları (Ü, Farsça) kesmesin */
-  background: linear-gradient(180deg, #fbe9a6, #d4af37 55%, #a9821e); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
-.journey__sub { margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgb(var(--fg-muted)); }
-.journey__aside { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex: 0 1 auto; max-width: 100%; margin-inline-start: auto; text-align: end; }
-.journey__tag { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.75; }
-.journey__tag::after { content: ""; display: block; width: 36px; height: 1px; margin-top: 6px; background: rgb(var(--accent-gold) / .7); }
-.journey__aside .journey__tag::after, .journey__tag--b::after { margin-inline-start: auto; }
-.journey__script { position: relative; display: inline-block; max-width: 100%; font-family: "Great Vibes", var(--font-body), cursive; font-weight: 400; font-size: clamp(26px, 3vw, 38px); line-height: 1; white-space: nowrap; color: #f0cf6a; text-shadow: 0 0 18px rgba(245,215,110,.35); transform: rotate(-7deg); padding: 6px 10px 10px; }
-.journey__swash { position: absolute; left: 4px; right: 0; bottom: 0; width: calc(100% - 4px); height: 12px; overflow: visible; }
-.journey__swash path { fill: none; stroke: #d4af37; stroke-width: 1.2; stroke-linecap: round; stroke-dasharray: 100; transition: stroke-dashoffset 1.2s ease .7s; }
-.js .journey:not(.journey--drawn) .journey__swash path { stroke-dashoffset: 100; }
-html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2vw, 26px); transform: none; }
+.journey__body { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(16px, 3.5%, 44px); align-items: center; }
+.journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
 
-.journey__body { min-height: 120px; }
-.journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.journey__line, .journey__glow, .journey__glow2, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
-.journey__line { stroke: url(#jline); stroke-width: 2; }
-/* Yolun ışığı: SVG bulanıklık süzgeci yerine üst üste iki geniş ve sönük darbe.
-   Süzgeç, gezen ışıkla birlikte her karede yeniden hesaplanıyordu. */
-.journey__glow2 { stroke: #f5d76e; stroke-width: 15; opacity: .07; }
-.journey__glow { stroke: #f5d76e; stroke-width: 8; opacity: .17; }
-.journey--drawn .journey__line, .journey--drawn .journey__glow, .journey--drawn .journey__glow2 { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
-.journey__dash { stroke: #fbe9a6; stroke-width: 1.5; stroke-dasharray: 2 9; opacity: 0; transition: opacity .8s; animation: jdash 1.5s linear infinite; }
-.journey__rider { opacity: 0; transition: opacity .5s; }
-.journey__tail { stroke: #f5d76e; stroke-width: 4; opacity: .35; }
-.journey__comet { stroke: #fff4c8; stroke-width: 2.4; }
-.journey__halo { fill: url(#jhalo); opacity: .9; }
-.journey__dot { fill: #fff8dc; }
-.journey.is-live .journey__dash { opacity: .5; }
-.journey.is-live .journey__rider { opacity: 1; }
+/* --- sol sütun: marka, kaynak, alt yazı --- */
+.journey__side { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center;
+  gap: clamp(16px, 3vw, 30px); text-align: center; }
+.journey__sidetext { display: contents; }
+.journey__brandblock { order: -1; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.journey__brandmark { display: block; width: clamp(52px, 6.5vw, 78px); height: auto; }
+.journey__brandname { font-size: 10.5px; font-weight: 600; letter-spacing: .34em; text-transform: uppercase; color: rgb(var(--fg)); }
+.journey__caption { font-size: 10px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 2; }
+.journey__caption::before { content: ""; display: block; width: 32px; height: 1px; margin: 0 auto 9px; background: rgb(var(--accent-gold) / .7); }
 
-.journey__grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3.5%; row-gap: var(--jgap); direction: ltr; }
-.jstep { position: relative; grid-column: 1; --nx: 50%; }
-.jstep--r { grid-column: 2; --nx: -50%; }
-.jstep:nth-child(1) { grid-row: 1; } .jstep:nth-child(2) { grid-row: 2; } .jstep:nth-child(3) { grid-row: 3; } .jstep:nth-child(4) { grid-row: 4; } .jstep:nth-child(5) { grid-row: 5; }
-.journey__tag--a { grid-row: 2; grid-column: 1; align-self: center; justify-self: start; }
-.journey__tag--b { grid-row: 3; grid-column: 2; align-self: center; justify-self: end; text-align: end; }
-.journey__tag--c { grid-row: 4; grid-column: 1; align-self: center; justify-self: start; }
-.jstep__card { position: relative; display: flex; align-items: center; gap: 12px; padding: var(--jpad); border-radius: 16px;
-  background: linear-gradient(180deg, rgba(32,27,15,.88), rgba(14,12,8,.92)); border: 1px solid rgba(212,175,55,.3);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 12px 30px -18px rgba(0,0,0,.9);
-  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1), border-color .5s, box-shadow .5s; }
-.js .jstep:not(.is-in) .jstep__card { opacity: 0; transform: translateY(16px); }
-.jstep.is-hot .jstep__card { border-color: rgba(245,215,110,.85);
-  box-shadow: 0 0 0 1px rgba(245,215,110,.3), 0 0 30px -4px rgba(212,175,55,.5), 0 18px 50px -20px rgba(212,175,55,.6), inset 0 0 26px -12px rgba(212,175,55,.45); }
-.jstep__icon { flex-shrink: 0; width: var(--jtile); height: var(--jtile); border-radius: 22%; display: grid; place-items: center;
-  background: linear-gradient(160deg, #1b170d, #0b0a06); border: 1px solid rgba(212,175,55,.45);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06); transition: box-shadow .5s, border-color .5s; }
-.jstep__icon svg { width: 54%; height: 54%; filter: drop-shadow(0 2px 6px rgba(212,175,55,.35)); }
-.jstep.is-hot .jstep__icon { border-color: rgba(245,215,110,.9); box-shadow: inset 0 0 0 1px rgba(0,0,0,.6), 0 0 18px -2px rgba(245,215,110,.6); }
-.jstep__text { min-width: 0; flex: 1; display: flex; flex-direction: column; }
-.jstep__label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: rgb(var(--fg-muted)); font-weight: 600; }
-.jstep__name { font-size: var(--jname); font-weight: 700; line-height: 1.2; margin-top: 2px; color: rgb(var(--fg)); }
-.jstep__desc { font-size: var(--jdesc); line-height: 1.45; margin-top: 4px; color: rgb(var(--fg-muted)); }
-.jstep__num { position: absolute; top: 50%; right: 0; z-index: 2; width: var(--jnum); height: var(--jnum); border-radius: 50%; display: grid; place-items: center;
-  font-weight: 700; font-size: calc(var(--jnum) * .42); line-height: 1; color: #f5d76e;
-  background: radial-gradient(circle at 50% 35%, #2b2311, #0a0906 70%); border: 2px solid rgba(212,175,55,.8);
-  box-shadow: 0 0 0 4px rgba(7,6,4,.92), 0 0 16px -2px rgba(212,175,55,.5);
-  transform: translate(var(--nx), -50%) scale(var(--ns, 1));
-  transition: transform .6s cubic-bezier(.34,1.56,.64,1), box-shadow .5s, background-color .5s, color .5s, border-color .5s; }
-.jstep--r .jstep__num { right: auto; left: 0; }
-/* Kaydırma (kenar) ile ölçek (belirme) ayrı: kırılım noktası değişince rozet kart boyunca kaymaz, yalnız ölçek geçişlidir */
-@supports (translate: 1px) { .jstep__num { translate: var(--nx) -50%; transform: scale(var(--ns, 1)); } }
-/* Rozet kartın iç kenarına yarı taşar: o kenarda metne yer aç */
-.jstep .jstep__card { padding-right: calc(var(--jpad) + var(--jnum) * .5); }
-.jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
-.js .jstep:not(.is-in) { --ns: 0; }
-.jstep.is-hot { --ns: 1.12; }
-.jstep.is-hot .jstep__num { color: #0b0906; background: radial-gradient(circle at 50% 30%, #fff0b8, #d4af37 60%, #a9821e); border-color: #fbe9a6; box-shadow: 0 0 0 4px rgba(7,6,4,.92), 0 0 28px 2px rgba(245,215,110,.6); }
-.jstep__num::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid rgba(245,215,110,.9); opacity: 0; }
-.jstep.is-hot .jstep__num::after { animation: jping 1.2s cubic-bezier(0, 0, .2, 1) both; }
+.hub { position: relative; width: var(--jhub); max-width: 82%; aspect-ratio: 1; display: grid; place-items: center; flex-shrink: 0; container-type: inline-size; }
+.hub__glow { position: absolute; inset: -20%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(245,215,110,.26) 0%, rgba(212,175,55,.1) 44%, rgba(212,175,55,0) 68%); }
+.hub__disc { position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 40% 32%, #191409, #0a0906 60%, #070604);
+  box-shadow: inset 0 0 70px -12px rgba(212,175,55,.4), inset 0 0 0 1px rgba(245,215,110,.12); }
+/* Halka: konik gradyan, maskeyle ince bir çembere indiriliyor — süzgeç yok */
+.hub__ring, .hub__ring::after { position: absolute; inset: 0; border-radius: 50%; content: ""; }
+.hub__ring { background: conic-gradient(from 190deg, rgba(245,215,110,.12), #fff6d0 26%, #f5d76e 40%, #d4af37 56%, rgba(212,175,55,.2) 76%, rgba(245,215,110,.1));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.4px)); }
+.hub__ring::after { inset: -7px; background: conic-gradient(from 190deg, transparent, rgba(245,215,110,.5) 34%, rgba(245,215,110,.18) 58%, transparent 78%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px)); }
+.hub__text { position: relative; z-index: 1; max-width: 86%; }   /* uzun çeviriler daireden taşmasın */
+.hub__title { display: block; font-size: clamp(18px, 2.1vw, 26px); font-weight: 600; letter-spacing: .4em; text-indent: .4em; color: #fff8e0; line-height: 1.1; }
+.hub__title { font-size: clamp(16px, 12cqw, 30px); }
+.hub__sub { display: block; margin-top: 11px; font-size: 9.5px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg-muted)); }
+.hub__sub { font-size: clamp(8px, 4.6cqw, 10.5px); }
 
-.journey__foot { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
-.journey__brand { font-size: 10.5px; letter-spacing: .3em; text-transform: uppercase; color: rgb(var(--fg-muted)); line-height: 1.9; white-space: nowrap; }
-.journey__brand b { display: block; color: rgb(var(--fg)); font-weight: 600; }
-.journey__rule { flex: 1; height: 1px; background: linear-gradient(90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }
-html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--accent-gold) / .55), rgb(var(--accent-gold) / .05)); }
-.journey__script--end { font-size: clamp(22px, 2.4vw, 30px); }
+/* --- sağ sütun: adım kartları --- */
+.journey__grid { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--jgap); margin: 0; padding: 0; list-style: none; }
+.jstep { position: relative; }
+.jstep__card { position: relative; display: flex; align-items: center; gap: 14px;
+  padding: var(--jpad); padding-inline-start: calc(var(--jpad) + 8px); border-radius: 28px;
+  border: 1px solid rgba(212,175,55,.28); background: linear-gradient(120deg, rgba(28,22,8,.72), rgba(10,9,6,.72));
+  transition: border-color .45s, box-shadow .45s, opacity .5s, transform .5s; }
+.js .jstep:not(.is-in) .jstep__card { opacity: 0; transform: translateY(14px); }
+.jstep__dot { position: absolute; inset-inline-start: 0; top: 50%; width: var(--jdot); height: var(--jdot); border-radius: 50%;
+  translate: -50% -50%; background: radial-gradient(circle at 40% 35%, #fff6d0, #e9c552 55%, #b8891c);
+  box-shadow: 0 0 0 3px rgba(7,6,4,.9), 0 0 14px -1px rgba(245,215,110,.7); }
+.jstep__icon { flex-shrink: 0; width: var(--jtile); height: var(--jtile); border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 38% 30%, #201907, #0c0a05 72%); border: 1px solid rgba(212,175,55,.42);
+  transition: border-color .45s, box-shadow .45s; }
+.jstep__icon svg { width: 46%; height: 46%; }
+.jstep__text { min-width: 0; display: flex; flex-direction: column; }
+.jstep__no { font-size: 13px; font-weight: 600; letter-spacing: .1em; color: rgb(var(--accent-gold-bright)); font-variant-numeric: tabular-nums; }
+.jstep__name { font-size: var(--jname); font-weight: 700; line-height: 1.25; margin-top: 3px; color: rgb(var(--fg)); }
+.jstep__desc { font-size: var(--jdesc); line-height: 1.5; margin-top: 5px; color: rgb(var(--fg-muted)); }
 
-@media (min-width: 1024px) { .journey { --jtile: 46px; --jnum: 38px; --jname: 14.5px; --jdesc: 12px; --jpad: 12px; } .jstep__card { gap: 10px; } }
-@media (min-width: 1280px) { .journey { --jtile: 52px; --jnum: 42px; --jname: 15px; --jdesc: 12.5px; --jpad: 14px; } .jstep__card { gap: 12px; } }
-@media (max-width: 639px) {
-  .journey { --jtile: 46px; --jnum: 36px; --jname: 15px; --jdesc: 12.5px; --jgap: 14px; --jpad: 12px; border-radius: 20px; }
-  .journey__head { flex-direction: column; margin-bottom: 16px; }
-  .journey__heading { flex: 0 0 auto; }
-  .journey__aside { width: 100%; flex-direction: row; justify-content: flex-end; }
-  .journey__aside .journey__tag { display: none; }
-  .journey__script { font-size: clamp(18px, 6vw, 38px); }
-  .journey__grid { grid-template-columns: 1fr; padding-left: 24px; }
-  .jstep, .jstep--r { grid-column: 1; --nx: -50%; }
-  .jstep__num { right: auto; left: 0; }
-  .jstep .jstep__card, .jstep--r .jstep__card { padding-right: var(--jpad); padding-left: calc(var(--jpad) + var(--jnum) * .5); }
-  /* Tek sütunlu telefon düzeninde numara rayı, okuma yönünün başına geçer: RTL'de sağa.
-     Aksi hâlde kartın bütün metni sağa yaslıyken rozet tek başına solda kalıyor, yani numara
-     adımın önünde değil arkasında duruyordu. Yol SVG'si rozet konumlarından ölçüldüğü için
-     kendiliğinden uyuyor. */
-  html[dir="rtl"] .journey__grid { padding-left: 0; padding-right: 24px; }
-  html[dir="rtl"] :is(.jstep, .jstep--r) { --nx: 50%; }
-  html[dir="rtl"] .jstep__num { left: auto; right: 0; }
-  html[dir="rtl"] :is(.jstep, .jstep--r) .jstep__card { padding-left: var(--jpad); padding-right: calc(var(--jpad) + var(--jnum) * .5); }
-  .journey__tag--a, .journey__tag--b, .journey__tag--c { display: none; }
-  .journey__foot { flex-wrap: wrap; gap: 6px 12px; }
-  .journey__rule { flex-basis: 100%; order: 1; }
-  .journey__script--end { margin-inline-start: auto; }
+/* Sıcak kart: ışık o kola vardığı anda (akış %10'da uca varır). Üçü de journey--drawn ile aynı anda
+   başlar, böylece gecikmeler (--jd) hizalı kalır. Saf CSS döngü — kare başına JS yok. */
+.journey--drawn .jstep__card { animation: jhot 12.5s ease-in-out infinite; animation-delay: var(--jd, 0s); }
+.journey--drawn .jstep__icon { animation: jhotIcon 12.5s ease-in-out infinite; animation-delay: var(--jd, 0s); }
+@keyframes jhot {
+  0%, 8%, 21%, 100% { border-color: rgba(212,175,55,.28); box-shadow: none; }
+  11%, 16% { border-color: rgba(245,215,110,.85); box-shadow: 0 0 34px -12px rgba(245,215,110,.75), inset 0 0 24px -18px rgba(245,215,110,.9); }
+}
+@keyframes jhotIcon {
+  0%, 8%, 21%, 100% { border-color: rgba(212,175,55,.42); box-shadow: none; }
+  11%, 16% { border-color: rgba(245,215,110,.9); box-shadow: 0 0 20px -4px rgba(245,215,110,.55); }
+}
+/* Kaynak: yavaş dönen halka ve her turun başında bir nefes — hareket azaltmada ikisi de durur. */
+.hub__ring { animation: spin 34s linear infinite; }
+.journey--drawn .hub__glow { animation: jsource 12.5s ease-in-out infinite; }
+@keyframes jsource {
+  0%, 34%, 100% { transform: scale(1); opacity: .8; }
+  6% { transform: scale(1.13); opacity: 1; }
+}
+
+/* --- bağlayıcı kollar (JS ölçüp d'yi yazar, biçim burada) --- */
+.jarm, .jarm-glow, .jflow { fill: none; stroke-linecap: round; }
+.jarm-glow { stroke: #f5d76e; stroke-width: 7; opacity: .09; }
+.jarm { stroke: url(#jline); stroke-width: 1.6; opacity: .85; }
+.jflow { stroke: #fff6d0; stroke-width: 2.6; stroke-dasharray: 24px 4000px; opacity: 0; }
+.journey--drawn .jflow { animation: jflow 12.5s linear infinite; animation-delay: var(--jd, 0s); }
+@keyframes jflow {
+  0% { stroke-dashoffset: 24px; opacity: 0; }
+  1.5% { opacity: .95; }
+  10% { stroke-dashoffset: var(--jend, -400px); opacity: .95; }
+  11.5%, 100% { stroke-dashoffset: var(--jend, -400px); opacity: 0; }
+}
+
+/* Ölçüm (390→1600 px ekran): kutu 1000 px ekranda 920 px, 1024 px ekranda 528 px. Ekran sorgusu bu
+   sıçramayı göremez; kap sorgusu görür. Eşikler kutunun kendi genişliğine göre: <620 ray, ≥620 yelpaze. */
+/* Ölçüler .journey'ye değil .journey__body'ye yazılır: bir kap kendi sorgusuyla biçimlenemez. */
+@container journey (min-width: 660px) { .journey__body { --jtile: 60px; --jname: 18px; --jdesc: 13.5px; --jpad: 18px; --jhub: 330px; } }
+@container journey (min-width: 620px) and (max-width: 659.98px) { .journey__body { --jtile: 52px; --jname: 16.5px; --jdesc: 13px; --jpad: 15px; --jhub: 280px; } }
+@container journey (max-width: 619.98px) {
+  /* Ray kipi: kaynak üstte ve sola yaslı, kollar kısa bir yelpazeyle soldaki oluğa inip demet olur. */
+  .journey__body { grid-template-columns: 1fr; gap: clamp(20px, 5cqw, 30px); --jhub: 200px; }
+  .journey__side { flex-direction: row; justify-content: flex-start; align-items: center; gap: clamp(12px, 3.5cqw, 24px); text-align: start;
+    padding-inline-start: clamp(6px, 3cqw, 20px); }
+  /* Kaynak sola yaslanınca hâlesi kartın overflow'una takılmasın: yayılımı biraz kıs. */
+  .hub__glow { background: radial-gradient(circle, rgba(245,215,110,.25) 0%, rgba(212,175,55,.09) 36%, rgba(212,175,55,0) 56%); }
+  .journey__sidetext { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(14px, 3cqw, 20px); min-width: 0; }
+  .journey__brandblock { order: 0; align-items: flex-start; }
+  .journey__caption::before { margin-inline: 0 auto; }
+  .journey__grid { padding-inline-start: 26px; }   /* kollar kartların soluna, oluğa iner */
+}
+@container journey (max-width: 430px) {
+  .journey__body { --jtile: 46px; --jname: 15.5px; --jdesc: 12.5px; --jgap: 12px; --jpad: 13px; --jhub: 158px; --jdot: 11px; }
+  .jstep__card { border-radius: 22px; gap: 11px; }
+  .hub__title { letter-spacing: .3em; text-indent: .3em; }
+  .journey__brandname, .journey__caption { letter-spacing: .2em; }
+  .journey__caption { line-height: 1.85; }
+}
+@media (max-width: 639px) { .journey { border-radius: 20px; } }
+/* Ekrandan çıkınca bütün döngüler durur (js/main.js is-off sınıfını koyar): görünmeyen kare çizilmez. */
+.journey.is-off :is(.jflow, .jstep__card, .jstep__icon, .hub__ring, .hub__glow, .journey__bokeh i) { animation-play-state: paused; }
+/* Kap sorgusu olmayan tarayıcılar için yedek: ekran genişliğinden yaklaşık aynı kipler (.cover ile aynı kalıp). */
+@supports not (container-type: inline-size) {
+  @media (min-width: 1280px) { .journey { --jtile: 60px; --jname: 18px; --jdesc: 13.5px; --jpad: 18px; --jhub: 300px; } }
+  @media (max-width: 1279px) {
+    .journey__body { grid-template-columns: 1fr; gap: 24px; }
+    .journey { --jhub: 200px; }
+    .journey__side { flex-direction: row; justify-content: flex-start; align-items: center; gap: 18px; text-align: start; padding-inline-start: 12px; }
+    .hub__glow { background: radial-gradient(circle, rgba(245,215,110,.25) 0%, rgba(212,175,55,.09) 36%, rgba(212,175,55,0) 56%); }
+    .journey__sidetext { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; }
+    .journey__brandblock { order: 0; align-items: flex-start; }
+    .journey__caption::before { margin-inline: 0 auto; }
+    .journey__grid { padding-inline-start: 26px; }
+  }
+  @media (max-width: 639px) {
+    .journey { --jtile: 46px; --jname: 15.5px; --jdesc: 12.5px; --jgap: 12px; --jpad: 13px; --jhub: 158px; --jdot: 11px; border-radius: 20px; }
+    .jstep__card { border-radius: 22px; gap: 11px; }
+    .hub__title { letter-spacing: .3em; text-indent: .3em; }
+    .journey__brandname, .journey__caption { letter-spacing: .2em; }
+    .journey__caption { line-height: 1.85; }
+  }
 }
 
 .consult { margin-top: 56px; padding: 28px; border-radius: var(--radius-2xl); display: flex; flex-direction: column; align-items: center; gap: 24px; }
@@ -913,11 +941,12 @@ html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--a
 /* ---------- Sağdan sola (Farsça) ---------- */
 /* Bağlı harflerde eksi harf aralığı bozuk görünür; Latin etiketler (FYOS, bölüm adları) etkilenmez */
 html[lang="fa"], html[lang="fa"] body { line-height: 1.85; }
-html[lang="fa"] :is(h1, h2, h3, h4, p, li, .btn, .text-h1, .text-h2, .text-h3, .hero__title, .cover__title, .cover__kicker, .cover__foot, .cstop__t, .link-row .l, .jstep__name, .jstep__label, .journey__kicker, .journey__title, .journey__tag, .price) { letter-spacing: 0; }
+html[lang="fa"] :is(h1, h2, h3, h4, p, li, .btn, .text-h1, .text-h2, .text-h3, .hero__title, .cover__title, .cover__kicker, .cover__foot, .cstop__t, .link-row .l, .jstep__name, .hub__title, .hub__sub, .journey__caption, .price) { letter-spacing: 0; }
+html[lang="fa"] .hub__title { text-indent: 0; }
 html[lang="fa"] .text-h1 { line-height: 1.45; }
 html[lang="fa"] .hero__title { line-height: 1.5; }
 /* Otomasyon diyagramının geometrisi soldan sağa kalır (SVG yolları JS'te LTR hesaplanır); kart metinleri RTL */
-html[dir="rtl"] .jstep__card, html[dir="rtl"] .journey__tag { direction: rtl; }
+html[dir="rtl"] .jstep__card { direction: rtl; }
 /* Satır içi SVG simgeler (sosyal, ok, elmas) belge yönünü miras almasın; logolar <img> olduğundan zaten etkilenmez */
 html[dir="rtl"] svg { direction: ltr; }
 /* Latin kısaltmalar RTL akışta yön karışıklığı yaratmasın */
@@ -928,15 +957,12 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 @keyframes pulse { 50% { opacity: .5; } }
 @keyframes voice-bar { 0%, 100% { transform: scaleY(.55); } 50% { transform: scaleY(1.15); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes jdash { to { stroke-dashoffset: -22; } }
-@keyframes jping { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.1); opacity: 0; } }
 @keyframes jbokeh { 0% { transform: translate3d(0, 0, 0); opacity: calc(var(--o, .3) * .35); } 50% { opacity: var(--o, .3); } 100% { transform: translate3d(8px, -26px, 0); opacity: calc(var(--o, .3) * .5); } }
 .animate-pulse { animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   [data-reveal], .jstep__card, .hero__logo, .nav { opacity: 1 !important; transform: none !important; }
-  .jstep { --ns: 1 !important; }
 }
 
 /* ---------- İletişim penceresi ---------- */

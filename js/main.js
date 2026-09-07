@@ -635,21 +635,23 @@
     });
   });
 
-  /* ---------- Otomasyon: "Hedefine adım adım" yolculuk şeması ----------
-     Kartlar ve rozetler HTML/CSS'te; burada rozet merkezlerinden geçen yılan yolu çizilir, görünür olunca
-     yol çizilir + kartlar sırayla belirir, sonra yol boyunca gezen ışık hangi rozeti geçtiyse o adım "sıcak" olur. */
+  /* ---------- Otomasyon: «Kaynak» merkez-ve-kollar şeması ----------
+     Kaynak dairesi, hâlesi ve beş adım kartı HTML/CSS'te. Burada yalnız bağlayıcı kollar çizilir:
+     kaynağın kenarından her kartın noktasına birer kübik Bézier. İki uç da ÖLÇÜLÜR — dil değişse,
+     yazı tipi geç yüklense, kart yüksekliği veya pencere boyutu değişse de kollar yerinde kalır.
+     Kare başına iş yok: akan ışık ve «sıcak kart» vurgusu saf CSS animasyonu, JS yalnız ölçer. */
   (function journey() {
-    var root = $('#journey'), body = $('#journeyBody'), svg = $('#journeySvg'), svgLive = $('#journeySvgLive'); if (!root || !body || !svg || !svgLive) return;
-    var steps = $$('.jstep', root), nums = steps.map(function (s) { return $('.jstep__num', s); });
-    var line = $('#jLine'), glow = $('#jGlow'), glow2 = $('#jGlow2'), dash = $('#jDash'), tail = $('#jTail'), comet = $('#jComet'), dot = $('#jDot'), halo = $('#jHalo'), rider = $('#jRider');
-    if (!line || !glow || !glow2 || !dash || !tail || !comet || !dot || !halo || !rider || nums.length < 2) return;
-    var DUR = 11000, TAIL = 72, TAIL2 = 26;                 // tur süresi (ms), kuyruk uzunlukları (px)
-    var total = 0, marks = [], drawn = false, live = false, visible = false, running = false, phase = 0, t0 = 0, hot = -1;
+    var root = $('#journey'); if (!root) return;
+    var body = $('#journeyBody'), svg = $('#journeySvg'), armsG = $('#jArms'), hub = $('.hub', root);
+    if (!body || !svg || !armsG || !hub) return;
+    var steps = $$('.jstep', root); if (!steps.length) return;
+    var NS = 'http://www.w3.org/2000/svg', SEG = 24;      // SEG: akan ışığın uzunluğu (px) — CSS'teki dash ile aynı
+    var arms = [];
 
     /* Altın bokeh: kenarlara yığılmış, yavaşça süzülen ışık lekeleri (CSSOM ile; CSP satır içi stile izin verir) */
     var bk = $('.journey__bokeh', root);
-    if (bk) for (var i = 0; i < 22; i++) {
-      var sp = document.createElement('i'), sz = 3 + Math.random() * 28, side = Math.random();
+    if (bk && !reduce) for (var i = 0; i < 18; i++) {
+      var sp = document.createElement('i'), sz = 3 + Math.random() * 26, side = Math.random();
       var x = side < .4 ? Math.random() * 16 : side < .8 ? 84 + Math.random() * 16 : Math.random() * 100;
       sp.style.left = x.toFixed(1) + '%'; sp.style.top = (Math.random() * 100).toFixed(1) + '%';
       sp.style.width = sp.style.height = sz.toFixed(1) + 'px';
@@ -659,60 +661,69 @@
       bk.appendChild(sp);
     }
 
-    /* Catmull-Rom → kübik Bézier: verilen noktalardan geçen yumuşak eğri; parça parça döner (rozet uzaklıkları ölçülsün diye) */
-    function spline(p) {
-      var segs = [];
-      for (var i = 0; i < p.length - 1; i++) {
-        var p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
-        segs.push(' C' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ' ' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) +
-          ' ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ' ' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) +
-          ' ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1));
+    function f(n) { return (Math.round(n * 10) / 10).toString(); }
+
+    /* Her kol üç yol: geniş hâle, altın çizgi, akan ışık. Işığın gecikmesi kartınkiyle aynı (--jd). */
+    function ensure() {
+      while (arms.length < steps.length) {
+        var g = document.createElementNS(NS, 'g'), set = [], cls = ['jarm-glow', 'jarm', 'jflow'];
+        for (var j = 0; j < 3; j++) {
+          var pth = document.createElementNS(NS, 'path');
+          pth.setAttribute('class', cls[j]); g.appendChild(pth); set.push(pth);
+        }
+        var d = steps[arms.length].style.getPropertyValue('--jd');
+        if (d) set[2].style.setProperty('--jd', d);
+        armsG.appendChild(g); arms.push(set);
       }
-      return { head: 'M' + p[0][0].toFixed(1) + ' ' + p[0][1].toFixed(1), segs: segs };
     }
 
     function build() {
       var br = body.getBoundingClientRect(), W = br.width, H = br.height; if (!W || !H) return;
-      var vb = '0 0 ' + W.toFixed(1) + ' ' + H.toFixed(1); svg.setAttribute('viewBox', vb); svgLive.setAttribute('viewBox', vb);
-      // Rozet merkezleri (ölçek 0 olsa da dikdörtgen merkezi doğru kalır), aralara sağa-sola salınan ara noktalar
-      var pts = nums.map(function (n) { var r = n.getBoundingClientRect(); return [r.left + r.width / 2 - br.left, r.top + r.height / 2 - br.top]; });
-      var ctrl = [], amp = Math.min(W * .075, 48);
-      for (var i = 0; i < pts.length; i++) {
-        ctrl.push(pts[i]);
-        if (i < pts.length - 1) ctrl.push([(pts[i][0] + pts[i + 1][0]) / 2 + (i % 2 ? -amp : amp), (pts[i][1] + pts[i + 1][1]) / 2]);
+      svg.setAttribute('viewBox', '0 0 ' + f(W) + ' ' + f(H));
+      var hr = hub.getBoundingClientRect();
+      var hx = hr.left + hr.width / 2 - br.left, hy = hr.top + hr.height / 2 - br.top;
+      var rad = Math.min(hr.width, hr.height) / 2 + 6;    // çıkış noktası halkanın hemen dışında
+      var pts = [], firstTop = Infinity, minX = Infinity, maxX = -Infinity, k;
+      for (k = 0; k < steps.length; k++) {
+        var node = $('.jstep__dot', steps[k]);
+        var r = node && node.getBoundingClientRect();
+        if (!r || (!r.width && !r.height)) { pts.push(null); continue; }
+        var px = r.left + r.width / 2 - br.left;
+        pts.push([px, r.top + r.height / 2 - br.top]);
+        if (r.top - br.top < firstTop) firstTop = r.top - br.top;
+        if (px < minX) minX = px; if (px > maxX) maxX = px;
       }
-      var sp = spline(ctrl), d = sp.head + sp.segs.join('');
-      marks = [];
-      for (var k = 0; k < pts.length; k++) { line.setAttribute('d', sp.head + sp.segs.slice(0, 2 * k).join('')); marks.push(line.getTotalLength()); }
-      [line, glow, glow2, dash, tail, comet].forEach(function (p) { p.setAttribute('d', d); });
-      total = line.getTotalLength();
-      [line, glow, glow2].forEach(function (p) { p.style.strokeDasharray = total + ' ' + total; p.style.strokeDashoffset = drawn ? '0' : String(total); });
-      tail.style.strokeDasharray = TAIL + ' ' + total; comet.style.strokeDasharray = TAIL2 + ' ' + total;
-      if (live && !running) place(phase);               // duraklamışsa gezen ışığı yeni yola oturt (hareket azaltılmışken 3. adım sabit kalır)
+      // Kaynak kartların üstündeyse (tek sütun) kollar hemen kartların dışındaki oluğa inip demet
+      // hâlinde akar; yan yanaysa yatay teğetle çıkıp yatay teğetle varır.
+      var stacked = (hr.bottom - br.top) <= firstTop + 4;
+      var rtl = minX > W / 2;                                       // noktalar sağdaysa (RTL) oluk da sağda
+      var rail = rtl ? Math.min(W - 3, maxX + 16) : Math.max(3, minX - 16);
+      ensure();
+      for (k = 0; k < pts.length; k++) {
+        var p = pts[k], set = arms[k]; if (!p || !set) continue;
+        var vx = p[0] - hx, vy = p[1] - hy, m = Math.sqrt(vx * vx + vy * vy) || 1;
+        var sx = hx + vx / m * rad, sy = hy + vy / m * rad;
+        var dx = p[0] - sx, dy = p[1] - sy, c1x, c1y, c2x, c2y;
+        var bow = Math.max(24, Math.min(80, Math.abs(dy) * .42));
+        if (stacked) {                                   // demet: hemen oluğa in, dikey ak, noktaya kanca
+          c1x = rail; c1y = sy + bow; c2x = rail; c2y = p[1] - bow;
+        } else {                                         // yelpaze: kaynaktan ışınsal çık, karta yatay var
+          var out = Math.max(28, m * .3);
+          c1x = sx + vx / m * out; c1y = sy + vy / m * out;
+          c2x = p[0] - (dx < 0 ? -1 : 1) * Math.max(38, Math.abs(dx) * .42); c2y = p[1];
+        }
+        var dd = 'M' + f(sx) + ' ' + f(sy) + 'C' + f(c1x) + ' ' + f(c1y) + ' ' + f(c2x) + ' ' + f(c2y) + ' ' + f(p[0]) + ' ' + f(p[1]);
+        set[0].setAttribute('d', dd); set[1].setAttribute('d', dd); set[2].setAttribute('d', dd);
+        var L = m; try { L = set[1].getTotalLength() || m; } catch (e) { L = m; }
+        set[2].style.setProperty('--jend', '-' + Math.round(L + SEG + 2) + 'px');   // ışık ucu geçince söner
+      }
     }
-
-    function setHot(k) { if (k === hot) return; if (hot >= 0) steps[hot].classList.remove('is-hot'); hot = k; if (k >= 0) steps[k].classList.add('is-hot'); }
-    function place(ph) {
-      if (!total) return;
-      var u = Math.min(1, ph / .88), pos = u * total, p = line.getPointAtLength(pos);   // turun son %12'si: ışık sönüp başa döner
-      dot.setAttribute('cx', p.x.toFixed(1)); dot.setAttribute('cy', p.y.toFixed(1));
-      halo.setAttribute('cx', p.x.toFixed(1)); halo.setAttribute('cy', p.y.toFixed(1));
-      tail.style.strokeDashoffset = (TAIL - pos).toFixed(1); comet.style.strokeDashoffset = (TAIL2 - pos).toFixed(1);
-      rider.style.opacity = ph < .04 ? (ph / .04).toFixed(2) : ph > .86 ? Math.max(0, (.93 - ph) / .07).toFixed(2) : '1';
-      var k = 0; for (var i = 1; i < marks.length; i++) if (pos >= marks[i] - 1) k = i;
-      setHot(k);
-    }
-    function frame(now) { if (!running) return; phase = ((now - t0) % DUR) / DUR; place(phase); raf(frame); }
-    function start() { if (running || reduce || !live || !visible) return; running = true; t0 = performance.now() - phase * DUR; raf(frame); }
-    function stop() { running = false; }
 
     function intro() {
       build();
-      steps.forEach(function (s, i) { setTimeout(function () { s.classList.add('is-in'); }, reduce ? 0 : 150 * i); });
-      root.classList.add('journey--drawn'); drawn = true;
-      [line, glow, glow2].forEach(function (p) { p.style.strokeDashoffset = '0'; });
-      if (reduce) { setHot(2); return; }                    // hareket azaltılmışsa: sabit görünüm, 3. adım vurgulu
-      setTimeout(function () { live = true; root.classList.add('is-live'); start(); }, 1900);
+      steps.forEach(function (s, i) { setTimeout(function () { s.classList.add('is-in'); }, reduce ? 0 : 130 * i); });
+      if (reduce) return;                                 // hareket azaltılmışsa kartlar görünür, akış yok
+      setTimeout(function () { build(); root.classList.add('journey--drawn'); }, 760);
     }
 
     if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(body);
@@ -720,16 +731,16 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
     build();
 
-    var seen = false;
-    if ('IntersectionObserver' in window && !reduce) {
+    // Gözlemci iki iş yapar: ilk görünüşte şemayı başlatır, ekrandan çıkınca CSS döngülerini duraklatır.
+    if ('IntersectionObserver' in window) {
+      var seen = false;
       var io = new IntersectionObserver(function (en) {
         var e = en[en.length - 1];
-        visible = e.isIntersecting;
-        if (!seen && visible && e.intersectionRatio >= .2) { seen = true; intro(); }
-        if (seen) { if (visible) start(); else stop(); }
-      }, { threshold: [0, .2] });
+        if (!seen && e.isIntersecting && e.intersectionRatio >= .15) { seen = true; intro(); }
+        root.classList.toggle('is-off', !e.isIntersecting);
+      }, { threshold: [0, .15] });
       io.observe(root);
-    } else { visible = true; intro(); }
+    } else intro();
   })();
 
   /* ---------- Portre çerçevesi: imleç eğimi, paralaks ve parlama (yalnız gerçek imleç) ---------- */
