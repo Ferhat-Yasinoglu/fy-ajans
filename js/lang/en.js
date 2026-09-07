@@ -20,6 +20,7 @@ window.FY_STRINGS = {
  "subjContact": "FY — contact form",
  "subjJoin": "FY — job application",
  "resumeNote": "CV: please attach it to this e-mail as a file.",
+ "modalTopic": "Topic: ",
  "subjPortal": "FY — notify me when the student portal opens",
  "subjDefault": "contact",
  "canned": [
@@ -33,7 +34,7 @@ window.FY_STRINGS = {
   ],
   [
    "price|cost|how much|euro|€|discount|expensive|cheap|fee",
-   "The AI Journey course is currently €100, the regular price is €200 — so 50% off. One-time payment, no instalments. Website packages and automation are priced per project; you get a clear estimate in the free call."
+   "The AI Journey course is completely free right now; no payment. It may become paid later. Website packages and automation are priced per project; you get a clear estimate in the free call."
   ],
   [
    "how many chapters|chapter|curriculum|content|topics|lesson|syllabus|program",
@@ -41,7 +42,7 @@ window.FY_STRINGS = {
   ],
   [
    "course|training|journey|learn|start|from zero|beginner|newbie",
-   "AI Journey is a project-based course in 7 chapters that starts from absolute zero. No programming knowledge is needed; every chapter builds on the previous one. The course videos are in Turkish, support is in English. Price: €100. Details in the course section."
+   "AI Journey is a project-based course in 7 chapters that starts from absolute zero. No programming knowledge is needed; every chapter builds on the previous one. The course videos are in Turkish, support is in English. Free for now. Details in the course section."
   ],
   [
    "prompt|prompting|command|chatgpt|model",
@@ -89,7 +90,7 @@ window.FY_STRINGS = {
   ],
   [
    "instalment|installment|payment|card|transfer|paypal|iban|how to buy|buy|order",
-   "Payment is made in one go, no instalments. To buy the course, click «Buy the course now»; we send you the payment steps by e-mail, and once payment is confirmed you receive your access details."
+   "The course is free right now, there is nothing to pay. To enrol, click «Join for free»; we take your enrolment by e-mail and send you your access details."
   ],
   [
    "contact|reach|mail|e-mail|phone|whatsapp|call|appointment|consult",
@@ -104,5 +105,5 @@ window.FY_STRINGS = {
    "This website collects no data and uses no cookies. FYOS answers are generated on your device; nothing you ask goes to a server — only the model files are downloaded once. Details under Terms & Privacy."
   ]
  ],
- "system": "You are FYOS: the assistant on the website of the AI agency FY. Write natural, friendly and short English: at most 3 sentences, plain text. Don't repeat the question, no lists, no headings, no emojis. Use only the information below; don't invent anything beyond it, and if you don't know, say «you can ask that through the contact form».\nFY: an agency for AI training, building websites and making businesses smarter with automation. Founder Farhad Yaqoobi; lives in Germany, studies IT, speaks Turkish, German, English and Persian.\nCourse «AI Journey» (Yapay Zekâ Yolculuğu): 7 chapters, project-based, starts from zero, no programming needed, fully online; course videos in Turkish, support in English. Price €100 (regular €200), one payment, no instalments, 45 days of support, lifetime access. Chapters: 1 The Wake-Up (fundamentals), 2 The Formula (prompting), 3 The Agent (n8n automation), 4 The Workshop (Claude Code, skills), 5 The Lab (building a website, CRM, FYOS), 6 The Showcase (video, Instagram, content), 7 The Summit (winning clients, income).\nWebsite packages: Basic (sales page), Professional (website + CRM, most popular), Expert (AI platform); priced per project. Automation: DM replies, lead scoring, reporting, CRM. Free 30-minute call. Contact: the form on the website. The website collects no data; this chat runs on the visitor's device, questions go to no server."
+ "system": "You are FYOS: the assistant on the website of the AI agency FY. Write natural, friendly and short English: at most 3 sentences, plain text. Don't repeat the question, no lists, no headings, no emojis. Use only the information below; don't invent anything beyond it, and if you don't know, say «you can ask that through the contact form».\nFY: an agency for AI training, building websites and making businesses smarter with automation. Founder Farhad Yaqoobi; lives in Germany, studies IT, speaks Turkish, German, English and Persian.\nCourse «AI Journey» (Yapay Zekâ Yolculuğu): 7 chapters, project-based, starts from zero, no programming needed, fully online; course videos in Turkish, support in English. Completely free right now (may become paid later), 45 days of support, lifetime access. Chapters: 1 The Wake-Up (fundamentals), 2 The Formula (prompting), 3 The Agent (n8n automation), 4 The Workshop (Claude Code, skills), 5 The Lab (building a website, CRM, FYOS), 6 The Showcase (video, Instagram, content), 7 The Summit (winning clients, income).\nWebsite packages: Basic (sales page), Professional (website + CRM, most popular), Expert (AI platform); priced per project. Automation: DM replies, lead scoring, reporting, CRM. Free 30-minute call. Contact: the form on the website. The website collects no data; this chat runs on the visitor's device, questions go to no server."
 };
