@@ -273,15 +273,6 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .mobile-menu a.link { display: block; padding: 20px 0; font-size: 28px; font-weight: 500; border-bottom: 1px solid rgb(var(--line) / .08); }
 .mobile-menu__actions { display: flex; gap: 12px; margin-top: 28px; }
 .mobile-menu__actions .btn { flex: 1; }
-/* Menü içeriği ekranı aşarsa kaydırılabilsin: bağlantı sayısı arttıkça alttaki iletişim düğmesi
-   ekranın dışında kalıyordu ve menü kaydırılamadığı için hiç ulaşılamıyordu. */
-.mobile-menu { overflow-y: auto; -webkit-overflow-scrolling: touch;
-  padding-bottom: max(32px, env(safe-area-inset-bottom)); overscroll-behavior: contain; }
-@media (max-height: 860px) {
-  .mobile-menu a.link { padding: 13px 0; font-size: 23px; }
-  .mobile-menu__actions { margin-top: 20px; }
-  .mobile-menu .lang { padding: 14px 0 4px; }
-}
 @media (min-width: 768px) { .mobile-menu { display: none !important; } }
 
 /* ---------- Hero ---------- */
@@ -338,7 +329,6 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 .service-card p { color: rgb(var(--fg-muted)); font-size: 14px; line-height: 1.625; margin-bottom: 24px; flex: 1; }
 .service-card .more { color: rgb(var(--accent-gold)); font-size: 14px; font-weight: 600; transition: opacity .2s; }
 .service-card:hover .more { opacity: .8; }
-.work-facts { display: block; margin-bottom: 14px; font-size: 12.5px; line-height: 1.5; color: rgb(var(--fg-muted) / .8); }
 
 /* ---------- Kurs ---------- */
 .training { overflow: hidden; }
@@ -630,18 +620,15 @@ html[lang="fa"] .journey__script { font-weight: 300; font-size: clamp(20px, 2.2v
 
 .journey__body { min-height: 120px; }
 .journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.journey__line, .journey__glow, .journey__glow2, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
+.journey__line, .journey__glow, .journey__dash, .journey__tail, .journey__comet { fill: none; stroke-linecap: round; }
 .journey__line { stroke: url(#jline); stroke-width: 2; }
-/* Yolun ışığı: SVG bulanıklık süzgeci yerine üst üste iki geniş ve sönük darbe.
-   Süzgeç, gezen ışıkla birlikte her karede yeniden hesaplanıyordu. */
-.journey__glow2 { stroke: #f5d76e; stroke-width: 15; opacity: .07; }
-.journey__glow { stroke: #f5d76e; stroke-width: 8; opacity: .17; }
-.journey--drawn .journey__line, .journey--drawn .journey__glow, .journey--drawn .journey__glow2 { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
+.journey__glow { stroke: #f5d76e; stroke-width: 7; opacity: .32; filter: url(#jglow); }
+.journey--drawn .journey__line, .journey--drawn .journey__glow { transition: stroke-dashoffset 1.8s cubic-bezier(.4, 0, .2, 1); }
 .journey__dash { stroke: #fbe9a6; stroke-width: 1.5; stroke-dasharray: 2 9; opacity: 0; transition: opacity .8s; animation: jdash 1.5s linear infinite; }
 .journey__rider { opacity: 0; transition: opacity .5s; }
 .journey__tail { stroke: #f5d76e; stroke-width: 4; opacity: .35; }
 .journey__comet { stroke: #fff4c8; stroke-width: 2.4; }
-.journey__halo { fill: url(#jhalo); opacity: .9; }
+.journey__halo { fill: #f5d76e; opacity: .85; filter: url(#jglow); }
 .journey__dot { fill: #fff8dc; }
 .journey.is-live .journey__dash { opacity: .5; }
 .journey.is-live .journey__rider { opacity: 1; }
@@ -766,19 +753,6 @@ html[dir="rtl"] .journey__rule { background: linear-gradient(-90deg, rgb(var(--a
 
 /* ---------- SSS ---------- */
 .faq__head { text-align: center; margin-bottom: 40px; }
-
-/* ---------- Süreç: yazdıktan sonra ne oluyor ---------- */
-.proc__head { text-align: center; margin-bottom: 40px; }
-.proc-grid { display: grid; gap: 16px; }
-@media (min-width: 640px) { .proc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .proc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.proc-card { display: flex; flex-direction: column; height: 100%; padding: 26px 24px; border-radius: var(--radius-2xl); }
-.proc-card__n { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin-bottom: 18px;
-  border-radius: 50%; border: 1px solid rgb(var(--accent-gold) / .45); background: rgb(var(--accent-gold) / .08);
-  color: rgb(var(--accent-gold)); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
-.proc-card h3 { margin-bottom: 10px; }
-.proc-card p { color: rgb(var(--fg-muted)); font-size: 14px; line-height: 1.625; }
-
 .faq__head h2 { margin-top: 16px; }
 .faq__list { display: flex; flex-direction: column; gap: 12px; }
 .faq-item { border-radius: var(--radius-2xl); overflow: hidden; transition: box-shadow .2s; }
