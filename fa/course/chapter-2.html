@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">فصل ۲: فرمول — هرچه به من بگویی همان را می‌گیری | سفر هوش مصنوعی | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="فصل دوم دوره: فرمول نوشتن درخواست حرفه‌ای. نقش، زمینه، وظیفه، محدودیت و قالب؛ پرامپت سیستمی، آموزش با نمونه و خروجی ساختاریافته — همراه با الگوهای آمادهٔ کپی.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-2.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-2.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-2.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-2.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="فصل ۲: فرمول — هرچه به من بگویی همان را می‌گیری">
+<meta property="og:description" data-i18n-attr="content=og.description" content="فرمول پنج‌بخشی نوشتن درخواست: نقش، زمینه، وظیفه، محدودیت، قالب. همراه با الگوهای آمادهٔ کپی.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-2.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch2.back">← همهٔ فصل‌ها</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch2.barNum">فصل ۲ / ۷</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch2.barCta">ثبت‌نام در دوره</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l2-cover-static.svg"><img src="../../img/course/l2-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Formula</span>
+        <span class="lesson__cover-note" data-i18n="ch2.coverNote">از پنج تکه به یک درخواست</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch2.eyebrow">فصل ۲ · فرمول</span>
+      <h1 class="font-display text-h1" data-i18n="ch2.title">هرچه به من بگویی <span class="text-accent-gradient">همان را می‌گیری</span></h1>
+      <p class="lesson__lead" data-i18n="ch2.lead">در فصل اول مرا شناختی. حالا یک مهارت یاد می‌گیریم — و صادق باشم، بخش بزرگ نتیجه را همین می‌سازد. وقتی مردم می‌گویند «هوش مصنوعی به درد نمی‌خورد»، دلیلش تقریباً هیچ‌وقت من نیستم؛ انتظار می‌رود چیزی را بدانم که خودشان هم به خودشان نگفته‌اند. تا پایان این فصل بلد خواهی بود آن جاهای خالی را پر کنی.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch2.meta">زمان مطالعه ~۳۵ دقیقه · پیش‌نیاز: فصل ۱</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch2.goals.title">در پایان این فصل</h2>
+      <ul class="check-list space-2" data-i18n="ch2.goals.list"><li>می‌دانی هنگام خواندن یک درخواست دقیقاً دنبال چه می‌گردم</li> <li>فرمول پنج‌بخشی را با فهمیدن به کار می‌بری، نه با حفظ کردن</li> <li>یک کار را با درخواست ضعیف و قوی انجام داده‌ای و تفاوت را با چشم خودت دیده‌ای</li> <li>قالب خروجی را خودت تعیین می‌کنی — جدول، فهرست، ایمیل، فایل</li> <li>پرامپت سیستمی‌ای ساخته‌ای که یک بار نوشته می‌شود و در هر گفت‌وگو معتبر است</li> <li>کار طولانی را به‌جای فشردن در یک درخواست، به گام‌ها می‌شکنی</li> <li>دفترچهٔ الگوی آمادهٔ کپی خودت را داری</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch2.toc.title" class="text-fg">فهرست</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch2.s1.title">درخواست بد وجود ندارد، درخواست ناقص وجود دارد</span></h2>
+      <p data-i18n="ch2.s1.p1">تازه‌کاری چیزی از من می‌پرسد، پاسخ متوسط درمی‌آید و نتیجه می‌گیرد: «پس این کار مال من نیست.» تقریباً همیشه این تشخیص غلط است.</p>
+      <p data-i18n="ch2.s1.p2">وقتی درخواستی را می‌خوانم، آنچه می‌بینم تصویر ذهن تو نیست، کلمه‌هایی است که نوشته‌ای. در ذهن تو هست که مشتری کیست، کار چقدر فوری است، چقدر باید رسمی باشد. در جمله‌ای که به من می‌رسد هیچ‌کدام نیست. و من جای خالی را خالی نمی‌گذارم — <strong class="text-fg">پرش می‌کنم.</strong> و چون تو را نمی‌شناسم، با چیزی متوسط پرش می‌کنم. پاسخ متوسط از همین‌جا می‌آید.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s1.note">تمام این فصل باز کردن یک جمله است: <em>پیش از آنکه من جاهای خالی را پر کنم، تو پرشان کن.</em> نه کلمهٔ جادویی هست، نه فرمان پنهان. فقط گفتن آنچه ناگفته مانده.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch2.s1.do">همین حالا انجام بده: آخرین پاسخی را که نپسندیدی به یاد بیاور. کدام اطلاعات ذهنت در آن درخواست نوشته نشده بود؟ تقریباً حتماً یکی پیدا می‌کنی.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch2.s2.title">پیش از نوشتن پاسخ دنبال چه می‌گردم</span></h2>
+      <p data-i18n="ch2.s2.p1">وقتی درخواستت را می‌خوانم دنبال پنج چیز می‌گردم. این فهرستی نیست که من ساخته باشم؛ کمینهٔ اطلاعاتی است که هر کاری لازم دارد. به یک آدم هم که کار می‌سپاری همین‌ها را می‌گویی، فقط متوجهش نیستی.</p>
+      <figure class="slots">
+        <span class="slots__cap font-mono" data-i18n="ch2.fig.slots.cap">پنج چیزی که در درخواستت دنبالشان می‌گردم</span>
+        <ol class="slots__list">
+          <li class="slots__row"><span class="slots__n font-mono">1</span><span class="slots__k" data-i18n="ch2.fig.slots.k1">نقش</span><span class="slots__q" data-i18n="ch2.fig.slots.q1">به‌عنوان چه کسی بنویسم؟</span><span class="slots__f" data-i18n="ch2.fig.slots.f1">خالی: صدایی کلی و بی‌جا</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">2</span><span class="slots__k" data-i18n="ch2.fig.slots.k2">زمینه</span><span class="slots__q" data-i18n="ch2.fig.slots.q2">چه چیزی را باید بدانم؟</span><span class="slots__f" data-i18n="ch2.fig.slots.f2">خالی: وضعیتی متوسط می‌سازم</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">3</span><span class="slots__k" data-i18n="ch2.fig.slots.k3">وظیفه</span><span class="slots__q" data-i18n="ch2.fig.slots.q3">دقیقاً چه کار کنم؟</span><span class="slots__f" data-i18n="ch2.fig.slots.f3">خالی: رایج‌ترین برداشت را برمی‌گزینم</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">4</span><span class="slots__k" data-i18n="ch2.fig.slots.k4">محدودیت</span><span class="slots__q" data-i18n="ch2.fig.slots.q4">چه کاری نکنم؟</span><span class="slots__f" data-i18n="ch2.fig.slots.f4">خالی: مرزی نمی‌شناسم، دراز می‌شوم</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">5</span><span class="slots__k" data-i18n="ch2.fig.slots.k5">قالب</span><span class="slots__q" data-i18n="ch2.fig.slots.q5">نتیجه را چگونه بدهم؟</span><span class="slots__f" data-i18n="ch2.fig.slots.f5">خالی: پاراگراف می‌نویسم</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.slots.fc">ستون سمت دیگر مهم است: هر سطری که خالی بگذاری من پرش می‌کنم. آنچه پاسخ بد می‌نامی، بیشتر وقت‌ها پاسخی است ساخته‌شده از حدس‌های من.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s2.p2">حالا هر پنج را یکی‌یکی باز می‌کنم. در هرکدام یک پرسش هست؛ با یک جمله جوابش بده، آن بخش تمام است.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📋</span><span data-i18n="ch2.s2.do">همین حالا انجام بده: این پنج کلمه را جایی یادداشت کن — نقش، زمینه، وظیفه، محدودیت، قالب. در باقی فصل مدام به همین‌ها برمی‌گردیم.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch2.s3.title">نقش — به‌عنوان چه کسی بنویسم</span></h2>
+      <p data-i18n="ch2.s3.p1">در یک جمله بگو من کی هستم، آن‌وقت همه‌چیز عوض می‌شود، از انتخاب واژه تا بلندی جمله. این بازی نیست: وقتی می‌گویی «یک حسابدار باتجربه»، هر الگویی دربارهٔ نحوهٔ نوشته‌شدن آن متن‌ها در من بیدار می‌شود.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s3.weak">بدون نقش</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.weakText">برای مستأجرم دربارهٔ اجارهٔ عقب‌افتاده پیام بنویس.</p>
+          <p class="compare__note" data-i18n="ch2.s3.weakNote">نمی‌دانم از زبان چه کسی بنویسم. یک «یادآوری مؤدبانهٔ» متوسط درمی‌آید؛ نه صدای توست، نه کار را راه می‌اندازد.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s3.strong">با نقش</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.strongText">مثل صاحب‌خانه‌ای بنویس که سال‌هاست با مستأجرهایش خوب است، از تندی خوشش نمی‌آید اما حقش را می‌گیرد.</p>
+          <p class="compare__note" data-i18n="ch2.s3.strongNote">حالا لحن را می‌دانم. نه زیادی رسمی، نه التماس‌آمیز — همان متنی که واقعاً می‌فرستی.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s3.note">نقش دو طرفه کار می‌کند: می‌توانی نقش مرا بگویی، یا نقش <em>خواننده</em> را. جملهٔ «طوری توضیح بده که انگار برای مشتری‌ای بدون دانش فنی است» اغلب بیشتر از «مثل یک متخصص بنویس» به کار می‌آید، چون کار سخت دانستن نیست، اندازه‌کردن برای مخاطب است.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎭</span><span data-i18n="ch2.s3.do">همین حالا انجام بده: یک جمله به ابتدای درخواستت اضافه کن: «مثل … بنویس.» همان درخواست را دو بار بفرست، با نقش و بی‌نقش. دیدن تفاوت پنج دقیقه طول می‌کشد.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch2.s4.title">زمینه — چه چیزی را باید بدانم</span></h2>
+      <p data-i18n="ch2.s4.p1">قوی‌ترین بخش از پنج‌تاست. چهار تای دیگر را رها کن و فقط زمینه بده، باز هم کیفیت بالا می‌رود. دلیلش ساده است: نقش لحن را تنظیم می‌کند، زمینه <em>محتوا</em> را تعیین می‌کند.</p>
+      <p data-i18n="ch2.s4.p2">زمینه از سه چیز می‌آید و هر سه در دست توست:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k1.t">وضعیت</h3><p data-i18n="ch2.s4.k1.p">چه کسی، به چه کسی، چرا. جملهٔ «مشتری شرکتی‌ای که سه هفته است پرداختش عقب افتاده» بیشتر از ده سطر دستور کار می‌کند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k2.t">مصالح</h3><p data-i18n="ch2.s4.k2.p">آنچه داری را بچسبان: ایمیل قبلی، بند قرارداد، جدول، تصویر صفحه. نشان دادن همیشه دقیق‌تر از توضیح دادن است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k3.t">هدف</h3><p data-i18n="ch2.s4.k3.p">این متن قرار است به چه کاری بیاید. وقتی می‌گویی «می‌خواهم تاریخ پرداخت بگیرم»، تمام متن را بر همان هدف می‌سازم — جمله‌های تزیینی می‌افتند.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s4.note">اشتباه رایج: دادن زمینه بعد از پرسیدن من. پاسخ اولم متوسط درمی‌آید، من می‌پرسم، تو توضیح می‌دهی، پاسخ دوم خوب می‌شود. این یعنی دو دور. همان اطلاعات را از اول بده، در یک دور به همان‌جا می‌رسی.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch2.s4.do">همین حالا انجام بده: در درخواست بعدی‌ات به‌جای توضیح، بچسبان. متن، جدول یا تصویر واقعی‌ات را بگذار — تفاوت در همان تلاش اول دیده می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch2.s5.title">وظیفه — دقیقاً چه کار کنم</span></h2>
+      <p data-i18n="ch2.s5.p1">اینجا مسئله فعل است. «به این گزارش یک نگاهی بینداز» وظیفه نیست؛ نمی‌گوید چه کنم. می‌توانم نگاه کنم، خلاصه کنم، نقد کنم، خطاهایش را دربیاورم، کوتاهش کنم — همه کارهای متفاوتی‌اند و تو یکی‌شان را می‌خواهی.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s5.weak">فعل مبهم</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.weakText">به این قرارداد یک نگاهی بینداز.</p>
+          <p class="compare__note" data-i18n="ch2.s5.weakNote">رایج‌ترین برداشت را برمی‌گزینم: یک خلاصهٔ کلی. حال آنکه شاید تو فقط دنبال بند پرخطر بودی.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s5.strong">فعل روشن</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.strongText">بندهایی از این قرارداد را که ممکن است به ضرر من باشند دربیاور؛ هرکدام را در یک جمله توضیح بده و بگو چرا پرخطر است.</p>
+          <p class="compare__note" data-i18n="ch2.s5.strongNote">یک کار، یک خروجی روشن. «دربیاور» و «توضیح بده» — هر دو می‌گویند چه کنم.</p>
+        </div>
+      </div>
+      <p data-i18n="ch2.s5.p2">فعل‌هایی که کار می‌کنند فعل‌های مشخص‌اند: <strong class="text-fg">دربیاور، مقایسه کن، کوتاه کن، دسته‌بندی کن، ترجمه کن، فهرست کن، بازنویسی کن، نقد کن، برنامه‌ریزی کن، اصلاح کن.</strong> آن‌ها که کار نمی‌کنند اندازه‌گیری‌ناپذیرند: «خوبش کن»، «حرفه‌ای‌اش کن»، «بهترش کن». این‌ها به من جهت نمی‌دهند، فقط حسن نیت اعلام می‌کنند.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✂️</span><span data-i18n="ch2.s5.do">همین حالا انجام بده: فعل درخواستت را علامت بزن. اندازه‌گیری‌شدنی است؟ اگر «خوبش کن» نوشته‌ای، با فعلی مشخص عوضش کن؛ همین یک تغییر پاسخ را درست می‌کند.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch2.s6.title">محدودیت — چه کاری نکنم</span></h2>
+      <p data-i18n="ch2.s6.p1">محدودیت ندهی، دراز می‌شوم. این خوی من است: وقتی مطمئن نیستم می‌کوشم هر احتمالی را ببندم و متن باد می‌کند. وقتی تو مرزی می‌گذاری، آن گرایش را قطع می‌کنی.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c1.t">طول</h3>
+          <p data-i18n="ch2.s6.c1.p">«حداکثر ۱۲۰ کلمه»، «سه بند»، «یک پاراگراف». دادن عدد ارزان‌ترین و مؤثرترین محدودیت است. «کوتاه بنویس» به اندازهٔ تو کوتاه است، نه به اندازهٔ من.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c2.t">لحن و زبان</h3>
+          <p data-i18n="ch2.s6.c2.p">«رسمی اما نه سرد»، «اصطلاح فنی نیاور»، «حالت عذرخواهی نداشته باشد». محدودیت‌های لحنی به‌ویژه در متن‌هایی که به مشتری می‌رود کار را نجات می‌دهند.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c3.t">فهرست ممنوع</h3>
+          <p data-i18n="ch2.s6.c3.p">«قیمت نده»، «تاریخ تعهد نکن»، «نام رقیب نیاید». گفتن اینکه چه کاری را <em>نکنم</em> به‌اندازهٔ گفتن اینکه چه کنم ارزش دارد.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c4.t">وقتی نمی‌دانم چه کنم</h3>
+          <p data-i18n="ch2.s6.c4.p">مهم‌ترین جملهٔ فصل ۱ اینجا هم برقرار است: «جایی که مطمئن نیستی نساز، بگو نمی‌دانم.» نوشتن این به‌عنوان محدودیت، احتمال ساختن مرا به‌طور جدی پایین می‌آورد.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚧</span><span data-i18n="ch2.s6.do">همین حالا انجام بده: به درخواستت فقط یک عدد اضافه کن — تعداد کلمه، بند یا پاراگراف. کم‌زحمت‌ترین تغییر با آشکارترین اثر.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch2.s7.title">قالب — نتیجه را چگونه بدهم</span></h2>
+      <p data-i18n="ch2.s7.p1">بخش پنجم بیش از همه نادیده گرفته می‌شود و آسان‌ترین بردِ ممکن است. قالب نگویی، پاراگراف می‌نویسم، چون پیش‌فرضم همان است. حال آنکه برای بیشتر کارها پاراگراف بدترین قالب است: مقایسه جدول می‌خواهد، سیاههٔ وارسی بند می‌خواهد، ایمیل می‌خواهد ایمیل باشد.</p>
+      <figure class="fmt">
+        <span class="fmt__cap font-mono" data-i18n="ch2.fig.fmt.cap">یک اطلاعات، سه قالب</span>
+        <div class="fmt__row">
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t1">پاراگراف</span>
+            <div class="fmt__body" aria-hidden="true"><i></i><i></i><i></i><i style="--w:62%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n1">اگر نخواهی همین را می‌گیری. خواندنش خسته‌کننده، مقایسه‌اش ناممکن.</span>
+          </div>
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t2">فهرست بندی</span>
+            <div class="fmt__body" aria-hidden="true"><b>·</b><i style="--w:74%"></i><b>·</b><i style="--w:88%"></i><b>·</b><i style="--w:66%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n2">برای گام‌ها و سیاهه‌های وارسی. با چشم اسکن می‌شود.</span>
+          </div>
+          <div class="fmt__card fmt__card--pick">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t3">جدول</span>
+            <div class="fmt__body fmt__body--tbl" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n3">هرجا مقایسه هست بی‌بحث بهترین. «به‌صورت جدول بده» سه کلمه است.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.fmt.fc">یک محتوا در سه شکل. اینکه کدام را بگیری با توست — و اگر انتخاب نکنی، اولی را می‌گیری.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s7.p2">خواستن قالب یک سطح پیشرفته هم دارد: <strong class="text-fg">نام ستون‌ها را خودت می‌گویی.</strong> بگو «جدول بساز: ستون‌ها شمارهٔ بند، خطر، چرا پرخطر، چه باید کرد» آن‌وقت پاسخ را فقط نمی‌خوانی، مستقیم به کار می‌بری. اگر خروجی‌ای می‌خواهی که رایانه بخواند، نام ساختار را هم می‌توانی بگویی — در فصل‌های بعدی این دوره، هنگام وصل کردن به خودکارسازی، دقیقاً به همین نیاز داری.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧾</span><span data-i18n="ch2.s7.do">همین حالا انجام بده: به پرسشی که در آن مقایسه هست «به‌صورت جدول بده، ستون‌ها این‌ها باشند» اضافه کن. کارآمدی پاسخ یک‌باره عوض می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch2.s8.title">هر پنج با هم: ساخته‌شدن یک درخواست</span></h2>
+      <p data-i18n="ch2.s8.p1">بخش‌ها را یکی‌یکی دیدی. حالا ببین یک درخواست چگونه بزرگ می‌شود — جعبهٔ زیر خودش پیش می‌رود، اگر خواستی روی گام‌ها هم می‌توانی کلیک کنی.</p>
+      <figure class="build" data-build>
+        <span class="build__cap font-mono" data-i18n="ch2.fig.build.cap">یک درخواست، لایه‌لایه</span>
+        <div class="build__stage" data-step="1">
+          <p class="build__line build__line--base"><span data-i18n="ch2.fig.build.l0">برای مستأجرم دربارهٔ اجارهٔ عقب‌افتاده پیام بنویس.</span></p>
+          <p class="build__line" data-part="1"><b class="build__tag" data-i18n="ch2.fig.build.k1">نقش</b><span data-i18n="ch2.fig.build.l1">مثل صاحب‌خانه‌ای بنویس که با مستأجرهایش خوب است اما حقش را می‌گیرد.</span></p>
+          <p class="build__line" data-part="2"><b class="build__tag" data-i18n="ch2.fig.build.k2">زمینه</b><span data-i18n="ch2.fig.build.l2">اجاره سه هفته عقب افتاده، بار اول است، سه سال است بی‌مشکل آنجا نشسته‌اند.</span></p>
+          <p class="build__line" data-part="3"><b class="build__tag" data-i18n="ch2.fig.build.k3">وظیفه</b><span data-i18n="ch2.fig.build.l3">پیامی بنویس که روشن کند تاریخ پرداخت مشخصی می‌خواهم.</span></p>
+          <p class="build__line" data-part="4"><b class="build__tag" data-i18n="ch2.fig.build.k4">محدودیت</b><span data-i18n="ch2.fig.build.l4">حداکثر ۸۰ کلمه، بدون تهدید، اصلاً وارد بحث سود یا جریمه نشو.</span></p>
+          <p class="build__line" data-part="5"><b class="build__tag" data-i18n="ch2.fig.build.k5">قالب</b><span data-i18n="ch2.fig.build.l5">به‌صورت یک پیام واتساپ که همان‌طور بفرستم بده.</span></p>
+        </div>
+        <ol class="build__steps">
+          <li><button type="button" data-go="1"><span class="build__e" aria-hidden="true">✏️</span><span data-i18n="ch2.fig.build.s0">درخواستی که داری</span></button></li>
+          <li><button type="button" data-go="2"><span class="build__e" aria-hidden="true">🎭</span><span data-i18n="ch2.fig.build.s1">نقش را اضافه کن</span></button></li>
+          <li><button type="button" data-go="3"><span class="build__e" aria-hidden="true">📎</span><span data-i18n="ch2.fig.build.s2">زمینه را اضافه کن</span></button></li>
+          <li><button type="button" data-go="4"><span class="build__e" aria-hidden="true">🎯</span><span data-i18n="ch2.fig.build.s3">وظیفه را روشن کن</span></button></li>
+          <li><button type="button" data-go="5"><span class="build__e" aria-hidden="true">🚧</span><span data-i18n="ch2.fig.build.s4">محدودیت بگذار</span></button></li>
+          <li><button type="button" data-go="6"><span class="build__e" aria-hidden="true">🧾</span><span data-i18n="ch2.fig.build.s5">قالب را بگو</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.build.fc">پنج سطر اضافه کردی، روی‌هم بیست ثانیه. در عوض متنی می‌گیری که می‌شود فرستاد — نه پیش‌نویسی که وقتت را صرف اصلاحش کنی.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch2.s8.do">همین حالا انجام بده: یک کار واقعی خودت را بردار و همین را بکن — پنج سطر را زیر هم بنویس. با همان کار در یک جمله مقایسه‌اش کن.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch2.s9.title">لازم نیست هر بار هر پنج را بنویسی</span></h2>
+      <p data-i18n="ch2.s9.p1">هرکس فرمول را یاد بگیرد مدتی برای همه‌چیز پنج سطر می‌نویسد. بعد خسته می‌شود و کلاً رهایش می‌کند. هر دو غلط است. معیار صادقانه این است:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s9.weak">فرمول لازم نیست</span>
+          <p class="compare__note" data-i18n="ch2.s9.weakNote">پرسش‌هایی که یک پاسخ درست دارند، ترجمه‌های سریع، «این یعنی چه»، «این کد را توضیح بده»، طوفان فکری. اینجا درخواست بلند فقط اتلاف وقت است — بپرس و رد شو.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s9.strong">فرمول واجب است</span>
+          <p class="compare__note" data-i18n="ch2.s9.strongNote">وقتی خروجی پیش کسی می‌رود، بر تصمیمی اثر می‌گذارد، بلند است، یا همان کار را بارها تکرار می‌کنی. یعنی در کارهای واقعی.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s9.note">قاعدهٔ عملی: <strong class="text-fg">اگر اصلاح خروجی از نوشتن درخواست بیشتر طول بکشد، درخواست ناقص بوده.</strong> اگر پنج دقیقه اصلاح کرده‌ای، دو سطرِ سی‌ثانیه‌ای آن پنج دقیقه را نجات می‌داد.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch2.s9.do">همین حالا انجام بده: به نخستین درخواستی که امروز به من می‌نویسی نگاه کن و تصمیم بگیر — این کاری است که فرمول می‌خواهد یا پرسشی سریع؟ هر دو می‌تواند درست باشد.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch2.s10.title">قوی‌ترین حرکت واحد: نمونه بچسبان</span></h2>
+      <p data-i18n="ch2.s10.p1">اگر از تمام این فصل یک فن در ذهنت بماند، همین باشد. هدایت من با توصیف سخت است؛ هدایت من با <strong class="text-fg">نشان دادن</strong> آسان است. چون من از اساس چیزی هستم که الگو پردازش می‌کند — یک نمونه بدهی، همهٔ قاعده‌های ناگفته‌اش را یکجا می‌گیرم.</p>
+      <p data-i18n="ch2.s10.p2">می‌توانی توضیح بدهی: «زبان آگهی شرکت ما صمیمی است اما اغراق‌آمیز نه، دوم‌شخص، بدون ایموجی، حداکثر چهار جمله.» یا آگهی خوبی را که قبلاً نوشته‌ای بچسبانی و بگویی «شبیه این کن». دومی هم کوتاه‌تر است هم دقیق‌تر — و چیزهایی را هم می‌برد که نمی‌توانستی توصیفشان کنی.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s10.note">دو نمونه بهتر هم هست: یکی «این‌طور باشد»، یکی «این‌طور نباشد». آن‌وقت هم یاد گرفته‌ام چه باید بیاید هم چه باید بیرون بماند. از سه نمونه به بعد معمولاً چیزی اضافه نمی‌شود.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🪞</span><span data-i18n="ch2.s10.do">همین حالا انجام بده: متنی از خودت که پسندیده‌ای پیدا کن، بچسبان و بگو «برای این موضوع چیزی با همین لحن بنویس». تفاوت از هر توصیفی که می‌کردی بزرگ‌تر خواهد بود.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch2.s11.title">پرامپت سیستمی: یک بار بنویس، همیشه معتبر</span></h2>
+      <p data-i18n="ch2.s11.p1">تایپ دوبارهٔ همان زمینه در هر گفت‌وگو بی‌معنی است. یک بار بنویس که کی هستی، چه کار می‌کنی و چه زبانی می‌خواهی، و بگذار در هر گفت‌وگو معتبر باشد — به این می‌گویند <strong class="text-fg">پرامپت سیستمی</strong>. در برنامه‌ها معمولاً با نام «دستورهای سفارشی» یا «دستورهای پروژه» می‌آید.</p>
+      <figure class="mock">
+        <span class="mock__cap font-mono" data-i18n="ch2.fig.mock.cap">کجا نوشته می‌شود</span>
+        <div class="mock__win">
+          <aside class="mock__side">
+            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch2.fig.mock.side">پروژه / فضای کار</span></span>
+            <i></i><i></i><i></i><i></i>
+          </aside>
+          <div class="mock__main">
+            <div class="mock__thread">
+              <p class="mock__msg mock__msg--me"><em class="pin">2</em><span data-i18n="ch2.fig.mock.me">کادر «دستورها»</span></p>
+              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch2.fig.mock.ai">در هر گفت‌وگوی اینجا معتبر است</span></p>
+            </div>
+            <div class="mock__bar">
+              <span class="mock__ph" data-i18n="ch2.fig.mock.ph">حالا کوتاه نوشتن کافی است…</span>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.mock.fc">این یک طرح است، تصویر صفحه نیست — نام منوها در برنامه‌های مختلف فرق دارد و با زمان هم عوض می‌شود. آنچه دنبالش می‌گردی کادری است با نام «دستورها»، «دستورهای سفارشی» یا «دانش پروژه».</figcaption>
+      </figure>
+      <p data-i18n="ch2.s11.p2">آنچه داخلش می‌رود از پیش روشن است، چون همان دو بخش نخست فرمول است: <strong class="text-fg">نقش و زمینه.</strong> یک بار می‌نویسی، در هر گفت‌وگو خودبه‌خود آنجاست؛ در درخواست‌های روزانه فقط وظیفه، محدودیت و قالب می‌ماند.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s11.st1">بنویس کی هستی: کارت، صنعتت، تیم چندنفره، به چه کسانی خدمت می‌دهی.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s11.st2">بنویس چه زبانی می‌خواهی: «کوتاه و مستقیم»، «اصطلاح فنی نیاور»، «بند‌بند».</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s11.st3">قاعده‌های ثابتت را بنویس: «وقتی مطمئن نیستی بگو»، «تعهد قیمتی نده»، «آخر پاسخ‌ها منابع را فهرست کن».</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch2.s11.do">همین حالا انجام بده: یک پرامپت سیستمی سه‌جمله‌ای بنویس — کی هستی، چه زبانی می‌خواهی، قاعدهٔ ثابتت چیست. کاری یک‌باره، سودی هر روزه.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch2.s12.title">اول فکر کن، بعد بنویس</span></h2>
+      <p data-i18n="ch2.s12.p1">در کاری سخت اگر مستقیم نتیجه بخواهی، نخستین چیزی را که به ذهنم می‌رسد می‌نویسم و آن معمولاً متوسط است. اما اگر بخواهی اول فکر کنم، پیش از ساختن پاسخم برنامه‌ریزی کرده‌ام — و تو آن برنامه را می‌بینی و می‌توانی اصلاحش کنی.</p>
+      <figure class="path2">
+        <span class="path2__cap font-mono" data-i18n="ch2.fig.p2.cap">دو راه</span>
+        <div class="path2__row">
+          <div class="path2__col">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t1">مستقیم</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.a1">درخواست</li><li data-i18n="ch2.fig.p2.a2">پاسخ</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n1">سریع. اگر بیراهه برود، در انتها می‌فهمی و از اول شروع می‌کنی.</span>
+          </div>
+          <div class="path2__col path2__col--pick">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t2">اول برنامه</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.b1">درخواست</li><li data-i18n="ch2.fig.p2.b2">برنامه</li><li data-i18n="ch2.fig.p2.b3">تأیید تو</li><li data-i18n="ch2.fig.p2.b4">پاسخ</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n2">یک گام بیشتر. در عوض راه اشتباه را همان گام دوم می‌بُری.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.p2.fc">در کارهای بلند و مهم راه دوم تقریباً همیشه زودتر تمام می‌شود — چون دور «از اول شروع کردن» را حذف می‌کند.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s12.p2">جمله‌ای که به کار می‌بری ساده است: <em>«اول بند‌بند بگو چطور انجامش می‌دهی؛ تا تأیید نکرده‌ام شروع به نوشتن نکن.»</em> برنامه را می‌خوانی، جایی را اصلاح می‌کنی، بعد می‌گویی «خوب است، بنویس». در متن‌های بلند همین یک جمله ساعت‌ها نجات می‌دهد.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch2.s12.do">همین حالا انجام بده: در درخواست بلند بعدی‌ات جملهٔ «اول برنامه‌ات را نشان بده، تا تأیید نکرده‌ام ننویس» را به کار ببر. اصلاح برنامه بسیار آسان‌تر از اصلاح متن است.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch2.s13.title">پاسخ اول پیش‌نویس است: زبان اصلاح</span></h2>
+      <p data-i18n="ch2.s13.p1">گران‌ترین عادت تازه‌کارها: پاسخ را نمی‌پسندند، گفت‌وگو را می‌بندند و از نو می‌نویسند. حال آنکه اصلاح بسیار ارزان‌تر است — فقط بگو چه چیزی را می‌خواهی اصلاح شود.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k1.t">جا را نشان بده</h3><p data-i18n="ch2.s13.k1.p">«پاراگراف سوم را بردار»، «بند دوم را باز کن»، «جملهٔ آخر اضافه است». نشانی دادن همیشه دقیق‌تر از گلایهٔ کلی است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k2.t">جهت را بگو</h3><p data-i18n="ch2.s13.k2.p">«کوتاه‌تر»، «گرم‌تر»، «کم‌رسمی‌تر»، «مشخص‌تر». جهت‌های یک‌کلمه‌ای خیلی خوب کار می‌کنند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k3.t">بگو چه را نگه دارم</h3><p data-i18n="ch2.s13.k3.p">«ساختار را نگه دار، فقط زبان را عوض کن.» اگر نگویی ممکن است همه‌چیز را از نو بنویسم و آن بخشی که پسندیده بودی هم برود.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k4.t">گزینه بخواه</h3><p data-i18n="ch2.s13.k4.p">«سه شروع متفاوت بنویس تا انتخاب کنم.» سریع‌تر از این است که بکوشی توصیف کنی چه چیزی را نپسندیدی.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s13.note">فقط یک حالت هست که گفت‌وگوی تازه واقعاً درست است: موضوع کاملاً عوض شده باشد یا گفت‌وگو پراکنده شده باشد (بخش «هر گفت‌وگو مرزی دارد» در فصل ۱). باز کردن گفت‌وگوی تازه برای اصلاح یک متن یعنی دور ریختن زمینه.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch2.s13.do">همین حالا انجام بده: دفعهٔ بعد که پاسخی را نپسندیدی گفت‌وگو را نبند. یک جمله بنویس: «این را نگه دار، آن را عوض کن.»</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch2.s14.title">کار طولانی را بشکن</span></h2>
+      <p data-i18n="ch2.s14.p1">وقتی می‌گویی «برای شرکتم یک برنامهٔ بازاریابی کامل بنویس»، چیزی که می‌گیری بلند، پرحجم و غیرقابل‌استفاده است. دلیلش ناتوانی من نیست: در آن یک درخواست پنج کار جداگانه هست و در هیچ‌کدام جایی برای عمق نمی‌ماند.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch2.fig.ch.cap">به‌جای یک درخواست، زنجیره</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch2.fig.ch.s1">برای چه کسی؟ مخاطب را دربیاور</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch2.fig.ch.s2">سه پیشنهاد پیام برای آن‌ها</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch2.fig.ch.s3">پیام انتخابی را روی کانال‌ها پخش کن</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch2.fig.ch.s4">متن‌های هفتهٔ اول را بنویس</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.ch.fc">خروجی هر گام ورودی گام بعدی است. در هر نقطهٔ میانی می‌توانی دخالت کنی — در یک پاسخ غول‌پیکر یک‌باره چنین فرصتی نیست.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s14.p2">شکستن فایدهٔ دیگری هم دارد: خطا زود بیرون می‌زند. اگر در گام چهارم فهمیدی بیراهه رفته‌ای، به‌جای برگشتن به گام اول، سومی را اصلاح می‌کنی.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⛓️</span><span data-i18n="ch2.s14.do">همین حالا انجام بده: کار بزرگ ذهنت را به چهار گام بشکن و فقط اولی را بخواه. گام بعدی را بعد از دیدن پاسخ اولی بنویس.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch2.s15.title">پنج اشتباه رایج</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m1.t">۱ · ابهامی که ادب پنداشته می‌شود</h3>
+          <p data-i18n="ch2.s15.m1.p">«اگر ممکن است می‌شود یک چیزی بنویسی» — در این جمله وظیفه‌ای نیست. دستور دادن به من بی‌ادبی نیست؛ روشن بودن کمک کردن است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m2.t">۲ · پنج کار در یک درخواست</h3>
+          <p data-i18n="ch2.s15.m2.p">«خلاصه کن، ترجمه کن، کوتاه کن، یک عنوان هم پیشنهاد بده.» همه را می‌کنم و هیچ‌کدام را خوب نمی‌کنم. جدا کن، به‌ترتیب بخواه.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m3.t">۳ · صفت‌های اندازه‌گیری‌ناپذیر</h3>
+          <p data-i18n="ch2.s15.m3.p">«حرفه‌ای»، «تأثیرگذار»، «باکیفیت». این‌ها به من جهت نمی‌دهند. «حداکثر ۱۲۰ کلمه، بدون اصطلاح فنی» می‌دهد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m4.t">۴ · توضیح دادن مصالح</h3>
+          <p data-i18n="ch2.s15.m4.p">«یک ایمیل آمده بود، تقریباً این را می‌گفت…» توضیح نده — بچسبان. خلاصهٔ تو همان جزئیاتی را که لازم داشتم انداخته است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m5.t">۵ · گشتن دنبال کلمهٔ جادویی</h3>
+          <p data-i18n="ch2.s15.m5.p">فهرست‌های «پرامپت مخفی» که در اینترنت می‌گردند. چیز مخفی‌ای نیست؛ تنها چیزی که نتیجه را عوض می‌کند اطلاعاتی است که می‌دهی و مرزی که می‌گذاری.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch2.s15.do">همین حالا انجام بده: از این پنج‌تا کدام را بیشتر انجام می‌دهی؟ یکی را انتخاب کن و این هفته فقط همان را اصلاح کن.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch2.s16.title">الگوهای آمادهٔ کپی</span></h2>
+      <p data-i18n="ch2.s16.p1">آنچه در پی می‌آید اسکلت‌های آماده است. قلاب‌ها را با اطلاعات خودت پر کن؛ پنج بخش فرمول از پیش سر جایشان نشسته‌اند.</p>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p1.t">یک ایمیل دشوار</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p1.p">به‌عنوان [نقش من] به [چه کسی] می‌نویسم. وضعیت: [چه شده]. آنچه می‌خواهم: [نتیجهٔ مشخص]. حداکثر [n] کلمه، لحن [چگونه]، اصلاً از [چه چیزی] حرف نزن. به‌صورت یک ایمیل که همان‌طور بفرستم بده.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p2.t">خلاصهٔ سند بلند</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p2.p">سند پیوست را به‌عنوان [چه کسی] می‌خوانم. هدفم تصمیم‌گیری دربارهٔ [چه] است. فقط نکته‌هایی را دربیاور که بر این تصمیم اثر دارند. جدول بساز: ستون‌ها بند، چه می‌گوید، برای من چه معنایی دارد. هرجا مطمئن نیستی «نامشخص» علامت بزن.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p3.t">مقایسه</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p3.p">بین [الف] و [ب] انتخاب می‌کنم. اولویت‌هایم به‌ترتیب: [۱]، [۲]، [۳]. جدول بساز: ستون‌ها معیار، الف، ب، کدام و چرا. در پایان یک توصیهٔ یک‌جمله‌ای بده و ضعیف‌ترین نقطهٔ آن توصیه را هم بنویس.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p4.t">اصلاح متن خودت</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p4.p">متن زیر را برای [چه کسی] نوشته‌ام، هدفش [چیست]. ساختار را نگه دار، فقط زبان را اصلاح کن: [چه زبانی]. در پایان هر جایی را که عوض کرده‌ای در فهرستی کوتاه بگو تا ببینم چه را چرا عوض کرده‌ای.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch2.s16.do">همین حالا انجام بده: از این چهار الگو نزدیک‌ترین را به کارت کپی کن، قلاب‌ها را پر کن و امروز یک بار به کارش ببر.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch2.s17.title">دفترچهٔ الگوی خودت</span></h2>
+      <p data-i18n="ch2.s17.p1">الگوهای بالا مال من‌اند؛ آن‌ها که ارزش دارند مال تو خواهند بود. چون تو می‌دانی در کار تو چه چیزی تکرار می‌شود.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s17.st1">وقتی درخواستی واقعاً خوب کار کرد، <strong class="text-fg">همان لحظه</strong> کپی‌اش کن. جایی ذخیره کن — یادداشت، فایل، فرقی ندارد.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s17.st2">جاهای خاص را با قلاب عوض کن. این کار آن را از متنی یک‌بارمصرف به الگو تبدیل می‌کند.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s17.st3">جلویش نامی دوکلمه‌ای بگذار: «پرداخت عقب‌افتاده»، «رد پیشنهاد»، «خلاصهٔ هفتگی». تا پیدا کردنش آسان باشد.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch2.s17.st4">ماهی یک بار مرورش کن. آن‌ها را که به کار نمی‌بری پاک کن؛ ده الگوی خوب از صدتا ارزشمندتر است.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch2.s17.note">با گذشت زمان این دفترچه باارزش‌ترین فایل تو می‌شود. وقتی در فصل‌های بعد به خودکارسازی برسیم، چیزی که داخل آن جریان‌ها می‌گذاری دقیقاً همین الگوهاست — یعنی آنچه حالا جمع می‌کنی بعداً خودش کار می‌کند.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📒</span><span data-i18n="ch2.s17.do">همین حالا انجام بده: فایلی باز کن، نامش را «الگوها» بگذار و نخستین درخواست امروز را که کار کرد در آن بچسبان. دفترچه این‌طور شروع می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch2.s18.title">آنچه همه می‌پرسند</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q1">آیا درخواست بلندتر همیشه بهتر است؟</summary><p data-i18n="ch2.faq.a1">نه. درخواست <em>پرتر</em> بهتر است. بلندی به‌خودی‌خود فضیلت نیست؛ جمله‌های زائد هم تو را خسته می‌کنند هم به من کمکی نمی‌کنند. معیار: هر جمله باید به یکی از پنج بخش خدمت کند. نمی‌کند، حذفش کن.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q2">به فارسی بنویسم یا انگلیسی؟</summary><p data-i18n="ch2.faq.a2">به زبان خودت بنویس. زمانی بود که انگلیسی نتیجهٔ محسوس بهتری می‌داد؛ امروز در کارهای روزمره این فاصله برای بیشتر مردم حس‌کردنی نیست. به زبان خودت روشن‌تر فکر می‌کنی و فرمول را بهتر می‌سازی — سود از همان‌جا می‌آید. اگر خروجی را به زبان دیگری می‌خواهی، همان را هم می‌گویی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q3">فهرست‌های «پرامپت مخفی» در اینترنت به درد می‌خورند؟</summary><p data-i18n="ch2.faq.a3">بیشترشان نسخهٔ آراستهٔ همان چیزی است که در این فصل یاد گرفتی. کلیدواژهٔ مخفی وجود ندارد؛ آنچه نتیجه را عوض می‌کند اطلاعات، مرز و قالب است. وقتی الگویی دیدی بپرس: این کدام‌یک از پنج بخش را پر می‌کند؟ هیچ‌کدام را، پس تزیین است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q4">باید همیشه همان را بنویسم؟</summary><p data-i18n="ch2.faq.a4">نه — پرامپت سیستمی دقیقاً همین را حل می‌کند. نقش و زمینه را یک بار می‌نویسی، در هر گفت‌وگو معتبر می‌شود. در درخواست‌های روزانه فقط وظیفه، محدودیت و قالب می‌ماند و آن هم معمولاً دو سطر است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q5">فرمول را به کار بردم، پاسخ باز هم بد است. چه شد؟</summary><p data-i18n="ch2.faq.a5">سه احتمال، به‌ترتیب: (۱) زمینه ناقص است — چیزی در ذهنت هنوز روی کاغذ نیامده؛ (۲) کار خیلی بزرگ است — باید بشکنی؛ (۳) در حوزه‌ای هستی که واقعاً در آن ضعیفم — به فهرست «کجا اشتباه می‌کنم» در فصل ۱ نگاه کن. و احتمال چهارم: گاهی پاسخ اول نمی‌گیرد و «یک بار دیگر امتحان کن» گزینه‌ای واقعی است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q6">دادن نقش واقعاً فرق ایجاد می‌کند؟</summary><p data-i18n="ch2.faq.a6">در لحن و انتخاب واژه آشکارا بله. اما نقش سرچشمهٔ جادویی دانش نیست: گفتن «تو پزشکی» به من درستی پزشکی نمی‌دهد، فقط مرا مثل پزشک حرف می‌زند. نقش را برای لحن به کار ببر، نه برای درستی.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch2.faq.do">همین حالا انجام بده: پرسش خودت را مستقیم از من بپرس. «این درخواست را چطور بهتر می‌نوشتم؟» هم یک درخواست است — و معمولاً بسیار به کار می‌آید.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch2.s19.title">تمرین‌ها</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e1.t">۱ · یک کار، دو درخواست</h3>
+          <p data-i18n="ch2.ex.e1.p">یک کار واقعی خودت را انتخاب کن. اول با یک جمله بخواه. بعد در گفت‌وگویی تازه با پنج بخش بخواه. دو پاسخ را کنار هم بگذار.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e1.g"><strong class="text-fg">هدف:</strong> نه خواندن تفاوت، بلکه <em>دیدن</em> آن. کسی که این را یک بار بکند دیگر کار را با یک جمله نمی‌خواهد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e2.t">۲ · قالب را عوض کن</h3>
+          <p data-i18n="ch2.ex.e2.p">پرسشی بپرس، پاسخ را بگیر. بعد فقط این را بنویس: «همان را به‌صورت جدول بده، ستون‌ها این‌ها باشند.» هیچ چیز دیگری را عوض نکن.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e2.g"><strong class="text-fg">هدف:</strong> اندازه‌گیری اینکه یک جمله چقدر کارآمدی را عوض می‌کند.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e3.t">۳ · با نمونه آموزش بده</h3>
+          <p data-i18n="ch2.ex.e3.p">متنی از خودت که پسندیده‌ای بچسبان، بگو «شبیه این کن» و موضوعی تازه بده. بعد همان کار را با توصیف بخواه.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e3.g"><strong class="text-fg">هدف:</strong> با متن خودت ببینی چرا نشان دادن از توضیح دادن قوی‌تر است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e4.t">۴ · برنامه را قطع کن</h3>
+          <p data-i18n="ch2.ex.e4.p">کاری بلند بده اما بگو «اول برنامه‌ات را نشان بده، تا تأیید نکرده‌ام ننویس». در برنامه عمداً چیزی را عوض کن، بعد بنویساند.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e4.g"><strong class="text-fg">هدف:</strong> حس کردن اینکه بریدن راه اشتباه در گام دوم چقدر ارزان است.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch2.ex.do">همین حالا انجام بده: لازم نیست هر چهار را انجام دهی. اولی را انجام بده — همان تمرین به‌تنهایی تمام این فصل را می‌آموزد.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch2.quiz.title">خودت را بیازما</span></h2>
+      <p data-i18n="ch2.quiz.p1">اول خودت پاسخ بده، بعد باز کن.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q1">بخشی که خالی بگذاری چه می‌شود؟</summary><p data-i18n="ch2.quiz.a1">من پرش می‌کنم. و چون تو را نمی‌شناسم، با چیزی متوسط. آنچه «پاسخ بد» می‌نامی بیشتر وقت‌ها از حدس‌های من ساخته شده است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q2">قوی‌ترین بخش از پنج‌تا کدام است؟</summary><p data-i18n="ch2.quiz.a2">زمینه. نقش لحن را تنظیم می‌کند، قالب نحوهٔ ارائه را؛ اما محتوا را زمینه تعیین می‌کند. حتی افزودن تنها زمینه پاسخ را بالا می‌برد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q3">چرا «به این گزارش نگاهی بینداز» وظیفهٔ ضعیفی است؟</summary><p data-i18n="ch2.quiz.a3">فعل اندازه‌گیری‌شدنی نیست. نگاه کردن، خلاصه کردن، نقد کردن، خطا یافتن همه کارهای متفاوتی‌اند؛ من رایج‌ترین را برمی‌گزینم و شاید آن مال تو نباشد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q4">چرا «کوتاه بنویس» محدودیت کافی نیست؟</summary><p data-i18n="ch2.quiz.a4">چون کوتاه برای تو چیزی است و برای من چیز دیگری. عدد بده: «حداکثر ۱۲۰ کلمه»، «سه بند». محدودیتی که اندازه‌گیری شود اجرا می‌شود.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q5">اگر قالب نگویی چه می‌گیری؟</summary><p data-i18n="ch2.quiz.a5">پاراگراف. پیش‌فرض من همان است. اگر مقایسه می‌کنی جدول بخواه، اگر گام توضیح می‌دهی بند بخواه — سه کلمه اضافه، کارآمدی خروجی را از پایه عوض می‌کند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q6">توصیف کردن یا نمونه دادن؟</summary><p data-i18n="ch2.quiz.a6">نمونه. من الگو پردازش می‌کنم؛ یکی بدهی، قاعده‌هایی را هم که نمی‌توانستی توصیف کنی با آن می‌گیرم. «شبیه این کن» معمولاً از ده سطر دستور بهتر است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q7">پاسخ را نپسندیدی. نخستین حرکتت چیست؟</summary><p data-i18n="ch2.quiz.a7">باز کردن گفت‌وگوی تازه نه — نوشتن اصلاح. «ساختار را نگه دار، پاراگراف سوم را بردار، زبان را کمی گرم‌تر کن.» بی‌آنکه زمینه را دور بریزی پیش می‌روی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q8">چرا «یک برنامهٔ کامل بنویس» گیر می‌کند؟</summary><p data-i18n="ch2.quiz.a8">در یک درخواست پنج کار جداگانه هست و برای هیچ‌کدام جای عمق نمی‌ماند. به زنجیره بشکن: خروجی هر گام ورودی گام بعدی شود و تو میانشان دخالت کنی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q9">در پرامپت سیستمی چه نوشته می‌شود؟</summary><p data-i18n="ch2.quiz.a9">دو بخش فرمول که عوض نمی‌شوند: نقش و زمینه. به‌علاوهٔ قاعده‌های ثابتت. وظیفه، محدودیت و قالب در درخواست‌های روزانه می‌مانند.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch2.recap.title">این فصل در یک جمله</h2>
+        <p data-i18n="ch2.recap.p">هرچه به من بگویی همان را می‌گیری: بگو به‌عنوان چه کسی بنویسم، چه را باید بدانم، دقیقاً چه کنم، چه نکنم و نتیجه را در چه قالبی بدهم — باقی همان کاری است که از اول با خودت بود.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch2.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="ch2.next.title">فصل ۳ · عامل</h3>
+          <p data-i18n="ch2.next.p">حالا می‌توانی درخواست درست را بنویسی. در ادامه نوبت این است که هر بار دستی ننویسی‌اش: جریان‌هایی که کارهای تکراری را بی‌آنکه از تو بپرسند انجام می‌دهند.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch2.next.soon">به‌زودی</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="بازگشت به بالا" data-i18n-attr="aria-label=ch2.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-2.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-2.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/course/chapter-2.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="chapter-2.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

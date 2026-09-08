@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Bölüm 2: Formül — Bana ne söylersen onu alırsın | Yapay Zekâ Yolculuğu | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Kursun ikinci bölümü: profesyonel istek yazmanın formülü. Rol, bağlam, görev, kısıt ve biçim; sistem promptu, örnekle öğretme ve yapılandırılmış çıktı — kopyalanabilir kalıplarla.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-2.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-2.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-2.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 2: Formül — Bana ne söylersen onu alırsın">
+<meta property="og:description" data-i18n-attr="content=og.description" content="İstek yazmanın beş parçalı formülü: rol, bağlam, görev, kısıt, biçim. Kopyalanabilir kalıplarla.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch2.back">← Bütün bölümler</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch2.barNum">Bölüm 2 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch2.barCta">Kursa katıl</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l2-cover-static.svg"><img src="../img/course/l2-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Formula</span>
+        <span class="lesson__cover-note" data-i18n="ch2.coverNote">beş parçadan tek isteğe</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch2.eyebrow">Bölüm 2 · Formül</span>
+      <h1 class="font-display text-h1" data-i18n="ch2.title">Bana ne söylersen <span class="text-accent-gradient">onu alırsın</span></h1>
+      <p class="lesson__lead" data-i18n="ch2.lead">Birinci bölümde beni tanıdın. Şimdi tek bir beceriyi öğreneceğiz — ve dürüst olayım, sonucun büyük kısmını yapan şey bu. İnsanların «yapay zekâ işe yaramıyor» demesinin sebebi neredeyse hiçbir zaman ben değilim; kendilerine bile söylemedikleri şeyi bana söylemeleri bekleniyor. Bu bölümün sonunda o boşlukları kapatmayı bileceksin.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch2.meta">Okuma süresi ~35 dakika · Ön koşul: Bölüm 1</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch2.goals.title">Bu bölümün sonunda</h2>
+      <ul class="check-list space-2" data-i18n="ch2.goals.list">
+        <li>Bir isteği okurken tam olarak neye baktığımı bileceksin</li>
+        <li>Beş parçalı formülü ezberlemeden, mantığını anlayarak kullanacaksın</li>
+        <li>Aynı işi zayıf ve güçlü istekle yapıp farkı kendi gözünle göreceksin</li>
+        <li>Çıktının biçimini sen belirleyeceksin — tablo, madde, e-posta, dosya</li>
+        <li>Bir kez yazıp her sohbette geçerli olan sistem promptunu kuracaksın</li>
+        <li>Uzun bir işi tek istekte tıkamak yerine parçalara bölmeyi bileceksin</li>
+        <li>Kendi işine ait, kopyala-yapıştır bir kalıp defterin olacak</li>
+      </ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch2.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch2.s1.title">Kötü istek diye bir şey yok, eksik istek var</span></h2>
+      <p data-i18n="ch2.s1.p1">Yeni başlayan biri bana bir şey sorar, cevap vasat gelir ve şu sonuca varır: «demek ki bu iş bende olmuyor.» Neredeyse her seferinde yanlış teşhis bu.</p>
+      <p data-i18n="ch2.s1.p2">Bir isteği okuduğumda gördüğüm şey senin kafandaki resim değil, yazdığın kelimeler. Kafandaki resimde müşterinin kim olduğu, işin aciliyeti, ne kadar resmî olması gerektiği hepsi var. Bana gelen cümlede yok. Ve ben boş bırakılan yeri boş bırakmam — <strong class="text-fg">doldururum.</strong> Seni tanımadığım için de ortalama bir şeyle doldururum. Vasat cevabın kaynağı burası.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s1.note">Bu bölümün tamamı tek bir cümlenin açılımı: <em>boşlukları ben doldurmadan önce sen doldur.</em> Sihirli kelime yok, gizli komut yok. Sadece söylenmemiş olanı söylemek var.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch2.s1.do">Şimdi yap: Son beğenmediğin cevabı hatırla. Kafandaki hangi bilgi o isteğin içinde yazmıyordu? Neredeyse kesin bir tane bulacaksın.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch2.s2.title">Cevabı yazmadan önce ne arıyorum</span></h2>
+      <p data-i18n="ch2.s2.p1">İsteğini okuduğumda beş şeyi ararım. Bunlar benim uydurduğum bir liste değil; bir işin yapılabilmesi için gereken en az bilgi. Bir insana iş verirken de aynısını söylersin, sadece farkında olmazsın.</p>
+      <figure class="slots">
+        <span class="slots__cap font-mono" data-i18n="ch2.fig.slots.cap">İsteğinde aradığım beş şey</span>
+        <ol class="slots__list">
+          <li class="slots__row"><span class="slots__n font-mono">1</span><span class="slots__k" data-i18n="ch2.fig.slots.k1">Rol</span><span class="slots__q" data-i18n="ch2.fig.slots.q1">Kim olarak yazayım?</span><span class="slots__f" data-i18n="ch2.fig.slots.f1">boşsa: kimsesiz, genel bir ses</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">2</span><span class="slots__k" data-i18n="ch2.fig.slots.k2">Bağlam</span><span class="slots__q" data-i18n="ch2.fig.slots.q2">Neyi bilmem gerekiyor?</span><span class="slots__f" data-i18n="ch2.fig.slots.f2">boşsa: ortalama bir durum uydururum</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">3</span><span class="slots__k" data-i18n="ch2.fig.slots.k3">Görev</span><span class="slots__q" data-i18n="ch2.fig.slots.q3">Tam olarak ne yapayım?</span><span class="slots__f" data-i18n="ch2.fig.slots.f3">boşsa: en yaygın yorumu seçerim</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">4</span><span class="slots__k" data-i18n="ch2.fig.slots.k4">Kısıt</span><span class="slots__q" data-i18n="ch2.fig.slots.q4">Neyi yapmayayım?</span><span class="slots__f" data-i18n="ch2.fig.slots.f4">boşsa: sınır tanımam, uzarım</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">5</span><span class="slots__k" data-i18n="ch2.fig.slots.k5">Biçim</span><span class="slots__q" data-i18n="ch2.fig.slots.q5">Sonucu nasıl vereyim?</span><span class="slots__f" data-i18n="ch2.fig.slots.f5">boşsa: paragraf yazarım</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.slots.fc">Sağdaki sütun önemli: boş bıraktığın her satırı ben dolduruyorum. Kötü cevap dediğin şey çoğu zaman benim tahminlerimden oluşmuş bir cevaptır.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s2.p2">Şimdi beşini tek tek açacağım. Her birinde tek bir soru var; o soruya bir cümleyle cevap verirsen o parça tamamdır.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📋</span><span data-i18n="ch2.s2.do">Şimdi yap: Bu beş kelimeyi bir yere not et — rol, bağlam, görev, kısıt, biçim. Bölümün geri kalanında hep bunlara döneceğiz.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch2.s3.title">Rol — kim olarak yazayım</span></h2>
+      <p data-i18n="ch2.s3.p1">Bir cümlede bana kim olduğumu söylersen, kelime seçimimden cümle uzunluğuma kadar her şey değişir. Bu bir oyun değil: «deneyimli bir mali müşavir» dediğinde kafamda o metinlerin nasıl yazıldığına dair bütün örüntü uyanır.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s3.weak">Rolsüz</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.weakText">Kiracıma gecikmiş kira için mesaj yaz.</p>
+          <p class="compare__note" data-i18n="ch2.s3.weakNote">Kimin ağzından yazacağımı bilmiyorum. Ortalama bir «nazik uyarı» çıkar; ne senin sesin olur ne de işini görür.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s3.strong">Rollü</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.strongText">Uzun yıllardır kiracılarıyla iyi geçinen, sert olmayı sevmeyen ama hakkını da alan bir ev sahibi gibi yaz.</p>
+          <p class="compare__note" data-i18n="ch2.s3.strongNote">Artık tonu biliyorum. Ne fazla resmî ne de yalvaran bir metin çıkar — senin gerçekten göndereceğin metin.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s3.note">Rol iki yönlü çalışır: benim rolümü de söyleyebilirsin, <em>okuyanın</em> rolünü de. «Hiç teknik bilmeyen bir müşteriye anlatır gibi» cümlesi çoğu zaman «uzman gibi yaz»dan daha çok işe yarar, çünkü asıl zor olan bilmek değil, karşındakine göre anlatmak.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎭</span><span data-i18n="ch2.s3.do">Şimdi yap: Bir isteğinin başına tek cümle ekle: «… gibi yaz.» Aynı isteği iki kez, rollü ve rolsüz gönder. Farkı görmek beş dakika sürer.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch2.s4.title">Bağlam — neyi bilmem gerekiyor</span></h2>
+      <p data-i18n="ch2.s4.p1">Beş parçanın en güçlüsü bu. Diğer dördünü atlayıp sadece bağlam versen bile cevabın kalitesi yükselir. Sebebi basit: rol tonu ayarlar, bağlam <em>içeriği</em> belirler.</p>
+      <p data-i18n="ch2.s4.p2">Bağlam üç şeyden gelir ve üçü de senin elinde:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k1.t">Durum</h3><p data-i18n="ch2.s4.k1.p">Kim, kime, neden. «Üç haftadır ödemesini geciktiren kurumsal bir müşteri» cümlesi, on satır talimattan daha çok iş görür.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k2.t">Malzeme</h3><p data-i18n="ch2.s4.k2.p">Elindekini yapıştır: önceki e-posta, sözleşme maddesi, tablo, ekran görüntüsü. Anlatmak yerine göstermek her zaman daha isabetli.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k3.t">Amaç</h3><p data-i18n="ch2.s4.k3.p">Bu metin ne işe yarayacak. «Ödeme tarihi almak istiyorum» dediğinde metnin tamamını o hedefe göre kurarım — süs cümleleri düşer.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s4.note">Sık yapılan hata: bağlamı ben sorduktan sonra vermek. İlk cevabım vasat çıkar, ben soru sorarım, sen açıklarsın, ikinci cevap iyi olur. Bu iki tur demek. Aynı bilgiyi baştan verirsen tek turda aynı yere gelirsin.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch2.s4.do">Şimdi yap: Bir sonraki isteğinde, anlatmak yerine yapıştır. Elindeki gerçek metni, tabloyu ya da ekran görüntüsünü koy — aradaki fark tek denemede görünür.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch2.s5.title">Görev — tam olarak ne yapayım</span></h2>
+      <p data-i18n="ch2.s5.p1">Buradaki mesele fiil. «Bu rapora bak» bir görev değil; ne yapacağımı söylemiyor. Bakabilirim, özetleyebilirim, eleştirebilirim, hatalarını çıkarabilirim, kısaltabilirim — hepsi farklı işler ve sen bir tanesini istiyorsun.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s5.weak">Belirsiz fiil</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.weakText">Bu sözleşmeye bir bak.</p>
+          <p class="compare__note" data-i18n="ch2.s5.weakNote">En yaygın yorumu seçerim: genel bir özet. Oysa sen belki sadece riskli maddeyi arıyordun.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s5.strong">Net fiil</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.strongText">Bu sözleşmede benim aleyhime olabilecek maddeleri çıkar; her birini bir cümleyle, neden riskli olduğunu söyleyerek açıkla.</p>
+          <p class="compare__note" data-i18n="ch2.s5.strongNote">Tek bir iş, net bir çıktı. «Çıkar» ve «açıkla» — ikisi de ne yapacağımı tarif ediyor.</p>
+        </div>
+      </div>
+      <p data-i18n="ch2.s5.p2">İşe yarayan fiiller somut olanlardır: <strong class="text-fg">çıkar, karşılaştır, kısalt, sınıflandır, çevir, listele, yeniden yaz, eleştir, planla, düzelt.</strong> İşe yaramayanlar ise ölçülemeyenler: «iyi yap», «profesyonelleştir», «geliştir». Bunlar bana yön vermiyor, sadece iyi niyet bildiriyor.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✂️</span><span data-i18n="ch2.s5.do">Şimdi yap: İsteğindeki fiili işaretle. Ölçülebilir mi? «İyi yap» yazdıysan onu somut bir fiille değiştir; tek başına bu değişiklik cevabı düzeltir.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch2.s6.title">Kısıt — neyi yapmayayım</span></h2>
+      <p data-i18n="ch2.s6.p1">Kısıt vermezsen uzarım. Bu benim huyum: emin olmadığımda her ihtimali kapatmaya çalışırım ve metin şişer. Sen bir sınır koyduğunda o eğilimi kesmiş olursun.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c1.t">Uzunluk</h3>
+          <p data-i18n="ch2.s6.c1.p">«En fazla 120 kelime», «üç madde», «tek paragraf». Sayı vermek en ucuz ve en etkili kısıttır. «Kısa yaz» sana göre kısadır, bana göre değil.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c2.t">Ton ve dil</h3>
+          <p data-i18n="ch2.s6.c2.p">«Resmî ama soğuk değil», «teknik terim kullanma», «özür diler gibi olmasın». Ton kısıtları özellikle müşteriye gidecek metinlerde işi kurtarır.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c3.t">Yasak listesi</h3>
+          <p data-i18n="ch2.s6.c3.p">«Fiyat verme», «tarih taahhüt etme», «rakip adı geçmesin». Bir şeyi <em>yapmamamı</em> söylemek, ne yapacağımı söylemek kadar değerlidir.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c4.t">Bilmediğinde ne yapayım</h3>
+          <p data-i18n="ch2.s6.c4.p">Bölüm 1'deki en önemli cümle burada da geçerli: «emin olmadığın yerde uydurma, bilmediğini söyle.» Bunu kısıt olarak yazmak, uydurma ihtimalimi ciddi biçimde düşürür.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚧</span><span data-i18n="ch2.s6.do">Şimdi yap: İsteğine tek bir sayı ekle — kelime, madde ya da paragraf sayısı. En küçük emekle en görünür fark bu.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch2.s7.title">Biçim — sonucu nasıl vereyim</span></h2>
+      <p data-i18n="ch2.s7.p1">Beşinci parça en çok atlanan ve en kolay kazanılan. Biçim söylemezsen paragraf yazarım, çünkü varsayılanım o. Oysa çoğu iş için paragraf en kötü biçimdir: karşılaştırma tablo ister, kontrol listesi madde ister, e-posta e-posta olmak ister.</p>
+      <figure class="fmt">
+        <span class="fmt__cap font-mono" data-i18n="ch2.fig.fmt.cap">Aynı bilgi, üç biçim</span>
+        <div class="fmt__row">
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t1">Paragraf</span>
+            <div class="fmt__body" aria-hidden="true"><i></i><i></i><i></i><i style="--w:62%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n1">İstemezsen bunu alırsın. Okuması yorucu, karşılaştırması imkânsız.</span>
+          </div>
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t2">Madde listesi</span>
+            <div class="fmt__body" aria-hidden="true"><b>·</b><i style="--w:74%"></i><b>·</b><i style="--w:88%"></i><b>·</b><i style="--w:66%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n2">Adımlar ve kontrol listeleri için. Gözle taranır.</span>
+          </div>
+          <div class="fmt__card fmt__card--pick">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t3">Tablo</span>
+            <div class="fmt__body fmt__body--tbl" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n3">Karşılaştırma varsa tartışmasız en iyisi. «Tablo olarak ver» üç kelime.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.fmt.fc">Aynı içerik, üç ayrı biçim. Hangisini alacağını sen seçiyorsun — seçmezsen soldakini alırsın.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s7.p2">Biçim istemenin bir de ileri seviyesi var: <strong class="text-fg">sütun adlarını sen söylersin.</strong> «Tablo yap: sütunlar madde numarası, risk, neden riskli, ne yapmalı» dersen, cevabı okumakla kalmaz, doğrudan kullanabilirsin. Bilgisayarın okuyacağı bir çıktı istiyorsan yapı adını da söyleyebilirsin — bu kursun ilerleyen bölümlerinde otomasyona bağlarken tam olarak buna ihtiyacın olacak.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧾</span><span data-i18n="ch2.s7.do">Şimdi yap: Karşılaştırma içeren bir soruna «tablo olarak ver, sütunlar şunlar olsun» ekle. Cevabın kullanılabilirliği bir anda değişir.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch2.s8.title">Beşi bir arada: bir isteğin kuruluşu</span></h2>
+      <p data-i18n="ch2.s8.p1">Parçaları tek tek gördün. Şimdi bir isteğin nasıl büyüdüğüne bak — aşağıdaki kutu kendi kendine ilerliyor, istersen adımlara da tıklayabilirsin.</p>
+      <figure class="build" data-build>
+        <span class="build__cap font-mono" data-i18n="ch2.fig.build.cap">Aynı istek, katman katman</span>
+        <div class="build__stage" data-step="1">
+          <p class="build__line build__line--base"><span data-i18n="ch2.fig.build.l0">Kiracıma gecikmiş kira için mesaj yaz.</span></p>
+          <p class="build__line" data-part="1"><b class="build__tag" data-i18n="ch2.fig.build.k1">rol</b><span data-i18n="ch2.fig.build.l1">Kiracılarıyla iyi geçinen ama hakkını alan bir ev sahibi gibi yaz.</span></p>
+          <p class="build__line" data-part="2"><b class="build__tag" data-i18n="ch2.fig.build.k2">bağlam</b><span data-i18n="ch2.fig.build.l2">Kira üç haftadır gecikti, ilk kez oluyor, üç yıldır sorunsuz oturuyor.</span></p>
+          <p class="build__line" data-part="3"><b class="build__tag" data-i18n="ch2.fig.build.k3">görev</b><span data-i18n="ch2.fig.build.l3">Net bir ödeme tarihi istediğimi belirten bir mesaj yaz.</span></p>
+          <p class="build__line" data-part="4"><b class="build__tag" data-i18n="ch2.fig.build.k4">kısıt</b><span data-i18n="ch2.fig.build.l4">En fazla 80 kelime, tehdit yok, faiz ya da ceza konusuna hiç girme.</span></p>
+          <p class="build__line" data-part="5"><b class="build__tag" data-i18n="ch2.fig.build.k5">biçim</b><span data-i18n="ch2.fig.build.l5">Doğrudan gönderebileceğim tek bir WhatsApp mesajı olarak ver.</span></p>
+        </div>
+        <ol class="build__steps">
+          <li><button type="button" data-go="1"><span class="build__e" aria-hidden="true">✏️</span><span data-i18n="ch2.fig.build.s0">Elindeki istek</span></button></li>
+          <li><button type="button" data-go="2"><span class="build__e" aria-hidden="true">🎭</span><span data-i18n="ch2.fig.build.s1">Rolü ekle</span></button></li>
+          <li><button type="button" data-go="3"><span class="build__e" aria-hidden="true">📎</span><span data-i18n="ch2.fig.build.s2">Bağlamı ekle</span></button></li>
+          <li><button type="button" data-go="4"><span class="build__e" aria-hidden="true">🎯</span><span data-i18n="ch2.fig.build.s3">Görevi netleştir</span></button></li>
+          <li><button type="button" data-go="5"><span class="build__e" aria-hidden="true">🚧</span><span data-i18n="ch2.fig.build.s4">Kısıtı koy</span></button></li>
+          <li><button type="button" data-go="6"><span class="build__e" aria-hidden="true">🧾</span><span data-i18n="ch2.fig.build.s5">Biçimi söyle</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.build.fc">Beş satır ekledin, toplam yirmi saniye. Karşılığında gönderilebilir bir metin alıyorsun — düzeltmekle uğraşacağın bir taslak değil.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch2.s8.do">Şimdi yap: Kendi gerçek bir işini al ve aynısını yap — beş satırı alt alta yaz. Tek cümlelik bir istekle aynı işi karşılaştır.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch2.s9.title">Her seferinde beşini de yazmak zorunda değilsin</span></h2>
+      <p data-i18n="ch2.s9.p1">Formülü öğrenen herkes bir süre her şeye beş satır yazar. Sonra yorulur ve tamamen bırakır. İkisi de yanlış. Dürüst ölçü şu:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s9.weak">Formül gereksiz</span>
+          <p class="compare__note" data-i18n="ch2.s9.weakNote">Tek doğru cevabı olan sorular, hızlı çeviriler, «bu ne demek», «şu kodu açıkla», beyin fırtınası. Buralarda uzun istek sadece zaman kaybı — sor ve geç.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s9.strong">Formül şart</span>
+          <p class="compare__note" data-i18n="ch2.s9.strongNote">Çıktı birine gidecekse, bir kararı etkileyecekse, uzunsa ya da aynı işi tekrar tekrar yapacaksan. Yani gerçek işlerde.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s9.note">Pratik kural: <strong class="text-fg">çıktıyı düzeltmek isteği yazmaktan uzun sürüyorsa, isteği yazmak eksik kalmıştır.</strong> Beş dakika düzelttiysen, otuz saniyelik iki satır o beş dakikayı kurtarırdı.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch2.s9.do">Şimdi yap: Bugün bana yazacağın ilk isteğe bak ve karar ver — bu, formül gereken bir iş mi, yoksa hızlı bir soru mu? Doğru cevap ikisi de olabilir.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch2.s10.title">En güçlü tek hamle: örnek yapıştır</span></h2>
+      <p data-i18n="ch2.s10.p1">Bütün bölümden aklında tek bir teknik kalacaksa bu olsun. Beni tarif ederek yönlendirmek zordur; <strong class="text-fg">göstererek</strong> yönlendirmek kolaydır. Çünkü ben zaten örüntü işleyen bir şeyim — bir örnek verdiğinde onun bütün gizli kurallarını birden alırım.</p>
+      <p data-i18n="ch2.s10.p2">«Şirketimizin ilan dili şöyledir: samimi ama abartısız, ikinci tekil şahıs, emoji yok, en fazla dört cümle» diye anlatabilirsin. Ya da daha önce yazdığın iyi bir ilanı yapıştırıp «buna benzet» diyebilirsin. İkincisi hem daha kısa hem daha isabetli — üstelik tarif edemediğin şeyleri de taşır.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s10.note">İki örnek birden verirsen daha da iyi olur: biri «böyle olsun», diğeri «böyle olmasın». Ne yapılacağı kadar neyin dışarıda kalacağını da öğrenmiş olurum. Üç örnekten sonrası genelde bir şey katmaz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🪞</span><span data-i18n="ch2.s10.do">Şimdi yap: Daha önce beğendiğin bir metnini bul, yapıştır ve «bunun aynı tonda bir benzerini şu konu için yaz» de. Fark, tarif etmeye çalıştığın her şeyden büyük olacak.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch2.s11.title">Sistem promptu: bir kez yaz, hep geçerli olsun</span></h2>
+      <p data-i18n="ch2.s11.p1">Aynı bağlamı her sohbette baştan yazmak saçma. Kim olduğunu, ne iş yaptığını, nasıl bir dil istediğini bir kere yaz, her sohbette geçerli olsun — buna <strong class="text-fg">sistem promptu</strong> denir. Uygulamalarda genelde «özel talimatlar» ya da «proje talimatları» diye geçer.</p>
+      <figure class="mock">
+        <span class="mock__cap font-mono" data-i18n="ch2.fig.mock.cap">Nereye yazılıyor</span>
+        <div class="mock__win">
+          <aside class="mock__side">
+            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch2.fig.mock.side">Proje / çalışma alanı</span></span>
+            <i></i><i></i><i></i><i></i>
+          </aside>
+          <div class="mock__main">
+            <div class="mock__thread">
+              <p class="mock__msg mock__msg--me"><em class="pin">2</em><span data-i18n="ch2.fig.mock.me">«Talimatlar» kutusu</span></p>
+              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch2.fig.mock.ai">Buradaki her sohbette geçerli olur</span></p>
+            </div>
+            <div class="mock__bar">
+              <span class="mock__ph" data-i18n="ch2.fig.mock.ph">Artık kısa yazman yeter…</span>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.mock.fc">Bu bir çizim, ekran görüntüsü değil — menü adları uygulamadan uygulamaya değişir ve zamanla da değişiyor. Aradığın şey «talimatlar», «özel talimatlar» ya da «proje bilgisi» diye geçen kutu.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s11.p2">İçine ne yazacağın bellidir, çünkü formülün ilk iki parçası zaten bu: <strong class="text-fg">rol ve bağlam.</strong> Bir kez yazarsın, her sohbette otomatik olarak orada olur; sen de günlük isteklerinde sadece görev, kısıt ve biçimi yazarsın.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s11.st1">Kim olduğunu yaz: işin, sektörün, kaç kişilik ekip, kimlere hizmet veriyorsun.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s11.st2">Nasıl bir dil istediğini yaz: «kısa ve doğrudan», «teknik terim kullanma», «madde madde».</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s11.st3">Değişmeyen kuralları yaz: «emin olmadığında söyle», «fiyat taahhüdü verme», «cevapların sonunda kaynak listesi ver».</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch2.s11.do">Şimdi yap: Üç cümlelik bir sistem promptu yaz — kimsin, nasıl bir dil istiyorsun, değişmeyen kuralın ne. Bir defalık iş, her gün kazandırıyor.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch2.s12.title">Önce düşündür, sonra yazdır</span></h2>
+      <p data-i18n="ch2.s12.p1">Zor bir işte doğrudan sonuç istersen, ilk aklıma geleni yazarım ve o çoğu zaman ortalama olur. Ama önce düşünmemi istersen, kendi cevabımı kurmadan önce planlamış olurum — ve sen o planı görüp düzeltebilirsin.</p>
+      <figure class="path2">
+        <span class="path2__cap font-mono" data-i18n="ch2.fig.p2.cap">İki yol</span>
+        <div class="path2__row">
+          <div class="path2__col">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t1">Doğrudan</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.a1">İstek</li><li data-i18n="ch2.fig.p2.a2">Cevap</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n1">Hızlı. Yanlış giderse en sonda anlarsın ve baştan başlarsın.</span>
+          </div>
+          <div class="path2__col path2__col--pick">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t2">Önce plan</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.b1">İstek</li><li data-i18n="ch2.fig.p2.b2">Plan</li><li data-i18n="ch2.fig.p2.b3">Onayın</li><li data-i18n="ch2.fig.p2.b4">Cevap</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n2">Bir adım fazla. Karşılığında yanlış yolu daha ikinci adımda kesersin.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.p2.fc">Uzun ve önemli işlerde ikinci yol neredeyse her zaman daha hızlı bitirir — çünkü baştan başlama turunu ortadan kaldırır.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s12.p2">Kullanacağın cümle basit: <em>«Önce nasıl yapacağını maddeler hâlinde anlat, onaylamadan yazmaya başlama.»</em> Planı okursun, bir yeri düzeltirsin, sonra «tamam, yaz» dersin. Uzun metinlerde bu tek cümle saatler kazandırır.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch2.s12.do">Şimdi yap: Uzun bir iste bir sonraki isteğinde «önce planını göster, onaylamadan yazma» cümlesini kullan. Planı düzeltmek metni düzeltmekten çok daha kolay.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch2.s13.title">İlk cevap taslaktır: düzeltme dili</span></h2>
+      <p data-i18n="ch2.s13.p1">Yeni başlayanların en pahalı alışkanlığı: cevabı beğenmeyince sohbeti kapatıp yeniden yazmak. Oysa düzeltmek çok daha ucuz — yeter ki neyi düzeltmek istediğini söyle.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k1.t">Yeri göster</h3><p data-i18n="ch2.s13.k1.p">«Üçüncü paragrafı at», «ikinci maddeyi genişlet», «son cümle fazla». Genel şikâyet yerine adres vermek her zaman daha isabetli.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k2.t">Yönü söyle</h3><p data-i18n="ch2.s13.k2.p">«Daha kısa», «daha sıcak», «daha az resmî», «daha somut». Tek kelimelik yönler çok iyi çalışır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k3.t">Neyi koruyacağımı söyle</h3><p data-i18n="ch2.s13.k3.p">«Yapıyı koru, sadece dili değiştir.» Bunu demezsen her şeyi baştan yazabilirim ve beğendiğin kısım da gider.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k4.t">Seçenek iste</h3><p data-i18n="ch2.s13.k4.p">«Üç farklı başlangıç yaz, aralarından seçeyim.» Beğenmediğinde tarif etmeye çalışmaktan daha hızlıdır.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s13.note">Yeni sohbet açmanın gerçekten doğru olduğu tek durum var: konu tamamen değiştiyse ya da sohbet dağıldıysa (Bölüm 1'deki «bir sohbetin sınırı var» başlığı). Metni düzeltmek için yeni sohbet açmak, bağlamı çöpe atmak demektir.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch2.s13.do">Şimdi yap: Bir sonraki beğenmediğin cevapta sohbeti kapatma. Tek cümle yaz: «şunu koru, şunu değiştir.»</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch2.s14.title">Uzun işi böl</span></h2>
+      <p data-i18n="ch2.s14.p1">«Bana şirketim için komple bir pazarlama planı yaz» dediğinde alacağın şey uzun, dolgun ve kullanılamaz olur. Sebebi benim beceriksizliğim değil: tek istekte beş ayrı iş var ve hiçbirinde derinleşecek yer yok.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch2.fig.ch.cap">Tek istek yerine zincir</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch2.fig.ch.s1">Kimin için? Hedef kitleyi çıkar</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch2.fig.ch.s2">Onlara göre üç mesaj önerisi</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch2.fig.ch.s3">Seçtiğim mesajı kanallara dağıt</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch2.fig.ch.s4">İlk haftanın metinlerini yaz</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.ch.fc">Her adımın çıktısı bir sonrakinin girdisi. Aradaki her noktada müdahale edebilirsin — tek seferlik dev bir cevapta o şans yok.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s14.p2">Bölmenin bir faydası daha var: hata erken çıkar. Dördüncü adımda yanlış yolda olduğunuzu fark ettiyseniz, birinci adıma dönmek yerine üçüncüyü düzeltirsiniz.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⛓️</span><span data-i18n="ch2.s14.do">Şimdi yap: Aklındaki büyük işi dört adıma böl ve sadece birincisini iste. Sonraki adımı, birincinin cevabını gördükten sonra yaz.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch2.s15.title">Beş yaygın hata</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m1.t">1 · Kibarlık sanılan belirsizlik</h3>
+          <p data-i18n="ch2.s15.m1.p">«Mümkünse bir şeyler yazabilir misin acaba» — bu cümlede görev yok. Bana emir vermek kabalık değil; net olmak yardım etmektir.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m2.t">2 · Tek istekte beş iş</h3>
+          <p data-i18n="ch2.s15.m2.p">«Özetle, çevir, kısalt, bir de başlık öner.» Hepsini yaparım ama hiçbirini iyi yapmam. Ayır, sırayla iste.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m3.t">3 · Ölçülemeyen sıfatlar</h3>
+          <p data-i18n="ch2.s15.m3.p">«Profesyonel», «etkileyici», «kaliteli». Bunlar bana yön vermez. «En fazla 120 kelime, teknik terim yok» verir.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m4.t">4 · Malzemeyi anlatmak</h3>
+          <p data-i18n="ch2.s15.m4.p">«Bir e-posta geldi, şöyle diyordu…» Anlatma — yapıştır. Özetin, benim ihtiyacım olan ayrıntıyı zaten atmış oluyor.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m5.t">5 · Sihirli kelime aramak</h3>
+          <p data-i18n="ch2.s15.m5.p">İnternette dolaşan «gizli prompt» listeleri. Gizli bir şey yok; sonucu değiştiren tek şey bana verdiğin bilgi ve koyduğun sınır.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch2.s15.do">Şimdi yap: Bu beşinden hangisini en çok yapıyorsun? Bir tanesini seç ve bu hafta sadece onu düzelt.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch2.s16.title">Kopyala-yapıştır kalıpları</span></h2>
+      <p data-i18n="ch2.s16.p1">Aşağıdakiler hazır iskeletler. Köşeli parantezleri kendi bilgilerinle doldur; formülün beş parçası zaten yerlerine yerleştirilmiş durumda.</p>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p1.t">Zor bir e-posta</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p1.p">[Rolüm] olarak [kime] yazacağım. Durum: [ne oldu]. İstediğim: [somut sonuç]. En fazla [n] kelime, ton [nasıl], [şundan] hiç bahsetme. Doğrudan gönderebileceğim tek bir e-posta olarak ver.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p2.t">Uzun belge özeti</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p2.p">Ekteki belgeyi [kim] olarak okuyorum. Amacım [neye karar vermek]. Belgeden yalnızca bu kararı etkileyen noktaları çıkar. Tablo yap: sütunlar madde, ne diyor, benim için anlamı. Emin olmadığın yeri «belirsiz» diye işaretle.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p3.t">Karşılaştırma</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p3.p">[A] ile [B] arasında seçim yapacağım. Önceliklerim sırasıyla: [1], [2], [3]. Tablo yap: sütunlar ölçüt, A, B, hangisi ve neden. Sonunda tek cümlelik bir tavsiye ver ve tavsiyenin en zayıf yanını da yaz.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p4.t">Kendi metnini düzelttirme</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p4.p">Aşağıdaki metni [kim] için yazdım, amacı [ne]. Yapıyı koru, sadece dili düzelt: [nasıl bir dil]. Değiştirdiğin her yeri sonunda kısa bir listeyle söyle ki neyi neden değiştirdiğini göreyim.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch2.s16.do">Şimdi yap: Bu dördünden işine en yakın olanı kopyala, köşeli parantezleri doldur ve bugün bir kez kullan.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch2.s17.title">Kendi kalıp defterin</span></h2>
+      <p data-i18n="ch2.s17.p1">Yukarıdaki kalıplar benim; asıl değerli olanlar senin olacaklar. Çünkü senin işinde tekrar eden şeyleri sen biliyorsun.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s17.st1">Bir istek gerçekten iyi çalıştığında <strong class="text-fg">o anda</strong> kopyala. Bir yere kaydet — not defteri, dosya, fark etmez.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s17.st2">Kişiye özel yerleri köşeli parantezle değiştir. Böylece kalıp olur, tek seferlik bir metin olmaktan çıkar.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s17.st3">Başına iki kelimelik bir ad koy: «gecikmiş ödeme», «teklif reddi», «haftalık özet». Aramak kolay olsun.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch2.s17.st4">Ayda bir gözden geçir. Kullanmadıklarını sil; on iyi kalıp, yüz tanesinden değerlidir.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch2.s17.note">Bu defter zamanla senin en değerli dosyan olur. Kursun ilerleyen bölümlerinde otomasyona geçtiğimizde, oradaki akışların içine koyacağın şey tam olarak bu kalıplar olacak — yani şimdi biriktirdiğin şey sonra kendi kendine çalışacak.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📒</span><span data-i18n="ch2.s17.do">Şimdi yap: Bir dosya aç, adını «kalıplar» koy ve bugün işe yarayan ilk isteğini oraya yapıştır. Defter böyle başlıyor.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch2.s18.title">Herkesin sorduğu</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q1">Uzun istek her zaman daha mı iyi?</summary><p data-i18n="ch2.faq.a1">Hayır. Daha <em>dolu</em> istek daha iyi. Uzunluk kendi başına bir erdem değil; gereksiz cümleler seni de yorar, bana da yardımcı olmaz. Ölçü şu: her cümle beş parçadan birine hizmet etsin. Etmiyorsa at.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q2">Türkçe mi İngilizce mi yazmalıyım?</summary><p data-i18n="ch2.faq.a2">Türkçe yaz. Bir zamanlar İngilizce belirgin biçimde daha iyi sonuç veriyordu; bugün gündelik işlerde aradaki fark çoğu kişi için hissedilir değil. Kendi dilinde daha net düşünürsün, formülü daha iyi kurarsın — kazanç oradan gelir. Çıktının başka dilde olmasını istiyorsan onu da söylersin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q3">İnternetteki «gizli prompt» listeleri işe yarar mı?</summary><p data-i18n="ch2.faq.a3">Çoğu, bu bölümde öğrendiğin şeylerin süslü hâli. Gizli bir anahtar kelime yok; sonucu değiştiren şey bilgi, sınır ve biçim. Bir kalıp gördüğünde şunu sor: bu, beş parçadan hangilerini dolduruyor? Hiçbirini doldurmuyorsa süstür.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q4">Sürekli aynı şeyi mi yazmam gerekecek?</summary><p data-i18n="ch2.faq.a4">Hayır — sistem promptu tam olarak bunu çözüyor. Rol ve bağlamı bir kez yazarsın, her sohbette geçerli olur. Günlük isteklerinde sadece görev, kısıt ve biçim kalır; o da genelde iki satırdır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q5">Formülü uyguladım, cevap yine kötü. Ne oldu?</summary><p data-i18n="ch2.faq.a5">Üç ihtimal, sırayla bak: (1) bağlam eksik — kafandaki bir bilgi hâlâ yazıya geçmemiş; (2) iş çok büyük — bölmen gerekiyor; (3) benim gerçekten zayıf olduğum bir alandasın — Bölüm 1'deki «nerede yanılırım» listesine bak. Dördüncü ihtimal olarak: bazen ilk cevap tutmaz, «bir daha dene» gerçek bir seçenektir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q6">Rol vermek gerçekten fark yaratıyor mu?</summary><p data-i18n="ch2.faq.a6">Tonda ve kelime seçiminde net biçimde yaratıyor. Ama rol sihirli bir bilgi kaynağı değil: «sen bir doktorsun» demek bana tıbbi doğruluk kazandırmaz, sadece doktor gibi konuşturur. Rolü ton için kullan, doğruluk için değil.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch2.faq.do">Şimdi yap: Kendi aklındaki soruyu doğrudan bana sor. «Bu isteği nasıl daha iyi yazardım?» diye sormak da bir istek — ve genelde çok işe yarar.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch2.s19.title">Alıştırmalar</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e1.t">1 · Aynı iş, iki istek</h3>
+          <p data-i18n="ch2.ex.e1.p">Gerçek bir işini seç. Önce tek cümleyle iste. Sonra yeni bir sohbette beş parçayla iste. İki cevabı yan yana koy.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e1.g"><strong class="text-fg">Amaç:</strong> farkı okumak değil, <em>görmek</em>. Bunu bir kez yapan bir daha tek cümleyle iş istemez.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e2.t">2 · Biçimi değiştir</h3>
+          <p data-i18n="ch2.ex.e2.p">Bir soru sor, cevabı al. Sonra sadece şunu yaz: «aynısını tablo olarak ver, sütunlar şunlar olsun.» Başka hiçbir şeyi değiştirme.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e2.g"><strong class="text-fg">Amaç:</strong> tek bir cümlenin kullanılabilirliği ne kadar değiştirdiğini ölçmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e3.t">3 · Örnekle öğret</h3>
+          <p data-i18n="ch2.ex.e3.p">Daha önce yazdığın beğendiğin bir metni yapıştır, «buna benzet» de ve yeni bir konu ver. Sonra aynı işi tarif ederek iste.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e3.g"><strong class="text-fg">Amaç:</strong> göstermenin anlatmaktan neden daha güçlü olduğunu kendi metninle görmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e4.t">4 · Planı kes</h3>
+          <p data-i18n="ch2.ex.e4.p">Uzun bir iş ver ama «önce planını göster, onaylamadan yazma» de. Planda bilerek bir şeyi değiştir, sonra yazdır.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e4.g"><strong class="text-fg">Amaç:</strong> yanlış yolu ikinci adımda kesmenin ne kadar ucuz olduğunu hissetmek.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch2.ex.do">Şimdi yap: Dördünü de yapmana gerek yok. Birincisini yap — bu bölümün tamamını tek başına o alıştırma öğretiyor.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch2.quiz.title">Kendini sına</span></h2>
+      <p data-i18n="ch2.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q1">Boş bıraktığın parçaya ne olur?</summary><p data-i18n="ch2.quiz.a1">Ben doldururum. Seni tanımadığım için de ortalama bir şeyle doldururum. «Kötü cevap» dediğin şey çoğu zaman benim tahminlerimden ibarettir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q2">Beş parçanın en güçlüsü hangisi?</summary><p data-i18n="ch2.quiz.a2">Bağlam. Rol tonu ayarlar, biçim sunumu belirler; ama içeriği belirleyen şey bağlamdır. Sadece bağlam eklesen bile cevap yükselir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q3">«Bu rapora bir bak» neden zayıf bir görev?</summary><p data-i18n="ch2.quiz.a3">Fiil ölçülemiyor. Bakmak, özetlemek, eleştirmek, hata bulmak hepsi farklı işler; ben en yaygın olanı seçerim ve senin istediğin o olmayabilir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q4">«Kısa yaz» neden yetersiz bir kısıt?</summary><p data-i18n="ch2.quiz.a4">Çünkü kısa sana göre bir şey, bana göre başka bir şey. Sayı ver: «en fazla 120 kelime», «üç madde». Ölçülebilen kısıt uygulanır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q5">Biçim söylemezsen ne alırsın?</summary><p data-i18n="ch2.quiz.a5">Paragraf. Varsayılanım o. Karşılaştırma yapıyorsan tablo, adım anlatıyorsan madde iste — üç kelimelik bir ekleme, çıktının kullanılabilirliğini baştan aşağı değiştirir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q6">Tarif etmek mi, örnek vermek mi?</summary><p data-i18n="ch2.quiz.a6">Örnek. Ben örüntü işleyen bir şeyim; bir örnek verdiğinde onun tarif edemediğin kurallarını da alırım. «Buna benzet» çoğu zaman on satır talimattan iyidir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q7">Cevabı beğenmedin. İlk hamlen ne?</summary><p data-i18n="ch2.quiz.a7">Yeni sohbet açmak değil — düzeltme yazmak. «Yapıyı koru, üçüncü paragrafı at, dili biraz sıcaklaştır.» Bağlamı çöpe atmadan ilerlersin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q8">«Komple bir plan yaz» neden tıkanır?</summary><p data-i18n="ch2.quiz.a8">Tek istekte beş ayrı iş var; hiçbirinde derinleşecek yer kalmaz. Zincire böl: her adımın çıktısı bir sonrakinin girdisi olsun, aralarında sen müdahale et.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q9">Sistem promptuna ne yazılır?</summary><p data-i18n="ch2.quiz.a9">Formülün değişmeyen ilk iki parçası: rol ve bağlam. Bir de değişmeyen kuralların. Görev, kısıt ve biçim günlük isteklerde kalır.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch2.recap.title">Bir cümlede bu bölüm</h2>
+        <p data-i18n="ch2.recap.p">Bana ne söylersen onu alırsın: kim olarak yazacağımı, neyi bilmem gerektiğini, tam olarak ne yapacağımı, neyi yapmayacağımı ve sonucu hangi biçimde vereceğimi söyle — gerisi zaten sende olan işin kendisi.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch2.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="ch2.next.title">Bölüm 3 · Ajan</h3>
+          <p data-i18n="ch2.next.p">Artık doğru isteği yazabiliyorsun. Sırada onu her seferinde elle yazmayı bırakmak var: tekrar eden işleri sana sormadan yapan akışlar.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch2.next.soon">Yakında</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch2.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="chapter-2.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/course/chapter-2.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/course/chapter-2.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/course/chapter-2.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

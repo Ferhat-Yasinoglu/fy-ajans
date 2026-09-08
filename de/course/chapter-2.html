@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Kapitel 2: Die Formel — Du bekommst, was du mir sagst | KI-Reise | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Das zweite Kapitel des Kurses: die Formel für professionell geschriebene Anfragen. Rolle, Kontext, Aufgabe, Grenze und Format; System-Prompt, Lernen am Beispiel und strukturierte Ausgabe — mit Vorlagen zum Kopieren.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-2.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-2.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-2.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-2.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-2.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Kapitel 2: Die Formel — Du bekommst, was du mir sagst">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Die fünfteilige Formel für eine Anfrage: Rolle, Kontext, Aufgabe, Grenze, Format. Mit Vorlagen zum Kopieren.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-2.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch2.back">← Alle Kapitel</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch2.barNum">Kapitel 2 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch2.barCta">Zum Kurs anmelden</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l2-cover-static.svg"><img src="../../img/course/l2-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Formula</span>
+        <span class="lesson__cover-note" data-i18n="ch2.coverNote">aus fünf Teilen eine Anfrage</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch2.eyebrow">Kapitel 2 · Die Formel</span>
+      <h1 class="font-display text-h1" data-i18n="ch2.title">Du bekommst, <span class="text-accent-gradient">was du mir sagst</span></h1>
+      <p class="lesson__lead" data-i18n="ch2.lead">Im ersten Kapitel hast du mich kennengelernt. Jetzt lernen wir eine einzige Fähigkeit — und ehrlich gesagt ist sie es, die den größten Teil des Ergebnisses ausmacht. Wenn Leute sagen «KI funktioniert nicht», liegt es fast nie an mir; erwartet wird, dass ich etwas weiß, das sie nicht einmal sich selbst gesagt haben. Am Ende dieses Kapitels kannst du diese Lücken schließen.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch2.meta">Lesezeit ~35 Minuten · Voraussetzung: Kapitel 1</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch2.goals.title">Am Ende dieses Kapitels</h2>
+      <ul class="check-list space-2" data-i18n="ch2.goals.list"><li>weißt du genau, worauf ich beim Lesen einer Anfrage schaue</li> <li>benutzt du die fünfteilige Formel verstanden statt auswendig gelernt</li> <li>hast du dieselbe Aufgabe schwach und stark gestellt und den Unterschied selbst gesehen</li> <li>bestimmst du die Form der Ausgabe — Tabelle, Liste, E-Mail, Datei</li> <li>hast du einen System-Prompt eingerichtet, der einmal geschrieben in jedem Gespräch gilt</li> <li>teilst du lange Aufgaben in Schritte, statt sie in eine Anfrage zu pressen</li> <li>hast du ein eigenes Vorlagenheft zum Kopieren</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch2.toc.title" class="text-fg">Inhalt</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch2.s1.title">Es gibt keine schlechte Anfrage, nur eine unvollständige</span></h2>
+      <p data-i18n="ch2.s1.p1">Ein Anfänger fragt mich etwas, die Antwort kommt mittelmäßig zurück, und er schließt daraus: «das ist wohl nichts für mich.» Fast immer ist das die falsche Diagnose.</p>
+      <p data-i18n="ch2.s1.p2">Was ich beim Lesen einer Anfrage sehe, ist nicht das Bild in deinem Kopf, sondern die Wörter, die du geschrieben hast. In deinem Kopf steckt, wer der Kunde ist, wie dringend es ist, wie förmlich es sein muss. In dem Satz, der bei mir ankommt, steht nichts davon. Und ich lasse eine Lücke nicht leer — <strong class="text-fg">ich fülle sie.</strong> Und weil ich dich nicht kenne, fülle ich sie mit etwas Durchschnittlichem. Daher kommt die mittelmäßige Antwort.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s1.note">Dieses ganze Kapitel ist die Entfaltung eines Satzes: <em>fülle die Lücken, bevor ich es tue.</em> Keine Zauberwörter, keine geheimen Befehle. Nur das Aussprechen des Unausgesprochenen.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch2.s1.do">Mach das jetzt: Denk an die letzte Antwort, die dir nicht gefiel. Welche Information aus deinem Kopf stand nicht in der Anfrage? Du wirst fast sicher eine finden.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch2.s2.title">Wonach ich suche, bevor ich die Antwort schreibe</span></h2>
+      <p data-i18n="ch2.s2.p1">Wenn ich deine Anfrage lese, suche ich nach fünf Dingen. Das ist keine Liste, die ich mir ausgedacht habe, sondern das Mindestmaß an Information, das jede Aufgabe braucht. Einem Menschen sagst du dasselbe, wenn du ihm Arbeit gibst — nur merkst du es nicht.</p>
+      <figure class="slots">
+        <span class="slots__cap font-mono" data-i18n="ch2.fig.slots.cap">Die fünf Dinge, nach denen ich in deiner Anfrage suche</span>
+        <ol class="slots__list">
+          <li class="slots__row"><span class="slots__n font-mono">1</span><span class="slots__k" data-i18n="ch2.fig.slots.k1">Rolle</span><span class="slots__q" data-i18n="ch2.fig.slots.q1">Als wer soll ich schreiben?</span><span class="slots__f" data-i18n="ch2.fig.slots.f1">leer: eine allgemeine, ortlose Stimme</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">2</span><span class="slots__k" data-i18n="ch2.fig.slots.k2">Kontext</span><span class="slots__q" data-i18n="ch2.fig.slots.q2">Was muss ich wissen?</span><span class="slots__f" data-i18n="ch2.fig.slots.f2">leer: ich erfinde eine durchschnittliche Lage</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">3</span><span class="slots__k" data-i18n="ch2.fig.slots.k3">Aufgabe</span><span class="slots__q" data-i18n="ch2.fig.slots.q3">Was genau soll ich tun?</span><span class="slots__f" data-i18n="ch2.fig.slots.f3">leer: ich nehme die häufigste Lesart</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">4</span><span class="slots__k" data-i18n="ch2.fig.slots.k4">Grenze</span><span class="slots__q" data-i18n="ch2.fig.slots.q4">Was soll ich nicht tun?</span><span class="slots__f" data-i18n="ch2.fig.slots.f4">leer: keine Grenzen, ich werde lang</span></li>
+          <li class="slots__row"><span class="slots__n font-mono">5</span><span class="slots__k" data-i18n="ch2.fig.slots.k5">Format</span><span class="slots__q" data-i18n="ch2.fig.slots.q5">Wie soll ich es übergeben?</span><span class="slots__f" data-i18n="ch2.fig.slots.f5">leer: ich schreibe Fließtext</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.slots.fc">Die rechte Spalte ist die wichtige: jede Zeile, die du leer lässt, fülle ich. Was du eine schlechte Antwort nennst, besteht meist aus meinen Vermutungen.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s2.p2">Jetzt öffne ich alle fünf einzeln. In jedem steckt eine einzige Frage; beantworte sie mit einem Satz, und der Teil ist erledigt.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📋</span><span data-i18n="ch2.s2.do">Mach das jetzt: Schreib dir diese fünf Wörter auf — Rolle, Kontext, Aufgabe, Grenze, Format. Zu ihnen kehren wir im ganzen Kapitel zurück.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch2.s3.title">Rolle — als wer soll ich schreiben</span></h2>
+      <p data-i18n="ch2.s3.p1">Sag mir in einem Satz, wer ich bin, und alles ändert sich, von der Wortwahl bis zur Satzlänge. Das ist kein Spiel: bei «ein erfahrener Steuerberater» wacht in mir jedes Muster darüber auf, wie solche Texte geschrieben werden.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s3.weak">Ohne Rolle</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.weakText">Schreib meinem Mieter eine Nachricht wegen der verspäteten Miete.</p>
+          <p class="compare__note" data-i18n="ch2.s3.weakNote">Ich weiß nicht, in wessen Stimme ich schreiben soll. Es kommt eine durchschnittliche «höfliche Erinnerung» heraus; weder deine Stimme noch gut genug für die Sache.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s3.strong">Mit Rolle</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s3.strongText">Schreib wie ein Vermieter, der seit Jahren gut mit seinen Mietern auskommt, nicht gern hart wird, aber bekommt, was ihm zusteht.</p>
+          <p class="compare__note" data-i18n="ch2.s3.strongNote">Jetzt kenne ich den Ton. Weder zu förmlich noch bittend — der Text, den du wirklich abschicken würdest.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s3.note">Rolle wirkt in beide Richtungen: du kannst meine Rolle nennen oder die des <em>Lesers</em>. «Erklär es wie einem Kunden ohne technische Vorkenntnisse» hilft oft mehr als «schreib wie ein Experte», denn das Schwere ist nicht das Wissen, sondern das Zuschneiden auf dein Gegenüber.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎭</span><span data-i18n="ch2.s3.do">Mach das jetzt: Setz einen Satz vor deine Anfrage: «schreib wie …». Schick dieselbe Anfrage zweimal, mit und ohne Rolle. Den Unterschied siehst du in fünf Minuten.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch2.s4.title">Kontext — was ich wissen muss</span></h2>
+      <p data-i18n="ch2.s4.p1">Das ist der stärkste der fünf Teile. Lass die anderen vier weg und gib nur Kontext, und die Qualität steigt trotzdem. Der Grund ist einfach: die Rolle stellt den Ton ein, der Kontext bestimmt den <em>Inhalt</em>.</p>
+      <p data-i18n="ch2.s4.p2">Kontext kommt aus drei Quellen, und alle drei liegen bei dir:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k1.t">Die Lage</h3><p data-i18n="ch2.s4.k1.p">Wer, an wen, warum. «Ein Geschäftskunde, der seit drei Wochen die Zahlung schuldig bleibt» leistet mehr als zehn Zeilen Anweisung.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k2.t">Das Material</h3><p data-i18n="ch2.s4.k2.p">Füg ein, was du hast: die vorige E-Mail, die Vertragsklausel, die Tabelle, den Screenshot. Zeigen ist immer treffsicherer als beschreiben.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s4.k3.t">Das Ziel</h3><p data-i18n="ch2.s4.k3.p">Wozu dieser Text dient. Sagst du «ich will ein Zahlungsdatum», baue ich den ganzen Text auf dieses Ziel hin — die Zierde fällt weg.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s4.note">Häufiger Fehler: den Kontext erst zu liefern, nachdem ich gefragt habe. Meine erste Antwort ist mittelmäßig, ich frage nach, du erklärst, die zweite Antwort ist gut. Das sind zwei Runden. Gib dieselbe Information gleich am Anfang, und du bist in einer da.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch2.s4.do">Mach das jetzt: Füg bei deiner nächsten Anfrage ein, statt zu beschreiben. Setz den echten Text, die Tabelle oder den Screenshot hinein — der Unterschied zeigt sich beim ersten Versuch.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch2.s5.title">Aufgabe — was genau soll ich tun</span></h2>
+      <p data-i18n="ch2.s5.p1">Hier geht es um das Verb. «Schau dir diesen Bericht mal an» ist keine Aufgabe; es sagt mir nicht, was ich tun soll. Ich kann schauen, zusammenfassen, kritisieren, Fehler auflisten, kürzen — lauter verschiedene Arbeiten, und du willst eine davon.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s5.weak">Unklares Verb</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.weakText">Schau dir diesen Vertrag mal an.</p>
+          <p class="compare__note" data-i18n="ch2.s5.weakNote">Ich nehme die häufigste Lesart: eine allgemeine Zusammenfassung. Dabei wolltest du vielleicht nur die riskante Klausel.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s5.strong">Klares Verb</span>
+          <p class="compare__text font-mono" data-i18n="ch2.s5.strongText">Zieh aus diesem Vertrag die Klauseln heraus, die sich gegen mich richten könnten; erklär jede in einem Satz und sag, warum sie riskant ist.</p>
+          <p class="compare__note" data-i18n="ch2.s5.strongNote">Eine Aufgabe, eine klare Ausgabe. «Herausziehen» und «erklären» — beide beschreiben, was ich tun soll.</p>
+        </div>
+      </div>
+      <p data-i18n="ch2.s5.p2">Es funktionieren die konkreten Verben: <strong class="text-fg">herausziehen, vergleichen, kürzen, einordnen, übersetzen, auflisten, umschreiben, kritisieren, planen, korrigieren.</strong> Nicht die unmessbaren: «mach es gut», «mach es professionell», «verbessere es». Die lenken mich nicht, sie erklären nur guten Willen.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✂️</span><span data-i18n="ch2.s5.do">Mach das jetzt: Markier das Verb in deiner Anfrage. Ist es messbar? Wenn da «mach es gut» steht, tausch es gegen ein konkretes Verb; schon das repariert die Antwort.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch2.s6.title">Grenze — was ich nicht tun soll</span></h2>
+      <p data-i18n="ch2.s6.p1">Ohne Grenzen werde ich lang. Das ist meine Neigung: bin ich unsicher, versuche ich jede Möglichkeit abzudecken, und der Text schwillt an. Setzt du eine Grenze, kappst du diese Neigung.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c1.t">Länge</h3>
+          <p data-i18n="ch2.s6.c1.p">«Höchstens 120 Wörter», «drei Punkte», «ein Absatz». Eine Zahl ist die billigste und wirksamste Grenze. «Schreib kurz» ist nach deinem Maß kurz, nicht nach meinem.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c2.t">Ton und Sprache</h3>
+          <p data-i18n="ch2.s6.c2.p">«Förmlich, aber nicht kalt», «keine Fachbegriffe», «nicht entschuldigend». Tongrenzen retten die Sache besonders bei Texten, die zum Kunden gehen.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c3.t">Die Verbotsliste</h3>
+          <p data-i18n="ch2.s6.c3.p">«Nenn keinen Preis», «versprich kein Datum», «keine Namen von Wettbewerbern». Mir zu sagen, was ich <em>nicht</em> tun soll, ist so wertvoll wie zu sagen, was ich tun soll.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch2.s6.c4.t">Was tun, wenn ich es nicht weiß</h3>
+          <p data-i18n="ch2.s6.c4.p">Der wichtigste Satz aus Kapitel 1 gilt auch hier: «wo du nicht sicher bist, erfinde nichts, sag, dass du es nicht weißt.» Das als Grenze zu schreiben, senkt deutlich die Wahrscheinlichkeit, dass ich etwas erfinde.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚧</span><span data-i18n="ch2.s6.do">Mach das jetzt: Füg deiner Anfrage eine einzige Zahl hinzu — Wörter, Punkte oder Absätze. Der sichtbarste Unterschied für den kleinsten Aufwand.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch2.s7.title">Format — wie soll ich es übergeben</span></h2>
+      <p data-i18n="ch2.s7.p1">Der fünfte Teil wird am häufigsten übersprungen und ist am leichtesten zu gewinnen. Nennst du kein Format, schreibe ich Fließtext, denn das ist meine Voreinstellung. Für die meisten Aufgaben ist Fließtext aber das schlechteste Format: ein Vergleich will eine Tabelle, eine Checkliste will Punkte, eine E-Mail will eine E-Mail sein.</p>
+      <figure class="fmt">
+        <span class="fmt__cap font-mono" data-i18n="ch2.fig.fmt.cap">Dieselbe Information, drei Formate</span>
+        <div class="fmt__row">
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t1">Fließtext</span>
+            <div class="fmt__body" aria-hidden="true"><i></i><i></i><i></i><i style="--w:62%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n1">Das bekommst du, wenn du nichts sagst. Anstrengend zu lesen, unmöglich zu vergleichen.</span>
+          </div>
+          <div class="fmt__card">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t2">Aufzählung</span>
+            <div class="fmt__body" aria-hidden="true"><b>·</b><i style="--w:74%"></i><b>·</b><i style="--w:88%"></i><b>·</b><i style="--w:66%"></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n2">Für Schritte und Checklisten. Mit dem Auge zu überfliegen.</span>
+          </div>
+          <div class="fmt__card fmt__card--pick">
+            <span class="fmt__t" data-i18n="ch2.fig.fmt.t3">Tabelle</span>
+            <div class="fmt__body fmt__body--tbl" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="fmt__n" data-i18n="ch2.fig.fmt.n3">Bei allem Vergleichenden unstrittig das Beste. «Gib es als Tabelle» sind vier Wörter.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.fmt.fc">Derselbe Inhalt in drei Formen. Welche du bekommst, wählst du — und wählst du nicht, bekommst du die linke.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s7.p2">Nach einem Format zu fragen hat auch eine Fortgeschrittenenstufe: <strong class="text-fg">du nennst die Spalten.</strong> Sag «mach eine Tabelle mit den Spalten Klauselnummer, Risiko, warum riskant, was tun», dann liest du die Antwort nicht nur, du benutzt sie direkt. Willst du eine Ausgabe, die ein Rechner liest, kannst du auch die Struktur benennen — in den späteren Kapiteln dieses Kurses, bei der Anbindung an die Automatisierung, brauchst du genau das.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧾</span><span data-i18n="ch2.s7.do">Mach das jetzt: Häng an eine Frage mit einem Vergleich «gib es als Tabelle, mit diesen Spalten» an. Die Brauchbarkeit der Antwort ändert sich sofort.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch2.s8.title">Alle fünf zusammen: wie eine Anfrage entsteht</span></h2>
+      <p data-i18n="ch2.s8.p1">Die Teile hast du einzeln gesehen. Jetzt schau, wie eine Anfrage wächst — der Kasten unten läuft von selbst, du kannst aber auch auf die Schritte klicken.</p>
+      <figure class="build" data-build>
+        <span class="build__cap font-mono" data-i18n="ch2.fig.build.cap">Dieselbe Anfrage, Schicht für Schicht</span>
+        <div class="build__stage" data-step="1">
+          <p class="build__line build__line--base"><span data-i18n="ch2.fig.build.l0">Schreib meinem Mieter eine Nachricht wegen der verspäteten Miete.</span></p>
+          <p class="build__line" data-part="1"><b class="build__tag" data-i18n="ch2.fig.build.k1">Rolle</b><span data-i18n="ch2.fig.build.l1">Schreib wie ein Vermieter, der gut mit Mietern auskommt, aber bekommt, was ihm zusteht.</span></p>
+          <p class="build__line" data-part="2"><b class="build__tag" data-i18n="ch2.fig.build.k2">Kontext</b><span data-i18n="ch2.fig.build.l2">Die Miete ist drei Wochen überfällig, es ist das erste Mal, sie wohnen seit drei Jahren ohne Probleme dort.</span></p>
+          <p class="build__line" data-part="3"><b class="build__tag" data-i18n="ch2.fig.build.k3">Aufgabe</b><span data-i18n="ch2.fig.build.l3">Schreib eine Nachricht, die deutlich macht, dass ich ein festes Zahlungsdatum will.</span></p>
+          <p class="build__line" data-part="4"><b class="build__tag" data-i18n="ch2.fig.build.k4">Grenze</b><span data-i18n="ch2.fig.build.l4">Höchstens 80 Wörter, keine Drohung, Zinsen oder Strafen gar nicht erwähnen.</span></p>
+          <p class="build__line" data-part="5"><b class="build__tag" data-i18n="ch2.fig.build.k5">Format</b><span data-i18n="ch2.fig.build.l5">Gib es als eine einzige WhatsApp-Nachricht, die ich so abschicken kann.</span></p>
+        </div>
+        <ol class="build__steps">
+          <li><button type="button" data-go="1"><span class="build__e" aria-hidden="true">✏️</span><span data-i18n="ch2.fig.build.s0">Deine Anfrage</span></button></li>
+          <li><button type="button" data-go="2"><span class="build__e" aria-hidden="true">🎭</span><span data-i18n="ch2.fig.build.s1">Rolle ergänzen</span></button></li>
+          <li><button type="button" data-go="3"><span class="build__e" aria-hidden="true">📎</span><span data-i18n="ch2.fig.build.s2">Kontext ergänzen</span></button></li>
+          <li><button type="button" data-go="4"><span class="build__e" aria-hidden="true">🎯</span><span data-i18n="ch2.fig.build.s3">Aufgabe schärfen</span></button></li>
+          <li><button type="button" data-go="5"><span class="build__e" aria-hidden="true">🚧</span><span data-i18n="ch2.fig.build.s4">Grenze setzen</span></button></li>
+          <li><button type="button" data-go="6"><span class="build__e" aria-hidden="true">🧾</span><span data-i18n="ch2.fig.build.s5">Format nennen</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.build.fc">Fünf Zeilen ergänzt, zusammen zwanzig Sekunden. Dafür bekommst du einen Text, den du abschicken kannst — keinen Entwurf, an dem du herumbesserst.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch2.s8.do">Mach das jetzt: Nimm eine echte eigene Aufgabe und mach dasselbe — schreib die fünf Zeilen untereinander. Vergleich es mit derselben Aufgabe in einem Satz.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch2.s9.title">Du musst nicht jedes Mal alle fünf schreiben</span></h2>
+      <p data-i18n="ch2.s9.p1">Jeder, der die Formel lernt, schreibt eine Weile für alles fünf Zeilen. Dann wird er müde und lässt es ganz. Beides ist falsch. Das ehrliche Maß ist dies:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch2.s9.weak">Formel überflüssig</span>
+          <p class="compare__note" data-i18n="ch2.s9.weakNote">Fragen mit einer richtigen Antwort, schnelle Übersetzungen, «was heißt das», «erklär mir diesen Code», Ideensammeln. Eine lange Anfrage ist hier nur Zeitverlust — frag und geh weiter.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch2.s9.strong">Formel unerlässlich</span>
+          <p class="compare__note" data-i18n="ch2.s9.strongNote">Wenn die Ausgabe zu jemandem geht, eine Entscheidung beeinflusst, lang ist oder du dieselbe Arbeit wieder und wieder machst. Also bei echter Arbeit.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s9.note">Praktische Regel: <strong class="text-fg">dauert das Ausbessern der Ausgabe länger als das Schreiben der Anfrage, war die Anfrage unvollständig.</strong> Hast du fünf Minuten gebessert, hätten zwei Zeilen in dreißig Sekunden diese fünf Minuten gespart.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch2.s9.do">Mach das jetzt: Schau auf die erste Anfrage, die du mir heute schreibst, und entscheide — braucht das die Formel oder ist es eine schnelle Frage? Beides kann richtig sein.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch2.s10.title">Der stärkste einzelne Zug: ein Beispiel einfügen</span></h2>
+      <p data-i18n="ch2.s10.p1">Wenn aus dem ganzen Kapitel eine Technik bleibt, dann diese. Mich durch Beschreiben zu lenken ist schwer; mich durch <strong class="text-fg">Zeigen</strong> zu lenken ist leicht. Denn ich bin ohnehin etwas, das Muster verarbeitet — gibst du mir ein Beispiel, nehme ich all seine unausgesprochenen Regeln auf einmal mit.</p>
+      <p data-i18n="ch2.s10.p2">Du könntest erklären: «unsere Anzeigensprache ist freundlich, aber nicht übertrieben, zweite Person, keine Emojis, höchstens vier Sätze.» Oder du fügst eine gute Anzeige ein, die du früher geschrieben hast, und sagst «mach es so». Das Zweite ist kürzer und treffsicherer — und trägt auch das mit, was du nicht hättest beschreiben können.</p>
+      <div class="glass note">
+        <p data-i18n="ch2.s10.note">Zwei Beispiele sind noch besser: eins «so», eins «so nicht». Dann habe ich gelernt, was draußen bleibt, und nicht nur, was hinein soll. Ab dem dritten Beispiel kommt meist nichts mehr dazu.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🪞</span><span data-i18n="ch2.s10.do">Mach das jetzt: Such einen eigenen Text, der dir gefiel, füg ihn ein und sag «schreib etwas im selben Ton zu diesem Thema». Der Unterschied schlägt alles, was du hättest beschreiben können.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch2.s11.title">System-Prompt: einmal schreiben, immer gültig</span></h2>
+      <p data-i18n="ch2.s11.p1">Denselben Kontext in jedem Gespräch neu zu tippen ist unsinnig. Schreib einmal, wer du bist, was du machst und welche Sprache du willst, und lass es in jedem Gespräch gelten — das heißt <strong class="text-fg">System-Prompt</strong>. In Anwendungen steht es meist unter «eigene Anweisungen» oder «Projektanweisungen».</p>
+      <figure class="mock">
+        <span class="mock__cap font-mono" data-i18n="ch2.fig.mock.cap">Wohin es geschrieben wird</span>
+        <div class="mock__win">
+          <aside class="mock__side">
+            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch2.fig.mock.side">Projekt / Arbeitsbereich</span></span>
+            <i></i><i></i><i></i><i></i>
+          </aside>
+          <div class="mock__main">
+            <div class="mock__thread">
+              <p class="mock__msg mock__msg--me"><em class="pin">2</em><span data-i18n="ch2.fig.mock.me">Das Feld «Anweisungen»</span></p>
+              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch2.fig.mock.ai">Gilt hier in jedem Gespräch</span></p>
+            </div>
+            <div class="mock__bar">
+              <span class="mock__ph" data-i18n="ch2.fig.mock.ph">Jetzt reicht es, kurz zu schreiben…</span>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.mock.fc">Das ist eine Zeichnung, kein Screenshot — die Menünamen unterscheiden sich zwischen Anwendungen und ändern sich mit der Zeit. Gesucht ist das Feld «Anweisungen», «eigene Anweisungen» oder «Projektwissen».</figcaption>
+      </figure>
+      <p data-i18n="ch2.s11.p2">Was hineingehört, steht schon fest, denn es sind die ersten beiden Teile der Formel: <strong class="text-fg">Rolle und Kontext.</strong> Du schreibst es einmal, es ist in jedem Gespräch automatisch da; in deinen täglichen Anfragen bleiben nur Aufgabe, Grenze und Format.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s11.st1">Schreib, wer du bist: dein Beruf, deine Branche, wie groß das Team, wen du bedienst.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s11.st2">Schreib, welche Sprache du willst: «kurz und direkt», «keine Fachbegriffe», «in Stichpunkten».</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s11.st3">Schreib deine festen Regeln: «sag es, wenn du unsicher bist», «versprich keine Preise», «nenn am Ende deine Quellen».</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch2.s11.do">Mach das jetzt: Schreib einen System-Prompt aus drei Sätzen — wer du bist, welche Sprache du willst, welche feste Regel gilt. Einmalige Arbeit, täglicher Gewinn.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch2.s12.title">Erst denken lassen, dann schreiben lassen</span></h2>
+      <p data-i18n="ch2.s12.p1">Verlangst du bei einer schweren Aufgabe direkt das Ergebnis, schreibe ich das Erstbeste, und das ist meist durchschnittlich. Lässt du mich erst denken, habe ich geplant, bevor ich meine Antwort baue — und du siehst diesen Plan und kannst ihn korrigieren.</p>
+      <figure class="path2">
+        <span class="path2__cap font-mono" data-i18n="ch2.fig.p2.cap">Zwei Wege</span>
+        <div class="path2__row">
+          <div class="path2__col">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t1">Direkt</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.a1">Anfrage</li><li data-i18n="ch2.fig.p2.a2">Antwort</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n1">Schnell. Geht es schief, merkst du es ganz am Ende und fängst von vorn an.</span>
+          </div>
+          <div class="path2__col path2__col--pick">
+            <span class="path2__t" data-i18n="ch2.fig.p2.t2">Erst der Plan</span>
+            <ol class="path2__steps"><li data-i18n="ch2.fig.p2.b1">Anfrage</li><li data-i18n="ch2.fig.p2.b2">Plan</li><li data-i18n="ch2.fig.p2.b3">Dein OK</li><li data-i18n="ch2.fig.p2.b4">Antwort</li></ol>
+            <span class="path2__n" data-i18n="ch2.fig.p2.n2">Ein Schritt mehr. Dafür kappst du den falschen Weg schon im zweiten Schritt.</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch2.fig.p2.fc">Bei langen, wichtigen Aufgaben ist der zweite Weg fast immer schneller fertig — weil er die Runde des Neuanfangs streicht.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s12.p2">Der Satz dafür ist einfach: <em>«Sag mir erst als Liste, wie du vorgehen willst; fang nicht an zu schreiben, bevor ich zustimme.»</em> Du liest den Plan, korrigierst eine Stelle, dann sagst du «gut, schreib». Bei langen Texten spart dieser eine Satz Stunden.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch2.s12.do">Mach das jetzt: Benutz bei deiner nächsten langen Anfrage «zeig mir erst deinen Plan, schreib nicht vor meinem OK». Einen Plan zu korrigieren ist viel leichter als einen Text.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch2.s13.title">Die erste Antwort ist ein Entwurf: die Sprache des Korrigierens</span></h2>
+      <p data-i18n="ch2.s13.p1">Die teuerste Gewohnheit von Anfängern: gefällt die Antwort nicht, wird das Gespräch geschlossen und neu angefangen. Korrigieren ist viel billiger — solange du sagst, was du korrigiert haben willst.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k1.t">Zeig die Stelle</h3><p data-i18n="ch2.s13.k1.p">«Lass den dritten Absatz weg», «erweitere den zweiten Punkt», «der letzte Satz ist zu viel». Eine Adresse trifft immer besser als eine allgemeine Klage.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k2.t">Sag die Richtung</h3><p data-i18n="ch2.s13.k2.p">«Kürzer», «wärmer», «weniger förmlich», «konkreter». Richtungen aus einem Wort wirken sehr gut.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k3.t">Sag, was bleiben soll</h3><p data-i18n="ch2.s13.k3.p">«Behalt den Aufbau, ändere nur die Sprache.» Ohne das schreibe ich womöglich alles neu, und der Teil, der dir gefiel, geht mit.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch2.s13.k4.t">Verlang Varianten</h3><p data-i18n="ch2.s13.k4.p">«Schreib drei verschiedene Anfänge, ich wähle aus.» Schneller, als beschreiben zu wollen, was dir nicht gefiel.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch2.s13.note">Es gibt genau einen Fall, in dem ein neues Gespräch wirklich richtig ist: das Thema hat sich völlig geändert, oder das Gespräch ist abgedriftet (der Abschnitt «ein Gespräch hat eine Grenze» in Kapitel 1). Für eine Textkorrektur ein neues Gespräch zu öffnen heißt, den Kontext wegzuwerfen.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch2.s13.do">Mach das jetzt: Schließ beim nächsten Mal, wenn dir eine Antwort nicht gefällt, nicht das Gespräch. Schreib einen Satz: «das behalten, das ändern».</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch2.s14.title">Teile die lange Aufgabe</span></h2>
+      <p data-i18n="ch2.s14.p1">Sagst du «schreib mir einen kompletten Marketingplan für meine Firma», bekommst du etwas Langes, Pralles und Unbrauchbares. Der Grund ist nicht mein Unvermögen: in dieser einen Anfrage stecken fünf verschiedene Arbeiten und in keiner ist Platz für Tiefe.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch2.fig.ch.cap">Statt einer Anfrage eine Kette</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch2.fig.ch.s1">Für wen? Die Zielgruppe herausarbeiten</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch2.fig.ch.s2">Drei Botschaftsvorschläge für sie</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch2.fig.ch.s3">Die gewählte Botschaft auf Kanäle verteilen</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch2.fig.ch.s4">Die Texte der ersten Woche schreiben</span></li>
+        </ol>
+        <figcaption data-i18n="ch2.fig.ch.fc">Die Ausgabe jedes Schritts ist die Eingabe des nächsten. An jeder Stelle dazwischen kannst du eingreifen — in einer einzigen Riesenantwort hast du diese Chance nicht.</figcaption>
+      </figure>
+      <p data-i18n="ch2.s14.p2">Das Teilen hat noch einen Vorteil: Fehler kommen früh heraus. Merkst du im vierten Schritt, dass du auf dem falschen Weg bist, korrigierst du den dritten, statt zum ersten zurückzugehen.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⛓️</span><span data-i18n="ch2.s14.do">Mach das jetzt: Teil die große Aufgabe in deinem Kopf in vier Schritte und verlang nur den ersten. Den nächsten schreibst du, nachdem du die Antwort auf den ersten gesehen hast.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch2.s15.title">Fünf häufige Fehler</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m1.t">1 · Unklarheit, die für Höflichkeit gehalten wird</h3>
+          <p data-i18n="ch2.s15.m1.p">«Könntest du vielleicht irgendwas schreiben, wenn es geht» — in diesem Satz steckt keine Aufgabe. Mir eine Anweisung zu geben ist nicht unhöflich; klar zu sein ist Hilfe.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m2.t">2 · Fünf Aufgaben in einer Anfrage</h3>
+          <p data-i18n="ch2.s15.m2.p">«Fass zusammen, übersetz, kürz und schlag noch einen Titel vor.» Ich mache alles und nichts davon gut. Trenn es, frag nacheinander.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m3.t">3 · Unmessbare Adjektive</h3>
+          <p data-i18n="ch2.s15.m3.p">«Professionell», «beeindruckend», «hochwertig». Das lenkt mich nicht. «Höchstens 120 Wörter, keine Fachbegriffe» schon.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m4.t">4 · Das Material beschreiben</h3>
+          <p data-i18n="ch2.s15.m4.p">«Da kam eine E-Mail, darin stand ungefähr…» Nicht beschreiben — einfügen. Deine Zusammenfassung hat das Detail, das ich gebraucht hätte, schon weggelassen.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s15.m5.t">5 · Nach Zauberwörtern suchen</h3>
+          <p data-i18n="ch2.s15.m5.p">Die «geheimen Prompts», die im Netz kursieren. Es gibt nichts Geheimes; das Ergebnis ändern nur die Information, die du mir gibst, und die Grenze, die du setzt.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch2.s15.do">Mach das jetzt: Welchen dieser fünf machst du am häufigsten? Wähl einen aus und korrigier diese Woche nur den.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch2.s16.title">Vorlagen zum Kopieren</span></h2>
+      <p data-i18n="ch2.s16.p1">Was folgt, sind fertige Gerüste. Füll die eckigen Klammern mit deinen Angaben; die fünf Teile der Formel sind schon an ihrem Platz.</p>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p1.t">Eine schwierige E-Mail</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p1.p">Ich schreibe als [meine Rolle] an [wen]. Lage: [was passiert ist]. Was ich will: [konkretes Ergebnis]. Höchstens [n] Wörter, Ton [wie], [was] gar nicht erwähnen. Gib es als eine einzige E-Mail, die ich so abschicken kann.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p2.t">Zusammenfassung eines langen Dokuments</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p2.p">Ich lese das beiliegende Dokument als [wer]. Mein Ziel ist zu entscheiden, [was]. Zieh nur die Punkte heraus, die diese Entscheidung betreffen. Mach eine Tabelle mit den Spalten: Punkt, was dort steht, was es für mich bedeutet. Markier alles, bei dem du unsicher bist, als «unklar».</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p3.t">Ein Vergleich</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p3.p">Ich wähle zwischen [A] und [B]. Meine Prioritäten der Reihe nach: [1], [2], [3]. Mach eine Tabelle mit den Spalten: Kriterium, A, B, welches und warum. Gib am Ende eine Empfehlung in einem Satz und nenn auch ihre schwächste Stelle.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.s16.p4.t">Den eigenen Text korrigieren lassen</h3>
+          <p class="compare__text font-mono" data-i18n="ch2.s16.p4.p">Den Text unten habe ich für [wen] geschrieben, sein Zweck ist [was]. Behalt den Aufbau, korrigier nur die Sprache: [welche Sprache]. Sag mir am Ende in einer kurzen Liste, was du geändert hast, damit ich sehe, was du warum geändert hast.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch2.s16.do">Mach das jetzt: Kopier die Vorlage, die deiner Arbeit am nächsten ist, füll die Klammern und benutz sie heute einmal.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch2.s17.title">Dein eigenes Vorlagenheft</span></h2>
+      <p data-i18n="ch2.s17.p1">Die Vorlagen oben sind meine; die wertvollen werden deine sein. Denn du weißt, was sich in deiner Arbeit wiederholt.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch2.s17.st1">Wenn eine Anfrage wirklich gut funktioniert, kopier sie <strong class="text-fg">in dem Moment</strong>. Speicher sie irgendwo — Notiz, Datei, egal.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch2.s17.st2">Ersetz die persönlichen Stellen durch eckige Klammern. So wird eine Vorlage daraus statt eines einmaligen Textes.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch2.s17.st3">Setz einen Namen aus zwei Wörtern davor: «verspätete Zahlung», «Angebot ablehnen», «Wochenübersicht». Damit du sie leicht findest.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch2.s17.st4">Sieh es monatlich durch. Lösch, was du nicht benutzt; zehn gute Vorlagen sind mehr wert als hundert.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch2.s17.note">Mit der Zeit wird dieses Heft deine wertvollste Datei. Wenn wir in den späteren Kapiteln zur Automatisierung kommen, ist genau das, was du in diese Abläufe legst, diese Vorlagen — was du jetzt sammelst, läuft später von allein.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📒</span><span data-i18n="ch2.s17.do">Mach das jetzt: Leg eine Datei an, nenn sie «Vorlagen», und füg die erste Anfrage von heute ein, die funktioniert hat. So fängt das Heft an.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch2.s18.title">Was alle fragen</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q1">Ist eine längere Anfrage immer besser?</summary><p data-i18n="ch2.faq.a1">Nein. Eine <em>vollere</em> Anfrage ist besser. Länge allein ist keine Tugend; überflüssige Sätze ermüden dich und helfen mir nicht. Das Maß: jeder Satz soll einem der fünf Teile dienen. Tut er das nicht, streich ihn.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q2">Soll ich auf Deutsch oder auf Englisch schreiben?</summary><p data-i18n="ch2.faq.a2">Schreib in deiner eigenen Sprache. Es gab eine Zeit, in der Englisch deutlich bessere Ergebnisse brachte; heute ist der Unterschied im Alltag für die meisten nicht spürbar. In deiner Sprache denkst du klarer und baust die Formel besser — daher kommt der Gewinn. Willst du die Ausgabe in einer anderen Sprache, sagst du das einfach.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q3">Taugen die «geheimen Prompts» aus dem Netz etwas?</summary><p data-i18n="ch2.faq.a3">Die meisten sind eine aufgehübschte Fassung dessen, was du in diesem Kapitel gelernt hast. Es gibt kein geheimes Schlüsselwort; das Ergebnis ändern Information, Grenze und Format. Siehst du eine Vorlage, frag: welche der fünf Teile füllt sie? Keinen — dann ist sie Zierde.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q4">Muss ich immer dasselbe schreiben?</summary><p data-i18n="ch2.faq.a4">Nein — genau das löst der System-Prompt. Rolle und Kontext schreibst du einmal, sie gelten in jedem Gespräch. In den täglichen Anfragen bleiben Aufgabe, Grenze und Format, und das sind meist zwei Zeilen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q5">Ich habe die Formel angewandt, die Antwort ist trotzdem schlecht. Was ist passiert?</summary><p data-i18n="ch2.faq.a5">Drei Möglichkeiten, der Reihe nach: (1) Kontext fehlt — etwas in deinem Kopf steht immer noch nicht auf dem Papier; (2) die Aufgabe ist zu groß — sie muss geteilt werden; (3) du bist in einem Bereich, in dem ich wirklich schwach bin — sieh in die Liste «wo ich irre» in Kapitel 1. Und viertens: manchmal trifft die erste Antwort einfach nicht, und «versuch es noch mal» ist eine echte Option.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.faq.q6">Macht eine Rolle wirklich einen Unterschied?</summary><p data-i18n="ch2.faq.a6">In Ton und Wortwahl deutlich ja. Aber eine Rolle ist keine Zauberquelle für Wissen: «du bist Arzt» gibt mir keine medizinische Richtigkeit, es lässt mich nur wie einer reden. Nutz die Rolle für den Ton, nicht für die Richtigkeit.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch2.faq.do">Mach das jetzt: Stell mir deine eigene Frage direkt. «Wie hätte ich diese Anfrage besser geschrieben?» ist auch eine Anfrage — und meist eine sehr nützliche.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch2.s19.title">Übungen</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e1.t">1 · Dieselbe Aufgabe, zwei Anfragen</h3>
+          <p data-i18n="ch2.ex.e1.p">Wähl eine echte eigene Aufgabe. Stell sie zuerst in einem Satz. Dann, in einem neuen Gespräch, mit den fünf Teilen. Leg die beiden Antworten nebeneinander.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e1.g"><strong class="text-fg">Ziel:</strong> den Unterschied nicht zu lesen, sondern zu <em>sehen</em>. Wer das einmal macht, verlangt Arbeit nie wieder in einem Satz.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e2.t">2 · Ändere das Format</h3>
+          <p data-i18n="ch2.ex.e2.p">Stell eine Frage, nimm die Antwort. Schreib dann nur dies: «gib mir dasselbe als Tabelle, mit diesen Spalten.» Ändere sonst nichts.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e2.g"><strong class="text-fg">Ziel:</strong> messen, wie sehr ein einziger Satz die Brauchbarkeit ändert.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e3.t">3 · Lehr am Beispiel</h3>
+          <p data-i18n="ch2.ex.e3.p">Füg einen eigenen Text ein, der dir gefiel, sag «mach es so», und gib ein neues Thema. Dann verlang dieselbe Arbeit beschreibend.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e3.g"><strong class="text-fg">Ziel:</strong> an deinem eigenen Text zu sehen, warum Zeigen stärker ist als Erklären.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch2.ex.e4.t">4 · Kapp den Plan</h3>
+          <p data-i18n="ch2.ex.e4.p">Gib eine lange Aufgabe, aber sag «zeig mir erst deinen Plan, schreib nicht vor meinem OK». Ändere im Plan absichtlich etwas, dann lass schreiben.</p>
+          <p class="ex__goal" data-i18n="ch2.ex.e4.g"><strong class="text-fg">Ziel:</strong> zu spüren, wie billig es ist, den falschen Weg im zweiten Schritt zu kappen.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch2.ex.do">Mach das jetzt: Du musst nicht alle vier machen. Mach die erste — diese Übung allein lehrt das ganze Kapitel.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch2.quiz.title">Prüf dich selbst</span></h2>
+      <p data-i18n="ch2.quiz.p1">Antworte erst selbst, dann aufklappen.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q1">Was passiert mit einem Teil, den du leer lässt?</summary><p data-i18n="ch2.quiz.a1">Ich fülle ihn. Und weil ich dich nicht kenne, mit etwas Durchschnittlichem. Was du «schlechte Antwort» nennst, besteht meist aus meinen Vermutungen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q2">Welcher der fünf Teile ist der stärkste?</summary><p data-i18n="ch2.quiz.a2">Der Kontext. Die Rolle stellt den Ton ein, das Format die Darstellung; den Inhalt bestimmt der Kontext. Schon Kontext allein hebt die Antwort.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q3">Warum ist «schau dir diesen Bericht an» eine schwache Aufgabe?</summary><p data-i18n="ch2.quiz.a3">Das Verb ist nicht messbar. Schauen, zusammenfassen, kritisieren, Fehler finden sind verschiedene Arbeiten; ich nehme die häufigste, und das ist vielleicht nicht deine.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q4">Warum ist «schreib kurz» eine unzureichende Grenze?</summary><p data-i18n="ch2.quiz.a4">Weil kurz für dich etwas anderes ist als für mich. Gib eine Zahl: «höchstens 120 Wörter», «drei Punkte». Eine messbare Grenze wird umgesetzt.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q5">Was bekommst du, wenn du kein Format nennst?</summary><p data-i18n="ch2.quiz.a5">Fließtext. Das ist meine Voreinstellung. Vergleichst du, verlang eine Tabelle; beschreibst du Schritte, verlang Punkte — vier Wörter mehr ändern die Brauchbarkeit von Grund auf.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q6">Beschreiben oder ein Beispiel geben?</summary><p data-i18n="ch2.quiz.a6">Beispiel. Ich verarbeite Muster; gibst du mir eins, nehme ich die Regeln mit, die du nicht hättest beschreiben können. «Mach es so» schlägt meist zehn Zeilen Anweisung.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q7">Die Antwort gefällt dir nicht. Was ist dein erster Zug?</summary><p data-i18n="ch2.quiz.a7">Kein neues Gespräch — eine Korrektur schreiben. «Behalt den Aufbau, lass den dritten Absatz weg, mach die Sprache etwas wärmer.» Du kommst weiter, ohne den Kontext wegzuwerfen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q8">Warum hakt «schreib einen kompletten Plan»?</summary><p data-i18n="ch2.quiz.a8">In einer Anfrage stecken fünf verschiedene Arbeiten, und für keine bleibt Tiefe. Teil es in eine Kette: die Ausgabe jedes Schritts speist den nächsten, und dazwischen greifst du ein.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch2.quiz.q9">Was gehört in einen System-Prompt?</summary><p data-i18n="ch2.quiz.a9">Die beiden Teile der Formel, die sich nicht ändern: Rolle und Kontext. Dazu deine festen Regeln. Aufgabe, Grenze und Format bleiben in den täglichen Anfragen.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch2.recap.title">Dieses Kapitel in einem Satz</h2>
+        <p data-i18n="ch2.recap.p">Du bekommst, was du mir sagst: sag, als wer ich schreiben soll, was ich wissen muss, was genau ich tun soll, was ich nicht tun soll und in welcher Form ich es übergeben soll — der Rest ist die Arbeit, die du ohnehin hattest.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch2.next.eyebrow">Als Nächstes</span>
+          <h3 class="font-display text-h3" data-i18n="ch2.next.title">Kapitel 3 · Der Agent</h3>
+          <p data-i18n="ch2.next.p">Die richtige Anfrage kannst du jetzt schreiben. Als Nächstes kommt, sie nicht jedes Mal von Hand schreiben zu müssen: Abläufe, die die wiederkehrende Arbeit erledigen, ohne dich zu fragen.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch2.next.soon">Bald</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Nach oben" data-i18n-attr="aria-label=ch2.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Alle Rechte vorbehalten.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Startseite</a><a href="../terms.html" data-i18n="footer.terms">Nutzungsbedingungen & Datenschutz</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Lernportal</a></div>
+    <div class="lang" role="group" aria-label="Sprache" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-2.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="chapter-2.html" data-lang="de" lang="de" hreflang="de" aria-current="page">DE</a>
+      <a href="../../en/course/chapter-2.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../../fa/course/chapter-2.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/de.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>
