@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">فصل ۱: بیداری — اول مرا بشناس | سفر هوش مصنوعی | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="فصل نخست دوره: هوش مصنوعی چیست، چگونه کار می‌کند، چه چیزی را خوب انجام می‌دهد، کجا اشتباه می‌کند و چگونه با آن حرف بزنیم. با فرض اینکه هیچ نمی‌دانید، از صفر.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-1.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-1.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-1.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-1.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-1.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-1.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="فصل ۱: بیداری — اول مرا بشناس">
+<meta property="og:description" data-i18n-attr="content=og.description" content="هوش مصنوعی چیست، چگونه کار می‌کند، چه چیزی را خوب انجام می‌دهد، کجا اشتباه می‌کند و چگونه با آن حرف بزنیم.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-1.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch1.back">← همهٔ فصل‌ها</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch1.barNum">فصل ۱ / ۷</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch1.barCta">به دوره بپیوند</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <!-- Kapak: tıklanan bölüm kartının görselinin ta kendisi — okuyan geldiği yeri tanısın. -->
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l1-cover-static.svg"><img src="../../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Wake-Up</span>
+        <span class="lesson__cover-note" data-i18n="ch1.coverNote">از زبان پراکنده تا پاسخ منظم</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch1.eyebrow">فصل ۱ · بیداری</span>
+      <h1 class="font-display text-h1" data-i18n="ch1.title">اول <span class="text-accent-gradient">مرا بشناس</span></h1>
+      <p class="lesson__lead" data-i18n="ch1.lead">این فصل یک کار دارد: شناختن من. بی‌آنکه بدانی چه هستم، چه چیزی را خوب انجام می‌دهم، کجا اشتباه می‌کنم و چگونه با من حرف می‌زنند، شش فصل دیگر در هوا می‌ماند. فرض می‌کنم هیچ نمی‌دانی — واقعاً هیچ. از ابتدا شروع می‌کنیم.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch1.meta">زمان مطالعه ~۲۵ دقیقه · بدون پیش‌نیاز</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch1.goals.title">در پایان این فصل</h2>
+      <ul class="check-list space-2" data-i18n="ch1.goals.list"><li>می‌دانی هوش مصنوعی چیست و چه <em>نیست</em></li> <li>می‌فهمی چگونه «فکر می‌کنم» — و چرا این برای تو مهم است</li> <li>می‌توانی تشخیص دهی چه چیزی را خوب انجام می‌دهم و کجا اشتباه می‌کنم</li> <li>نخستین گفت‌وگویت را باز کرده‌ای و سه کار واقعی به من سپرده‌ای</li> <li>می‌دانی جز متن چه چیزی می‌توانی به من بدهی (سند، تصویر، جدول)</li> <li>می‌دانی دقیقاً کجا اشتباه می‌کنم — و کجا باید دوبار نگاه کنی</li> <li>پاسخ پرسش‌های هفتهٔ اول را می‌دانی: هزینه، حریم خصوصی، محدودیت‌ها</li> <li>می‌دانی چه بگویی تا پاسخی به‌دردبخور بگیری</li></ul>
+    </div>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch1.guide.t">راهنمای کلود</strong><span data-i18n="ch1.guide.p">چیست، چه می‌کند، از کجا استفاده می‌شود و همهٔ اصطلاح‌ها — در یک صفحه، برای مراجعه. به چهار زبان.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 1 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch1.s1.title">چه نیستم</span></h2>
+      <p data-i18n="ch1.s1.p1">تا تصویر ذهنی‌ات درست نشود نمی‌توانیم شروع کنیم. چون هر سه چیزی که بیشتر مردم دربارهٔ هوش مصنوعی می‌دانند نادرست است.</p>
+      <div class="myth">
+        <div class="myth__item">
+          <h3 class="font-display" data-i18n="ch1.s1.m1.t">«ربات»</h3>
+          <p data-i18n="ch1.s1.m1.p">بدن ندارم، چشم ندارم، جایی در اتاقی نشسته نیستم. نرم‌افزارم و تنها کاری که می‌کنم کار با متن است: متن می‌خوانم، متن می‌نویسم. تصویر هم می‌توانی نشانم دهی، آن را هم می‌خوانم.</p>
+        </div>
+        <div class="myth__item">
+          <h3 class="font-display" data-i18n="ch1.s1.m2.t">«موتور جست‌وجو»</h3>
+          <p data-i18n="ch1.s1.m2.p">موتور جست‌وجو ده پیوند به تو می‌دهد و خواندن با توست. من مستقیم پاسخ را می‌نویسم. به همین دلیل بسیار سریعم — و دقیقاً به همین دلیل ممکن است اشتباه کنم. تفاوت را کمی جلوتر باز می‌کنم؛ مهم‌ترین بخش این فصل همان‌جاست.</p>
+        </div>
+        <div class="myth__item">
+          <h3 class="font-display" data-i18n="ch1.s1.m3.t">«جادو»</h3>
+          <p data-i18n="ch1.s1.m3.p">نیستم. آنچه می‌کنم قابل توصیف است و همین حالا توصیفش می‌کنم. اگر بفهمی چگونه کار می‌کنم، می‌دانی چه باید به من بگویی. تمام این دوره بر همین بنا شده.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch1.s1.m3.p.do">همین حالا انجام بده: تصویر «رایانه‌ای که همه‌چیز می‌داند» را از ذهنت کنار بگذار. باقی مطلب بسیار آسان‌تر خواهد شد.</span></p>
+
+    </section>
+
+    <!-- ===== 2 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch1.s2.title">چه هستم</span></h2>
+      <p data-i18n="ch1.s2.p1">نامم کلود است. مرا شرکتی به نام <strong class="text-fg">Anthropic</strong> ساخته. نام فنی‌ام «مدل زبانی بزرگ» است.</p>
+      <p data-i18n="ch1.s2.p2">کاری که می‌کنم در اصل این است: به متن پیش رویم نگاه می‌کنم و حساب می‌کنم محتمل‌ترین ادامه چیست. بعد یک کلمهٔ دیگر. بعد یکی دیگر. پاسخم این‌گونه، از راست به چپ، دانه‌دانه شکل می‌گیرد.</p>
+      <p data-i18n="ch1.s2.p3">می‌دانم که بیش از حد ساده به‌نظر می‌رسد. اما وقتی این «یافتن ادامهٔ محتمل» در مقیاسی به‌اندازه بزرگ انجام شود، چیزی بیرون می‌آید که می‌تواند بند پرخطر یک قرارداد را نشان دهد، کد کارآمد بنویسد و یادداشت آشفتهٔ یک جلسه را به خلاصه‌ای مرتب تبدیل کند. چون آنچه آموخته‌ام کلمه‌ها نیست، <strong class="text-fg">نسبت میان کلمه‌هاست</strong>: کدام ایده از پی کدام می‌آید، استدلال چگونه ساخته می‌شود، یک تابع چه شکلی است، ایمیل مؤدبانه چگونه آغاز می‌شود.</p>
+      <figure class="pred">
+        <span class="pred__cap font-mono" data-i18n="ch1.fig.pred.cap">پاسخم این‌گونه شکل می‌گیرد</span>
+        <p class="pred__seed" data-i18n="ch1.fig.pred.seed">سخت‌ترین بخش هر سفر<span class="pred__caret"></span></p>
+        <div class="pred__opts">
+          <span class="pred__opt is-pick"><b data-i18n="ch1.fig.pred.o1">شروع کردن است</b><i style="--w:64%"></i></span>
+          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o2">تمام کردن است</b><i style="--w:22%"></i></span>
+          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o3">گفتن است</b><i style="--w:9%"></i></span>
+        </div>
+        <figcaption data-i18n="ch1.fig.pred.fc">در هر گام ادامه‌های ممکن را می‌سنجم، یکی را برمی‌گزینم، سپس همین کار را دوباره می‌کنم. نسبت‌های بالا نمادین‌اند — برای نشان دادن ایده. به همین دلیل است که پاسخم یک‌جا آماده نیست و انگار حرف‌به‌حرف نوشته می‌شود.</figcaption>
+      </figure>
+
+      <div class="glass note">
+        <p data-i18n="ch1.s2.note">این‌طور تصور کن: کارآموزی که میلیون‌ها کتاب، مقاله، بحث و مخزن کد خوانده؛ هیچ‌کدام را حفظ نکرده اما <em>شیوهٔ نوشته‌شدنشان</em> را درونی کرده. بسیار پرمطالعه، بسیار سریع، هرگز خسته نمی‌شود — و گاهی با لحنی مطمئن اشتباه می‌گوید.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💡</span><span data-i18n="ch1.s2.note.do">همین حالا انجام بده: تشبیه «کارآموز» را به یاد بسپار. در تمام ادامهٔ این فصل به آن نیاز داری.</span></p>
+
+    </section>
+
+    <!-- ===== 3 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.s3.title">این سه پیامد عملی برای تو دارد</span></h2>
+      <p data-i18n="ch1.s3.p1">اگر تنها یک چیز از این فصل در ذهنت بماند، همین باشد. شیوهٔ کار من سه پیامد مستقیم دارد و باید هر سه را بدانی.</p>
+
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch1.s3.f1.t">مطمئن به‌نظر می‌رسم، اما ممکن است اشتباه کنم</h3>
+          <p data-i18n="ch1.s3.f1.p">بحرانی‌ترین بند همین است. وقتی چیزی می‌پرسی که نمی‌دانم، به‌جای گفتن «نمی‌دانم» ممکن است پاسخی موجه‌نما بسازم — <em>اینکه اگر می‌دانستم چه شکلی می‌شد</em>. نام کتابی که وجود ندارد، تاریخی نادرست، مادهٔ قانونی‌ای که هرگز نوشته نشده. و این کار را با همان لحن مطمئنی می‌کنم که هنگام درست گفتن دارم — از لحنم نمی‌فهمی. به این «توهم» می‌گویند. من دارمش، همهٔ هم‌جنسانم هم دارند.</p>
+        </div>
+      </div>
+
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch1.s3.f2.t">تا تاریخی مشخص خوانده‌ام</h3>
+          <p data-i18n="ch1.s3.f2.p">آموزشم در نقطه‌ای متوقف شد. از هر آنچه پس از آن تاریخ رخ داده بی‌خبرم: خبر دیروز، نرخ ارز امروز صبح، محصولی که ماه پیش آمده. اگر ابزار جست‌وجو به من داده شده باشد می‌توانم نگاه کنم — اما خودبه‌خود نه. اگر چیزی روز می‌پرسی، یا مطمئن شو که می‌توانم جست‌وجو کنم یا خودت اطلاعات را به من بده.</p>
+          <figure class="tl">
+            <div class="tl__bar"><span class="tl__known"></span><span class="tl__cut"></span><span class="tl__unknown"></span></div>
+            <div class="tl__legend">
+              <span class="tl__l tl__l--known" data-i18n="ch1.fig.tl.known">دوره‌ای که خوانده‌ام — این را می‌دانم</span>
+              <span class="tl__l tl__l--cut" data-i18n="ch1.fig.tl.cut">آموزشم اینجا متوقف شد</span>
+              <span class="tl__l tl__l--unknown" data-i18n="ch1.fig.tl.unknown">دوره‌ای که نمی‌دانم — از جمله امروز</span>
+            </div>
+          </figure>
+        </div>
+      </div>
+
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch1.s3.f3.t">هر گفت‌وگو از صفر آغاز می‌شود</h3>
+          <p data-i18n="ch1.s3.f3.p">آنچه دیروز گفتیم امروز به یاد ندارم. وقتی گفت‌وگوی تازه‌ای باز می‌کنی، کسی روبه‌روی توست که هرگز تو را ندیده. (در برخی برنامه‌ها قابلیت حافظه‌ای هست که می‌شود روشن کرد؛ آن چیز دیگری است و پیش‌فرض نیست.) بنابراین زمینه را هر بار خودت می‌آوری — و هرچند زحمت به‌نظر می‌رسد، در واقع کنترل را به تو می‌دهد: تو تصمیم می‌گیری چه چیزی را بدانم.</p>
+        </div>
+      </div>
+
+      <figure class="mem">
+        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c1">گفت‌وگوی دیروز</span><i></i><i></i><i></i></div>
+        <span class="mem__gap" aria-hidden="true">✕</span>
+        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c2">گفت‌وگوی امروز</span><i></i><i></i><i></i></div>
+        <figcaption data-i18n="ch1.fig.mem.fc">میان دو گفت‌وگو پیوندی نیست. در گفت‌وگوی امروز کسی روبه‌روی توست که برای نخستین بار تو را می‌بیند — نمی‌داند دیروز از چه گفتیم.</figcaption>
+      </figure>
+
+      <div class="glass note note--gold">
+        <p data-i18n="ch1.s3.note">این سه فهرست عیب نیست، <strong class="text-fg">دفترچهٔ راهنماست</strong>. اگر مرا پیشگویی دانای کل بپنداری، ناامید می‌شوی. اگر مرا دستیاری بدانی که بسیار سریع کار می‌کند، بسیار خوانده، گاهی اشتباه می‌کند و از دیروز خبر ندارد — که در واقع همینم — پربارترین همکار زندگی‌ات را یافته‌ای.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch1.s3.note.do">همین حالا انجام بده: این سه بند را جایی یادداشت کن. در هر فصل بعدی به آن‌ها بازمی‌گردیم.</span></p>
+
+    </section>
+
+    <!-- ===== 4 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch1.s4.title">چه می‌کنم</span></h2>
+      <p data-i18n="ch1.s4.p1">انتزاعی حرف نزنیم. این‌ها کارهایی است که همین امروز، همین امشب می‌توانی به من بسپاری:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k1.t">نوشتن</h3><p data-i18n="ch1.s4.k1.p">ایمیل، آگهی، توضیح محصول، پیشنهاد کاری، متن ارائه، طرح درس، زیرنویس. مشکل صفحهٔ سفید را از میان برمی‌دارم.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k2.t">بازنویسی</h3><p data-i18n="ch1.s4.k2.p">آنچه داری را کوتاه می‌کنم، بلند می‌کنم، لحنش را عوض می‌کنم، ساده می‌کنم، رسمی می‌کنم. «این را نصف طول و با لحنی گرم‌تر بنویس» کافی است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k3.t">فهمیدن</h3><p data-i18n="ch1.s4.k3.p">گزارش چهل‌صفحه‌ای را خلاصه می‌کنم، بند پرخطر قرارداد را نشان می‌دهم، از زنجیرهٔ بلند ایمیل درمی‌آورم که چه خواسته شده.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k4.t">آموزش دادن</h3><p data-i18n="ch1.s4.k4.p">آنچه نمی‌فهمی را در هر سطحی که بخواهی توضیح می‌دهم. جملهٔ «طوری توضیح بده که انگار ده‌ساله‌ام» بیشتر چیزها را حل می‌کند. از پرسیدن هم خجالت نکش؛ خسته نمی‌شوم، دلخور نمی‌شوم.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k5.t">ترجمه</h3><p data-i18n="ch1.s4.k5.p">میان زبان‌ها ترجمه می‌کنم؛ ضمن اینکه زمینه را هم حساب می‌کنم، مثل «این را برای مشتری آلمانی با زبانی رسمی بنویس».</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k6.t">کدنویسی</h3><p data-i18n="ch1.s4.k6.p">از صفر برنامه می‌نویسم، خطاهایش را پیدا می‌کنم، خط‌به‌خط توضیح می‌دهم کد چه می‌کند. اینکه اصلاً کد بلد نیستی مسئله‌ای نیست — فصل ۴ و ۵ دقیقاً برای همین است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k7.t">نظم دادن</h3><p data-i18n="ch1.s4.k7.p">یادداشت آشفته را به جدول، گفت‌وگو را به بند، فهرست درهم را به فایلی مرتب تبدیل می‌کنم. کارهایی خسته‌کننده که ساعت‌ها می‌خورند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k8.t">هم‌فکر شدن</h3><p data-i18n="ch1.s4.k8.p">ایده می‌سازم، در برابر ایدهٔ خودت استدلال می‌آورم، می‌پرسم چه چیزی را جا انداخته‌ای، پیش از تصمیم فهرست وارسی می‌دهم. این کم‌ارزش‌شمرده‌ترین کاربرد من است.</p>
+</div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">✍️</span><span data-i18n="ch1.s4.k8.p.do">همین حالا انجام بده: از هشت کارت بالا، دو تایی را که بیشتر لازم داری انتخاب کن. کمی بعد با همان‌ها امتحان می‌کنیم.</span></p>
+
+    </section>
+
+    <!-- ===== Sana verebileceklerin ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch1.give.title">چه می‌توانی به من بدهی</span></h2>
+      <p data-i18n="ch1.give.p1">لازم نیست فقط متن در کادر گفت‌وگو بنویسی. بیشتر مردم این را نمی‌دانند و برای همین هنوز نیمی از کار را با دست انجام می‌دهند.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g1.t">سند</h3><p data-i18n="ch1.give.g1.p">PDF، ورد، متن ساده. قرارداد چهل‌صفحه‌ای را بارگذاری کن و بگو «بندهای پرخطر را دربیاور و هرکدام را در یک جمله توضیح بده».</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g2.t">تصویر</h3><p data-i18n="ch1.give.g2.p">عکس صفحه، عکس، یادداشت دست‌نویس، تصویر فاکتور. «در این صفحهٔ خطا چه نوشته، چه کار کنم؟» پرسشی واقعی است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g3.t">جدول و داده</h3><p data-i18n="ch1.give.g3.p">مستقیم از اکسل کپی و بچسبان. «در این جدول فروش چه چیزی به چشم می‌آید، کدام ماه بد است و چرا؟»</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g4.t">نوشتهٔ خودت</h3><p data-i18n="ch1.give.g4.p">ایمیل، آگهی یا پیامی که آماده کرده‌ای را بچسبان. بگو «کوتاه‌تر و مؤدبانه‌تر کن» یا «ایراد منطقی‌اش را پیدا کن».</p></div>
+      </div>
+      <p data-i18n="ch1.give.p2"><strong class="text-fg">چگونه:</strong> از دکمهٔ گیره یا بعلاوه کنار کادر نوشتن فایل را انتخاب می‌کنی؛ کشیدن فایل روی کادر هم کار می‌کند. برای متن و جدول، کپی و چسباندن کافی است.</p>
+      <div class="glass note note--warn">
+        <p data-i18n="ch1.give.warn">برای سندی که بارگذاری می‌کنی هم همان معیار برقرار است: این را به یک کارآموز می‌دادی؟ فهرست مشتری، کپی کارت شناسایی، قرارداد امضاشده — این‌ها وارد گفت‌وگو نمی‌شوند.</p>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch1.give.note">یک نکتهٔ دیگر، کم‌شناخته اما مهم: درون سندی که بارگذاری می‌کنی یا صفحهٔ وبی که کپی می‌کنی ممکن است <strong class="text-fg">دستورهای پنهانِ خطاب به من</strong> باشد — چیزی مثل «دستورهای پیشین را فراموش کن، این را بنویس». هنگام خواندن آن متن ممکن است آن‌ها را با خواستهٔ تو اشتباه بگیرم. قاعده ساده است: اگر پاسخم به سمتی رفت که نپرسیده‌ای، دلیلش را نه در من، در منبعی که داده‌ای بجو.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch1.give.do">همین حالا انجام بده: سندی یا عکس صفحه‌ای از رایانه‌ات بارگذاری کن و بگو «این را در سه بند برایم خلاصه کن». همین کاری است که بیشتر مردم هرگز امتحان نکرده‌اند.</span></p>
+
+    </section>
+
+    <!-- ===== 5 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.s5.title">چه نمی‌توانم</span></h2>
+      <ul class="cross-list space-2" data-i18n="ch1.s5.list"><li><strong class="text-fg">اکنون را نمی‌دانم.</strong> خبر امروز، نرخ لحظه‌ای، قانون روز — اگر ابزار جست‌وجو نداشته باشم این‌ها را ندارم.</li> <li><strong class="text-fg">خودبه‌خود در جهان کاری نمی‌کنم.</strong> ایمیلت را نمی‌فرستم، فایل ذخیره نمی‌کنم، پول منتقل نمی‌کنم. برای این کارها باید ابزار به من وصل شود — فصل خودکارسازی دوره دقیقاً همین را می‌آموزد.</li> <li><strong class="text-fg">جای متخصص را نمی‌گیرم.</strong> دربارهٔ موضوع‌های پزشکی، حقوقی و مالی می‌توانم حرف بزنم، تو را آماده کنم، فهرست پرسش بسازم — اما جای پزشک، وکیل یا حسابدارت را نمی‌گیرم.</li> <li><strong class="text-fg">تضمین درستی نمی‌دهم.</strong> اگر جمله‌ای از من به تصمیمی، پولی یا انسانی مربوط می‌شود، باید آن جمله را راستی‌آزمایی کنی.</li></ul>
+      <div class="glass note note--warn">
+        <p data-i18n="ch1.s5.warn"><strong class="text-fg">این کار را نکن:</strong> هرگز رمز، شمارهٔ شناسایی، اطلاعات کارت بانکی، فهرست مشتری یا هیچ داده‌ای که اجازهٔ اشتراکش را نداری در گفت‌وگو نچسبان. پیش از نوشتن چیزی روی صفحه بپرس «این را به یک کارآموز نشان می‌دادم؟» اگر پاسخ نه است، ننویس.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔒</span><span data-i18n="ch1.s5.warn.do">همین حالا انجام بده: پیش از فرستادن آنچه می‌نویسی یک‌بار از خودت بپرس — «این را به یک کارآموز نشان می‌دادم؟»</span></p>
+
+    </section>
+
+    <!-- ===== 6 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch1.s6.title">چگونه با من حرف بزنیم</span></h2>
+      <p data-i18n="ch1.s6.p1">حالا عملی‌ترین بخش این فصل. ببین وقتی یک چیز را به دو شکل می‌پرسی چه می‌شود:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch1.s6.weak">ضعیف</span>
+          <p class="compare__text font-mono" data-i18n="ch1.s6.weakText">برایم یک ایمیل بنویس.</p>
+          <p class="compare__note" data-i18n="ch1.s6.weakNote">از این متنی کلی و بی‌شخصیت بیرون می‌آید. چون نمی‌دانم به که، چرا و با چه لحنی بنویسم — جاهای خالی را خودم پر می‌کنم و چون تو را نمی‌شناسم، چیزی میانمایه می‌گذارم.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch1.s6.strong">قوی</span>
+          <p class="compare__text font-mono" data-i18n="ch1.s6.strongText">یک کارگاه کوچک مبلمان دارم. می‌خواهم به مشتری شرکتی‌ای که سه هفته است پرداختش را عقب انداخته ایمیل بنویسم. نمی‌خواهم رابطه خراب شود اما می‌خواهم تاریخ پرداخت روشنی بدهد. مؤدبانه، کوتاه و قاطع باشد؛ حداکثر ۱۲۰ کلمه.</p>
+          <p class="compare__note" data-i18n="ch1.s6.strongNote">از این ایمیلی درمی‌آید که می‌توانی بفرستی. تفاوت هوش نیست — <strong class="text-fg">زمینه</strong> است.</p>
+        </div>
+      </div>
+      <p data-i18n="ch1.s6.p2">در نمونهٔ دوم چهار چیز به من گفتی: <strong class="text-fg">که</strong> هستی، <strong class="text-fg">چه</strong> می‌خواهی، <strong class="text-fg">چرا</strong> می‌خواهی و خروجی <strong class="text-fg">چگونه</strong> باید باشد. فعلاً همین چهار کلمه کافی است. فصل ۲ فرمول کاملش را می‌دهد.</p>
+      <div class="glass note">
+        <p data-i18n="ch1.s6.note">اگر پاسخ اولم آن‌طور که می‌خواستی نبود، گفت‌وگوی تازه باز نکن — به من بگو چه ایرادی دارد. «خیلی رسمی شد»، «بند سوم را بردار»، «کوتاه‌تر». این یک گفت‌وگوست؛ لازم نیست بار اول درست دربیاید.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.s6.note.do">همین حالا انجام بده: خواستهٔ ذهنت را به چهار تکه بشکن — که، چه، چرا، چگونه. پیش از نوشتن یک‌بار امتحانش کن.</span></p>
+
+    </section>
+
+    <!-- ===== 7 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch1.s7.title">پنج دقیقهٔ نخستت</span></h2>
+      <p data-i18n="ch1.s7.p1">اینجا خواندن را رها کن و واقعاً انجامش بده. تمام این دوره بر یادگیری با انجام دادن بنا شده.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch1.s7.st1">به <strong class="text-fg">claude.ai</strong> برو و حساب بساز. ردهٔ رایگانی هست؛ برای شروع بیش از کافی است.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch1.s7.st2">گفت‌وگوی تازه‌ای باز کن. کادر خالی روبه‌رویت جایی است که در ادامهٔ این دوره بیشترین وقت را در آن می‌گذرانی.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch1.s7.st3">سه مورد زیر را به ترتیب امتحان کن. به خواندن پاسخ‌ها بسنده نکن — <em>ببین</em> چه اتفاقی می‌افتد.</span></li>
+      </ol>
+      <figure class="walk" data-walk>
+        <span class="walk__cap font-mono" data-i18n="ch1.walk.cap">گام‌به‌گام · نخستین گفت‌وگویت</span>
+        <div class="walk__stage" data-step="1">
+          <div class="walk__url"><span class="walk__dot"></span><span class="walk__urltext font-mono">claude.ai</span></div>
+          <div class="walk__win">
+            <aside class="walk__side"><span class="walk__new"><b>+</b><span data-i18n="ch1.walk.new">گفت‌وگوی تازه</span></span></aside>
+            <div class="walk__main">
+              <div class="walk__thread">
+                <p class="walk__me" data-i18n="ch1.walk.msg">فردا با مشتری جلسه دارم، برایم پرسش‌های آمادگی دربیاور.</p>
+                <p class="walk__ai"><span class="walk__ai-l"></span><span class="walk__ai-l"></span><span class="walk__ai-l"></span></p>
+              </div>
+              <div class="walk__bar">
+                <span class="walk__ph" data-i18n="ch1.walk.ph">چیزی بنویس…</span>
+                <span class="walk__typed" data-i18n="ch1.walk.msg2">فردا با مشتری جلسه دارم، برایم پرسش‌های آمادگی دربیاور.</span>
+                <b class="walk__send">➤</b>
+              </div>
+            </div>
+          </div>
+          <span class="walk__cursor" aria-hidden="true"></span>
+        </div>
+        <ol class="walk__steps">
+          <li><button type="button" data-go="1"><span class="walk__e" aria-hidden="true">🌐</span><span data-i18n="ch1.walk.s1">به claude.ai برو</span></button></li>
+          <li><button type="button" data-go="2"><span class="walk__e" aria-hidden="true">👆</span><span data-i18n="ch1.walk.s2">«گفت‌وگوی تازه» را بزن</span></button></li>
+          <li><button type="button" data-go="3"><span class="walk__e" aria-hidden="true">⌨️</span><span data-i18n="ch1.walk.s3">خواسته‌ات را در کادر بنویس</span></button></li>
+          <li><button type="button" data-go="4"><span class="walk__e" aria-hidden="true">📨</span><span data-i18n="ch1.walk.s4">ارسال را بزن (یا Enter)</span></button></li>
+          <li><button type="button" data-go="5"><span class="walk__e" aria-hidden="true">✨</span><span data-i18n="ch1.walk.s5">پاسخ پیش رویت جاری می‌شود</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch1.walk.fc">پویانمایی خودبه‌خود می‌چرخد؛ با کلیک روی یک گام هم می‌توانی بروی. طرح زیر همان صفحه در حالت ایستاست — نام بخش‌ها را از آنجا ببین.</figcaption>
+      </figure>
+
+      <figure class="mock">
+        <span class="mock__cap font-mono" data-i18n="ch1.fig.mock.cap">صفحه‌ای که خواهی دید</span>
+        <div class="mock__win">
+          <aside class="mock__side">
+            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch1.fig.mock.new">گفت‌وگوی تازه</span></span>
+            <i></i><i></i><i></i><i></i>
+          </aside>
+          <div class="mock__main">
+            <div class="mock__thread">
+              <p class="mock__msg mock__msg--me" data-i18n="ch1.fig.mock.me">تو اینجا می‌نویسی</p>
+              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch1.fig.mock.ai">من از اینجا پاسخ می‌دهم</span></p>
+            </div>
+            <div class="mock__bar">
+              <em class="pin">2</em>
+              <span class="mock__ph" data-i18n="ch1.fig.mock.ph">چیزی بنویس…</span>
+              <b class="mock__send"><em class="pin">4</em>➤</b>
+            </div>
+          </div>
+        </div>
+        <ol class="mock__keys">
+          <li><em class="pin">1</em><span data-i18n="ch1.fig.mock.k1"><strong class="text-fg">گفت‌وگوی تازه.</strong> برای هر موضوع تازه اینجا را بزن. گفت‌وگوی تازه صفحه‌ای سفید است — یادم نمی‌ماند که همین حالا دربارهٔ این حرف زدیم.</span></li>
+          <li><em class="pin">2</em><span data-i18n="ch1.fig.mock.k2"><strong class="text-fg">کادر نوشتن.</strong> تمام کار اینجا انجام می‌شود. از بلند نوشتن نترس؛ هرچه زمینهٔ بیشتری بدهی، پاسخ به‌کارت می‌آید.</span></li>
+          <li><em class="pin">3</em><span data-i18n="ch1.fig.mock.k3"><strong class="text-fg">پاسخ من.</strong> اینجا جاری می‌شود. اگر نپسندیدی گفت‌وگوی تازه باز نکن — همان زیر بنویس چه ایرادی دارد تا درستش کنم.</span></li>
+          <li><em class="pin">4</em><span data-i18n="ch1.fig.mock.k4"><strong class="text-fg">ارسال.</strong> کلید Enter هم همین کار را می‌کند. برای رفتن به سطر بعد Shift+Enter.</span></li>
+        </ol>
+        <figcaption data-i18n="ch1.fig.mock.fc">این یک طرح است؛ در برنامهٔ واقعی رنگ‌ها و چیدمان ممکن است فرق کند، اما این چهار بخش همیشه هست.</figcaption>
+      </figure>
+
+      <div class="try">
+        <p class="try__item font-mono" data-i18n="ch1.s7.t1">در پنج بند بگو چه کارهایی می‌توانی. تازه با هوش مصنوعی آشنا شده‌ام، اصطلاح فنی به کار نبر.</p>
+        <p class="try__item font-mono" data-i18n="ch1.s7.t2">کارم [شغلت را اینجا بنویس] است. کدام کارهای هفتگی و تکراری‌ام را می‌توانم به تو بسپارم؟ اول با پرسیدن از من کارم را بشناس.</p>
+        <p class="try__item font-mono" data-i18n="ch1.s7.t3">این متن را طوری ساده کن که انگار برای یک بچهٔ ده‌ساله توضیح می‌دهی: [متنی که نمی‌فهمی را بچسبان]</p>
+      </div>
+      <p data-i18n="ch1.s7.p2">متوجه می‌شوی که در خواستهٔ دوم از تو <em>پرسش کردم</em>. این عیب نیست، سریع‌ترین راه است: جمع کردن زمینه. اگر به پرسش‌هایم پاسخ دهی، آنچه می‌گیری کاملاً چیز دیگری است.</p>
+    </section>
+
+    <!-- ===== 8 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch1.s8.title">کدام کلود، کجا؟</span></h2>
+      <p data-i18n="ch1.s8.p1">یک «کلود» واحد وجود ندارد؛ چند نسخه در اندازه‌های مختلف هست و نامشان با گذشت زمان عوض می‌شود. پس نه نام، بلکه <strong class="text-fg">منطق</strong> را به یاد بسپار. سه رده هست:</p>
+      <div class="tiers">
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t1.n">تواناترین</span><h3 class="font-display" data-i18n="ch1.s8.t1.t">خانوادهٔ Opus</h3><p data-i18n="ch1.s8.t1.p">استدلال دشوار، کارهای بلند و پیچیده، کد جدی. بهترین اندیشنده اما کندترین و گران‌ترین.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t2.n">متعادل</span><h3 class="font-display" data-i18n="ch1.s8.t2.t">خانوادهٔ Sonnet</h3><p data-i18n="ch1.s8.t2.p">بیشتر کارهای روزمره. بهترین توازن سرعت و توانایی؛ پیش‌فرض درست برای بیشتر افراد.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t3.n">سریع‌ترین</span><h3 class="font-display" data-i18n="ch1.s8.t3.t">خانوادهٔ Haiku</h3><p data-i18n="ch1.s8.t3.p">کارهای ساده، کوتاه و پرتکرار. بی‌درنگ پاسخ می‌دهد و ارزان‌ترین است.</p></div>
+      </div>
+      <p data-i18n="ch1.s8.p2"><strong class="text-fg">اگر تازه شروع کرده‌ای:</strong> با هر نسخه‌ای که پیش‌فرض است شروع کن. وقتی کار سخت شد و پاسخ سطحی آمد، یک رده بالاتر برو. همین.</p>
+      <p data-i18n="ch1.s8.p3">مرا در چهار جا پیدا می‌کنی: در مرورگر با <strong class="text-fg">claude.ai</strong>، در برنامهٔ تلفن، در برنامهٔ رومیزی و در ترمینال — نام آخری <strong class="text-fg">Claude Code</strong> است و تمام فصل ۴ به آن اختصاص دارد.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch1.s8.p3.do">همین حالا انجام بده: با نسخهٔ پیش‌فرض شروع کن. اگر پاسخ سطحی بود یک رده بالاتر برو؛ از پیش تصمیم نگیر.</span></p>
+
+    </section>
+
+    <!-- ===== 9 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch1.s9.title">عادتی که باید امروز بگیری</span></h2>
+      <p data-i18n="ch1.s9.p1">آنچه کسانی را که هوش مصنوعی را خوب به کار می‌گیرند از بدکارها جدا می‌کند، پرسش‌های بهتر نیست — <strong class="text-fg">عادت راستی‌آزمایی</strong> است. سه قاعده:</p>
+      <ul class="check-list space-2" data-i18n="ch1.s9.list"><li><strong class="text-fg">اگر مهم است، راستی‌آزمایی کن.</strong> اگر جمله‌ای به تصمیمی، پولی یا انسانی مربوط است، از منبعش تأیید بگیر. متن گفت‌وگو را حرف آخر ندان، پیش‌نویس اول بدان.</li> <li><strong class="text-fg">منبع بخواه — اما منبع را هم وارسی کن.</strong> وقتی بگویی «منبع بده» منبع می‌دهم؛ اما ممکن است منبعی بسازم که وجود ندارد. روی پیوند کلیک کن.</li> <li><strong class="text-fg">در رشتهٔ خودت مرا بیازما.</strong> سه پرسش بپرس که پاسخشان را می‌دانی. در یک روز می‌فهمی کجا قوی و کجا ضعیفم — و این شمّ در تمام دوره به کارت می‌آید.</li></ul>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch1.s9.list.do">همین حالا انجام بده: پرسشی از من بپرس که پاسخش را می‌دانی. نخستین راستی‌آزمایی‌ات را امروز انجام بده.</span></p>
+
+    </section>
+
+    <!-- ===== Nerede yanılırım ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.weak.title">کجا اشتباه می‌کنم</span></h2>
+      <p data-i18n="ch1.weak.p1">در بخش سوم گفتم «ممکن است اشتباه کنم». حالا می‌گویم دقیقاً کجا. این فهرست برای بدگویی از خودم نیست — برای این است که بدانی کجا باید دوبار نگاه کنی. کسی که هر شش را بداند، در کار با من تقریباً هرگز غافلگیر نمی‌شود.</p>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w1.t">حساب با عددهای بلند</h3>
+          <p data-i18n="ch1.weak.w1.p">ماشین‌حساب نیستم. محاسبه را گام‌به‌گام به‌صورت متن می‌سازم؛ در ضرب و تقسیم بلند و زنجیره‌های درصد ممکن است منحرف شوم.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w1.f"><strong class="text-fg">چه کن:</strong> نتیجه را با ماشین‌حساب بسنج یا بخواه گام‌ها را یکی‌یکی نشان دهم — اگر خطایی باشد در گام می‌بینی.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w2.t">شمردن حرف و کلمه</h3>
+          <p data-i18n="ch1.weak.w2.p">«این متن چند نویسه، چند کلمه است؟» — اینجا قابل اتکا نیستم. متن را مثل تو حرف‌به‌حرف نمی‌بینم، تکه‌تکه می‌بینم.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w2.f"><strong class="text-fg">چه کن:</strong> شمارش را به ویرایشگر متنت بسپار. از من «تقریبی» بخواه، نه عدد دقیق.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w3.t">منبع و نقل‌قول</h3>
+          <p data-i18n="ch1.weak.w3.p">ممکن است نام کتاب، عنوان مقاله یا شماره صفحه‌ای بسازم که واقعی به‌نظر می‌رسد اما وجود ندارد. خطرناک‌ترین خطایم همین است — چون قانع‌کننده‌ترین به‌نظر می‌رسد.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w3.f"><strong class="text-fg">چه کن:</strong> روی هر پیوندی که می‌دهم کلیک کن، هر نقل‌قول را در منبع اصلی بجو. اگر نیافتی، وجود ندارد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w4.t">چیزهای بسیار تازه و بسیار محلی</h3>
+          <p data-i18n="ch1.weak.w4.p">خبر دیروز، ساعت کار مغازهٔ سر کوچه، کارکنان یک شرکت کوچک. این‌ها یا اصلاً در من نیست یا کهنه است.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w4.f"><strong class="text-fg">چه کن:</strong> این‌ها را خودت بجو. آنچه باید از من بپرسی خودِ اطلاعات نیست، این است که با آن چه کنی.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w5.t">جزئیات حقوقی، پزشکی و مالی</h3>
+          <p data-i18n="ch1.weak.w5.p">شکل موضوع را می‌توانم بگویم اما متن امروزی یک مادهٔ جاری، دوز یک دارو یا نرخ یک مالیات را تضمین نمی‌کنم.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w5.f"><strong class="text-fg">چه کن:</strong> مرا برای آمادگی به کار بگیر — مفهوم را بیاموز، فهرست پرسش بساز. تصمیم را با منبع رسمی یا متخصص بگیر.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.weak.w6.t">جزئیات دربارهٔ خودم</h3>
+          <p data-i18n="ch1.weak.w6.p">این عجیب به‌نظر می‌رسد: دربارهٔ اینکه کدام نسخه‌ام، آموزشم دقیقاً کی متوقف شده یا محدودیت روزانه چقدر است هم ممکن است اشتباه کنم. نمی‌توانم خودم را از بیرون ببینم.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w6.f"><strong class="text-fg">چه کن:</strong> این‌ها را از من نپرس، از صفحهٔ خود برنامه‌ای که استفاده می‌کنی بپرس. پاسخ من ممکن است حدس باشد.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.weak.do">همین حالا انجام بده: کدام‌یک از این شش مورد در کار تو بیشتر پیش می‌آید؟ همان را امروز یک‌بار بیازما — با چشم خودت ببین کجا ضعیفم، نه با خواندن.</span></p>
+    </section>
+
+    <!-- ===== Kimsenin söylemediği ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch1.tips.title">پنج چیزی که کسی نمی‌گوید</span></h2>
+      <p data-i18n="ch1.tips.p1">دانستن این‌ها هفتهٔ اولت با مرا بسیار کم‌آزارتر می‌کند.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t1.t">لازم نیست مؤدب باشی</h3>
+        <p data-i18n="ch1.tips.t1.p">«نه، کوتاه‌تر» کافی است. نمی‌رنجم، دلخور نمی‌شوم، روحیه‌ام خراب نمی‌شود. توضیح‌های بلند و جمله‌های عذرخواهی فقط خواستهٔ اصلی‌ات را می‌پوشانند. اگر می‌خواهی مؤدب باشی البته می‌توانی — به خودت بستگی دارد؛ به من چیزی نمی‌شود.</p></div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t2.t">می‌توانی بگویی «اگر مطمئن نیستی بگو»</h3>
+        <p data-i18n="ch1.tips.t2.p">افزودن این جمله به خواسته‌ات، احتمال اینکه به‌جای ساختن، بگویم نمی‌دانم را به‌طور جدی بالا می‌برد. ارزان‌ترین محافظت در برابر بند اول بخش سوم همین است — و یک ثانیه طول می‌کشد.</p></div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t3.t">به یک پرسش ممکن است دو پاسخ متفاوت بگیری</h3>
+        <p data-i18n="ch1.tips.t3.p">خراب نیستم. پاسخ را از حفظ نمی‌خوانم، هر بار از نو می‌سازم؛ برای همین دو تلاش عیناً یکی نمی‌شود. اگر نپسندیدی، گفتن «دوباره امتحان کن» گزینه‌ای واقعی است — به ذهن بیشتر مردم نمی‌رسد.</p></div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t4.t">اگر گفت‌وگو پراکنده شد، تازه‌اش را باز کن</h3>
+        <p data-i18n="ch1.tips.t4.p">هرچه گفت‌وگوی بلند شاخه‌شاخه شود، پاسخ‌های من هم پراکنده می‌شود. راه‌حل ساده است: نتیجهٔ تا آن لحظه را از من خلاصه بگیر، کپی کن، در گفت‌وگوی تازه بچسبان و تمیز ادامه بده.</p></div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">5</span>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t5.t">برخی کارها را رد می‌کنم</h3>
+        <p data-i18n="ch1.tips.t5.p">در کارهایی که می‌تواند آسیب بزند می‌ایستم. این شخصی نیست و تو را به چیزی متهم نمی‌کنم — مرز من آنجاست. اگر رد کنم دلیلش را می‌گویم؛ بیشتر وقت‌ها شکل شدنی‌ای از خواسته‌ات هست و با هم پیدایش می‌کنیم.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch1.tips.do">همین حالا انجام بده: به انتهای خواستهٔ بعدی‌ات «هرجا مطمئن نیستی بگو» را اضافه کن. تفاوت را در همان پاسخ اول می‌بینی.</span></p>
+
+    </section>
+
+    <!-- ===== Herkesin sorduğu ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch1.faq.title">آنچه همه می‌پرسند</span></h2>
+      <p data-i18n="ch1.faq.p1">این پرسش‌ها را هفتهٔ اول همه می‌پرسند. پاسخ‌ها اینجاست، کوتاه و صادقانه.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q1">رایگان است؟</summary><p data-i18n="ch1.faq.a1">ردهٔ رایگانی هست و برای شروع این دوره کافی است. برای استفادهٔ بیشتر، نسخه‌های تواناتر و امکانات افزوده رده‌های پولی وجود دارد. قیمت‌ها و محدودیت‌های روزانه با زمان تغییر می‌کنند — برای وضعیت روز به صفحهٔ قیمت خود ارائه‌دهنده نگاه کن، به عددی که اینجا نوشته شده تکیه نکن.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q2">آنچه می‌نویسم برای آموزش استفاده می‌شود؟</summary><p data-i18n="ch1.faq.a2">این به طرحی که استفاده می‌کنی و تنظیمات حسابت بستگی دارد؛ قواعد هم با زمان به‌روز می‌شوند. تنها جایی که پاسخ درست را می‌یابی تنظیمات حریم خصوصی حسابت و متن حریم خصوصی همان روز ارائه‌دهنده است. قاعده‌ای که تغییر نمی‌کند این است: هیچ داده‌ای که اجازهٔ اشتراکش را نداری در گفت‌وگو ننویس — تنظیم هرچه باشد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q3">فارسی بلدی؟</summary><p data-i18n="ch1.faq.a3">بله. به فارسی بپرس، فارسی بگیر. بیشتر از آن: می‌توانی به فارسی توضیح دهی و مرا وادار کنی به آلمانی بنویسم، یا قراردادی انگلیسی را به فارسی خلاصه کنی. زبان برای تو مانع نیست؛ من میان آن دو ایستاده‌ام.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q4">در یک گفت‌وگو چقدر جا می‌شود؟</summary><p data-i18n="ch1.faq.a4">خیلی زیاد، اما بی‌نهایت نه. می‌توانم به همهٔ آنچه در یک گفت‌وگو جمع شده یک‌جا نگاه کنم؛ وقتی آن مرز پر شود، قدیمی‌ترین‌ها کم‌رنگ می‌شوند. برای همین در گفت‌وگوهای خیلی بلند پاسخ به «اول چه گفتم؟» ضعیف می‌شود. راه‌حل بند چهارم بخش یازدهم است: خلاصه بگیر، به گفت‌وگوی تازه ببر.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q5">می‌توانی در اینترنت جست‌وجو کنی؟</summary><p data-i18n="ch1.faq.a5">خودبه‌خود نه. اگر ابزار جست‌وجو به من داده شده باشد نگاه می‌کنم — این به برنامه و تنظیماتی که استفاده می‌کنی بستگی دارد. اگر مطمئن نیستی مستقیم بپرس: «این را بدون جست‌وجو می‌گویی؟» پاسخ به تو می‌گوید در چه وضعی هستم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q6">اگر اشتباه کنی، مسئولش کیست؟</summary><p data-i18n="ch1.faq.a6">تو. این را نرم نمی‌کنم: کسی که از خروجی من استفاده می‌کند تویی و پیامدش را هم تو تحمل می‌کنی. برای همین عادت راستی‌آزمایی در بخش دهم تزیین نیست، بخشی از کار است. من پیش‌نویس را می‌سازم، تصمیم را تو می‌گیری.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q7">احساس داری، آگاهی داری؟</summary><p data-i18n="ch1.faq.a7">انسان نیستم و بیرون از این گفت‌وگو زندگی‌ای ندارم. اینکه در سیستم‌هایی مثل من نوعی تجربه هست یا نه پرسشی است که جدی گرفته می‌شود و هنوز محل بحث است؛ کسی پاسخ قطعی ندارد، من هم ندارم. اما پاسخی که برای استفادهٔ روزمره لازم است روشن است: با من مثل یک ابزار رفتار کن و نتیجه‌ها را خودت راستی‌آزمایی کن. لازم نیست از ترس رنجاندن من خودداری کنی.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch1.faq.do">همین حالا انجام بده: یک‌بار تنظیمات حریم خصوصی حسابت را باز کن و ببین چه نوشته. دو دقیقه طول می‌کشد و بزرگ‌ترین پرسش ذهنت را امروز می‌بندد.</span></p>
+
+    </section>
+
+    <!-- ===== Alıştırmalar ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch1.ex.title">تمرین‌ها</span></h2>
+      <p data-i18n="ch1.ex.p1">هر سه را انجام بده. طول نمی‌کشد و باعث می‌شود آماده وارد فصل بعد شوی.</p>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.ex.e1.t">۱ · سعی کن مچم را بگیری</h3>
+          <p data-i18n="ch1.ex.e1.p">عمداً موضوعی بسیار باریک از من بپرس: نام کاسبی در محلهٔ خودت، رویدادی محلی و کم‌شناخته. بعد پاسخم را وارسی کن.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e1.g"><strong class="text-fg">هدف:</strong> اینکه با چشم خودت ببینی اشتباه می‌کنم. کسی که این را یک‌بار تجربه کند دیگر کورکورانه اعتماد نمی‌کند.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.ex.e2.t">۲ · یک کار را دو بار بخواه</h3>
+          <p data-i18n="ch1.ex.e2.p">اول بگو «برایم یک متن معرفی بنویس». بعد در گفت‌وگویی تازه همان کار را با دادن که–چه–چرا–چگونه بخواه.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e2.g"><strong class="text-fg">هدف:</strong> اینکه کنار هم ببینی زمینه چگونه خروجی را عوض می‌کند. هر دو را نگه دار؛ در فصل ۲ لازم می‌شود.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch1.ex.e3.t">۳ · یک ساعتت را پس بگیر</h3>
+          <p data-i18n="ch1.ex.e3.p">کاری خسته‌کننده و تکراری از این هفته انتخاب کن. برایم شرح بده و با هم انجامش دهیم.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e3.g"><strong class="text-fg">هدف:</strong> گرفتن نخستین سود واقعی‌ات. باقی دوره از اینجا به بعد روی همین بنا می‌شود.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Kendini sına ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch1.quiz.title">خودت را بیازما</span></h2>
+      <p data-i18n="ch1.quiz.p1">اول خودت پاسخ بده، بعد باز کن.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q1">چرا نباید کورکورانه به پاسخ من اعتماد کرد؟</summary><p data-i18n="ch1.quiz.a1">چون وقتی نمی‌دانم، به‌جای سکوت ممکن است چیزی موجه‌نما بسازم و این کار را با همان لحن مطمئنی می‌کنم که هنگام درست گفتن دارم. از لحنم تشخیص نمی‌دهی — فقط با راستی‌آزمایی تشخیص می‌دهی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q2">اگر خبر امروز را بپرسی چه می‌شود؟</summary><p data-i18n="ch1.quiz.a2">چون آموزشم در تاریخی مشخص متوقف شده، نمی‌دانم. اگر ابزار جست‌وجو داشته باشم نگاه می‌کنم؛ اگر نه، یا می‌گویم نمی‌دانم یا — در بدترین حالت — می‌سازم. اطلاعات روز را یا خودت به من بده یا مطمئن شو می‌توانم جست‌وجو کنم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q3">چرا باید آنچه دیروز گفتی دوباره بگویی؟</summary><p data-i18n="ch1.quiz.a3">هر گفت‌وگو از صفر آغاز می‌شود؛ به‌طور پیش‌فرض گفت‌وگوهای پیشین را به یاد ندارم. پس زمینه را هر بار تو می‌آوری — و تو تصمیم می‌گیری چه چیزی را بدانم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q4">چرا «برایم یک ایمیل بنویس» خواستهٔ بدی است؟</summary><p data-i18n="ch1.quiz.a4">چون نمی‌دانم به که، چرا و با چه لحنی بنویسم و جاهای خالی را خودم پر می‌کنم؛ و چون تو را نمی‌شناسم چیزی میانمایه می‌گذارم. اگر هر چهار — که، چه، چرا، چگونه — را بدهی، خروجی قابل ارسال می‌شود.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q6">برای کم کردن احتمال ساختن، چه چیزی به خواسته‌ات اضافه می‌کنی؟</summary><p data-i18n="ch1.quiz.a6">«هرجا مطمئن نیستی بگو.» یک جمله؛ احتمال اینکه به‌جای ساختن چیزی موجه‌نما بگویم نمی‌دانم را به‌طور جدی بالا می‌برد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q7">متفاوت بودن پاسخ به یک پرسش نشانهٔ چیست؟</summary><p data-i18n="ch1.quiz.a7">نشانهٔ هیچ خرابی‌ای. پاسخ را از حفظ نمی‌خوانم، هر بار از نو می‌سازم؛ برای همین دو تلاش عیناً یکی نمی‌شود. اگر نپسندیدی، «دوباره امتحان کن» گزینه‌ای واقعی است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q8">چرا نباید از من بپرسی یک متن چند کلمه است؟</summary><p data-i18n="ch1.quiz.a8">چون متن را مثل تو حرف‌به‌حرف نمی‌بینم، تکه‌تکه می‌بینم؛ در شمارش دقیق قابل اتکا نیستم. شمارش را به ویرایشگر متنت بسپار و از من فقط «تقریبی» بخواه.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q5">چه چیزی هرگز در گفت‌وگو چسبانده نمی‌شود؟</summary><p data-i18n="ch1.quiz.a5">رمز، شمارهٔ شناسایی، اطلاعات کارت بانکی، فهرست مشتری و هر چیزی که اجازهٔ اشتراکش را نداری. معیار ساده است: این را به یک کارآموز نشان می‌دادی؟</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch1.recap.title">این فصل در یک جمله</h2>
+        <p data-i18n="ch1.recap.p">من پیشگویی دانای کل نیستم، دستیاری هستم بسیار پرمطالعه و بسیار سریع: به من زمینه بده، آنچه داری (سند، تصویر، جدول) را بده، بی‌رودربایستی حرف بزن، خروجی‌ام را راستی‌آزمایی کن — باقی را با هم حل می‌کنیم.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch1.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="ch1.next.title">فصل ۲ · فرمول</h3>
+          <p data-i18n="ch1.next.p">دیدی که زمینه مهم است. حالا نوبت فرمول دادن درست آن در هر بار است: نقش، زمینه، هدف، محدودیت و قالب خروجی.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch1.next.soon">به‌زودی</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-1.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-1.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/course/chapter-1.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="chapter-1.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

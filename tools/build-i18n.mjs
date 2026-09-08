@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
-const SOURCES = ['index.html', 'contact/index.html', 'contact/course.html', 'portal/login.html', 'terms.html', 'impressum.html'];
+const SOURCES = ['index.html', 'claude/index.html', 'contact/index.html', 'contact/course.html', 'course/chapter-1.html', 'portal/login.html', 'terms.html', 'impressum.html'];
 const ASSET_DIRS = ['css/', 'js/', 'img/', 'fonts/', 'manifest.webmanifest'];
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 
