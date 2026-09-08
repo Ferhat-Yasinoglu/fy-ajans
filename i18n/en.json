@@ -667,7 +667,7 @@
    "ch1.s9.list": "<li><strong class=\"text-fg\">If it matters, verify it.</strong> If a sentence touches a decision, money or a person, confirm it at the source. Treat chat text as a first draft, not the last word.</li> <li><strong class=\"text-fg\">Ask for sources — but check the sources too.</strong> When you say «give me a source» I will; but I can also invent one that doesn't exist. Click the link.</li> <li><strong class=\"text-fg\">Test me in your own field.</strong> Ask three questions you already know the answers to. You'll learn in a day where I'm strong and where I'm weak — and that instinct serves you for the whole course.</li>",
    "ch1.s9.list.do": "Do this now: Ask me a question you already know the answer to. Do your first verification today.",
    "ch1.weak.title": "Where I get things wrong",
-   "ch1.weak.p1": "In the third section I said «I can be wrong». Now I'm telling you exactly where. This list isn't there to run me down — it's so you know where to look twice. Someone who knows all six barely ever gets caught out working with me.",
+   "ch1.weak.p1": "Under «This has three practical consequences for you» I said «I can be wrong». Now I'm telling you exactly where. This list isn't there to run me down — it's so you know where to look twice. Someone who knows all six barely ever gets caught out working with me.",
    "ch1.weak.w1.t": "Arithmetic with long numbers",
    "ch1.weak.w1.p": "I'm not a calculator. I build the working step by step as text; on long multiplication, division and chains of percentages I can drift.",
    "ch1.weak.w1.f": "<strong class=\"text-fg\">What to do:</strong> Check the result with a calculator, or ask me to show the steps one by one — if there's an error you'll see it in a step.",
