@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
-const SOURCES = ['index.html', 'claude/index.html', 'contact/index.html', 'contact/course.html', 'course/chapter-1.html', 'portal/login.html', 'terms.html', 'impressum.html'];
+const SOURCES = ['index.html', 'claude/index.html', 'contact/index.html', 'contact/course.html', 'course/chapter-1.html', 'course/chapter-2.html', 'portal/login.html', 'terms.html', 'impressum.html'];
 const ASSET_DIRS = ['css/', 'js/', 'img/', 'fonts/', 'manifest.webmanifest'];
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 
@@ -173,7 +173,7 @@ for (const dict of dicts) {
 // sitemap: her sayfa × her dil, hreflang alternatifleriyle
 const langs = ['tr', ...dicts.filter(d => d.lang !== 'tr').map(d => d.lang)];
 const today = new Date().toISOString().slice(0, 10);
-const PRIO = { 'index.html': ['weekly', '1'], 'claude/index.html': ['monthly', '0.8'], 'course/chapter-1.html': ['monthly', '0.7'], 'contact/index.html': ['weekly', '0.9'], 'contact/course.html': ['weekly', '0.8'], 'terms.html': ['monthly', '0.3'], 'impressum.html': ['yearly', '0.2'], 'portal/login.html': null };
+const PRIO = { 'index.html': ['weekly', '1'], 'claude/index.html': ['monthly', '0.8'], 'course/chapter-1.html': ['monthly', '0.7'], 'course/chapter-2.html': ['monthly', '0.7'], 'contact/index.html': ['weekly', '0.9'], 'contact/course.html': ['weekly', '0.8'], 'terms.html': ['monthly', '0.3'], 'impressum.html': ['yearly', '0.2'], 'portal/login.html': null };
 let sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 for (const src of SOURCES) {
   if (!PRIO[src]) continue;

@@ -692,12 +692,13 @@
   /* ---------- Ders: adım adım canlandırma ----------
      Sahne tek bir data-step değeriyle sürülür (biçimlendirme css'te). Kendi kendine döner;
      bir adıma tıklanınca oraya gider ve elle gezinmeye bırakır. Görünmüyorken ya da imleç
-     üstündeyken durur. Hareket azaltılmışsa hiç dönmez: son kare gösterilir. */
-  (function walk() {
-    var box = $('[data-walk]'); if (!box) return;
-    var stage = $('.walk__stage', box), items = $$('.walk__steps li', box);
+     üstündeyken durur. Hareket azaltılmışsa hiç dönmez: son kare gösterilir.
+     Aynı sürücü iki sahnede kullanılıyor: Bölüm 1'in ilk sohbet anlatımı (.walk, 5 adım) ve
+     Bölüm 2'nin istek kuruluşu (.build, 6 adım). */
+  function stepper(box, prefix, HOLD, last) {
+    if (!box) return;
+    var stage = $('.' + prefix + '__stage', box), items = $$('.' + prefix + '__steps li', box);
     if (!stage || !items.length) return;
-    var HOLD = [0, 2200, 2000, 3000, 1600, 3600];      // adım başına bekleme (ms)
     var step = 1, timer = 0, manual = false, hover = false, seen = false;
 
     function show(n) {
@@ -709,7 +710,7 @@
     function tick() {
       stop();
       if (manual || hover || !seen || reduce) return;
-      timer = setTimeout(function () { show(step % 5 + 1); tick(); }, HOLD[step] || 2400);
+      timer = setTimeout(function () { show(step % last + 1); tick(); }, HOLD[step] || 2400);
     }
 
     items.forEach(function (li, i) {
@@ -719,14 +720,17 @@
     box.addEventListener('mouseenter', function () { hover = true; stop(); });
     box.addEventListener('mouseleave', function () { hover = false; tick(); });
 
-    if (reduce) { show(5); return; }                    // hareket istemeyene son kare
+    if (reduce) { show(last); return; }                 // hareket istemeyene son kare
     show(1);
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) {
         es.forEach(function (e) { seen = e.isIntersecting; if (seen) tick(); else stop(); });
       }, { threshold: .35 }).observe(box);
     } else { seen = true; tick(); }
-  })();
+  }
+
+  stepper($('[data-walk]'), 'walk', [0, 2200, 2000, 3000, 1600, 3600], 5);
+  stepper($('[data-build]'), 'build', [0, 2400, 2200, 2200, 2200, 2200, 4000], 6);
 
   /* ---------- FYOS: sohbet ----------
      Yanıt kaynağı sırası:
