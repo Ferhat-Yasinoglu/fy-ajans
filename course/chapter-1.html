@@ -46,7 +46,12 @@
 
     <!-- ===== Giriş ===== -->
     <header class="lesson__head" data-reveal>
-      <span class="eyebrow" data-i18n="ch1.eyebrow">Bölüm 1 · The Wake-Up</span>
+      <!-- Kapak: tıklanan bölüm kartının görselinin ta kendisi — okuyan geldiği yeri tanısın. -->
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/ch1-static.svg"><img src="../img/course/ch1.svg" alt="" width="800" height="800" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Wake-Up</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch1.eyebrow">Bölüm 1 · Uyanış</span>
       <h1 class="font-display text-h1" data-i18n="ch1.title">Önce <span class="text-accent-gradient">beni tanı</span></h1>
       <p class="lesson__lead" data-i18n="ch1.lead">Bu bölümde tek bir iş var: beni tanımak. Ne olduğumu, neyi iyi yaptığımı, nerede yanıldığımı ve benimle nasıl konuşulduğunu bilmeden kalan altı bölüm havada kalır. Hiçbir şey bilmediğini varsayıyorum — gerçekten hiçbir şey. Baştan başlıyoruz.</p>
       <p class="lesson__meta font-mono" data-i18n="ch1.meta">Okuma süresi ~15 dakika · Ön koşul yok</p>
