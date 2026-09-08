@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Claude Rehberi — nedir, ne yapar, nasıl kullanılır | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Claude nedir, nasıl çalışır, neyi yapar neyi yapamaz, nereden kullanılır ve nasıl başlanır. Sıfırdan başlayanlar için eksiksiz rehber ve sözlük.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Claude Rehberi — nedir, ne yapar, nasıl kullanılır">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Sıfırdan başlayanlar için eksiksiz rehber: Claude nedir, nasıl çalışır, neyi yapar, nerede yanılır, nereden kullanılır.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html" style="margin:0" data-i18n="cg.back">← Ana sayfa</a>
+    <div class="course-bar__price"><span class="now" data-i18n="cg.barTag">Rehber</span></div>
+    <a class="btn btn-primary btn-sm" href="../course/chapter-1.html" data-i18n="cg.barCta">Bölüm 1'e git</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l1-cover-static.svg"><img src="../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Complete Guide</span>
+      </div>
+      <span class="eyebrow" data-i18n="cg.eyebrow">Rehber</span>
+      <h1 class="font-display text-h1" data-i18n="cg.title">Her şeyiyle <span class="text-accent-gradient">Claude</span></h1>
+      <p class="lesson__lead" data-i18n="cg.lead">Claude nedir, nasıl çalışır, neyi yapar, neyi yapamaz, nereden kullanılır ve nasıl başlanır. Hiçbir şey bilmediğini varsayarak yazıldı; sonuna kadar okuyan biri, karşısındakinin ne olduğunu bilerek kullanmaya başlar.</p>
+      <p class="lesson__meta font-mono" data-i18n="cg.meta">Referans sayfası · istediğin bölüme atlayabilirsin</p>
+      <div class="glass note note--warn" style="text-align:start">
+        <p data-i18n="cg.disclaimer">Bu sayfa <strong class="text-fg">FY tarafından hazırlanmış bağımsız bir rehberdir</strong>; Anthropic'in resmî sayfası değildir ve onunla bir ortaklığı yoktur. Ürün adları sahiplerine aittir. Fiyat, sınır ve özellik gibi değişebilen bilgiler için her zaman sağlayıcının kendi sayfasına bak.</p>
+      </div>
+    </header>
+
+    <!-- ===== Hızlı cevap ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="cg.tldr.title">Kısa cevap</h2>
+      <ul class="check-list space-2" data-i18n="cg.tldr.list">
+        <li>Claude, <strong class="text-fg">Anthropic</strong> tarafından geliştirilen bir yapay zekâ asistanıdır; metinle çalışır.</li>
+        <li>Yazar, özetler, çevirir, kod yazar, belge okur, fikir üretir — konuşarak iş yaptırırsın.</li>
+        <li>Emin bir tonla yanılabilir, belli bir tarihe kadar öğrenmiştir ve her sohbet sıfırdan başlar.</li>
+        <li>Tarayıcıdan, telefondan, masaüstünden ve terminalden kullanılır; ücretsiz bir kademesi vardır.</li>
+        <li>İyi kullanmanın sırrı zekâ değil <strong class="text-fg">bağlam</strong>: kim, ne, neden, nasıl.</li>
+      </ul>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="cg.s1.title">Claude nedir, kim yaptı</span></h2>
+      <p data-i18n="cg.s1.p1">Claude, <strong class="text-fg">Anthropic</strong> adlı yapay zekâ şirketinin geliştirdiği bir asistandır. Teknik adı «büyük dil modeli»: devasa miktarda metin üzerinde eğitilmiş, dille çalışan bir yazılım. Bir arama motoru, bir veritabanı ya da bir robot değildir.</p>
+      <p data-i18n="cg.s1.p2">Onunla konuşarak iş yaptırırsın. Yazdığın isteği okur, ne istediğini çıkarır ve cevabı üretir. Aynı şeyi bir insana anlatır gibi anlatabilirsin — teknik dil bilmen gerekmez.</p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="cg.s2.title">Nasıl çalışır</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.a.t">Önce okudu</h3><p data-i18n="cg.s2.a.p">Kitaplar, makaleler, tartışmalar, kod. Hiçbirini ezberlemedi; hepsinin <em>nasıl yazıldığını</em> öğrendi — fikirlerin, cümlelerin ve kodun birbirini nasıl izlediğini.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.b.t">Sonra tahmin ediyor</h3><p data-i18n="cg.s2.b.p">Cevabı hazır bir yerden almıyor. Önündeki metne bakıp devamında ne gelmesinin en makul olduğunu hesaplıyor, sonra bir kelime daha. Cevabın akarak yazılmasının sebebi bu.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.c.t">Bir seferde gördüğü kadar</h3><p data-i18n="cg.s2.c.p">Bir sohbette biriken her şeye aynı anda bakabilir; buna «bağlam penceresi» denir. Çok geniştir ama sonsuz değildir; dolduğunda en eskiler bulanıklaşır.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="cg.s3.title">Ne yapabilir</span></h2>
+      <p data-i18n="cg.s3.p1">Metinle yapılabilecek hemen her iş. En çok kullanılanlar:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k1.t">Yazmak</h3><p data-i18n="cg.s3.k1.p">E-posta, ilan, ürün açıklaması, teklif, sunum metni, altyazı, ders planı, sosyal medya metni.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k2.t">Yeniden yazmak</h3><p data-i18n="cg.s3.k2.p">Kısaltma, uzatma, sadeleştirme, ton değiştirme, resmîleştirme, dil bilgisi düzeltme.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k3.t">Okumak ve özetlemek</h3><p data-i18n="cg.s3.k3.p">Uzun rapor, sözleşme, e-posta zinciri, makale. Riskli maddeyi işaretler, ne istendiğini çıkarır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k4.t">Öğretmek</h3><p data-i18n="cg.s3.k4.p">Bilmediğin konuyu istediğin seviyede anlatır, sorularını yanıtlar, sınav yapar, plan çıkarır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k5.t">Çevirmek</h3><p data-i18n="cg.s3.k5.p">Diller arasında çevirir; üstelik tonu ve alıcıyı hesaba katarak. Türkçe sorup Almanca yazdırabilirsin.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k6.t">Kod yazmak</h3><p data-i18n="cg.s3.k6.p">Sıfırdan program, hata bulma, satır satır açıklama, veri dönüştürme betikleri. Kod bilmene gerek yok.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k7.t">Düzene sokmak</h3><p data-i18n="cg.s3.k7.p">Dağınık notu tabloya, konuşmayı maddelere, karışık listeyi düzgün bir dosyaya çevirir.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k8.t">Görsel okumak</h3><p data-i18n="cg.s3.k8.p">Ekran görüntüsü, fotoğraf, el yazısı not, fatura, grafik. «Bu hata ne diyor?» geçerli bir sorudur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k9.t">Veri yorumlamak</h3><p data-i18n="cg.s3.k9.p">Tabloyu yapıştır, neyin göze çarptığını, hangi ayın kötü olduğunu ve neden olabileceğini sor.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k10.t">Düşünmeye ortak olmak</h3><p data-i18n="cg.s3.k10.p">Fikir üretir, kendi fikrine karşı argüman kurar, atladığını sorar, karar öncesi kontrol listesi çıkarır.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="cg.s4.title">Ne yapamaz, nerede yanılır</span></h2>
+      <ul class="cross-list space-2" data-i18n="cg.s4.list">
+        <li><strong class="text-fg">Emin görünüp yanılabilir.</strong> Bilmediğinde susmak yerine makul duran bir cevap üretebilir; buna «halüsinasyon» denir. Ses tonundan anlaşılmaz, yalnızca doğrulayarak anlaşılır.</li>
+        <li><strong class="text-fg">Şu anı bilmez.</strong> Eğitimi belli bir tarihte durmuştur. Arama aracı verilmemişse dünkü haberi, canlı fiyatı, güncel mevzuatı bilmez.</li>
+        <li><strong class="text-fg">Hatırlamaz.</strong> Her sohbet sıfırdan başlar; önceki konuşmalar varsayılan olarak taşınmaz.</li>
+        <li><strong class="text-fg">Kesin sayımda ve uzun aritmetikte zayıftır.</strong> Karakter/kelime sayısı ve uzun çarpma-bölme zincirleri için araç kullan.</li>
+        <li><strong class="text-fg">Kaynak uydurabilir.</strong> Var olmayan kitap adı, makale başlığı ya da sayfa numarası üretebilir. Her bağlantıya tıkla.</li>
+        <li><strong class="text-fg">Kendiliğinden dünyada iş yapmaz.</strong> E-posta göndermez, dosya kaydetmez, ödeme yapmaz — araç bağlanmadıkça.</li>
+        <li><strong class="text-fg">Uzmanın yerine geçmez.</strong> Tıbbi, hukuki ve mali konularda hazırlar ama karar verdirmez.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="cg.s5.title">Nereden kullanılır</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w1.t">Tarayıcı</h3><p data-i18n="cg.s5.w1.p"><strong class="text-fg">claude.ai</strong> — hesap açıp doğrudan kullanmaya başlarsın. Çoğu insan için doğru başlangıç.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w2.t">Telefon</h3><p data-i18n="cg.s5.w2.p">Mobil uygulama. Yolda fotoğraf çekip sormak, sesli not almak ve kaldığın sohbete devam etmek için.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w3.t">Masaüstü</h3><p data-i18n="cg.s5.w3.p">Bilgisayara kurulan uygulama. Kısayolla anında açılır; gün boyu açık duran bir çalışma arkadaşı gibi.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w4.t">Terminal — Claude Code</h3><p data-i18n="cg.s5.w4.p">Bilgisayarındaki dosyalarla doğrudan çalışan sürüm: proje kurar, kod yazar, düzenler. Kursun 4. bölümü bunun üstüne.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w5.t">Kendi yazılımında</h3><p data-i18n="cg.s5.w5.p">API üzerinden kendi uygulamana bağlayabilirsin — sitene sohbet, sisteminize otomatik sınıflandırma gibi.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w6.t">Otomasyon içinde</h3><p data-i18n="cg.s5.w6.p">n8n gibi araçlarla iş akışlarına eklenir: gelen e-postayı okuyup yanıt taslağı hazırlamak gibi. Kursun 3. bölümü.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="cg.s6.title">Hangi sürüm</span></h2>
+      <p data-i18n="cg.s6.p1">Tek bir Claude yok; farklı boyutlarda sürümler var ve isimleri zaman içinde değişiyor. İsmi değil <strong class="text-fg">kademe mantığını</strong> aklında tut:</p>
+      <div class="tiers">
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t1.n">En yetenekli</span><h3 class="font-display" data-i18n="cg.s6.t1.t">Opus ailesi</h3><p data-i18n="cg.s6.t1.p">Zor akıl yürütme, uzun ve karmaşık işler, ciddi kod. En iyi düşünen; en yavaş ve en pahalı olan.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t2.n">Dengeli</span><h3 class="font-display" data-i18n="cg.s6.t2.t">Sonnet ailesi</h3><p data-i18n="cg.s6.t2.p">Günlük işlerin çoğu. Hız ile yetenek arasındaki en iyi denge; çoğu kişi için doğru varsayılan.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t3.n">En hızlı</span><h3 class="font-display" data-i18n="cg.s6.t3.t">Haiku ailesi</h3><p data-i18n="cg.s6.t3.p">Basit, kısa ve çok tekrar eden işler. Anında cevap verir, en ucuzudur.</p></div>
+      </div>
+      <p data-i18n="cg.s6.p2"><strong class="text-fg">Kural:</strong> varsayılanla başla. Cevap yüzeysel geliyorsa bir üst kademeye çık. Önceden karar verme; iş sana söyler.</p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="cg.s7.title">Nasıl başlanır</span></h2>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="cg.s7.st1"><strong class="text-fg">claude.ai</strong> adresine git ve hesap aç. Ücretsiz kademe başlamak için yeterlidir.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="cg.s7.st2">Yeni bir sohbet aç ve ne yaptığını sor: «Ne yapabildiğini bana beş maddede anlat, yeni başlıyorum.»</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="cg.s7.st3">Gerçek bir işini ver. En sıkıcı, en çok tekrar eden işini anlat ve birlikte yapın.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="cg.s7.st4">Bir belge yükle. PDF, ekran görüntüsü ya da tablo — «bunu üç maddede özetle» de.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="cg.s7.st5">Cevabını zaten bildiğin bir soru sor. Nerede güçlü, nerede zayıf olduğunu ilk günde gör.</span></li>
+      </ol>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="cg.s8.title">İyi istek nasıl yazılır</span></h2>
+      <p data-i18n="cg.s8.p1">Aldığın cevabın kalitesini belirleyen tek şey bu. Dört parça yeter:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="cg.s8.weak">Zayıf</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.weakText">Bana bir e-posta yaz.</p>
+          <p class="compare__note" data-i18n="cg.s8.weakNote">Kime, neden, hangi tonda belli değil. Boşlukları kendi doldurur ve ortalama bir metin çıkar.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="cg.s8.strong">Güçlü</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.strongText">Küçük bir mobilya atölyem var <span class="text-gold">(kim)</span>. Ödemesini üç haftadır geciktiren kurumsal bir müşteriye e-posta yazacağım <span class="text-gold">(ne)</span>. İlişkiyi bozmadan net bir tarih almak istiyorum <span class="text-gold">(neden)</span>. Kibar, kısa, en fazla 120 kelime <span class="text-gold">(nasıl)</span>.</p>
+          <p class="compare__note" data-i18n="cg.s8.strongNote">Bundan gönderebileceğin bir e-posta çıkar. Aradaki fark zekâ değil, <strong class="text-fg">bağlam</strong>.</p>
+        </div>
+      </div>
+      <p data-i18n="cg.s8.p2">İki ek alışkanlık: isteğinin sonuna <strong class="text-fg">«emin olmadığın yerde emin olmadığını söyle»</strong> ekle — uydurma ihtimalini düşürür. Ve ilk cevap tutmazsa yeni sohbet açma, neyin yanlış olduğunu söyle: «fazla resmî oldu», «üçüncü paragrafı at», «daha kısa».</p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="cg.s9.title">Gizlilik ve güvenlik</span></h2>
+      <ul class="check-list space-2" data-i18n="cg.s9.list">
+        <li><strong class="text-fg">Paylaşma yetkin olmayan veriyi yazma.</strong> Şifre, kimlik numarası, kart bilgisi, müşteri listesi. Ölçüt: bunu bir stajyere gösterir miydin?</li>
+        <li><strong class="text-fg">Verinin ne olduğu plana ve ayara göre değişir.</strong> Hesabının gizlilik ayarlarını bir kez aç ve oku; kurallar zamanla güncellenir.</li>
+        <li><strong class="text-fg">Yüklediğin kaynak asistanı yönlendirebilir.</strong> Bir belgenin ya da web sayfasının içinde asistana yönelik gizli talimatlar olabilir. Cevap sormadığın bir yöne kayıyorsa sebebini kaynakta ara.</li>
+        <li><strong class="text-fg">Sorumluluk kullananındır.</strong> Çıktıyı kullanan sensin; bir karara, paraya ya da insana dokunan her cümleyi doğrula.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 10 · SSS ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="cg.faq.title">Sık sorulanlar</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q1">Ücretsiz mi?</summary><p data-i18n="cg.faq.a1">Ücretsiz bir kademe var ve başlamak için yeterli. Daha çok kullanım ve daha yetenekli sürümler için ücretli kademeler mevcut. Fiyat ve sınırlar değiştiği için güncel hâli sağlayıcının kendi sayfasındadır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q2">Türkçe biliyor mu?</summary><p data-i18n="cg.faq.a2">Evet. Türkçe sorup Türkçe cevap alırsın; Türkçe anlatıp Almanca yazdırabilir, İngilizce bir belgeyi Türkçe özetletebilirsin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q3">İnternete bakabiliyor mu?</summary><p data-i18n="cg.faq.a3">Kendiliğinden hayır. Kullandığın uygulamada arama aracı verilmişse bakar. Emin değilsen doğrudan sor: «bunu aramadan mı söylüyorsun?»</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q4">Yazdıklarım eğitimde kullanılıyor mu?</summary><p data-i18n="cg.faq.a4">Plana ve hesabındaki ayarlara göre değişir; kurallar da güncellenir. Doğru cevap hesabının gizlilik ayarlarında ve sağlayıcının o günkü gizlilik metnindedir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q5">Sohbet ne kadar uzun olabilir?</summary><p data-i18n="cg.faq.a5">Çok uzun olabilir ama sınırsız değil. Sınır dolduğunda en eskiler bulanıklaşır. Uzayan bir konuşmada sonucu özetletip yeni bir sohbete taşımak en temiz yöntemdir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q6">Aynı soruya neden farklı cevaplar veriyor?</summary><p data-i18n="cg.faq.a6">Cevabı ezberden okumadığı, her seferinde yeniden ürettiği için. Arıza değildir; beğenmediğinde «bir daha dene» demek geçerli bir seçenektir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q7">Bazı istekleri neden reddediyor?</summary><p data-i18n="cg.faq.a7">Zarar verebilecek işlerde durur. Bu kişisel değildir; genelde istediğin şeyin yapılabilir bir hâli vardır ve sebebini söyler.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q8">Kendi hakkındaki bilgileri doğru mu bilir?</summary><p data-i18n="cg.faq.a8">Her zaman değil. Hangi sürüm olduğu, eğitiminin ne zaman kesildiği, günlük sınırın kaç olduğu gibi konularda yanılabilir; kendine dışarıdan bakamaz. Bunları uygulamanın kendi sayfasından öğren.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== 11 · Sözlük ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="cg.gl.title">Sözlük</span></h2>
+      <p data-i18n="cg.gl.p1">Yapay zekâ konuşulurken geçen kelimeler. Hepsi bu sayfada geçti:</p>
+      <dl class="gloss" data-i18n="cg.gl.list">
+        <dt>Prompt (istek)</dt><dd>Asistana yazdığın metin. «İyi prompt» demek, bağlamı iyi verilmiş istek demek.</dd>
+        <dt>Model</dt><dd>Asistanın kendisi; eğitilmiş yazılım. Opus, Sonnet, Haiku birer model ailesidir.</dd>
+        <dt>Token</dt><dd>Metnin modelin gördüğü küçük parçası. Kelimeden küçüktür; harf sayamamasının sebebi budur.</dd>
+        <dt>Bağlam penceresi</dt><dd>Bir sohbette aynı anda bakabildiği toplam metin. Dolduğunda en eskiler zayıflar.</dd>
+        <dt>Halüsinasyon</dt><dd>Bilmediği yerde makul görünen yanlış bir cevap üretmesi. En sık ve en sinsi hata türü.</dd>
+        <dt>Eğitim kesme tarihi</dt><dd>Öğrenmesinin durduğu an. O tarihten sonrasını kendiliğinden bilmez.</dd>
+        <dt>Araç (tool)</dt><dd>Modele bağlanan dış yetenek: arama yapmak, dosya okumak, e-posta göndermek gibi.</dd>
+        <dt>Ajan (agent)</dt><dd>Araçları kullanarak çok adımlı bir işi kendi başına yürüten kurulum. Kursun 3. bölümü.</dd>
+        <dt>API</dt><dd>Modeli kendi yazılımına bağlama yolu. Sohbet arayüzü yerine kodla konuşursun.</dd>
+        <dt>Sistem promptu</dt><dd>Asistana baştan verilen kalıcı yönerge: rolü, üslubu, kuralları. Kursun 2. bölümü.</dd>
+        <dt>Çok kipli (multimodal)</dt><dd>Yalnızca yazıyı değil görseli de okuyabilmesi.</dd>
+        <dt>İnce ayar (fine-tuning)</dt><dd>Bir modeli belirli bir iş için ek veriyle özelleştirme. Çoğu iş için gerekmez; iyi bir istek yeter.</dd>
+      </dl>
+    </section>
+
+    <!-- ===== Kapanış ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="cg.recap.title">Bir cümlede</h2>
+        <p data-i18n="cg.recap.p">Claude her şeyi bilen bir kâhin değil, çok okumuş ve çok hızlı çalışan bir asistandır: ona bağlam ver, elindekini ver, çekinmeden konuş, çıktısını doğrula.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="cg.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="cg.next.title">Bölüm 1 · Uyanış</h3>
+          <p data-i18n="cg.next.p">Bu sayfa neyle karşı karşıya olduğunu anlattı. Kurs, onu senin işinde kullanmayı öğretiyor — sıfırdan, adım adım, alıştırmalarla.</p>
+        </div>
+        <a class="btn btn-primary" href="../course/chapter-1.html" data-i18n="cg.next.btn">Bölüm 1'i aç →</a>
+      </div>
+    </section>
+
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="index.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/claude/index.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/claude/index.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/claude/index.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">راهنمای کلود — چیست، چه می‌کند، چگونه استفاده می‌شود | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="کلود چیست، چگونه کار می‌کند، چه کارهایی می‌کند و چه کارهایی نمی‌کند، از کجا استفاده می‌شود و چگونه شروع کنیم. راهنمای کامل و واژه‌نامه برای مبتدیان.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="راهنمای کلود — چیست، چه می‌کند، چگونه استفاده می‌شود">
+<meta property="og:description" data-i18n-attr="content=og.description" content="راهنمای کامل برای مبتدیان: کلود چیست، چگونه کار می‌کند، چه می‌تواند، کجا اشتباه می‌کند، از کجا استفاده می‌شود.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html" style="margin:0" data-i18n="cg.back">← صفحهٔ اصلی</a>
+    <div class="course-bar__price"><span class="now" data-i18n="cg.barTag">راهنما</span></div>
+    <a class="btn btn-primary btn-sm" href="../course/chapter-1.html" data-i18n="cg.barCta">به فصل ۱ برو</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l1-cover-static.svg"><img src="../../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Complete Guide</span>
+      </div>
+      <span class="eyebrow" data-i18n="cg.eyebrow">راهنما</span>
+      <h1 class="font-display text-h1" data-i18n="cg.title">همه‌چیز دربارهٔ <span class="text-accent-gradient">کلود</span></h1>
+      <p class="lesson__lead" data-i18n="cg.lead">کلود چیست، چگونه کار می‌کند، چه می‌تواند، چه نمی‌تواند، از کجا استفاده می‌شود و چگونه شروع کنیم. با این فرض نوشته شده که هیچ نمی‌دانید؛ هرکس تا انتها بخواند، دقیقاً می‌داند با چه چیزی کار می‌کند.</p>
+      <p class="lesson__meta font-mono" data-i18n="cg.meta">صفحهٔ مرجع · به هر بخشی می‌توانید بپرید</p>
+      <div class="glass note note--warn" style="text-align:start">
+        <p data-i18n="cg.disclaimer">این یک <strong class="text-fg">راهنمای مستقل نوشتهٔ FY</strong> است؛ صفحهٔ رسمی Anthropic نیست و هیچ همکاری‌ای میان آن‌ها وجود ندارد. نام‌های تجاری متعلق به صاحبانشان است. برای هر چیزی که تغییر می‌کند — قیمت، محدودیت، امکانات — همیشه به صفحهٔ خود ارائه‌دهنده نگاه کنید.</p>
+      </div>
+    </header>
+
+    <!-- ===== Hızlı cevap ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="cg.tldr.title">پاسخ کوتاه</h2>
+      <ul class="check-list space-2" data-i18n="cg.tldr.list"><li>کلود دستیار هوش مصنوعی ساختهٔ <strong class="text-fg">Anthropic</strong> است؛ با متن کار می‌کند.</li> <li>می‌نویسد، خلاصه می‌کند، ترجمه می‌کند، کد می‌نویسد، سند می‌خواند و ایده می‌سازد — با گفت‌وگو کار را پیش می‌برید.</li> <li>ممکن است با لحنی مطمئن اشتباه کند، تا تاریخی مشخص آموخته، و هر گفت‌وگو از صفر آغاز می‌شود.</li> <li>از مرورگر، تلفن، برنامهٔ رومیزی و ترمینال استفاده می‌شود؛ یک ردهٔ رایگان دارد.</li> <li>راز استفادهٔ خوب هوش نیست، <strong class="text-fg">زمینه</strong> است: که، چه، چرا، چگونه.</li></ul>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="cg.s1.title">کلود چیست، چه کسی ساخته</span></h2>
+      <p data-i18n="cg.s1.p1">کلود دستیاری است که شرکت هوش مصنوعی <strong class="text-fg">Anthropic</strong> ساخته است. نام فنی‌اش «مدل زبانی بزرگ» است: نرم‌افزاری که روی حجم عظیمی از متن آموزش دیده و با زبان کار می‌کند. موتور جست‌وجو، پایگاه داده یا ربات نیست.</p>
+      <p data-i18n="cg.s1.p2">با گفت‌وگو کار را پیش می‌برید. آنچه می‌نویسید می‌خواند، می‌فهمد چه می‌خواهید و پاسخ را می‌سازد. می‌توانید درست مثل توضیح دادن به یک انسان توضیح دهید — نیازی به زبان فنی نیست.</p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="cg.s2.title">چگونه کار می‌کند</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.a.t">اول خوانده</h3><p data-i18n="cg.s2.a.p">کتاب، مقاله، بحث، کد. هیچ‌کدام را حفظ نکرده؛ آموخته که <em>چگونه نوشته می‌شوند</em> — اینکه ایده‌ها، جمله‌ها و کد چگونه از پی هم می‌آیند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.b.t">بعد پیش‌بینی می‌کند</h3><p data-i18n="cg.s2.b.p">پاسخ را از جایی برنمی‌دارد. به متن پیش رو نگاه می‌کند و حساب می‌کند محتمل‌ترین ادامه چیست، سپس یک کلمهٔ دیگر. به همین دلیل پاسخ جاری می‌شود و یک‌جا آماده نیست.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.c.t">به اندازه‌ای که یک‌جا می‌بیند</h3><p data-i18n="cg.s2.c.p">می‌تواند به همهٔ آنچه در یک گفت‌وگو جمع شده هم‌زمان نگاه کند؛ به این «پنجرهٔ زمینه» می‌گویند. بسیار بزرگ است اما بی‌نهایت نیست؛ وقتی پر شود، قدیمی‌ترین‌ها کم‌رنگ می‌شوند.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="cg.s3.title">چه می‌تواند بکند</span></h2>
+      <p data-i18n="cg.s3.p1">تقریباً هر کاری که با متن شدنی است. پرکاربردترین‌ها:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k1.t">نوشتن</h3><p data-i18n="cg.s3.k1.p">ایمیل، آگهی، توضیح محصول، پیشنهاد کاری، متن ارائه، زیرنویس، طرح درس، متن شبکه‌های اجتماعی.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k2.t">بازنویسی</h3><p data-i18n="cg.s3.k2.p">کوتاه کردن، بلند کردن، ساده کردن، تغییر لحن، رسمی کردن، اصلاح دستور زبان.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k3.t">خواندن و خلاصه کردن</h3><p data-i18n="cg.s3.k3.p">گزارش بلند، قرارداد، زنجیرهٔ ایمیل، مقاله. بند پرخطر را نشان می‌دهد و درمی‌آورد چه خواسته شده.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k4.t">آموزش دادن</h3><p data-i18n="cg.s3.k4.p">آنچه نمی‌دانید را در هر سطحی که بخواهید توضیح می‌دهد، به پرسش‌ها پاسخ می‌دهد، از شما امتحان می‌گیرد، برنامه می‌ریزد.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k5.t">ترجمه</h3><p data-i18n="cg.s3.k5.p">میان زبان‌ها ترجمه می‌کند؛ آن هم با در نظر گرفتن لحن و مخاطب. به فارسی بپرسید، به آلمانی بنویساند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k6.t">کدنویسی</h3><p data-i18n="cg.s3.k6.p">برنامه از صفر، یافتن خطا، توضیح خط‌به‌خط، اسکریپت تبدیل داده. لازم نیست کد بلد باشید.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k7.t">نظم دادن</h3><p data-i18n="cg.s3.k7.p">یادداشت آشفته را به جدول، گفت‌وگو را به فهرست، فهرست درهم را به یک فایل مرتب تبدیل می‌کند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k8.t">خواندن تصویر</h3><p data-i18n="cg.s3.k8.p">عکس صفحه، عکس، یادداشت دست‌نویس، فاکتور، نمودار. «این خطا چه می‌گوید؟» پرسشی معتبر است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k9.t">تفسیر داده</h3><p data-i18n="cg.s3.k9.p">جدول را بچسبانید و بپرسید چه چیزی به چشم می‌آید، کدام ماه بد بوده و چرا.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k10.t">هم‌فکری</h3><p data-i18n="cg.s3.k10.p">ایده می‌سازد، در برابر ایدهٔ خودتان استدلال می‌آورد، می‌پرسد چه چیزی را جا انداخته‌اید، پیش از تصمیم فهرست وارسی می‌دهد.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="cg.s4.title">چه نمی‌تواند، کجا اشتباه می‌کند</span></h2>
+      <ul class="cross-list space-2" data-i18n="cg.s4.list"><li><strong class="text-fg">ممکن است مطمئن به‌نظر برسد و اشتباه کند.</strong> به‌جای سکوت در جایی که نمی‌داند، ممکن است پاسخی موجه‌نما بسازد؛ به این «توهم» می‌گویند. از لحنش فهمیده نمی‌شود، فقط با راستی‌آزمایی.</li> <li><strong class="text-fg">اکنون را نمی‌داند.</strong> آموزشش در تاریخی مشخص متوقف شده. بدون ابزار جست‌وجو، خبر دیروز، نرخ لحظه‌ای یا قانون روز را نمی‌داند.</li> <li><strong class="text-fg">به یاد نمی‌آورد.</strong> هر گفت‌وگو از صفر آغاز می‌شود؛ گفت‌وگوهای پیشین به‌طور پیش‌فرض منتقل نمی‌شوند.</li> <li><strong class="text-fg">در شمارش دقیق و حساب طولانی ضعیف است.</strong> برای شمار نویسه و کلمه و زنجیره‌های طولانی ضرب و تقسیم از ابزار استفاده کنید.</li> <li><strong class="text-fg">ممکن است منبع بسازد.</strong> نام کتاب، عنوان مقاله یا شماره صفحه‌ای که وجود ندارد. روی هر پیوند کلیک کنید.</li> <li><strong class="text-fg">خودبه‌خود در جهان کاری نمی‌کند.</strong> ایمیل نمی‌فرستد، فایل ذخیره نمی‌کند، پرداخت انجام نمی‌دهد — مگر ابزاری وصل شود.</li> <li><strong class="text-fg">جای متخصص را نمی‌گیرد.</strong> در موضوع‌های پزشکی، حقوقی و مالی شما را آماده می‌کند اما تصمیم نمی‌گیرد.</li></ul>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="cg.s5.title">از کجا استفاده می‌شود</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w1.t">مرورگر</h3><p data-i18n="cg.s5.w1.p"><strong class="text-fg">claude.ai</strong> — حساب بسازید و بی‌درنگ شروع کنید. برای بیشتر مردم نقطهٔ شروع درست.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w2.t">تلفن</h3><p data-i18n="cg.s5.w2.p">برنامهٔ موبایل. برای عکس گرفتن و پرسیدن در راه، یادداشت گفتاری، و ادامه دادن گفت‌وگویی که نیمه رها کرده‌اید.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w3.t">رومیزی</h3><p data-i18n="cg.s5.w3.p">برنامه‌ای که روی رایانه نصب می‌شود. با یک میان‌بر فوری باز می‌شود؛ مثل همکاری که تمام روز باز است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w4.t">ترمینال — Claude Code</h3><p data-i18n="cg.s5.w4.p">نسخه‌ای که مستقیم با فایل‌های رایانهٔ شما کار می‌کند: پروژه می‌سازد، کد می‌نویسد و ویرایش می‌کند. فصل ۴ دوره بر همین بنا شده.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w5.t">در نرم‌افزار خودتان</h3><p data-i18n="cg.s5.w5.p">از راه API به برنامهٔ خودتان وصلش می‌کنید — گفت‌وگو در سایت، دسته‌بندی خودکار در سامانه.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w6.t">درون خودکارسازی</h3><p data-i18n="cg.s5.w6.p">با ابزارهایی مثل n8n به جریان کار افزوده می‌شود: خواندن ایمیل ورودی و آماده کردن پیش‌نویس پاسخ. فصل ۳ دوره.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="cg.s6.title">کدام نسخه</span></h2>
+      <p data-i18n="cg.s6.p1">یک کلود واحد وجود ندارد؛ نسخه‌هایی در اندازه‌های مختلف هست و نامشان با گذشت زمان عوض می‌شود. نه نام، بلکه <strong class="text-fg">منطق رده‌ها</strong> را به خاطر بسپارید:</p>
+      <div class="tiers">
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t1.n">تواناترین</span><h3 class="font-display" data-i18n="cg.s6.t1.t">خانوادهٔ Opus</h3><p data-i18n="cg.s6.t1.p">استدلال دشوار، کارهای بلند و پیچیده، کد جدی. بهترین اندیشنده؛ کندترین و گران‌ترین.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t2.n">متعادل</span><h3 class="font-display" data-i18n="cg.s6.t2.t">خانوادهٔ Sonnet</h3><p data-i18n="cg.s6.t2.p">بیشتر کارهای روزمره. بهترین توازن سرعت و توانایی؛ پیش‌فرض درست برای بیشتر افراد.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t3.n">سریع‌ترین</span><h3 class="font-display" data-i18n="cg.s6.t3.t">خانوادهٔ Haiku</h3><p data-i18n="cg.s6.t3.p">کارهای ساده، کوتاه و پرتکرار. بی‌درنگ پاسخ می‌دهد و ارزان‌ترین است.</p></div>
+      </div>
+      <p data-i18n="cg.s6.p2"><strong class="text-fg">قاعده:</strong> با پیش‌فرض شروع کنید. اگر پاسخ سطحی بود، یک رده بالاتر بروید. از پیش تصمیم نگیرید؛ خودِ کار به شما می‌گوید.</p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="cg.s7.title">چگونه شروع کنیم</span></h2>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="cg.s7.st1">به <strong class="text-fg">claude.ai</strong> بروید و حساب بسازید. ردهٔ رایگان برای شروع کافی است.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="cg.s7.st2">گفت‌وگوی تازه‌ای باز کنید و بپرسید چه می‌کند: «در پنج بند بگو چه کارهایی می‌توانی، تازه شروع کرده‌ام.»</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="cg.s7.st3">کار واقعی بدهید. خسته‌کننده‌ترین و پرتکرارترین کارتان را شرح دهید و با هم انجامش دهید.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="cg.s7.st4">سندی بارگذاری کنید. PDF، عکس صفحه یا جدول — بگویید «این را در سه بند خلاصه کن».</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="cg.s7.st5">پرسشی بپرسید که پاسخش را می‌دانید. همان روز اول ببینید کجا قوی و کجا ضعیف است.</span></li>
+      </ol>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="cg.s8.title">چگونه خوب بخواهیم</span></h2>
+      <p data-i18n="cg.s8.p1">تنها چیزی که کیفیت پاسخ را تعیین می‌کند همین است. چهار تکه کافی است:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="cg.s8.weak">ضعیف</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.weakText">برایم یک ایمیل بنویس.</p>
+          <p class="compare__note" data-i18n="cg.s8.weakNote">به که، چرا و با چه لحنی روشن نیست. جاهای خالی را خودش پر می‌کند و متنی میانمایه بیرون می‌آید.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="cg.s8.strong">قوی</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.strongText">یک کارگاه کوچک مبلمان دارم <span class="text-gold">(که)</span>. می‌خواهم به مشتری شرکتی‌ای که سه هفته است پرداختش را عقب انداخته ایمیل بزنم <span class="text-gold">(چه)</span>. نمی‌خواهم رابطه خراب شود اما تاریخ روشن می‌خواهم <span class="text-gold">(چرا)</span>. مؤدب، کوتاه، حداکثر ۱۲۰ کلمه <span class="text-gold">(چگونه)</span>.</p>
+          <p class="compare__note" data-i18n="cg.s8.strongNote">از این ایمیلی درمی‌آید که می‌توانید بفرستید. تفاوت هوش نیست، <strong class="text-fg">زمینه</strong> است.</p>
+        </div>
+      </div>
+      <p data-i18n="cg.s8.p2">دو عادت دیگر: به انتهای خواسته‌تان <strong class="text-fg">«هرجا مطمئن نیستی بگو»</strong> را اضافه کنید — احتمال ساختن را پایین می‌آورد. و اگر پاسخ اول نگرفت، گفت‌وگوی تازه باز نکنید؛ بگویید چه ایرادی دارد: «خیلی رسمی شد»، «بند سوم را بردار»، «کوتاه‌تر».</p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="cg.s9.title">حریم خصوصی و ایمنی</span></h2>
+      <ul class="check-list space-2" data-i18n="cg.s9.list"><li><strong class="text-fg">داده‌ای که اجازهٔ اشتراکش را ندارید ننویسید.</strong> رمز، شمارهٔ شناسایی، اطلاعات کارت، فهرست مشتری. معیار: این را به یک کارآموز نشان می‌دادید؟</li> <li><strong class="text-fg">سرنوشت داده‌ها به طرح و تنظیمات بستگی دارد.</strong> یک‌بار تنظیمات حریم خصوصی حسابتان را باز کنید و بخوانید؛ قواعد با زمان به‌روز می‌شوند.</li> <li><strong class="text-fg">آنچه بارگذاری می‌کنید می‌تواند دستیار را هدایت کند.</strong> درون یک سند یا صفحهٔ وب ممکن است دستورهایی خطاب به او باشد. اگر پاسخ به سمتی رفت که نپرسیده‌اید، در منبع بگردید نه در دستیار.</li> <li><strong class="text-fg">مسئولیت با کاربر است.</strong> شما از خروجی استفاده می‌کنید؛ هر جمله‌ای که به تصمیم، پول یا انسانی مربوط است را راستی‌آزمایی کنید.</li></ul>
+    </section>
+
+    <!-- ===== 10 · SSS ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="cg.faq.title">پرسش‌های پرتکرار</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q1">رایگان است؟</summary><p data-i18n="cg.faq.a1">یک ردهٔ رایگان هست و برای شروع کافی است. برای استفادهٔ بیشتر و نسخه‌های تواناتر رده‌های پولی وجود دارد. چون قیمت‌ها و محدودیت‌ها تغییر می‌کنند، وضعیت روز در صفحهٔ خود ارائه‌دهنده است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q2">فارسی بلد است؟</summary><p data-i18n="cg.faq.a2">بله. به فارسی بپرسید و فارسی بگیرید؛ می‌توانید به فارسی توضیح دهید و به آلمانی بنویساند، یا سندی انگلیسی را به فارسی خلاصه کنید.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q3">می‌تواند در اینترنت جست‌وجو کند؟</summary><p data-i18n="cg.faq.a3">خودبه‌خود نه. اگر برنامه‌ای که استفاده می‌کنید ابزار جست‌وجو به او داده باشد، بله. اگر مطمئن نیستید مستقیم بپرسید: «این را بدون جست‌وجو می‌گویی؟»</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q4">آنچه می‌نویسم برای آموزش استفاده می‌شود؟</summary><p data-i18n="cg.faq.a4">به طرح و تنظیمات حسابتان بستگی دارد و قواعد هم به‌روز می‌شوند. پاسخ درست در تنظیمات حریم خصوصی شما و متن حریم خصوصی روز ارائه‌دهنده است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q5">یک گفت‌وگو چقدر می‌تواند بلند باشد؟</summary><p data-i18n="cg.faq.a5">خیلی بلند، اما بی‌نهایت نه. وقتی مرز پر شود، قدیمی‌ترین‌ها کم‌رنگ می‌شوند. در گفت‌وگوی طولانی، خلاصه گرفتن و رفتن به گفت‌وگوی تازه تمیزترین روش است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q6">چرا به یک پرسش پاسخ‌های متفاوت می‌دهد؟</summary><p data-i18n="cg.faq.a6">چون پاسخ ذخیره‌شده‌ای را نمی‌خواند، هر بار از نو می‌سازد. این ایراد نیست — وقتی خوشتان نیامد، «دوباره امتحان کن» گزینه‌ای واقعی است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q7">چرا برخی خواسته‌ها را رد می‌کند؟</summary><p data-i18n="cg.faq.a7">در کارهایی که می‌تواند آسیب بزند می‌ایستد. این شخصی نیست؛ معمولاً شکل شدنی‌ای از خواستهٔ شما هست و دلیلش را می‌گوید.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q8">دربارهٔ خودش درست می‌داند؟</summary><p data-i18n="cg.faq.a8">همیشه نه. دربارهٔ اینکه کدام نسخه است، آموزشش کی متوقف شده یا محدودیت روزانه چقدر است ممکن است اشتباه کند؛ نمی‌تواند خودش را از بیرون ببیند. این‌ها را از صفحهٔ خود برنامه بگیرید.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== 11 · Sözlük ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="cg.gl.title">واژه‌نامه</span></h2>
+      <p data-i18n="cg.gl.p1">واژه‌هایی که در گفت‌وگو از هوش مصنوعی می‌آیند. همه در همین صفحه آمدند:</p>
+      <dl class="gloss" data-i18n="cg.gl.list"><dt>پرامپت (خواسته)</dt><dd>متنی که به دستیار می‌نویسید. «پرامپت خوب» یعنی خواسته‌ای که زمینه‌اش داده شده.</dd><dt>مدل</dt><dd>خودِ دستیار؛ نرم‌افزار آموزش‌دیده. Opus، Sonnet و Haiku خانواده‌های مدل هستند.</dd><dt>توکن</dt><dd>تکهٔ کوچکی از متن که مدل واقعاً می‌بیند. کوچک‌تر از کلمه — به همین دلیل نمی‌تواند حرف بشمارد.</dd><dt>پنجرهٔ زمینه</dt><dd>کل متنی که در یک گفت‌وگو یک‌جا می‌بیند. وقتی پر شود، قدیمی‌ترین‌ها ضعیف می‌شوند.</dd><dt>توهم</dt><dd>ساختن پاسخی موجه‌نما اما نادرست، آنجا که نمی‌داند. رایج‌ترین و خطرناک‌ترین نوع خطا.</dd><dt>تاریخ پایان آموزش</dt><dd>لحظه‌ای که یادگیری‌اش متوقف شد. پس از آن تاریخ را خودبه‌خود نمی‌داند.</dd><dt>ابزار</dt><dd>توانایی بیرونی وصل‌شده به مدل: جست‌وجو، خواندن فایل، فرستادن ایمیل.</dd><dt>ایجنت (عامل)</dt><dd>ساختاری که با ابزارها کاری چندمرحله‌ای را خودش پیش می‌برد. فصل ۳ دوره.</dd><dt>API</dt><dd>راه وصل کردن مدل به نرم‌افزار خودتان. به‌جای پنجرهٔ گفت‌وگو با کد حرف می‌زنید.</dd><dt>پرامپت سیستمی</dt><dd>دستور پایداری که از آغاز داده می‌شود: نقش، لحن، قواعد. فصل ۲ دوره.</dd><dt>چندوجهی</dt><dd>توانایی خواندن تصویر در کنار متن.</dd><dt>تنظیم دقیق</dt><dd>تخصصی کردن یک مدل برای کاری معین با دادهٔ افزوده. بیشتر کارها به آن نیاز ندارند؛ خواسته‌ای خوب کافی است.</dd></dl>
+    </section>
+
+    <!-- ===== Kapanış ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="cg.recap.title">در یک جمله</h2>
+        <p data-i18n="cg.recap.p">کلود پیشگویی دانای کل نیست، دستیاری است بسیار پرمطالعه و بسیار سریع: زمینه بدهید، آنچه دارید بدهید، بی‌رودربایستی حرف بزنید، خروجی را راستی‌آزمایی کنید.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="cg.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="cg.next.title">فصل ۱ · بیداری</h3>
+          <p data-i18n="cg.next.p">این صفحه گفت با چه چیزی روبه‌رو هستید. دوره یاد می‌دهد چگونه آن را در کار خودتان به کار بگیرید — از صفر، گام‌به‌گام، با تمرین.</p>
+        </div>
+        <a class="btn btn-primary" href="../course/chapter-1.html" data-i18n="cg.next.btn">فصل ۱ را باز کن ←</a>
+      </div>
+    </section>
+
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../claude/index.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/claude/index.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/claude/index.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="index.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1256,6 +1256,23 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 .walk__steps li.is-now button { color: rgb(var(--fg)); border-color: rgb(var(--accent-gold) / .45); background: rgb(var(--accent-gold) / .07); }
 .walk__e { flex: none; font-size: 14px; }
 
+/* Rehber bağlantısı: derste ve ana sayfada aynı kutu */
+.guide-link { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-radius: var(--radius-2xl);
+  border: 1px solid rgb(var(--accent-gold) / .28); background: rgb(var(--accent-gold) / .05);
+  transition: border-color .25s, background .25s, transform .25s; }
+.guide-link:hover { border-color: rgb(var(--accent-gold) / .55); background: rgb(var(--accent-gold) / .09); transform: translateY(-2px); }
+.guide-link__e { flex: none; font-size: 24px; line-height: 1; }
+.guide-link__tx { flex: 1; display: grid; gap: 4px; font-size: 13.5px; line-height: 1.6; color: rgb(var(--fg-muted)); }
+.guide-link__tx strong { font-size: 15.5px; }
+.guide-link__go { flex: none; color: rgb(var(--accent-gold-bright)); font-size: 18px; }
+
+/* Sözlük */
+.gloss { margin: 24px 0 0; display: grid; gap: 0; }
+.gloss dt { font-size: 14.5px; font-weight: 700; color: rgb(var(--accent-gold-bright)); padding-top: 14px; }
+.gloss dd { margin: 5px 0 0; padding-bottom: 14px; font-size: 14px; line-height: 1.7; color: rgb(var(--fg-muted)); border-bottom: 1px solid rgb(var(--line) / .07); }
+.gloss dd:last-child { border-bottom: 0; }
+@media (min-width: 720px) { .gloss dt { float: none; } }
+
 /* Özet ve sonraki bölüm */
 .lesson__recap { padding: 28px; border-color: rgb(var(--accent-gold) / .35); background: rgb(var(--accent-gold) / .05); }
 .lesson__recap p { margin-top: 10px; font-size: 15.5px; color: rgb(var(--fg)); }

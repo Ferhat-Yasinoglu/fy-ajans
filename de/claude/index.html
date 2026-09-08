@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Der Claude-Leitfaden — was es ist, was es kann, wie man es nutzt | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Was Claude ist, wie es funktioniert, was es kann und was nicht, wo man es nutzt und wie man anfängt. Vollständiger Leitfaden mit Glossar für absolute Anfänger.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Der Claude-Leitfaden — was es ist, was es kann, wie man es nutzt">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Vollständiger Leitfaden für absolute Anfänger: was Claude ist, wie es arbeitet, was es kann, wo es irrt, wo man es nutzt.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html" style="margin:0" data-i18n="cg.back">← Startseite</a>
+    <div class="course-bar__price"><span class="now" data-i18n="cg.barTag">Leitfaden</span></div>
+    <a class="btn btn-primary btn-sm" href="../course/chapter-1.html" data-i18n="cg.barCta">Zu Kapitel 1</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l1-cover-static.svg"><img src="../../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Complete Guide</span>
+      </div>
+      <span class="eyebrow" data-i18n="cg.eyebrow">Leitfaden</span>
+      <h1 class="font-display text-h1" data-i18n="cg.title">Alles über <span class="text-accent-gradient">Claude</span></h1>
+      <p class="lesson__lead" data-i18n="cg.lead">Was Claude ist, wie es funktioniert, was es kann, was nicht, wo man es nutzt und wie man anfängt. Geschrieben unter der Annahme, dass du nichts weißt; wer bis zum Ende liest, weiß genau, womit er arbeitet.</p>
+      <p class="lesson__meta font-mono" data-i18n="cg.meta">Referenzseite · spring zu jedem Abschnitt</p>
+      <div class="glass note note--warn" style="text-align:start">
+        <p data-i18n="cg.disclaimer">Dies ist ein <strong class="text-fg">unabhängiger Leitfaden von FY</strong>. Es ist keine offizielle Anthropic-Seite und es besteht keine Partnerschaft. Produktnamen gehören ihren Eigentümern. Für alles, was sich ändert — Preise, Grenzen, Funktionen — schau immer auf die Seite des Anbieters.</p>
+      </div>
+    </header>
+
+    <!-- ===== Hızlı cevap ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="cg.tldr.title">Die kurze Antwort</h2>
+      <ul class="check-list space-2" data-i18n="cg.tldr.list"><li>Claude ist ein KI-Assistent von <strong class="text-fg">Anthropic</strong>; er arbeitet mit Text.</li> <li>Er schreibt, fasst zusammen, übersetzt, programmiert, liest Dokumente und entwickelt Ideen — du erledigst Arbeit, indem du mit ihm sprichst.</li> <li>Er kann sich in überzeugtem Ton irren, hat bis zu einem bestimmten Datum gelernt, und jedes Gespräch beginnt bei null.</li> <li>Du nutzt ihn im Browser, am Telefon, auf dem Desktop und im Terminal; es gibt eine kostenlose Stufe.</li> <li>Das Geheimnis guter Nutzung ist nicht Intelligenz, sondern <strong class="text-fg">Kontext</strong>: wer, was, warum, wie.</li></ul>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="cg.s1.title">Was Claude ist, wer es gebaut hat</span></h2>
+      <p data-i18n="cg.s1.p1">Claude ist ein Assistent des KI-Unternehmens <strong class="text-fg">Anthropic</strong>. Sein technischer Name lautet «großes Sprachmodell»: Software, die auf enormen Textmengen trainiert wurde und mit Sprache arbeitet. Es ist keine Suchmaschine, keine Datenbank und kein Roboter.</p>
+      <p data-i18n="cg.s1.p2">Du erledigst Arbeit, indem du mit ihm sprichst. Er liest, was du schreibst, erkennt, was du willst, und erzeugt die Antwort. Du kannst alles so erklären, wie du es einem Menschen erklären würdest — Fachsprache brauchst du nicht.</p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="cg.s2.title">Wie es funktioniert</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.a.t">Zuerst hat es gelesen</h3><p data-i18n="cg.s2.a.p">Bücher, Artikel, Diskussionen, Code. Auswendig gelernt hat es nichts; gelernt hat es, <em>wie sie geschrieben sind</em> — wie Gedanken, Sätze und Code aufeinander folgen.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.b.t">Dann sagt es voraus</h3><p data-i18n="cg.s2.b.p">Es holt die Antwort nirgends ab. Es schaut auf den Text vor sich, berechnet, was als Nächstes am plausibelsten ist, dann noch ein Wort. Deshalb fließt die Antwort, statt fertig dazustehen.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.c.t">So viel, wie es auf einmal sieht</h3><p data-i18n="cg.s2.c.p">Es kann alles, was sich in einem Gespräch angesammelt hat, gleichzeitig überblicken; das heißt «Kontextfenster». Es ist sehr groß, aber nicht unendlich; ist es voll, verschwimmt das Älteste.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="cg.s3.title">Was es kann</span></h2>
+      <p data-i18n="cg.s3.p1">Fast alles, was sich mit Text machen lässt. Am häufigsten:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k1.t">Schreiben</h3><p data-i18n="cg.s3.k1.p">E-Mails, Anzeigen, Produktbeschreibungen, Angebote, Präsentationstexte, Untertitel, Unterrichtspläne, Social-Media-Texte.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k2.t">Umschreiben</h3><p data-i18n="cg.s3.k2.p">Kürzen, verlängern, vereinfachen, Ton ändern, formeller machen, Grammatik korrigieren.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k3.t">Lesen und zusammenfassen</h3><p data-i18n="cg.s3.k3.p">Lange Berichte, Verträge, E-Mail-Verläufe, Artikel. Es markiert die riskante Klausel und erkennt, was verlangt wird.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k4.t">Erklären</h3><p data-i18n="cg.s3.k4.p">Es erklärt Unbekanntes auf dem Niveau, das du willst, beantwortet Fragen, prüft dich ab, erstellt einen Plan.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k5.t">Übersetzen</h3><p data-i18n="cg.s3.k5.p">Zwischen Sprachen — und mit Blick auf Ton und Empfänger. Frag auf Türkisch, lass auf Deutsch schreiben.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k6.t">Programmieren</h3><p data-i18n="cg.s3.k6.p">Programme von Grund auf, Fehlersuche, zeilenweise Erklärung, Skripte zur Datenumwandlung. Du musst nicht programmieren können.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k7.t">Ordnung schaffen</h3><p data-i18n="cg.s3.k7.p">Wirre Notizen in eine Tabelle, ein Gespräch in Stichpunkte, eine chaotische Liste in eine saubere Datei.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k8.t">Bilder lesen</h3><p data-i18n="cg.s3.k8.p">Screenshots, Fotos, handschriftliche Notizen, Rechnungen, Diagramme. «Was sagt dieser Fehler?» ist eine gültige Frage.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k9.t">Daten deuten</h3><p data-i18n="cg.s3.k9.p">Füge eine Tabelle ein und frag, was auffällt, welcher Monat schlecht ist und woran das liegen könnte.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k10.t">Mitdenken</h3><p data-i18n="cg.s3.k10.p">Es entwickelt Ideen, argumentiert gegen deine eigene, fragt nach dem Übersehenen, erstellt eine Checkliste vor der Entscheidung.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="cg.s4.title">Was es nicht kann, wo es irrt</span></h2>
+      <ul class="cross-list space-2" data-i18n="cg.s4.list"><li><strong class="text-fg">Es kann sicher wirken und falsch liegen.</strong> Statt zu schweigen, wenn es etwas nicht weiß, erzeugt es womöglich eine plausibel wirkende Antwort; das heißt «Halluzination». Am Ton erkennst du es nicht, nur durch Prüfen.</li> <li><strong class="text-fg">Es kennt die Gegenwart nicht.</strong> Sein Training endete an einem bestimmten Datum. Ohne Suchwerkzeug kennt es weder die Nachricht von gestern noch einen aktuellen Kurs oder geltendes Recht.</li> <li><strong class="text-fg">Es erinnert sich nicht.</strong> Jedes Gespräch beginnt bei null; frühere werden standardmäßig nicht übernommen.</li> <li><strong class="text-fg">Beim genauen Zählen und langen Rechnen ist es schwach.</strong> Nutze für Zeichen- und Wortzahlen sowie lange Rechenketten ein Werkzeug.</li> <li><strong class="text-fg">Es kann Quellen erfinden.</strong> Einen Buchtitel, eine Artikelüberschrift oder eine Seitenzahl, die es nicht gibt. Klick jeden Link an.</li> <li><strong class="text-fg">Von selbst handelt es nicht in der Welt.</strong> Es verschickt keine E-Mails, speichert keine Dateien, zahlt nichts — solange keine Werkzeuge angebunden sind.</li> <li><strong class="text-fg">Es ersetzt keine Fachperson.</strong> Bei medizinischen, rechtlichen und finanziellen Fragen bereitet es dich vor, entscheidet aber nicht.</li></ul>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="cg.s5.title">Wo man es nutzt</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w1.t">Browser</h3><p data-i18n="cg.s5.w1.p"><strong class="text-fg">claude.ai</strong> — Konto anlegen und sofort loslegen. Für die meisten der richtige Einstieg.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w2.t">Telefon</h3><p data-i18n="cg.s5.w2.p">Die mobile App. Um unterwegs ein Foto zu machen und danach zu fragen, eine Notiz zu diktieren und dort weiterzumachen, wo du aufgehört hast.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w3.t">Desktop</h3><p data-i18n="cg.s5.w3.p">Eine App auf dem Rechner. Öffnet sich per Kurzbefehl sofort; wie eine Kollegin, die den ganzen Tag offen bleibt.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w4.t">Terminal — Claude Code</h3><p data-i18n="cg.s5.w4.p">Die Variante, die direkt mit den Dateien auf deinem Rechner arbeitet: legt Projekte an, schreibt und ändert Code. Kapitel 4 des Kurses baut darauf auf.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w5.t">In deiner eigenen Software</h3><p data-i18n="cg.s5.w5.p">Über die API bindest du es in deine eigene Anwendung ein — Chat auf deiner Website, automatische Einordnung in deinem System.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w6.t">In der Automatisierung</h3><p data-i18n="cg.s5.w6.p">Mit Werkzeugen wie n8n hängt es in Abläufen: eine eingehende E-Mail lesen und einen Antwortentwurf schreiben. Kapitel 3 des Kurses.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="cg.s6.title">Welche Version</span></h2>
+      <p data-i18n="cg.s6.p1">Es gibt nicht das eine Claude; es gibt Versionen unterschiedlicher Größe, deren Namen sich mit der Zeit ändern. Merk dir nicht den Namen, sondern die <strong class="text-fg">Stufenlogik</strong>:</p>
+      <div class="tiers">
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t1.n">Am fähigsten</span><h3 class="font-display" data-i18n="cg.s6.t1.t">Die Opus-Familie</h3><p data-i18n="cg.s6.t1.p">Schweres Nachdenken, lange und komplexe Aufgaben, ernsthafter Code. Denkt am besten; ist am langsamsten und teuersten.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t2.n">Ausgewogen</span><h3 class="font-display" data-i18n="cg.s6.t2.t">Die Sonnet-Familie</h3><p data-i18n="cg.s6.t2.p">Der Großteil der täglichen Arbeit. Das beste Verhältnis von Tempo und Können; für die meisten die richtige Voreinstellung.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t3.n">Am schnellsten</span><h3 class="font-display" data-i18n="cg.s6.t3.t">Die Haiku-Familie</h3><p data-i18n="cg.s6.t3.p">Einfache, kurze und stark wiederkehrende Aufgaben. Antwortet sofort und kostet am wenigsten.</p></div>
+      </div>
+      <p data-i18n="cg.s6.p2"><strong class="text-fg">Die Regel:</strong> fang mit der Voreinstellung an. Wirken die Antworten oberflächlich, geh eine Stufe höher. Entscheide nicht vorab; die Arbeit sagt es dir.</p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="cg.s7.title">Wie man anfängt</span></h2>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="cg.s7.st1">Geh auf <strong class="text-fg">claude.ai</strong> und leg ein Konto an. Die kostenlose Stufe reicht zum Anfangen.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="cg.s7.st2">Öffne ein neues Gespräch und frag, was es kann: «Erklär mir in fünf Punkten, was du kannst, ich fange gerade an.»</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="cg.s7.st3">Gib ihm echte Arbeit. Beschreib deine langweiligste, am häufigsten wiederkehrende Aufgabe und macht sie gemeinsam.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="cg.s7.st4">Lad ein Dokument hoch. Ein PDF, einen Screenshot oder eine Tabelle — sag «fass das in drei Punkten zusammen».</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="cg.s7.st5">Stell eine Frage, deren Antwort du schon kennst. Sieh am ersten Tag, wo es stark und wo es schwach ist.</span></li>
+      </ol>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="cg.s8.title">Wie man gut fragt</span></h2>
+      <p data-i18n="cg.s8.p1">Das ist das Einzige, was die Qualität der Antwort bestimmt. Vier Teile genügen:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="cg.s8.weak">Schwach</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.weakText">Schreib mir eine E-Mail.</p>
+          <p class="compare__note" data-i18n="cg.s8.weakNote">An wen, warum und in welchem Ton ist unklar. Es füllt die Lücken selbst, und heraus kommt ein Durchschnittstext.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="cg.s8.strong">Stark</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.strongText">Ich habe eine kleine Möbelwerkstatt <span class="text-gold">(wer)</span>. Ich muss einem Geschäftskunden schreiben, der seit drei Wochen mit der Zahlung im Verzug ist <span class="text-gold">(was)</span>. Ich will ein festes Datum, ohne die Beziehung zu beschädigen <span class="text-gold">(warum)</span>. Höflich, kurz, höchstens 120 Wörter <span class="text-gold">(wie)</span>.</p>
+          <p class="compare__note" data-i18n="cg.s8.strongNote">Daraus wird eine E-Mail, die du abschicken kannst. Der Unterschied ist nicht Intelligenz, sondern <strong class="text-fg">Kontext</strong>.</p>
+        </div>
+      </div>
+      <p data-i18n="cg.s8.p2">Zwei weitere Gewohnheiten: häng <strong class="text-fg">«sag es, wenn du dir nicht sicher bist»</strong> an deine Bitte — das senkt die Erfindungsgefahr. Und wenn die erste Antwort danebengeht, öffne kein neues Gespräch, sondern sag, was falsch ist: «zu förmlich», «streich den dritten Absatz», «kürzer».</p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="cg.s9.title">Datenschutz und Sicherheit</span></h2>
+      <ul class="check-list space-2" data-i18n="cg.s9.list"><li><strong class="text-fg">Schreib keine Daten hinein, die du nicht teilen darfst.</strong> Passwörter, Ausweisnummern, Kartendaten, Kundenlisten. Der Test: Würdest du das einem Praktikanten zeigen?</li> <li><strong class="text-fg">Was mit deinen Daten geschieht, hängt vom Tarif und den Einstellungen ab.</strong> Öffne einmal die Datenschutzeinstellungen deines Kontos und lies sie; die Regeln werden mit der Zeit aktualisiert.</li> <li><strong class="text-fg">Was du hochlädst, kann den Assistenten steuern.</strong> In einem Dokument oder auf einer Webseite können an ihn gerichtete Anweisungen stehen. Driftet eine Antwort dorthin, wo du nicht gefragt hast, schau in die Quelle, nicht auf den Assistenten.</li> <li><strong class="text-fg">Die Verantwortung liegt beim Nutzer.</strong> Du verwendest das Ergebnis; prüfe jeden Satz, der eine Entscheidung, Geld oder einen Menschen berührt.</li></ul>
+    </section>
+
+    <!-- ===== 10 · SSS ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="cg.faq.title">Häufige Fragen</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q1">Ist es kostenlos?</summary><p data-i18n="cg.faq.a1">Es gibt eine kostenlose Stufe, und sie reicht zum Anfangen. Für mehr Nutzung und fähigere Versionen gibt es bezahlte Stufen. Da sich Preise und Grenzen ändern, steht der aktuelle Stand auf der Seite des Anbieters.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q2">Kann es Türkisch?</summary><p data-i18n="cg.faq.a2">Ja. Frag auf Türkisch und bekomm Türkisch zurück; du kannst auch auf Türkisch erklären und auf Deutsch schreiben lassen oder ein englisches Dokument auf Türkisch zusammenfassen lassen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q3">Kann es im Internet nachsehen?</summary><p data-i18n="cg.faq.a3">Von selbst nicht. Es tut es, wenn die App, die du nutzt, ihm ein Suchwerkzeug gegeben hat. Im Zweifel frag direkt: «Sagst du das, ohne zu suchen?»</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q4">Wird das, was ich schreibe, fürs Training genutzt?</summary><p data-i18n="cg.faq.a4">Das hängt vom Tarif und deinen Kontoeinstellungen ab, und die Regeln werden aktualisiert. Die richtige Antwort steht in deinen Datenschutzeinstellungen und im aktuellen Datenschutztext des Anbieters.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q5">Wie lang darf ein Gespräch sein?</summary><p data-i18n="cg.faq.a5">Sehr lang, aber nicht unbegrenzt. Ist die Grenze erreicht, verschwimmt das Älteste. In einem langen Gespräch ist es am saubersten, zusammenfassen zu lassen und in ein neues zu wechseln.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q6">Warum kommen auf dieselbe Frage verschiedene Antworten?</summary><p data-i18n="cg.faq.a6">Weil es keine gespeicherte Antwort aufsagt, sondern jedes Mal neu erzeugt. Das ist kein Fehler — «versuch es nochmal» ist eine echte Option, wenn dir etwas nicht gefällt.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q7">Warum lehnt es manche Bitten ab?</summary><p data-i18n="cg.faq.a7">Bei Arbeit, die Schaden anrichten kann, hält es an. Das ist nicht persönlich; meist gibt es eine machbare Variante deines Anliegens, und es nennt den Grund.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q8">Kennt es die Fakten über sich selbst?</summary><p data-i18n="cg.faq.a8">Nicht immer. Es kann sich irren, welche Version es ist, wann das Training endete oder wie hoch das Tageslimit ist; es sieht sich nicht von außen. Hol dir das von der Seite der App.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== 11 · Sözlük ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="cg.gl.title">Glossar</span></h2>
+      <p data-i18n="cg.gl.p1">Die Wörter, die bei KI fallen. Alle kamen auf dieser Seite vor:</p>
+      <dl class="gloss" data-i18n="cg.gl.list"><dt>Prompt</dt><dd>Der Text, den du dem Assistenten schreibst. «Guter Prompt» heißt: eine Bitte mit ausgefülltem Kontext.</dd><dt>Modell</dt><dd>Der Assistent selbst; die trainierte Software. Opus, Sonnet und Haiku sind Modellfamilien.</dd><dt>Token</dt><dd>Das kleine Textstück, das das Modell tatsächlich sieht. Kleiner als ein Wort — deshalb kann es keine Buchstaben zählen.</dd><dt>Kontextfenster</dt><dd>Der gesamte Text, den es in einem Gespräch überblickt. Ist es voll, wird das Älteste schwächer.</dd><dt>Halluzination</dt><dd>Eine plausibel wirkende, aber falsche Antwort dort, wo es etwas nicht weiß. Der häufigste und tückischste Fehler.</dd><dt>Trainingsende</dt><dd>Der Moment, in dem das Lernen aufhörte. Danach weiß es von selbst nichts.</dd><dt>Werkzeug (Tool)</dt><dd>Eine angebundene äußere Fähigkeit: suchen, Dateien lesen, E-Mails senden.</dd><dt>Agent</dt><dd>Ein Aufbau, der mehrstufige Arbeit mithilfe von Werkzeugen selbstständig erledigt. Kapitel 3 des Kurses.</dd><dt>API</dt><dd>Der Weg, das Modell an deine eigene Software anzubinden. Du sprichst mit Code statt im Chatfenster.</dd><dt>System-Prompt</dt><dd>Eine dauerhafte Vorgabe von Anfang an: Rolle, Ton, Regeln. Kapitel 2 des Kurses.</dd><dt>Multimodal</dt><dd>Nicht nur Text, sondern auch Bilder lesen zu können.</dd><dt>Fine-Tuning</dt><dd>Ein Modell mit zusätzlichen Daten auf eine Aufgabe spezialisieren. Für die meiste Arbeit unnötig; eine gute Bitte genügt.</dd></dl>
+    </section>
+
+    <!-- ===== Kapanış ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="cg.recap.title">In einem Satz</h2>
+        <p data-i18n="cg.recap.p">Claude ist kein allwissendes Orakel, sondern ein sehr belesener, sehr schneller Assistent: gib ihm Kontext, gib ihm, was du hast, sprich offen, prüfe das Ergebnis.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="cg.next.eyebrow">Als Nächstes</span>
+          <h3 class="font-display text-h3" data-i18n="cg.next.title">Kapitel 1 · Das Erwachen</h3>
+          <p data-i18n="cg.next.p">Diese Seite hat dir gesagt, womit du es zu tun hast. Der Kurs bringt dir bei, es in deiner eigenen Arbeit zu nutzen — von null, Schritt für Schritt, mit Übungen.</p>
+        </div>
+        <a class="btn btn-primary" href="../course/chapter-1.html" data-i18n="cg.next.btn">Kapitel 1 öffnen →</a>
+      </div>
+    </section>
+
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Alle Rechte vorbehalten.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Startseite</a><a href="../terms.html" data-i18n="footer.terms">Nutzungsbedingungen & Datenschutz</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Lernportal</a></div>
+    <div class="lang" role="group" aria-label="Sprache" data-i18n-attr="aria-label=lang.label">
+      <a href="../../claude/index.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="index.html" data-lang="de" lang="de" hreflang="de" aria-current="page">DE</a>
+      <a href="../../en/claude/index.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../../fa/claude/index.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/de.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

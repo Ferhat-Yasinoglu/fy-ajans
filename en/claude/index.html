@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">The Claude Guide — what it is, what it does, how to use it | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="What Claude is, how it works, what it does and doesn't do, where to use it and how to start. A complete guide and glossary for absolute beginners.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/claude/">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/claude/">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/claude/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" data-i18n-attr="content=og.title" content="The Claude Guide — what it is, what it does, how to use it">
+<meta property="og:description" data-i18n-attr="content=og.description" content="A complete guide for absolute beginners: what Claude is, how it works, what it does, where it gets things wrong, where to use it.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/en/claude/">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html" style="margin:0" data-i18n="cg.back">← Home</a>
+    <div class="course-bar__price"><span class="now" data-i18n="cg.barTag">Guide</span></div>
+    <a class="btn btn-primary btn-sm" href="../course/chapter-1.html" data-i18n="cg.barCta">Go to Chapter 1</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l1-cover-static.svg"><img src="../../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Complete Guide</span>
+      </div>
+      <span class="eyebrow" data-i18n="cg.eyebrow">Guide</span>
+      <h1 class="font-display text-h1" data-i18n="cg.title">All of <span class="text-accent-gradient">Claude</span></h1>
+      <p class="lesson__lead" data-i18n="cg.lead">What Claude is, how it works, what it can do, what it can't, where you use it and how to start. Written assuming you know nothing; anyone who reads to the end starts out knowing exactly what they are working with.</p>
+      <p class="lesson__meta font-mono" data-i18n="cg.meta">Reference page · jump to any section</p>
+      <div class="glass note note--warn" style="text-align:start">
+        <p data-i18n="cg.disclaimer">This is an <strong class="text-fg">independent guide written by FY</strong>. It is not an official Anthropic page and there is no partnership between them. Product names belong to their owners. For anything that changes — prices, limits, features — always check the provider's own page.</p>
+      </div>
+    </header>
+
+    <!-- ===== Hızlı cevap ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="cg.tldr.title">The short answer</h2>
+      <ul class="check-list space-2" data-i18n="cg.tldr.list"><li>Claude is an AI assistant built by <strong class="text-fg">Anthropic</strong>; it works with text.</li> <li>It writes, summarises, translates, codes, reads documents and generates ideas — you get work done by talking to it.</li> <li>It can be confidently wrong, it learned up to a certain date, and every conversation starts from scratch.</li> <li>You use it from a browser, a phone, a desktop app and a terminal; there is a free tier.</li> <li>The secret to using it well isn't intelligence, it's <strong class="text-fg">context</strong>: who, what, why, how.</li></ul>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="cg.s1.title">What Claude is, who made it</span></h2>
+      <p data-i18n="cg.s1.p1">Claude is an assistant built by an AI company called <strong class="text-fg">Anthropic</strong>. Its technical name is «large language model»: software trained on an enormous amount of text that works with language. It is not a search engine, a database or a robot.</p>
+      <p data-i18n="cg.s1.p2">You get work done by talking to it. It reads what you write, works out what you want and produces an answer. You can explain things exactly as you would to a person — no technical vocabulary required.</p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="cg.s2.title">How it works</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.a.t">First it read</h3><p data-i18n="cg.s2.a.p">Books, articles, discussions, code. It memorised none of them; it learned <em>how they are written</em> — how ideas, sentences and code follow one another.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.b.t">Then it predicts</h3><p data-i18n="cg.s2.b.p">It doesn't fetch the answer from somewhere. It looks at the text in front of it, works out what is most plausible next, then one more word. That's why answers stream in rather than appearing at once.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s2.c.t">As much as it sees at once</h3><p data-i18n="cg.s2.c.p">It can look at everything accumulated in one conversation at the same time; this is called the «context window». It is very large but not infinite; once full, the oldest parts start to blur.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="cg.s3.title">What it can do</span></h2>
+      <p data-i18n="cg.s3.p1">Almost anything that can be done with text. The most common:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k1.t">Writing</h3><p data-i18n="cg.s3.k1.p">Emails, listings, product descriptions, proposals, presentation copy, subtitles, lesson plans, social posts.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k2.t">Rewriting</h3><p data-i18n="cg.s3.k2.p">Shortening, expanding, simplifying, changing tone, making it formal, fixing grammar.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k3.t">Reading and summarising</h3><p data-i18n="cg.s3.k3.p">Long reports, contracts, email threads, articles. It flags the risky clause and works out what is being asked.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k4.t">Teaching</h3><p data-i18n="cg.s3.k4.p">It explains what you don't know at whatever level you want, answers your questions, quizzes you, builds a plan.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k5.t">Translating</h3><p data-i18n="cg.s3.k5.p">Between languages — and with tone and audience taken into account. Ask in Turkish, have it write in German.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k6.t">Writing code</h3><p data-i18n="cg.s3.k6.p">Programs from scratch, finding bugs, line-by-line explanation, data conversion scripts. You don't need to know how to code.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k7.t">Putting things in order</h3><p data-i18n="cg.s3.k7.p">Messy notes into a table, a conversation into bullet points, a jumbled list into a clean file.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k8.t">Reading images</h3><p data-i18n="cg.s3.k8.p">Screenshots, photos, handwritten notes, invoices, charts. «What does this error say?» is a valid question.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k9.t">Interpreting data</h3><p data-i18n="cg.s3.k9.p">Paste a table and ask what stands out, which month is bad and what might explain it.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s3.k10.t">Thinking with you</h3><p data-i18n="cg.s3.k10.p">It generates ideas, argues against your own, asks what you've missed, builds a checklist before a decision.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="cg.s4.title">What it can't do, where it gets things wrong</span></h2>
+      <ul class="cross-list space-2" data-i18n="cg.s4.list"><li><strong class="text-fg">It can look certain and be wrong.</strong> Rather than staying silent when it doesn't know, it may produce a plausible-looking answer; this is called «hallucination». You can't tell from its tone, only by verifying.</li> <li><strong class="text-fg">It doesn't know the present.</strong> Its training stopped on a certain date. Without a search tool it doesn't know yesterday's news, a live price or current regulation.</li> <li><strong class="text-fg">It doesn't remember.</strong> Every conversation starts from scratch; earlier ones aren't carried over by default.</li> <li><strong class="text-fg">It is weak at exact counting and long arithmetic.</strong> Use a tool for character and word counts and long chains of multiplication and division.</li> <li><strong class="text-fg">It can invent sources.</strong> A book title, article heading or page number that doesn't exist. Click every link.</li> <li><strong class="text-fg">It doesn't act in the world on its own.</strong> It won't send email, save files or make payments — unless tools are connected.</li> <li><strong class="text-fg">It doesn't replace a professional.</strong> On medical, legal and financial matters it prepares you, but it doesn't decide for you.</li></ul>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="cg.s5.title">Where you use it</span></h2>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w1.t">Browser</h3><p data-i18n="cg.s5.w1.p"><strong class="text-fg">claude.ai</strong> — create an account and start straight away. The right starting point for most people.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w2.t">Phone</h3><p data-i18n="cg.s5.w2.p">The mobile app. For taking a photo and asking about it on the move, dictating a note and picking up where you left off.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w3.t">Desktop</h3><p data-i18n="cg.s5.w3.p">An app installed on your computer. Opens instantly with a shortcut; like a colleague who stays open all day.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w4.t">Terminal — Claude Code</h3><p data-i18n="cg.s5.w4.p">The version that works directly with the files on your computer: it sets up projects, writes and edits code. Chapter 4 of the course is built on this.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w5.t">In your own software</h3><p data-i18n="cg.s5.w5.p">You can connect it to your own application through the API — chat on your site, automatic classification in your system.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="cg.s5.w6.t">Inside automation</h3><p data-i18n="cg.s5.w6.p">It plugs into workflows through tools like n8n: reading an incoming email and drafting a reply, for instance. Chapter 3 of the course.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="cg.s6.title">Which version</span></h2>
+      <p data-i18n="cg.s6.p1">There isn't a single Claude; there are versions of different sizes and their names change over time. Remember the <strong class="text-fg">tier logic</strong>, not the name:</p>
+      <div class="tiers">
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t1.n">Most capable</span><h3 class="font-display" data-i18n="cg.s6.t1.t">The Opus family</h3><p data-i18n="cg.s6.t1.p">Hard reasoning, long and complex work, serious code. The best thinker; the slowest and most expensive.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t2.n">Balanced</span><h3 class="font-display" data-i18n="cg.s6.t2.t">The Sonnet family</h3><p data-i18n="cg.s6.t2.p">Most everyday work. The best balance of speed and capability; the right default for most people.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="cg.s6.t3.n">Fastest</span><h3 class="font-display" data-i18n="cg.s6.t3.t">The Haiku family</h3><p data-i18n="cg.s6.t3.p">Simple, short and highly repetitive work. Answers instantly and costs the least.</p></div>
+      </div>
+      <p data-i18n="cg.s6.p2"><strong class="text-fg">The rule:</strong> start with the default. If answers feel shallow, move up a tier. Don't decide in advance; the work will tell you.</p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="cg.s7.title">How to start</span></h2>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="cg.s7.st1">Go to <strong class="text-fg">claude.ai</strong> and create an account. The free tier is enough to begin.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="cg.s7.st2">Open a new conversation and ask what it does: «Tell me in five points what you can do, I'm just starting out.»</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="cg.s7.st3">Give it real work. Describe your most boring, most repetitive task and do it together.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="cg.s7.st4">Upload a document. A PDF, a screenshot or a table — say «summarise this in three points».</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="cg.s7.st5">Ask something you already know the answer to. See where it's strong and where it's weak on day one.</span></li>
+      </ol>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="cg.s8.title">How to write a good request</span></h2>
+      <p data-i18n="cg.s8.p1">This is the single thing that determines the quality of what you get back. Four parts are enough:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="cg.s8.weak">Weak</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.weakText">Write me an email.</p>
+          <p class="compare__note" data-i18n="cg.s8.weakNote">To whom, why and in what tone is unclear. It fills the gaps itself and an average text comes out.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="cg.s8.strong">Strong</span>
+          <p class="compare__text font-mono" data-i18n="cg.s8.strongText">I run a small furniture workshop <span class="text-gold">(who)</span>. I need to email a corporate client who is three weeks late paying <span class="text-gold">(what)</span>. I want a firm date without damaging the relationship <span class="text-gold">(why)</span>. Polite, short, 120 words maximum <span class="text-gold">(how)</span>.</p>
+          <p class="compare__note" data-i18n="cg.s8.strongNote">This gives you an email you can actually send. The difference isn't intelligence, it's <strong class="text-fg">context</strong>.</p>
+        </div>
+      </div>
+      <p data-i18n="cg.s8.p2">Two more habits: add <strong class="text-fg">«say when you're not sure»</strong> to the end of your request — it lowers the chance of invention. And if the first answer misses, don't open a new conversation; say what's wrong: «too formal», «drop the third paragraph», «shorter».</p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="cg.s9.title">Privacy and safety</span></h2>
+      <ul class="check-list space-2" data-i18n="cg.s9.list"><li><strong class="text-fg">Don't type data you aren't allowed to share.</strong> Passwords, ID numbers, card details, customer lists. The test: would you show this to an intern?</li> <li><strong class="text-fg">What happens to your data depends on the plan and the settings.</strong> Open your account's privacy settings once and read them; the rules get updated over time.</li> <li><strong class="text-fg">What you upload can steer the assistant.</strong> A document or web page may contain instructions aimed at it. If an answer drifts somewhere you didn't ask for, look at the source, not the assistant.</li> <li><strong class="text-fg">Responsibility sits with the user.</strong> You are the one using the output; verify every sentence that touches a decision, money or a person.</li></ul>
+    </section>
+
+    <!-- ===== 10 · SSS ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="cg.faq.title">Frequently asked</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q1">Is it free?</summary><p data-i18n="cg.faq.a1">There is a free tier and it is enough to begin. Paid tiers exist for more usage and more capable versions. Because prices and limits change, the current position is on the provider's own page.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q2">Does it know Turkish?</summary><p data-i18n="cg.faq.a2">Yes. Ask in Turkish and get Turkish back; you can also explain in Turkish and have it write in German, or have an English document summarised in Turkish.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q3">Can it look things up online?</summary><p data-i18n="cg.faq.a3">Not on its own. It will if the app you're using has given it a search tool. If you're unsure, just ask: «are you saying this without searching?»</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q4">Is what I write used for training?</summary><p data-i18n="cg.faq.a4">It depends on the plan and your account settings, and the rules get updated. The correct answer is in your privacy settings and the provider's current privacy text.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q5">How long can a conversation be?</summary><p data-i18n="cg.faq.a5">Very long, but not unlimited. Once the limit is reached the oldest parts blur. In a long conversation, having it summarise and moving to a new one is the cleanest method.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q6">Why does it give different answers to the same question?</summary><p data-i18n="cg.faq.a6">Because it isn't reciting a stored answer; it produces one afresh each time. That isn't a fault — «try again» is a legitimate option when you don't like what you got.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q7">Why does it refuse some requests?</summary><p data-i18n="cg.faq.a7">It stops at work that could cause harm. That isn't personal; usually there is a workable version of what you want, and it will tell you why.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="cg.faq.q8">Does it know the facts about itself?</summary><p data-i18n="cg.faq.a8">Not always. It can be wrong about which version it is, when its training stopped or what the daily limit is; it can't see itself from the outside. Get those from the app's own page.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== 11 · Sözlük ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="cg.gl.title">Glossary</span></h2>
+      <p data-i18n="cg.gl.p1">The words that come up when AI is discussed. All of them appeared on this page:</p>
+      <dl class="gloss" data-i18n="cg.gl.list"><dt>Prompt</dt><dd>The text you write to the assistant. A «good prompt» means a request with the context filled in.</dd><dt>Model</dt><dd>The assistant itself; the trained software. Opus, Sonnet and Haiku are model families.</dd><dt>Token</dt><dd>The small piece of text the model actually sees. Smaller than a word — which is why it can't count letters.</dd><dt>Context window</dt><dd>The total text it can look at in one conversation. When it fills up, the oldest parts weaken.</dd><dt>Hallucination</dt><dd>Producing a plausible-looking but wrong answer where it doesn't know. The most common and most treacherous kind of error.</dd><dt>Training cut-off</dt><dd>The moment its learning stopped. It doesn't know anything after that date on its own.</dd><dt>Tool</dt><dd>An external capability connected to the model: searching, reading files, sending email.</dd><dt>Agent</dt><dd>A setup that carries out multi-step work on its own using tools. Chapter 3 of the course.</dd><dt>API</dt><dd>The way to connect the model to your own software. You talk to it in code instead of a chat window.</dd><dt>System prompt</dt><dd>A standing instruction given up front: its role, tone and rules. Chapter 2 of the course.</dd><dt>Multimodal</dt><dd>Being able to read images as well as text.</dd><dt>Fine-tuning</dt><dd>Specialising a model for a particular job with extra data. Most work doesn't need it; a good request is enough.</dd></dl>
+    </section>
+
+    <!-- ===== Kapanış ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="cg.recap.title">In one sentence</h2>
+        <p data-i18n="cg.recap.p">Claude isn't an all-knowing oracle but a very well-read, very fast assistant: give it context, give it what you have, speak plainly, verify what comes back.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="cg.next.eyebrow">Next</span>
+          <h3 class="font-display text-h3" data-i18n="cg.next.title">Chapter 1 · The Wake-Up</h3>
+          <p data-i18n="cg.next.p">This page told you what you're dealing with. The course teaches you to use it in your own work — from zero, step by step, with exercises.</p>
+        </div>
+        <a class="btn btn-primary" href="../course/chapter-1.html" data-i18n="cg.next.btn">Open Chapter 1 →</a>
+      </div>
+    </section>
+
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — All rights reserved.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Home</a><a href="../terms.html" data-i18n="footer.terms">Terms & Privacy</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Student Portal</a></div>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label=lang.label">
+      <a href="../../claude/index.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/claude/index.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="index.html" data-lang="en" lang="en" hreflang="en" aria-current="page">EN</a>
+      <a href="../../fa/claude/index.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/en.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>
