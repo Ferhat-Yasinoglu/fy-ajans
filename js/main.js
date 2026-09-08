@@ -631,6 +631,45 @@
     setInterval(pull, 60000);
   })();
 
+  /* ---------- Ders: adım adım canlandırma ----------
+     Sahne tek bir data-step değeriyle sürülür (biçimlendirme css'te). Kendi kendine döner;
+     bir adıma tıklanınca oraya gider ve elle gezinmeye bırakır. Görünmüyorken ya da imleç
+     üstündeyken durur. Hareket azaltılmışsa hiç dönmez: son kare gösterilir. */
+  (function walk() {
+    var box = $('[data-walk]'); if (!box) return;
+    var stage = $('.walk__stage', box), items = $$('.walk__steps li', box);
+    if (!stage || !items.length) return;
+    var HOLD = [0, 2200, 2000, 3000, 1600, 3600];      // adım başına bekleme (ms)
+    var step = 1, timer = 0, manual = false, hover = false, seen = false;
+
+    function show(n) {
+      step = n;
+      stage.setAttribute('data-step', n);
+      items.forEach(function (li, i) { li.classList.toggle('is-now', i + 1 === n); });
+    }
+    function stop() { clearTimeout(timer); timer = 0; }
+    function tick() {
+      stop();
+      if (manual || hover || !seen || reduce) return;
+      timer = setTimeout(function () { show(step % 5 + 1); tick(); }, HOLD[step] || 2400);
+    }
+
+    items.forEach(function (li, i) {
+      var b = $('button', li); if (!b) return;
+      b.addEventListener('click', function () { manual = true; stop(); show(i + 1); });
+    });
+    box.addEventListener('mouseenter', function () { hover = true; stop(); });
+    box.addEventListener('mouseleave', function () { hover = false; tick(); });
+
+    if (reduce) { show(5); return; }                    // hareket istemeyene son kare
+    show(1);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { seen = e.isIntersecting; if (seen) tick(); else stop(); });
+      }, { threshold: .35 }).observe(box);
+    } else { seen = true; tick(); }
+  })();
+
   /* ---------- FYOS: sohbet ----------
      Yanıt kaynağı sırası:
        1) FYOS_ENDPOINT doluysa Cloudflare Worker (bkz. worker/README.md)

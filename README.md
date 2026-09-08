@@ -81,6 +81,7 @@ terms.html            kurallar, gizlilik (DSGVO Md. 13), cayma hakkı ve kurs ş
 impressum.html        § 5 DDG sağlayıcı bilgileri (Almanya'da ticari site için zorunlu)
 contact/index.html    bağlantı sayfası (link-in-bio)
 contact/course.html   kurs sayfası
+course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (şimdilik yalnızca Türkçe; çeviri gelince tools/build-i18n.mjs SOURCES'a eklenecek)
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
@@ -88,6 +89,7 @@ data/fy-stats.json    sahne kartlarındaki sayılar (Agents, Skills, Knowledge�
 img/founder.jpg       kurucu fotoğrafı
 img/portrait-aura*.svg kurucu fotoğrafının altın aurası (canlı + sabit); tools/build-portrait.mjs üretir
 img/course/ch1-7*.svg bölüm kapakları — yedi altın sahne (canlı + sabit); tools/build-chapters.mjs üretir
+img/course/l1-cover*.svg Bölüm 1 dersinin kapağı — dağınık dilden düzenli cevaba (21:9, canlı + sabit); tools/build-lesson1.mjs üretir
 img/cover-scene*.svg  kurs kapağı arka planı — yıldızlı gece (yıldızlar, geniş altın ışık, toz; canlı + sabit); tools/build-cover.mjs üretir; takımyıldız, duraklar ve yazılar HTML'de
 img/brain-graph*.svg  FYOS bilgi grafı: FY çekirdeği, altı küme, akan paketler (canlı + sabit); tools/build-brain.mjs üretir, etiketler HTML'de
 img/logo-master.png   logo tasarımının kaynak görseli (1536×1024); og.png buradan üretilir, sitede doğrudan kullanılmaz

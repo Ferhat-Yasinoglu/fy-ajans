@@ -49,7 +49,7 @@
     "training.cover.7.n": "۷", "training.cover.7.t": "به اشتراک بگذار",
     "chapters.eyebrow": "۷ فصل، یک سفر",
     "chapters.title": "هر فصل، یک جهش",
-    "chapters.1.label": "فصل ۱", "chapters.1.title": "بیداری",
+    "chapters.1.href": "#training", "chapters.1.go": "به‌زودی", "chapters.1.label": "فصل ۱", "chapters.1.title": "بیداری",
     "chapters.1.list": "<li>شروع از صفرِ مطلق</li><li>شیوهٔ فکر کردن هوش مصنوعی</li><li>اولین ابزارهای شما</li>",
     "chapters.2.label": "فصل ۲", "chapters.2.title": "فرمول",
     "chapters.2.list": "<li>فرمول پرامپت</li><li>پرامپت سیستم</li><li>خروجی ساخت‌یافته</li>",

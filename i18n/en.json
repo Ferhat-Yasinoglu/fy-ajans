@@ -49,7 +49,7 @@
     "training.cover.7.n": "7", "training.cover.7.t": "Share",
     "chapters.eyebrow": "7 chapters, one journey",
     "chapters.title": "Every chapter is a leap",
-    "chapters.1.label": "Chapter 1", "chapters.1.title": "The Wake-Up",
+    "chapters.1.href": "#training", "chapters.1.go": "Coming soon", "chapters.1.label": "Chapter 1", "chapters.1.title": "The Wake-Up",
     "chapters.1.list": "<li>Starting from absolute zero</li><li>How AI thinks</li><li>Your first tools</li>",
     "chapters.2.label": "Chapter 2", "chapters.2.title": "The Formula",
     "chapters.2.list": "<li>The prompt formula</li><li>System prompts</li><li>Structured output</li>",

@@ -49,7 +49,7 @@
     "training.cover.7.n": "7", "training.cover.7.t": "Teilen",
     "chapters.eyebrow": "7 Kapitel, eine Reise",
     "chapters.title": "Jedes Kapitel ein Sprung",
-    "chapters.1.label": "Kapitel 1", "chapters.1.title": "Das Erwachen",
+    "chapters.1.href": "#training", "chapters.1.go": "Bald verfügbar", "chapters.1.label": "Kapitel 1", "chapters.1.title": "Das Erwachen",
     "chapters.1.list": "<li>Start bei absolut null</li><li>Wie KI denkt</li><li>Deine ersten Werkzeuge</li>",
     "chapters.2.label": "Kapitel 2", "chapters.2.title": "Die Formel",
     "chapters.2.list": "<li>Die Prompt-Formel</li><li>System-Prompt</li><li>Strukturierte Ausgabe</li>",
