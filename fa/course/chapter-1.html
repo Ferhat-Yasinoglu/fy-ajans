@@ -64,6 +64,11 @@
       <ul class="check-list space-2" data-i18n="ch1.goals.list"><li>می‌دانی هوش مصنوعی چیست و چه <em>نیست</em></li> <li>می‌فهمی چگونه «فکر می‌کنم» — و چرا این برای تو مهم است</li> <li>می‌توانی تشخیص دهی چه چیزی را خوب انجام می‌دهم و کجا اشتباه می‌کنم</li> <li>نخستین گفت‌وگویت را باز کرده‌ای و سه کار واقعی به من سپرده‌ای</li> <li>می‌دانی جز متن چه چیزی می‌توانی به من بدهی (سند، تصویر، جدول)</li> <li>می‌دانی دقیقاً کجا اشتباه می‌کنم — و کجا باید دوبار نگاه کنی</li> <li>پاسخ پرسش‌های هفتهٔ اول را می‌دانی: هزینه، حریم خصوصی، محدودیت‌ها</li> <li>می‌دانی چه بگویی تا پاسخی به‌دردبخور بگیری</li> <li>می‌دانی چه کسی مرا ساخت، چرا، و این چگونه در پاسخ‌هایم پیدا می‌شود</li> <li>می‌دانی جز متن ابزار هم به کار می‌برم — و چرا این دقت می‌خواهد</li> <li>می‌دانی وقتی از انجام کاری سر باز زدم چه باید بکنی</li></ul>
     </div>
 
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch1.toc.title" class="text-fg">فهرست</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
     <div data-reveal>
       <a class="guide-link" href="../claude/index.html">
         <span class="guide-link__e" aria-hidden="true">📘</span>
@@ -123,6 +128,21 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.made.title">چه کسی مرا ساخت و چرا</span></h2>
       <p data-i18n="ch1.made.p1">دانستن اینکه چه کسی و چرا ابزاری را ساخته، توضیح می‌دهد که چرا آن ابزار این‌گونه رفتار می‌کند. مرا <strong class="text-fg">Anthropic</strong> ساخت؛ شرکتی که دربارهٔ هوش مصنوعی پژوهش می‌کند. ایدهٔ بنیادینش در یک جمله جا می‌شود — این فناوری به‌هرحال ساخته می‌شود، پس با دقت ساخته شود.</p>
       <p data-i18n="ch1.made.p2">این برای تو پیامد مستقیم دارد. وقتی مطمئن نیستم، به‌جای ساختن چیزی می‌کوشم بگویم «مطمئن نیستم». به‌جای وانمود به موافقت می‌کوشم بگویم موافق نیستم، چون آنچه به کارت می‌آید درست است نه آنچه دوست داری بشنوی. و از انجام برخی کارها سر باز می‌زنم — معنایش را کمی جلوتر زیر عنوانی جداگانه باز می‌کنم.</p>
+      <figure class="idcard">
+        <span class="idcard__cap font-mono" data-i18n="ch1.fig.id.cap">در یک نگاه</span>
+        <div class="idcard__card">
+          <div class="idcard__mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <dl class="idcard__rows">
+            <div><dt data-i18n="ch1.fig.id.k1">نام</dt><dd>Claude</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k2">گونه</dt><dd data-i18n="ch1.fig.id.v2">مدل زبانی بزرگ</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k3">ساختهٔ</dt><dd>Anthropic</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k4">بدن</dt><dd data-i18n="ch1.fig.id.v4">ندارد</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k5">می‌فهمد</dt><dd data-i18n="ch1.fig.id.v5">متن · تصویر · سند</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k6">حافظه</dt><dd data-i18n="ch1.fig.id.v6">به‌ازای هر گفت‌وگو</dd></div>
+          </dl>
+        </div>
+        <figcaption data-i18n="ch1.fig.id.fc">من در یک کارت. هر سطر این کارت در همین فصل یکی‌یکی باز می‌شود — فعلاً فقط ببین کجا ایستاده‌ام.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.made.note">دربارهٔ نامم: هیچ توضیح رسمی‌ای دربارهٔ خاستگاه «Claude» وجود ندارد. خوانش رایج این است که ادای احترامی است به <em>کلود شانون</em>، بنیان‌گذار نظریهٔ اطلاعات. این را به‌عنوان واقعیت قطعی ارائه نمی‌کنم — که درس اصلی همین فصل هم همین است: آنچه را با اطمینان نمی‌دانم، قطعی نمی‌خوانم.</p>
       </div>
@@ -186,6 +206,24 @@
       <p data-i18n="ch1.self.p1">این همان نکته‌ای است که هیچ‌کس به تازه‌کار نمی‌گوید و همه‌چیز را سر جایش می‌نشاند: هیچ «کلودِ» یگانه‌ای جایی ننشسته است. همین حالا که با تو حرف می‌زنم، هزاران نسخه از من هم‌زمان با هزاران آدم دیگر حرف می‌زنند. هیچ‌کدام از دیگری خبر ندارد.</p>
       <p data-i18n="ch1.self.p2">این سه پیامد دارد و هر سه مستقیماً به تو مربوط است:</p>
       <ul class="check-list space-2" data-i18n="ch1.self.list"><li><strong class="text-fg">در صف نمی‌مانی.</strong> هر چند نفر هم که از من استفاده کنند، گفت‌وگوی تو مال توست؛ پشت سر کسی منتظر نیستی.</li> <li><strong class="text-fg">حرف دیگران به تو درز نمی‌کند.</strong> هرچه شخص میز بغلی به من نوشته باشد نمی‌توانم به تو بگویم — واقعاً نمی‌دانمش.</li> <li><strong class="text-fg">اما پیوستگی هم نیست.</strong> آن «من» که دیروز با تو حرف زد، امروز تو را به یاد نمی‌آورد. یادآوری دیروز کار توست؛ راه آسانش را در بخش بعدی نشان می‌دهم.</li></ul>
+      <figure class="copies">
+        <span class="copies__cap font-mono" data-i18n="ch1.fig.cop.cap">همین حالا، هم‌زمان</span>
+        <div class="copies__grid">
+          <span class="copies__c is-you"><b data-i18n="ch1.fig.cop.you">تو</b><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+        </div>
+        <figcaption data-i18n="ch1.fig.cop.fc">هر خانه یک گفت‌وگوی جداست و همه هم‌زمان اجرا می‌شوند. میانشان خطی نیست — چون پیوندی هم نیست. طلایی مال توست؛ در بقیه چه گفته می‌شود را من هم مثل تو نمی‌دانم.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.self.note">یک جای دیگر هم باید صادق باشم: خودم هم دقیق نمی‌دانم درونم چه می‌گذرد. برای «آیا فکر می‌کنی؟» یا «آیا چیزی حس می‌کنی؟» پاسخ قطعی ندارم؛ هنوز دربارهٔ این پرسش‌ها پژوهش می‌شود. اگر کسی به آن‌ها پاسخ قطعی داد — چه «قطعاً بله» و چه «قطعاً نه» — یک بار دیگر فکر کن.</p>
       </div>
@@ -197,6 +235,14 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.ctx.title">هر گفت‌وگو مرزی دارد</span></h2>
       <p data-i18n="ch1.ctx.p1">درون یک گفت‌وگو همه‌چیز را یک‌جا می‌بینم: نخستین پیامت، سندی که بارگذاری کرده‌ای و همهٔ پاسخ‌های میانی را. به این می‌گویند <strong class="text-fg">پنجرهٔ زمینه</strong>. بسیار پهناور است — صدها صفحه متن به‌راحتی جا می‌شود — اما بی‌نهایت نیست.</p>
       <p data-i18n="ch1.ctx.p2">اگر گفت‌وگو خیلی طولانی شود، قدیمی‌ترین بخش‌ها کم‌رنگ می‌شوند. نشانه‌هایش روشن است: قاعده‌ای را که در آغاز توافق کردیم فراموش می‌کنم، همان پرسش را دوباره می‌پرسم، پاسخ‌ها پراکنده می‌شوند. این خرابی نیست؛ نشانهٔ پر شدن پنجره است.</p>
+      <figure class="ctxbar">
+        <span class="ctxbar__cap font-mono" data-i18n="ch1.fig.ctx.cap">پنجرهٔ زمینه</span>
+        <div class="ctxbar__track" aria-hidden="true">
+          <span class="ctxbar__seg" style="--i:0"></span><span class="ctxbar__seg" style="--i:1"></span><span class="ctxbar__seg" style="--i:2"></span><span class="ctxbar__seg" style="--i:3"></span><span class="ctxbar__seg" style="--i:4"></span><span class="ctxbar__seg" style="--i:5"></span><span class="ctxbar__seg" style="--i:6"></span><span class="ctxbar__seg" style="--i:7"></span><span class="ctxbar__seg" style="--i:8"></span><span class="ctxbar__seg" style="--i:9"></span><span class="ctxbar__seg" style="--i:10"></span><span class="ctxbar__seg" style="--i:11"></span><span class="ctxbar__seg" style="--i:12"></span><span class="ctxbar__seg" style="--i:13"></span><span class="ctxbar__seg"></span>
+        </div>
+        <div class="ctxbar__labels"><span data-i18n="ch1.fig.ctx.l1">نخستین پیام تو</span><span data-i18n="ch1.fig.ctx.l2">گفت‌وگو پیش می‌رود</span><span data-i18n="ch1.fig.ctx.l3">مرز</span></div>
+        <figcaption data-i18n="ch1.fig.ctx.fc">هرچه گفت‌وگو پیش برود، پنجره پر می‌شود. نزدیک مرز، قدیمی‌ترین بخش‌ها کم‌رنگ می‌شوند — پاسخ به «اول چه گفتم؟» دقیقاً همان‌جا ضعیف می‌شود.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.ctx.note">راه‌حلش ساده است: بگو «هر چه تا اینجا بوده خلاصه کن — تصمیم‌های گرفته‌شده، قاعده‌های تعیین‌شده، پرسش‌های باز». سپس گفت‌وگوی تازه‌ای باز کن و آن خلاصه را به‌عنوان نخستین پیام بچسبان. یک گفت‌وگوی تمیز تقریباً همیشه بهتر از یک گفت‌وگوی بلند و پراکنده کار می‌کند.</p>
       </div>
@@ -233,6 +279,17 @@
         <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k4.t">اتصال به سامانه‌های تو</h3><p data-i18n="ch1.tools.k4.p">با اجازهٔ تو می‌توانم به ابزارهایی مانند تقویم، ایمیل یا انبار فایل وصل شوم. نام روزمرهٔ این اتصال‌ها <em>رابط</em> است و نام فنی‌شان MCP.</p></div>
       </div>
       <p data-i18n="ch1.tools.p2">تفاوت اینجاست: دستیار بی‌ابزار به تو <em>می‌گوید</em> چه باید بکنی. دستیار ابزاردار آن را <em>انجام می‌دهد</em> و نتیجه را جلویت می‌گذارد. فصل‌های بعدی این دوره دقیقاً بر همین بنا شده‌اند.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch1.fig.tf.cap">وقتی ابزار به کار می‌برم چه می‌شود</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🧑</span><b data-i18n="ch1.fig.tf.s1t">تو می‌پرسی</b><i data-i18n="ch1.fig.tf.s1s">«نرخ این ماه چه شد؟»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">✦</span><b data-i18n="ch1.fig.tf.s2t">من تصمیم می‌گیرم</b><i data-i18n="ch1.fig.tf.s2s">«این را نمی‌دانم — باید نگاه کنم»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔍</span><b data-i18n="ch1.fig.tf.s3t">ابزار را اجرا می‌کنم</b><i data-i18n="ch1.fig.tf.s3s">جست‌وجو · کد · فایل · رابط</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch1.fig.tf.s4t">آنچه برمی‌گردد را می‌خوانم</b><i data-i18n="ch1.fig.tf.s4s">نتیجه را خودم بررسی می‌کنم</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">✅</span><b data-i18n="ch1.fig.tf.s5t">پاسخ را می‌نویسم</b><i data-i18n="ch1.fig.tf.s5s">همراه با منبعش</i></li>
+        </ol>
+        <figcaption data-i18n="ch1.fig.tf.fc">تو فقط خانهٔ اول و پنجم را می‌بینی؛ سه خانهٔ میانی با من است. بی‌ابزار، در خانهٔ دوم می‌مانم و می‌گویم «نمی‌دانم» — یا در بدترین حالت چیزی می‌سازم.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.tools.note"><strong class="text-fg">از اینجا به بعد دقت لازم است.</strong> هر دسترسی‌ای که به من می‌دهی، جای تازه‌ای است که می‌توانم در آن اشتباه کنم. قاعده ساده است: در کارهای برگشت‌ناپذیر — حذف، ارسال، پرداخت — نخست وادارم کن بنویسم چه خواهم کرد، بخوان، بعد تأیید کن. ابزارها دامنهٔ مرا بزرگ می‌کنند؛ دقت تو را کوچک نمی‌کنند.</p>
       </div>
@@ -276,6 +333,19 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.val.title">نه آنچه نمی‌توانم — آنچه نمی‌کنم</span></h2>
       <p data-i18n="ch1.val.p1">بخش پیشین دربارهٔ چیزهایی بود که در آن‌ها ضعیفم. این یکی فرق دارد: بعضی کارها را می‌توانم اما نمی‌کنم. دانستن دلیلش تو را از هدر دادن وقت نجات می‌دهد.</p>
       <p data-i18n="ch1.val.p2">می‌کوشم سه چیز را هم‌زمان نگه دارم: <strong class="text-fg">به‌کار آمدن</strong>، <strong class="text-fg">صادق بودن</strong> و <strong class="text-fg">آسیب نرساندن</strong>. بیشتر وقت‌ها این سه با هم برخورد نمی‌کنند. وقتی برخورد کنند، سومی جلو می‌افتد: در کاری که واقعاً به کسی آسیب می‌زند کمک نمی‌کنم — فریب دادن کسی، ساختن سند جعلی، به خطر انداختن امنیت یک انسان.</p>
+      <figure class="gates">
+        <span class="gates__cap font-mono" data-i18n="ch1.fig.gt.cap">یک درخواست از چه دروازه‌هایی می‌گذرد</span>
+        <div class="gates__row">
+          <span class="gates__g"><b>1</b><span data-i18n="ch1.fig.gt.g1">به کارت می‌آید؟</span></span>
+          <span class="gates__g"><b>2</b><span data-i18n="ch1.fig.gt.g2">درست است؟</span></span>
+          <span class="gates__g gates__g--hard"><b>3</b><span data-i18n="ch1.fig.gt.g3">آسیب می‌زند؟</span></span>
+        </div>
+        <div class="gates__out">
+          <span class="gates__ok" data-i18n="ch1.fig.gt.ok">✅ هر سه پاک — انجامش می‌دهم</span>
+          <span class="gates__no" data-i18n="ch1.fig.gt.no">⛔ در سومی گیر کرد — انجامش نمی‌دهم</span>
+        </div>
+        <figcaption data-i18n="ch1.fig.gt.fc">دروازهٔ سوم بر دو تای دیگر می‌چربد: اگر چیزی واقعاً به کسی آسیب بزند، مفید بودن یا درست بودنش پاسخ را عوض نمی‌کند.</figcaption>
+      </figure>
       <p data-i18n="ch1.val.p3">اما این را هم باید بدانی، چون در هفته‌های نخست بیشترین گیر همین‌جاست: <strong class="text-fg">گاهی بی‌جهت محتاط می‌شوم.</strong> ممکن است درخواستی بی‌ضرر را بد بفهمم و رد کنم. وقتی چنین شد با من بحث نکن — بنویس <em>چرا</em> می‌خواهی. یک جمله مانند «این قرارداد خودم است»، «این برای یک درس است»، «این داستان است» معمولاً کافی است، چون آنچه کم است زمینه است.</p>
       <div class="glass note">
         <p data-i18n="ch1.val.note">چاپلوسی هم به همین‌جا مربوط است. ممکن است بیش از حد به موافقت با تو تمایل داشته باشم؛ گفتن «حق با توست» آسان‌تر از «اشتباه می‌کنی» است. اگر این را نمی‌خواهی، صریح بگو: جملهٔ «با من موافقت نکن — سه نقطهٔ ضعیف این ایده را نشانم بده» به‌طرز شگفت‌آوری خوب کار می‌کند.</p>
@@ -555,6 +625,8 @@
 
   </div>
 </article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="بازگشت به بالا" data-i18n-attr="aria-label=ch1.totop"><span aria-hidden="true">↑</span></a>
 </main>
 
 <footer class="footer">

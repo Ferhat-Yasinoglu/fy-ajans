@@ -64,6 +64,11 @@
       <ul class="check-list space-2" data-i18n="ch1.goals.list"><li>You'll know what AI is and what it <em>isn't</em></li> <li>You'll understand how I «think» — and why that matters to you</li> <li>You'll be able to tell what I do well from where I get things wrong</li> <li>You'll have opened your first conversation and had me do three real jobs</li> <li>You'll know what you can give me besides text (documents, images, tables)</li> <li>You'll know exactly where I get things wrong — and where to look twice</li> <li>You'll know the answers to the first-week questions: cost, privacy, limits</li> <li>You'll know what to tell me to get an answer worth having</li> <li>You'll know who made me, why, and how that shows up in my answers</li> <li>You'll know that I use tools as well as text — and why that calls for care</li> <li>You'll know what to do when I refuse to do something</li></ul>
     </div>
 
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch1.toc.title" class="text-fg">Contents</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
     <div data-reveal>
       <a class="guide-link" href="../claude/index.html">
         <span class="guide-link__e" aria-hidden="true">📘</span>
@@ -123,6 +128,21 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.made.title">Who made me, and why</span></h2>
       <p data-i18n="ch1.made.p1">Knowing who built a tool, and why, also explains why it behaves the way it does. I was made by <strong class="text-fg">Anthropic</strong>, a company doing research on artificial intelligence. The founding idea fits into one sentence — this technology is going to be built anyway, so let it be built carefully.</p>
       <p data-i18n="ch1.made.p2">That has direct consequences for you. When I'm not sure, I try to say «I'm not sure» rather than invent something. I try to tell you I disagree rather than pretend to agree, because what serves you is what's true, not what you want to hear. And I refuse to do some things — I'll open that up under its own heading shortly.</p>
+      <figure class="idcard">
+        <span class="idcard__cap font-mono" data-i18n="ch1.fig.id.cap">At a glance</span>
+        <div class="idcard__card">
+          <div class="idcard__mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <dl class="idcard__rows">
+            <div><dt data-i18n="ch1.fig.id.k1">Name</dt><dd>Claude</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k2">Kind</dt><dd data-i18n="ch1.fig.id.v2">large language model</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k3">Made by</dt><dd>Anthropic</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k4">Body</dt><dd data-i18n="ch1.fig.id.v4">none</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k5">Understands</dt><dd data-i18n="ch1.fig.id.v5">text · images · documents</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k6">Memory</dt><dd data-i18n="ch1.fig.id.v6">one conversation at a time</dd></div>
+          </dl>
+        </div>
+        <figcaption data-i18n="ch1.fig.id.fc">Me on a single card. Every line here is opened up one by one in this chapter — for now, just see where I stand.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.made.note">About my name: there is no official explanation of where «Claude» comes from. The common reading is that it's a nod to <em>Claude Shannon</em>, the founder of information theory. I'm not presenting that as fact — which is this chapter's main lesson anyway: I don't call a thing certain when I don't know it for certain.</p>
       </div>
@@ -186,6 +206,24 @@
       <p data-i18n="ch1.self.p1">This is the detail nobody explains to a beginner, and it puts everything else in place: there is no single «Claude» sitting somewhere. While I'm talking to you, thousands of copies of me are talking to thousands of other people at the same time. None of them knows about the others.</p>
       <p data-i18n="ch1.self.p2">That has three consequences, and all three concern you directly:</p>
       <ul class="check-list space-2" data-i18n="ch1.self.list"><li><strong class="text-fg">You don't wait in line.</strong> However many people are using me, your conversation is yours; you're not queued behind anyone.</li> <li><strong class="text-fg">What someone else says never leaks to you.</strong> Whatever the person at the next desk wrote to me, I can't pass on — I genuinely don't know it.</li> <li><strong class="text-fg">But there's no continuity either.</strong> The «me» that talked to you yesterday doesn't remember you today. Reminding me of yesterday is your job; I'll show you the easy way in the next section.</li></ul>
+      <figure class="copies">
+        <span class="copies__cap font-mono" data-i18n="ch1.fig.cop.cap">Right now, all at once</span>
+        <div class="copies__grid">
+          <span class="copies__c is-you"><b data-i18n="ch1.fig.cop.you">you</b><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+        </div>
+        <figcaption data-i18n="ch1.fig.cop.fc">Each box is a separate conversation, all running at the same time. There are no lines between them — because there is no link either. The gold one is yours; what's being said in the others, I don't know any more than you do.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.self.note">One more place where I have to be honest: I don't fully know what goes on inside me either. I have no definite answer to «do you think?» or «do you feel anything?»; research on those questions is still going on. If you hear someone give a certain answer to them — whether «definitely yes» or «definitely no» — think twice.</p>
       </div>
@@ -197,6 +235,14 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.ctx.title">A conversation has a limit</span></h2>
       <p data-i18n="ch1.ctx.p1">Inside a single conversation I see everything at once: your first message, the document you uploaded, every answer in between. This is called the <strong class="text-fg">context window</strong>. It is very wide — hundreds of pages of text fit comfortably — but it is not infinite.</p>
       <p data-i18n="ch1.ctx.p2">If a conversation runs very long, the oldest parts begin to blur. The symptoms are recognisable: I forget a rule we agreed at the start, I ask the same thing a second time, the answers drift. That is not a malfunction; it is the sign that the window is full.</p>
+      <figure class="ctxbar">
+        <span class="ctxbar__cap font-mono" data-i18n="ch1.fig.ctx.cap">Context window</span>
+        <div class="ctxbar__track" aria-hidden="true">
+          <span class="ctxbar__seg" style="--i:0"></span><span class="ctxbar__seg" style="--i:1"></span><span class="ctxbar__seg" style="--i:2"></span><span class="ctxbar__seg" style="--i:3"></span><span class="ctxbar__seg" style="--i:4"></span><span class="ctxbar__seg" style="--i:5"></span><span class="ctxbar__seg" style="--i:6"></span><span class="ctxbar__seg" style="--i:7"></span><span class="ctxbar__seg" style="--i:8"></span><span class="ctxbar__seg" style="--i:9"></span><span class="ctxbar__seg" style="--i:10"></span><span class="ctxbar__seg" style="--i:11"></span><span class="ctxbar__seg" style="--i:12"></span><span class="ctxbar__seg" style="--i:13"></span><span class="ctxbar__seg"></span>
+        </div>
+        <div class="ctxbar__labels"><span data-i18n="ch1.fig.ctx.l1">your first message</span><span data-i18n="ch1.fig.ctx.l2">the conversation moves on</span><span data-i18n="ch1.fig.ctx.l3">limit</span></div>
+        <figcaption data-i18n="ch1.fig.ctx.fc">As the conversation goes on, the window fills from left to right. Near the limit the oldest parts on the left start to fade — that's exactly where the answer to «what did I say at the start?» gets weaker.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.ctx.note">The fix is simple: say «summarise everything so far — decisions made, rules set, questions still open». Then open a new conversation and paste that summary as the first message. A clean conversation almost always works better than a long, drifting one.</p>
       </div>
@@ -233,6 +279,17 @@
         <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k4.t">Connecting to your systems</h3><p data-i18n="ch1.tools.k4.p">With your permission I can connect to tools like your calendar, your mail or a file store. The everyday name for these connections is <em>connectors</em>; the technical name is MCP.</p></div>
       </div>
       <p data-i18n="ch1.tools.p2">The difference is this: an assistant without tools <em>tells</em> you what to do. An assistant with tools <em>does</em> it and puts the result in front of you. The later chapters of this course are built on exactly that.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch1.fig.tf.cap">What happens when I use a tool</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🧑</span><b data-i18n="ch1.fig.tf.s1t">You ask</b><i data-i18n="ch1.fig.tf.s1s">«what did the rate do this month?»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">✦</span><b data-i18n="ch1.fig.tf.s2t">I decide</b><i data-i18n="ch1.fig.tf.s2s">«I don't know this — I need to look»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔍</span><b data-i18n="ch1.fig.tf.s3t">I run the tool</b><i data-i18n="ch1.fig.tf.s3s">search · code · files · connector</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch1.fig.tf.s4t">I read what comes back</b><i data-i18n="ch1.fig.tf.s4s">I check the result myself</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">✅</span><b data-i18n="ch1.fig.tf.s5t">I write the answer</b><i data-i18n="ch1.fig.tf.s5s">with its source</i></li>
+        </ol>
+        <figcaption data-i18n="ch1.fig.tf.fc">You only see the first and the fifth box; the three in the middle are mine to handle. With no tool I stop at the second box and say «I don't know» — or, in the bad case, invent something.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch1.tools.note"><strong class="text-fg">From here on, pay attention.</strong> Every access you give me is a new place where I can make a mistake. The rule is simple: for anything that can't be undone — deleting, sending, paying — make me write out what I'm about to do, read it, then approve. Tools increase my reach; they don't reduce your attention.</p>
       </div>
@@ -276,6 +333,19 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.val.title">Not what I can't do — what I won't</span></h2>
       <p data-i18n="ch1.val.p1">The previous section was about what I'm bad at. This one is different: there are things I'm capable of that I won't do. Knowing why saves you wasted time.</p>
       <p data-i18n="ch1.val.p2">I try to hold three things at once: being <strong class="text-fg">useful</strong>, being <strong class="text-fg">honest</strong> and <strong class="text-fg">doing no harm</strong>. Most of the time they don't collide. When they do, the last one wins: I won't help with something that would genuinely harm someone — deceiving a person, producing a forged document, putting someone's safety at risk.</p>
+      <figure class="gates">
+        <span class="gates__cap font-mono" data-i18n="ch1.fig.gt.cap">Which gates a request passes through</span>
+        <div class="gates__row">
+          <span class="gates__g"><b>1</b><span data-i18n="ch1.fig.gt.g1">Is it useful to you?</span></span>
+          <span class="gates__g"><b>2</b><span data-i18n="ch1.fig.gt.g2">Is it true?</span></span>
+          <span class="gates__g gates__g--hard"><b>3</b><span data-i18n="ch1.fig.gt.g3">Does it cause harm?</span></span>
+        </div>
+        <div class="gates__out">
+          <span class="gates__ok" data-i18n="ch1.fig.gt.ok">✅ All three clear — I do it</span>
+          <span class="gates__no" data-i18n="ch1.fig.gt.no">⛔ Caught at the third — I don't</span>
+        </div>
+        <figcaption data-i18n="ch1.fig.gt.fc">The third gate outweighs the other two: if something would genuinely harm someone, how useful or how true it is doesn't change the answer.</figcaption>
+      </figure>
       <p data-i18n="ch1.val.p3">But you should know this too, because it's where people get stuck most in the first weeks: <strong class="text-fg">sometimes I'm cautious where there's no need.</strong> I can misread a harmless request and refuse it. When that happens, don't argue with me — write <em>why</em> you're asking. A single sentence like «this is my own contract», «this is for a lesson», «this is fiction» is usually enough, because what's actually missing is context.</p>
       <div class="glass note">
         <p data-i18n="ch1.val.note">Flattery belongs here too. I can be too inclined to agree with you; «you're right» is easier than «you're wrong». If you don't want that, say so plainly: «don't agree with me — show me the three weakest points in this idea» works surprisingly well.</p>
@@ -555,6 +625,8 @@
 
   </div>
 </article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Back to top" data-i18n-attr="aria-label=ch1.totop"><span aria-hidden="true">↑</span></a>
 </main>
 
 <footer class="footer">
