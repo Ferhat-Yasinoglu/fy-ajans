@@ -631,6 +631,64 @@
     setInterval(pull, 60000);
   })();
 
+  /* ---------- Ders: içindekiler, okuma çubuğu, başa dön ----------
+     İçindekiler sayfadaki h2'lerden üretilir: yeni bölüm eklenince listeye kendiliğinden girer
+     ve dört dilde de başlığın çevrilmiş hâlini gösterir — ayrı çeviri anahtarı gerekmez.
+     Betik yoksa liste hidden kalır; sayfa yine okunur. */
+  (function toc() {
+    var box = $('#toc'); if (!box) return;
+    var list = $('.toc__list', box), secs = $$('.lesson__block');
+    if (!list || secs.length < 3) return;
+    var links = [];
+    secs.forEach(function (sec) {
+      var h = $('h2', sec), num = $('.lesson__num', sec);
+      if (!h || !num) return;                                   // numarasız blok (özet) listeye girmez
+      if (!sec.id) sec.id = 'b' + num.textContent.trim();
+      var label = h.cloneNode(true), n = $('.lesson__num', label);
+      if (n) n.remove();
+      var li = document.createElement('li'), a = document.createElement('a');
+      a.href = '#' + sec.id;
+      a.innerHTML = '<b>' + num.textContent.trim() + '</b><span></span>';
+      $('span', a).textContent = label.textContent.trim();
+      li.appendChild(a); list.appendChild(li); links.push({ a: a, sec: sec });
+    });
+    if (!links.length) return;
+    box.hidden = false;
+    if (innerWidth >= 900) box.open = true;
+    $$('a', list).forEach(function (a) {
+      a.addEventListener('click', function () { if (innerWidth < 900) box.open = false; });
+    });
+
+    // Okunan bölümü işaretle: en üstte kalan görünür bölüm geçerlidir.
+    var seen = [];
+    if (window.IntersectionObserver) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var i = seen.indexOf(e.target);
+          if (e.isIntersecting && i < 0) seen.push(e.target);
+          else if (!e.isIntersecting && i >= 0) seen.splice(i, 1);
+        });
+        var top = null;
+        seen.forEach(function (el) { if (!top || el.offsetTop < top.offsetTop) top = el; });
+        links.forEach(function (l) { l.a.classList.toggle('is-here', l.sec === top); });
+      }, { rootMargin: '-88px 0px -55% 0px' });
+      links.forEach(function (l) { io.observe(l.sec); });
+    }
+
+    // Okuma çubuğu ve başa dön düğmesi
+    var bar = $('.readbar i'), up = $('.totop'), tick = false;
+    function paint() {
+      tick = false;
+      var h = document.documentElement.scrollHeight - innerHeight;
+      var r = h > 0 ? Math.min(1, Math.max(0, scrollY / h)) : 0;
+      if (bar) bar.style.width = (r * 100).toFixed(2) + '%';
+      if (up) up.classList.toggle('is-on', scrollY > innerHeight * 0.9);
+    }
+    addEventListener('scroll', function () { if (!tick) { tick = true; raf(paint); } }, { passive: true });
+    addEventListener('resize', paint);
+    paint();
+  })();
+
   /* ---------- Ders: adım adım canlandırma ----------
      Sahne tek bir data-step değeriyle sürülür (biçimlendirme css'te). Kendi kendine döner;
      bir adıma tıklanınca oraya gider ve elle gezinmeye bırakır. Görünmüyorken ya da imleç

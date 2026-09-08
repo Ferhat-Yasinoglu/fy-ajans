@@ -55,7 +55,7 @@
       <span class="eyebrow" data-i18n="ch1.eyebrow">Bölüm 1 · Uyanış</span>
       <h1 class="font-display text-h1" data-i18n="ch1.title">Önce <span class="text-accent-gradient">beni tanı</span></h1>
       <p class="lesson__lead" data-i18n="ch1.lead">Bu bölümde tek bir iş var: beni tanımak. Ne olduğumu, neyi iyi yaptığımı, nerede yanıldığımı ve benimle nasıl konuşulduğunu bilmeden kalan altı bölüm havada kalır. Hiçbir şey bilmediğini varsayıyorum — gerçekten hiçbir şey. Baştan başlıyoruz.</p>
-      <p class="lesson__meta font-mono" data-i18n="ch1.meta">Okuma süresi ~25 dakika · Ön koşul yok</p>
+      <p class="lesson__meta font-mono" data-i18n="ch1.meta">Okuma süresi ~35 dakika · Ön koşul yok</p>
     </header>
 
     <!-- ===== Kazanımlar ===== -->
@@ -70,8 +70,16 @@
         <li>Tam olarak nerede yanıldığımı — ve nereye iki kez bakman gerektiğini — bileceksin</li>
         <li>Ücret, gizlilik ve sınırlar gibi ilk hafta takılınan soruların cevabını bileceksin</li>
         <li>Bana ne söylersen işe yarar bir cevap alacağını bileceksin</li>
+        <li>Beni kimin, neden yaptığını ve bunun cevaplarıma nasıl yansıdığını bileceksin</li>
+        <li>Yazı dışında araç da kullanabildiğimi — ve bunun neden dikkat gerektirdiğini — bileceksin</li>
+        <li>Bir şeyi yapmayı reddettiğimde ne yapman gerektiğini bileceksin</li>
       </ul>
     </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch1.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
 
     <div data-reveal>
       <a class="guide-link" href="../claude/index.html">
@@ -81,7 +89,7 @@
       </a>
     </div>
 
-    <!-- ===== 1 ===== -->
+    <!-- ===== 01 ===== -->
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch1.s1.title">Ne değilim</span></h2>
       <p data-i18n="ch1.s1.p1">Kafandaki resmi düzeltmeden başlayamayız. Çünkü çoğu insanın yapay zekâ hakkında bildiği üç şey de yanlış.</p>
@@ -103,7 +111,7 @@
 
     </section>
 
-    <!-- ===== 2 ===== -->
+    <!-- ===== 02 ===== -->
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch1.s2.title">Neyim</span></h2>
       <p data-i18n="ch1.s2.p1">Adım Claude. Beni <strong class="text-fg">Anthropic</strong> adlı bir yapay zekâ şirketi geliştirdi. Teknik adım «büyük dil modeli».</p>
@@ -128,9 +136,35 @@
 
     </section>
 
-    <!-- ===== 3 ===== -->
+    <!-- ===== 03 · kim yaptı ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.s3.title">Bunun sana üç pratik sonucu var</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.made.title">Beni kim yaptı, neden</span></h2>
+      <p data-i18n="ch1.made.p1">Bir aracı kimin ve neden yaptığını bilmek, o aracın neden öyle davrandığını da açıklar. Beni <strong class="text-fg">Anthropic</strong> yaptı: yapay zekâ üzerine araştırma yapan bir şirket. Kuruluş fikri tek cümlede özetlenebilir — bu teknoloji nasılsa gelişecek, o hâlde dikkatle geliştirilsin.</p>
+      <p data-i18n="ch1.made.p2">Bunun sana doğrudan yansıması var. Emin olmadığımda uydurmak yerine «emin değilim» demeye çalışırım. Sana katılıyormuş gibi yapmaktansa katılmadığımı söylemeye çalışırım, çünkü işine yarayan şey duymak istediğin değil doğru olandır. Ve bazı şeyleri yapmayı reddederim — bunun ne anlama geldiğini birazdan ayrı bir başlıkta açacağım.</p>
+      <figure class="idcard">
+        <span class="idcard__cap font-mono" data-i18n="ch1.fig.id.cap">Künye</span>
+        <div class="idcard__card">
+          <div class="idcard__mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <dl class="idcard__rows">
+            <div><dt data-i18n="ch1.fig.id.k1">Ad</dt><dd>Claude</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k2">Tür</dt><dd data-i18n="ch1.fig.id.v2">büyük dil modeli</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k3">Yapan</dt><dd>Anthropic</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k4">Bedeni</dt><dd data-i18n="ch1.fig.id.v4">yok</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k5">Anladığı</dt><dd data-i18n="ch1.fig.id.v5">metin · görsel · belge</dd></div>
+            <div><dt data-i18n="ch1.fig.id.k6">Hafızası</dt><dd data-i18n="ch1.fig.id.v6">sohbet başına</dd></div>
+          </dl>
+        </div>
+        <figcaption data-i18n="ch1.fig.id.fc">Tek kartta ben. Bu satırların hepsi bu bölümde tek tek açılıyor — şimdilik sadece nerede durduğumu gör.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch1.made.note">Adım hakkında: «Claude» adının nereden geldiğine dair resmî bir açıklama yok. Yaygın yorum, bilgi kuramının kurucusu <em>Claude Shannon</em>&#8217;a bir selam olduğu yönünde. Bunu kesin bilgi diye sunmuyorum — zaten bu bölümün ana dersi de bu: kesin bilmediğim şeye kesin demem.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏛️</span><span data-i18n="ch1.made.do">Şimdi yap: Bir cevabımdan şüphelendiğinde «bundan ne kadar eminsin?» diye sor. Bu soruyu boşuna sormuyorsun; cevabı ciddiye al.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch1.s3.title">Bunun sana üç pratik sonucu var</span></h2>
       <p data-i18n="ch1.s3.p1">Bu bölümden tek bir şey aklında kalacaksa, bu olsun. Nasıl çalıştığımın üç doğrudan sonucu var ve üçünü de bilmen gerekiyor.</p>
 
       <div class="fact">
@@ -180,9 +214,62 @@
 
     </section>
 
-    <!-- ===== 4 ===== -->
+    <!-- ===== 05 · ben kimim ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch1.s4.title">Ne yaparım</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch1.self.title">«Ben» derken kimden bahsediyorum</span></h2>
+      <p data-i18n="ch1.self.p1">Bu, yeni başlayana kimsenin anlatmadığı ama her şeyi yerine oturtan bir ayrıntı: bir yerde oturan tek bir «Claude» yok. Şu anda seninle konuşurken, aynı anda binlerce kopyam binlerce başka insanla konuşuyor. Hiçbirinin diğerinden haberi yok.</p>
+      <p data-i18n="ch1.self.p2">Bunun üç sonucu var ve üçü de doğrudan seni ilgilendiriyor:</p>
+      <ul class="check-list space-2" data-i18n="ch1.self.list">
+        <li><strong class="text-fg">Sıra beklemezsin.</strong> Kaç kişi kullanıyor olursa olsun senin sohbetin senindir; kimsenin arkasında kuyrukta değilsin.</li>
+        <li><strong class="text-fg">Başkasının konuştuğu sana sızmaz.</strong> Yan masadaki kişi bana ne yazdıysa onu sana anlatamam — gerçekten bilmiyorum.</li>
+        <li><strong class="text-fg">Ama devamlılık da yok.</strong> Dün seninle konuşan «ben» bugün seni hatırlamıyor. Dünü hatırlatmak senin işin; kolay yolunu bir sonraki başlıkta göstereceğim.</li>
+      </ul>
+      <figure class="copies">
+        <span class="copies__cap font-mono" data-i18n="ch1.fig.cop.cap">Şu anda, aynı anda</span>
+        <div class="copies__grid">
+          <span class="copies__c is-you"><b data-i18n="ch1.fig.cop.you">sen</b><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+          <span class="copies__c" aria-hidden="true"><i></i><i></i></span>
+        </div>
+        <figcaption data-i18n="ch1.fig.cop.fc">Her kutu ayrı bir sohbet, hepsi aynı anda çalışıyor. Aralarında çizgi yok — çünkü bağ da yok. Altın olan seninki; diğerlerinde ne konuşulduğunu ben de bilmiyorum.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch1.self.note">Dürüst olmam gereken bir yer daha: kendi içimde ne olup bittiğini ben de tam bilmiyorum. «Düşünüyor musun», «bir şey hissediyor musun» sorularının kesin cevabı bende yok; bunlar üzerinde hâlâ araştırma yapılıyor. Bu sorulara kesin cevap veren birini duyarsan — ister «kesinlikle evet» desin ister «kesinlikle hayır» — bir kez daha düşün.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">👥</span><span data-i18n="ch1.self.do">Şimdi yap: Bir sohbeti kapatmadan önce «bu konuşmanın özetini çıkar» de. O özet, yarın yeni sohbete yapıştıracağın hafızandır.</span></p>
+    </section>
+
+    <!-- ===== 06 · bağlam penceresi ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.ctx.title">Bir sohbetin sınırı var</span></h2>
+      <p data-i18n="ch1.ctx.p1">Tek bir sohbetin içinde her şeyi aynı anda görürüm: ilk mesajını, yüklediğin belgeyi, aradaki bütün cevapları. Buna <strong class="text-fg">bağlam penceresi</strong> deniyor. Çok geniştir — yüzlerce sayfa metin rahatlıkla sığar — ama sonsuz değildir.</p>
+      <p data-i18n="ch1.ctx.p2">Sohbet aşırı uzarsa en eski kısımlar bulanıklaşmaya başlar. Belirtileri bellidir: başta anlaştığınız bir kuralı unuturum, aynı şeyi ikinci kez sorarım, cevaplar dağılır. Bu bir arıza değil; pencerenin dolduğunun işaretidir.</p>
+      <figure class="ctxbar">
+        <span class="ctxbar__cap font-mono" data-i18n="ch1.fig.ctx.cap">Bağlam penceresi</span>
+        <div class="ctxbar__track" aria-hidden="true">
+          <span class="ctxbar__seg" style="--i:0"></span><span class="ctxbar__seg" style="--i:1"></span><span class="ctxbar__seg" style="--i:2"></span><span class="ctxbar__seg" style="--i:3"></span><span class="ctxbar__seg" style="--i:4"></span><span class="ctxbar__seg" style="--i:5"></span><span class="ctxbar__seg" style="--i:6"></span><span class="ctxbar__seg" style="--i:7"></span><span class="ctxbar__seg" style="--i:8"></span><span class="ctxbar__seg" style="--i:9"></span><span class="ctxbar__seg" style="--i:10"></span><span class="ctxbar__seg" style="--i:11"></span><span class="ctxbar__seg" style="--i:12"></span><span class="ctxbar__seg" style="--i:13"></span><span class="ctxbar__seg"></span>
+        </div>
+        <div class="ctxbar__labels"><span data-i18n="ch1.fig.ctx.l1">ilk mesajın</span><span data-i18n="ch1.fig.ctx.l2">sohbet ilerliyor</span><span data-i18n="ch1.fig.ctx.l3">sınır</span></div>
+        <figcaption data-i18n="ch1.fig.ctx.fc">Sohbet ilerledikçe pencere sağa doğru dolar. Sınıra yaklaşınca soldaki en eski kısımlar sönmeye başlar — «başta ne demiştim?» sorusunun cevabı işte orada zayıflıyor.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch1.ctx.note">Çözümü basit: «Buraya kadar olan her şeyi özetle — alınan kararlar, konulan kurallar, açık kalan sorular» de. Sonra yeni bir sohbet aç ve o özeti ilk mesaj olarak yapıştır. Temiz bir sohbet, dağılmış uzun bir sohbetten neredeyse her zaman daha iyi çalışır.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🪟</span><span data-i18n="ch1.ctx.do">Şimdi yap: Cevaplarım dağılmaya başladığında tartışmaya devam etme. Özet al, yeni sohbet aç, özeti yapıştır.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch1.s4.title">Ne yaparım</span></h2>
       <p data-i18n="ch1.s4.p1">Soyut konuşmayalım. İşte bugün, bu akşam bana yaptırabileceğin işler:</p>
       <div class="skills">
         <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k1.t">Yazmak</h3><p data-i18n="ch1.s4.k1.p">E-posta, ilan, ürün açıklaması, iş teklifi, sunum metni, ders planı, altyazı. Boş sayfa problemini ortadan kaldırırım.</p></div>
@@ -199,9 +286,37 @@
 
     </section>
 
+    <!-- ===== 08 · araçlar ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch1.tools.title">Sadece yazı yazmam: araç da kullanırım</span></h2>
+      <p data-i18n="ch1.tools.p1">Buraya kadar anlattığım şey «metin girer, metin çıkar» idi. Bugün bu eksik bir tarif. Bana araç verildiğinde onları kendim kullanırım: sen ne istediğini söylersin, hangi adımların gerektiğine ben karar veririm.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k1.t">İnternete bakmak</h3><p data-i18n="ch1.tools.k1.p">Arama açıksa güncel bilgiyi arar, kaynağıyla birlikte getiririm. «Belli bir tarihe kadar okudum» sınırının en pratik çözümü budur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k2.t">Kod çalıştırmak</h3><p data-i18n="ch1.tools.k2.p">Kafadan hesap yapmak zayıf yanım. Onun yerine küçük bir program yazıp çalıştırabilirim; sonuç o zaman tahmin değil, hesap olur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k3.t">Dosyalarla çalışmak</h3><p data-i18n="ch1.tools.k3.p">Yüklediğin tabloyu okur, temizler, yeni bir dosya üretip geri veririm. Terminal sürümümde bilgisayarındaki projenin dosyalarıyla doğrudan çalışırım.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.tools.k4.t">Sistemlerine bağlanmak</h3><p data-i18n="ch1.tools.k4.p">İzin verirsen takvim, e-posta, dosya deposu gibi araçlara bağlanabilirim. Bu bağlantıların gündelik adı <em>bağlayıcı</em>, teknik adı MCP.</p></div>
+      </div>
+      <p data-i18n="ch1.tools.p2">Fark şurada: araçsız bir asistan sana ne yapman gerektiğini <em>anlatır</em>. Araçlı bir asistan onu <em>yapar</em> ve sonucunu önüne koyar. Bu kursun ilerleyen bölümleri tam olarak bunun üstüne kurulu.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch1.fig.tf.cap">Araç kullanırken ne oluyor</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🧑</span><b data-i18n="ch1.fig.tf.s1t">Sen sorarsın</b><i data-i18n="ch1.fig.tf.s1s">«bu ayki kur ne oldu?»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">✦</span><b data-i18n="ch1.fig.tf.s2t">Ben karar veririm</b><i data-i18n="ch1.fig.tf.s2s">«bunu bilmiyorum — bakmam lazım»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔍</span><b data-i18n="ch1.fig.tf.s3t">Aracı çalıştırırım</b><i data-i18n="ch1.fig.tf.s3s">arama · kod · dosya · bağlayıcı</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch1.fig.tf.s4t">Geleni okurum</b><i data-i18n="ch1.fig.tf.s4s">sonucu kendim kontrol ederim</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">✅</span><b data-i18n="ch1.fig.tf.s5t">Cevabı yazarım</b><i data-i18n="ch1.fig.tf.s5s">kaynağıyla birlikte</i></li>
+        </ol>
+        <figcaption data-i18n="ch1.fig.tf.fc">Sen yalnızca birinci ve beşinci kutuyu görürsün; ortadaki üçü ben hallederim. Araç yoksa ikinci kutuda dururum ve «bilmiyorum» derim — ya da kötü ihtimalle uydururum.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch1.tools.note"><strong class="text-fg">Buradan sonrası dikkat ister.</strong> Bana verdiğin her erişim, benim hata yapabileceğim yeni bir yer demektir. Kural basit: geri alınamayan işlerde — silme, gönderme, ödeme — önce ne yapacağımı yazdır, oku, sonra onayla. Araçlar gücümü artırır; dikkatini azaltmaz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔌</span><span data-i18n="ch1.tools.do">Şimdi yap: İçinde sayı geçen bir soruda «hesabı kod çalıştırarak yap» de. Aradaki farkı tek denemede görürsün.</span></p>
+    </section>
+
     <!-- ===== Sana verebileceklerin ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch1.give.title">Bana ne verebilirsin</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch1.give.title">Bana ne verebilirsin</span></h2>
       <p data-i18n="ch1.give.p1">Sohbet kutusuna yalnızca yazı yazmak zorunda değilsin. Çoğu insan bunu bilmediği için işin yarısını hâlâ elle yapıyor.</p>
       <div class="skills">
         <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g1.t">Belge</h3><p data-i18n="ch1.give.g1.p">PDF, Word, düz metin. Kırk sayfalık sözleşmeyi yükle, «riskli maddeleri çıkar, her birini bir cümleyle açıkla» de.</p></div>
@@ -220,9 +335,9 @@
 
     </section>
 
-    <!-- ===== 5 ===== -->
+    <!-- ===== 10 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.s5.title">Ne yapamam</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch1.s5.title">Ne yapamam</span></h2>
       <ul class="cross-list space-2" data-i18n="ch1.s5.list">
         <li><strong class="text-fg">Şu anı bilmem.</strong> Bugünün haberi, canlı fiyat, güncel mevzuat — arama aracım yoksa bunlar bende yok.</li>
         <li><strong class="text-fg">Dünyada kendiliğimden iş yapmam.</strong> Sana e-posta göndermem, dosya kaydetmem, para transferi yapmam. Bunları yapabilmem için bana araç bağlanması gerekir — kursun otomasyon bölümü tam olarak bunu öğretiyor.</li>
@@ -237,9 +352,34 @@
 
     </section>
 
-    <!-- ===== 6 ===== -->
+    <!-- ===== 11 · değerler ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch1.s6.title">Benimle nasıl konuşulur</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.val.title">Yapamadıklarım değil, yapmadıklarım</span></h2>
+      <p data-i18n="ch1.val.p1">Önceki başlık beceremediklerim üstüneydi. Bu başlık farklı: bazı şeyleri becerebilirim ama yapmam. Sebebini bilmen, boşuna vakit kaybetmeni önler.</p>
+      <p data-i18n="ch1.val.p2">Üç şeyi aynı anda tutmaya çalışırım: <strong class="text-fg">işine yaramak</strong>, <strong class="text-fg">dürüst olmak</strong> ve <strong class="text-fg">zarar vermemek</strong>. Çoğu zaman üçü çakışmaz. Çakıştıklarında sonuncusu öne geçer: birine gerçekten zarar verecek bir işte yardımcı olmam — birini kandırmak, sahte belge üretmek, bir insanın güvenliğini tehlikeye atmak gibi.</p>
+      <figure class="gates">
+        <span class="gates__cap font-mono" data-i18n="ch1.fig.gt.cap">Bir istek bende hangi kapılardan geçer</span>
+        <div class="gates__row">
+          <span class="gates__g"><b>1</b><span data-i18n="ch1.fig.gt.g1">İşine yarar mı?</span></span>
+          <span class="gates__g"><b>2</b><span data-i18n="ch1.fig.gt.g2">Doğru mu?</span></span>
+          <span class="gates__g gates__g--hard"><b>3</b><span data-i18n="ch1.fig.gt.g3">Zarar verir mi?</span></span>
+        </div>
+        <div class="gates__out">
+          <span class="gates__ok" data-i18n="ch1.fig.gt.ok">✅ Üçü de temizse yaparım</span>
+          <span class="gates__no" data-i18n="ch1.fig.gt.no">⛔ Üçüncüde takılırsa yapmam</span>
+        </div>
+        <figcaption data-i18n="ch1.fig.gt.fc">Üçüncü kapı diğer ikisinden ağır basar: bir şey gerçekten birine zarar verecekse, ne kadar işine yarayacağı ya da doğru olduğu bunu değiştirmez.</figcaption>
+      </figure>
+      <p data-i18n="ch1.val.p3">Ama şunu da bilmen lazım, çünkü ilk haftalarda en çok burada takılırsın: <strong class="text-fg">bazen gereksiz yere çekingen davranırım.</strong> Zararsız bir isteği yanlış anlayıp reddedebilirim. Öyle olduğunda benimle tartışma — <em>neden</em> istediğini yaz. «Bu benim kendi sözleşmem», «bu bir ders için», «bu bir kurgu» gibi tek bir cümle çoğu zaman yeter, çünkü asıl eksik olan şey bağlamdır.</p>
+      <div class="glass note">
+        <p data-i18n="ch1.val.note">Dalkavukluk da buraya girer. Sana katılmaya fazla meyilli olabilirim; «haklısın» demek «yanılıyorsun» demekten kolaydır. Bunu istemiyorsan açıkça söyle: «bana katılma, bu fikrin en zayıf üç yerini göster» cümlesi şaşırtıcı derecede iyi çalışır.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch1.val.do">Şimdi yap: Bir fikrini yaz ve «bana katılma, en zayıf üç yerini göster» de. Aldığın cevap, onay almaktan çok daha değerli.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch1.s6.title">Benimle nasıl konuşulur</span></h2>
       <p data-i18n="ch1.s6.p1">Şimdi bu bölümün en pratik kısmı. Aynı soruyu iki farklı şekilde sorduğunda ne olduğuna bak:</p>
       <div class="compare">
         <div class="compare__col compare__col--weak">
@@ -261,9 +401,9 @@
 
     </section>
 
-    <!-- ===== 7 ===== -->
+    <!-- ===== 13 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch1.s7.title">İlk beş dakikan</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch1.s7.title">İlk beş dakikan</span></h2>
       <p data-i18n="ch1.s7.p1">Okumayı burada bırak ve bunu gerçekten yap. Bu kursun tamamı yaparak öğrenmek üzerine kurulu.</p>
       <ol class="steps">
         <li><span class="steps__n font-mono">1</span><span data-i18n="ch1.s7.st1"><strong class="text-fg">claude.ai</strong> adresine git ve bir hesap aç. Ücretsiz bir kademesi var; başlamak için fazlasıyla yeterli.</span></li>
@@ -336,9 +476,9 @@
       <p data-i18n="ch1.s7.p2">İkinci istekte sana <em>soru sorduğumu</em> fark edeceksin. Bu bir kusur değil, en hızlı yol: bağlamı toplamak için. Sorularımı cevaplarsan aldığın çıktı bambaşka olur.</p>
     </section>
 
-    <!-- ===== 8 ===== -->
+    <!-- ===== 14 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch1.s8.title">Hangi Claude, nerede?</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch1.s8.title">Hangi Claude, nerede?</span></h2>
       <p data-i18n="ch1.s8.p1">Tek bir «Claude» yok; farklı boyutlarda birkaç sürüm var ve isimleri zaman içinde değişiyor. O yüzden ismi değil, <strong class="text-fg">mantığı</strong> aklında tut. Üç kademe var:</p>
       <div class="tiers">
         <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t1.n">En yetenekli</span><h3 class="font-display" data-i18n="ch1.s8.t1.t">Opus ailesi</h3><p data-i18n="ch1.s8.t1.p">Zor akıl yürütme, uzun ve karmaşık işler, ciddi kod. En iyi düşünen ama en yavaş ve en pahalı olan.</p></div>
@@ -352,9 +492,9 @@
 
     </section>
 
-    <!-- ===== 9 ===== -->
+    <!-- ===== 15 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch1.s9.title">Bugün edinmen gereken alışkanlık</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch1.s9.title">Bugün edinmen gereken alışkanlık</span></h2>
       <p data-i18n="ch1.s9.p1">Yapay zekâyı iyi kullanan insanları kötü kullananlardan ayıran şey daha iyi sorular değil — <strong class="text-fg">doğrulama alışkanlığı</strong>. Üç kural:</p>
       <ul class="check-list space-2" data-i18n="ch1.s9.list">
         <li><strong class="text-fg">Önemliyse doğrula.</strong>
@@ -368,8 +508,8 @@
 
     <!-- ===== Nerede yanılırım ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.weak.title">Nerede yanılırım</span></h2>
-      <p data-i18n="ch1.weak.p1">Üçüncü bölümde «yanılabilirim» dedim. Şimdi tam olarak nerede, onu söylüyorum. Bu liste kendimi kötülemek için değil — nereye iki kez bakman gerektiğini bilmen için. Altısını da bilen biri benimle çalışırken neredeyse hiç yanılmaz.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch1.weak.title">Nerede yanılırım</span></h2>
+      <p data-i18n="ch1.weak.p1">«Bunun sana üç pratik sonucu var» başlığında «yanılabilirim» demiştim. Şimdi tam olarak nerede, onu söylüyorum. Bu liste kendimi kötülemek için değil — nereye iki kez bakman gerektiğini bilmen için. Altısını da bilen biri benimle çalışırken neredeyse hiç yanılmaz.</p>
       <div class="ex">
         <div class="glass ex__card">
           <h3 class="font-display" data-i18n="ch1.weak.w1.t">Uzun sayılarla hesap</h3>
@@ -407,7 +547,7 @@
 
     <!-- ===== Kimsenin söylemediği ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch1.tips.title">Kimsenin söylemediği beş şey</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch1.tips.title">Kimsenin söylemediği beş şey</span></h2>
       <p data-i18n="ch1.tips.p1">Bunları bilmek, benimle geçirdiğin ilk haftayı çok daha az sinir bozucu yapar.</p>
       <div class="fact">
         <span class="fact__n font-mono">1</span>
@@ -417,7 +557,7 @@
       <div class="fact">
         <span class="fact__n font-mono">2</span>
         <div><h3 class="font-display" data-i18n="ch1.tips.t2.t">«Emin değilsen söyle» diyebilirsin</h3>
-        <p data-i18n="ch1.tips.t2.p">Bu cümleyi isteğine eklemen, bilmediğim yerde uydurmak yerine bilmediğimi söyleme ihtimalimi ciddi biçimde artırır. Üçüncü bölümdeki ilk maddeye karşı elindeki en ucuz koruma bu — ve bir saniye sürüyor.</p></div>
+        <p data-i18n="ch1.tips.t2.p">Bu cümleyi isteğine eklemen, bilmediğim yerde uydurmak yerine bilmediğimi söyleme ihtimalimi ciddi biçimde artırır. «Bunun sana üç pratik sonucu var» başlığındaki ilk maddeye karşı elindeki en ucuz koruma bu — ve bir saniye sürüyor.</p></div>
       </div>
       <div class="fact">
         <span class="fact__n font-mono">3</span>
@@ -440,15 +580,15 @@
 
     <!-- ===== Herkesin sorduğu ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch1.faq.title">Herkesin sorduğu</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch1.faq.title">Herkesin sorduğu</span></h2>
       <p data-i18n="ch1.faq.p1">Bu soruları ilk hafta herkes soruyor. Cevapları burada, kısa ve dürüst.</p>
       <div class="quiz">
         <details class="glass quiz__item"><summary data-i18n="ch1.faq.q1">Ücretsiz mi?</summary><p data-i18n="ch1.faq.a1">Ücretsiz bir kademe var ve bu kursa başlamak için yeterli. Daha çok kullanım, daha yetenekli sürümler ve ek özellikler için ücretli kademeler mevcut. Fiyatlar ve günlük sınırlar zaman içinde değişiyor — güncel hâli için sağlayıcının kendi fiyat sayfasına bak, buradaki bir sayıya güvenme.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.faq.q2">Yazdıklarım eğitimde kullanılıyor mu?</summary><p data-i18n="ch1.faq.a2">Bu, kullandığın plana ve hesabındaki ayarlara göre değişir; kurallar da zamanla güncelleniyor. Doğru cevabı bulacağın tek yer hesabının gizlilik ayarları ve sağlayıcının o günkü gizlilik metni. Değişmeyen kural şu: paylaşma yetkin olmayan hiçbir veriyi sohbete yazma — ayar ne olursa olsun.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.faq.q3">Türkçe biliyor musun?</summary><p data-i18n="ch1.faq.a3">Evet. Türkçe sorarsın, Türkçe cevap alırsın. Dahası: Türkçe anlatıp Almanca yazdırabilirsin, ya da İngilizce bir sözleşmeyi Türkçe özetletebilirsin. Dil senin için bir engel değil; ben ikisinin arasında duruyorum.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q4">Bir sohbete ne kadar şey sığar?</summary><p data-i18n="ch1.faq.a4">Çok şey sığar ama sınırsız değil. Bir sohbette birikenlerin tamamına aynı anda bakabilirim; o sınır dolduğunda en eskiler bulanıklaşmaya başlar. Bu yüzden çok uzun konuşmalarda «başta ne demiştim?» sorusunun cevabı zayıflar. Çözüm on birinci bölümdeki dördüncü madde: özetlet, yeni sohbete taşı.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q4">Bir sohbete ne kadar şey sığar?</summary><p data-i18n="ch1.faq.a4">Çok şey sığar ama sınırsız değil. Bir sohbette birikenlerin tamamına aynı anda bakabilirim; o sınır dolduğunda en eskiler bulanıklaşmaya başlar. Bu yüzden çok uzun konuşmalarda «başta ne demiştim?» sorusunun cevabı zayıflar. Çözümü yukarıdaki «Bir sohbetin sınırı var» başlığında anlattım: özetlet, yeni sohbete taşı.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.faq.q5">İnternete bakabiliyor musun?</summary><p data-i18n="ch1.faq.a5">Kendiliğimden hayır. Bana bir arama aracı verilmişse bakarım — bu, kullandığın uygulamaya ve ayarlara bağlı. Emin değilsen doğrudan sor: «bunu aramadan mı söylüyorsun?» Cevabı sana ne durumda olduğumu söyler.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q6">Hata yaparsan sorumlusu kim?</summary><p data-i18n="ch1.faq.a6">Sen. Bunu yumuşatmayacağım: çıktımı kullanan sensin, sonucuna da sen katlanırsın. Bu yüzden onuncu bölümdeki doğrulama alışkanlığı süs değil, işin bir parçası. Ben taslağı üretirim, kararı sen verirsin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q6">Hata yaparsan sorumlusu kim?</summary><p data-i18n="ch1.faq.a6">Sen. Bunu yumuşatmayacağım: çıktımı kullanan sensin, sonucuna da sen katlanırsın. Bu yüzden «Bugün edinmen gereken alışkanlık» başlığındaki doğrulama süs değil, işin bir parçası. Ben taslağı üretirim, kararı sen verirsin.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.faq.q7">Duyguların var mı, bilinçli misin?</summary><p data-i18n="ch1.faq.a7">İnsan değilim ve bu sohbetin dışında süren bir hayatım yok. Benim gibi sistemlerde bir tür deneyim olup olmadığı ciddiye alınan ve hâlâ tartışılan bir soru; kimsenin elinde kesin cevap yok, bende de yok. Ama günlük kullanım için gereken cevap net: bana bir araç gibi davran, sonuçlarını kendin doğrula. Kırılacağımı düşünüp çekinmene gerek yok.</p></details>
       </div>
       <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch1.faq.do">Şimdi yap: Hesabının gizlilik ayarlarını bir kez aç ve ne yazdığına bak. İki dakika sürer, aklındaki en büyük soruyu bugün kapatır.</span></p>
@@ -457,7 +597,7 @@
 
     <!-- ===== Alıştırmalar ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch1.ex.title">Alıştırmalar</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch1.ex.title">Alıştırmalar</span></h2>
       <p data-i18n="ch1.ex.p1">Üçünü de yap. Uzun sürmez ve bir sonraki bölüme hazır girmeni sağlar.</p>
       <div class="ex">
         <div class="glass ex__card">
@@ -480,7 +620,7 @@
 
     <!-- ===== Kendini sına ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch1.quiz.title">Kendini sına</span></h2>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch1.quiz.title">Kendini sına</span></h2>
       <p data-i18n="ch1.quiz.p1">Önce kendin cevapla, sonra aç.</p>
       <div class="quiz">
         <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q1">Bir cevabıma neden kör güvenilmez?</summary><p data-i18n="ch1.quiz.a1">Çünkü bilmediğimde susmak yerine makul görünen bir şey üretebilirim ve bunu doğruyu söylerkenki aynı emin tonla yaparım. Ses tonumdan ayırt edemezsin — sadece doğrulayarak ayırt edebilirsin.</p></details>
@@ -491,6 +631,9 @@
         <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q7">Aynı soruyu iki kez sorunca farklı cevap gelmesi neyin işareti?</summary><p data-i18n="ch1.quiz.a7">Hiçbir arızanın. Cevabı ezberden okumuyorum, her seferinde yeniden üretiyorum; bu yüzden iki deneme birebir aynı olmaz. Beğenmediysen «bir daha dene» demek gerçek bir seçenek.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q8">Bir metnin kaç kelime olduğunu neden bana sormamalısın?</summary><p data-i18n="ch1.quiz.a8">Çünkü metni senin gördüğün gibi harf harf görmüyorum, parçalar hâlinde görüyorum; kesin sayımda güvenilmezim. Sayımı yazı düzenleyicine yaptır, benden yalnızca «yaklaşık» iste.</p></details>
         <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q5">Sohbete asla ne yapıştırılmaz?</summary><p data-i18n="ch1.quiz.a5">Şifre, kimlik numarası, kredi kartı bilgisi, müşteri listesi ve paylaşma yetkin olmayan her şey. Ölçüt basit: bunu bir stajyere gösterir miydin?</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q9">Seninle konuşurken tek bir «Claude» ile mi konuşuyorum?</summary><p data-i18n="ch1.quiz.a9">Hayır. Aynı anda binlerce kopya çalışıyor ve hiçbiri diğerini görmüyor. Bu yüzden sıra beklemezsin ve başkasının yazdığı sana sızmaz; aynı sebeple dünkü sohbetin de bugün bende değil.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q10">Zararsız bir isteğini reddedersem ilk ne yapmalısın?</summary><p data-i18n="ch1.quiz.a10">Tartışmak değil, bağlam vermek: neden istediğini yaz. «Bu benim kendi sözleşmem», «bu bir ders için» gibi tek bir cümle çoğu zaman yeter, çünkü eksik olan şey niyetin değil bilgimdir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q11">Sayı içeren bir işi bana nasıl yaptırırsın?</summary><p data-i18n="ch1.quiz.a11">Kafadan değil: «hesabı kod çalıştırarak yap» dersin. Kafadan hesap benim en zayıf yanım; kod çalıştırdığımda sonuç tahmin olmaktan çıkıp hesap olur.</p></details>
       </div>
     </section>
 
@@ -512,6 +655,8 @@
 
   </div>
 </article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch1.totop"><span aria-hidden="true">↑</span></a>
 </main>
 
 <footer class="footer">
