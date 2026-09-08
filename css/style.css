@@ -1010,11 +1010,13 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 /* Ders kapağı: bölüm kartının görseli, geniş bir bant olarak. Alt kenarı sayfa zeminine erir. */
 .lesson__cover { position: relative; max-width: 58rem; margin: 0 auto 40px; aspect-ratio: 21 / 9; border-radius: var(--radius-2xl);
   overflow: hidden; border: 1px solid rgb(var(--accent-gold) / .22); background: #070604; }
-.lesson__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+.lesson__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
 .lesson__cover::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(180deg, rgba(7,6,4,.45), transparent 34%, rgba(7,6,4,.5) 82%, rgb(var(--ink-0))); }
 .lesson__cover-en { position: absolute; left: 0; right: 0; top: 16px; z-index: 1; text-align: center;
   font-size: 11px; letter-spacing: .34em; text-transform: uppercase; color: rgba(255,255,255,.72); font-weight: 700; }
+.lesson__cover-note { position: absolute; left: 0; right: 0; bottom: 18px; z-index: 1; text-align: center;
+  font-size: 11.5px; letter-spacing: .08em; color: rgba(245,215,110,.72); }
 @media (max-width: 640px) { .lesson__cover { aspect-ratio: 16 / 10; margin-bottom: 30px; } }
 .lesson__head { max-width: 46rem; margin-inline: auto; text-align: center; }
 .lesson__head h1 { margin-top: 16px; }
