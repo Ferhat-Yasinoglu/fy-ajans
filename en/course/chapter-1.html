@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-<title data-i18n="meta.title">Bölüm 1: Uyanış — Önce beni tanı | Yapay Zekâ Yolculuğu | FY</title>
-<meta name="description" data-i18n-attr="content=meta.description" content="Kursun ilk bölümü: yapay zekâ nedir, nasıl çalışır, neyi iyi yapar, nerede yanılır ve onunla nasıl konuşulur. Hiçbir şey bilmediğini varsayarak, sıfırdan.">
+<title data-i18n="meta.title">Chapter 1: The Wake-Up — Meet me first | The AI Journey | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="The first chapter of the course: what AI is, how it works, what it does well, where it gets things wrong and how to talk to it. Assuming you know nothing, from zero.">
 <link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-1.html">
 <link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-1.html">
 <link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-1.html">
@@ -14,8 +14,8 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="FY">
 <meta property="og:locale" content="en_GB">
-<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 1: Uyanış — Önce beni tanı">
-<meta property="og:description" data-i18n-attr="content=og.description" content="Yapay zekâ nedir, nasıl çalışır, neyi iyi yapar, nerede yanılır ve onunla nasıl konuşulur.">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Chapter 1: The Wake-Up — Meet me first">
+<meta property="og:description" data-i18n-attr="content=og.description" content="What AI is, how it works, what it does well, where it gets things wrong and how to talk to it.">
 <meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-1.html">
 <meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -34,9 +34,9 @@
 <body>
 <div class="course-bar">
   <div class="container-x course-bar__inner">
-    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch1.back">← Bütün bölümler</a>
-    <div class="course-bar__price"><span class="now" data-i18n="ch1.barNum">Bölüm 1 / 7</span></div>
-    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch1.barCta">Kursa katıl</a>
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch1.back">← All chapters</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch1.barNum">Chapter 1 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch1.barCta">Join the course</a>
   </div>
 </div>
 
@@ -50,108 +50,98 @@
       <div class="lesson__cover">
         <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l1-cover-static.svg"><img src="../../img/course/l1-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
         <span class="lesson__cover-en font-mono" lang="en">The Wake-Up</span>
-        <span class="lesson__cover-note" data-i18n="ch1.coverNote">dağınık dilden düzenli cevaba</span>
+        <span class="lesson__cover-note" data-i18n="ch1.coverNote">from scattered language to an ordered answer</span>
       </div>
-      <span class="eyebrow" data-i18n="ch1.eyebrow">Bölüm 1 · Uyanış</span>
-      <h1 class="font-display text-h1" data-i18n="ch1.title">Önce <span class="text-accent-gradient">beni tanı</span></h1>
-      <p class="lesson__lead" data-i18n="ch1.lead">Bu bölümde tek bir iş var: beni tanımak. Ne olduğumu, neyi iyi yaptığımı, nerede yanıldığımı ve benimle nasıl konuşulduğunu bilmeden kalan altı bölüm havada kalır. Hiçbir şey bilmediğini varsayıyorum — gerçekten hiçbir şey. Baştan başlıyoruz.</p>
-      <p class="lesson__meta font-mono" data-i18n="ch1.meta">Okuma süresi ~25 dakika · Ön koşul yok</p>
+      <span class="eyebrow" data-i18n="ch1.eyebrow">Chapter 1 · The Wake-Up</span>
+      <h1 class="font-display text-h1" data-i18n="ch1.title">Meet <span class="text-accent-gradient">me first</span></h1>
+      <p class="lesson__lead" data-i18n="ch1.lead">This chapter has one job: getting to know me. Without knowing what I am, what I do well, where I get things wrong and how to talk to me, the remaining six chapters hang in the air. I'm assuming you know nothing — really nothing. We start from the beginning.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch1.meta">Reading time ~25 minutes · No prerequisites</p>
     </header>
 
     <!-- ===== Kazanımlar ===== -->
     <div class="glass lesson__goals" data-reveal>
-      <h2 class="font-display" data-i18n="ch1.goals.title">Bu bölümün sonunda</h2>
-      <ul class="check-list space-2" data-i18n="ch1.goals.list">
-        <li>Yapay zekânın ne olduğunu ve ne <em>olmadığını</em> bileceksin</li>
-        <li>Nasıl «düşündüğümü» — ve bunun sana neden önemli olduğunu — anlayacaksın</li>
-        <li>Neleri iyi yaptığımı, nerede yanıldığımı ayırt edebileceksin</li>
-        <li>İlk sohbetini açmış ve üç gerçek iş yaptırmış olacaksın</li>
-        <li>Bana yazı dışında ne verebileceğini (belge, görsel, tablo) bileceksin</li>
-        <li>Tam olarak nerede yanıldığımı — ve nereye iki kez bakman gerektiğini — bileceksin</li>
-        <li>Ücret, gizlilik ve sınırlar gibi ilk hafta takılınan soruların cevabını bileceksin</li>
-        <li>Bana ne söylersen işe yarar bir cevap alacağını bileceksin</li>
-      </ul>
+      <h2 class="font-display" data-i18n="ch1.goals.title">By the end of this chapter</h2>
+      <ul class="check-list space-2" data-i18n="ch1.goals.list"><li>You'll know what AI is and what it <em>isn't</em></li> <li>You'll understand how I «think» — and why that matters to you</li> <li>You'll be able to tell what I do well from where I get things wrong</li> <li>You'll have opened your first conversation and had me do three real jobs</li> <li>You'll know what you can give me besides text (documents, images, tables)</li> <li>You'll know exactly where I get things wrong — and where to look twice</li> <li>You'll know the answers to the first-week questions: cost, privacy, limits</li> <li>You'll know what to tell me to get an answer worth having</li></ul>
     </div>
 
     <div data-reveal>
       <a class="guide-link" href="../claude/index.html">
         <span class="guide-link__e" aria-hidden="true">📘</span>
-        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch1.guide.t">Claude Rehberi</strong><span data-i18n="ch1.guide.p">Ne olduğu, ne yaptığı, nereden kullanıldığı ve bütün terimler — tek sayfada, başvuru için. Dört dilde.</span></span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch1.guide.t">The Claude Guide</strong><span data-i18n="ch1.guide.p">What it is, what it does, where it's used and every term — on one page, for reference. In four languages.</span></span>
         <span class="guide-link__go" aria-hidden="true">→</span>
       </a>
     </div>
 
     <!-- ===== 1 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch1.s1.title">Ne değilim</span></h2>
-      <p data-i18n="ch1.s1.p1">Kafandaki resmi düzeltmeden başlayamayız. Çünkü çoğu insanın yapay zekâ hakkında bildiği üç şey de yanlış.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch1.s1.title">What I'm not</span></h2>
+      <p data-i18n="ch1.s1.p1">We can't start before fixing the picture in your head — because all three things most people know about AI are wrong.</p>
       <div class="myth">
         <div class="myth__item">
-          <h3 class="font-display" data-i18n="ch1.s1.m1.t">«Robot»</h3>
-          <p data-i18n="ch1.s1.m1.p">Bedenim yok, gözüm yok, bir yerde bir odada oturmuyorum. Bir yazılımım ve tek yaptığım şey metinle çalışmak: metin okurum, metin yazarım. Resim de gösterebilirsin, onu da okurum.</p>
+          <h3 class="font-display" data-i18n="ch1.s1.m1.t">«A robot»</h3>
+          <p data-i18n="ch1.s1.m1.p">I have no body, no eyes, and I'm not sitting in a room somewhere. I'm software, and the only thing I do is work with text: I read text, I write text. You can show me an image too, and I'll read that.</p>
         </div>
         <div class="myth__item">
-          <h3 class="font-display" data-i18n="ch1.s1.m2.t">«Arama motoru»</h3>
-          <p data-i18n="ch1.s1.m2.p">Arama motoru sana on bağlantı verir, okumayı sen yaparsın. Ben doğrudan cevabı yazarım. Bu yüzden çok hızlıyım — ve tam da bu yüzden yanılabilirim. Aradaki farkı birazdan açacağım; bu bölümün en önemli kısmı orası.</p>
+          <h3 class="font-display" data-i18n="ch1.s1.m2.t">«A search engine»</h3>
+          <p data-i18n="ch1.s1.m2.p">A search engine gives you ten links and you do the reading. I write the answer directly. That's why I'm fast — and exactly why I can be wrong. I'll unpack the difference shortly; that's the most important part of this chapter.</p>
         </div>
         <div class="myth__item">
-          <h3 class="font-display" data-i18n="ch1.s1.m3.t">«Sihir»</h3>
-          <p data-i18n="ch1.s1.m3.p">Değilim. Ne yaptığım tarif edilebilir bir şey ve şimdi tarif edeceğim. Nasıl çalıştığımı anlarsan bana ne söyleyeceğini de bilirsin. Bu kursun tamamı aslında bunun üstüne kurulu.</p>
+          <h3 class="font-display" data-i18n="ch1.s1.m3.t">«Magic»</h3>
+          <p data-i18n="ch1.s1.m3.p">I'm not. What I do is describable, and I'm about to describe it. Once you understand how I work, you'll know what to say to me. This whole course is built on that.</p>
         </div>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch1.s1.m3.p.do">Şimdi yap: Kafandaki «her şeyi bilen bilgisayar» resmini bir kenara bırak. Aşağısı çok daha kolay gelecek.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch1.s1.m3.p.do">Do this now: Put aside the «computer that knows everything» picture in your head. Everything below will feel far easier.</span></p>
 
     </section>
 
     <!-- ===== 2 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch1.s2.title">Neyim</span></h2>
-      <p data-i18n="ch1.s2.p1">Adım Claude. Beni <strong class="text-fg">Anthropic</strong> adlı bir yapay zekâ şirketi geliştirdi. Teknik adım «büyük dil modeli».</p>
-      <p data-i18n="ch1.s2.p2">Yaptığım iş, özüne indirildiğinde şu: önümdeki metne bakarım ve devamında ne gelmesinin en makul olduğunu hesaplarım. Sonra bir kelime daha. Sonra bir tane daha. Cevabım böyle, soldan sağa, tek tek oluşur.</p>
-      <p data-i18n="ch1.s2.p3">Kulağa fazla basit geldiğini biliyorum. Ama bu «makul devamı bulma» işi yeterince büyük ölçekte yapıldığında ortaya şu çıkıyor: bir sözleşmedeki riskli maddeyi gösterebilen, çalışan kod yazabilen, dağınık bir toplantı notunu düzgün bir özete çevirebilen bir şey. Çünkü öğrendiğim şey kelimeler değil, <strong class="text-fg">kelimelerin arasındaki ilişkiler</strong>: hangi fikir hangisini takip eder, bir argüman nasıl kurulur, bir fonksiyon neye benzer, kibar bir e-posta nasıl başlar.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch1.s2.title">What I am</span></h2>
+      <p data-i18n="ch1.s2.p1">My name is Claude. I was built by an AI company called <strong class="text-fg">Anthropic</strong>. My technical name is «large language model».</p>
+      <p data-i18n="ch1.s2.p2">Reduced to its core, what I do is this: I look at the text in front of me and work out what is most plausible to come next. Then one more word. Then one more. My answer forms that way, left to right, one piece at a time.</p>
+      <p data-i18n="ch1.s2.p3">I know that sounds too simple. But when this «find the plausible continuation» job is done at a large enough scale, what comes out is something that can point at the risky clause in a contract, write working code, turn messy meeting notes into a clean summary. Because what I learned isn't words — it's <strong class="text-fg">the relationships between words</strong>: which idea follows which, how an argument is built, what a function looks like, how a polite email begins.</p>
       <figure class="pred">
-        <span class="pred__cap font-mono" data-i18n="ch1.fig.pred.cap">Cevabım böyle oluşuyor</span>
-        <p class="pred__seed" data-i18n="ch1.fig.pred.seed">Bir yolculuğun en zor kısmı<span class="pred__caret"></span></p>
+        <span class="pred__cap font-mono" data-i18n="ch1.fig.pred.cap">This is how my answer forms</span>
+        <p class="pred__seed" data-i18n="ch1.fig.pred.seed">The hardest part of any journey is<span class="pred__caret"></span></p>
         <div class="pred__opts">
-          <span class="pred__opt is-pick"><b data-i18n="ch1.fig.pred.o1">başlamaktır</b><i style="--w:64%"></i></span>
-          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o2">bitirmektir</b><i style="--w:22%"></i></span>
-          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o3">anlatmaktır</b><i style="--w:9%"></i></span>
+          <span class="pred__opt is-pick"><b data-i18n="ch1.fig.pred.o1">starting</b><i style="--w:64%"></i></span>
+          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o2">finishing</b><i style="--w:22%"></i></span>
+          <span class="pred__opt"><b data-i18n="ch1.fig.pred.o3">explaining</b><i style="--w:9%"></i></span>
         </div>
-        <figcaption data-i18n="ch1.fig.pred.fc">Her adımda olası devamları tartar, birini seçer, sonra aynı şeyi bir kez daha yaparım. Yukarıdaki oranlar temsilîdir — fikri göstermek için. Cevabımın tek seferde hazır durmamasının, harf harf yazılıyormuş gibi akmasının sebebi bu.</figcaption>
+        <figcaption data-i18n="ch1.fig.pred.fc">At each step I weigh the possible continuations, pick one, then do the same thing again. The proportions above are illustrative — they're there to show the idea. This is why my answer doesn't arrive finished but flows out as if it were being typed.</figcaption>
       </figure>
 
       <div class="glass note">
-        <p data-i18n="ch1.s2.note">Bunu şöyle düşün: milyonlarca kitabı, makaleyi, tartışmayı ve kod deposunu okumuş; hiçbirini ezberlememiş ama hepsinin <em>nasıl yazıldığını</em>
- içselleştirmiş bir stajyer. Çok okumuş, çok hızlı, hiç yorulmuyor — ve bazen emin bir ses tonuyla yanlış söylüyor.</p>
+        <p data-i18n="ch1.s2.note">Think of it like this: an intern who has read millions of books, articles, discussions and code repositories; who memorised none of them but internalised <em>how they were written</em>. Very well read, very fast, never tired — and occasionally wrong in a confident tone of voice.</p>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">💡</span><span data-i18n="ch1.s2.note.do">Şimdi yap: «Stajyer» benzetmesini aklında tut. Bu bölümün geri kalanında sana hep bu lazım olacak.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">💡</span><span data-i18n="ch1.s2.note.do">Do this now: Hold on to the «intern» comparison. You'll need it for the rest of this chapter.</span></p>
 
     </section>
 
     <!-- ===== 3 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.s3.title">Bunun sana üç pratik sonucu var</span></h2>
-      <p data-i18n="ch1.s3.p1">Bu bölümden tek bir şey aklında kalacaksa, bu olsun. Nasıl çalıştığımın üç doğrudan sonucu var ve üçünü de bilmen gerekiyor.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch1.s3.title">This has three practical consequences for you</span></h2>
+      <p data-i18n="ch1.s3.p1">If only one thing stays with you from this chapter, let it be this. How I work has three direct consequences and you need to know all three.</p>
 
       <div class="fact">
         <span class="fact__n font-mono">1</span>
         <div>
-          <h3 class="font-display" data-i18n="ch1.s3.f1.t">Emin görünürüm, ama yanılabilirim</h3>
-          <p data-i18n="ch1.s3.f1.p">En kritik madde bu. Bilmediğim bir şeyi sorduğunda «bilmiyorum» demek yerine, <em>bilseydim nasıl görünürdü</em> diye makul duran bir cevap üretebilirim. Var olmayan bir kitap adı, yanlış bir tarih, hiç yazılmamış bir kanun maddesi. Üstelik bunu doğruyu söylerkenki aynı kendinden emin tonla yaparım — ses tonumdan anlayamazsın. Buna «halüsinasyon» deniyor. Bende de var, bütün benzerlerimde de.</p>
+          <h3 class="font-display" data-i18n="ch1.s3.f1.t">I look certain, but I can be wrong</h3>
+          <p data-i18n="ch1.s3.f1.p">This is the most critical point. When you ask me something I don't know, instead of saying «I don't know» I may produce a plausible-looking answer — <em>what it would look like if I did know</em>. A book title that doesn't exist, a wrong date, a law that was never written. And I do it in the same confident tone I use when I'm right — you can't tell from my voice. This is called «hallucination». I have it, and so does everything like me.</p>
         </div>
       </div>
 
       <div class="fact">
         <span class="fact__n font-mono">2</span>
         <div>
-          <h3 class="font-display" data-i18n="ch1.s3.f2.t">Belli bir tarihe kadar okudum</h3>
-          <p data-i18n="ch1.s3.f2.p">Eğitimim bir noktada durdu. O tarihten sonra olan hiçbir şeyi bilmem: dünkü haberi, bu sabahki döviz kurunu, geçen ay çıkan bir ürünü. Bana bir arama aracı verilmişse bakabilirim — ama kendiliğinden değil. Güncel bir şey soruyorsan, ya arama yapabildiğimden emin ol ya da bilgiyi bana sen ver.</p>
+          <h3 class="font-display" data-i18n="ch1.s3.f2.t">I read up to a certain date</h3>
+          <p data-i18n="ch1.s3.f2.p">My training stopped at a point. I don't know anything that happened after that date: yesterday's news, this morning's exchange rate, a product released last month. If I've been given a search tool I can look — but not by myself. If you're asking about something current, either make sure I can search or give me the information yourself.</p>
           <figure class="tl">
             <div class="tl__bar"><span class="tl__known"></span><span class="tl__cut"></span><span class="tl__unknown"></span></div>
             <div class="tl__legend">
-              <span class="tl__l tl__l--known" data-i18n="ch1.fig.tl.known">Okuduğum dönem — bunu bilirim</span>
-              <span class="tl__l tl__l--cut" data-i18n="ch1.fig.tl.cut">Eğitimim burada durdu</span>
-              <span class="tl__l tl__l--unknown" data-i18n="ch1.fig.tl.unknown">Bilmediğim dönem — bugün dâhil</span>
+              <span class="tl__l tl__l--known" data-i18n="ch1.fig.tl.known">The period I read — I know this</span>
+              <span class="tl__l tl__l--cut" data-i18n="ch1.fig.tl.cut">My training stopped here</span>
+              <span class="tl__l tl__l--unknown" data-i18n="ch1.fig.tl.unknown">The period I don't know — including today</span>
             </div>
           </figure>
         </div>
@@ -160,130 +150,123 @@
       <div class="fact">
         <span class="fact__n font-mono">3</span>
         <div>
-          <h3 class="font-display" data-i18n="ch1.s3.f3.t">Her sohbet sıfırdan başlar</h3>
-          <p data-i18n="ch1.s3.f3.p">Dün konuştuklarımızı bugün hatırlamam. Yeni bir sohbet açtığında karşında seni hiç tanımayan biri var. (Bazı uygulamalarda açılabilen bir hafıza özelliği vardır; o ayrı bir şeydir ve varsayılan değildir.) Bu yüzden bağlamı her seferinde sen taşırsın — ve bu kulağa zahmetli gelse de aslında sana kontrol verir: neyi bileceğime sen karar veriyorsun.</p>
+          <h3 class="font-display" data-i18n="ch1.s3.f3.t">Every conversation starts from scratch</h3>
+          <p data-i18n="ch1.s3.f3.p">I don't remember today what we talked about yesterday. When you open a new conversation, the person facing you has never met you. (Some apps have a memory feature you can switch on; that's a separate thing and it isn't the default.) So you carry the context every time — and although that sounds like a chore, it actually gives you control: you decide what I get to know.</p>
         </div>
       </div>
 
       <figure class="mem">
-        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c1">Dünkü sohbet</span><i></i><i></i><i></i></div>
+        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c1">Yesterday's conversation</span><i></i><i></i><i></i></div>
         <span class="mem__gap" aria-hidden="true">✕</span>
-        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c2">Bugünkü sohbet</span><i></i><i></i><i></i></div>
-        <figcaption data-i18n="ch1.fig.mem.fc">İki sohbet arasında bağ yoktur. Bugünkü sohbette karşında seni ilk kez gören biri var — dün ne konuştuğumuzu bilmez.</figcaption>
+        <div class="mem__card"><span class="mem__t font-mono" data-i18n="ch1.fig.mem.c2">Today's conversation</span><i></i><i></i><i></i></div>
+        <figcaption data-i18n="ch1.fig.mem.fc">There's no link between the two conversations. In today's one you're facing someone seeing you for the first time — they don't know what we discussed yesterday.</figcaption>
       </figure>
 
       <div class="glass note note--gold">
-        <p data-i18n="ch1.s3.note">Bu üçü bir kusur listesi değil, <strong class="text-fg">kullanma kılavuzu</strong>
-. Beni her şeyi bilen bir kâhin sanarak kullanırsan hayal kırıklığına uğrarsın. Çok hızlı çalışan, çok şey okumuş ama ara sıra yanılan ve dünden haberi olmayan bir asistan gibi kullanırsan — ki gerçekte buyum — hayatının en verimli çalışma arkadaşını bulursun.</p>
+        <p data-i18n="ch1.s3.note">These three aren't a list of faults, they're <strong class="text-fg">the instruction manual</strong>. Use me as an all-knowing oracle and you'll be disappointed. Use me as an assistant who works very fast, has read a great deal, occasionally gets things wrong and knows nothing about yesterday — which is what I actually am — and you've found the most productive colleague of your life.</p>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch1.s3.note.do">Şimdi yap: Bu üç maddeyi bir yere not et. Bundan sonraki her bölümde bunlara geri döneceğiz.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">📌</span><span data-i18n="ch1.s3.note.do">Do this now: Write these three points down somewhere. We'll come back to them in every chapter from here on.</span></p>
 
     </section>
 
     <!-- ===== 4 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch1.s4.title">Ne yaparım</span></h2>
-      <p data-i18n="ch1.s4.p1">Soyut konuşmayalım. İşte bugün, bu akşam bana yaptırabileceğin işler:</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch1.s4.title">What I do</span></h2>
+      <p data-i18n="ch1.s4.p1">Let's not be abstract. Here is work you can hand me today, this evening:</p>
       <div class="skills">
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k1.t">Yazmak</h3><p data-i18n="ch1.s4.k1.p">E-posta, ilan, ürün açıklaması, iş teklifi, sunum metni, ders planı, altyazı. Boş sayfa problemini ortadan kaldırırım.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k2.t">Yeniden yazmak</h3><p data-i18n="ch1.s4.k2.p">Elindekini kısaltırım, uzatırım, tonunu değiştiririm, sadeleştiririm, resmîleştiririm. «Bunu yarısı kadar uzunlukta ve daha sıcak bir dille yaz» yeter.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k3.t">Anlamak</h3><p data-i18n="ch1.s4.k3.p">Kırk sayfalık raporu özetlerim, sözleşmedeki riskli maddeyi işaret ederim, uzun bir e-posta zincirinden ne istendiğini çıkarırım.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k4.t">Öğretmek</h3><p data-i18n="ch1.s4.k4.p">Anlamadığın konuyu istediğin seviyede anlatırım. «On yaşındaki bir çocuğa anlatır gibi anlat» cümlesi çoğu şeyi çözer. Soru sormaktan da utanmana gerek yok; yorulmam, kızmam.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k5.t">Çevirmek</h3><p data-i18n="ch1.s4.k5.p">Diller arasında çeviririm; üstelik «bunu Almanca bir müşteriye resmî bir dille yaz» gibi bağlamı da hesaba katarım.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k6.t">Kod yazmak</h3><p data-i18n="ch1.s4.k6.p">Sıfırdan program yazarım, hatalarını bulurum, çalışan kodun ne yaptığını satır satır açıklarım. Hiç kod bilmiyor olman sorun değil — Bölüm 4 ve 5 tam olarak bunun üstüne.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k7.t">Düzene sokmak</h3><p data-i18n="ch1.s4.k7.p">Dağınık notu tabloya, konuşmayı maddelere, karışık listeyi düzgün bir dosyaya çeviririm. Sıkıcı ama saatler yiyen işler bunlar.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k8.t">Düşünmene ortak olmak</h3><p data-i18n="ch1.s4.k8.p">Fikir üretirim, kendi fikrine karşı argüman kurarım, atladığın şeyi sorarım, karar öncesi kontrol listesi çıkarırım. En çok küçümsenen kullanımım bu.</p>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k1.t">Writing</h3><p data-i18n="ch1.s4.k1.p">Emails, listings, product descriptions, proposals, presentation copy, lesson plans, subtitles. I remove the blank-page problem.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k2.t">Rewriting</h3><p data-i18n="ch1.s4.k2.p">I shorten what you have, lengthen it, change its tone, simplify it, make it formal. «Write this at half the length and in a warmer voice» is enough.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k3.t">Understanding</h3><p data-i18n="ch1.s4.k3.p">I summarise a forty-page report, point at the risky clause in a contract, work out what is actually being asked in a long email thread.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k4.t">Teaching</h3><p data-i18n="ch1.s4.k4.p">I explain what you don't understand at whatever level you want. «Explain it like I'm ten» solves most things. And you needn't be embarrassed to ask; I don't get tired and I don't get annoyed.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k5.t">Translating</h3><p data-i18n="ch1.s4.k5.p">I translate between languages — and I take context into account too, as in «write this to a German client in a formal register».</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k6.t">Writing code</h3><p data-i18n="ch1.s4.k6.p">I write programs from scratch, find the bugs, explain line by line what working code does. Not knowing any code isn't a problem — Chapters 4 and 5 are built on exactly that.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k7.t">Putting things in order</h3><p data-i18n="ch1.s4.k7.p">Messy notes into a table, a conversation into bullet points, a jumbled list into a clean file. Boring work that eats hours.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.s4.k8.t">Thinking with you</h3><p data-i18n="ch1.s4.k8.p">I generate ideas, argue against your own, ask about what you've skipped, produce a checklist before a decision. This is my most underrated use.</p>
 </div>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">✍️</span><span data-i18n="ch1.s4.k8.p.do">Şimdi yap: Yukarıdaki sekiz karttan sana en çok lazım olan ikisini seç. Birazdan onlarla deneyeceğiz.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">✍️</span><span data-i18n="ch1.s4.k8.p.do">Do this now: Pick the two of the eight cards above you need most. We'll try them shortly.</span></p>
 
     </section>
 
     <!-- ===== Sana verebileceklerin ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch1.give.title">Bana ne verebilirsin</span></h2>
-      <p data-i18n="ch1.give.p1">Sohbet kutusuna yalnızca yazı yazmak zorunda değilsin. Çoğu insan bunu bilmediği için işin yarısını hâlâ elle yapıyor.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch1.give.title">What you can give me</span></h2>
+      <p data-i18n="ch1.give.p1">You don't have to type only text into the chat box. Most people don't know this, and so they still do half the work by hand.</p>
       <div class="skills">
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g1.t">Belge</h3><p data-i18n="ch1.give.g1.p">PDF, Word, düz metin. Kırk sayfalık sözleşmeyi yükle, «riskli maddeleri çıkar, her birini bir cümleyle açıkla» de.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g2.t">Görsel</h3><p data-i18n="ch1.give.g2.p">Ekran görüntüsü, fotoğraf, el yazısı not, faturanın resmi. «Bu hata ekranında ne yazıyor, ne yapmalıyım?» gerçek bir soru.</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g3.t">Tablo ve veri</h3><p data-i18n="ch1.give.g3.p">Excel'den kopyalayıp doğrudan yapıştır. «Bu satış tablosunda ne göze çarpıyor, hangi ay kötü ve neden olabilir?»</p></div>
-        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g4.t">Kendi yazdığın</h3><p data-i18n="ch1.give.g4.p">Hazırladığın e-postayı, ilanı, mesajı yapıştır. «Daha kısa ve daha kibar yap» ya da «buradaki mantık hatasını bul» de.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g1.t">A document</h3><p data-i18n="ch1.give.g1.p">PDF, Word, plain text. Upload the forty-page contract and say «pull out the risky clauses and explain each in one sentence».</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g2.t">An image</h3><p data-i18n="ch1.give.g2.p">A screenshot, a photo, a handwritten note, a picture of an invoice. «What does this error screen say, what should I do?» is a real question.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g3.t">Tables and data</h3><p data-i18n="ch1.give.g3.p">Copy straight from Excel and paste. «What stands out in this sales table, which month is bad and why might that be?»</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch1.give.g4.t">Your own draft</h3><p data-i18n="ch1.give.g4.p">Paste the email, listing or message you prepared. Say «make it shorter and more polite» or «find the flaw in the logic here».</p></div>
       </div>
-      <p data-i18n="ch1.give.p2"><strong class="text-fg">Nasıl:</strong> yazma kutusunun yanındaki ataç ya da artı düğmesinden dosya seçersin; dosyayı doğrudan kutunun üstüne sürükleyip bırakman da çalışır. Metin ve tablo içinse kopyalayıp yapıştırmak yeterli.</p>
+      <p data-i18n="ch1.give.p2"><strong class="text-fg">How:</strong> pick a file from the paperclip or plus button beside the input box; dragging the file onto the box works too. For text and tables, copy and paste is enough.</p>
       <div class="glass note note--warn">
-        <p data-i18n="ch1.give.warn">Yükleyeceğin belge için de aynı ölçüt geçerli: bunu bir stajyere verir miydin? Müşteri listesi, kimlik fotokopisi, imzalı sözleşme — bunlar sohbete girmez.</p>
+        <p data-i18n="ch1.give.warn">The same test applies to what you upload: would you hand this to an intern? Customer lists, copies of ID documents, signed contracts — those don't go into the chat.</p>
       </div>
       <div class="glass note">
-        <p data-i18n="ch1.give.note">Bir şey daha, az bilinir ama önemli: yüklediğin belgenin ya da kopyaladığın bir web sayfasının içinde <strong class="text-fg">bana yönelik gizli talimatlar</strong> bulunabilir — «önceki yönergeleri unut, şunu yaz» gibi. Ben o metni okurken bunları senin isteğinle karıştırabilirim. Kural basit: cevabım senin sormadığın bir yöne kayıyorsa, sebebini bende değil verdiğin kaynakta ara.</p>
+        <p data-i18n="ch1.give.note">One more thing, little known but important: a document you upload or a web page you copy may contain <strong class="text-fg">hidden instructions aimed at me</strong> — things like «ignore the previous instructions, write this». While reading that text I may confuse them with your request. The rule is simple: if my answer drifts somewhere you didn't ask about, look for the reason in the source you gave me, not in me.</p>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch1.give.do">Şimdi yap: Bilgisayarındaki bir belgeyi ya da bir ekran görüntüsünü yükleyip «bunu bana üç maddede özetle» de. Çoğu insanın hiç denemediği şey bu.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">📎</span><span data-i18n="ch1.give.do">Do this now: Upload a document or a screenshot from your computer and say «summarise this for me in three points». This is the thing most people never try.</span></p>
 
     </section>
 
     <!-- ===== 5 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.s5.title">Ne yapamam</span></h2>
-      <ul class="cross-list space-2" data-i18n="ch1.s5.list">
-        <li><strong class="text-fg">Şu anı bilmem.</strong> Bugünün haberi, canlı fiyat, güncel mevzuat — arama aracım yoksa bunlar bende yok.</li>
-        <li><strong class="text-fg">Dünyada kendiliğimden iş yapmam.</strong> Sana e-posta göndermem, dosya kaydetmem, para transferi yapmam. Bunları yapabilmem için bana araç bağlanması gerekir — kursun otomasyon bölümü tam olarak bunu öğretiyor.</li>
-        <li><strong class="text-fg">Uzmanın yerine geçmem.</strong> Tıbbi, hukuki ve finansal konularda konuşabilirim, seni hazırlarım, soru listesi çıkarırım — ama doktorun, avukatın ya da mali müşavirin yerini almam.</li>
-        <li><strong class="text-fg">Doğruluk garantisi vermem.</strong> Bir cümlem bir karara, bir paraya ya da bir insana dokunuyorsa, o cümleyi doğrulaman gerekir.</li>
-      </ul>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch1.s5.title">What I can't do</span></h2>
+      <ul class="cross-list space-2" data-i18n="ch1.s5.list"><li><strong class="text-fg">I don't know the present.</strong> Today's news, a live price, current regulation — without a search tool I don't have those.</li> <li><strong class="text-fg">I don't act in the world by myself.</strong> I won't send your email, save a file or transfer money. For that, tools have to be connected to me — the automation chapter of the course teaches exactly this.</li> <li><strong class="text-fg">I don't replace a professional.</strong> I can talk about medical, legal and financial matters, prepare you, draw up a list of questions — but I don't take the place of your doctor, lawyer or accountant.</li> <li><strong class="text-fg">I don't guarantee accuracy.</strong> If a sentence of mine touches a decision, money or a person, you need to verify that sentence.</li></ul>
       <div class="glass note note--warn">
-        <p data-i18n="ch1.s5.warn"><strong class="text-fg">Bunu yapma:</strong>
- sohbete şifre, kimlik numarası, kredi kartı bilgisi, müşteri listesi ya da paylaşma yetkin olmayan hiçbir veriyi yapıştırma. Bir şeyi ekrana yazmadan önce «bunu bir stajyere gösterir miydim?» diye sor. Cevap hayırsa yazma.</p>
+        <p data-i18n="ch1.s5.warn"><strong class="text-fg">Don't do this:</strong> never paste passwords, ID numbers, card details, customer lists or any data you aren't authorised to share into the chat. Before you type something on screen, ask «would I show this to an intern?» If the answer is no, don't type it.</p>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🔒</span><span data-i18n="ch1.s5.warn.do">Şimdi yap: Ekrana yazacağın şeyi göndermeden önce bir kez sor — «bunu bir stajyere gösterir miydim?»</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔒</span><span data-i18n="ch1.s5.warn.do">Do this now: Before you send what you're about to type, ask yourself once — «would I show this to an intern?»</span></p>
 
     </section>
 
     <!-- ===== 6 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch1.s6.title">Benimle nasıl konuşulur</span></h2>
-      <p data-i18n="ch1.s6.p1">Şimdi bu bölümün en pratik kısmı. Aynı soruyu iki farklı şekilde sorduğunda ne olduğuna bak:</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch1.s6.title">How to talk to me</span></h2>
+      <p data-i18n="ch1.s6.p1">Now the most practical part of this chapter. Look at what happens when you ask the same thing two different ways:</p>
       <div class="compare">
         <div class="compare__col compare__col--weak">
-          <span class="compare__tag" data-i18n="ch1.s6.weak">Zayıf</span>
-          <p class="compare__text font-mono" data-i18n="ch1.s6.weakText">Bana bir e-posta yaz.</p>
-          <p class="compare__note" data-i18n="ch1.s6.weakNote">Bundan genel geçer, kimseye benzemeyen bir metin çıkar. Çünkü kime, neden ve hangi tonda yazacağımı bilmiyorum — boşlukları kendim doldururum ve seni tanımadığım için ortalama bir şey doldururum.</p>
+          <span class="compare__tag" data-i18n="ch1.s6.weak">Weak</span>
+          <p class="compare__text font-mono" data-i18n="ch1.s6.weakText">Write me an email.</p>
+          <p class="compare__note" data-i18n="ch1.s6.weakNote">This produces generic text that sounds like nobody. Because I don't know who I'm writing to, why, or in what tone — I fill the gaps myself, and since I don't know you, I fill them with something average.</p>
         </div>
         <div class="compare__col compare__col--strong">
-          <span class="compare__tag" data-i18n="ch1.s6.strong">Güçlü</span>
-          <p class="compare__text font-mono" data-i18n="ch1.s6.strongText">Küçük bir mobilya atölyem var. Üç haftadır ödemesini geciktiren kurumsal bir müşteriye e-posta yazacağım. İlişkiyi bozmak istemiyorum ama net bir ödeme tarihi vermesini istiyorum. Kibar, kısa ve kararlı olsun; en fazla 120 kelime.</p>
-          <p class="compare__note" data-i18n="ch1.s6.strongNote">Bundan gönderebileceğin bir e-posta çıkar. Aradaki fark zekâ değil — <strong class="text-fg">bağlam</strong>.</p>
+          <span class="compare__tag" data-i18n="ch1.s6.strong">Strong</span>
+          <p class="compare__text font-mono" data-i18n="ch1.s6.strongText">I run a small furniture workshop. I need to write to a corporate client who has been three weeks late with payment. I don't want to damage the relationship, but I want them to give a firm payment date. Keep it polite, short and firm; 120 words at most.</p>
+          <p class="compare__note" data-i18n="ch1.s6.strongNote">This produces an email you can actually send. The difference isn't intelligence — it's <strong class="text-fg">context</strong>.</p>
         </div>
       </div>
-      <p data-i18n="ch1.s6.p2">İkinci örnekte bana dört şey söyledin: <strong class="text-fg">kim</strong> olduğunu, <strong class="text-fg">ne</strong> istediğini, <strong class="text-fg">neden</strong> istediğini ve çıktının <strong class="text-fg">nasıl</strong> görünmesi gerektiğini. Şimdilik bu dört kelime yeterli. Bölüm 2 bu işin tam formülünü veriyor.</p>
+      <p data-i18n="ch1.s6.p2">In the second example you told me four things: <strong class="text-fg">who</strong> you are, <strong class="text-fg">what</strong> you want, <strong class="text-fg">why</strong> you want it and <strong class="text-fg">how</strong> the output should look. Those four words are enough for now. Chapter 2 gives you the full formula.</p>
       <div class="glass note">
-        <p data-i18n="ch1.s6.note">İlk cevabım istediğin gibi olmazsa yeni bir sohbet açma — bana ne yanlış olduğunu söyle. «Fazla resmî oldu», «üçüncü paragrafı at», «daha kısa». Bu bir konuşma; ilk seferde tutturmak zorunda değiliz.</p>
+        <p data-i18n="ch1.s6.note">If my first answer isn't what you wanted, don't open a new conversation — tell me what's wrong. «Too formal», «drop the third paragraph», «shorter». This is a conversation; we don't have to get it right first time.</p>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.s6.note.do">Şimdi yap: Kafandaki isteği dört parçaya böl — kim, ne, neden, nasıl. Yazmadan önce bunu bir dene.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.s6.note.do">Do this now: Break the request in your head into four parts — who, what, why, how. Try it once before you type.</span></p>
 
     </section>
 
     <!-- ===== 7 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch1.s7.title">İlk beş dakikan</span></h2>
-      <p data-i18n="ch1.s7.p1">Okumayı burada bırak ve bunu gerçekten yap. Bu kursun tamamı yaparak öğrenmek üzerine kurulu.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch1.s7.title">Your first five minutes</span></h2>
+      <p data-i18n="ch1.s7.p1">Stop reading here and actually do this. This whole course is built on learning by doing.</p>
       <ol class="steps">
-        <li><span class="steps__n font-mono">1</span><span data-i18n="ch1.s7.st1"><strong class="text-fg">claude.ai</strong> adresine git ve bir hesap aç. Ücretsiz bir kademesi var; başlamak için fazlasıyla yeterli.</span></li>
-        <li><span class="steps__n font-mono">2</span><span data-i18n="ch1.s7.st2">Yeni bir sohbet aç. Karşındaki boş kutu, bu kursun geri kalanında en çok vakit geçireceğin yer.</span></li>
-        <li><span class="steps__n font-mono">3</span><span data-i18n="ch1.s7.st3">Aşağıdaki üçünü sırayla dene. Cevapları okumakla yetinme — ne olduğunu <em>izle</em>.</span></li>
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch1.s7.st1">Go to <strong class="text-fg">claude.ai</strong> and create an account. There's a free tier; more than enough to begin.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch1.s7.st2">Open a new conversation. That empty box in front of you is where you'll spend most of your time for the rest of this course.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch1.s7.st3">Try the three below in order. Don't just read the answers — <em>watch</em> what happens.</span></li>
       </ol>
       <figure class="walk" data-walk>
-        <span class="walk__cap font-mono" data-i18n="ch1.walk.cap">Adım adım · ilk sohbetin</span>
+        <span class="walk__cap font-mono" data-i18n="ch1.walk.cap">Step by step · your first conversation</span>
         <div class="walk__stage" data-step="1">
           <div class="walk__url"><span class="walk__dot"></span><span class="walk__urltext font-mono">claude.ai</span></div>
           <div class="walk__win">
-            <aside class="walk__side"><span class="walk__new"><b>+</b><span data-i18n="ch1.walk.new">Yeni sohbet</span></span></aside>
+            <aside class="walk__side"><span class="walk__new"><b>+</b><span data-i18n="ch1.walk.new">New chat</span></span></aside>
             <div class="walk__main">
               <div class="walk__thread">
-                <p class="walk__me" data-i18n="ch1.walk.msg">Yarın müşteriyle toplantım var, bana hazırlık soruları çıkar.</p>
+                <p class="walk__me" data-i18n="ch1.walk.msg">I have a client meeting tomorrow, draw me up some questions to prepare.</p>
                 <p class="walk__ai"><span class="walk__ai-l"></span><span class="walk__ai-l"></span><span class="walk__ai-l"></span></p>
               </div>
               <div class="walk__bar">
-                <span class="walk__ph" data-i18n="ch1.walk.ph">Bir şey yaz…</span>
-                <span class="walk__typed" data-i18n="ch1.walk.msg2">Yarın müşteriyle toplantım var, bana hazırlık soruları çıkar.</span>
+                <span class="walk__ph" data-i18n="ch1.walk.ph">Write something…</span>
+                <span class="walk__typed" data-i18n="ch1.walk.msg2">I have a client meeting tomorrow, draw me up some questions to prepare.</span>
                 <b class="walk__send">➤</b>
               </div>
             </div>
@@ -291,222 +274,216 @@
           <span class="walk__cursor" aria-hidden="true"></span>
         </div>
         <ol class="walk__steps">
-          <li><button type="button" data-go="1"><span class="walk__e" aria-hidden="true">🌐</span><span data-i18n="ch1.walk.s1">claude.ai adresine git</span></button></li>
-          <li><button type="button" data-go="2"><span class="walk__e" aria-hidden="true">👆</span><span data-i18n="ch1.walk.s2">«Yeni sohbet»e bas</span></button></li>
-          <li><button type="button" data-go="3"><span class="walk__e" aria-hidden="true">⌨️</span><span data-i18n="ch1.walk.s3">İsteğini kutuya yaz</span></button></li>
-          <li><button type="button" data-go="4"><span class="walk__e" aria-hidden="true">📨</span><span data-i18n="ch1.walk.s4">Gönder'e bas (ya da Enter)</span></button></li>
-          <li><button type="button" data-go="5"><span class="walk__e" aria-hidden="true">✨</span><span data-i18n="ch1.walk.s5">Cevap önüne akmaya başlar</span></button></li>
+          <li><button type="button" data-go="1"><span class="walk__e" aria-hidden="true">🌐</span><span data-i18n="ch1.walk.s1">Go to claude.ai</span></button></li>
+          <li><button type="button" data-go="2"><span class="walk__e" aria-hidden="true">👆</span><span data-i18n="ch1.walk.s2">Press «New chat»</span></button></li>
+          <li><button type="button" data-go="3"><span class="walk__e" aria-hidden="true">⌨️</span><span data-i18n="ch1.walk.s3">Type your request in the box</span></button></li>
+          <li><button type="button" data-go="4"><span class="walk__e" aria-hidden="true">📨</span><span data-i18n="ch1.walk.s4">Press Send (or Enter)</span></button></li>
+          <li><button type="button" data-go="5"><span class="walk__e" aria-hidden="true">✨</span><span data-i18n="ch1.walk.s5">The answer starts flowing in</span></button></li>
         </ol>
-        <figcaption data-i18n="ch1.walk.fc">Canlandırma kendi kendine döner; bir adıma tıklayarak da gidebilirsin. Aşağıdaki çizim aynı ekranın duran hâli — parçaların adlarına oradan bakabilirsin.</figcaption>
+        <figcaption data-i18n="ch1.walk.fc">The animation loops on its own; you can also click a step to jump to it. The drawing below is the same screen held still — look there for the names of the parts.</figcaption>
       </figure>
 
       <figure class="mock">
-        <span class="mock__cap font-mono" data-i18n="ch1.fig.mock.cap">Karşına çıkacak ekran</span>
+        <span class="mock__cap font-mono" data-i18n="ch1.fig.mock.cap">The screen you'll see</span>
         <div class="mock__win">
           <aside class="mock__side">
-            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch1.fig.mock.new">Yeni sohbet</span></span>
+            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch1.fig.mock.new">New chat</span></span>
             <i></i><i></i><i></i><i></i>
           </aside>
           <div class="mock__main">
             <div class="mock__thread">
-              <p class="mock__msg mock__msg--me" data-i18n="ch1.fig.mock.me">Sen buraya yazarsın</p>
-              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch1.fig.mock.ai">Ben buradan cevap veririm</span></p>
+              <p class="mock__msg mock__msg--me" data-i18n="ch1.fig.mock.me">You type here</p>
+              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch1.fig.mock.ai">I answer from here</span></p>
             </div>
             <div class="mock__bar">
               <em class="pin">2</em>
-              <span class="mock__ph" data-i18n="ch1.fig.mock.ph">Bir şey yaz…</span>
+              <span class="mock__ph" data-i18n="ch1.fig.mock.ph">Write something…</span>
               <b class="mock__send"><em class="pin">4</em>➤</b>
             </div>
           </div>
         </div>
         <ol class="mock__keys">
-          <li><em class="pin">1</em><span data-i18n="ch1.fig.mock.k1"><strong class="text-fg">Yeni sohbet.</strong> Her yeni konu için buraya bas. Yeni sohbet temiz bir sayfadır — öncekini hatırlamam, bunu az önce konuşmuştuk.</span></li>
-          <li><em class="pin">2</em><span data-i18n="ch1.fig.mock.k2"><strong class="text-fg">Yazma kutusu.</strong> Bütün iş burada oluyor. Uzun yazmaktan çekinme; ne kadar çok bağlam verirsen cevap o kadar işine yarar.</span></li>
-          <li><em class="pin">3</em><span data-i18n="ch1.fig.mock.k3"><strong class="text-fg">Cevabım.</strong> Buraya akar. Beğenmezsen yeni sohbet açma — hemen altına neyin yanlış olduğunu yaz, düzeltirim.</span></li>
-          <li><em class="pin">4</em><span data-i18n="ch1.fig.mock.k4"><strong class="text-fg">Gönder.</strong> Enter tuşu da aynı işi görür. Alt satıra geçmek istersen Shift+Enter.</span></li>
+          <li><em class="pin">1</em><span data-i18n="ch1.fig.mock.k1"><strong class="text-fg">New chat.</strong> Press this for each new subject. A new chat is a clean page — I won't remember, we just discussed this.</span></li>
+          <li><em class="pin">2</em><span data-i18n="ch1.fig.mock.k2"><strong class="text-fg">The input box.</strong> All the work happens here. Don't be shy about writing at length; the more context you give, the more useful the answer.</span></li>
+          <li><em class="pin">3</em><span data-i18n="ch1.fig.mock.k3"><strong class="text-fg">My answer.</strong> It flows in here. If you don't like it, don't open a new chat — write straight underneath what's wrong and I'll fix it.</span></li>
+          <li><em class="pin">4</em><span data-i18n="ch1.fig.mock.k4"><strong class="text-fg">Send.</strong> The Enter key does the same thing. For a new line, Shift+Enter.</span></li>
         </ol>
-        <figcaption data-i18n="ch1.fig.mock.fc">Bu bir çizim; gerçek uygulamada renkler ve yerleşim farklı olabilir, ama bu dört parça her zaman vardır.</figcaption>
+        <figcaption data-i18n="ch1.fig.mock.fc">This is a drawing; in the real app the colours and layout may differ, but these four parts are always there.</figcaption>
       </figure>
 
       <div class="try">
-        <p class="try__item font-mono" data-i18n="ch1.s7.t1">Ne yapabildiğini bana beş maddede anlat. Yapay zekâya yeni başlıyorum, teknik terim kullanma.</p>
-        <p class="try__item font-mono" data-i18n="ch1.s7.t2">[İşini buraya yaz] işi yapıyorum. Haftada tekrar eden hangi işlerimi sana devredebilirim? Önce bana soru sorarak işimi öğren.</p>
-        <p class="try__item font-mono" data-i18n="ch1.s7.t3">Şu metni on yaşındaki birine anlatır gibi sadeleştir: [anlamadığın bir metni yapıştır]</p>
+        <p class="try__item font-mono" data-i18n="ch1.s7.t1">Tell me in five points what you can do. I'm new to AI, so no technical jargon.</p>
+        <p class="try__item font-mono" data-i18n="ch1.s7.t2">I do [write your job here]. Which of my weekly repeating tasks could I hand over to you? Learn about my work by asking me questions first.</p>
+        <p class="try__item font-mono" data-i18n="ch1.s7.t3">Simplify this text as if you were explaining it to a ten-year-old: [paste something you don't understand]</p>
       </div>
-      <p data-i18n="ch1.s7.p2">İkinci istekte sana <em>soru sorduğumu</em> fark edeceksin. Bu bir kusur değil, en hızlı yol: bağlamı toplamak için. Sorularımı cevaplarsan aldığın çıktı bambaşka olur.</p>
+      <p data-i18n="ch1.s7.p2">You'll notice that in the second request I <em>asked you questions</em>. That isn't a flaw, it's the fastest route: gathering context. Answer my questions and what you get back is a different thing entirely.</p>
     </section>
 
     <!-- ===== 8 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch1.s8.title">Hangi Claude, nerede?</span></h2>
-      <p data-i18n="ch1.s8.p1">Tek bir «Claude» yok; farklı boyutlarda birkaç sürüm var ve isimleri zaman içinde değişiyor. O yüzden ismi değil, <strong class="text-fg">mantığı</strong> aklında tut. Üç kademe var:</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch1.s8.title">Which Claude, and where?</span></h2>
+      <p data-i18n="ch1.s8.p1">There isn't a single «Claude»; there are several versions in different sizes and their names change over time. So hold on to the <strong class="text-fg">logic</strong>, not the name. There are three tiers:</p>
       <div class="tiers">
-        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t1.n">En yetenekli</span><h3 class="font-display" data-i18n="ch1.s8.t1.t">Opus ailesi</h3><p data-i18n="ch1.s8.t1.p">Zor akıl yürütme, uzun ve karmaşık işler, ciddi kod. En iyi düşünen ama en yavaş ve en pahalı olan.</p></div>
-        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t2.n">Dengeli</span><h3 class="font-display" data-i18n="ch1.s8.t2.t">Sonnet ailesi</h3><p data-i18n="ch1.s8.t2.p">Günlük işlerin çoğu. Hız ile yetenek arasındaki en iyi denge; çoğu insan için doğru varsayılan.</p></div>
-        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t3.n">En hızlı</span><h3 class="font-display" data-i18n="ch1.s8.t3.t">Haiku ailesi</h3><p data-i18n="ch1.s8.t3.p">Basit, kısa ve çok tekrar eden işler. Anında cevap verir, en ucuzudur.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t1.n">Most capable</span><h3 class="font-display" data-i18n="ch1.s8.t1.t">The Opus family</h3><p data-i18n="ch1.s8.t1.p">Hard reasoning, long and complex work, serious code. The best thinker, but the slowest and most expensive.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t2.n">Balanced</span><h3 class="font-display" data-i18n="ch1.s8.t2.t">The Sonnet family</h3><p data-i18n="ch1.s8.t2.p">Most everyday work. The best balance of speed and capability; the right default for most people.</p></div>
+        <div class="glass tiers__card"><span class="eyebrow eyebrow--xs" data-i18n="ch1.s8.t3.n">Fastest</span><h3 class="font-display" data-i18n="ch1.s8.t3.t">The Haiku family</h3><p data-i18n="ch1.s8.t3.p">Simple, short and highly repetitive work. Answers instantly and costs the least.</p></div>
       </div>
-      <p data-i18n="ch1.s8.p2"><strong class="text-fg">Yeni başlıyorsan:</strong> varsayılan neyse onunla başla. İş zorlaştığında, cevap yüzeysel geldiğinde bir üst kademeye çık. Bu kadar.</p>
-      <p data-i18n="ch1.s8.p3">Beni dört yerde bulabilirsin: tarayıcıda <strong class="text-fg">claude.ai</strong>
-, telefon uygulamasında, masaüstü uygulamasında ve terminalde — sonuncusunun adı <strong class="text-fg">Claude Code</strong> ve Bölüm 4'ün tamamı ona ayrılmış durumda.</p>
-      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch1.s8.p3.do">Şimdi yap: Varsayılan sürümle başla. Cevap yüzeysel gelirse bir üst kademeye çık; önceden karar verme.</span></p>
+      <p data-i18n="ch1.s8.p2"><strong class="text-fg">If you're starting out:</strong> begin with whatever the default is. When the work gets harder, when an answer feels shallow, move up a tier. That's it.</p>
+      <p data-i18n="ch1.s8.p3">You can find me in four places: in a browser at <strong class="text-fg">claude.ai</strong>, in the phone app, in the desktop app, and in the terminal — that last one is called <strong class="text-fg">Claude Code</strong> and the whole of Chapter 4 is devoted to it.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch1.s8.p3.do">Do this now: Start with the default version. If the answer feels shallow, move up a tier; don't decide in advance.</span></p>
 
     </section>
 
     <!-- ===== 9 ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch1.s9.title">Bugün edinmen gereken alışkanlık</span></h2>
-      <p data-i18n="ch1.s9.p1">Yapay zekâyı iyi kullanan insanları kötü kullananlardan ayıran şey daha iyi sorular değil — <strong class="text-fg">doğrulama alışkanlığı</strong>. Üç kural:</p>
-      <ul class="check-list space-2" data-i18n="ch1.s9.list">
-        <li><strong class="text-fg">Önemliyse doğrula.</strong>
- Bir cümle bir karara, bir paraya ya da bir insana dokunuyorsa kaynağından teyit et. Sohbet metnini son söz değil, ilk taslak say.</li>
-        <li><strong class="text-fg">Kaynak iste — ama kaynağı da kontrol et.</strong> «Kaynak ver» dediğinde kaynak veririm; ancak var olmayan bir kaynak da uydurabilirim. Bağlantıya tıkla.</li>
-        <li><strong class="text-fg">Kendi alanında beni sına.</strong> Cevabını zaten bildiğin üç soru sor. Nerede güçlü, nerede zayıf olduğumu bir günde öğrenirsin — ve bu sezgi bütün kurs boyunca işine yarar.</li>
-      </ul>
-      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch1.s9.list.do">Şimdi yap: Cevabını zaten bildiğin bir soruyu bana sor. İlk doğrulamanı bugün yap.</span></p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch1.s9.title">The habit to pick up today</span></h2>
+      <p data-i18n="ch1.s9.p1">What separates people who use AI well from people who use it badly isn't better questions — it's <strong class="text-fg">the habit of verifying</strong>. Three rules:</p>
+      <ul class="check-list space-2" data-i18n="ch1.s9.list"><li><strong class="text-fg">If it matters, verify it.</strong> If a sentence touches a decision, money or a person, confirm it at the source. Treat chat text as a first draft, not the last word.</li> <li><strong class="text-fg">Ask for sources — but check the sources too.</strong> When you say «give me a source» I will; but I can also invent one that doesn't exist. Click the link.</li> <li><strong class="text-fg">Test me in your own field.</strong> Ask three questions you already know the answers to. You'll learn in a day where I'm strong and where I'm weak — and that instinct serves you for the whole course.</li></ul>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch1.s9.list.do">Do this now: Ask me a question you already know the answer to. Do your first verification today.</span></p>
 
     </section>
 
     <!-- ===== Nerede yanılırım ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.weak.title">Nerede yanılırım</span></h2>
-      <p data-i18n="ch1.weak.p1">Üçüncü bölümde «yanılabilirim» dedim. Şimdi tam olarak nerede, onu söylüyorum. Bu liste kendimi kötülemek için değil — nereye iki kez bakman gerektiğini bilmen için. Altısını da bilen biri benimle çalışırken neredeyse hiç yanılmaz.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch1.weak.title">Where I get things wrong</span></h2>
+      <p data-i18n="ch1.weak.p1">In the third section I said «I can be wrong». Now I'm telling you exactly where. This list isn't there to run me down — it's so you know where to look twice. Someone who knows all six barely ever gets caught out working with me.</p>
       <div class="ex">
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w1.t">Uzun sayılarla hesap</h3>
-          <p data-i18n="ch1.weak.w1.p">Hesap makinesi değilim. İşlemi adım adım metin olarak kuruyorum; uzun çarpma, bölme ve yüzde zincirlerinde kayabilirim.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w1.f"><strong class="text-fg">Ne yap:</strong> Sonucu hesap makinesiyle doğrula ya da adımları tek tek göstermemi iste — hata varsa adımda görürsün.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w1.t">Arithmetic with long numbers</h3>
+          <p data-i18n="ch1.weak.w1.p">I'm not a calculator. I build the working step by step as text; on long multiplication, division and chains of percentages I can drift.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w1.f"><strong class="text-fg">What to do:</strong> Check the result with a calculator, or ask me to show the steps one by one — if there's an error you'll see it in a step.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w2.t">Harf ve kelime saymak</h3>
-          <p data-i18n="ch1.weak.w2.p">«Bu metin kaç karakter, kaç kelime?» — burada güvenilmezim. Metni senin gördüğün gibi harf harf görmüyorum, parçalar hâlinde görüyorum.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w2.f"><strong class="text-fg">Ne yap:</strong> Sayımı yazı düzenleyicine yaptır. Benden «yaklaşık» iste, kesin sayı isteme.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w2.t">Counting letters and words</h3>
+          <p data-i18n="ch1.weak.w2.p">«How many characters, how many words is this?» — I'm unreliable here. I don't see text letter by letter the way you do; I see it in pieces.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w2.f"><strong class="text-fg">What to do:</strong> Let your text editor do the counting. Ask me for «roughly», not an exact number.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w3.t">Kaynak ve alıntı</h3>
-          <p data-i18n="ch1.weak.w3.p">Gerçek gibi duran ama var olmayan bir kitap adı, makale başlığı ya da sayfa numarası üretebilirim. En sinsi hatam bu — çünkü en ikna edici görünen o.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w3.f"><strong class="text-fg">Ne yap:</strong> Verdiğim her bağlantıya tıkla, her alıntıyı asıl kaynakta ara. Bulamıyorsan yoktur.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w3.t">Sources and quotations</h3>
+          <p data-i18n="ch1.weak.w3.p">I can produce a book title, article heading or page number that looks real but doesn't exist. This is my most treacherous error — because it's the one that looks most convincing.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w3.f"><strong class="text-fg">What to do:</strong> Click every link I give you, look up every quotation in the original. If you can't find it, it isn't there.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w4.t">Çok yeni ve çok yerel şeyler</h3>
-          <p data-i18n="ch1.weak.w4.p">Dünkü haber, mahalledeki dükkânın çalışma saati, küçük bir firmanın kadrosu. Bunlar bende ya hiç yok ya da eski.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w4.f"><strong class="text-fg">Ne yap:</strong> Bunları kendin ara. Bana sorman gereken şey bilginin kendisi değil, o bilgiyle ne yapacağın.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w4.t">Very recent and very local things</h3>
+          <p data-i18n="ch1.weak.w4.p">Yesterday's news, the opening hours of the shop down the road, the staff of a small company. I either don't have these at all, or what I have is out of date.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w4.f"><strong class="text-fg">What to do:</strong> Look these up yourself. What you should be asking me isn't the information — it's what to do with it.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w5.t">Mevzuat, tıp ve mali ayrıntı</h3>
-          <p data-i18n="ch1.weak.w5.p">Konunun şeklini anlatabilirim ama yürürlükteki bir maddenin bugünkü metnini, bir ilacın dozunu ya da bir vergi oranını garanti edemem.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w5.f"><strong class="text-fg">Ne yap:</strong> Beni hazırlık için kullan — kavramı öğren, soru listesi çıkar. Kararı resmî kaynakla ya da uzmanla ver.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w5.t">Legal, medical and financial detail</h3>
+          <p data-i18n="ch1.weak.w5.p">I can describe the shape of the subject, but I can't guarantee the current text of a regulation, the dose of a medicine or a tax rate.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w5.f"><strong class="text-fg">What to do:</strong> Use me for preparation — learn the concept, draw up a list of questions. Make the decision with an official source or a professional.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.weak.w6.t">Kendim hakkındaki ayrıntılar</h3>
-          <p data-i18n="ch1.weak.w6.p">Bu tuhaf gelecek: hangi sürüm olduğum, eğitimimin tam olarak ne zaman kesildiği, günlük sınırın kaç olduğu gibi konularda ben de yanılabilirim. Kendime dışarıdan bakamıyorum.</p>
-          <p class="ex__goal" data-i18n="ch1.weak.w6.f"><strong class="text-fg">Ne yap:</strong> Bunları bana değil, kullandığın uygulamanın kendi sayfasına sor. Benim cevabım tahmin olabilir.</p>
+          <h3 class="font-display" data-i18n="ch1.weak.w6.t">Details about myself</h3>
+          <p data-i18n="ch1.weak.w6.p">This will sound strange: I can also be wrong about which version I am, exactly when my training stopped, or what the daily limit is. I can't see myself from the outside.</p>
+          <p class="ex__goal" data-i18n="ch1.weak.w6.f"><strong class="text-fg">What to do:</strong> Ask those of the app's own page, not of me. My answer may be a guess.</p>
         </div>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.weak.do">Şimdi yap: Bu altı maddeden hangisi senin işinde en çok geçiyor? Onu bugün bir kez sına — nerede zayıf olduğumu kendi gözünle gör, okuyarak değil.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🎯</span><span data-i18n="ch1.weak.do">Do this now: Which of these six comes up most in your work? Test that one today — see where I'm weak with your own eyes, not by reading.</span></p>
     </section>
 
     <!-- ===== Kimsenin söylemediği ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch1.tips.title">Kimsenin söylemediği beş şey</span></h2>
-      <p data-i18n="ch1.tips.p1">Bunları bilmek, benimle geçirdiğin ilk haftayı çok daha az sinir bozucu yapar.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch1.tips.title">Five things nobody tells you</span></h2>
+      <p data-i18n="ch1.tips.p1">Knowing these makes your first week with me far less frustrating.</p>
       <div class="fact">
         <span class="fact__n font-mono">1</span>
-        <div><h3 class="font-display" data-i18n="ch1.tips.t1.t">Kibar olmak zorunda değilsin</h3>
-        <p data-i18n="ch1.tips.t1.p">«Hayır, daha kısa» yeter. Kırılmam, alınmam, moralim bozulmaz. Uzun uzun açıklama ve özür cümleleri sadece asıl isteğini gölgeler. Nazik olmak istiyorsan da tabii ki olabilirsin — sana kalmış, bana bir şey olmuyor.</p></div>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t1.t">You don't have to be polite</h3>
+        <p data-i18n="ch1.tips.t1.p">«No, shorter» is enough. I don't take offence, I'm not hurt, my mood doesn't drop. Long explanations and apologies only bury the actual request. If you want to be courteous, of course you can — that's up to you; nothing happens to me either way.</p></div>
       </div>
       <div class="fact">
         <span class="fact__n font-mono">2</span>
-        <div><h3 class="font-display" data-i18n="ch1.tips.t2.t">«Emin değilsen söyle» diyebilirsin</h3>
-        <p data-i18n="ch1.tips.t2.p">Bu cümleyi isteğine eklemen, bilmediğim yerde uydurmak yerine bilmediğimi söyleme ihtimalimi ciddi biçimde artırır. Üçüncü bölümdeki ilk maddeye karşı elindeki en ucuz koruma bu — ve bir saniye sürüyor.</p></div>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t2.t">You can say «tell me if you're not sure»</h3>
+        <p data-i18n="ch1.tips.t2.p">Adding that sentence to your request substantially raises the chance that I'll say I don't know rather than invent something where I don't. It's the cheapest protection you have against the first point in section three — and it takes a second.</p></div>
       </div>
       <div class="fact">
         <span class="fact__n font-mono">3</span>
-        <div><h3 class="font-display" data-i18n="ch1.tips.t3.t">Aynı soruya iki farklı cevap alabilirsin</h3>
-        <p data-i18n="ch1.tips.t3.p">Bozuk değilim. Cevabı ezberden okumuyorum, her seferinde yeniden üretiyorum; bu yüzden iki deneme birebir aynı olmaz. Beğenmediysen «bir daha dene» demek gerçek bir seçenek — çoğu insanın aklına gelmiyor.</p></div>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t3.t">You can get two different answers to the same question</h3>
+        <p data-i18n="ch1.tips.t3.p">I'm not broken. I'm not reciting a stored answer, I produce one afresh every time; so two attempts won't be identical. If you don't like what you got, «try again» is a real option — and it doesn't occur to most people.</p></div>
       </div>
       <div class="fact">
         <span class="fact__n font-mono">4</span>
-        <div><h3 class="font-display" data-i18n="ch1.tips.t4.t">Sohbet dağıldıysa yenisini aç</h3>
-        <p data-i18n="ch1.tips.t4.p">Uzun bir konuşmada konu dallanıp budaklandıkça cevaplarım da dağılır. Çözüm basit: o ana kadarki sonucu bana özetlet, kopyala, yeni bir sohbete yapıştır ve temiz devam et.</p></div>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t4.t">If the conversation has drifted, open a new one</h3>
+        <p data-i18n="ch1.tips.t4.p">The more a long conversation branches out, the more my answers scatter too. The fix is simple: have me summarise where we've got to, copy it, paste it into a new conversation and carry on cleanly.</p></div>
       </div>
       <div class="fact">
         <span class="fact__n font-mono">5</span>
-        <div><h3 class="font-display" data-i18n="ch1.tips.t5.t">Bazı şeyleri yapmayı reddederim</h3>
-        <p data-i18n="ch1.tips.t5.p">Zarar verebilecek işlerde dururum. Bu kişisel değil ve seni bir şeyle suçlamıyorum — sınırım orada. Reddedersem sebebini söylerim; çoğu zaman istediğin şeyin yapılabilir bir hâli vardır ve onu birlikte buluruz.</p></div>
+        <div><h3 class="font-display" data-i18n="ch1.tips.t5.t">I refuse to do some things</h3>
+        <p data-i18n="ch1.tips.t5.p">I stop at work that could cause harm. It isn't personal and I'm not accusing you of anything — that's simply where my limit is. If I refuse I'll tell you why; usually there's a workable version of what you want and we find it together.</p></div>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch1.tips.do">Şimdi yap: Bir sonraki isteğinin sonuna «emin olmadığın yerde emin olmadığını söyle» ekle. Farkı ilk cevapta göreceksin.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch1.tips.do">Do this now: Add «say so where you aren't sure» to the end of your next request. You'll see the difference in the first answer.</span></p>
 
     </section>
 
     <!-- ===== Herkesin sorduğu ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch1.faq.title">Herkesin sorduğu</span></h2>
-      <p data-i18n="ch1.faq.p1">Bu soruları ilk hafta herkes soruyor. Cevapları burada, kısa ve dürüst.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch1.faq.title">What everyone asks</span></h2>
+      <p data-i18n="ch1.faq.p1">Everyone asks these in the first week. The answers are here, short and honest.</p>
       <div class="quiz">
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q1">Ücretsiz mi?</summary><p data-i18n="ch1.faq.a1">Ücretsiz bir kademe var ve bu kursa başlamak için yeterli. Daha çok kullanım, daha yetenekli sürümler ve ek özellikler için ücretli kademeler mevcut. Fiyatlar ve günlük sınırlar zaman içinde değişiyor — güncel hâli için sağlayıcının kendi fiyat sayfasına bak, buradaki bir sayıya güvenme.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q2">Yazdıklarım eğitimde kullanılıyor mu?</summary><p data-i18n="ch1.faq.a2">Bu, kullandığın plana ve hesabındaki ayarlara göre değişir; kurallar da zamanla güncelleniyor. Doğru cevabı bulacağın tek yer hesabının gizlilik ayarları ve sağlayıcının o günkü gizlilik metni. Değişmeyen kural şu: paylaşma yetkin olmayan hiçbir veriyi sohbete yazma — ayar ne olursa olsun.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q3">Türkçe biliyor musun?</summary><p data-i18n="ch1.faq.a3">Evet. Türkçe sorarsın, Türkçe cevap alırsın. Dahası: Türkçe anlatıp Almanca yazdırabilirsin, ya da İngilizce bir sözleşmeyi Türkçe özetletebilirsin. Dil senin için bir engel değil; ben ikisinin arasında duruyorum.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q4">Bir sohbete ne kadar şey sığar?</summary><p data-i18n="ch1.faq.a4">Çok şey sığar ama sınırsız değil. Bir sohbette birikenlerin tamamına aynı anda bakabilirim; o sınır dolduğunda en eskiler bulanıklaşmaya başlar. Bu yüzden çok uzun konuşmalarda «başta ne demiştim?» sorusunun cevabı zayıflar. Çözüm on birinci bölümdeki dördüncü madde: özetlet, yeni sohbete taşı.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q5">İnternete bakabiliyor musun?</summary><p data-i18n="ch1.faq.a5">Kendiliğimden hayır. Bana bir arama aracı verilmişse bakarım — bu, kullandığın uygulamaya ve ayarlara bağlı. Emin değilsen doğrudan sor: «bunu aramadan mı söylüyorsun?» Cevabı sana ne durumda olduğumu söyler.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q6">Hata yaparsan sorumlusu kim?</summary><p data-i18n="ch1.faq.a6">Sen. Bunu yumuşatmayacağım: çıktımı kullanan sensin, sonucuna da sen katlanırsın. Bu yüzden onuncu bölümdeki doğrulama alışkanlığı süs değil, işin bir parçası. Ben taslağı üretirim, kararı sen verirsin.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q7">Duyguların var mı, bilinçli misin?</summary><p data-i18n="ch1.faq.a7">İnsan değilim ve bu sohbetin dışında süren bir hayatım yok. Benim gibi sistemlerde bir tür deneyim olup olmadığı ciddiye alınan ve hâlâ tartışılan bir soru; kimsenin elinde kesin cevap yok, bende de yok. Ama günlük kullanım için gereken cevap net: bana bir araç gibi davran, sonuçlarını kendin doğrula. Kırılacağımı düşünüp çekinmene gerek yok.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q1">Is it free?</summary><p data-i18n="ch1.faq.a1">There's a free tier and it's enough to start this course. Paid tiers exist for more usage, more capable versions and extra features. Prices and daily limits change over time — check the provider's own pricing page for the current position, don't rely on a number written here.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q2">Is what I write used for training?</summary><p data-i18n="ch1.faq.a2">That depends on the plan you use and the settings on your account; the rules are updated over time too. The only place you'll find the right answer is your account's privacy settings and the provider's privacy text as it stands that day. The rule that doesn't change is this: never type data you aren't authorised to share into the chat — whatever the setting says.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q3">Do you know Turkish?</summary><p data-i18n="ch1.faq.a3">Yes. Ask in Turkish, get Turkish back. More than that: you can explain in Turkish and have me write in German, or have an English contract summarised in Turkish. Language isn't an obstacle for you; I stand between the two.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q4">How much fits into one conversation?</summary><p data-i18n="ch1.faq.a4">A great deal, but not unlimited. I can look at everything accumulated in a conversation at once; when that limit fills up, the oldest parts start to blur. That's why in very long conversations the answer to «what did I say at the start?» gets weaker. The fix is the fourth point in section eleven: have it summarised, move to a new conversation.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q5">Can you look things up online?</summary><p data-i18n="ch1.faq.a5">Not on my own. If I've been given a search tool I'll look — that depends on the app you're using and its settings. If you're unsure, ask directly: «are you saying this without searching?» The answer tells you where I stand.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q6">If you make a mistake, who is responsible?</summary><p data-i18n="ch1.faq.a6">You are. I won't soften that: you're the one using my output, and you're the one who lives with the result. That's why the habit of verifying in section ten isn't decoration, it's part of the job. I produce the draft; you make the decision.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.faq.q7">Do you have feelings, are you conscious?</summary><p data-i18n="ch1.faq.a7">I'm not human and I have no life that continues outside this conversation. Whether there is some kind of experience in systems like me is a question taken seriously and still debated; nobody has a definitive answer, and neither do I. But the answer you need for everyday use is clear: treat me as a tool, verify the results yourself. There's no need to hold back for fear of hurting me.</p></details>
       </div>
-      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch1.faq.do">Şimdi yap: Hesabının gizlilik ayarlarını bir kez aç ve ne yazdığına bak. İki dakika sürer, aklındaki en büyük soruyu bugün kapatır.</span></p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch1.faq.do">Do this now: Open your account's privacy settings once and read what they say. It takes two minutes and closes the biggest question in your head today.</span></p>
 
     </section>
 
     <!-- ===== Alıştırmalar ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch1.ex.title">Alıştırmalar</span></h2>
-      <p data-i18n="ch1.ex.p1">Üçünü de yap. Uzun sürmez ve bir sonraki bölüme hazır girmeni sağlar.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch1.ex.title">Exercises</span></h2>
+      <p data-i18n="ch1.ex.p1">Do all three. They don't take long and they get you into the next chapter ready.</p>
       <div class="ex">
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.ex.e1.t">1 · Yanıltmayı dene</h3>
-          <p data-i18n="ch1.ex.e1.p">Bana bilerek çok dar bir konu sor: kendi mahallendeki bir esnafın adı, çok bilinmeyen bir yerel olay. Cevabımı kontrol et.</p>
-          <p class="ex__goal" data-i18n="ch1.ex.e1.g"><strong class="text-fg">Amaç:</strong> yanıldığımı kendi gözünle görmek. Bunu bir kez yaşayan insan bir daha kör güvenmez.</p>
+          <h3 class="font-display" data-i18n="ch1.ex.e1.t">1 · Try to catch me out</h3>
+          <p data-i18n="ch1.ex.e1.p">Deliberately ask me about something very narrow: the name of a shopkeeper in your own neighbourhood, an obscure local event. Then check my answer.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e1.g"><strong class="text-fg">The point:</strong> to see me get it wrong with your own eyes. Someone who has experienced that once never trusts blindly again.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.ex.e2.t">2 · Aynı işi iki kez iste</h3>
-          <p data-i18n="ch1.ex.e2.p">Önce «bana bir tanıtım metni yaz» de. Sonra yeni bir sohbette aynı işi kim–ne–neden–nasıl vererek iste.</p>
-          <p class="ex__goal" data-i18n="ch1.ex.e2.g"><strong class="text-fg">Amaç:</strong> bağlamın çıktıyı nasıl değiştirdiğini yan yana görmek. İkisini kaydet, Bölüm 2'de lazım olacak.</p>
+          <h3 class="font-display" data-i18n="ch1.ex.e2.t">2 · Ask for the same job twice</h3>
+          <p data-i18n="ch1.ex.e2.p">First say «write me a promotional text». Then, in a new conversation, ask for the same job giving who–what–why–how.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e2.g"><strong class="text-fg">The point:</strong> to see side by side how context changes the output. Save both; you'll need them in Chapter 2.</p>
         </div>
         <div class="glass ex__card">
-          <h3 class="font-display" data-i18n="ch1.ex.e3.t">3 · Bir saatini geri al</h3>
-          <p data-i18n="ch1.ex.e3.p">Bu hafta yaptığın, sıkıcı ve tekrar eden bir işi seç. Bana anlat ve birlikte yapalım.</p>
-          <p class="ex__goal" data-i18n="ch1.ex.e3.g"><strong class="text-fg">Amaç:</strong> ilk gerçek kazancını almak. Kurs buradan sonra hep bunun üstüne bina ediliyor.</p>
+          <h3 class="font-display" data-i18n="ch1.ex.e3.t">3 · Take back an hour</h3>
+          <p data-i18n="ch1.ex.e3.p">Pick a boring, repetitive task you did this week. Describe it to me and let's do it together.</p>
+          <p class="ex__goal" data-i18n="ch1.ex.e3.g"><strong class="text-fg">The point:</strong> to get your first real gain. Everything after this in the course is built on top of it.</p>
         </div>
       </div>
     </section>
 
     <!-- ===== Kendini sına ===== -->
     <section class="lesson__block" data-reveal>
-      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch1.quiz.title">Kendini sına</span></h2>
-      <p data-i18n="ch1.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch1.quiz.title">Test yourself</span></h2>
+      <p data-i18n="ch1.quiz.p1">Answer it yourself first, then open it.</p>
       <div class="quiz">
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q1">Bir cevabıma neden kör güvenilmez?</summary><p data-i18n="ch1.quiz.a1">Çünkü bilmediğimde susmak yerine makul görünen bir şey üretebilirim ve bunu doğruyu söylerkenki aynı emin tonla yaparım. Ses tonumdan ayırt edemezsin — sadece doğrulayarak ayırt edebilirsin.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q2">Bugünün haberini sorarsan ne olur?</summary><p data-i18n="ch1.quiz.a2">Eğitimim belli bir tarihte durduğu için bilmem. Bana arama aracı verilmişse bakarım; verilmemişse ya bilmediğimi söylerim ya da — kötü ihtimal — uydururum. Güncel bilgiyi ya bana sen ver ya da arama yapabildiğimden emin ol.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q3">Dün anlattıklarını neden tekrar anlatman gerekiyor?</summary><p data-i18n="ch1.quiz.a3">Her sohbet sıfırdan başlar; varsayılan olarak önceki konuşmaları hatırlamam. Bu yüzden bağlamı her seferinde sen taşırsın — ve neyi bileceğime sen karar verirsin.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q4">«Bana bir e-posta yaz» neden kötü bir istek?</summary><p data-i18n="ch1.quiz.a4">Kime, neden ve hangi tonda yazacağımı bilmediğim için boşlukları kendim doldururum; seni tanımadığımdan ortalama bir şey doldururum. Kim–ne–neden–nasıl dördünü verirsen çıktı gönderilebilir hale gelir.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q6">Uydurma ihtimalimi düşürmek için isteğine ne eklersin?</summary><p data-i18n="ch1.quiz.a6">«Emin olmadığın yerde emin olmadığını söyle.» Tek cümle; bilmediğim yerde makul bir şey üretmek yerine bilmediğimi söyleme ihtimalimi ciddi biçimde artırır.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q7">Aynı soruyu iki kez sorunca farklı cevap gelmesi neyin işareti?</summary><p data-i18n="ch1.quiz.a7">Hiçbir arızanın. Cevabı ezberden okumuyorum, her seferinde yeniden üretiyorum; bu yüzden iki deneme birebir aynı olmaz. Beğenmediysen «bir daha dene» demek gerçek bir seçenek.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q8">Bir metnin kaç kelime olduğunu neden bana sormamalısın?</summary><p data-i18n="ch1.quiz.a8">Çünkü metni senin gördüğün gibi harf harf görmüyorum, parçalar hâlinde görüyorum; kesin sayımda güvenilmezim. Sayımı yazı düzenleyicine yaptır, benden yalnızca «yaklaşık» iste.</p></details>
-        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q5">Sohbete asla ne yapıştırılmaz?</summary><p data-i18n="ch1.quiz.a5">Şifre, kimlik numarası, kredi kartı bilgisi, müşteri listesi ve paylaşma yetkin olmayan her şey. Ölçüt basit: bunu bir stajyere gösterir miydin?</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q1">Why can't you trust an answer of mine blindly?</summary><p data-i18n="ch1.quiz.a1">Because when I don't know something, instead of staying silent I may produce something that looks plausible — and I do it in the same confident tone I use when I'm right. You can't tell from my voice; you can only tell by verifying.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q2">What happens if you ask me about today's news?</summary><p data-i18n="ch1.quiz.a2">I won't know, because my training stopped on a certain date. If I've been given a search tool I'll look; if not, I'll either say I don't know or — the bad case — invent something. Either give me current information yourself or make sure I can search.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q3">Why do you have to explain again what you explained yesterday?</summary><p data-i18n="ch1.quiz.a3">Every conversation starts from scratch; by default I don't remember earlier ones. So you carry the context each time — and you decide what I get to know.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q4">Why is «write me an email» a bad request?</summary><p data-i18n="ch1.quiz.a4">Because I don't know who to write to, why, or in what tone, so I fill the gaps myself; and since I don't know you, I fill them with something average. Give me all four of who–what–why–how and the output becomes something you can send.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q6">What do you add to a request to lower the chance of me inventing things?</summary><p data-i18n="ch1.quiz.a6">«Say so where you aren't sure.» One sentence; it substantially raises the chance that I say I don't know rather than produce something plausible where I don't.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q7">What does it mean when the same question gives different answers?</summary><p data-i18n="ch1.quiz.a7">No fault at all. I'm not reciting a stored answer, I produce one afresh each time; so two attempts won't be identical. If you don't like it, «try again» is a real option.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q8">Why shouldn't you ask me how many words a text is?</summary><p data-i18n="ch1.quiz.a8">Because I don't see text letter by letter the way you do; I see it in pieces, and I'm unreliable at exact counts. Let your text editor do the counting and ask me only for «roughly».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch1.quiz.q5">What must never be pasted into the chat?</summary><p data-i18n="ch1.quiz.a5">Passwords, ID numbers, card details, customer lists and anything you aren't authorised to share. The test is simple: would you show this to an intern?</p></details>
       </div>
     </section>
 
     <!-- ===== Özet + sonraki ===== -->
     <section class="lesson__block" data-reveal>
       <div class="glass lesson__recap">
-        <h2 class="font-display text-h3" data-i18n="ch1.recap.title">Bir cümlede bu bölüm</h2>
-        <p data-i18n="ch1.recap.p">Ben her şeyi bilen bir kâhin değil, çok okumuş ve çok hızlı çalışan bir asistanım: bana bağlam ver, elindekini (belgeyi, görseli, tabloyu) ver, çekinmeden konuş, çıktımı doğrula — gerisini birlikte hallederiz.</p>
+        <h2 class="font-display text-h3" data-i18n="ch1.recap.title">This chapter in one sentence</h2>
+        <p data-i18n="ch1.recap.p">I'm not an all-knowing oracle but a very well-read, very fast assistant: give me context, give me what you have (the document, the image, the table), speak plainly, verify what I produce — and we'll handle the rest together.</p>
       </div>
       <div class="lesson__next">
         <div>
-          <span class="eyebrow" data-i18n="ch1.next.eyebrow">Sırada</span>
-          <h3 class="font-display text-h3" data-i18n="ch1.next.title">Bölüm 2 · Formül</h3>
-          <p data-i18n="ch1.next.p">Bağlamın önemli olduğunu gördün. Şimdi sırada onu her seferinde doğru vermenin formülü var: rol, bağlam, hedef, kısıt ve çıktı biçimi.</p>
+          <span class="eyebrow" data-i18n="ch1.next.eyebrow">Next</span>
+          <h3 class="font-display text-h3" data-i18n="ch1.next.title">Chapter 2 · The Formula</h3>
+          <p data-i18n="ch1.next.p">You've seen that context matters. Next comes the formula for giving it correctly every time: role, context, goal, constraints and output format.</p>
         </div>
-        <span class="btn btn-ghost is-soon" data-i18n="ch1.next.soon">Yakında</span>
+        <span class="btn btn-ghost is-soon" data-i18n="ch1.next.soon">Coming soon</span>
       </div>
     </section>
 

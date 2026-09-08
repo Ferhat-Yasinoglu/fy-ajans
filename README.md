@@ -19,6 +19,7 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
 
 - Çevrilecek her öğe kaynakta `data-i18n="anahtar"` (iç HTML) ya da `data-i18n-attr="öznitelik=anahtar"` taşır.
 - Çeviriler `i18n/de.json`, `i18n/en.json`, `i18n/fa.json`'da; biçim `i18n/README.md`'de.
+- Çevrilen sayfalar `tools/build-i18n.mjs` içindeki `SOURCES` listesindedir; yeni bir sayfa eklerken oraya da yazılır.
 - Bir metni değiştirince: Türkçe HTML → aynı anahtar üç sözlükte → betiği çalıştır → üretilenlerle birlikte commit.
 - Üretilen dosyalar (`de/`, `en/`, `fa/`, `js/lang/`) elle düzenlenmez.
 - Her sayfada dört dilin `hreflang` bağlantıları ve bir dil seçici var; Farsça sayfalar `dir="rtl"` ile
@@ -81,7 +82,8 @@ terms.html            kurallar, gizlilik (DSGVO Md. 13), cayma hakkı ve kurs ş
 impressum.html        § 5 DDG sağlayıcı bilgileri (Almanya'da ticari site için zorunlu)
 contact/index.html    bağlantı sayfası (link-in-bio)
 contact/course.html   kurs sayfası
-course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (şimdilik yalnızca Türkçe; çeviri gelince tools/build-i18n.mjs SOURCES'a eklenecek)
+claude/index.html      Claude Rehberi — bağımsız başvuru sayfası ve sözlük (dört dilde)
+course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (dört dilde)
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
 css/style.css         tüm stiller ve tasarım tokenları
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
