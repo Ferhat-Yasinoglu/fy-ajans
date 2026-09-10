@@ -694,7 +694,7 @@
      bir adıma tıklanınca oraya gider ve elle gezinmeye bırakır. Görünmüyorken ya da imleç
      üstündeyken durur. Hareket azaltılmışsa hiç dönmez: son kare gösterilir.
      Aynı sürücü iki sahnede kullanılıyor: Bölüm 1'in ilk sohbet anlatımı (.walk, 5 adım) ve
-     Bölüm 2'nin istek kuruluşu (.build, 6 adım). */
+     Bölüm 2'nin istek kuruluşu (.build, 6 adım) ve sistem promptu kurulumu (.sys, 4 adım). */
   function stepper(box, prefix, HOLD, last) {
     if (!box) return;
     var stage = $('.' + prefix + '__stage', box), items = $$('.' + prefix + '__steps li', box);
@@ -731,6 +731,7 @@
 
   stepper($('[data-walk]'), 'walk', [0, 2200, 2000, 3000, 1600, 3600], 5);
   stepper($('[data-build]'), 'build', [0, 2400, 2200, 2200, 2200, 2200, 4000], 6);
+  stepper($('[data-sys]'), 'sys', [0, 2200, 2000, 2800, 3800], 4);
 
   /* ---------- FYOS: sohbet ----------
      Yanıt kaynağı sırası:

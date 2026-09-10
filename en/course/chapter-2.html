@@ -68,6 +68,14 @@
       <ol class="toc__list"></ol>
     </details>
 
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch2.guide.t">The Claude Guide</strong><span data-i18n="ch2.guide.p">The terms used in this chapter — system prompt, context window, structured output — and the rest, on one page. In four languages.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
     <!-- ===== 01 ===== -->
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch2.s1.title">There's no such thing as a bad request — only an incomplete one</span></h2>
@@ -272,6 +280,31 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch2.s10.title">The strongest single move: paste an example</span></h2>
       <p data-i18n="ch2.s10.p1">If one technique survives from this whole chapter, let it be this. Steering me by description is hard; steering me by <strong class="text-fg">showing</strong> is easy. Because I'm a pattern-processing thing to begin with — give me one example and I take all of its unspoken rules at once.</p>
       <p data-i18n="ch2.s10.p2">You could explain: «our company's job-ad voice is friendly but not overblown, second person, no emoji, four sentences maximum.» Or you could paste a good ad you wrote before and say «match this». The second is shorter and more accurate — and it carries the things you couldn't have described.</p>
+      <figure class="teach">
+        <span class="teach__cap font-mono" data-i18n="ch2.fig.teach.cap">Two roads to the same result</span>
+        <div class="teach__row">
+          <div class="teach__card">
+            <span class="teach__t" data-i18n="ch2.fig.teach.t1">By describing</span>
+            <ul class="teach__list">
+              <li data-i18n="ch2.fig.teach.i1">friendly but not overblown</li>
+              <li data-i18n="ch2.fig.teach.i2">use the second person</li>
+              <li data-i18n="ch2.fig.teach.i3">no emoji</li>
+              <li data-i18n="ch2.fig.teach.i4">four sentences at most</li>
+              <li data-i18n="ch2.fig.teach.i5">not formal, but not sloppy either</li>
+              <li class="is-more" data-i18n="ch2.fig.teach.i6">… and a dozen things you can't put into words</li>
+            </ul>
+            <span class="teach__n" data-i18n="ch2.fig.teach.n1">You wrote ten lines and the «voice» still isn't quite right. Because you don't fully know the rules of the tone yourself — you only recognise it when you see it.</span>
+          </div>
+          <div class="teach__card teach__card--pick">
+            <span class="teach__t" data-i18n="ch2.fig.teach.t2">By showing</span>
+            <div class="teach__paste" aria-hidden="true"><b data-i18n="ch2.fig.teach.ex">pasted example</b><i></i><i style="--w:86%"></i><i style="--w:92%"></i><i style="--w:54%"></i></div>
+            <span class="teach__q" data-i18n="ch2.fig.teach.q">«match this»</span>
+            <span class="teach__n" data-i18n="ch2.fig.teach.n2">You pasted a text you liked and wrote two words. Everything you couldn't describe is already inside the example — I take it from there.</span>
+          </div>
+        </div>
+        <div class="teach__foot" aria-hidden="true"><span data-i18n="ch2.fig.teach.same">same result</span></div>
+        <figcaption data-i18n="ch2.fig.teach.fc">The left road is tiring and stays incomplete; the right one is both shorter and more accurate. The rule: if you're trying to describe a tone, stop — find something written in that tone and paste it instead.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch2.s10.note">Two examples work even better: one «like this», one «not like this». Then I've learned what stays out as well as what goes in. Past three examples it usually adds nothing.</p>
       </div>
@@ -282,23 +315,31 @@
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch2.s11.title">System prompt: write it once, have it always apply</span></h2>
       <p data-i18n="ch2.s11.p1">Retyping the same context in every conversation is absurd. Write once who you are, what you do and what kind of language you want, and have it apply in every conversation — that's a <strong class="text-fg">system prompt</strong>. In apps it usually goes by «custom instructions» or «project instructions».</p>
-      <figure class="mock">
-        <span class="mock__cap font-mono" data-i18n="ch2.fig.mock.cap">Where it goes</span>
-        <div class="mock__win">
-          <aside class="mock__side">
-            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch2.fig.mock.side">Project / workspace</span></span>
-            <i></i><i></i><i></i><i></i>
-          </aside>
-          <div class="mock__main">
-            <div class="mock__thread">
-              <p class="mock__msg mock__msg--me"><em class="pin">2</em><span data-i18n="ch2.fig.mock.me">The «instructions» box</span></p>
-              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch2.fig.mock.ai">Applies in every conversation here</span></p>
+      <figure class="sys" data-sys>
+        <span class="sys__cap font-mono" data-i18n="ch2.fig.mock.cap">Where it goes</span>
+        <div class="sys__stage" data-step="1">
+          <div class="sys__win">
+            <aside class="sys__side">
+              <span class="sys__item sys__item--hit"><span data-i18n="ch2.fig.mock.side">Project / workspace</span></span>
+              <i></i><i></i><i></i>
+            </aside>
+            <div class="sys__main">
+              <div class="sys__box">
+                <span class="sys__boxlabel" data-i18n="ch2.fig.mock.me">The «instructions» box</span>
+                <span class="sys__typed" data-i18n="ch2.fig.mock.typed">I run a small furniture workshop. Write short and direct, no jargon, and say so when you're not sure.</span>
+              </div>
+              <p class="sys__note"><span data-i18n="ch2.fig.mock.ai">Applies in every conversation here</span></p>
+              <div class="sys__bar"><span class="sys__ph" data-i18n="ch2.fig.mock.ph">Now writing briefly is enough…</span></div>
             </div>
-            <div class="mock__bar">
-              <span class="mock__ph" data-i18n="ch2.fig.mock.ph">Now writing briefly is enough…</span>
-            </div>
+            <span class="sys__cursor" aria-hidden="true"></span>
           </div>
         </div>
+        <ol class="sys__steps">
+          <li><button type="button" data-go="1"><span class="sys__e" aria-hidden="true">📁</span><span data-i18n="ch2.fig.mock.s1">Open the project or workspace</span></button></li>
+          <li><button type="button" data-go="2"><span class="sys__e" aria-hidden="true">👆</span><span data-i18n="ch2.fig.mock.s2">Click the «instructions» box</span></button></li>
+          <li><button type="button" data-go="3"><span class="sys__e" aria-hidden="true">⌨️</span><span data-i18n="ch2.fig.mock.s3">Write your role and context once</span></button></li>
+          <li><button type="button" data-go="4"><span class="sys__e" aria-hidden="true">✅</span><span data-i18n="ch2.fig.mock.s4">Done — applies in every conversation</span></button></li>
+        </ol>
         <figcaption data-i18n="ch2.fig.mock.fc">This is a drawing, not a screenshot — menu names differ between apps and change over time. What you're after is the box labelled «instructions», «custom instructions» or «project knowledge».</figcaption>
       </figure>
       <p data-i18n="ch2.s11.p2">What goes inside is already decided, because it's the first two parts of the formula: <strong class="text-fg">role and context.</strong> You write it once, it's automatically there in every conversation, and your daily requests only need the task, the constraint and the format.</p>
