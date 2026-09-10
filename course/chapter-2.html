@@ -76,6 +76,14 @@
       <ol class="toc__list"></ol>
     </details>
 
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch2.guide.t">Claude Rehberi</strong><span data-i18n="ch2.guide.p">Bu bölümde geçen terimler — sistem promptu, bağlam penceresi, yapılandırılmış çıktı — ve gerisi, tek sayfada. Dört dilde.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
     <!-- ===== 01 ===== -->
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch2.s1.title">Kötü istek diye bir şey yok, eksik istek var</span></h2>
@@ -280,6 +288,31 @@
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch2.s10.title">En güçlü tek hamle: örnek yapıştır</span></h2>
       <p data-i18n="ch2.s10.p1">Bütün bölümden aklında tek bir teknik kalacaksa bu olsun. Beni tarif ederek yönlendirmek zordur; <strong class="text-fg">göstererek</strong> yönlendirmek kolaydır. Çünkü ben zaten örüntü işleyen bir şeyim — bir örnek verdiğinde onun bütün gizli kurallarını birden alırım.</p>
       <p data-i18n="ch2.s10.p2">«Şirketimizin ilan dili şöyledir: samimi ama abartısız, ikinci tekil şahıs, emoji yok, en fazla dört cümle» diye anlatabilirsin. Ya da daha önce yazdığın iyi bir ilanı yapıştırıp «buna benzet» diyebilirsin. İkincisi hem daha kısa hem daha isabetli — üstelik tarif edemediğin şeyleri de taşır.</p>
+      <figure class="teach">
+        <span class="teach__cap font-mono" data-i18n="ch2.fig.teach.cap">Aynı sonuca iki yol</span>
+        <div class="teach__row">
+          <div class="teach__card">
+            <span class="teach__t" data-i18n="ch2.fig.teach.t1">Tarif ederek</span>
+            <ul class="teach__list">
+              <li data-i18n="ch2.fig.teach.i1">samimi ama abartısız olsun</li>
+              <li data-i18n="ch2.fig.teach.i2">ikinci tekil şahıs kullan</li>
+              <li data-i18n="ch2.fig.teach.i3">emoji koyma</li>
+              <li data-i18n="ch2.fig.teach.i4">en fazla dört cümle</li>
+              <li data-i18n="ch2.fig.teach.i5">resmî olmasın ama laubali de olmasın</li>
+              <li class="is-more" data-i18n="ch2.fig.teach.i6">… ve tarif edemediğin bir düzine şey</li>
+            </ul>
+            <span class="teach__n" data-i18n="ch2.fig.teach.n1">On satır yazdın, yine de «ses» tam oturmadı. Çünkü tonun kurallarını sen de tam bilmiyorsun — sadece görünce tanıyorsun.</span>
+          </div>
+          <div class="teach__card teach__card--pick">
+            <span class="teach__t" data-i18n="ch2.fig.teach.t2">Göstererek</span>
+            <div class="teach__paste" aria-hidden="true"><b data-i18n="ch2.fig.teach.ex">yapıştırılan örnek</b><i></i><i style="--w:86%"></i><i style="--w:92%"></i><i style="--w:54%"></i></div>
+            <span class="teach__q" data-i18n="ch2.fig.teach.q">«buna benzet»</span>
+            <span class="teach__n" data-i18n="ch2.fig.teach.n2">Beğendiğin bir metni yapıştırdın, iki kelime yazdın. Tarif edemediğin her şey örneğin içinde zaten var — ben oradan alırım.</span>
+          </div>
+        </div>
+        <div class="teach__foot" aria-hidden="true"><span data-i18n="ch2.fig.teach.same">aynı sonuç</span></div>
+        <figcaption data-i18n="ch2.fig.teach.fc">Soldaki yol yorucu ve eksik kalır; sağdaki yol hem kısa hem daha isabetli. Kural: bir tonu tarif etmeye çalışıyorsan, dur — onun yerine o tonda yazılmış bir şey bul ve yapıştır.</figcaption>
+      </figure>
       <div class="glass note">
         <p data-i18n="ch2.s10.note">İki örnek birden verirsen daha da iyi olur: biri «böyle olsun», diğeri «böyle olmasın». Ne yapılacağı kadar neyin dışarıda kalacağını da öğrenmiş olurum. Üç örnekten sonrası genelde bir şey katmaz.</p>
       </div>
@@ -290,23 +323,31 @@
     <section class="lesson__block" data-reveal>
       <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch2.s11.title">Sistem promptu: bir kez yaz, hep geçerli olsun</span></h2>
       <p data-i18n="ch2.s11.p1">Aynı bağlamı her sohbette baştan yazmak saçma. Kim olduğunu, ne iş yaptığını, nasıl bir dil istediğini bir kere yaz, her sohbette geçerli olsun — buna <strong class="text-fg">sistem promptu</strong> denir. Uygulamalarda genelde «özel talimatlar» ya da «proje talimatları» diye geçer.</p>
-      <figure class="mock">
-        <span class="mock__cap font-mono" data-i18n="ch2.fig.mock.cap">Nereye yazılıyor</span>
-        <div class="mock__win">
-          <aside class="mock__side">
-            <span class="mock__new"><em class="pin">1</em><span data-i18n="ch2.fig.mock.side">Proje / çalışma alanı</span></span>
-            <i></i><i></i><i></i><i></i>
-          </aside>
-          <div class="mock__main">
-            <div class="mock__thread">
-              <p class="mock__msg mock__msg--me"><em class="pin">2</em><span data-i18n="ch2.fig.mock.me">«Talimatlar» kutusu</span></p>
-              <p class="mock__msg mock__msg--ai"><em class="pin">3</em><span data-i18n="ch2.fig.mock.ai">Buradaki her sohbette geçerli olur</span></p>
+      <figure class="sys" data-sys>
+        <span class="sys__cap font-mono" data-i18n="ch2.fig.mock.cap">Nereye yazılıyor</span>
+        <div class="sys__stage" data-step="1">
+          <div class="sys__win">
+            <aside class="sys__side">
+              <span class="sys__item sys__item--hit"><span data-i18n="ch2.fig.mock.side">Proje / çalışma alanı</span></span>
+              <i></i><i></i><i></i>
+            </aside>
+            <div class="sys__main">
+              <div class="sys__box">
+                <span class="sys__boxlabel" data-i18n="ch2.fig.mock.me">«Talimatlar» kutusu</span>
+                <span class="sys__typed" data-i18n="ch2.fig.mock.typed">Küçük bir mobilya atölyesiyim. Kısa ve doğrudan yaz, teknik terim kullanma, emin değilsen söyle.</span>
+              </div>
+              <p class="sys__note"><span data-i18n="ch2.fig.mock.ai">Buradaki her sohbette geçerli olur</span></p>
+              <div class="sys__bar"><span class="sys__ph" data-i18n="ch2.fig.mock.ph">Artık kısa yazman yeter…</span></div>
             </div>
-            <div class="mock__bar">
-              <span class="mock__ph" data-i18n="ch2.fig.mock.ph">Artık kısa yazman yeter…</span>
-            </div>
+            <span class="sys__cursor" aria-hidden="true"></span>
           </div>
         </div>
+        <ol class="sys__steps">
+          <li><button type="button" data-go="1"><span class="sys__e" aria-hidden="true">📁</span><span data-i18n="ch2.fig.mock.s1">Projeye ya da çalışma alanına gir</span></button></li>
+          <li><button type="button" data-go="2"><span class="sys__e" aria-hidden="true">👆</span><span data-i18n="ch2.fig.mock.s2">«Talimatlar» kutusuna bas</span></button></li>
+          <li><button type="button" data-go="3"><span class="sys__e" aria-hidden="true">⌨️</span><span data-i18n="ch2.fig.mock.s3">Rolünü ve bağlamını bir kez yaz</span></button></li>
+          <li><button type="button" data-go="4"><span class="sys__e" aria-hidden="true">✅</span><span data-i18n="ch2.fig.mock.s4">Bitti — her sohbette geçerli</span></button></li>
+        </ol>
         <figcaption data-i18n="ch2.fig.mock.fc">Bu bir çizim, ekran görüntüsü değil — menü adları uygulamadan uygulamaya değişir ve zamanla da değişiyor. Aradığın şey «talimatlar», «özel talimatlar» ya da «proje bilgisi» diye geçen kutu.</figcaption>
       </figure>
       <p data-i18n="ch2.s11.p2">İçine ne yazacağın bellidir, çünkü formülün ilk iki parçası zaten bu: <strong class="text-fg">rol ve bağlam.</strong> Bir kez yazarsın, her sohbette otomatik olarak orada olur; sen de günlük isteklerinde sadece görev, kısıt ve biçimi yazarsın.</p>
