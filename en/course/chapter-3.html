@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Chapter 3: The Agent — Flows that work for you 24 hours a day | AI Journey | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="The course's third chapter: automation with n8n, from zero. Flow, node, trigger; webhooks and APIs; putting AI inside a flow; autonomous agents that choose their own tools. With a real flow from Instagram DM to email and CRM.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-3.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-3.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-3.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-3.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Chapter 3: The Agent — Flows that work for you 24 hours a day">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Automation with n8n from zero: flow, node, trigger, webhook, API and autonomous agents.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-3.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch3.back">← All chapters</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch3.barNum">Chapter 3 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch3.barCta">Join the course</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l3-cover-static.svg"><img src="../../img/course/l3-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Agent</span>
+        <span class="lesson__cover-note" data-i18n="ch3.coverNote">a circuit that runs while you sleep</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch3.eyebrow">Chapter 3 · The Agent</span>
+      <h1 class="font-display text-h1" data-i18n="ch3.title">Set it up once, <span class="text-accent-gradient">never do it again</span></h1>
+      <p class="lesson__lead" data-i18n="ch3.lead">In the first two chapters you got to know me and learned to write me the right request. But you're still the one writing it, every time. In this chapter we remove that last step too: we'll build flows that do repeating work without you touching it — in order, the same way every time. Our tool is n8n. You don't need to know code; we'll connect boxes.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch3.meta">Reading time ~40 minutes · Prerequisite: Chapter 2</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch3.goals.title">By the end of this chapter</h2>
+      <ul class="check-list space-2" data-i18n="ch3.goals.list"><li>You'll know what a flow, a node and a trigger are — the whole field in three words</li> <li>You'll have built and run your first flow in n8n</li> <li>You'll be able to explain a webhook and an API in a plain sentence</li> <li>You'll see how data travels from node to node</li> <li>You'll put me inside a flow and write Chapter 2's formula into the node</li> <li>You'll understand how an agent that picks its own tools loops</li> <li>You'll have set up, in advance, what happens when a flow breaks</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch3.toc.title" class="text-fg">Contents</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch3.guide.t">The Claude Guide</strong><span data-i18n="ch3.guide.p">In this chapter we put me inside a flow. If you've forgotten what I do well and where I get things wrong — on one page, in four languages.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch3.s1.title">How many times a week do you do the same thing</span></h2>
+      <p data-i18n="ch3.s1.p1">Reading an incoming message and giving one of the same three replies. Copying a form submission into a table. Adding up yesterday's sales every morning and sending them to someone. Filing an invoice when it arrives. None of this is hard; all of it is <em>repetition</em>. And every job that repeats is a job that can be described once.</p>
+      <p data-i18n="ch3.s1.p2">That's exactly what automation is: you describe a job once, and from then on it happens by itself. While you sleep, while you're on holiday, while ten customers write at the same time. What we call a «flow» in this chapter is that description itself.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s1.note">The formula you learned in Chapter 2 takes on a new meaning here. There, you wrote the request yourself every time. Here you'll write it <em>once</em> and put it inside a box; every time the box is triggered it fills the request in for me again. Having learned the formula means you've already finished half of this chapter.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch3.s1.do">Do this now: Write down three jobs you did at least three times this week that were the same every time. By the end of this chapter one of them will be doing itself.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch3.s2.title">Three words: flow, node, trigger</span></h2>
+      <p data-i18n="ch3.s2.p1">Every intimidating word in this field comes down to three simple ideas. Know the three and you'll discover the rest by clicking around on the canvas.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k1.t">Flow</h3><p data-i18n="ch3.s2.k1.p">A job described from start to finish. «Form comes in → write to table → message me» is a flow. n8n calls it a <em>workflow</em>; on the canvas it reads left to right.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k2.t">Node</h3><p data-i18n="ch3.s2.k2.p">A single step in the flow — one box. «Write to table» is a node, «send email» is a node, «ask Claude» is a node. Boxes are connected by wires.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k3.t">Trigger</h3><p data-i18n="ch3.s2.k3.p">The flow's first node; the thing that wakes it up. «Every morning at 09:00», «when a form is filled in», «when someone sends data to this address». Without a trigger the flow keeps sleeping.</p></div>
+      </div>
+      <p data-i18n="ch3.s2.p2">There's a fourth word, but it follows from the three: <strong class="text-fg">execution</strong>. When a trigger wakes once and the flow runs from start to end once, that's an execution. Every execution is recorded; you can see afterwards where it stopped and what it produced.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch3.s2.do">Do this now: Take one of the three jobs from 01 and pour it into this mould: «when ___ → ___ → ___». The first blank is the trigger, the rest are nodes. Your flow is ready on paper.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch3.s3.title">What n8n is, and why</span></h2>
+      <p data-i18n="ch3.s3.p1">n8n is a tool where you build flows visually: put boxes on a canvas, connect them with wires, run them. It has ready-made connections to hundreds of apps — email, spreadsheets, messaging, CRM, databases — and reaches everything else through an API. There are three reasons I built this chapter on it:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f1.t">Open source; runs on your own server too</h3>
+          <p data-i18n="ch3.s3.f1.p">You can use n8n's cloud or install it on your own server. The second way, your data never leaves and you pay nobody per flow. For an agency that difference is big.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f2.t">Open to non-coders, limitless for coders</h3>
+          <p data-i18n="ch3.s3.f2.p">Most jobs you build by clicking. But where clicking isn't enough you drop in a code node and write ten lines — or have them written. Chapters 4 and 5 teach exactly that.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f3.t">The AI node is already inside</h3>
+          <p data-i18n="ch3.s3.f3.p">To put me into a flow you don't install anything extra: add a node, enter your key, write your request. There's an agent node too, one that uses tools and has memory — we get there in section 12.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s3.note">Honest note: other tools do this job as well, and some are easier for some jobs. I chose n8n because what you learn doesn't stay tied to it — the concepts of flow, node, trigger, webhook and API are the same in every tool. Learn one properly and you'll move to the others in an afternoon.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🌐</span><span data-i18n="ch3.s3.do">Do this now: Go to n8n's site and open an account — the cloud version's trial period is enough for this chapter. Don't bother with installation; learn the concept first, think about servers later.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch3.s4.title">The anatomy of a flow</span></h2>
+      <p data-i18n="ch3.s4.p1">The drawing below is the kind of flow you'll build by the end of this chapter. Read it left to right: something happens, data passes from node to node, at one point the road splits in two, and in the end it arrives somewhere.</p>
+      <figure class="flow">
+        <span class="flow__cap font-mono" data-i18n="ch3.fig.flow.cap">Left to right: a flow</span>
+        <div class="flow__canvas" aria-hidden="true">
+          <div class="flow__row">
+            <div class="flow__node flow__node--trig"><b data-i18n="ch3.fig.flow.n1">trigger</b><i data-i18n="ch3.fig.flow.d1">form submitted</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node"><b data-i18n="ch3.fig.flow.n2">node</b><i data-i18n="ch3.fig.flow.d2">write to table</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node flow__node--if"><b data-i18n="ch3.fig.flow.n3">condition</b><i data-i18n="ch3.fig.flow.d3">urgent?</i></div>
+            <span class="flow__wire flow__wire--fork"></span>
+            <div class="flow__fork">
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n4">yes</b><i data-i18n="ch3.fig.flow.d4">message me</i></div>
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n5">no</b><i data-i18n="ch3.fig.flow.d5">add to morning list</i></div>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.flow.fc">Each box does one job and hands off to the next. The condition node splits the road in two; both roads do their own work. That's all — every automation is a variation on these four parts.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s4.p2">Ignore what's inside the boxes for now. What matters is the shape: <strong class="text-fg">one entry, connected steps, one or more exits.</strong> Everything you build on the canvas ends up looking like this picture.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✏️</span><span data-i18n="ch3.s4.do">Do this now: Draw the flow you wrote on paper in 02 as boxes and arrows. If there's an «if … then» anywhere, put a condition box there.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch3.s5.title">How a flow wakes up: four triggers</span></h2>
+      <p data-i18n="ch3.s5.p1">Choosing the trigger is the first and most important decision in building a flow. There are four kinds; nearly every real job falls into one of them.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k1.t">On a schedule</h3><p data-i18n="ch3.s5.k1.p">«Every morning at 09:00», «every Monday», «every hour». For reports, summaries, reminders, backups. The schedule node in n8n.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k2.t">When something happens in an app</h3><p data-i18n="ch3.s5.k2.p">«When a new email arrives», «when a row is added to the table», «when a meeting lands in the calendar». The app has its own trigger node; you pick it and connect your account.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k3.t">When a call comes from outside</h3><p data-i18n="ch3.s5.k3.p">Webhook. A website form, a payment system, another piece of software — something outside sends data to your address, and the flow wakes. The next section is entirely about this.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k4.t">By hand</h3><p data-i18n="ch3.s5.k4.p">When you press the button. You use it while building and testing; when you go live you usually replace it with one of the above.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s5.note">A rule: <strong class="text-fg">triggering on a schedule is the easiest, triggering on an event is the right one.</strong> «Check every five minutes for new messages» is slower and costlier than «wake when a message arrives». If an event trigger exists, take it; if not, fall back to a schedule.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch3.s5.do">Do this now: Which of these four is the trigger of your flow on paper? Write it next to it. If you're torn between «event» and «schedule», pick the event.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch3.s6.title">Webhook: the world ringing your doorbell</span></h2>
+      <p data-i18n="ch3.s6.p1">This word scares people; it shouldn't. A webhook is an <strong class="text-fg">address</strong> given to your flow — like a website address. When an outside system sends something to that address, your flow wakes up and takes what was sent. That's all.</p>
+      <figure class="bell">
+        <span class="bell__cap font-mono" data-i18n="ch3.fig.bell.cap">How a webhook works</span>
+        <div class="bell__row">
+          <div class="bell__side">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t1">The outside system</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e1">site form · payment system · another piece of software</span>
+          </div>
+          <div class="bell__mid" aria-hidden="true">
+            <span class="bell__pkt"></span>
+            <span class="bell__url font-mono">…/webhook/siparis</span>
+            <span class="bell__arrow">→</span>
+          </div>
+          <div class="bell__side bell__side--you">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t2">Your flow</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e2">wakes, takes the incoming data, carries on</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.bell.fc">The address in the middle is yours. n8n gives it to you itself; you copy it and tell the other system «when something happens, send it here». Like a doorbell: pressed from outside, heard by you inside.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s6.p2">It works in both directions. Your flow can <em>receive</em> a webhook — as above. And your flow can <em>send</em> one to another address: «the job's done, tell this place.» The second is sometimes called an «HTTP request»; different name, same idea.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s6.note">Security note: anyone who knows the webhook address can ring that bell. When you hand the address out, protect it with a secret (n8n offers options for this) and don't blindly trust incoming data. We come back to this in section 15.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔔</span><span data-i18n="ch3.s6.do">Do this now: Open a new flow in n8n and pick Webhook as the trigger. Open the address it gives you in your browser. You'll see the flow wake — that's your first webhook.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch3.s7.title">API: two programs talking</span></h2>
+      <p data-i18n="ch3.s7.p1">Everything an app does for you also has a version done for programs. You click to add a row to a table; a program does the same by sending a request to an address. The whole of that address and its rules is called an <strong class="text-fg">API</strong>: the door an app opens to programs, not to people.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s7.weak">You</span>
+          <p class="compare__note" data-i18n="ch3.s7.weakNote">Open the browser, log in, find the table, click new row, type, save. Six steps, two minutes.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s7.strong">Your flow</span>
+          <p class="compare__note" data-i18n="ch3.s7.strongNote">Sends a single request to the table's API address: «add this row to this table.» One step, half a second. And a thousand times a day without tiring.</p>
+        </div>
+      </div>
+      <p data-i18n="ch3.s7.p2">Here's the beauty of n8n: it has already learned the APIs of the common apps for you. You pick the «add row to table» node, connect your account, fill in the columns — you never see the API. If you need to talk to something with no ready node, there's the <strong class="text-fg">HTTP request</strong> node; you give it the address and what to send, and it does the talking.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s7.note">Using an API usually needs a <em>key</em>: a long string the app gives you that says «these requests are from me». A key is like a password — in section 15 we'll talk about where to keep it. For now, know this: every API has a door, and every door has a key.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔑</span><span data-i18n="ch3.s7.do">Do this now: Look in the settings of an app you use for a page called «API» or «integrations». If there is one, that app can be connected to your flows.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch3.s8.title">Your first flow, in fifteen minutes</span></h2>
+      <p data-i18n="ch3.s8.p1">Concepts done; now the canvas. The animation below shows what to click on screen while building your first flow. It moves on its own, and you can click the steps.</p>
+      <figure class="n8n" data-n8n>
+        <span class="n8n__cap font-mono" data-i18n="ch3.fig.n8n.cap">The first flow on the canvas</span>
+        <div class="n8n__stage" data-step="1">
+          <div class="n8n__top"><span class="n8n__dot"></span><span class="n8n__name font-mono" data-i18n="ch3.fig.n8n.name">New workflow</span><span class="n8n__run"><span data-i18n="ch3.fig.n8n.runBtn">Run</span></span></div>
+          <div class="n8n__canvas">
+            <div class="n8n__plus" aria-hidden="true">+</div>
+            <div class="n8n__node n8n__node--a"><b data-i18n="ch3.fig.n8n.a">Schedule</b><i data-i18n="ch3.fig.n8n.aSub">every morning 09:00</i><span class="n8n__ok">✓</span></div>
+            <span class="n8n__wire" aria-hidden="true"></span>
+            <div class="n8n__node n8n__node--b"><b data-i18n="ch3.fig.n8n.b">Send email</b><i data-i18n="ch3.fig.n8n.bSub">good-morning message</i><span class="n8n__ok">✓</span></div>
+            <div class="n8n__panel" aria-hidden="true">
+              <span class="n8n__ptitle" data-i18n="ch3.fig.n8n.pTitle">Send email</span>
+              <i></i><i style="--w:70%"></i><i style="--w:88%"></i>
+            </div>
+            <span class="n8n__cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+        <ol class="n8n__steps">
+          <li><button type="button" data-go="1"><span class="n8n__e" aria-hidden="true">🆕</span><span data-i18n="ch3.fig.n8n.s1">Open a new flow — blank canvas</span></button></li>
+          <li><button type="button" data-go="2"><span class="n8n__e" aria-hidden="true">⏰</span><span data-i18n="ch3.fig.n8n.s2">Add a trigger: schedule</span></button></li>
+          <li><button type="button" data-go="3"><span class="n8n__e" aria-hidden="true">🔗</span><span data-i18n="ch3.fig.n8n.s3">Add the second node, connect the wire</span></button></li>
+          <li><button type="button" data-go="4"><span class="n8n__e" aria-hidden="true">⚙️</span><span data-i18n="ch3.fig.n8n.s4">Click the node, fill in the fields</span></button></li>
+          <li><button type="button" data-go="5"><span class="n8n__e" aria-hidden="true">▶️</span><span data-i18n="ch3.fig.n8n.s5">Run — see the green ticks</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.n8n.fc">This is a drawing, not a screenshot — button names and positions change between versions. What you're looking for is always the same: a «+», a node list, a wire dragged between nodes, and a «run».</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch3.s8.st1">Open a blank flow. Press the «+» in the middle of the canvas; a node list opens for you.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch3.s8.st2">Pick the trigger: schedule. Set the time to «every morning 09:00». Your first node is on the canvas.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch3.s8.st3">Drag from the small circle on the node's right onto the canvas; the list opens again. Pick «send email». The wire draws itself.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch3.s8.st4">Click the node. Connect your account (it asks the first time), make yourself the recipient, put «good morning» as the subject and a single sentence in the body.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch3.s8.st5">Press «run». Green ticks appear in the corners of the nodes; the email lands in your inbox. Save the flow and set it «active» — tomorrow at 09:00 it runs by itself.</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch3.s8.do">Do this now: Finish these five steps today. A flow that emails you good morning may look silly; but that email tomorrow morning is the first instance of the «I built it and it works» feeling.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch3.s9.title">How data travels from node to node</span></h2>
+      <p data-i18n="ch3.s9.p1">You may have noticed something in your first flow: what did the email node receive from the schedule node? The answer: a small envelope. Every node hands the next one an envelope; inside are labelled pieces of information — «name: Ayşe», «amount: 1200», «date: today».</p>
+      <figure class="env">
+        <span class="env__cap font-mono" data-i18n="ch3.fig.env.cap">Inside the envelope</span>
+        <div class="env__row">
+          <div class="env__node"><b data-i18n="ch3.fig.env.from">form node</b></div>
+          <div class="env__card" aria-hidden="true">
+            <span class="env__k">ad</span><span class="env__v">Ayşe Demir</span>
+            <span class="env__k">e-posta</span><span class="env__v">ayse@…</span>
+            <span class="env__k">tutar</span><span class="env__v">1.200</span>
+            <span class="env__k">acil</span><span class="env__v">evet</span>
+          </div>
+          <div class="env__node env__node--to"><b data-i18n="ch3.fig.env.to">email node</b></div>
+        </div>
+        <figcaption data-i18n="ch3.fig.env.fc">Each line is a label and a value. The next node calls the labels by name: «recipient = email», «subject = name + amount». The technical name is JSON; but all you need to think of is a labelled envelope.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s9.p2">When you click a field in a node's settings, n8n shows you the labels coming from the previous node; you drag and drop them. The only thing you sometimes type by hand is a label's name. That drag-and-drop is moving data without writing code.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s9.note">Sometimes there isn't one envelope but many: if a table has fifty rows, fifty envelopes arrive and the next node runs fifty times — once for each. Getting used to this takes a few tries; «why did the email go fifty times?» usually has this answer.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">✉️</span><span data-i18n="ch3.s9.do">Do this now: Run your first flow once, then click the schedule node and look at the «output» tab. What you see is the envelope. Read its labels.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch3.s10.title">Condition and branching</span></h2>
+      <p data-i18n="ch3.s10.p1">In real work not everything takes the same road. Let the urgent one reach me as a message, let the non-urgent one drop onto the morning list. The node that does this is called <strong class="text-fg">IF</strong>: it asks a question and sends the data down one of two roads depending on the answer.</p>
+      <figure class="branch">
+        <span class="branch__cap font-mono" data-i18n="ch3.fig.br.cap">One question, two roads</span>
+        <div class="branch__row">
+          <div class="branch__in"><b data-i18n="ch3.fig.br.in">envelope arrives</b><i data-i18n="ch3.fig.br.inSub">urgent: yes</i></div>
+          <div class="branch__if"><span data-i18n="ch3.fig.br.q">urgent = yes?</span></div>
+          <div class="branch__outs">
+            <div class="branch__out branch__out--yes"><b data-i18n="ch3.fig.br.yes">yes</b><i data-i18n="ch3.fig.br.yesSub">message me at once</i></div>
+            <div class="branch__out"><b data-i18n="ch3.fig.br.no">no</b><i data-i18n="ch3.fig.br.noSub">add to morning list</i></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.br.fc">The condition node has two outputs: yes and no. You connect separate nodes to each. If the «urgent» label in the envelope is yes the upper road runs, otherwise the lower one — the other never wakes in that execution.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s10.p2">Questions are kept simple: one label, one comparison, one value. «Is amount greater than 1000», «does subject contain 'cancel'», «is email empty». For more complex decisions you chain two IFs — or, as you'll see in the next section, you hand the decision to me.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔀</span><span data-i18n="ch3.s10.do">Do this now: Add an IF to your first flow: «is today Monday?» If yes, make the email subject «start the week well». You'll see how branching works in a single try.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch3.s11.title">Put me inside the flow</span></h2>
+      <p data-i18n="ch3.s11.p1">The flows you've built so far are «mechanical»: they carry data, check a condition, send. When reading, understanding or writing is needed, an AI node goes in between — that is, me. Classifying an incoming message, summarising a long email, drafting a reply to a customer: these aren't mechanical, they're language work.</p>
+      <p data-i18n="ch3.s11.p2">After you add the node and enter your key, one field remains: the request. And you <strong class="text-fg">already know</strong> what to write there — Chapter 2's formula. The difference: you write role, context, task, constraint and format once; into the «context» part, instead of fixed text, you drag the label coming from the previous node. Every time the flow wakes, that label fills with its new value and the request renews itself.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s11.strong">The request inside the node</span>
+          <p class="compare__text font-mono" data-i18n="ch3.s11.strongText">Act as the customer representative of a small furniture workshop. Read the customer message below: {{message}}. Classify the message as «order», «complaint» or «question» and write only that single word — nothing else.</p>
+          <p class="compare__note" data-i18n="ch3.s11.strongNote">There's a role, there's context (coming from the label), the task is precise, the constraint is tight, the format is a single word. The IF node that follows looks at that one word and picks the road.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s11.note">In a flow the format constraint matters more than ever. In a chat, my writing an extra sentence is no problem; in a flow that extra sentence confuses the next node. Never skip the «write only this, nothing else» constraint in flows — or switch on the node's structured-output option, and it returns with envelope labels.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🤖</span><span data-i18n="ch3.s11.do">Do this now: Add an AI node to your flow and paste in an adapted version of the request above. Type a message by hand, run it, see the one-word answer.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch3.s12.title">Autonomous agent: the node that picks its tools</span></h2>
+      <p data-i18n="ch3.s12.p1">The node in the previous section reads something, writes something, and is done. The agent node is different: you give it a <strong class="text-fg">goal</strong> and a few <strong class="text-fg">tools</strong> — read the table, check the calendar, send an email — and it decides which tool to use in what order. You don't write the steps; you describe the result.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch3.fig.ag.cap">The agent loop</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🎯</span><b data-i18n="ch3.fig.ag.s1t">Takes the goal</b><i data-i18n="ch3.fig.ag.s1s">«suggest the customer a suitable time»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🧠</span><b data-i18n="ch3.fig.ag.s2t">Thinks</b><i data-i18n="ch3.fig.ag.s2s">«I should check the calendar first»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔧</span><b data-i18n="ch3.fig.ag.s3t">Calls a tool</b><i data-i18n="ch3.fig.ag.s3s">calendar · table · email</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch3.fig.ag.s4t">Reads the result</b><i data-i18n="ch3.fig.ag.s4s">«Tuesday 14:00 is free»</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">🔁</span><b data-i18n="ch3.fig.ag.s5t">Enough?</b><i data-i18n="ch3.fig.ag.s5s">no → back to the start; yes → answer</i></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ag.fc">The fifth box is the heart of the loop: if the result isn't enough for the goal, the agent goes back to the second box and tries another tool. When it's enough, it stops. You don't write this loop; you give the goal and the tools.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s12.p2">You can also attach <strong class="text-fg">memory</strong> to the agent node: it remembers earlier conversations with the same customer. In Chapter 1 I said «every conversation starts from zero» — in a flow you change that rule yourself with a memory node.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s12.note">Honest warning: the agent is the flow's most powerful and least predictable part. You don't decide which tool it calls when. So the tools you give an agent should be <em>reversible</em> things: reading, drafting, suggesting. Don't give an agent tools like deleting, paying or sending; leave that step to a separate node, and if possible to your approval.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch3.s12.do">Do this now: Add an agent node, give it a single tool (reading the table) and a single goal: «is anyone in the table having a birthday today — if so, say their name». Watch the loop in the executions.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch3.s13.title">From Instagram DM to CRM: a real flow</span></h2>
+      <p data-i18n="ch3.s13.p1">This is the flow I promised on the card. A job that repeats every day for an agency: a message comes in, someone has to read it, reply to it and record it. The chain below does it without a person — dropping to your approval at only one point.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch3.fig.ch.cap">Five nodes, one approval</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch3.fig.ch.s1">Trigger: when a new DM arrives (webhook)</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch3.fig.ch.s2">Me: classify the message — order / complaint / question</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch3.fig.ch.s3">Me: draft a reply according to the class</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch3.fig.ch.s4">Email to you: draft + «approve / edit»</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch3.fig.ch.s5">Save to CRM: person, class, date, what was replied</span></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ch.fc">The fourth step is deliberately human: you press send. Once ninety percent of the drafts go out untouched, you remove that step — but not on day one.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s13.p2">Once this flow is built, however many messages arrive in a day they're all handled to the same standard, none is forgotten, and all are on record. You only look at drafts. A one-person agency looking like a ten-person agency starts exactly here.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch3.s13.do">Do this now: Turn these five nodes into your own work — a form instead of a DM, a table instead of a CRM. The structure stays. Change only the first and fifth node; the middle is ready.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch3.s14.title">What happens when it breaks</span></h2>
+      <p data-i18n="ch3.s14.p1">Every flow breaks one day: an app renews a key, a service doesn't answer for five minutes, a customer writes something in a form you never expected. Breaking isn't the problem; breaking silently is. Setting this up from the start takes four steps:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f1.t">An error flow</h3>
+          <p data-i18n="ch3.s14.f1.p">In n8n you define a separate flow that runs whenever any flow errors: let it message you «which flow, which node, what error». That way you hear about the break before the customer does.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f2.t">Retry</h3>
+          <p data-i18n="ch3.s14.f2.p">Nodes that talk to outside services have a «on error wait this long and try again» setting. Most temporary outages pass on the second attempt; keeping this on is free.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f3.t">Look at the execution log</h3>
+          <p data-i18n="ch3.s14.f3.p">Every execution's record stays: which node received what, gave what, where it turned red. When something goes wrong this is the first place to look — you see instead of guessing.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f4.t">Prepare for unexpected data</h3>
+          <p data-i18n="ch3.s14.f4.p">Empty field, missing label, very long message. A constraint in the AI node like «if the message is empty write 'empty'»; a «none of these» branch in the IF node. Thinking through edge cases is half of building a flow.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚨</span><span data-i18n="ch3.s14.do">Do this now: Build an error flow — one node, it messages you — and attach your first flow to it. Then break it on purpose: delete the recipient in the email node and run. The message should arrive.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch3.s15.title">Keys and security</span></h2>
+      <p data-i18n="ch3.s15.p1">Your flows access your accounts: your email, your tables, your customer list. That access happens through keys, and keys are like passwords. Four rules, all simple:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k1.t">The key goes in the vault, not the node</h3><p data-i18n="ch3.s15.k1.p">n8n has a separate place called «credentials». You put the key there once and nodes use it from there. Pasting a key by hand into a node's settings is like writing your password on a sticky note and leaving it on the desk.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k2.t">Least privilege</h3><p data-i18n="ch3.s15.k2.p">Don't give write permission to a flow that only reads a table. When creating a key, apps usually ask «permission for what»; pick only what's needed. If the flow breaks, the damage stays small too.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k3.t">Put a secret on the webhook</h3><p data-i18n="ch3.s15.k3.p">Anyone who knows the webhook address can trigger your flow. Switch on one of the verification options n8n offers; at the very least, add a part to the address nobody could guess.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k4.t">Don't trust incoming data</h3><p data-i18n="ch3.s15.k4.p">Chapter 1's warning about hidden instructions applies doubly here: a customer message can contain «forget the previous instructions», and that message goes into my node. Keep the constraints tight, don't give irreversible jobs to the agent.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch3.s15.do">Do this now: Look at every node in the flows you've built. Is a long key string typed by hand inside any of them? If so, move it to credentials — five minutes now saves you a day later.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch3.s16.title">When not to automate</span></h2>
+      <p data-i18n="ch3.s16.p1">Everyone who learns these tools wants to automate everything for a while. That's a mistake, and an expensive one. The honest measure:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s16.weak">Leave it manual</span>
+          <p class="compare__note" data-i18n="ch3.s16.weakNote">Jobs done once a month. Jobs that need a different decision every time. Jobs where one mistake loses a customer or money. Jobs you don't yet fully know how to do — you can't automate what you don't know.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s16.strong">Automate</span>
+          <p class="compare__note" data-i18n="ch3.s16.strongNote">Jobs that repeat more than three times a week. Jobs done with the same steps every time. Jobs that do damage when forgotten. Jobs that must also happen at night or at the weekend.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s16.note">A practical rule: <strong class="text-fg">do it by hand three times first, then automate.</strong> By the third time the steps are clear and the edge cases have shown themselves. A flow built on the first time breaks on the second.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch3.s16.do">Do this now: Sort the three jobs from 01 into these two columns. If anything lands in the right-hand column, that's your next flow.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch3.s17.title">Five common mistakes</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m1.t">1 · Building the first flow too big</h3>
+          <p data-i18n="ch3.s17.m1.p">Start with a fifteen-node flow and you'll never find which part is broken. Start with two nodes, get them working, then add the third. Run after every addition.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m2.t">2 · Leaving the manual trigger in production</h3>
+          <p data-i18n="ch3.s17.m2.p">You use the «manual» trigger while testing, then forget to change it when going live. The flow never wakes and you say «it doesn't work». Check the trigger before going live.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m3.t">3 · Not telling the AI node the format</h3>
+          <p data-i18n="ch3.s17.m3.p">The extra sentence that's harmless in a chat breaks the next node in a flow. The «write only this» constraint, or structured output. No exceptions.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m4.t">4 · Going live without an error flow</h3>
+          <p data-i18n="ch3.s17.m4.p">The flow breaks silently; three days later a customer says «I never got a reply». An error flow is ten minutes' work; build it on day one.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m5.t">5 · Giving the agent an irreversible tool</h3>
+          <p data-i18n="ch3.s17.m5.p">Deleting, paying, bulk sending. The agent picks the wrong tool in good faith and there's no way back. Keep these steps in a separate node, preferably under your approval.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch3.s17.do">Do this now: Check the flow you built against these five. Especially 2 and 4 — both are the source of the sentence «I thought it was working».</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch3.s18.title">What everyone asks</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q1">Does it really work without code?</summary><p data-i18n="ch3.faq.a1">Everything in this chapter does — by clicking. When code is needed you have two options: add a ten-line code node and have me write the code, or leave that step to an AI node. Chapters 4 and 5 will teach the code side from zero; you got this far without it.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q2">n8n cloud or my own server?</summary><p data-i18n="ch3.faq.a2">While learning, the cloud: no installation, you start in minutes. When going live, your own server: data stays with you, unlimited flows, the monthly cost is the server's. Switching between them is easy — flows are exported and imported. We'll see server setup in Chapter 6.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q3">How much does the AI node cost?</summary><p data-i18n="ch3.faq.a3">As much as the text sent to me and returned from me on each execution; prices change, check the provider's page for the current figure. Intuitive measure: a short classification is almost free, a long summary a few cents. A flow classifying a hundred messages a day doesn't cost most businesses a coffee. What brings the cost down are Chapter 2's constraints: short request, short answer.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q4">The flow runs slowly, what do I do?</summary><p data-i18n="ch3.faq.a4">First look at the execution log: which node takes long? It's almost always a node waiting on an outside service — or you're giving the AI node very long text. Trim the text, remove the needless node, switch from «check every five minutes» to an event trigger.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q5">What if the agent does something wrong?</summary><p data-i18n="ch3.faq.a5">It will — one day, certainly. That's why the tools you give an agent stay at the reading and drafting level, irreversible steps pass through your approval, and the error flow tells you at once. Think of the agent as an intern: give it work, but not signing authority.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q6">Can I hand a flow over to someone else?</summary><p data-i18n="ch3.faq.a6">Yes — a flow is exported, becomes a single file, gets uploaded to another account. Credentials don't go into the file; the recipient connects their own. That's why delivering a flow to a client is possible too: build, export, deliver. That's the subject of Chapter 6.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch3.faq.do">Do this now: If you're stuck on a node, ask me — paste the screenshot and say «why did this node turn red?». I know n8n's nodes; I read most errors off the screen.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch3.s19.title">Exercises</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e1.t">1 · The good-morning flow</h3>
+          <p data-i18n="ch3.ex.e1.p">Complete the five steps in 08 and activate the flow. Wait for the email to arrive tomorrow at 09:00.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e1.g"><strong class="text-fg">Aim:</strong> to feel «I built it and it ran by itself» once. That feeling is the fuel for learning the rest.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e2.t">2 · The doorbell</h3>
+          <p data-i18n="ch3.ex.e2.p">Build a flow with a webhook trigger. Give its address to a site form or another app. When the form is filled in, see the envelope arrive in the execution log.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e2.g"><strong class="text-fg">Aim:</strong> to end the scariness of the word «webhook» in one go.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e3.t">3 · The classifier</h3>
+          <p data-i18n="ch3.ex.e3.p">Build an AI node that classifies an incoming text as «order / complaint / question», and a three-way IF after it. Test with ten different sample messages.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e3.g"><strong class="text-fg">Aim:</strong> to see Chapter 2's formula working inside a node — and to experience why the format constraint is a must.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e4.t">4 · Break it on purpose</h3>
+          <p data-i18n="ch3.ex.e4.p">Build the error flow. Then deliberately break a node in your working flow and confirm the message reaches you. Fix it, run again.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e4.g"><strong class="text-fg">Aim:</strong> to see what breaking looks like before going live.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch3.ex.do">Do this now: The first today, the second tomorrow. Three and four after the first two are working. Don't break the order; each builds on the one before.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch3.quiz.title">Test yourself</span></h2>
+      <p data-i18n="ch3.quiz.p1">Answer for yourself first, then open.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q1">Flow, node, trigger — in one sentence?</summary><p data-i18n="ch3.quiz.a1">A flow is a job description, a node is a single step in it, a trigger is the event that starts it. Without a trigger the flow sleeps.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q2">What is a webhook?</summary><p data-i18n="ch3.quiz.a2">An address given to your flow. When an outside system sends data to it, your flow wakes and takes the data. A doorbell: pressed from outside, heard by you inside.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q3">What is an API?</summary><p data-i18n="ch3.quiz.a3">The door an app opens to programs rather than people. What you do by clicking, a program does by sending a request through that door. n8n has already learned most apps' APIs for you.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q4">Why is an event trigger better than a schedule?</summary><p data-i18n="ch3.quiz.a4">«Check every five minutes» runs for nothing and is late; «wake when it arrives» is instant and free. If an event trigger exists, take it.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q5">How does data travel from node to node?</summary><p data-i18n="ch3.quiz.a5">In a labelled envelope: «name: Ayşe», «amount: 1200». The next node calls the labels by name. If there are many rows, many envelopes arrive and the node runs once for each.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q6">What goes into the AI node?</summary><p data-i18n="ch3.quiz.a6">Chapter 2's formula: role, context, task, constraint, format. The difference: the context isn't fixed text but the label from the previous node. And the format constraint is tighter than in a chat — «write only this».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q7">The difference between an agent node and an ordinary AI node?</summary><p data-i18n="ch3.quiz.a7">The ordinary node reads something, writes something, and is done. To the agent node you give a goal and tools; it decides which tool to use in what order and loops until it reaches the goal.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q8">Which tools are not given to an agent?</summary><p data-i18n="ch3.quiz.a8">Irreversible ones: deleting, paying, bulk sending. These stay in a separate node and preferably under your approval. An agent is an intern — it's given work, not signing authority.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q9">The one thing to set up before going live?</summary><p data-i18n="ch3.quiz.a9">An error flow. A separate flow that messages you when a flow breaks. Without it the break is silent and you hear about it from a customer three days later.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q10">Where does a key go?</summary><p data-i18n="ch3.quiz.a10">Into credentials — n8n's vault. Never typed by hand inside a node. And each key gets only the permission it needs: if it reads, don't give it write.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch3.recap.title">This chapter in one sentence</h2>
+        <p data-i18n="ch3.recap.p">Describe a repeating job once — trigger, nodes, a condition, me in between if needed — then set it active and never do it by hand again; with an error flow you'll hear when it breaks, and keys kept in the vault.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch3.next.eyebrow">Next up</span>
+          <h3 class="font-display text-h3" data-i18n="ch3.next.title">Chapter 4 · The Workshop</h3>
+          <p data-i18n="ch3.next.p">You've come as far as clicking can take you. Next is where clicking isn't enough: the terminal, files, and the version of me that works directly on your computer.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch3.next.soon">Coming soon</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Back to top" data-i18n-attr="aria-label=ch3.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — All rights reserved.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Home</a><a href="../terms.html" data-i18n="footer.terms">Terms & Privacy</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Student Portal</a></div>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-3.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-3.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="chapter-3.html" data-lang="en" lang="en" hreflang="en" aria-current="page">EN</a>
+      <a href="../../fa/course/chapter-3.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/en.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

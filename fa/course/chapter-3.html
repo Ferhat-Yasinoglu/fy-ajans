@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">فصل ۳: عامل — جریان‌هایی که ۲۴ ساعت برایت کار می‌کنند | سفر هوش مصنوعی | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="فصل سوم دوره: خودکارسازی با n8n از صفر. جریان، گره، محرک؛ وب‌هوک و API؛ گذاشتن هوش مصنوعی درون جریان؛ عامل‌های خودمختاری که ابزارشان را خودشان برمی‌گزینند. با یک جریان واقعی از دایرکت اینستاگرام تا ایمیل و CRM.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-3.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-3.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-3.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-3.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="فصل ۳: عامل — جریان‌هایی که ۲۴ ساعت برایت کار می‌کنند">
+<meta property="og:description" data-i18n-attr="content=og.description" content="خودکارسازی با n8n از صفر: جریان، گره، محرک، وب‌هوک، API و عامل‌های خودمختار.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-3.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch3.back">← همهٔ فصل‌ها</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch3.barNum">فصل ۳ / ۷</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch3.barCta">ثبت‌نام در دوره</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l3-cover-static.svg"><img src="../../img/course/l3-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Agent</span>
+        <span class="lesson__cover-note" data-i18n="ch3.coverNote">مداری که وقتی خوابی هم کار می‌کند</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch3.eyebrow">فصل ۳ · عامل</span>
+      <h1 class="font-display text-h1" data-i18n="ch3.title">یک بار بساز، <span class="text-accent-gradient">دیگر هرگز انجامش نده</span></h1>
+      <p class="lesson__lead" data-i18n="ch3.lead">در دو فصل نخست مرا شناختی و یاد گرفتی درخواست درست را به من بنویسی. اما هنوز هر بار خودت می‌نویسی. در این فصل آن گام آخر را هم برمی‌داریم: جریان‌هایی می‌سازیم که کارهای تکراری را بی‌آنکه دستت به آن‌ها بخورد، به‌ترتیب و هر بار به یک شکل انجام می‌دهند. ابزارمان n8n است. لازم نیست کد بلد باشی؛ جعبه‌ها را به هم وصل می‌کنیم.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch3.meta">زمان مطالعه ~۴۰ دقیقه · پیش‌نیاز: فصل ۲</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch3.goals.title">در پایان این فصل</h2>
+      <ul class="check-list space-2" data-i18n="ch3.goals.list"><li>می‌دانی جریان، گره و محرک چیست — تمام این حوزه در سه کلمه</li> <li>نخستین جریانت را در n8n ساخته و اجرا کرده‌ای</li> <li>می‌توانی وب‌هوک و API را در یک جملهٔ ساده توضیح دهی</li> <li>می‌بینی داده چگونه از گره به گره می‌رود</li> <li>مرا درون یک جریان می‌گذاری و فرمول فصل ۲ را در گره می‌نویسی</li> <li>می‌فهمی عاملی که ابزارش را خودش برمی‌گزیند چگونه چرخه می‌زند</li> <li>از پیش ساخته‌ای که وقتی جریان شکست چه بشود</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch3.toc.title" class="text-fg">فهرست</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch3.guide.t">راهنمای کلود</strong><span data-i18n="ch3.guide.p">در این فصل مرا درون یک جریان می‌گذاریم. اگر یادت رفته چه را خوب انجام می‌دهم و کجا اشتباه می‌کنم — در یک صفحه، به چهار زبان.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch3.s1.title">در هفته چند بار همان کار را می‌کنی</span></h2>
+      <p data-i18n="ch3.s1.p1">خواندن پیام رسیده و دادن یکی از همان سه پاسخ. نوشتن اطلاعات فرم در جدول. هر صبح جمع کردن فروش دیروز و فرستادن برای کسی. گذاشتن فاکتور در پرونده وقتی می‌رسد. هیچ‌کدام سخت نیست؛ همه‌شان <em>تکرار</em> است. و هر کاری که تکرار می‌شود، کاری است که می‌توان یک بار شرحش داد.</p>
+      <p data-i18n="ch3.s1.p2">خودکارسازی دقیقاً همین است: کاری را یک بار شرح می‌دهی، بعد آن کار خودبه‌خود انجام می‌شود. وقتی خوابی، وقتی در تعطیلاتی، وقتی ده مشتری هم‌زمان می‌نویسند. آنچه در این فصل «جریان» می‌نامیم همان شرح است.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s1.note">فرمولی که در فصل ۲ یاد گرفتی اینجا معنای دیگری پیدا می‌کند. آنجا درخواست را هر بار خودت می‌نوشتی. اینجا آن را <em>یک بار</em> می‌نویسی و درون یک جعبه می‌گذاری؛ جعبه هر بار که فعال شود آن درخواست را دوباره برای من پر می‌کند. اینکه فرمول را یاد گرفته‌ای یعنی نیمی از این فصل را از پیش تمام کرده‌ای.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch3.s1.do">همین حالا انجام بده: سه کاری را که این هفته دست‌کم سه بار انجام داده‌ای و هر بار یکسان بوده بنویس. تا پایان فصل یکی از آن‌ها خودش انجام خواهد شد.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch3.s2.title">سه کلمه: جریان، گره، محرک</span></h2>
+      <p data-i18n="ch3.s2.p1">همهٔ واژه‌های ترسناک این حوزه به سه ایدهٔ ساده می‌رسند. سه‌تا را بدانی، باقی را با کلیک روی بوم کشف می‌کنی.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k1.t">جریان</h3><p data-i18n="ch3.s2.k1.p">شرح یک کار از آغاز تا پایان. «فرم آمد → در جدول بنویس → به من پیام بده» یک جریان است. در n8n به آن <em>workflow</em> می‌گویند؛ روی بوم از چپ به راست خوانده می‌شود.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k2.t">گره</h3><p data-i18n="ch3.s2.k2.p">یک گام از جریان — یک جعبه. «در جدول بنویس» یک گره است، «ایمیل بفرست» یک گره است، «از کلود بپرس» یک گره است. جعبه‌ها با سیم به هم وصل می‌شوند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k3.t">محرک</h3><p data-i18n="ch3.s2.k3.p">نخستین گرهٔ جریان؛ چیزی که جریان را بیدار می‌کند. «هر صبح ساعت ۹»، «وقتی فرم پر شد»، «وقتی کسی به این نشانی داده فرستاد». بدون محرک، جریان خواب می‌ماند.</p></div>
+      </div>
+      <p data-i18n="ch3.s2.p2">کلمهٔ چهارمی هم هست، اما نتیجهٔ آن سه‌تاست: <strong class="text-fg">اجرا</strong>. وقتی محرک یک بار بیدار شود و جریان یک بار از آغاز تا پایان بدود، به آن اجرا می‌گویند. هر اجرا ثبت می‌شود؛ بعداً می‌توانی ببینی کجا ایستاد و چه تولید کرد.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch3.s2.do">همین حالا انجام بده: یکی از سه کار بند ۰۱ را در این قالب بریز: «وقتی ___ → ___ → ___». جای خالی اول محرک است، باقی گره‌ها. جریانت روی کاغذ آماده است.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch3.s3.title">n8n چیست و چرا آن</span></h2>
+      <p data-i18n="ch3.s3.p1">n8n ابزاری است که جریان‌ها را در آن دیداری می‌سازی: جعبه‌ها را روی بوم می‌گذاری، با سیم وصل می‌کنی، اجرا می‌کنی. به صدها برنامه اتصال آماده دارد — ایمیل، جدول، پیام‌رسان، CRM، پایگاه داده — و به هر چیز دیگری از راه API می‌رسد. سه دلیل دارم که این فصل را روی آن ساختم:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f1.t">متن‌باز؛ روی سرور خودت هم کار می‌کند</h3>
+          <p data-i18n="ch3.s3.f1.p">می‌توانی از ابر n8n استفاده کنی یا آن را روی سرور خودت نصب کنی. در راه دوم داده‌ات بیرون نمی‌رود و برای تعداد جریان به کسی پول نمی‌دهی. برای یک آژانس این تفاوت بزرگ است.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f2.t">برای بی‌کد باز، برای کدنویس بی‌حد</h3>
+          <p data-i18n="ch3.s3.f2.p">بیشتر کارها را با کلیک می‌سازی. اما جایی که کلیک کافی نبود یک گرهٔ کد میان می‌گذاری و ده خط می‌نویسی — یا می‌نویسانی. فصل ۴ و ۵ دقیقاً همین را آموزش می‌دهند.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f3.t">گرهٔ هوش مصنوعی از قبل داخلش هست</h3>
+          <p data-i18n="ch3.s3.f3.p">برای گذاشتن من درون جریان لازم نیست چیز جدایی نصب کنی: یک گره اضافه می‌کنی، کلیدت را وارد می‌کنی، درخواستت را می‌نویسی. گرهٔ عامل هم هست که ابزار به کار می‌برد و حافظه دارد — در بند ۱۲ به آن می‌رسیم.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s3.note">یادداشت صادقانه: ابزارهای دیگری هم این کار را می‌کنند و بعضی در بعضی کارها آسان‌ترند. من n8n را برگزیدم چون آنچه یاد می‌گیری به آن وابسته نمی‌ماند — مفاهیم جریان، گره، محرک، وب‌هوک و API در هر ابزاری یکی است. یکی را واقعاً یاد بگیری، در یک بعدازظهر به بقیه می‌روی.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🌐</span><span data-i18n="ch3.s3.do">همین حالا انجام بده: به سایت n8n برو و حساب باز کن — دورهٔ آزمایشی نسخهٔ ابری برای این فصل کافی است. با نصب درگیر نشو؛ اول مفهوم را یاد بگیر، سرور را بعداً فکر کن.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch3.s4.title">کالبدشکافی یک جریان</span></h2>
+      <p data-i18n="ch3.s4.p1">نقشهٔ زیر از همان جنس جریانی است که تا پایان این فصل می‌سازی. از چپ به راست بخوان: چیزی رخ می‌دهد، داده از گره به گره می‌رود، جایی مسیر دو شاخه می‌شود، در پایان به جایی می‌رسد.</p>
+      <figure class="flow">
+        <span class="flow__cap font-mono" data-i18n="ch3.fig.flow.cap">از چپ به راست: یک جریان</span>
+        <div class="flow__canvas" aria-hidden="true">
+          <div class="flow__row">
+            <div class="flow__node flow__node--trig"><b data-i18n="ch3.fig.flow.n1">محرک</b><i data-i18n="ch3.fig.flow.d1">فرم پر شد</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node"><b data-i18n="ch3.fig.flow.n2">گره</b><i data-i18n="ch3.fig.flow.d2">در جدول بنویس</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node flow__node--if"><b data-i18n="ch3.fig.flow.n3">شرط</b><i data-i18n="ch3.fig.flow.d3">فوری است؟</i></div>
+            <span class="flow__wire flow__wire--fork"></span>
+            <div class="flow__fork">
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n4">بله</b><i data-i18n="ch3.fig.flow.d4">به من پیام بده</i></div>
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n5">نه</b><i data-i18n="ch3.fig.flow.d5">به فهرست صبح اضافه کن</i></div>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.flow.fc">هر جعبه یک کار می‌کند و به بعدی می‌دهد. گرهٔ شرط مسیر را دو شاخه می‌کند؛ هر دو مسیر کار خودشان را می‌کنند. همین — همهٔ خودکارسازی‌ها گونه‌ای از همین چهار جزءاند.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s4.p2">فعلاً به درون جعبه‌ها کار نداشته باش. مهم شکل است: <strong class="text-fg">یک ورودی، گام‌های به‌هم‌پیوسته، یک یا چند خروجی.</strong> هر چه روی بوم بسازی در پایان شبیه همین تصویر می‌شود.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✏️</span><span data-i18n="ch3.s4.do">همین حالا انجام بده: جریانی را که در بند ۰۲ روی کاغذ نوشتی، به‌شکل جعبه و پیکان بکش. اگر جایی «اگر … آن‌گاه» هست، آنجا یک جعبهٔ شرط بگذار.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch3.s5.title">جریان چگونه بیدار می‌شود: چهار محرک</span></h2>
+      <p data-i18n="ch3.s5.p1">انتخاب محرک نخستین و مهم‌ترین تصمیم در ساخت جریان است. چهار نوع هست؛ تقریباً همهٔ کارهای واقعی در یکی از این چهار می‌افتد.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k1.t">با زمان</h3><p data-i18n="ch3.s5.k1.p">«هر صبح ساعت ۹»، «هر دوشنبه»، «سر هر ساعت». برای گزارش، خلاصه، یادآوری، پشتیبان‌گیری. گرهٔ زمان‌بندی در n8n.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k2.t">وقتی در برنامه‌ای چیزی رخ داد</h3><p data-i18n="ch3.s5.k2.p">«وقتی ایمیل تازه آمد»، «وقتی به جدول ردیف اضافه شد»، «وقتی جلسه‌ای به تقویم افتاد». برنامه گرهٔ محرک خودش را دارد؛ آن را برمی‌گزینی و حسابت را وصل می‌کنی.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k3.t">وقتی از بیرون فراخوانی آمد</h3><p data-i18n="ch3.s5.k3.p">وب‌هوک. فرم سایت، سامانهٔ پرداخت، نرم‌افزاری دیگر — چیزی در بیرون به نشانی تو داده می‌فرستد، جریان بیدار می‌شود. بند بعدی تماماً به همین اختصاص دارد.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k4.t">دستی</h3><p data-i18n="ch3.s5.k4.p">وقتی تو دکمه را می‌زنی. هنگام ساختن و آزمودن به کار می‌بری؛ وقتی به کار واقعی بردی معمولاً با یکی از بالایی‌ها عوضش می‌کنی.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s5.note">یک قاعده: <strong class="text-fg">با زمان فعال کردن آسان‌ترین است، با رویداد فعال کردن درست‌ترین.</strong> «هر پنج دقیقه ببین پیام تازه هست یا نه» هم کندتر است هم گران‌تر از «وقتی پیام آمد بیدار شو». اگر محرک رویداد هست آن را انتخاب کن؛ نبود، به زمان‌بندی برگرد.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch3.s5.do">همین حالا انجام بده: محرک جریان روی کاغذت کدام‌یک از این چهارتاست؟ کنارش بنویس. اگر میان «رویداد» و «زمان» ماندی، رویداد را برگزین.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch3.s6.title">وب‌هوک: زنگ خانه‌ات را دنیا می‌زند</span></h2>
+      <p data-i18n="ch3.s6.p1">این کلمه مردم را می‌ترساند؛ نباید بترساند. وب‌هوک یک <strong class="text-fg">نشانی</strong> است که به جریانت داده شده — مثل نشانی یک وب‌سایت. وقتی سامانه‌ای در بیرون چیزی به آن نشانی می‌فرستد، جریانت بیدار می‌شود و فرستاده را می‌گیرد. همین.</p>
+      <figure class="bell">
+        <span class="bell__cap font-mono" data-i18n="ch3.fig.bell.cap">وب‌هوک چگونه کار می‌کند</span>
+        <div class="bell__row">
+          <div class="bell__side">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t1">سامانهٔ بیرونی</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e1">فرم سایت · سامانهٔ پرداخت · نرم‌افزاری دیگر</span>
+          </div>
+          <div class="bell__mid" aria-hidden="true">
+            <span class="bell__pkt"></span>
+            <span class="bell__url font-mono">…/webhook/siparis</span>
+            <span class="bell__arrow">→</span>
+          </div>
+          <div class="bell__side bell__side--you">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t2">جریان تو</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e2">بیدار می‌شود، دادهٔ رسیده را می‌گیرد، ادامه می‌دهد</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.bell.fc">نشانی میانی مال توست. n8n خودش آن را به تو می‌دهد؛ کپی می‌کنی و به سامانهٔ دیگر می‌گویی «وقتی چیزی شد اینجا بفرست». مثل زنگ در: از بیرون زده می‌شود، درون تو می‌شنوی.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s6.p2">دو سویه کار می‌کند. جریان تو می‌تواند وب‌هوک <em>بگیرد</em> — مثل همین. و جریان تو می‌تواند به نشانی دیگری وب‌هوک <em>بفرستد</em>: «کار تمام شد، به آنجا خبر بده.» به دومی گاهی «درخواست HTTP» می‌گویند؛ نام فرق دارد، ایده یکی است.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s6.note">نکتهٔ امنیتی: هرکس نشانی وب‌هوک را بداند می‌تواند آن زنگ را بزند. هنگام دادن نشانی با یک راز محافظتش کن (n8n برایش گزینه دارد) و به دادهٔ رسیده کورکورانه اعتماد نکن. در بند ۱۵ به این برمی‌گردیم.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔔</span><span data-i18n="ch3.s6.do">همین حالا انجام بده: در n8n جریانی تازه باز کن و محرک را Webhook انتخاب کن. نشانی‌ای را که به تو می‌دهد در مرورگرت باز کن. بیدار شدن جریان را می‌بینی — این نخستین وب‌هوک توست.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch3.s7.title">API: گفت‌وگوی دو برنامه</span></h2>
+      <p data-i18n="ch3.s7.p1">هر کاری که برنامه‌ای برایت می‌کند، نسخه‌ای برای برنامه‌ها هم دارد. تو برای افزودن ردیف به جدول کلیک می‌کنی؛ یک برنامه همان را با فرستادن درخواست به یک نشانی می‌کند. مجموع آن نشانی و قواعدش را <strong class="text-fg">API</strong> می‌گویند: دری که برنامه به روی برنامه‌ها باز می‌کند، نه به روی آدم‌ها.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s7.weak">تو</span>
+          <p class="compare__note" data-i18n="ch3.s7.weakNote">مرورگر را باز می‌کنی، وارد می‌شوی، جدول را پیدا می‌کنی، روی ردیف تازه می‌زنی، می‌نویسی، ذخیره می‌کنی. شش گام، دو دقیقه.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s7.strong">جریان تو</span>
+          <p class="compare__note" data-i18n="ch3.s7.strongNote">یک درخواست به نشانی API جدول می‌فرستد: «این ردیف را به این جدول اضافه کن.» یک گام، نیم ثانیه. و روزی هزار بار بی‌آنکه خسته شود.</p>
+        </div>
+      </div>
+      <p data-i18n="ch3.s7.p2">زیبایی n8n اینجاست: API برنامه‌های رایج را از قبل برایت یاد گرفته. گرهٔ «افزودن ردیف به جدول» را برمی‌گزینی، حسابت را وصل می‌کنی، ستون‌ها را پر می‌کنی — API را هرگز نمی‌بینی. اگر لازم شد با چیزی حرف بزنی که گرهٔ آماده ندارد، گرهٔ <strong class="text-fg">درخواست HTTP</strong> هست؛ به آن نشانی و آنچه باید بفرستد را می‌دهی، او حرف می‌زند.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s7.note">برای استفاده از یک API بیشتر وقت‌ها یک <em>کلید</em> لازم است: رشته‌ای دراز که برنامه به تو می‌دهد و می‌گوید «این درخواست‌ها از من است». کلید مثل رمز است — در بند ۱۵ دربارهٔ جای نگهداری‌اش حرف می‌زنیم. فعلاً بدان: هر API دری دارد، هر در کلیدی.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔑</span><span data-i18n="ch3.s7.do">همین حالا انجام بده: در تنظیمات برنامه‌ای که به کار می‌بری ببین صفحه‌ای به نام «API» یا «یکپارچه‌سازی» هست یا نه. اگر هست یعنی آن برنامه می‌تواند به جریان‌هایت وصل شود.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch3.s8.title">نخستین جریانت، در پانزده دقیقه</span></h2>
+      <p data-i18n="ch3.s8.p1">مفاهیم تمام؛ حالا بوم. پویانمایی زیر نشان می‌دهد هنگام ساخت نخستین جریان روی صفحه به چه می‌زنی. خودش پیش می‌رود، روی گام‌ها می‌توانی کلیک کنی.</p>
+      <figure class="n8n" data-n8n>
+        <span class="n8n__cap font-mono" data-i18n="ch3.fig.n8n.cap">نخستین جریان روی بوم</span>
+        <div class="n8n__stage" data-step="1">
+          <div class="n8n__top"><span class="n8n__dot"></span><span class="n8n__name font-mono" data-i18n="ch3.fig.n8n.name">جریان تازه</span><span class="n8n__run"><span data-i18n="ch3.fig.n8n.runBtn">اجرا</span></span></div>
+          <div class="n8n__canvas">
+            <div class="n8n__plus" aria-hidden="true">+</div>
+            <div class="n8n__node n8n__node--a"><b data-i18n="ch3.fig.n8n.a">زمان‌بندی</b><i data-i18n="ch3.fig.n8n.aSub">هر صبح ساعت ۹</i><span class="n8n__ok">✓</span></div>
+            <span class="n8n__wire" aria-hidden="true"></span>
+            <div class="n8n__node n8n__node--b"><b data-i18n="ch3.fig.n8n.b">ارسال ایمیل</b><i data-i18n="ch3.fig.n8n.bSub">پیام صبح‌به‌خیر</i><span class="n8n__ok">✓</span></div>
+            <div class="n8n__panel" aria-hidden="true">
+              <span class="n8n__ptitle" data-i18n="ch3.fig.n8n.pTitle">ارسال ایمیل</span>
+              <i></i><i style="--w:70%"></i><i style="--w:88%"></i>
+            </div>
+            <span class="n8n__cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+        <ol class="n8n__steps">
+          <li><button type="button" data-go="1"><span class="n8n__e" aria-hidden="true">🆕</span><span data-i18n="ch3.fig.n8n.s1">جریان تازه باز کن — بوم خالی</span></button></li>
+          <li><button type="button" data-go="2"><span class="n8n__e" aria-hidden="true">⏰</span><span data-i18n="ch3.fig.n8n.s2">محرک اضافه کن: زمان‌بندی</span></button></li>
+          <li><button type="button" data-go="3"><span class="n8n__e" aria-hidden="true">🔗</span><span data-i18n="ch3.fig.n8n.s3">گرهٔ دوم را اضافه کن، به سیم وصل کن</span></button></li>
+          <li><button type="button" data-go="4"><span class="n8n__e" aria-hidden="true">⚙️</span><span data-i18n="ch3.fig.n8n.s4">روی گره کلیک کن، خانه‌ها را پر کن</span></button></li>
+          <li><button type="button" data-go="5"><span class="n8n__e" aria-hidden="true">▶️</span><span data-i18n="ch3.fig.n8n.s5">اجرا — تیک‌های سبز را ببین</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.n8n.fc">این یک طرح است، تصویر صفحه نیست — نام و جای دکمه‌ها از نسخه‌ای به نسخهٔ دیگر عوض می‌شود. آنچه دنبالش می‌گردی همیشه یکی است: یک «+»، یک فهرست گره، سیمی که میان گره‌ها کشیده می‌شود و یک «اجرا».</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch3.s8.st1">جریانی خالی باز کن. روی «+» وسط بوم بزن؛ فهرست گره‌ها برایت باز می‌شود.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch3.s8.st2">محرک را برگزین: زمان‌بندی. ساعت را «هر صبح ۹» کن. نخستین گره‌ات روی بوم است.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch3.s8.st3">از دایرهٔ کوچک سمت راست گره روی بوم بکش؛ فهرست دوباره باز می‌شود. «ارسال ایمیل» را برگزین. سیم خودش کشیده می‌شود.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch3.s8.st4">روی گره کلیک کن. حسابت را وصل کن (بار اول می‌خواهد)، گیرنده را خودت بگذار، موضوع را «صبح به خیر» و متن را یک جمله بنویس.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch3.s8.st5">«اجرا» را بزن. در گوشهٔ گره‌ها تیک‌های سبز پیدا می‌شود؛ ایمیل به صندوقت می‌رسد. جریان را ذخیره کن و «فعال» کن — فردا ساعت ۹ خودش اجرا می‌شود.</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch3.s8.do">همین حالا انجام بده: این پنج گام را امروز تمام کن. جریانی که به خودت ایمیل صبح‌به‌خیر می‌فرستد شاید مسخره به نظر برسد؛ اما آن ایمیل فردا صبح، نخستین نمونهٔ حس «ساختم و کار می‌کند» است.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch3.s9.title">داده چگونه از گره به گره می‌رود</span></h2>
+      <p data-i18n="ch3.s9.p1">شاید در نخستین جریانت چیزی را دیده باشی: گرهٔ ایمیل از گرهٔ زمان‌بندی چه گرفت؟ پاسخ: یک پاکت کوچک. هر گره به بعدی پاکتی می‌دهد؛ درونش اطلاعات برچسب‌دار است — «نام: آیشه»، «مبلغ: ۱۲۰۰»، «تاریخ: امروز».</p>
+      <figure class="env">
+        <span class="env__cap font-mono" data-i18n="ch3.fig.env.cap">درون پاکت</span>
+        <div class="env__row">
+          <div class="env__node"><b data-i18n="ch3.fig.env.from">گرهٔ فرم</b></div>
+          <div class="env__card" aria-hidden="true">
+            <span class="env__k">ad</span><span class="env__v">Ayşe Demir</span>
+            <span class="env__k">e-posta</span><span class="env__v">ayse@…</span>
+            <span class="env__k">tutar</span><span class="env__v">1.200</span>
+            <span class="env__k">acil</span><span class="env__v">evet</span>
+          </div>
+          <div class="env__node env__node--to"><b data-i18n="ch3.fig.env.to">گرهٔ ایمیل</b></div>
+        </div>
+        <figcaption data-i18n="ch3.fig.env.fc">هر سطر یک برچسب و یک مقدار. گرهٔ بعدی برچسب‌ها را به نام صدا می‌زند: «گیرنده = ایمیل»، «موضوع = نام + مبلغ». نام فنی‌اش JSON است؛ اما آنچه باید به آن فکر کنی فقط یک پاکت برچسب‌دار است.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s9.p2">وقتی در تنظیمات یک گره روی خانه‌ای کلیک می‌کنی، n8n برچسب‌های رسیده از گرهٔ قبلی را نشانت می‌دهد؛ می‌کشی و رها می‌کنی. تنها چیزی که گاهی دستی می‌نویسی نام برچسب است. همین کشیدن و رها کردن، جابه‌جایی داده بدون نوشتن کد است.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s9.note">پاکت گاهی یکی نیست، چندتاست: اگر جدولی پنجاه ردیف دارد پنجاه پاکت می‌آید و گرهٔ بعدی پنجاه بار اجرا می‌شود — یک بار برای هر کدام. عادت کردن به این چند آزمایش می‌خواهد؛ پاسخ «چرا ایمیل پنجاه بار رفت؟» بیشتر وقت‌ها همین است.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">✉️</span><span data-i18n="ch3.s9.do">همین حالا انجام بده: نخستین جریانت را یک بار اجرا کن، بعد روی گرهٔ زمان‌بندی کلیک کن و به زبانهٔ «خروجی» نگاه کن. آنچه می‌بینی پاکت است. برچسب‌هایش را بخوان.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch3.s10.title">شرط و شاخه‌شدن</span></h2>
+      <p data-i18n="ch3.s10.p1">در کارهای واقعی همه‌چیز از یک مسیر نمی‌رود. فوری به‌شکل پیام به من برسد، غیرفوری به فهرست صبح بیفتد. گره‌ای که این کار را می‌کند <strong class="text-fg">IF</strong> نام دارد: پرسشی می‌پرسد و بر اساس پاسخ، داده را به یکی از دو مسیر می‌فرستد.</p>
+      <figure class="branch">
+        <span class="branch__cap font-mono" data-i18n="ch3.fig.br.cap">یک پرسش، دو مسیر</span>
+        <div class="branch__row">
+          <div class="branch__in"><b data-i18n="ch3.fig.br.in">پاکت می‌رسد</b><i data-i18n="ch3.fig.br.inSub">فوری: بله</i></div>
+          <div class="branch__if"><span data-i18n="ch3.fig.br.q">فوری = بله؟</span></div>
+          <div class="branch__outs">
+            <div class="branch__out branch__out--yes"><b data-i18n="ch3.fig.br.yes">بله</b><i data-i18n="ch3.fig.br.yesSub">بی‌درنگ به من پیام</i></div>
+            <div class="branch__out"><b data-i18n="ch3.fig.br.no">نه</b><i data-i18n="ch3.fig.br.noSub">به فهرست صبح اضافه کن</i></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.br.fc">گرهٔ شرط دو خروجی دارد: بله و نه. به هر خروجی گره‌های جداگانه وصل می‌کنی. اگر برچسب «فوری» در پاکت بله باشد مسیر بالا اجرا می‌شود وگرنه مسیر پایین — آن یکی در آن اجرا اصلاً بیدار نمی‌شود.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s10.p2">پرسش‌ها ساده نگه داشته می‌شوند: یک برچسب، یک مقایسه، یک مقدار. «مبلغ بزرگ‌تر از ۱۰۰۰ است»، «موضوع شامل 'لغو' است»، «ایمیل خالی است». برای تصمیم‌های پیچیده‌تر دو IF پشت هم می‌گذاری — یا چنان‌که در بند بعد می‌بینی، تصمیم را به من می‌سپاری.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔀</span><span data-i18n="ch3.s10.do">همین حالا انجام بده: به نخستین جریانت یک IF اضافه کن: «امروز دوشنبه است؟» اگر بله، موضوع ایمیل را «هفته را خوب شروع کن» بگذار. چگونگی کار شاخه‌شدن را در یک آزمایش می‌بینی.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch3.s11.title">مرا درون جریان بگذار</span></h2>
+      <p data-i18n="ch3.s11.p1">جریان‌هایی که تا اینجا ساختی «مکانیکی»اند: داده می‌برند، شرط را می‌بینند، می‌فرستند. وقتی خواندن، فهمیدن، نوشتن لازم شد، یک گرهٔ هوش مصنوعی میان می‌آید — یعنی من. دسته‌بندی پیام رسیده، خلاصه کردن ایمیل بلند، نوشتن پیش‌نویس پاسخ برای مشتری: این‌ها مکانیکی نیستند، کار زبان‌اند.</p>
+      <p data-i18n="ch3.s11.p2">پس از افزودن گره و وارد کردن کلید، یک خانه می‌ماند: درخواست. و آنچه در آن می‌نویسی را <strong class="text-fg">از پیش می‌دانی</strong> — فرمول فصل ۲. تفاوت این است: نقش، زمینه، وظیفه، محدودیت و قالب را یک بار می‌نویسی؛ در بخش «زمینه» به‌جای متن ثابت، برچسب رسیده از گرهٔ قبلی را می‌کشی. هر بار که جریان بیدار می‌شود آن برچسب با مقدار تازه‌اش پر می‌شود و درخواست خودبه‌خود نو می‌شود.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s11.strong">درخواست درون گره</span>
+          <p class="compare__text font-mono" data-i18n="ch3.s11.strongText">مثل نمایندهٔ مشتریان یک کارگاه کوچک مبل‌سازی رفتار کن. پیام مشتری زیر را بخوان: {{پیام}}. پیام را به‌عنوان «سفارش»، «شکایت» یا «پرسش» دسته‌بندی کن و فقط همین یک کلمه را بنویس — هیچ چیز دیگری نه.</p>
+          <p class="compare__note" data-i18n="ch3.s11.strongNote">نقش هست، زمینه هست (از برچسب می‌آید)، وظیفه روشن، محدودیت سخت، قالب یک کلمه. گرهٔ IF بعدی به همین یک کلمه نگاه می‌کند و مسیر را برمی‌گزیند.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s11.note">در جریان، محدودیت قالب از همیشه مهم‌تر است. در گفت‌وگو اینکه من یک جملهٔ اضافه بنویسم مشکلی نیست؛ در جریان آن جملهٔ اضافه گرهٔ بعدی را گیج می‌کند. محدودیت «فقط این را بنویس، هیچ چیز دیگر» را در جریان‌ها هرگز جا نینداز — یا گزینهٔ خروجی ساختاریافتهٔ گره را روشن کن، آن‌وقت با برچسب‌های پاکت برمی‌گردد.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🤖</span><span data-i18n="ch3.s11.do">همین حالا انجام بده: به جریانت یک گرهٔ هوش مصنوعی اضافه کن و درخواست بالا را با تغییر بچسبان. یک پیام دستی بنویس، اجرا کن، پاسخ یک‌کلمه‌ای را ببین.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch3.s12.title">عامل خودمختار: گره‌ای که ابزار برمی‌گزیند</span></h2>
+      <p data-i18n="ch3.s12.p1">گرهٔ بند پیشین چیزی می‌خواند، چیزی می‌نویسد، تمام. گرهٔ عامل فرق دارد: به آن یک <strong class="text-fg">هدف</strong> و چند <strong class="text-fg">ابزار</strong> می‌دهی — جدول را بخوان، تقویم را ببین، ایمیل بفرست — و اینکه کدام ابزار را به چه ترتیبی به کار ببرد را خودش تصمیم می‌گیرد. تو گام‌ها را نمی‌نویسی؛ نتیجه را شرح می‌دهی.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch3.fig.ag.cap">چرخهٔ عامل</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🎯</span><b data-i18n="ch3.fig.ag.s1t">هدف را می‌گیرد</b><i data-i18n="ch3.fig.ag.s1s">«به مشتری ساعت مناسب پیشنهاد بده»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🧠</span><b data-i18n="ch3.fig.ag.s2t">فکر می‌کند</b><i data-i18n="ch3.fig.ag.s2s">«اول باید تقویم را ببینم»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔧</span><b data-i18n="ch3.fig.ag.s3t">ابزار را فرامی‌خواند</b><i data-i18n="ch3.fig.ag.s3s">تقویم · جدول · ایمیل</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch3.fig.ag.s4t">نتیجه را می‌خواند</b><i data-i18n="ch3.fig.ag.s4s">«سه‌شنبه ۱۴:۰۰ خالی است»</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">🔁</span><b data-i18n="ch3.fig.ag.s5t">کافی بود؟</b><i data-i18n="ch3.fig.ag.s5s">نه → به آغاز؛ بله → پاسخ</i></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ag.fc">جعبهٔ پنجم قلب چرخه است: اگر نتیجه برای هدف کافی نباشد عامل به جعبهٔ دوم برمی‌گردد و ابزار دیگری می‌آزماید. وقتی کافی بود می‌ایستد. این چرخه را تو نمی‌نویسی؛ هدف و ابزارها را می‌دهی.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s12.p2">به گرهٔ عامل <strong class="text-fg">حافظه</strong> هم می‌توانی وصل کنی: گفت‌وگوهای قبلی با همان مشتری را به یاد می‌آورد. در فصل ۱ گفتم «هر گفت‌وگو از صفر شروع می‌شود» — در جریان، این قاعده را با گرهٔ حافظه خودت عوض می‌کنی.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s12.note">هشدار صادقانه: عامل قوی‌ترین و پیش‌بینی‌ناپذیرترین بخش جریان است. اینکه کدام ابزار را کی فرابخواند را تو تعیین نمی‌کنی. برای همین ابزارهایی که به عامل می‌دهی باید چیزهای <em>برگشت‌پذیر</em> باشند: خواندن، پیش‌نویس نوشتن، پیشنهاد دادن. ابزارهایی مثل حذف، پرداخت، ارسال را به عامل نده؛ آن گام را به گره‌ای جداگانه و اگر شد به تأیید خودت بسپار.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch3.s12.do">همین حالا انجام بده: یک گرهٔ عامل اضافه کن، فقط یک ابزار به آن بده (خواندن جدول) و فقط یک هدف: «در جدول امروز کسی تولد دارد؟ اگر هست نامش را بگو». چرخه را در اجراها تماشا کن.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch3.s13.title">از دایرکت اینستاگرام تا CRM: یک جریان واقعی</span></h2>
+      <p data-i18n="ch3.s13.p1">این همان جریانی است که در کارت وعده دادم. کاری که برای یک آژانس هر روز تکرار می‌شود: پیام می‌آید، کسی باید بخواند، پاسخ دهد و ثبت کند. زنجیرهٔ زیر آن را بی‌انسان انجام می‌دهد — فقط در یک نقطه به تأیید تو می‌افتد.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch3.fig.ch.cap">پنج گره، یک تأیید</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch3.fig.ch.s1">محرک: وقتی دایرکت تازه آمد (وب‌هوک)</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch3.fig.ch.s2">من: پیام را دسته‌بندی کن — سفارش / شکایت / پرسش</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch3.fig.ch.s3">من: بر اساس دسته، پیش‌نویس پاسخ بنویس</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch3.fig.ch.s4">ایمیل به تو: پیش‌نویس + «تأیید / اصلاح»</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch3.fig.ch.s5">ثبت در CRM: شخص، دسته، تاریخ، چه پاسخی داده شد</span></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ch.fc">گام چهارم عمداً انسانی است: دکمهٔ ارسال را تو می‌زنی. با گذشت زمان اگر نود درصد پیش‌نویس‌ها دست‌نخورده رفت، آن گام را برمی‌داری — اما نه روز اول.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s13.p2">پس از ساخت این جریان، در روز هرچند پیام بیاید با یک کیفیت پاسخ داده می‌شود، هیچ‌کدام فراموش نمی‌شود و همه ثبت می‌شوند. تو فقط به پیش‌نویس‌ها نگاه می‌کنی. اینکه یک آژانس یک‌نفره مثل آژانس ده‌نفره به نظر برسد دقیقاً از همین‌جا شروع می‌شود.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch3.s13.do">همین حالا انجام بده: این پنج گره را به کار خودت برگردان — به‌جای دایرکت، فرم؛ به‌جای CRM، جدول. ساختار همان می‌ماند. فقط گرهٔ اول و پنجم را عوض کن، میانه آماده است.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch3.s14.title">وقتی شکست چه می‌شود</span></h2>
+      <p data-i18n="ch3.s14.p1">هر جریانی روزی می‌شکند: برنامه‌ای کلیدش را نو می‌کند، سرویسی پنج دقیقه پاسخ نمی‌دهد، مشتری‌ای چیزی به شکلی می‌نویسد که هرگز انتظارش را نداشتی. شکستن مشکل نیست؛ بی‌صدا شکستن مشکل است. ساختن این از آغاز چهار گام دارد:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f1.t">جریان خطا</h3>
+          <p data-i18n="ch3.s14.f1.p">در n8n جریان جداگانه‌ای تعریف می‌کنی که هرگاه هر جریانی خطا داد اجرا شود: «کدام جریان، کدام گره، چه خطایی» را به تو پیام دهد. این‌طور شکست را پیش از مشتری تو می‌شنوی.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f2.t">دوباره بکوش</h3>
+          <p data-i18n="ch3.s14.f2.p">گره‌هایی که با سرویس بیرونی حرف می‌زنند تنظیمی دارند: «اگر خطا شد این‌قدر صبر کن، دوباره بکوش». بیشتر قطعی‌های موقت در تلاش دوم می‌گذرند؛ روشن نگه داشتن این رایگان است.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f3.t">به سابقهٔ اجرا نگاه کن</h3>
+          <p data-i18n="ch3.s14.f3.p">سابقهٔ هر اجرا می‌ماند: کدام گره چه گرفت، چه داد، کجا قرمز شد. وقتی چیزی خراب شد نخستین جایی که نگاه می‌کنی اینجاست — به‌جای حدس زدن می‌بینی.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f4.t">آمادگی برای دادهٔ غیرمنتظره</h3>
+          <p data-i18n="ch3.s14.f4.p">خانهٔ خالی، برچسب گم‌شده، پیام خیلی بلند. در گرهٔ هوش مصنوعی محدودیتی مثل «اگر پیام خالی بود 'خالی' بنویس»؛ در گرهٔ IF شاخهٔ «هیچ‌کدام». فکر کردن به حالت‌های حاشیه‌ای نیمی از ساخت جریان است.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚨</span><span data-i18n="ch3.s14.do">همین حالا انجام بده: یک جریان خطا بساز — یک گره، به تو پیام بدهد — و نخستین جریانت را به آن وصل کن. بعد عمداً خرابش کن: گیرنده را در گرهٔ ایمیل پاک کن، اجرا کن. پیام باید بیاید.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch3.s15.title">کلیدها و امنیت</span></h2>
+      <p data-i18n="ch3.s15.p1">جریان‌هایت به حساب‌هایت دسترسی دارند: ایمیلت، جدول‌هایت، فهرست مشتریانت. این دسترسی با کلید انجام می‌شود و کلیدها مثل رمزند. چهار قاعده، همه ساده:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k1.t">کلید در گاوصندوق، نه درون گره</h3><p data-i18n="ch3.s15.k1.p">در n8n جای جداگانه‌ای به نام «اعتبارنامه‌ها» هست. کلید را یک بار آنجا می‌گذاری، گره‌ها از همان‌جا به کار می‌برند. چسباندن دستی کلید در تنظیمات یک گره مثل نوشتن رمز روی کاغذ یادداشت و گذاشتنش روی میز است.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k2.t">کمترین اختیار</h3><p data-i18n="ch3.s15.k2.p">به جریانی که فقط جدول می‌خواند اجازهٔ نوشتن نده. هنگام ساخت کلید، برنامه‌ها معمولاً می‌پرسند «اجازه برای چه»؛ فقط لازم را برگزین. اگر جریان خراب شد، زیان هم کوچک می‌ماند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k3.t">روی وب‌هوک راز بگذار</h3><p data-i18n="ch3.s15.k3.p">هرکس نشانی وب‌هوک را بداند می‌تواند جریانت را فعال کند. یکی از گزینه‌های تأییدی را که n8n ارائه می‌دهد روشن کن؛ دست‌کم تکه‌ای به نشانی اضافه کن که کسی نتواند حدس بزند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k4.t">به دادهٔ رسیده اعتماد نکن</h3><p data-i18n="ch3.s15.k4.p">هشدار فصل ۱ دربارهٔ دستورهای پنهان اینجا دوچندان معتبر است: درون پیام یک مشتری می‌تواند نوشته باشد «دستورهای قبلی را فراموش کن» و آن پیام به گرهٔ من وارد می‌شود. محدودیت‌ها را سخت نگه دار، کارهای برگشت‌ناپذیر را به عامل نده.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch3.s15.do">همین حالا انجام بده: به همهٔ گره‌های جریان‌هایی که ساخته‌ای نگاه کن. درون هیچ‌کدام رشتهٔ کلید درازی دستی نوشته شده؟ اگر هست به اعتبارنامه‌ها منتقل کن — پنج دقیقه، یک روز نجاتت می‌دهد.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch3.s16.title">کی خودکار نمی‌کنیم</span></h2>
+      <p data-i18n="ch3.s16.p1">هرکس این ابزارها را یاد بگیرد مدتی می‌خواهد همه‌چیز را خودکار کند. این اشتباه است و اشتباهی گران. معیار صادقانه:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s16.weak">دستی بگذار بماند</span>
+          <p class="compare__note" data-i18n="ch3.s16.weakNote">کارهایی که ماهی یک بار انجام می‌شوند. کارهایی که هر بار تصمیم متفاوتی می‌خواهند. کارهایی که یک اشتباه در آن‌ها مشتری یا پول از دست می‌دهد. کارهایی که هنوز دقیق نمی‌دانی چطور انجام می‌شوند — آنچه نمی‌دانی را نمی‌توانی خودکار کنی.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s16.strong">خودکار کن</span>
+          <p class="compare__note" data-i18n="ch3.s16.strongNote">کارهایی که هفته‌ای بیش از سه بار تکرار می‌شوند. کارهایی که هر بار با همان گام‌ها انجام می‌شوند. کارهایی که فراموش شوند زیان می‌زنند. کارهایی که شب یا آخر هفته هم باید بشوند.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s16.note">قاعدهٔ عملی: <strong class="text-fg">اول سه بار دستی انجام بده، بعد خودکار کن.</strong> در بار سوم گام‌ها روشن شده و حالت‌های حاشیه‌ای دیده شده‌اند. جریانی که در بار اول ساخته شود، در بار دوم می‌شکند.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch3.s16.do">همین حالا انجام بده: سه کار بند ۰۱ را در این دو ستون پخش کن. اگر در ستون دوم چیزی ماند، جریان بعدی‌ات همان است.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch3.s17.title">پنج اشتباه رایج</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m1.t">۱ · نخستین جریان را خیلی بزرگ ساختن</h3>
+          <p data-i18n="ch3.s17.m1.p">با جریان پانزده‌گره‌ای شروع کنی، نمی‌فهمی کجایش خراب است. با دو گره شروع کن، کار کند، بعد سومی را اضافه کن. بعد از هر افزودن اجرا کن.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m2.t">۲ · محرک دستی را در کار واقعی جا گذاشتن</h3>
+          <p data-i18n="ch3.s17.m2.p">هنگام آزمایش محرک «دستی» به کار می‌بری، بعد هنگام بردن به کار واقعی یادت می‌رود عوضش کنی. جریان هرگز بیدار نمی‌شود و تو می‌گویی «کار نمی‌کند». پیش از بردن به کار واقعی محرک را بررسی کن.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m3.t">۳ · به گرهٔ هوش مصنوعی قالب نگفتن</h3>
+          <p data-i18n="ch3.s17.m3.p">جملهٔ اضافه‌ای که در گفت‌وگو مشکلی ندارد، در جریان گرهٔ بعدی را می‌شکند. محدودیت «فقط این را بنویس» یا خروجی ساختاریافته. استثنا ندارد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m4.t">۴ · بدون جریان خطا به کار واقعی رفتن</h3>
+          <p data-i18n="ch3.s17.m4.p">جریان بی‌صدا می‌شکند، سه روز بعد مشتری‌ای می‌گوید «به من پاسخی نرسید». جریان خطا ده دقیقه کار است؛ روز اول بساز.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m5.t">۵ · به عامل ابزار برگشت‌ناپذیر دادن</h3>
+          <p data-i18n="ch3.s17.m5.p">حذف، پرداخت، ارسال انبوه. عامل با نیت خوب ابزار اشتباه را برمی‌گزیند و راه برگشتی نیست. این گام‌ها در گرهٔ جداگانه و ترجیحاً با تأیید تو بمانند.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch3.s17.do">همین حالا انجام بده: جریانی را که ساخته‌ای در برابر این پنج بررسی کن. به‌ویژه ۲ و ۴ — هر دو سرچشمهٔ جملهٔ «فکر می‌کردم کار می‌کند» هستند.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch3.s18.title">آنچه همه می‌پرسند</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q1">واقعاً بدون کد می‌شود؟</summary><p data-i18n="ch3.faq.a1">همهٔ این فصل می‌شود — با کلیک. وقتی کد لازم شد دو گزینه داری: یک گرهٔ کد ده‌خطی اضافه کنی و کد را من بنویسم، یا آن گام را به یک گرهٔ هوش مصنوعی بسپاری. فصل ۴ و ۵ سمت کد را از صفر آموزش می‌دهند؛ تا اینجا بی‌کد آمدی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q2">ابر n8n یا سرور خودم؟</summary><p data-i18n="ch3.faq.a2">هنگام یادگیری ابر: نصب ندارد، در چند دقیقه شروع می‌کنی. هنگام کار واقعی سرور خودت: داده پیش تو می‌ماند، جریان بی‌حد، هزینهٔ ماهانه به‌اندازهٔ سرور. جابه‌جایی میانشان آسان است — جریان‌ها برون‌برد و درون‌ریزی می‌شوند. راه‌اندازی سرور را در فصل ۶ می‌بینیم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q3">گرهٔ هوش مصنوعی چقدر هزینه دارد؟</summary><p data-i18n="ch3.faq.a3">به‌اندازهٔ متنی که در هر اجرا به من فرستاده و از من برگردانده می‌شود؛ قیمت‌ها عوض می‌شوند، رقم روز را در صفحهٔ ارائه‌دهنده ببین. معیار شهودی: یک دسته‌بندی کوتاه تقریباً رایگان، یک خلاصهٔ بلند چند سنت. جریانی که روزی صد پیام دسته‌بندی می‌کند برای بیشتر کسب‌وکارها به قیمت یک قهوه هم نمی‌رسد. آنچه هزینه را پایین می‌آورد محدودیت‌های فصل ۲ است: درخواست کوتاه، پاسخ کوتاه.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q4">جریان کند کار می‌کند، چه کنم؟</summary><p data-i18n="ch3.faq.a4">اول به سابقهٔ اجرا نگاه کن: کدام گره طول می‌کشد؟ تقریباً همیشه گره‌ای است که منتظر سرویس بیرونی است — یا به گرهٔ هوش مصنوعی متن خیلی بلند می‌دهی. متن را کوتاه کن، گرهٔ زائد را بردار، از «هر پنج دقیقه ببین» به محرک رویداد برو.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q5">اگر عامل کار اشتباهی کرد؟</summary><p data-i18n="ch3.faq.a5">می‌کند — روزی حتماً. برای همین ابزارهایی که به عامل می‌دهی در حد خواندن و پیش‌نویس می‌مانند، گام‌های برگشت‌ناپذیر از تأیید تو می‌گذرند و جریان خطا فوری خبرت می‌کند. عامل را مثل کارآموز ببین: کار بده، اما حق امضا نده.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q6">می‌توانم جریانی را به کس دیگری واگذار کنم؟</summary><p data-i18n="ch3.faq.a6">بله — جریان برون‌برد می‌شود، یک فایل می‌شود، در حساب دیگری بارگذاری می‌شود. اعتبارنامه‌ها وارد فایل نمی‌شوند؛ گیرنده مال خودش را وصل می‌کند. برای همین تحویل جریان به مشتری هم ممکن است: می‌سازی، برون‌برد می‌کنی، تحویل می‌دهی. موضوع فصل ۶ همین است.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch3.faq.do">همین حالا انجام بده: اگر در گره‌ای گیر کردی از من بپرس — تصویر صفحه را بچسبان، بگو «این گره چرا قرمز شد؟». گره‌های n8n را می‌شناسم؛ بیشتر خطاها را از صفحه می‌خوانم.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch3.s19.title">تمرین‌ها</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e1.t">۱ · جریان صبح‌به‌خیر</h3>
+          <p data-i18n="ch3.ex.e1.p">پنج گام بند ۰۸ را تمام کن و جریان را فعال کن. منتظر بمان ایمیل فردا ساعت ۹ برسد.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e1.g"><strong class="text-fg">هدف:</strong> یک بار حس «ساختم و خودش اجرا شد» را تجربه کردن. این حس سوخت یادگیری باقی است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e2.t">۲ · زنگ در</h3>
+          <p data-i18n="ch3.ex.e2.p">جریانی با محرک وب‌هوک بساز. نشانی‌اش را به فرم سایت یا برنامه‌ای دیگر بده. وقتی فرم پر شد، رسیدن پاکت را در سابقهٔ اجرا ببین.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e2.g"><strong class="text-fg">هدف:</strong> ترسناکی کلمهٔ «وب‌هوک» را یک‌باره تمام کردن.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e3.t">۳ · دسته‌بند</h3>
+          <p data-i18n="ch3.ex.e3.p">گرهٔ هوش مصنوعی‌ای بساز که متن رسیده را «سفارش / شکایت / پرسش» دسته‌بندی کند و پشتش یک IF سه‌شاخه. با ده پیام نمونهٔ متفاوت بیازما.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e3.g"><strong class="text-fg">هدف:</strong> دیدن فرمول فصل ۲ در حال کار درون یک گره — و تجربه کردن اینکه چرا محدودیت قالب شرط است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e4.t">۴ · عمداً بشکن</h3>
+          <p data-i18n="ch3.ex.e4.p">جریان خطا را بساز. بعد عمداً گره‌ای از جریان کارکننده‌ات را بشکن و تأیید کن که پیام به تو رسید. درست کن، دوباره اجرا کن.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e4.g"><strong class="text-fg">هدف:</strong> دیدن شکل شکستن، پیش از رفتن به کار واقعی.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch3.ex.do">همین حالا انجام بده: اولی را امروز، دومی را فردا. سه و چهار بعد از آنکه دو تای اول کار کردند. ترتیب را به هم نزن؛ هرکدام روی قبلی ساخته می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch3.quiz.title">خودت را بیازما</span></h2>
+      <p data-i18n="ch3.quiz.p1">اول خودت پاسخ بده، بعد باز کن.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q1">جریان، گره، محرک — در یک جمله؟</summary><p data-i18n="ch3.quiz.a1">جریان شرح یک کار است، گره یک گام از آن، محرک رویدادی که آن را آغاز می‌کند. بدون محرک، جریان می‌خوابد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q2">وب‌هوک چیست؟</summary><p data-i18n="ch3.quiz.a2">نشانی‌ای که به جریانت داده شده. وقتی سامانه‌ای بیرونی به آن داده بفرستد جریانت بیدار می‌شود و داده را می‌گیرد. زنگ در: از بیرون زده می‌شود، درون تو می‌شنوی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q3">API چیست؟</summary><p data-i18n="ch3.quiz.a3">دری که برنامه به روی برنامه‌ها باز می‌کند نه آدم‌ها. آنچه تو با کلیک می‌کنی، برنامه با فرستادن درخواست از آن در می‌کند. n8n از پیش API بیشتر برنامه‌ها را برایت یاد گرفته.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q4">چرا محرک رویداد از زمان‌بندی بهتر است؟</summary><p data-i18n="ch3.quiz.a4">«هر پنج دقیقه ببین» بیهوده کار می‌کند و دیر می‌رسد؛ «وقتی آمد بیدار شو» فوری و رایگان است. اگر محرک رویداد هست آن را برگزین.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q5">داده چگونه از گره به گره می‌رود؟</summary><p data-i18n="ch3.quiz.a5">با یک پاکت برچسب‌دار: «نام: آیشه»، «مبلغ: ۱۲۰۰». گرهٔ بعدی برچسب‌ها را به نام صدا می‌زند. اگر ردیف زیاد باشد پاکت زیاد می‌آید و گره برای هرکدام یک بار اجرا می‌شود.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q6">در گرهٔ هوش مصنوعی چه نوشته می‌شود؟</summary><p data-i18n="ch3.quiz.a6">فرمول فصل ۲: نقش، زمینه، وظیفه، محدودیت، قالب. تفاوت: زمینه متن ثابت نیست، برچسب رسیده از گرهٔ قبلی است. و محدودیت قالب از گفت‌وگو سخت‌تر — «فقط این را بنویس».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q7">تفاوت گرهٔ عامل با گرهٔ هوش مصنوعی عادی؟</summary><p data-i18n="ch3.quiz.a7">گرهٔ عادی چیزی می‌خواند، چیزی می‌نویسد، تمام. به گرهٔ عامل هدف و ابزار می‌دهی؛ اینکه کدام ابزار را به چه ترتیبی به کار ببرد را خودش تصمیم می‌گیرد و تا رسیدن به هدف چرخه می‌زند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q8">کدام ابزارها به عامل داده نمی‌شوند؟</summary><p data-i18n="ch3.quiz.a8">برگشت‌ناپذیرها: حذف، پرداخت، ارسال انبوه. این‌ها در گرهٔ جداگانه و ترجیحاً با تأیید تو می‌مانند. عامل کارآموز است — کار داده می‌شود، حق امضا نه.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q9">تنها چیزی که پیش از رفتن به کار واقعی ساخته می‌شود؟</summary><p data-i18n="ch3.quiz.a9">جریان خطا. جریان جداگانه‌ای که وقتی جریانی شکست به تو پیام می‌دهد. بی‌آن شکست بی‌صداست و سه روز بعد از مشتری می‌شنوی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q10">کلید کجا نوشته می‌شود؟</summary><p data-i18n="ch3.quiz.a10">در اعتبارنامه‌ها — گاوصندوق n8n. درون گره دستی هرگز. و به هر کلید فقط اختیار لازم: اگر می‌خواند، اجازهٔ نوشتن نده.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch3.recap.title">این فصل در یک جمله</h2>
+        <p data-i18n="ch3.recap.p">کار تکراری را یک بار شرح بده — محرک، گره‌ها، یک شرط، اگر لازم شد من در میان — بعد فعالش کن و دیگر دستی انجامش نده؛ با جریان خطایی که شکستن را به تو خبر می‌دهد و کلیدهایی که در گاوصندوق می‌مانند.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch3.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="ch3.next.title">فصل ۴ · کارگاه</h3>
+          <p data-i18n="ch3.next.p">تا جایی که با کلیک می‌شد رفت آمدی. در ادامه جایی است که کلیک کافی نیست: ترمینال، فایل‌ها و نسخه‌ای از من که مستقیم روی رایانه‌ات کار می‌کند.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch3.next.soon">به‌زودی</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="بازگشت به بالا" data-i18n-attr="aria-label=ch3.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-3.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-3.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/course/chapter-3.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="chapter-3.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

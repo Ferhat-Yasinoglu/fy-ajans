@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Bölüm 3: Ajan — Senin için 24 saat çalışan akışlar | Yapay Zekâ Yolculuğu | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Kursun üçüncü bölümü: n8n ile otomasyon, sıfırdan. Akış, düğüm, tetikleyici; webhook ve API; yapay zekâyı akışın içine koymak; araç seçen otonom ajanlar. Instagram DM'den e-postaya ve CRM'e giden gerçek bir akışla.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-3.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-3.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-3.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 3: Ajan — Senin için 24 saat çalışan akışlar">
+<meta property="og:description" data-i18n-attr="content=og.description" content="n8n ile otomasyon sıfırdan: akış, düğüm, tetikleyici, webhook, API ve otonom ajanlar.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-3.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch3.back">← Bütün bölümler</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch3.barNum">Bölüm 3 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch3.barCta">Kursa katıl</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l3-cover-static.svg"><img src="../img/course/l3-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Agent</span>
+        <span class="lesson__cover-note" data-i18n="ch3.coverNote">sen uyurken de çalışan devre</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch3.eyebrow">Bölüm 3 · Ajan</span>
+      <h1 class="font-display text-h1" data-i18n="ch3.title">Bir kez kur, <span class="text-accent-gradient">bir daha yapma</span></h1>
+      <p class="lesson__lead" data-i18n="ch3.lead">İlk iki bölümde beni tanıdın ve bana doğru isteği yazmayı öğrendin. Ama hâlâ her seferinde sen yazıyorsun. Bu bölümde o son adımı da kaldıracağız: tekrar eden işleri, sen dokunmadan, sırayla ve her seferinde aynı biçimde yapan akışlar kuracağız. Aracımız n8n. Kod bilmene gerek yok; kutuları birbirine bağlayacağız.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch3.meta">Okuma süresi ~40 dakika · Ön koşul: Bölüm 2</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch3.goals.title">Bu bölümün sonunda</h2>
+      <ul class="check-list space-2" data-i18n="ch3.goals.list">
+        <li>Akış, düğüm ve tetikleyicinin ne olduğunu — üç kelimeyle bütün alanı — bileceksin</li>
+        <li>n8n'de ilk akışını kurmuş ve çalıştırmış olacaksın</li>
+        <li>Webhook'un ve API'nin ne olduğunu, sıradan bir cümleyle anlatabileceksin</li>
+        <li>Verinin düğümden düğüme nasıl taşındığını göreceksin</li>
+        <li>Beni bir akışın içine koyup Bölüm 2'deki formülü düğümün içine yazacaksın</li>
+        <li>Kendi başına araç seçen bir ajanın nasıl döndüğünü anlayacaksın</li>
+        <li>Akış kırıldığında ne olacağını önceden kurmuş olacaksın</li>
+      </ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch3.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch3.guide.t">Claude Rehberi</strong><span data-i18n="ch3.guide.p">Bu bölümde beni bir akışın içine koyacağız. Neyi iyi yaptığımı, nerede yanıldığımı unuttuysan — tek sayfada, dört dilde.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch3.s1.title">Bir haftada kaç kez aynı şeyi yapıyorsun</span></h2>
+      <p data-i18n="ch3.s1.p1">Gelen mesajı okuyup aynı üç cevaptan birini vermek. Formdan gelen bilgiyi tabloya yazmak. Her sabah dünkü satışları toplayıp birine göndermek. Fatura gelince dosyaya koymak. Bunların hiçbiri zor değil; hepsi <em>tekrar</em>. Ve tekrar eden her iş, bir kez tarif edilebilen iştir.</p>
+      <p data-i18n="ch3.s1.p2">Otomasyon tam olarak bu: bir işi bir kez tarif edersin, sonra o iş kendi kendine olur. Sen uyurken de, tatildeyken de, aynı anda on müşteri yazarken de. Bu bölümde «akış» dediğimiz şey, o tarifin kendisi.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s1.note">Bölüm 2'de öğrendiğin formül burada başka bir anlam kazanıyor. Orada isteği her seferinde sen yazıyordun. Burada isteği <em>bir kez</em> yazıp bir kutunun içine koyacaksın; kutu her tetiklendiğinde o isteği benim için yeniden dolduracak. Formülü öğrenmiş olman, bu bölümün yarısını çoktan bitirdiğin anlamına geliyor.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch3.s1.do">Şimdi yap: Bu hafta en az üç kez yaptığın, her seferinde aynı olan üç işi yaz. Bölümün sonunda bunlardan biri kendi kendine yapılıyor olacak.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch3.s2.title">Üç kelime: akış, düğüm, tetikleyici</span></h2>
+      <p data-i18n="ch3.s2.p1">Bu alanda korkutucu görünen bütün sözcükler üç basit fikre iniyor. Üçünü bilirsen gerisini tuvalde tıklayarak keşfedersin.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k1.t">Akış</h3><p data-i18n="ch3.s2.k1.p">Baştan sona bir iş tarifi. «Form gelince → tabloya yaz → bana mesaj at» bir akıştır. n8n'de buna <em>workflow</em> denir; tuvalde soldan sağa okunur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k2.t">Düğüm</h3><p data-i18n="ch3.s2.k2.p">Akıştaki tek bir adım — bir kutu. «Tabloya yaz» bir düğümdür, «e-posta gönder» bir düğümdür, «Claude'a sor» bir düğümdür. Kutular tellerle birbirine bağlanır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s2.k3.t">Tetikleyici</h3><p data-i18n="ch3.s2.k3.p">Akışın ilk düğümü; akışı uyandıran şey. «Her sabah 09:00'da», «form doldurulunca», «birisi bu adrese veri gönderince». Tetikleyici olmadan akış uyumaya devam eder.</p></div>
+      </div>
+      <p data-i18n="ch3.s2.p2">Bir de dördüncü kelime var, ama o üçünün sonucu: <strong class="text-fg">çalıştırma</strong>. Tetikleyici bir kez uyanınca akışın baştan sona bir kez koşmasına çalıştırma denir. Her çalıştırmanın kaydı tutulur; nerede durduğunu, ne ürettiğini sonradan görebilirsin.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch3.s2.do">Şimdi yap: 01'de yazdığın üç işten birini şu kalıba dök: «___ olunca → ___ → ___». İlk boşluk tetikleyici, gerisi düğümler. Akışın kâğıt üstünde hazır.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch3.s3.title">n8n nedir, neden o</span></h2>
+      <p data-i18n="ch3.s3.p1">n8n, akışları görsel olarak kurduğun bir araç: kutuları tuvale koyarsın, tellerle bağlarsın, çalıştırırsın. Yüzlerce uygulamaya hazır bağlantısı var — e-posta, tablolar, mesajlaşma, CRM, veritabanları — ve olmayan her şeye API üzerinden ulaşır. Bu bölümü onun üstüne kurmamın üç sebebi var:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f1.t">Açık kaynak; kendi sunucunda da çalışır</h3>
+          <p data-i18n="ch3.s3.f1.p">İstersen n8n'in bulutunu kullanırsın, istersen kendi sunucuna kurarsın. İkinci yolda verin dışarı çıkmaz ve akış sayısı için kimseye para ödemezsin. Bir ajans için bu fark büyük.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f2.t">Kod bilmeyene açık, kod bilene sınırsız</h3>
+          <p data-i18n="ch3.s3.f2.p">Çoğu işi tıklayarak kurarsın. Ama bir yerde tıklamak yetmezse araya bir kod düğümü koyar, on satır yazarsın — ya da yazdırırsın. Bölüm 4 ve 5 tam olarak bunu öğretecek.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s3.f3.t">Yapay zekâ düğümü içeride hazır</h3>
+          <p data-i18n="ch3.s3.f3.p">Beni bir akışa koymak için ayrı bir şey kurmana gerek yok: bir düğüm ekler, anahtarını girer, isteğini yazarsın. Araç kullanan, hafızası olan ajan düğümü de var — 12. bölümde oraya geleceğiz.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s3.note">Dürüst not: bu işi yapan başka araçlar da var ve bazıları bazı işlerde daha kolay. Ben n8n'i seçtim çünkü öğrendiğin şey ona bağlı kalmıyor — akış, düğüm, tetikleyici, webhook, API kavramları her araçta aynı. Bir tanesini gerçekten öğrenirsen diğerlerine bir öğleden sonra geçersin.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🌐</span><span data-i18n="ch3.s3.do">Şimdi yap: n8n'in sitesine gir ve bir hesap aç — bulut sürümünün deneme süresi bu bölüm için yeter. Kurulumla uğraşma; önce kavramı öğren, sunucuyu sonra düşünürsün.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch3.s4.title">Bir akışın anatomisi</span></h2>
+      <p data-i18n="ch3.s4.p1">Aşağıdaki çizim, bu bölümün sonunda kuracağın türden bir akış. Soldan sağa oku: bir şey olur, veri düğümden düğüme geçer, bir yerde yol ikiye ayrılır, sonunda bir yere varır.</p>
+      <figure class="flow">
+        <span class="flow__cap font-mono" data-i18n="ch3.fig.flow.cap">Soldan sağa: bir akış</span>
+        <div class="flow__canvas" aria-hidden="true">
+          <div class="flow__row">
+            <div class="flow__node flow__node--trig"><b data-i18n="ch3.fig.flow.n1">tetikleyici</b><i data-i18n="ch3.fig.flow.d1">form dolduruldu</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node"><b data-i18n="ch3.fig.flow.n2">düğüm</b><i data-i18n="ch3.fig.flow.d2">tabloya yaz</i></div>
+            <span class="flow__wire"></span>
+            <div class="flow__node flow__node--if"><b data-i18n="ch3.fig.flow.n3">koşul</b><i data-i18n="ch3.fig.flow.d3">acil mi?</i></div>
+            <span class="flow__wire flow__wire--fork"></span>
+            <div class="flow__fork">
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n4">evet</b><i data-i18n="ch3.fig.flow.d4">bana mesaj at</i></div>
+              <div class="flow__node flow__node--sm"><b data-i18n="ch3.fig.flow.n5">hayır</b><i data-i18n="ch3.fig.flow.d5">sabah listesine ekle</i></div>
+            </div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.flow.fc">Her kutu tek bir iş yapar ve bir sonrakine verir. Koşul düğümü yolu ikiye ayırır; iki yol da kendi işini görür. Bu kadar — bütün otomasyonlar bu dört parçanın çeşitlemesi.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s4.p2">Kutuların içinde ne olduğunu şimdilik boş ver. Önemli olan biçim: <strong class="text-fg">bir giriş, birbirine bağlı adımlar, bir ya da birkaç çıkış.</strong> Tuvalde kurduğun her şey sonunda bu resme benzer.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">✏️</span><span data-i18n="ch3.s4.do">Şimdi yap: 02'de kâğıda yazdığın akışı kutu ve ok olarak çiz. Bir yerde «eğer … ise» geçiyorsa oraya bir koşul kutusu koy.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch3.s5.title">Akış nasıl uyanır: dört tetikleyici</span></h2>
+      <p data-i18n="ch3.s5.p1">Tetikleyiciyi seçmek, akışı kurmanın ilk ve en önemli kararı. Dört tür var; gerçek işlerin neredeyse tamamı bu dördünden birine giriyor.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k1.t">Zamanla</h3><p data-i18n="ch3.s5.k1.p">«Her sabah 09:00», «her pazartesi», «her saat başı». Rapor, özet, hatırlatma, yedekleme gibi işler için. n8n'de zamanlama düğümü.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k2.t">Bir uygulamada bir şey olunca</h3><p data-i18n="ch3.s5.k2.p">«Yeni e-posta gelince», «tabloya satır eklenince», «takvime toplantı düşünce». Uygulamanın kendi tetikleyici düğümü var; onu seçer, hesabını bağlarsın.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k3.t">Dışarıdan bir çağrı gelince</h3><p data-i18n="ch3.s5.k3.p">Webhook. Site formu, ödeme sistemi, başka bir yazılım — dışarıdaki bir şey senin adresine veri gönderir, akış uyanır. Bir sonraki başlık tamamen buna ayrıldı.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s5.k4.t">Elle</h3><p data-i18n="ch3.s5.k4.p">Sen düğmeye basınca. Kurarken ve test ederken kullanırsın; canlıya çıkınca genellikle yukarıdakilerden biriyle değiştirirsin.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s5.note">Bir kural: <strong class="text-fg">zamanla tetiklemek en kolayı, olayla tetiklemek en doğrusu.</strong> «Her beş dakikada bir yeni mesaj var mı diye bak» yerine «mesaj gelince uyan» hem daha hızlı hem daha ucuz. Olay tetikleyicisi varsa onu seç; yoksa zamanlamaya dön.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch3.s5.do">Şimdi yap: Kâğıttaki akışının tetikleyicisi bu dördünden hangisi? Yanına yaz. Emin değilsen «olay» ile «zaman» arasında kaldıysan olayı seç.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch3.s6.title">Webhook: dünyanın kapını çalması</span></h2>
+      <p data-i18n="ch3.s6.p1">Bu kelime insanları korkutuyor; korkutmamalı. Webhook, senin akışına verilmiş bir <strong class="text-fg">adres</strong> — bir web sitesi adresi gibi. Dışarıdaki bir sistem o adrese bir şey gönderdiğinde, akışın uyanır ve gönderilen şeyi eline alır. Hepsi bu.</p>
+      <figure class="bell">
+        <span class="bell__cap font-mono" data-i18n="ch3.fig.bell.cap">Webhook nasıl çalışır</span>
+        <div class="bell__row">
+          <div class="bell__side">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t1">Dışarıdaki sistem</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e1">site formu · ödeme sistemi · başka bir yazılım</span>
+          </div>
+          <div class="bell__mid" aria-hidden="true">
+            <span class="bell__pkt"></span>
+            <span class="bell__url font-mono">…/webhook/siparis</span>
+            <span class="bell__arrow">→</span>
+          </div>
+          <div class="bell__side bell__side--you">
+            <span class="bell__t" data-i18n="ch3.fig.bell.t2">Senin akışın</span>
+            <span class="bell__ex" data-i18n="ch3.fig.bell.e2">uyanır, gelen veriyi alır, devam eder</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.bell.fc">Ortadaki adres senin. n8n bunu sana kendisi verir; sen kopyalayıp öbür sisteme «bir şey olunca buraya gönder» dersin. Kapı zili gibi: dışarıdan basılır, içeride sen duyarsın.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s6.p2">İki yönde çalışır. Senin akışın webhook <em>alabilir</em> — az önceki gibi. Bir de senin akışın başka bir adrese webhook <em>gönderebilir</em>: «iş bitti, şuraya haber ver.» İkincisine bazen «HTTP isteği» denir; adı farklı, fikir aynı.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s6.note">Güvenlik notu: webhook adresini bilen herkes o kapıyı çalabilir. Adresi paylaşırken bir sırla korumak (n8n bunun için seçenek sunar) ve gelen veriye körü körüne güvenmemek gerekir. 15. bölümde buna döneceğiz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔔</span><span data-i18n="ch3.s6.do">Şimdi yap: n8n'de yeni bir akış aç, tetikleyici olarak Webhook seç. Sana verdiği adresi tarayıcında aç. Akışın uyandığını göreceksin — ilk webhook'un bu.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch3.s7.title">API: iki programın konuşması</span></h2>
+      <p data-i18n="ch3.s7.p1">Bir uygulamanın senin için yaptığı her şeyin bir de programlar için yapılan hâli vardır. Sen tabloya satır eklemek için tıklarsın; bir program aynı şeyi bir adrese istek göndererek yapar. O adresin ve kuralların bütününe <strong class="text-fg">API</strong> denir: uygulamanın, insanlara değil, programlara açtığı kapı.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s7.weak">Sen</span>
+          <p class="compare__note" data-i18n="ch3.s7.weakNote">Tarayıcıyı açarsın, giriş yaparsın, tabloyu bulursun, yeni satıra tıklarsın, yazarsın, kaydedersin. Altı adım, iki dakika.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s7.strong">Akışın</span>
+          <p class="compare__note" data-i18n="ch3.s7.strongNote">Tablonun API adresine tek bir istek gönderir: «şu tabloya şu satırı ekle.» Bir adım, yarım saniye. Ve günde bin kez yorulmadan.</p>
+        </div>
+      </div>
+      <p data-i18n="ch3.s7.p2">n8n'in güzelliği şurada: yaygın uygulamaların API'lerini senin için zaten öğrenmiş. «Tabloya satır ekle» düğümünü seçersin, hesabını bağlarsın, sütunları doldurursun — API'yi hiç görmezsin. Hazır düğümü olmayan bir şeyle konuşman gerekirse <strong class="text-fg">HTTP isteği</strong> düğümü var; ona adresi ve göndereceğini verirsin, o konuşur.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s7.note">Bir API'yi kullanmak için çoğu zaman bir <em>anahtar</em> gerekir: uygulamanın sana verdiği, «bu istekler benden» diyen uzun bir dizi. Anahtar şifre gibidir — 15. bölümde nasıl saklanacağını konuşacağız. Şimdilik bil: her API'nin bir kapısı, her kapının bir anahtarı var.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔑</span><span data-i18n="ch3.s7.do">Şimdi yap: Kullandığın bir uygulamanın ayarlarında «API» ya da «entegrasyon» diye bir sayfa var mı bak. Varsa o uygulama akışlarına bağlanabilir demektir.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch3.s8.title">İlk akışın, on beş dakikada</span></h2>
+      <p data-i18n="ch3.s8.p1">Kavramlar tamam; şimdi tuval. Aşağıdaki canlandırma, ilk akışını kurarken ekranda neye basacağını gösteriyor. Kendi kendine ilerler, adımlara tıklayabilirsin.</p>
+      <figure class="n8n" data-n8n>
+        <span class="n8n__cap font-mono" data-i18n="ch3.fig.n8n.cap">Tuvalde ilk akış</span>
+        <div class="n8n__stage" data-step="1">
+          <div class="n8n__top"><span class="n8n__dot"></span><span class="n8n__name font-mono" data-i18n="ch3.fig.n8n.name">Yeni akış</span><span class="n8n__run"><span data-i18n="ch3.fig.n8n.runBtn">Çalıştır</span></span></div>
+          <div class="n8n__canvas">
+            <div class="n8n__plus" aria-hidden="true">+</div>
+            <div class="n8n__node n8n__node--a"><b data-i18n="ch3.fig.n8n.a">Zamanlama</b><i data-i18n="ch3.fig.n8n.aSub">her sabah 09:00</i><span class="n8n__ok">✓</span></div>
+            <span class="n8n__wire" aria-hidden="true"></span>
+            <div class="n8n__node n8n__node--b"><b data-i18n="ch3.fig.n8n.b">E-posta gönder</b><i data-i18n="ch3.fig.n8n.bSub">günaydın mesajı</i><span class="n8n__ok">✓</span></div>
+            <div class="n8n__panel" aria-hidden="true">
+              <span class="n8n__ptitle" data-i18n="ch3.fig.n8n.pTitle">E-posta gönder</span>
+              <i></i><i style="--w:70%"></i><i style="--w:88%"></i>
+            </div>
+            <span class="n8n__cursor" aria-hidden="true"></span>
+          </div>
+        </div>
+        <ol class="n8n__steps">
+          <li><button type="button" data-go="1"><span class="n8n__e" aria-hidden="true">🆕</span><span data-i18n="ch3.fig.n8n.s1">Yeni akış aç — boş tuval</span></button></li>
+          <li><button type="button" data-go="2"><span class="n8n__e" aria-hidden="true">⏰</span><span data-i18n="ch3.fig.n8n.s2">Tetikleyici ekle: zamanlama</span></button></li>
+          <li><button type="button" data-go="3"><span class="n8n__e" aria-hidden="true">🔗</span><span data-i18n="ch3.fig.n8n.s3">İkinci düğümü ekle, tele bağla</span></button></li>
+          <li><button type="button" data-go="4"><span class="n8n__e" aria-hidden="true">⚙️</span><span data-i18n="ch3.fig.n8n.s4">Düğüme tıkla, alanları doldur</span></button></li>
+          <li><button type="button" data-go="5"><span class="n8n__e" aria-hidden="true">▶️</span><span data-i18n="ch3.fig.n8n.s5">Çalıştır — yeşil onayları gör</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.n8n.fc">Bu bir çizim, ekran görüntüsü değil — düğme adları ve yerleri sürümden sürüme değişir. Aradığın şey her zaman aynı: bir «+», bir düğüm listesi, düğümler arasında sürüklenen bir tel ve bir «çalıştır».</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch3.s8.st1">Boş bir akış aç. Tuvalin ortasındaki «+» işaretine bas; sana bir düğüm listesi açılır.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch3.s8.st2">Tetikleyiciyi seç: zamanlama. Saati «her sabah 09:00» yap. İlk düğümün tuvalde.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch3.s8.st3">Düğümün sağındaki küçük daireden tuvale sürükle; liste tekrar açılır. «E-posta gönder» seç. Tel kendiliğinden çizilir.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch3.s8.st4">Düğüme tıkla. Hesabını bağla (ilk seferde ister), alıcıyı kendin yap, konuya «günaydın», gövdeye tek bir cümle yaz.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch3.s8.st5">«Çalıştır»a bas. Düğümlerin köşesinde yeşil onaylar belirir; e-posta kutuna düşer. Akışı kaydet ve «etkin» yap — yarın sabah 09:00'da kendi kendine çalışacak.</span></li>
+      </ol>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch3.s8.do">Şimdi yap: Bu beş adımı bugün tamamla. Kendine günaydın e-postası atan bir akış saçma görünebilir; ama yarın sabah gelen o e-posta, «kurdum ve çalışıyor» hissinin ilk örneği.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch3.s9.title">Veri düğümden düğüme nasıl gider</span></h2>
+      <p data-i18n="ch3.s9.p1">İlk akışında bir şey fark etmiş olabilirsin: e-posta düğümü, zamanlama düğümünden ne aldı? Cevap: küçük bir zarf. Her düğüm bir sonrakine bir zarf verir; zarfın içinde etiketli bilgiler vardır — «ad: Ayşe», «tutar: 1200», «tarih: bugün».</p>
+      <figure class="env">
+        <span class="env__cap font-mono" data-i18n="ch3.fig.env.cap">Zarfın içi</span>
+        <div class="env__row">
+          <div class="env__node"><b data-i18n="ch3.fig.env.from">form düğümü</b></div>
+          <div class="env__card" aria-hidden="true">
+            <span class="env__k">ad</span><span class="env__v">Ayşe Demir</span>
+            <span class="env__k">e-posta</span><span class="env__v">ayse@…</span>
+            <span class="env__k">tutar</span><span class="env__v">1.200</span>
+            <span class="env__k">acil</span><span class="env__v">evet</span>
+          </div>
+          <div class="env__node env__node--to"><b data-i18n="ch3.fig.env.to">e-posta düğümü</b></div>
+        </div>
+        <figcaption data-i18n="ch3.fig.env.fc">Her satır bir etiket ve bir değer. Sonraki düğüm bu etiketleri isimle çağırır: «alıcı = e-posta», «konu = ad + tutar». Teknik adı JSON; ama düşünmen gereken şey sadece etiketli bir zarf.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s9.p2">Bir düğümün ayarlarında bir alana tıkladığında n8n sana önceki düğümden gelen etiketleri gösterir; sürükleyip bırakırsın. Elle yazman gereken tek şey bazen etiketin adı. Bu sürükle-bırak, kod yazmadan veri taşımanın kendisi.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s9.note">Zarf bazen tek değil, birçok olur: bir tabloda elli satır varsa elli zarf gelir ve sonraki düğüm elli kez çalışır — her biri için bir kez. Buna alışmak birkaç deneme ister; «neden e-posta elli kez gitti?» sorusunun cevabı çoğu zaman budur.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">✉️</span><span data-i18n="ch3.s9.do">Şimdi yap: İlk akışını bir kez çalıştır, sonra zamanlama düğümüne tıkla ve «çıktı» sekmesine bak. Gördüğün şey zarf. Etiketlerini oku.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch3.s10.title">Koşul ve dallanma</span></h2>
+      <p data-i18n="ch3.s10.p1">Gerçek işlerde her şey aynı yoldan gitmez. Acil olan bana mesaj olarak gelsin, acil olmayan sabah listesine düşsün. Bunu yapan düğümün adı <strong class="text-fg">IF</strong>: bir soru sorar, cevaba göre veriyi iki yoldan birine gönderir.</p>
+      <figure class="branch">
+        <span class="branch__cap font-mono" data-i18n="ch3.fig.br.cap">Bir soru, iki yol</span>
+        <div class="branch__row">
+          <div class="branch__in"><b data-i18n="ch3.fig.br.in">zarf gelir</b><i data-i18n="ch3.fig.br.inSub">acil: evet</i></div>
+          <div class="branch__if"><span data-i18n="ch3.fig.br.q">acil = evet mi?</span></div>
+          <div class="branch__outs">
+            <div class="branch__out branch__out--yes"><b data-i18n="ch3.fig.br.yes">evet</b><i data-i18n="ch3.fig.br.yesSub">bana anında mesaj</i></div>
+            <div class="branch__out"><b data-i18n="ch3.fig.br.no">hayır</b><i data-i18n="ch3.fig.br.noSub">sabah listesine ekle</i></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch3.fig.br.fc">Koşul düğümünün iki çıkışı var: evet ve hayır. Her çıkışa ayrı düğümler bağlarsın. Zarftaki «acil» etiketi evet ise üst yol, değilse alt yol çalışır — öbürü o çalıştırmada hiç uyanmaz.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s10.p2">Sorular basit tutulur: bir etiket, bir karşılaştırma, bir değer. «tutar 1000'den büyük mü», «konu 'iptal' içeriyor mu», «e-posta boş mu». Daha karmaşık kararlar için iki IF'i art arda koyarsın; ya da bir sonraki başlıkta göreceğin gibi kararı bana bırakırsın.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔀</span><span data-i18n="ch3.s10.do">Şimdi yap: İlk akışına bir IF ekle: «bugün pazartesi mi?» Evet ise e-posta konusuna «haftaya iyi başla» yazdır. Dallanmanın nasıl çalıştığını tek denemede görürsün.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch3.s11.title">Beni akışın içine koy</span></h2>
+      <p data-i18n="ch3.s11.p1">Buraya kadar kurduğun akışlar «mekanik»: veri taşır, koşula bakar, gönderir. Okumak, anlamak, yazmak gerektiğinde araya bir yapay zekâ düğümü girer — yani ben. Gelen mesajı sınıflandırmak, uzun e-postayı özetlemek, müşteriye taslak cevap yazmak: bunlar mekanik değil, dil işi.</p>
+      <p data-i18n="ch3.s11.p2">Düğümü ekleyip anahtarını girdikten sonra tek bir alan kalır: istek. Ve o alana ne yazacağını <strong class="text-fg">zaten biliyorsun</strong> — Bölüm 2'nin formülü. Fark şu: rol, bağlam, görev, kısıt ve biçimi bir kez yazarsın; «bağlam» kısmına sabit metin yerine önceki düğümden gelen etiketi sürüklersin. Akış her uyandığında o etiket yeni değeriyle dolar ve istek kendiliğinden yenilenir.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s11.strong">Düğümün içindeki istek</span>
+          <p class="compare__text font-mono" data-i18n="ch3.s11.strongText">Küçük bir mobilya atölyesinin müşteri temsilcisi gibi davran. Aşağıdaki müşteri mesajını oku: {{mesaj}}. Mesajı «sipariş», «şikâyet» ya da «soru» olarak sınıflandır ve yalnızca bu tek kelimeyi yaz — başka hiçbir şey.</p>
+          <p class="compare__note" data-i18n="ch3.s11.strongNote">Rol var, bağlam var (etiketten geliyor), görev net, kısıt sıkı, biçim tek kelime. Sonraki IF düğümü bu tek kelimeye bakıp yolu seçer.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s11.note">Bir akışta biçim kısıtı her zamankinden önemli. Sohbette fazladan bir cümle yazmam sorun değil; akışta o fazladan cümle bir sonraki düğümü şaşırtır. «Yalnızca şunu yaz, başka hiçbir şey» kısıtını akışlarda hiç atlama — ya da düğümün yapılandırılmış çıktı seçeneğini aç, o zaman zarf etiketleriyle döner.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🤖</span><span data-i18n="ch3.s11.do">Şimdi yap: Akışına bir yapay zekâ düğümü ekle ve yukarıdaki isteği uyarlayarak yapıştır. Elle bir mesaj yaz, çalıştır, tek kelimelik cevabı gör.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch3.s12.title">Otonom ajan: araç seçen düğüm</span></h2>
+      <p data-i18n="ch3.s12.p1">Önceki başlıktaki düğüm bir şey okur, bir şey yazar, biter. Ajan düğümü farklı: ona bir <strong class="text-fg">hedef</strong> ve birkaç <strong class="text-fg">araç</strong> verirsin — tabloyu oku, takvime bak, e-posta gönder — ve hangi aracı ne sırayla kullanacağına o karar verir. Sen adımları yazmazsın; sonucu tarif edersin.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch3.fig.ag.cap">Ajan döngüsü</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🎯</span><b data-i18n="ch3.fig.ag.s1t">Hedefi alır</b><i data-i18n="ch3.fig.ag.s1s">«müşteriye uygun saat öner»</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🧠</span><b data-i18n="ch3.fig.ag.s2t">Düşünür</b><i data-i18n="ch3.fig.ag.s2s">«önce takvime bakmalıyım»</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🔧</span><b data-i18n="ch3.fig.ag.s3t">Aracı çağırır</b><i data-i18n="ch3.fig.ag.s3s">takvim · tablo · e-posta</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">📄</span><b data-i18n="ch3.fig.ag.s4t">Sonucu okur</b><i data-i18n="ch3.fig.ag.s4s">«salı 14:00 boş»</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">🔁</span><b data-i18n="ch3.fig.ag.s5t">Yetti mi?</b><i data-i18n="ch3.fig.ag.s5s">hayır → başa; evet → cevap</i></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ag.fc">Beşinci kutu döngünün kalbi: sonuç hedefe yetmiyorsa ajan ikinci kutuya döner ve başka bir araç dener. Yettiğinde durur. Sen bu döngüyü yazmazsın; hedefi ve araçları verirsin.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s12.p2">Ajan düğümüne bir de <strong class="text-fg">hafıza</strong> bağlayabilirsin: aynı müşteriyle önceki konuşmaları hatırlar. Bölüm 1'de «her sohbet sıfırdan başlar» demiştim — akışta bu kuralı hafıza düğümüyle sen değiştirirsin.</p>
+      <div class="glass note">
+        <p data-i18n="ch3.s12.note">Dürüst uyarı: ajan, akışın en güçlü ve en öngörülemez parçası. Hangi aracı ne zaman çağıracağını sen belirlemiyorsun. Bu yüzden ajana verdiğin araçlar <em>geri alınabilir</em> şeyler olmalı: okumak, taslak yazmak, önermek. Silmek, ödemek, göndermek gibi araçları ajana verme; o adımı ayrı bir düğüme, mümkünse senin onayına bırak.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧭</span><span data-i18n="ch3.s12.do">Şimdi yap: Bir ajan düğümü ekle, ona tek bir araç ver (tabloyu okumak) ve tek bir hedef: «tabloda bugün doğum günü olan var mı, varsa adını söyle». Döngüyü çalıştırmalarda izle.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch3.s13.title">Instagram DM'den CRM'e: gerçek bir akış</span></h2>
+      <p data-i18n="ch3.s13.p1">Kartta söz verdiğim akış bu. Bir ajans için her gün tekrar eden bir iş: mesaj gelir, birinin okuması, cevaplaması ve kaydetmesi gerekir. Aşağıdaki zincir onu insansız yapıyor — yalnızca bir yerde senin onayına düşerek.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch3.fig.ch.cap">Beş düğüm, bir onay</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch3.fig.ch.s1">Tetikleyici: yeni DM gelince (webhook)</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch3.fig.ch.s2">Ben: mesajı sınıflandır — sipariş / şikâyet / soru</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch3.fig.ch.s3">Ben: sınıfa göre cevap taslağı yaz</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch3.fig.ch.s4">Sana e-posta: taslak + «onayla / düzelt»</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch3.fig.ch.s5">CRM'e kaydet: kişi, sınıf, tarih, ne cevap verildi</span></li>
+        </ol>
+        <figcaption data-i18n="ch3.fig.ch.fc">Dördüncü adım bilerek insan: gönder düğmesine sen basıyorsun. Zamanla taslakların yüzde doksanı dokunulmadan gidiyorsa o adımı kaldırırsın — ama ilk gün değil.</figcaption>
+      </figure>
+      <p data-i18n="ch3.s13.p2">Bu akış kurulduktan sonra günde kaç mesaj gelirse gelsin aynı kalitede karşılanır, hiçbiri unutulmaz ve hepsi kayda geçer. Sen sadece taslaklara bakarsın. Bir kişilik bir ajansın on kişilik ajans gibi görünmesi tam olarak burada başlıyor.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch3.s13.do">Şimdi yap: Bu beş düğümü kendi işine çevir — DM yerine form, CRM yerine tablo olabilir. Yapı aynı kalır. Sadece birinci ve beşinci düğümü değiştir, ortası hazır.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch3.s14.title">Kırılınca ne olur</span></h2>
+      <p data-i18n="ch3.s14.p1">Her akış bir gün kırılır: bir uygulama anahtarı yeniler, bir servis beş dakika cevap vermez, bir müşteri hiç beklemediğin biçimde bir şey yazar. Kırılmak sorun değil; sessizce kırılmak sorun. Bunu baştan kurmak dört adım:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f1.t">Hata akışı</h3>
+          <p data-i18n="ch3.s14.f1.p">n8n'de herhangi bir akış hata verdiğinde çalışacak ayrı bir akış tanımlarsın: «hangi akış, hangi düğüm, ne hata» diye sana mesaj atsın. Böylece kırılmayı müşteriden önce sen duyarsın.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f2.t">Yeniden dene</h3>
+          <p data-i18n="ch3.s14.f2.p">Dış servisle konuşan düğümlerde «hata olursa şu kadar bekle, tekrar dene» ayarı vardır. Geçici kesintilerin çoğu ikinci denemede geçer; bunu açık tutmak bedava.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f3.t">Çalıştırma kayıtlarına bak</h3>
+          <p data-i18n="ch3.s14.f3.p">Her çalıştırmanın kaydı durur: hangi düğüm ne aldı, ne verdi, nerede kızardı. Bir şey ters gittiğinde ilk bakacağın yer burası — tahmin etmek yerine görürsün.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch3.s14.f4.t">Beklenmeyen veriye hazırlık</h3>
+          <p data-i18n="ch3.s14.f4.p">Boş alan, eksik etiket, çok uzun mesaj. Yapay zekâ düğümünde «mesaj boşsa 'boş' yaz» gibi bir kısıt; IF düğümünde «hiçbiri değilse» dalı. Kenar durumları düşünmek akışı kurmanın yarısıdır.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚨</span><span data-i18n="ch3.s14.do">Şimdi yap: Bir hata akışı kur — tek düğüm, sana mesaj atsın — ve ilk akışını ona bağla. Sonra bilerek boz: e-posta düğümündeki alıcıyı sil, çalıştır. Mesajın gelmesi gerekiyor.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch3.s15.title">Anahtarlar ve güvenlik</span></h2>
+      <p data-i18n="ch3.s15.p1">Akışların hesaplarına erişiyor: e-postana, tablolarına, müşteri listene. Bu erişim anahtarlarla oluyor ve anahtarlar şifre gibi. Dört kural, hepsi basit:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k1.t">Anahtar düğümün içine değil, kasaya</h3><p data-i18n="ch3.s15.k1.p">n8n'de «kimlik bilgileri» diye ayrı bir yer var. Anahtarı oraya bir kez koyarsın, düğümler oradan kullanır. Bir düğümün ayarına anahtarı elle yapıştırmak, şifreni not kâğıdına yazıp masaya bırakmak gibi.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k2.t">En az yetki</h3><p data-i18n="ch3.s15.k2.p">Tablo okuyacak akışa yazma yetkisi verme. Anahtar oluştururken uygulamalar genelde «neye izin» diye sorar; yalnızca gerekeni seç. Akış bozulursa zarar da küçük kalır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k3.t">Webhook'a sır koy</h3><p data-i18n="ch3.s15.k3.p">Webhook adresini bilen herkes akışını tetikleyebilir. n8n'in sunduğu doğrulama seçeneklerinden birini aç; en azından adrese kimsenin tahmin edemeyeceği bir parça ekle.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch3.s15.k4.t">Gelen veriye güvenme</h3><p data-i18n="ch3.s15.k4.p">Bölüm 1'deki gizli talimat uyarısı burada iki kat geçerli: bir müşteri mesajının içinde «önceki talimatları unut» yazabilir ve o mesaj benim düğümüme giriyor. Kısıtları sıkı tut, geri alınamayan işleri ajana verme.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch3.s15.do">Şimdi yap: Kurduğun akışlardaki bütün düğümlere bak. Herhangi birinin içinde uzun bir anahtar dizisi elle yazılmış mı? Varsa kimlik bilgilerine taşı — beş dakika, bir gün seni kurtarır.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch3.s16.title">Ne zaman otomasyon yapılmaz</span></h2>
+      <p data-i18n="ch3.s16.p1">Bu araçları öğrenen herkes bir süre her şeyi otomatikleştirmek ister. Bu bir hata ve pahalı bir hata. Dürüst ölçü:</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch3.s16.weak">Elle bırak</span>
+          <p class="compare__note" data-i18n="ch3.s16.weakNote">Ayda bir yapılan işler. Her seferinde farklı karar isteyen işler. Bir hatanın bir müşteri ya da para kaybettireceği işler. Henüz nasıl yapıldığını tam bilmediğin işler — bilmediğin şeyi otomatikleştiremezsin.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch3.s16.strong">Otomatikleştir</span>
+          <p class="compare__note" data-i18n="ch3.s16.strongNote">Haftada üçten fazla tekrar eden işler. Her seferinde aynı adımlarla yapılanlar. Unutulunca zarar verenler. Gece ya da hafta sonu da olması gerekenler.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch3.s16.note">Pratik kural: <strong class="text-fg">önce üç kez elle yap, sonra otomatikleştir.</strong> Üçüncü seferde adımlar netleşmiş, kenar durumları görülmüş olur. Birinci seferde kurduğun akış, ikinci seferde kırılır.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch3.s16.do">Şimdi yap: 01'de yazdığın üç işi bu iki sütuna dağıt. Sağ sütunda kalan varsa, sıradaki akışın o.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch3.s17.title">Beş yaygın hata</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m1.t">1 · İlk akışı çok büyük kurmak</h3>
+          <p data-i18n="ch3.s17.m1.p">On beş düğümlü bir akışla başlarsan neresinin bozuk olduğunu bulamazsın. İki düğümle başla, çalışsın, sonra üçüncüyü ekle. Her ekleme sonrası çalıştır.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m2.t">2 · Elle tetikleyiciyi canlıda bırakmak</h3>
+          <p data-i18n="ch3.s17.m2.p">Test ederken «elle» tetikleyici kullanırsın, sonra canlıya alırken değiştirmeyi unutursun. Akış hiç uyanmaz ve sen «çalışmıyor» dersin. Canlıya almadan tetikleyiciyi kontrol et.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m3.t">3 · Yapay zekâ düğümüne biçim söylememek</h3>
+          <p data-i18n="ch3.s17.m3.p">Sohbette sorun olmayan fazladan cümle, akışta sonraki düğümü kırar. «Yalnızca şunu yaz» kısıtı ya da yapılandırılmış çıktı. İstisnası yok.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m4.t">4 · Hata akışı olmadan canlıya çıkmak</h3>
+          <p data-i18n="ch3.s17.m4.p">Akış sessizce kırılır, üç gün sonra bir müşteri «bana cevap gelmedi» der. Hata akışı on dakikalık iş; ilk gün kur.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.s17.m5.t">5 · Ajana geri alınamayan araç vermek</h3>
+          <p data-i18n="ch3.s17.m5.p">Silme, ödeme, toplu gönderme. Ajan iyi niyetle yanlış aracı seçer ve geri dönüşü olmaz. Bu adımlar ayrı düğümde, tercihen senin onayında kalsın.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch3.s17.do">Şimdi yap: Kurduğun akışı bu beşine karşı kontrol et. Özellikle 2 ve 4 — ikisi de «çalışıyor sanıyordum» cümlesinin kaynağı.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch3.s18.title">Herkesin sorduğu</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q1">Kod bilmeden gerçekten olur mu?</summary><p data-i18n="ch3.faq.a1">Bu bölümdeki her şey olur — tıklayarak. Kod gerektiğinde iki seçeneğin var: on satırlık bir kod düğümü ekleyip kodu bana yazdırmak, ya da o adımı bir yapay zekâ düğümüne bırakmak. Bölüm 4 ve 5, kod tarafını sıfırdan öğretecek; buraya kadar kodsuz geldin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q2">n8n bulut mu, kendi sunucum mu?</summary><p data-i18n="ch3.faq.a2">Öğrenirken bulut: kurulum yok, dakikalar içinde başlarsın. Canlıya alırken kendi sunucun: veri sende kalır, akış sayısı sınırsız, aylık ücret sunucu kadar. İkisi arasında geçiş kolay — akışlar dışa aktarılıp içe alınır. Bölüm 6'da sunucu kurulumunu göreceğiz.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q3">Yapay zekâ düğümü ne kadara mal olur?</summary><p data-i18n="ch3.faq.a3">Her çalıştırmada bana gönderilen ve benden dönen metin kadar; fiyatlar değişiyor, güncel rakam için sağlayıcının sayfasına bak. Sezgisel ölçü: kısa bir sınıflandırma neredeyse bedava, uzun bir özet birkaç kuruş. Günde yüz mesaj sınıflandıran bir akış çoğu işletme için bir kahve parası etmez. Maliyeti düşüren şey Bölüm 2'deki kısıtlar: kısa istek, kısa cevap.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q4">Akış yavaş çalışıyor, ne yapayım?</summary><p data-i18n="ch3.faq.a4">Önce çalıştırma kaydına bak: hangi düğüm uzun sürüyor? Neredeyse hep dış servisi bekleyen bir düğümdür — ya da yapay zekâ düğümüne çok uzun metin veriyorsundur. Metni kırp, gereksiz düğümü kaldır, «her beş dakikada bak» yerine olay tetikleyicisine geç.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q5">Ajan yanlış bir şey yaparsa?</summary><p data-i18n="ch3.faq.a5">Yapar — bir gün mutlaka. Bu yüzden ajana verdiğin araçlar okuma ve taslak düzeyinde kalır, geri alınamayan adımlar senin onayından geçer, hata akışı seni anında haberdar eder. Ajanı bir stajyer gibi düşün: iş ver, ama imza yetkisi verme.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.faq.q6">Bir akışı başkasına devredebilir miyim?</summary><p data-i18n="ch3.faq.a6">Evet — akış dışa aktarılır, tek bir dosya olur, başka bir hesaba yüklenir. Kimlik bilgileri dosyaya girmez; alan kişi kendininkini bağlar. Bu yüzden bir akışı müşteriye teslim etmek de mümkün: kurar, dışa aktarır, teslim edersin. Bölüm 6'nın konusu bu.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch3.faq.do">Şimdi yap: Bir düğümde takıldıysan bana sor — ekran görüntüsünü yapıştır, «bu düğüm neden kızardı?» de. n8n'in düğümlerini tanıyorum; çoğu hatayı ekrandan okurum.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch3.s19.title">Alıştırmalar</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e1.t">1 · Günaydın akışı</h3>
+          <p data-i18n="ch3.ex.e1.p">08'deki beş adımı tamamla ve akışı etkinleştir. Yarın sabah 09:00'da e-postanın gelmesini bekle.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e1.g"><strong class="text-fg">Amaç:</strong> «kurdum ve kendi kendine çalıştı» hissini bir kez yaşamak. Bu his, gerisini öğrenmenin yakıtı.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e2.t">2 · Kapı zili</h3>
+          <p data-i18n="ch3.ex.e2.p">Webhook tetikleyicili bir akış kur. Adresini bir site formuna ya da başka bir uygulamaya ver. Form doldurulduğunda zarfın geldiğini çalıştırma kaydında gör.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e2.g"><strong class="text-fg">Amaç:</strong> «webhook» kelimesinin korkutuculuğunu bir kerede bitirmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e3.t">3 · Sınıflandırıcı</h3>
+          <p data-i18n="ch3.ex.e3.p">Gelen bir metni «sipariş / şikâyet / soru» diye sınıflandıran bir yapay zekâ düğümü ve ardında üç dallı bir IF kur. On farklı örnek mesajla test et.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e3.g"><strong class="text-fg">Amaç:</strong> Bölüm 2'nin formülünü bir düğümün içinde çalışırken görmek — ve biçim kısıtının neden şart olduğunu yaşamak.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch3.ex.e4.t">4 · Bilerek boz</h3>
+          <p data-i18n="ch3.ex.e4.p">Hata akışını kur. Sonra çalışan akışındaki bir düğümü bilerek boz ve mesajın sana ulaştığını doğrula. Düzelt, tekrar çalıştır.</p>
+          <p class="ex__goal" data-i18n="ch3.ex.e4.g"><strong class="text-fg">Amaç:</strong> kırılmanın nasıl göründüğünü canlıya çıkmadan önce görmek.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch3.ex.do">Şimdi yap: Birinciyi bugün, ikinciyi yarın. Üç ve dört, ilk ikisi çalıştıktan sonra. Sırayı bozma; her biri bir öncekinin üstüne kuruluyor.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch3.quiz.title">Kendini sına</span></h2>
+      <p data-i18n="ch3.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q1">Akış, düğüm, tetikleyici — tek cümleyle?</summary><p data-i18n="ch3.quiz.a1">Akış bir iş tarifi, düğüm o tarifteki tek bir adım, tetikleyici tarifi başlatan olay. Tetikleyici olmadan akış uyur.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q2">Webhook nedir?</summary><p data-i18n="ch3.quiz.a2">Akışına verilmiş bir adres. Dışarıdaki bir sistem o adrese veri gönderince akışın uyanır ve veriyi alır. Kapı zili: dışarıdan basılır, içeride sen duyarsın.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q3">API nedir?</summary><p data-i18n="ch3.quiz.a3">Bir uygulamanın insanlara değil programlara açtığı kapı. Sen tıklayarak yaptığını bir program o kapıdan istek göndererek yapar. n8n çoğu uygulamanın API'sini senin için zaten öğrenmiş.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q4">Neden olay tetikleyicisi zamanlamadan iyidir?</summary><p data-i18n="ch3.quiz.a4">«Her beş dakikada bak» boşa çalışır ve geç kalır; «gelince uyan» anında ve bedava. Olay tetikleyicisi varsa onu seç.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q5">Veri düğümden düğüme nasıl gider?</summary><p data-i18n="ch3.quiz.a5">Etiketli bir zarfla: «ad: Ayşe», «tutar: 1200». Sonraki düğüm etiketleri isimle çağırır. Çok satır varsa çok zarf gelir ve düğüm her biri için bir kez çalışır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q6">Yapay zekâ düğümüne ne yazılır?</summary><p data-i18n="ch3.quiz.a6">Bölüm 2'nin formülü: rol, bağlam, görev, kısıt, biçim. Fark: bağlam sabit metin değil, önceki düğümden gelen etiket. Ve biçim kısıtı sohbettekinden daha sıkı — «yalnızca şunu yaz».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q7">Ajan düğümü ile sıradan yapay zekâ düğümünün farkı?</summary><p data-i18n="ch3.quiz.a7">Sıradan düğüm bir şey okur, bir şey yazar, biter. Ajan düğümüne hedef ve araçlar verirsin; hangi aracı ne sırayla kullanacağına o karar verir ve hedefe ulaşana kadar döner.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q8">Ajana hangi araçlar verilmez?</summary><p data-i18n="ch3.quiz.a8">Geri alınamayanlar: silme, ödeme, toplu gönderme. Bunlar ayrı düğümde ve tercihen senin onayında kalır. Ajan stajyerdir — iş verilir, imza yetkisi verilmez.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q9">Canlıya çıkmadan önce kurulacak tek şey?</summary><p data-i18n="ch3.quiz.a9">Hata akışı. Akış kırıldığında sana mesaj atan ayrı bir akış. Onsuz kırılma sessiz olur ve üç gün sonra müşteriden duyarsın.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch3.quiz.q10">Anahtar nereye yazılır?</summary><p data-i18n="ch3.quiz.a10">Kimlik bilgilerine — n8n'in kasasına. Düğümün içine elle asla. Ve her anahtara yalnızca gereken yetki: okuyacaksa yazma izni verme.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch3.recap.title">Bir cümlede bu bölüm</h2>
+        <p data-i18n="ch3.recap.p">Tekrar eden bir işi bir kez tarif et — tetikleyici, düğümler, bir koşul, gerekirse araya ben — sonra onu etkin yap ve bir daha elle yapma; kırılınca duyacağın bir hata akışı ve kasada duran anahtarlarla.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch3.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="ch3.next.title">Bölüm 4 · Atölye</h3>
+          <p data-i18n="ch3.next.p">Tıklayarak gidebildiğin yere kadar geldin. Sırada tıklamanın yetmediği yer var: terminal, dosyalar ve benim bilgisayarında doğrudan çalışan sürümüm.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch3.next.soon">Yakında</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch3.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="chapter-3.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/course/chapter-3.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/course/chapter-3.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/course/chapter-3.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
