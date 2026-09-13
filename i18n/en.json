@@ -378,6 +378,9 @@
    "links.g3": "Channels",
    "links.g4": "Support and contact",
    "links.mail.l": "E-mail",
+   "links.vcard.l": "Save to contacts",
+   "links.vcard.r": "Name, title, e-mail and profiles",
+   "links.vcard.pill": ".vcf",
    "links.site.l": "Official FY website",
    "links.site.r": "Home",
    "links.privacy": "Privacy"

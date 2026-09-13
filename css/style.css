@@ -938,6 +938,7 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .link-row .ico--gh { color: #fff; background: #1b1f24; border-color: rgba(255,255,255,.12); }
 .link-row .ico--fyos { color: #c084fc; background: rgba(124,58,237,.18); border-color: rgba(192,132,252,.35); }
 .link-row .ico--mail { color: #f5d76e; background: rgb(var(--accent-gold) / .12); border-color: rgb(var(--accent-gold) / .3); }
+.link-row .ico--card { color: #f5d76e; background: rgb(var(--accent-gold) / .12); border-color: rgb(var(--accent-gold) / .3); }
 .link-row .ico--site { background: #0d0a03; border-color: rgb(var(--accent-gold) / .35); }
 .link-row .ico--site img { width: 36px; height: auto; display: block; }
 .link-row--gold .ico--gem { color: #1a1206; background: rgba(0,0,0,.14); }
