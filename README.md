@@ -103,9 +103,13 @@ js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
+img/og-profil*.png    bağlantı sayfasının paylaşım görseli (1200×630; founder.jpg + ad + unvan, dört dilde; tools/build-og-profile.mjs üretir)
+farhad-yaqoobi.vcf    kişi kartı — «Rehbere ekle» satırının indirdiği dosya (vCard 3.0, fotoğraf gömülü; tools/build-vcard.mjs üretir)
 img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest; logo.svg'den betik üretir)
 img/favicon.ico       16/32/48 px favicon (SVG favicon okumayan Safari ve eski tarayıcılar için; logo.svg'den betik üretir)
 tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
+tools/build-og-profile.mjs  bağlantı sayfasının paylaşım görseli (Playwright + Chromium)
+tools/build-vcard.mjs  kişi kartı üretici (Playwright + Chromium; fotoğrafın karesini kırpar)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
@@ -165,6 +169,13 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
 - Kurs fiyatı `100 €`, üstü çizili eski fiyat `200 €` (index.html, contact/course.html, JSON-LD Offer).
 - Kurs sayıları: 7 bölüm · 49 ders · 7 gerçek proje · 14 şablon. Gerçek müfredata göre güncelle.
 - Kurucu fotoğrafı `img/founder.jpg` (1000×1250 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
+  Fotoğraf iki türev besler; üzerine yazdıktan sonra ikisini de yenile:
+  `node tools/build-og-profile.mjs` (paylaşım görselleri) ve `node tools/build-vcard.mjs` (kişi kartı).
+  Kırpma her ikisinde de sayfadaki yuvarlak avatarla aynıdır (`object-fit: cover`, `object-position: 50% 28%`), yani
+  yeni fotoğrafta yüzün bu çerçeveye oturduğunu kontrol et.
+- Kişi kartı `farhad-yaqoobi.vcf` kökte durur, dört dilin bağlantı sayfası da onu gösterir (build-i18n yalnızca köke
+  işaret eden göreli yolları derinleştirir). Ad, unvan, sosyal hesaplar `contact/index.html`'den, e-posta `js/main.js`'ten
+  okunur — kartta ayrıca elle güncellenecek bir yer yok. E-posta adresi bu dosyada düz metin durur (sayfada durmuyor).
 - Formlar sunucusuzdur: gönderince e-posta uygulamasını mailto ile açar. Gerçek bir uç nokta için `js/main.js` içindeki `wireForm` fonksiyonunu değiştir.
 - FYOS sohbetinin üç kaynağı var, `js/main.js` içindeki `answer()` sırayla dener:
   1. `FYOS_ENDPOINT` doluysa Cloudflare Worker (`worker/`; Claude ya da ücretsiz Workers AI). Kurulum `worker/README.md`.

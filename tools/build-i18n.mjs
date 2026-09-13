@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
 const SOURCES = ['index.html', 'claude/index.html', 'contact/index.html', 'contact/course.html', 'course/chapter-1.html', 'course/chapter-2.html', 'course/chapter-3.html', 'portal/login.html', 'terms.html', 'impressum.html'];
-const ASSET_DIRS = ['css/', 'js/', 'img/', 'fonts/', 'manifest.webmanifest'];
+const ASSET_DIRS = ['css/', 'js/', 'img/', 'fonts/', 'manifest.webmanifest', 'farhad-yaqoobi.vcf'];
 const VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
 
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
@@ -121,8 +121,8 @@ function translate(src, html, dict, report) {
   html = html.replace(new RegExp(`(<link rel="canonical" href=")${esc(trUrl)}(")`), `$1${langUrl}$2`);
   html = html.replace(new RegExp(`(<meta property="og:url" content=")${esc(trUrl)}(")`), `$1${langUrl}$2`);
   html = html.replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1${dict.locale}$2`);
-  // paylaşım görseli dile göre: img/og.png → img/og-<dil>.png (og:image ve twitter:image)
-  html = html.replace(new RegExp(`(<meta (?:property="og:image"|name="twitter:image") content="${esc(BASE)}img/og)(\\.png")`, 'g'), `$1-${lang}$2`);
+  // paylaşım görseli dile göre: img/og.png → img/og-<dil>.png; bağlantı sayfasında img/og-profil.png → img/og-profil-<dil>.png
+  html = html.replace(new RegExp(`(<meta (?:property="og:image"|name="twitter:image") content="${esc(BASE)}img/og(?:-profil)?)(\\.png")`, 'g'), `$1-${lang}$2`);
 
   // 6) JSON-LD: dize çevirisi, inLanguage, sayfa url'leri
   html = html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (all, a, body, c) => {

@@ -378,6 +378,9 @@
    "links.g3": "Kanäle",
    "links.g4": "Support und Kontakt",
    "links.mail.l": "E-Mail",
+   "links.vcard.l": "Zu Kontakten hinzufügen",
+   "links.vcard.r": "Name, Titel, E-Mail und Profile",
+   "links.vcard.pill": ".vcf",
    "links.site.l": "Offizielle FY-Website",
    "links.site.r": "Startseite",
    "links.privacy": "Datenschutz"
