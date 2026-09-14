@@ -15,10 +15,16 @@
    Kullanım (depo kökünde):   node tools/build-vcard.mjs
 
    Fotoğraf, unvan ya da hesaplar değişince yeniden çalıştır.
-   Fotoğrafın karesi Playwright + Chromium ile kırpılır; kırpma sayfadaki yuvarlak
-   avatarla aynıdır (object-fit: cover, object-position: 50% 28%). */
 
-import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'node:fs';
+   Fotoğrafın karesi Playwright + Chromium ile kırpılır. Kaynak iki biçimde olabilir,
+   betik hangisi olduğunu kendisi anlar:
+     · dairesel avatar (bugünkü founder.jpg) — köşeleri tek ton koyu. Kare kırpım o koyu
+       köşeleri karta taşırdı; onun yerine dairenin içine sığan kare alınır, böylece
+       kartta hiç boş köşe olmaz.
+     · normal dikdörtgen fotoğraf — sayfadaki yuvarlak avatarla aynı kırpım kullanılır
+       (object-fit: cover, object-position: 50% 28%). */
+
+import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -61,22 +67,66 @@ const parts = FULL.split(' ');
 const LAST = parts.length > 1 ? parts.pop() : '';
 const FIRST = parts.join(' ');
 
-/* ---------- Fotoğraf: kare kırpım, sayfadaki avatarla aynı çerçeveleme ---------- */
-const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-const tab = await browser.newPage({ viewport: { width: 512, height: 512 }, deviceScaleFactor: 1 });
-const tmp = join(ROOT, 'vcard-tmp.html');
+/* ---------- Fotoğraf ---------- */
+const SIDE = 512;
+const srcDataUrl = 'data:image/jpeg;base64,' + readFileSync(join(ROOT, 'img/founder.jpg')).toString('base64');
+
+const browser = await chromium.launch();
+const tab = await browser.newPage({ viewport: { width: SIDE, height: SIDE }, deviceScaleFactor: 1 });
 let photo;
 try {
-  writeFileSync(tmp, `<!doctype html><html><head><meta charset="utf-8"><style>
-    html, body { margin: 0; width: 512px; height: 512px; background: #0b0906; }
-    img { width: 512px; height: 512px; object-fit: cover; object-position: 50% 28%; display: block; }
-  </style></head><body><img src="img/founder.jpg"></body></html>`);
-  await tab.goto('file://' + tmp, { waitUntil: 'load' });
-  await tab.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0));
-  photo = await tab.screenshot({ type: 'jpeg', quality: 82, clip: { x: 0, y: 0, width: 512, height: 512 } });
+  const dataUrl = await tab.evaluate(async ({ src, SIDE }) => {
+    const img = new Image(); img.src = src; await img.decode();
+    const W = img.naturalWidth, H = img.naturalHeight;
+    const full = document.createElement('canvas'); full.width = W; full.height = H;
+    const fg = full.getContext('2d', { willReadFrequently: true });
+    fg.drawImage(img, 0, 0);
+    const D = fg.getImageData(0, 0, W, H).data;
+    const lum = (x, y) => { const i = (y * W + x) * 4; return D[i] + D[i + 1] + D[i + 2]; };
+
+    // Dairesel avatar mı? Dört köşe de koyu VE tek tonsa öyle sayılır. Gerçek bir
+    // fotoğrafın dört köşesi birden böyle düz çıkmaz (karanlık bir kare fotoğrafta bile
+    // gürültü vardır), o yüzden ölçüt hem koyuluk hem tek tonluluk.
+    const box = Math.max(4, Math.round(Math.min(W, H) * 0.03));
+    let circular = true;
+    for (const [ox, oy] of [[0, 0], [W - box, 0], [0, H - box], [W - box, H - box]]) {
+      let lo = Infinity, hi = -Infinity;
+      for (let y = oy; y < oy + box; y++) for (let x = ox; x < ox + box; x++) {
+        const L = lum(x, y); if (L < lo) lo = L; if (L > hi) hi = L;
+      }
+      if (hi > 90 || hi - lo > 12) { circular = false; break; }
+    }
+
+    let sx, sy, sw, sh;
+    if (circular) {
+      // Yarıçap: köşeden merkeze doğru yürüyüp dolgu renginin bittiği yeri bul.
+      // (Daire görselden taşabildiği için yatay orta çizgide kenarı yakalayamayız.)
+      const cx = (W - 1) / 2, cy = (H - 1) / 2, fill = lum(0, 0);
+      let r = Math.min(cx, cy);
+      for (let i = 0; i <= 1000; i++) {
+        const p = i / 1000, x = Math.round(cx * p), y = Math.round(cy * p);
+        if (Math.abs(lum(x, y) - fill) > 24) { r = Math.hypot(cx - x, cy - y); break; }
+      }
+      sw = sh = (2 * r) / Math.SQRT2;          // dairenin içine sığan kare
+      sx = cx - sw / 2; sy = cy - sh / 2;
+    } else {
+      // Sayfadaki avatarla aynı: cover + object-position 50% 28%
+      const side = Math.min(W, H);
+      sw = sh = side;
+      sx = (W - side) * 0.5;
+      sy = (H - side) * 0.28;
+    }
+
+    const out = document.createElement('canvas'); out.width = out.height = SIDE;
+    const og = out.getContext('2d');
+    og.imageSmoothingQuality = 'high';
+    og.drawImage(img, sx, sy, sw, sh, 0, 0, SIDE, SIDE);
+    return { url: out.toDataURL('image/jpeg', 0.82), circular };
+  }, { src: srcDataUrl, SIDE });
+  photo = Buffer.from(dataUrl.url.split(',')[1], 'base64');
+  console.log(`  fotoğraf: ${dataUrl.circular ? 'dairesel kaynak — daire içi kare alındı' : 'dikdörtgen kaynak — sayfadaki kırpım'}`);
 } finally {
   await browser.close();
-  if (existsSync(tmp)) unlinkSync(tmp);
 }
 
 /* ---------- vCard ----------

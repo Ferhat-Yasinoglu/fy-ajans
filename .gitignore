@@ -32,5 +32,3 @@ _cover-*.html
 # tools/build-og-profile.mjs geçici sayfası
 og-profil-tmp.html
 
-# tools/build-vcard.mjs geçici sayfası
-vcard-tmp.html
