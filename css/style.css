@@ -819,7 +819,9 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
   animation: portrait-zoom 14s ease-in-out infinite alternate; translate: var(--px, 0) var(--py, 0); transition: translate .1s linear; }
 .portrait__shine { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
   background: radial-gradient(circle at var(--sx, 32%) var(--sy, 22%), rgba(255,244,200,.22), rgba(255,244,200,0) 42%); }
-@keyframes portrait-zoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+/* 1.0 degil 1.04: imlec paralaksi gorseli ±4px kaydiriyor, 1.0 olcekte bu cerceve kenarinda
+   koyu bir serit aciyordu. %4 tasma kaymayi her cerceve boyunda orter. */
+@keyframes portrait-zoom { from { transform: scale(1.04); } to { transform: scale(1.10); } }
 .about__text h2 { margin-top: 16px; margin-bottom: 12px; }
 .about__name { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .about__name .n { font-size: 18px; font-weight: 700; }

@@ -168,11 +168,16 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
 - Site adresi `https://ferhat-yasinoglu.github.io/fy-ajans/` olarak ayarlı (canonical, Open Graph, JSON-LD, sitemap, robots). GitHub'da `fy-ajans` deposu açıp Pages'i etkinleştirmen yeterli. Başka bir alan adına geçersen bu adresi topluca değiştir.
 - Kurs fiyatı `100 €`, üstü çizili eski fiyat `200 €` (index.html, contact/course.html, JSON-LD Offer).
 - Kurs sayıları: 7 bölüm · 49 ders · 7 gerçek proje · 14 şablon. Gerçek müfredata göre güncelle.
-- Kurucu fotoğrafı `img/founder.jpg` (1000×1250 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
+- Kurucu fotoğrafı `img/founder.jpg` (1000×1000 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
+  Dosya dairesel bir avatar: fotoğraf daire içinde, daire dışı portre zemini (`#0b0906`) ile dolu. Sitede iki yerde de
+  yuvarlak çerçeveye girdiği için köşeler görünmez. Daire, çerçeveden %4 taşacak şekilde ölçeklendi — imleç paralaksı
+  görseli ±4px kaydırıyor, pay olmasa kenarda koyu bir şerit açılırdı (`@keyframes portrait-zoom` de bu yüzden 1.0'dan
+  değil 1.04'ten başlar).
   Fotoğraf iki türev besler; üzerine yazdıktan sonra ikisini de yenile:
   `node tools/build-og-profile.mjs` (paylaşım görselleri) ve `node tools/build-vcard.mjs` (kişi kartı).
-  Kırpma her ikisinde de sayfadaki yuvarlak avatarla aynıdır (`object-fit: cover`, `object-position: 50% 28%`), yani
-  yeni fotoğrafta yüzün bu çerçeveye oturduğunu kontrol et.
+  Kişi kartı üreticisi kaynağın dairesel mi dikdörtgen mi olduğunu köşelerinden anlar: dairesel ise dairenin içine sığan
+  kareyi alır (kartta koyu köşe kalmasın), dikdörtgen ise sayfadaki kırpımı uygular
+  (`object-fit: cover`, `object-position: 50% 28%`).
 - Kişi kartı `farhad-yaqoobi.vcf` kökte durur, dört dilin bağlantı sayfası da onu gösterir (build-i18n yalnızca köke
   işaret eden göreli yolları derinleştirir). Ad, unvan, sosyal hesaplar `contact/index.html`'den, e-posta `js/main.js`'ten
   okunur — kartta ayrıca elle güncellenecek bir yer yok. E-posta adresi bu dosyada düz metin durur (sayfada durmuyor).
