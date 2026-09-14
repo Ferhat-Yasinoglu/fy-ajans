@@ -110,7 +110,9 @@ img/favicon.ico       16/32/48 px favicon (SVG favicon okumayan Safari ve eski t
 tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
 tools/build-og-profile.mjs  bağlantı sayfasının paylaşım görseli (Playwright + Chromium)
 tools/build-vcard.mjs  kişi kartı üretici (Playwright + Chromium; fotoğrafın karesini kırpar)
+tools/build-sosyal.mjs  bağlantı sayfasının sosyal medya görselleri — hikâye ve kare gönderi (Playwright + Chromium)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
+brand/sosyal-*.png    bağlantı sayfasının sosyal medya görselleri: hikâye (1080×1920, simgeli ve fotoğraflı) ve kare gönderi (1080×1080); tools/build-sosyal.mjs üretir
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```
