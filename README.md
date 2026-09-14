@@ -112,7 +112,9 @@ tools/build-og-profile.mjs  bağlantı sayfasının paylaşım görseli (Playwri
 tools/build-vcard.mjs  kişi kartı üretici (Playwright + Chromium; fotoğrafın karesini kırpar)
 tools/build-sosyal.mjs  bağlantı sayfasının sosyal medya görselleri — hikâye ve kare gönderi, dört dil (Playwright + Chromium)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
-brand/sosyal-*.png    bağlantı sayfasının sosyal medya görselleri: hikâye (1080×1920, simgeli ve fotoğraflı) ve kare gönderi (1080×1080); TR ve FA yayında, dosya adında dil eki (sosyal-kare-fa-…); DE/EN için betiğe dil ver; tools/build-sosyal.mjs üretir
+brand/sosyal-*.png    bağlantı sayfasının sosyal medya görselleri: hikâye (1080×1920, güneşli ve fotoğraflı) ve kare gönderi (1080×1080); TR ve FA yayında, dosya adında dil eki (sosyal-kare-fa-…); DE/EN için betiğe dil ver; tools/build-sosyal.mjs üretir
+brand/sosyal-tasarim.md  bu görsellerin tasarım dili («Altın Meridyen»): ufuk çizgisi, kadran, saç teli inceliğinde altın, iki tipografik kayıt
+fonts/geistmono-regular.ttf  yalnız sosyal görsellerdeki teknik etiketler için (ASCII); lisansı GeistMono-OFL.txt
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```

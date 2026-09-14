@@ -2,12 +2,17 @@
 /* FY — bağlantı sayfasının sosyal medya görselleri
 
    Instagram hikâyesi ve kare gönderi: «bio'daki linke tıkla» görselleri. Sayfanın
-   kendisinden beslenir (ad, unvan, adres, kurucu fotoğrafı), böylece sayfa
-   değiştikçe görseller tek komutla yenilenir.
+   kendisinden beslenir (ad, adres, kurucu fotoğrafı), böylece sayfa değiştikçe
+   görseller tek komutla yenilenir.
+
+   Tasarım dili brand/sosyal-tasarim.md'de yazılı — «Altın Meridyen». Özeti:
+   kompozisyonun omurgası tek bir yatay çizgi (ufuk) ve onu kesen bir kadrandır;
+   altın hep saç teli inceliğindedir, dolu yüzey yoktur; tipografi yalnız iki
+   kayıtta konuşur — çok küçük teknik etiketler ve tek bir sakin söz öbeği.
 
    Çıktı (Playwright + Chromium gerekir) → brand/ :
-     sosyal-hikaye-1080x1920.png        hikâye — simge odaklı
-     sosyal-hikaye-foto-1080x1920.png   hikâye — kurucu fotoğraflı
+     sosyal-hikaye-1080x1920.png        hikâye — kadranın göbeğinde güneş
+     sosyal-hikaye-foto-1080x1920.png   hikâye — kadranın göbeğinde portre
      sosyal-kare-1080x1080.png          kare gönderi
    Türkçe dışındaki diller dosya adına eklenir: sosyal-hikaye-fa-1080x1920.png gibi.
 
@@ -15,8 +20,8 @@
                               node tools/build-sosyal.mjs de en     istenen diller
 
    Farsça sağdan sola ve bağlı bir yazıdır: harf aralığı (letter-spacing) verilmez,
-   yoksa harfler birbirinden kopar. Metinler sitenin Farsça sözlüğündeki terimlerle
-   aynı kalır (dönem/kanal/kart adlandırmaları i18n/fa.json ile uyumlu).
+   yoksa harfler birbirinden kopar. Teknik etiketler yalnız ASCII içerir (mono yüzde
+   Türkçe/Farsça glif aranmaz), sözcükler Vazirmatn'da kalır.
 
    Yazı tipi file:// altında yalnızca aynı kökten yüklendiği için sayfa geçici olarak
    depo köküne yazılır (build-logo.mjs'deki og bloğuyla aynı gerekçe). */
@@ -33,212 +38,248 @@ let chromium;
 try { ({ chromium } = require('playwright')); }
 catch { console.error('Playwright bulunamadı — görseller üretilmedi. Depo kökünde:  npm i --no-save playwright && npx playwright install chromium\n(global kurulum için NODE_PATH=<global node_modules> ile göster).'); process.exit(1); }
 
-/* ---------- Metinler: sayfadan ---------- */
+/* ---------- Sayfadan okunanlar ---------- */
 const html = readFileSync(join(ROOT, 'contact/index.html'), 'utf8');
-const strip = (s) => String(s).replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-const i18nText = (key) => {
-  const m = html.match(new RegExp(`data-i18n="${key}"[^>]*>([\\s\\S]*?)</`));
-  if (!m) throw new Error(`contact/index.html içinde "${key}" bulunamadı`);
-  return strip(m[1]);
-};
-const NAME = i18nText('links.name');
-const ROLE = i18nText('links.role');
 const CANON = (html.match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
-const HOST = CANON.replace(/^https?:\/\//, '').replace(/\/$/, '');   // ferhat-yasinoglu.github.io/fy-ajans/contact
+if (!CANON) throw new Error('contact/index.html içinde canonical bulunamadı');
+/* Plakadaki yol adresten türetilir, elle yazılmaz: alan adı ya da klasör değişirse
+   görseller de değişir. /fy-ajans/contact/ → «fy-ajans / contact» */
+const SEGS = new URL(CANON).pathname.split('/').filter(Boolean);
+const pathFor = (lang) =>
+  (lang === 'tr' ? SEGS : [SEGS[0], lang, ...SEGS.slice(1)]).join(' / ');
 
-/* Diller. Metinler sayfanın kendi sözlüğüyle aynı terimleri kullanır; kısa pazarlama
-   cümleleri burada durur (sözlükte karşılıkları yok). */
+/* ---------- Diller ----------
+   Sözcükler sitenin kendi terimleriyle aynı; kısa pazarlama cümleleri burada durur. */
 const LANGS = {
   tr: {
-    dir: 'ltr', headSize: 108, headLead: 1.04, kickerTrack: '.34em',
+    dir: 'ltr', track: true,
     head1: 'İletişim', head2: 'yolumuz',
-    cta: ['Aşağıdaki ', 'linke', ' tıkla'],
-    pill: 'fy-ajans / contact',
-    sub1: 'Kurs, ücretsiz eğitimler, kanallar, kişi kartı',
-    sub2: 'tek sayfada',
-    sqName: 'İletişim', sqKicker: 'BİZE ULAŞ',
+    call: 'AŞAĞIDAKİ LİNKE TIKLA',
+    items: 'Kurs · Ücretsiz eğitimler · Kanallar · Kişi kartı',
+    sqHead: 'İletişim', sqCall: 'BİZE ULAŞ',
   },
   fa: {
-    dir: 'rtl', headSize: 96, headLead: 1.32, kickerTrack: '0',
+    dir: 'rtl', track: false,
     head1: 'راه ارتباط', head2: 'با ما',
-    cta: ['روی ', 'لینک', ' زیر بزن'],
-    pill: 'fy-ajans / fa / contact',
-    sub1: 'دوره، آموزش‌های رایگان، کانال‌ها، کارت تماس',
-    sub2: 'همه در یک صفحه',
-    sqName: 'ارتباط', sqKicker: 'با ما تماس بگیر',
+    call: 'روی لینک زیر بزن',
+    items: 'دوره · آموزش‌های رایگان · کانال‌ها · کارت تماس',
+    sqHead: 'ارتباط', sqCall: 'با ما تماس بگیر',
   },
   de: {
-    dir: 'ltr', headSize: 96, headLead: 1.06, kickerTrack: '.34em',
+    dir: 'ltr', track: true,
     head1: 'So erreichst', head2: 'du uns',
-    cta: ['Tippe auf den ', 'Link', ' unten'],
-    pill: 'fy-ajans / de / contact',
-    sub1: 'Kurs, kostenlose Schulungen, Kanäle, Kontaktkarte',
-    sub2: 'auf einer Seite',
-    sqName: 'Kontakt', sqKicker: 'SCHREIB UNS',
+    call: 'TIPPE AUF DEN LINK',
+    items: 'Kurs · Kostenlose Schulungen · Kanäle · Kontaktkarte',
+    sqHead: 'Kontakt', sqCall: 'SCHREIB UNS',
   },
   en: {
-    dir: 'ltr', headSize: 108, headLead: 1.04, kickerTrack: '.34em',
+    dir: 'ltr', track: true,
     head1: 'How to', head2: 'reach us',
-    cta: ['Tap the ', 'link', ' below'],
-    pill: 'fy-ajans / en / contact',
-    sub1: 'Course, free trainings, channels, contact card',
-    sub2: 'on one page',
-    sqName: 'Contact', sqKicker: 'GET IN TOUCH',
+    call: 'TAP THE LINK BELOW',
+    items: 'Course · Free trainings · Channels · Contact card',
+    sqHead: 'Contact', sqCall: 'GET IN TOUCH',
   },
 };
-
 const WANTED = process.argv.slice(2).filter(a => LANGS[a]);
 const BUILD = WANTED.length ? WANTED : ['tr', 'fa'];
 
-const FONTS = ['vazirmatn-latin', 'vazirmatn-latin-ext', 'vazirmatn-arabic']
-  .map(f => `@font-face{font-family:V;font-weight:100 900;src:url("fonts/${f}.woff2") format("woff2")}`).join('');
-
-/* Ortak zemin: koyu ton + ince noktalı doku + altın parıltı */
-const BASE = `
-  * { box-sizing: border-box; margin: 0; }
-  body { background: #080706; font-family: V, system-ui, sans-serif; color: #f4ecd8;
-         position: relative; overflow: hidden; }
-  .dots { position: absolute; inset: 0; pointer-events: none;
-          background-image: radial-gradient(rgba(212,175,55,.10) 1.4px, transparent 1.4px);
-          background-size: 30px 30px; }
-  .gold { background: linear-gradient(135deg, #f5d76e, #d4af37 52%, #a9821e);
-          -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* ---------- Yazı yüzleri ----------
+   V: Vazirmatn (marka yüzü, TR + FA). Unicode aralıkları sitenin css'indeki gibi
+   verilir ki Farsça gliflerde doğru yüz seçilsin.
+   M: GeistMono — yalnız teknik etiketlerde, yalnız ASCII. */
+const FONTS = `
+@font-face{font-family:V;font-weight:100 900;src:url("fonts/vazirmatn-latin.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122;}
+@font-face{font-family:V;font-weight:100 900;src:url("fonts/vazirmatn-latin-ext.woff2") format("woff2");
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF;}
+@font-face{font-family:V;font-weight:100 900;src:url("fonts/vazirmatn-arabic.woff2") format("woff2");
+  unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+200C-200E,U+FB50-FDFF,U+FE70-FEFC;}
+@font-face{font-family:M;src:url("fonts/geistmono-regular.ttf") format("truetype");}
 `;
 
+const INK = '#070604', IVORY = '#f4ecd8', MUTED = '#8a7c5c';
+
+const BASE = `
+  * { box-sizing: border-box; margin: 0; }
+  body { background: ${INK}; color: ${IVORY}; font-family: V, system-ui, sans-serif;
+         position: relative; overflow: hidden; }
+
+  /* Zemin: neredeyse görünmez bir ölçek dokusu ve merkezden açılan sıcaklık */
+  .grain { position: absolute; inset: 0;
+           background-image: radial-gradient(rgba(212,175,55,.055) 1px, transparent 1px);
+           background-size: 34px 34px; }
+  .warm { position: absolute; inset: 0;
+          background: radial-gradient(48% 28% at 50% var(--warm-y), rgba(212,175,55,.065), transparent 72%); }
+
+  /* Teknik kayıt: küçük, geniş aralıklı, ASCII */
+  /* Büyütme CSS'e bırakılmaz: sayfa dili tr iken uppercase «i» harfini «İ» yapar
+     ve adres bozulur. Etiketler zaten yazıldığı biçimde kalır. */
+  .tech { font-family: M, ui-monospace, monospace; font-size: 20px; letter-spacing: .30em;
+          color: ${MUTED}; white-space: nowrap; }
+
+  .gold { background: linear-gradient(140deg, #f7dc85, #d4af37 48%, #a9821e);
+          -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .rowTop { position: absolute; display: flex; justify-content: space-between; }
+`;
+
+/* Köşe tescil işaretleri — çerçeve değil, yalnız dört köşede ince gönye */
+const corners = (W, H, M, len = 26) => {
+  const p = [];
+  const L = (x1, y1, x2, y2) => p.push(`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`);
+  L(M, M, M + len, M); L(M, M, M, M + len);
+  L(W - M, M, W - M - len, M); L(W - M, M, W - M, M + len);
+  L(M, H - M, M + len, H - M); L(M, H - M, M, H - M - len);
+  L(W - M, H - M, W - M - len, H - M); L(W - M, H - M, W - M, H - M - len);
+  return `<svg class="deco" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"
+    style="position:absolute;inset:0"><g stroke="rgba(212,175,55,.55)" stroke-width="1.5">${p.join('')}</g></svg>`;
+};
+
+/* Kadran: ufuk çizgisi, derece taksimatı, yön göstergesi.
+   Taksimat sabırlı tekrarın kendisidir — 72 çizgi, her 15°'de uzayanı. */
+function dial({ W, cy, rTick, rOuter, rCore }) {
+  const cx = W / 2;
+  const ticks = [];
+  for (let i = 0; i < 72; i++) {
+    const a = (i * 5 - 90) * Math.PI / 180;
+    const major = i % 3 === 0;
+    const r1 = rTick, r2 = rTick + (major ? 22 : 11);
+    ticks.push(`<line x1="${(cx + Math.cos(a) * r1).toFixed(2)}" y1="${(cy + Math.sin(a) * r1).toFixed(2)}"
+      x2="${(cx + Math.cos(a) * r2).toFixed(2)}" y2="${(cy + Math.sin(a) * r2).toFixed(2)}"
+      stroke="rgba(212,175,55,${major ? .80 : .34})" stroke-width="${major ? 1.8 : 1.2}"/>`);
+  }
+  const bearing = `<path d="M${cx} ${cy - rOuter - 20} l9 16 h-18 z" fill="rgba(245,215,110,.85)"/>`;
+  return `
+  <svg class="dial" width="${W}" height="${cy * 2}" viewBox="0 0 ${W} ${cy * 2}"
+       style="position:absolute;left:0;top:0;overflow:visible">
+    <defs>
+      <linearGradient id="hz" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${W}" y2="0">
+        <stop offset="0" stop-color="rgba(212,175,55,0)"/>
+        <stop offset=".12" stop-color="rgba(212,175,55,.30)"/>
+        <stop offset=".30" stop-color="rgba(232,196,92,.68)"/>
+        <stop offset=".5" stop-color="rgba(245,215,110,.85)"/>
+        <stop offset=".70" stop-color="rgba(232,196,92,.68)"/>
+        <stop offset=".88" stop-color="rgba(212,175,55,.30)"/>
+        <stop offset="1" stop-color="rgba(212,175,55,0)"/>
+      </linearGradient>
+      <radialGradient id="sunglow">
+        <stop offset="0" stop-color="rgba(245,215,110,.30)"/>
+        <stop offset=".55" stop-color="rgba(212,175,55,.10)"/>
+        <stop offset="1" stop-color="rgba(212,175,55,0)"/>
+      </radialGradient>
+    </defs>
+    <line x1="0" y1="${cy}" x2="${W}" y2="${cy}" stroke="url(#hz)" stroke-width="1.4"/>
+    <circle cx="${cx}" cy="${cy}" r="${rOuter + 150}" fill="url(#sunglow)"/>
+    <circle cx="${cx}" cy="${cy}" r="${rCore + 1}" fill="${INK}"/>
+    <circle cx="${cx}" cy="${cy}" r="${rOuter}" fill="none" stroke="rgba(212,175,55,.30)" stroke-width="1.2"/>
+    ${ticks.join('')}
+    ${bearing}
+  </svg>`;
+}
+
+/* Kadranın göbeği: portre ya da güneş. İkisi de aynı yarıçapı doldurur. */
+const core = (rCore, photo) => photo
+  ? `<div class="core"><img src="img/founder.jpg"></div>`
+  : `<div class="core core--sun"></div>`;
+
 /* ---------- Hikâye 1080×1920 ---------- */
-const story = (L, lang, withPhoto) => `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${FONTS}${BASE}
-  body { width: 1080px; height: 1920px; }
+function story(L, lang, photo) {
+  const W = 1080, H = 1920, M = 104, CY = 782;
+  const rCore = photo ? 226 : 96, rTick = 300, rOuter = 330;
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${FONTS}${BASE}
+  body { width: ${W}px; height: ${H}px; --warm-y: ${CY}px; }
 
-  .eyebrow { position: absolute; top: 210px; left: 0; right: 0; text-align: center;
-             font-size: 27px; letter-spacing: .46em; color: #8a7c5c; }
-  .logo { position: absolute; top: 292px; left: 50%; transform: translateX(-50%); height: 158px; }
+  .mark { position: absolute; top: 206px; left: 50%; transform: translateX(-50%); height: 96px; }
+  .rowTop { top: ${M - 22}px; left: ${M}px; right: ${M}px; }
 
-  .mid { position: absolute; top: ${withPhoto ? 600 : 612}px; left: 96px; right: 96px;
-         display: flex; align-items: center; gap: ${withPhoto ? 54 : 40}px; }
-  /* Farsça da sağa yaslı: RTL'in doğal hizası zaten sağ, düzen aynen çalışıyor */
-  .head { flex: 1; text-align: right; font-weight: 800; font-size: ${L.headSize}px;
-          line-height: ${L.headLead}; letter-spacing: ${L.dir === 'rtl' ? '0' : '-.02em'}; }
+  .core { position: absolute; left: 50%; top: ${CY}px; width: ${rCore * 2}px; height: ${rCore * 2}px;
+          transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden;
+          box-shadow: 0 0 0 1.5px rgba(212,175,55,.55), 0 0 70px rgba(212,175,55,.16); }
+  .core img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .core--sun { background: radial-gradient(circle at 50% 42%, #fbeaa8, #e8c451 42%, #c79a26 72%, #a9821e);
+               box-shadow: 0 0 0 1.5px rgba(245,215,110,.5), 0 0 130px rgba(245,215,110,.36); }
 
-  .bubble { position: relative; flex: 0 0 auto; }
-  .bubble__glow { position: absolute; left: 38%; top: -30%; width: 250px; height: 250px;
-                  border-radius: 50%; background: rgba(191,153,50,.42); }
+  /* Tek sakin söz öbeği — iki satır, tek jest */
+  .head { position: absolute; top: 1232px; left: ${M}px; right: ${M}px; text-align: center;
+          line-height: 1.1; }
+  .head .a { display: block; font-size: 72px; font-weight: 200; color: ${IVORY};
+             letter-spacing: ${L.dir === 'rtl' ? '0' : '.005em'}; }
+  .head .b { display: block; font-size: 100px; font-weight: 700; margin-top: 4px;
+             letter-spacing: ${L.dir === 'rtl' ? '0' : '-.02em'}; }
 
-  .shot { position: relative; flex: 0 0 auto; width: 340px; height: 340px; border-radius: 50%;
-          padding: 6px; background: linear-gradient(135deg, #f5d76e, #d4af37 48%, #a9821e);
-          box-shadow: 0 0 62px rgba(212,175,55,.34); }
-  .shot img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+  .rule { position: absolute; top: 1468px; left: 50%; width: 150px; height: 1px;
+          margin-left: -75px; background: rgba(212,175,55,.42); }
 
-  .cta { position: absolute; top: 1006px; left: 96px; right: 96px;
-         display: flex; align-items: center; gap: 26px; }
-  .cta .rule { flex: 1; height: 1px; background: rgba(212,175,55,.42); }
-  .cta .txt { font-size: 43px; font-weight: 700; white-space: nowrap; }
+  .call { position: absolute; top: 1518px; left: ${M}px; right: ${M}px; text-align: center;
+          font-size: 27px; font-weight: 300; color: ${MUTED};
+          letter-spacing: ${L.track ? '.26em' : '0'}; }
 
-  .card { position: absolute; top: 1104px; left: 150px; right: 150px; height: 186px;
-          border: 2px solid rgba(212,175,55,.55); border-radius: 30px;
-          display: flex; align-items: center; gap: 30px; padding: 0 34px;
-          box-shadow: 0 0 70px rgba(212,175,55,.16); }
-  .card__ico { width: 104px; height: 104px; border-radius: 50%; flex: 0 0 auto;
-               background: linear-gradient(135deg, #f5d76e, #d4af37 55%, #c39d2c);
-               display: flex; align-items: center; justify-content: center; }
-  .card__bar { width: 2px; height: 104px; background: rgba(212,175,55,.42); flex: 0 0 auto; }
-  .card__pill { flex: 1; height: 112px; border-radius: 22px; background: #fff; color: #14110b;
-                display: flex; align-items: center; justify-content: center; gap: 20px;
-                font-size: 42px; font-weight: 700; }
+  /* Oyulmuş plaka — dolu beyaz kutu değil */
+  .plate { position: absolute; top: 1586px; left: 50%; transform: translateX(-50%);
+           width: 680px; height: 104px; border: 1px solid rgba(212,175,55,.55); border-radius: 4px;
+           display: flex; align-items: center; justify-content: center; gap: 22px;
+           box-shadow: inset 0 0 44px rgba(212,175,55,.07); }
+  .plate .dot { width: 7px; height: 7px; background: #e8c451; }
+  .plate .p { font-family: M, ui-monospace, monospace; font-size: 31px; letter-spacing: .06em;
+              color: ${IVORY}; }
 
-  .sub { position: absolute; top: 1356px; left: 0; right: 0; text-align: center; }
-  .sub .a { font-size: 34px; color: #9b8f72; }
-  .sub .b { font-size: 34px; font-weight: 700; margin-top: 12px; }
-
-  .arc { position: absolute; left: 50%; top: 1516px; width: 2400px; height: 2400px;
-         margin-left: -1200px; border-radius: 50%;
-         border-top: 3px solid rgba(245,215,110,.55);
-         box-shadow: 0 0 150px rgba(212,175,55,.28);
-         background: radial-gradient(circle,
-           transparent 0 38%,
-           rgba(212,175,55,.05) 44%,
-           rgba(212,175,55,.16) 48%,
-           rgba(232,196,92,.30) 49.7%,
-           rgba(245,215,110,.36) 50%,
-           transparent 50.4%); }
+  .items { position: absolute; top: 1734px; left: ${M}px; right: ${M}px; text-align: center;
+           font-size: 25px; font-weight: 300; color: #6f6449; }
 </style></head><body>
-  <div class="dots"></div>
-  <div class="eyebrow"><span style="color:#d4af37">·</span> CONNECT WITH US <span style="color:#d4af37">·</span></div>
-  <img class="logo" src="img/logo-mark-static.svg">
+  <div class="grain"></div><div class="warm"></div>
+  ${corners(W, H, M)}
+  ${dial({ W, cy: CY, rTick, rOuter, rCore })}
+  ${core(rCore, photo)}
 
-  <div class="mid">
-    ${withPhoto
-      ? `<div class="shot"><img src="img/founder.jpg"></div>`
-      : `<div class="bubble" style="width:300px">
-           <span class="bubble__glow"></span>
-           <svg viewBox="0 0 240 150" width="300" height="188" fill="none">
-             <rect x="5" y="5" width="230" height="140" rx="50" stroke="#f4ecd8" stroke-width="7"/>
-             <circle cx="86" cy="78" r="13" fill="#e2b93f"/>
-             <circle cx="122" cy="78" r="13" fill="#e2b93f"/>
-             <circle cx="158" cy="78" r="13" fill="#e2b93f"/>
-           </svg>
-         </div>`}
-    <div class="head" dir="${L.dir}">${L.head1}<br><span class="gold">${L.head2}</span></div>
-  </div>
+  <div class="rowTop"><span class="tech">FY</span><span class="tech">${lang.toUpperCase()}</span></div>
+  <img class="mark" src="img/logo-mark-static.svg">
 
-  <div class="cta">
-    <span class="rule"></span>
-    <span class="txt" dir="${L.dir}">${L.cta[0]}<span class="gold">${L.cta[1]}</span>${L.cta[2]}</span>
-    <span class="rule"></span>
-  </div>
+  <div class="head" dir="${L.dir}"><span class="a">${L.head1}</span><span class="b gold">${L.head2}</span></div>
+  <div class="rule"></div>
+  <div class="call" dir="${L.dir}">${L.call}</div>
+  <div class="plate"><span class="dot"></span><span class="p">${pathFor(lang)}</span></div>
+  <div class="items" dir="${L.dir}">${L.items}</div>
 
-  <div class="card">
-    <span class="card__ico">
-      <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="#1a1206" stroke-width="2.1" stroke-linecap="round"><path d="M10 13.5a4 4 0 0 0 5.7.4l3-3a4 4 0 1 0-5.7-5.7l-1.2 1.2"/><path d="M14 10.5a4 4 0 0 0-5.7-.4l-3 3a4 4 0 1 0 5.7 5.7l1.2-1.2"/></svg>
-    </span>
-    <span class="card__bar"></span>
-    <span class="card__pill">
-      <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#2f7cf6" stroke-width="2.1" stroke-linecap="round"><path d="M10 13.5a4 4 0 0 0 5.7.4l3-3a4 4 0 1 0-5.7-5.7l-1.2 1.2"/><path d="M14 10.5a4 4 0 0 0-5.7-.4l-3 3a4 4 0 1 0 5.7 5.7l1.2-1.2"/></svg>
-      ${L.pill}
-    </span>
-  </div>
-
-  <div class="sub" dir="${L.dir}"><div class="a">${L.sub1}</div><div class="b">${L.sub2}</div></div>
-  <div class="arc"></div>
 </body></html>`;
+}
 
 /* ---------- Kare 1080×1080 ---------- */
-const square = (L, lang) => `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${FONTS}${BASE}
-  body { width: 1080px; height: 1080px; display: flex; align-items: center; justify-content: center; }
-  .ring { position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px;
-          border: 2px solid rgba(212,175,55,.38); border-radius: 50%; }
-  .stack { position: relative; text-align: center; }
-  .bubble { position: relative; display: inline-block; }
-  .bubble__glow { position: absolute; left: 36%; top: -26%; width: 310px; height: 310px;
-                  border-radius: 50%; background: rgba(191,153,50,.42); }
-  .name { font-size: ${L.dir === 'rtl' ? 96 : 104}px; font-weight: 800;
-          letter-spacing: ${L.dir === 'rtl' ? '0' : '-.01em'}; margin-top: 118px; line-height: 1.3; }
-  /* harf aralığı yalnız Latin metinde: Farsçada harfleri koparır */
-  .kicker { font-size: 42px; letter-spacing: ${L.kickerTrack}; color: #9b8f72; margin-top: 16px; }
+function square(L, lang) {
+  const W = 1080, H = 1080, M = 88, CY = 452, rCore = 168, rTick = 232, rOuter = 256;
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>${FONTS}${BASE}
+  body { width: ${W}px; height: ${H}px; --warm-y: ${CY}px; }
+
+  .rowTop { top: ${M - 20}px; left: ${M}px; right: ${M}px; }
+
+  .core { position: absolute; left: 50%; top: ${CY}px; width: ${rCore * 2}px; height: ${rCore * 2}px;
+          transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden;
+          box-shadow: 0 0 0 1.5px rgba(212,175,55,.55), 0 0 60px rgba(212,175,55,.16); }
+  .core img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .head { position: absolute; top: 760px; left: ${M}px; right: ${M}px; text-align: center;
+          font-size: 84px; font-weight: 700; line-height: 1.16;
+          letter-spacing: ${L.dir === 'rtl' ? '0' : '-.015em'}; }
+  .rule { position: absolute; top: 888px; left: 50%; width: 120px; height: 1px;
+          margin-left: -60px; background: rgba(212,175,55,.42); }
+  .call { position: absolute; top: 922px; left: ${M}px; right: ${M}px; text-align: center;
+          font-size: 25px; font-weight: 300; color: ${MUTED};
+          letter-spacing: ${L.track ? '.30em' : '0'}; }
 </style></head><body>
-  <div class="dots"></div>
-  <div class="ring"></div>
-  <div class="stack">
-    <div class="bubble">
-      <span class="bubble__glow"></span>
-      <svg viewBox="0 0 240 150" width="430" height="269" fill="none">
-        <rect x="5" y="5" width="230" height="140" rx="50" stroke="#f4ecd8" stroke-width="7"/>
-        <circle cx="86" cy="78" r="13" fill="#e2b93f"/>
-        <circle cx="122" cy="78" r="13" fill="#e2b93f"/>
-        <circle cx="158" cy="78" r="13" fill="#e2b93f"/>
-      </svg>
-    </div>
-    <div class="name gold" dir="${L.dir}">${L.sqName}</div>
-    <div class="kicker" dir="${L.dir}">${L.sqKicker}</div>
-  </div>
+  <div class="grain"></div><div class="warm"></div>
+  ${corners(W, H, M, 22)}
+  ${dial({ W, cy: CY, rTick, rOuter, rCore })}
+  <div class="core"><img src="img/founder.jpg"></div>
+
+  <div class="rowTop"><span class="tech">FY</span><span class="tech">${lang.toUpperCase()}</span></div>
+  <div class="head gold" dir="${L.dir}">${L.sqHead}</div>
+  <div class="rule"></div>
+  <div class="call" dir="${L.dir}">${L.sqCall}</div>
 </body></html>`;
+}
 
 /* ---------- Üret ---------- */
 const DIR = join(ROOT, 'brand');
 mkdirSync(DIR, { recursive: true });
-const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
-const tab = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
-const tmp = join(ROOT, 'sosyal-tmp.html');
-
 const tag = (lang) => (lang === 'tr' ? '' : `-${lang}`);   // TR kaynak, ötekiler ada eklenir
 const JOBS = BUILD.flatMap((lang) => {
   const L = LANGS[lang];
@@ -248,6 +289,10 @@ const JOBS = BUILD.flatMap((lang) => {
     { file: `sosyal-kare${tag(lang)}-1080x1080.png`, w: 1080, h: 1080, page: square(L, lang) },
   ];
 });
+
+const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
+const tab = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
+const tmp = join(ROOT, 'sosyal-tmp.html');
 for (const j of JOBS) {
   writeFileSync(tmp, j.page);
   try {
@@ -255,9 +300,9 @@ for (const j of JOBS) {
     await tab.goto('file://' + tmp, { waitUntil: 'load' });
     await tab.evaluate(() => document.fonts.ready);
     await tab.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0));
-    await tab.waitForTimeout(200);
+    await tab.waitForTimeout(250);
     await tab.screenshot({ path: join(DIR, j.file) });
-  } finally { unlinkSync(tmp); }
+  } finally { if (existsSync(tmp)) unlinkSync(tmp); }
   console.log(`brand/${j.file}  ${j.w}×${j.h}`);
 }
 await browser.close();
