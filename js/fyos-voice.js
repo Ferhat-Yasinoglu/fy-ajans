@@ -176,6 +176,7 @@
     return best;
   }
   function isShe(v) { return !!(v && nameHas(v.name, SHE)); }
+  function isHe(v) { return !!(v && nameHas(v.name, HE)); }
 
   /* create(opts) → denetleyici.
      opts: lang, wake[], onState(ad), onHeard(metin, kesin), onQuestion(metin),
@@ -193,7 +194,13 @@
     var voiceName = opts.voiceName || '';
     /* Perde (pitch). 1 = sesin kendi perdesi. Cihazda yalnızca erkek ses varsa 1,3-1,5 arası
        sesi inceltir — düzeltme değil, çaresizlik çözümü: fazlası ciddiyeti bozar. */
-    var pitch = typeof opts.pitch === 'number' && opts.pitch > 0 ? opts.pitch : 1;
+    /* Perde. 'auto' (varsayılan): cihazda kadın ses BULUNAMAZSA erkek sesin perdesi
+       yükseltilir, bulunursa hiç dokunulmaz. Bir sayı verilirse her sesde o kullanılır.
+       Bunun ne olduğu konusunda dürüst olalım: incelmiş erkek sesi, kadın sesi değil.
+       Cihazda kadın Türkçe ses yüklü olmayan kullanıcı için tek yapılabilen bu; gerçek
+       çözüm worker'a seslendirme anahtarı koymaktır (worker/README.md). */
+    var pitch = typeof opts.pitch === 'number' && opts.pitch > 0 ? opts.pitch : 'auto';
+    var LIFT_PITCH = 1.45, LIFT_RATE = 0.98;               // erkek sesi inceltirken kullanılan değerler
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
@@ -514,6 +521,12 @@
         if (mine !== speakSeq) return;
         var v = pickVoice(voices, lang, voiceName);
         tellVoice(v, voices);
+        /* Perdeyi yalnızca ses BİLİNEN BİR ERKEK sesiyse kaldır. Cinsiyeti bilinmeyen adlara
+           (ör. Android'deki «Google Türkçe») dokunma: o ses çoğu cihazda zaten kadın ve
+           inceltilirse cıyaklıyor — yani bilmediğimiz yerde müdahale etmek, etmemekten kötü. */
+        var lift = pitch === 'auto' && isHe(v);
+        var usePitch = pitch === 'auto' ? (lift ? LIFT_PITCH : 1) : pitch;
+        var useRate = lift ? LIFT_RATE : 1.02;
         (function next() {
           if (mine !== speakSeq) return;
           if (at >= list.length) { onEnd(); return; }
@@ -521,7 +534,7 @@
           var u = new SpeechSynthesisUtterance(piece);
           if (v) u.voice = v;
           u.lang = (v && v.lang) || lang;
-          u.rate = 1.02; u.pitch = pitch;
+          u.rate = useRate; u.pitch = usePitch;
           var moved = false, wd = 0, began = false;
           function step() {
             if (moved) return; moved = true;
@@ -580,6 +593,7 @@
           dil: l,
           secilen: secilen ? secilen.name + ' [' + secilen.lang + ']' : '(yok — tarayıcı varsayılanı)',
           kadinMi: isShe(secilen),
+          perdeYukseltildiMi: isHe(secilen),
           hepsi: list.map(function (v) {
             return v.name + ' [' + v.lang + ']' + (nameHas(v.name, SHE) ? ' (kadın)' : nameHas(v.name, HE) ? ' (erkek)' : '');
           })

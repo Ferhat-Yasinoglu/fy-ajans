@@ -27,10 +27,13 @@
      Boşsa ses kendiliğinden seçilir ve kadın sesi tercih edilir. Cihazdaki sesleri görmek
      için konsola: FYOS_VOICE.voices().then(console.log) */
   var FYOS_VOICE_NAME = '';
-  /* Tarayıcı sesinin perdesi. 1 = sesin kendi perdesi. Cihazda yalnızca erkek ses varsa
-     1.3-1.5 arası sesi inceltir; gerçek bir kadın sesi değildir, fazlası yapay kaçar.
-     Asıl çözüm worker'a seslendirme anahtarı koymaktır (worker/README.md). */
-  var FYOS_VOICE_PITCH = 1;
+  /* Tarayıcı sesinin perdesi.
+     'auto' (varsayılan): cihazda kadın ses bulunamazsa erkek sesin perdesi yükseltilir,
+     bulunursa sese hiç dokunulmaz. Bir sayı verilirse (1 = sesin kendi perdesi) her sesde
+     o kullanılır; 1 yazmak inceltmeyi tümden kapatır.
+     Dürüst olalım: bu incelmiş bir erkek sesidir, kadın sesi değil. Her cihazda gerçek bir
+     genç kadın sesi için worker'a seslendirme anahtarı gerekir (worker/README.md). */
+  var FYOS_VOICE_PITCH = 'auto';
   // Tarayıcı içi ücretsiz model (WebGPU). Kapatmak için false yap. Model adları: https://mlc.ai/models
   var FYOS_LOCAL_AI = true;
   var FYOS_LOCAL_MODEL = 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC';       // masaüstü (~1 GB, bir kez iner)
@@ -1005,7 +1008,7 @@
         lang: VLANG,
         ttsUrl: ttsEndpoint(),
         voiceName: FYOS_VOICE_NAME,
-        pitch: FYOS_VOICE_PITCH,
+        pitch: typeof FYOS_VOICE_PITCH === 'number' ? FYOS_VOICE_PITCH : null,
         onLocal: function (isLocal) {
           if (!vtext) return;
           // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.
