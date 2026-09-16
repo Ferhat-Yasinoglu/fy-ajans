@@ -127,6 +127,10 @@
   function create(opts) {
     opts = opts || {};
     var lang = opts.lang || 'tr-TR';
+    /* ttsUrl verilirse yanıtlar gerçek bir insan sesiyle okunur (worker'ın /tts ucu).
+       Ulaşılamaz, kapalı ya da günlük ses hakkı bitmişse sessizce tarayıcının kendi
+       sesine dönülür — ses hiçbir durumda tümden kesilmez. */
+    var ttsUrl = opts.ttsUrl || '';
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
@@ -137,6 +141,8 @@
     // Okuma bittikten sonra da tanıyıcı son kelimeleri geç teslim edebilir: kısa bir süre
     // daha kendi metnimizi tanırız ki hoparlörden dönen kuyruk soru sanılmasın.
     var echoText = '', echoUntil = 0;
+    var audio = null, audioUrl = '';                       // uzak sesin çalan öğesi ve blob adresi
+    var warned = false;                                    // uzak ses uyarısı bir kez yazılır
 
     function setMode(m) { if (mode === m) return; mode = m; onState(m); }
 
@@ -259,31 +265,92 @@
 
     /* Okumayı keser. speakSeq artar: o ana kadarki okumanın geri dönüşleri ve nöbetçisi
        artık geçersizdir, araya giren yeni durumu ezemezler. */
+    function dropAudio() {
+      if (audio) { try { audio.pause(); } catch (e) {} }
+      if (audioUrl) { try { URL.revokeObjectURL(audioUrl); } catch (e) {} }
+      audio = null; audioUrl = '';
+    }
     function stopSpeaking() {
       speakSeq++;
       speakingText = '';
       if (TTS) { try { TTS.cancel(); } catch (e) {} }
+      dropAudio();
       utter = null;
     }
 
     /* Yanıtı okur; bitince yine uyandırma kelimesini beklemeye döner.
-       TTS yoksa ya da patlarsa da aynı yere döneriz, mod 'speak'te asılı kalmaz. */
+       İki arka uç var: worker'ın /tts ucundan gelen gerçek ses, ve tarayıcının kendi sesi.
+       Uzak ses herhangi bir sebeple gelmezse (kapalı, hata, hak bitti, ağ yok) tarayıcı sesi
+       devreye girer; mod hiçbir durumda 'speak'te asılı kalmaz. */
     function speak(text, done) {
       var t = String(text || '').trim(), guard = 0, mine;
       function back() {
-        if (mine !== speakSeq) return;                        // kesilmiş ya da yerine yenisi gelmiş
+        if (mine !== speakSeq) return;                     // kesilmiş ya da yerine yenisi gelmiş
         speakSeq++;
         if (guard) { clearTimeout(guard); guard = 0; }
         if (speakingText) { echoText = speakingText; echoUntil = Date.now() + 1500; }
         speakingText = ''; utter = null;
+        dropAudio();
         if (want) setMode('wake');
         if (done) done();
       }
       stopSpeaking();
       mine = speakSeq;
-      if (!t || !TTS || !window.SpeechSynthesisUtterance) { back(); return; }
+      if (!t) { back(); return; }
       setMode('speak');
       speakingText = t;
+      // Nöbetçi iki yol için de burada kurulur: hiçbir 'bitti' olayı gelmezse süre dolunca döneriz.
+      guard = setTimeout(back, Math.min(90000, 8000 + t.length * 110));
+      function toBrowser() { if (mine === speakSeq) sayLocal(t, mine, back); }
+      if (ttsUrl) sayRemote(t, mine, back, toBrowser); else toBrowser();
+    }
+
+    // Worker'dan ses baytlarını indirip çalar. Ses gelmezse onFail ile tarayıcı sesine devreder.
+    function sayRemote(t, mine, onEnd, onFail) {
+      // Devretme tek seferlik: play() sözü ile onerror aynı başarısızlıkta ikisi birden
+      // ateşlenebiliyor; korumasız bırakılırsa aynı cümle iki kez okunurdu.
+      var handed = false;
+      function fail(why) {
+        if (handed) return; handed = true;
+        // Sessiz düşüş geliştiriciyi yanıltır: en sık sebep, worker adresinin sayfanın
+        // CSP'sindeki connect-src listesinde olmamasıdır (bkz. worker/README.md).
+        if (!warned) { warned = true; try { console.warn('FYOS: uzak ses alınamadı, tarayıcı sesine dönüldü.', why || ''); } catch (e) {} }
+        onFail();
+      }
+      function end() { if (handed) return; handed = true; onEnd(); }
+      if (!window.fetch || !window.URL || !window.URL.createObjectURL) { fail('tarayıcı desteklemiyor'); return; }
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 12000) : 0;
+      fetch(ttsUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: t, lang: lang }),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function (res) {
+        if (timer) clearTimeout(timer);
+        // Ses yoksa worker JSON döner (kapalı, hak bitti, hata): tarayıcı sesine geçilir.
+        var ct = (res.headers && res.headers.get('Content-Type')) || '';
+        if (!res.ok || ct.indexOf('audio') < 0) throw new Error('ses yok: HTTP ' + res.status);
+        return res.blob();
+      }).then(function (blob) {
+        if (mine !== speakSeq) return;                     // bu arada kesildi
+        dropAudio();
+        audioUrl = URL.createObjectURL(blob);
+        var a = new Audio(audioUrl);
+        audio = a;
+        a.onended = end;
+        a.onerror = function () { fail('ses çalınamadı'); };
+        var pr = a.play();
+        if (pr && pr.catch) pr.catch(function (e) { fail(e && e.message); });
+      }).catch(function (e) {
+        if (timer) clearTimeout(timer);
+        fail(e && e.message);
+      });
+    }
+
+    // Tarayıcının kendi sesi (ücretsiz, çevrimdışı; sesi sistemin yüklü seslerinden seçilir).
+    function sayLocal(t, mine, onEnd) {
+      if (!TTS || !window.SpeechSynthesisUtterance) { onEnd(); return; }
       voicesReady().then(function (list) {
         // Bu arada kesildi ya da yerine yenisi geldi: durumu YENİSİ yönetiyor, dokunma.
         if (mine !== speakSeq) return;
@@ -292,13 +359,10 @@
         if (v) u.voice = v;
         u.lang = (v && v.lang) || lang;
         u.rate = 1.02; u.pitch = 1;
-        u.onend = back;
-        u.onerror = back;
+        u.onend = onEnd;
+        u.onerror = onEnd;
         utter = u;
-        // Nöbetçi: bazı sistemlerde ses yoksa ya da okuma sessizce ölürse onend hiç gelmez.
-        // O hâlde mod 'speak'te asılı kalır ve FYOS bir daha uyanmaz; süre dolunca kendimiz döneriz.
-        guard = setTimeout(back, Math.min(90000, 6000 + t.length * 110));
-        try { TTS.speak(u); } catch (e) { back(); }
+        try { TTS.speak(u); } catch (e) { onEnd(); }
         // Uzun metinlerde bazı tarayıcılar 15 sn sonra duraklar: canlı tut.
         var keep = setInterval(function () {
           if (!utter || utter !== u) { clearInterval(keep); return; }

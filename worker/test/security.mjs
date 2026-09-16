@@ -20,12 +20,15 @@ globalThis.fetch = async (url, opts) => {
   await new Promise(r => setTimeout(r, 30));           // model gecikmesi (yarış penceresi)
   return { ok: true, async json() { return { content: [{ type: 'text', text: 'STUB' }] }; } };
 };
-const req = (body, { origin = 'https://ferhat-yasinoglu.github.io', ip = '7.7.7.7' } = {}) => {
+const req = (body, { origin = 'https://ferhat-yasinoglu.github.io', ip = '7.7.7.7', url = null } = {}) => {
   const raw = JSON.stringify(body);
-  return { method: 'POST',
+  const r = { method: 'POST',
     headers: { get: (h) => ({ Origin: origin, 'CF-Connecting-IP': ip, 'Content-Length': String(raw.length) })[h] ?? null },
     async text() { return raw; } };
+  if (url) r.url = url;                                // url YOKSA sohbet yolu (eski davranış)
+  return r;
 };
+const TTS_URL = 'https://fyos-chat.example.workers.dev/tts';
 const ENV = (over = {}) => ({ ALLOWED_ORIGINS: 'https://ferhat-yasinoglu.github.io', DAILY_LIMIT: '4',
   ANTHROPIC_API_KEY: 'sk-test', QUOTA: makeKV(), ...over });
 const reset = () => { anthropic = 0; lastBody = null; };
@@ -114,4 +117,88 @@ reset();
   console.log(`  Anthropic çağrısı: ${anthropic} (4 olmalı) ${ok(anthropic === 4)}`);
   console.log(`  sistem isteminde ücretsiz geçiyor mu: ${/ücretsiz/.test(lastBody.system) ? 'evet ✓' : 'HAYIR ✗'}`);
   console.log(`  sistem isteminde eski «100 €» var mı: ${/100 €/.test(lastBody.system) ? 'VAR ✗' : 'yok ✓'}`);
+}
+
+/* ====================== SESLİ YANIT (/tts) ======================
+   Yeni uç nokta sohbetin frenlerini paylaşıyor mu, ve kendi tavanı tutuyor mu.
+   Sahte KV yine gerçeğinden iyi (anında tutarlı): ölçüm en iyi durumdur. */
+
+let tts = 0, ttsBody = null;
+const ttsOK = () => { globalThis.fetch = async (u, o) => { tts++; ttsBody = JSON.parse(o.body); return { ok: true, body: 'SES-BAYTLARI' }; }; };
+const ttsFail = () => { globalThis.fetch = async () => { tts++; return { ok: false, status: 401, async text() { return 'bad key'; } }; }; };
+const ttsReset = () => { tts = 0; ttsBody = null; };
+const TENV = (over = {}) => ENV({ OPENAI_API_KEY: 'sk-tts', ...over });
+const ttsKey = () => 't:' + new Date().getUTCFullYear() + '-' + (new Date().getUTCMonth() + 1) + '-' + new Date().getUTCDate() + ':7.7.7.7';
+
+console.log('\n=== 8) SES: anahtar yokken uç nokta kapalı mı ===');
+ttsReset(); ttsOK();
+{
+  const env = ENV();                                   // OPENAI/ELEVENLABS anahtarı yok
+  const r = await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), env);
+  console.log(`  HTTP: ${r.status} | sağlayıcı çağrısı: ${tts} ${ok(tts === 0 && r.status === 503)}`);
+}
+
+console.log('\n=== 9) SES: yabancı Origin ===');
+ttsReset(); ttsOK();
+{
+  const env = TENV();
+  const r = await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL, origin: 'https://kotu-site.example' }), env);
+  console.log(`  HTTP: ${r.status} | sağlayıcı çağrısı: ${tts} ${ok(tts === 0 && r.status === 403)}`);
+}
+
+console.log('\n=== 10) SES: istek başına karakter tavanı (500) ===');
+ttsReset(); ttsOK();
+{
+  const env = TENV();
+  const r = await worker.fetch(req({ text: 'A'.repeat(4000) }, { url: TTS_URL }), env);
+  const gonderilen = ttsBody ? ttsBody.input.length : -1;
+  const sayac = parseInt(await env.QUOTA.get(ttsKey()) || '0', 10);
+  console.log(`  HTTP: ${r.status} | sağlayıcıya giden: ${gonderilen} karakter (500 olmalı) ${ok(gonderilen === 500)}`);
+  console.log(`  günlük sayaç: ${sayac} (500 olmalı) ${ok(sayac === 500)}`);
+}
+
+console.log('\n=== 11) SES: günlük karakter tavanı (2500) ===');
+ttsReset(); ttsOK();
+{
+  const env = TENV();
+  const outs = [];
+  for (let i = 0; i < 8; i++) {                        // 8 × 500 = 4000 > 2500
+    const r = await worker.fetch(req({ text: 'B'.repeat(500) }, { url: TTS_URL }), env);
+    outs.push(r.status === 200 ? 'ses' : 'sınır(' + r.status + ')');
+  }
+  const sayac = parseInt(await env.QUOTA.get(ttsKey()) || '0', 10);
+  console.log('  8 istek ->', outs.join(', '));
+  const sesSayisi = outs.filter(o => o === 'ses').length;
+  console.log(`  ses dönen: ${sesSayisi} (5 olmalı) ${ok(sesSayisi === 5)} | sağlayıcı çağrısı: ${tts} ${ok(tts === 5)} | sayaç: ${sayac} ${ok(sayac <= 2500)}`);
+}
+
+console.log('\n=== 12) SES: sağlayıcı hata verirse karakter hakkı iade ediliyor mu ===');
+ttsReset(); ttsFail();
+{
+  const env = TENV();
+  const r = await worker.fetch(req({ text: 'C'.repeat(300) }, { url: TTS_URL }), env);
+  const sayac = await env.QUOTA.get(ttsKey());
+  console.log(`  HTTP: ${r.status} | hata sonrası sayaç: ${sayac} (0 olmalı) ${ok(String(sayac) === '0' && r.status === 502)}`);
+}
+
+console.log('\n=== 13) SES: boş metin ve KV yokken ===');
+ttsReset(); ttsOK();
+{
+  const r1 = await worker.fetch(req({ text: '   ' }, { url: TTS_URL }), TENV());
+  const r2 = await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ QUOTA: undefined }));
+  console.log(`  boş metin -> HTTP: ${r1.status} (400) ${ok(r1.status === 400)}`);
+  console.log(`  KV bağlı değil -> HTTP: ${r2.status} (503, fail-closed) ${ok(r2.status === 503)} | sağlayıcı: ${tts} ${ok(tts === 0)}`);
+}
+
+console.log('\n=== 14) GERİLEME: /tts eklenince sohbet yolu bozuldu mu ===');
+reset();
+{
+  globalThis.fetch = async (u, o) => { anthropic++; lastBody = JSON.parse(o.body);
+    return { ok: true, async json() { return { content: [{ type: 'text', text: 'Kurs ücretsiz.' }] }; } }; };
+  const env = ENV();
+  const rUrl = await worker.fetch(req({ message: 'fiyat' }, { url: 'https://fyos-chat.example.workers.dev/' }), env);
+  const rNoUrl = await worker.fetch(req({ message: 'fiyat' }), env);
+  const a = await rUrl.json(), b = await rNoUrl.json();
+  console.log(`  '/' yolu -> yanıt var mı: ${!!a.reply} ${ok(!!a.reply)} | url'siz çağrı -> yanıt var mı: ${!!b.reply} ${ok(!!b.reply)}`);
+  console.log(`  Anthropic çağrısı: ${anthropic} (2 olmalı) ${ok(anthropic === 2)}`);
 }

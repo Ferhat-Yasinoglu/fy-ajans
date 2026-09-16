@@ -51,6 +51,10 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
   kutusu, sesin cihazda mı yoksa tarayıcının konuşma servisinde mi çözüleceğini söyler;
   aynı ayrım `terms.html`'de hem 2. bölümde hem DSGVO Md. 13 listesinde yazılıdır. Ses
   kaydı hiçbir yerde saklanmaz, bize gelmez. Bu davranışı değiştirirsen ikisini de güncelle.
+- Worker'ın `/tts` ucu, gönderilen metnin FYOS'un kendi yanıtı olduğunu **doğrulamaz**; freni
+  imza değil, sıkı karakter tavanıdır (istek başına 500, ziyaretçi başına günde 2500). Gerekçesi
+  ve daha sıkı seçenek `worker/README.md` içinde. Seslendirme anahtarı eklersen sağlayıcı
+  panelinde aylık harcama tavanını koy.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
 - GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
   için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
@@ -104,7 +108,7 @@ img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yan
 img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
 img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
-js/fyos-voice.js      FYOS canlı sesli mod: «Faiz» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız)
+js/fyos-voice.js      FYOS canlı sesli mod: «Faiz» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
@@ -206,6 +210,13 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
   - Uyandırma kelimesi tanıyıcıdan «fayiz», «fais», «vaiz» gibi de dönebildiğinden 1 harf uzaklığa kadar eşleşir.
     Soru metni her zaman ziyaretçinin söylediği hâliyle kesilir (Türkçe harfler ve noktalama korunur).
   - `SpeechRecognition` olmayan tarayıcılarda mikrofon düğmesi hiç gösterilmez; yazılı sohbet olduğu gibi çalışır.
+  - **Ses kalitesi iki kademeli.** Varsayılan: tarayıcının kendi sesi — ücretsiz, çevrimdışı, robotik.
+    Worker'a bir seslendirme anahtarı (`OPENAI_API_KEY` ya da `ELEVENLABS_API_KEY`) eklenirse
+    yanıtlar gerçek bir insan sesiyle okunur; kurulum `worker/README.md` içinde. Adres
+    `FYOS_VOICE_ENDPOINT` ile verilir, boşsa `FYOS_ENDPOINT + '/tts'` kullanılır.
+    Uzak ses herhangi bir sebeple gelmezse (anahtar yok, ağ yok, günlük karakter hakkı bitti,
+    CSP engelledi) sessizce tarayıcı sesine dönülür ve konsola tek satırlık uyarı düşer —
+    FYOS hiçbir durumda sessiz kalmaz. `blob:` ses çalabilmek için CSP'de `media-src 'self' blob:` var.
 - Öğrenci paneli henüz yok; sayfa şifre sormaz, yalnızca haber listesi e-postası hazırlar. Panel açılınca formu gerçek girişe çevir.
 
 ## Tasarım tokenları
