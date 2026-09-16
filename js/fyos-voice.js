@@ -137,7 +137,11 @@
         onError = opts.onError || function () {}, onLocal = opts.onLocal || function () {};
 
     var rec = null, mode = 'off', want = false, local = false;
-    var buf = '', quiet = 0, restarts = 0, restartAt = 0, speakingText = '', utter = null, speakSeq = 0;
+    var buf = '', quiet = 0, speakingText = '', utter = null, speakSeq = 0;
+    /* Tanıyıcı dayanıklılığı: 'backoff' art arda kapanmalarda giderek uzayan bekleme,
+       'lastAlive' tanıyıcıdan gelen son olayın zamanı, 'starting' start() ile onstart
+       arasındaki aralık, 'reopen'/'heal' zamanlayıcılar. */
+    var backoff = 250, lastAlive = 0, starting = false, reopen = 0, heal = 0;
     // Okuma bittikten sonra da tanıyıcı son kelimeleri geç teslim edebilir: kısa bir süre
     // daha kendi metnimizi tanırız ki hoparlörden dönen kuyruk soru sanılmasın.
     var echoText = '', echoUntil = 0;
@@ -207,39 +211,90 @@
       var r = new SR();
       r.lang = lang; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
       if (local) { try { r.processLocally = true; } catch (e) {} }
+      // Her olay «tanıyıcı yaşıyor» demektir; sağlık nöbetçisi buna bakar.
+      r.onstart = function () { starting = false; backoff = 250; lastAlive = Date.now(); };
+      r.onaudiostart = function () { lastAlive = Date.now(); };
+      r.onspeechstart = function () { lastAlive = Date.now(); };
       r.onresult = function (e) {
+        lastAlive = Date.now();
         for (var i = e.resultIndex; i < e.results.length; i++) {
           var res = e.results[i];
           handle(res[0] && res[0].transcript, !!res.isFinal);
         }
       };
       r.onerror = function (e) {
+        lastAlive = Date.now();
         var code = e && e.error, fatal = { 'not-allowed': 'denied', 'service-not-allowed': 'denied', 'audio-capture': 'nomic', 'language-not-supported': 'lang' }[code];
-        // 'no-speech' ve 'aborted' olağandır: onend yeniden başlatır.
+        // 'no-speech', 'aborted', 'network' olağandır: onend yeniden açar.
         if (!fatal) return;
         want = false; setMode('off'); onError(fatal);
       };
+      /* Chrome sürekli dinlemeyi kendiliğinden bitirir — ve yanıt okunurken bunu üst üste
+         yapar (hoparlörden çıkan ses tanıyıcıyı tetikleyip durduruyor). Burada eskiden
+         kapanmalar sayılıyordu ve 10 saniyede 12 tanesi sesli modu TÜMDEN kapatıyordu:
+         uzun bir yanıtı okurken FYOS kendi kendini sağır ediyordu, bir daha da açılmıyordu.
+         Artık vazgeçme yok; yalnızca giderek uzayan bir bekleme var (250 ms → en çok 5 sn)
+         ve ilk başarılı açılışta bekleme sıfırlanıyor. */
       r.onend = function () {
+        var neverStarted = starting;                       // start() çağrıldı ama onstart gelmedi
+        starting = false;
         if (!want) { setMode('off'); return; }
-        // Chrome sürekli modu kendiliğinden bitirir; geri açarız. Saniyede bir dönüyorsa vazgeçeriz.
-        var now = Date.now();
-        if (now - restartAt > 10000) { restarts = 0; restartAt = now; }
-        if (++restarts > 12) { want = false; setMode('off'); onError('unstable'); return; }
-        setTimeout(function () { if (want) start_(); }, 250);
+        schedule(neverStarted);
       };
       return r;
     }
 
+    /* Yeniden açmayı zamanlar. Bekleme YALNIZCA açılış gerçekten başarısız olduğunda uzar
+       (start() çağrıldı ama onstart hiç gelmedi). Düzgün çalışıp kendiliğinden biten bir
+       oturumdan sonra bekleme sıfırlanır: yoksa okuma sırasındaki arka arkaya kapanmalar
+       beklemeyi saniyelere şişirir ve o süre boyunca araya girilemez. */
+    function schedule(escalate) {
+      if (!want) return;
+      if (!escalate) backoff = 250;
+      if (reopen) clearTimeout(reopen);
+      reopen = setTimeout(function () { reopen = 0; start_(); }, backoff);
+      if (escalate) backoff = Math.min(3000, Math.round(backoff * 1.6));
+    }
+
+    /* Tanıyıcıyı baştan kurar. start() «zaten çalışıyor» dışında bir sebeple patladığında
+       nesne ölmüş demektir; eskiden hata yutuluyordu ve onend de hiç gelmediği için mikrofon
+       bir daha açılmıyordu — ekranda hâlâ «dinliyorum» yazarken FYOS sağırdı. */
+    function rebuild() {
+      if (rec) {
+        try { rec.onend = rec.onerror = rec.onresult = rec.onstart = null; } catch (e) {}
+        try { rec.abort(); } catch (e) {}
+      }
+      rec = null;
+      schedule(true);
+    }
+
     function start_() {
       if (!SR) { onError('unsupported'); return; }
+      if (!want) return;
       if (!rec) rec = build();
+      starting = true;
       try { rec.start(); }
-      catch (e) { /* zaten çalışıyor: InvalidStateError — yok sayılır */ }
+      catch (e) {
+        starting = false;
+        if (String(e && e.name) === 'InvalidStateError') { lastAlive = Date.now(); return; }  // zaten çalışıyor
+        rebuild();
+      }
+    }
+
+    /* Sağlık nöbetçisi: tanıyıcı sessizce de ölebiliyor (start() patlar, onend hiç gelmez,
+       ya da tarayıcı mikrofonu bırakır). Dinlemede olmamız gerekirken bir süredir hiçbir
+       olay gelmediyse tanıyıcıyı yeniden kurarız. Okuma ve yanıt üretimi sırasında sayaç
+       işletilmez: orada zaten olay beklemiyoruz. */
+    function healthTick() {
+      if (!want) return;
+      if (mode === 'speak' || mode === 'busy' || starting) { lastAlive = Date.now(); return; }
+      if (Date.now() - lastAlive > 15000) { lastAlive = Date.now(); rebuild(); }
     }
 
     function start() {
       if (!SR) { onError('unsupported'); return Promise.resolve(false); }
-      want = true; buf = ''; restarts = 0;
+      want = true; buf = ''; backoff = 250; lastAlive = Date.now();
+      if (!heal) heal = setInterval(healthTick, 5000);
       return localCheck(lang).then(function (state) {
         if (state === 'downloadable' || state === 'downloading') {
           // Cihaz içi model inebiliyor: indir, inene kadar tarayıcının varsayılanıyla dinle.
@@ -258,6 +313,8 @@
 
     function stop() {
       want = false; clearQuiet(); buf = '';
+      if (reopen) { clearTimeout(reopen); reopen = 0; }
+      if (heal) { clearInterval(heal); heal = 0; }
       stopSpeaking();
       if (rec) { try { rec.abort(); } catch (e) {} }
       setMode('off');
@@ -348,26 +405,65 @@
       });
     }
 
+    /* Uzun metni cümlelere böler (en çok ~180 karakterlik parçalar). Sebebi tarayıcı:
+       Chrome uzun bir konuşma parçasında onend'i bazen hiç göndermiyor, gönderse de
+       ortada duraklıyor. Kısa parçalarda olay güvenilir geliyor; ayrıca araya girmek
+       daha çabuk kesiyor. Lookbehind YOK — Safari 16.4 öncesi tüm dosyayı düşürürdü. */
+    function pieces(t) {
+      var raw = String(t).split(/([.!?…]+)\s+/), list = [], cur = '';
+      for (var i = 0; i < raw.length; i += 2) {
+        var p = (raw[i] + (raw[i + 1] || '')).trim();
+        if (!p) continue;
+        if (cur && (cur + ' ' + p).length > 180) { list.push(cur); cur = p; }
+        else cur = cur ? cur + ' ' + p : p;
+      }
+      if (cur) list.push(cur);
+      return list.length ? list : [String(t)];
+    }
+
     // Tarayıcının kendi sesi (ücretsiz, çevrimdışı; sesi sistemin yüklü seslerinden seçilir).
     function sayLocal(t, mine, onEnd) {
       if (!TTS || !window.SpeechSynthesisUtterance) { onEnd(); return; }
-      voicesReady().then(function (list) {
+      var list = pieces(t), at = 0;
+      voicesReady().then(function (voices) {
         // Bu arada kesildi ya da yerine yenisi geldi: durumu YENİSİ yönetiyor, dokunma.
         if (mine !== speakSeq) return;
-        var u = new SpeechSynthesisUtterance(t);
-        var v = pickVoice(list, lang);
-        if (v) u.voice = v;
-        u.lang = (v && v.lang) || lang;
-        u.rate = 1.02; u.pitch = 1;
-        u.onend = onEnd;
-        u.onerror = onEnd;
-        utter = u;
-        try { TTS.speak(u); } catch (e) { onEnd(); }
-        // Uzun metinlerde bazı tarayıcılar 15 sn sonra duraklar: canlı tut.
-        var keep = setInterval(function () {
-          if (!utter || utter !== u) { clearInterval(keep); return; }
-          try { if (TTS.speaking && TTS.paused) TTS.resume(); } catch (e) {}
-        }, 5000);
+        var v = pickVoice(voices, lang);
+        (function next() {
+          if (mine !== speakSeq) return;
+          if (at >= list.length) { onEnd(); return; }
+          var piece = list[at++];
+          var u = new SpeechSynthesisUtterance(piece);
+          if (v) u.voice = v;
+          u.lang = (v && v.lang) || lang;
+          u.rate = 1.02; u.pitch = 1;
+          var moved = false, wd = 0, began = false;
+          function step() {
+            if (moved) return; moved = true;
+            if (wd) { clearTimeout(wd); wd = 0; }
+            next();
+          }
+          u.onstart = function () { began = true; };
+          u.onend = step;
+          u.onerror = step;
+          utter = u;
+          /* İki nöbetçi var, çünkü iki ayrı arıza var.
+             Kısa olan: bazı sistemlerde speak() sessizce yutuluyor, hiçbir olay gelmiyor ve
+             ses de çıkmıyor. Konuşma gerçekten başladı mı 1,5 saniyede anlaşılır; başlamadıysa
+             uzun nöbetçiyi beklemeye gerek yok, hemen geçeriz.
+             Uzun olan: konuşma başladı ama onend gelmedi (Chrome'un bilinen hatası). */
+          setTimeout(function () {
+            if (moved || began) return;
+            var alive = false;
+            try { alive = TTS.speaking || TTS.pending; } catch (e) {}
+            if (!alive) step();
+          }, 1500);
+          wd = setTimeout(step, 3000 + piece.length * 95);
+          try {
+            if (TTS.paused) TTS.resume();                  // önceki parçada donduysa çöz
+            TTS.speak(u);
+          } catch (e) { step(); }
+        })();
       });
     }
 
