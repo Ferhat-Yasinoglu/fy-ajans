@@ -244,9 +244,13 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
        dolana kadar yoklanır (en çok 5 sn), dolunca önbelleğe alınır ve sesli mod açılırken
        önceden ısıtılır.
        Belirli bir sesi sabitlemek için `js/main.js` içindeki `FYOS_VOICE_NAME` (adın bir
-       parçası yeter). `FYOS_VOICE_PITCH` sesin perdesini değiştirir (1 = kendi perdesi);
-       yalnızca erkek ses olan cihazlarda 1,3-1,5 sesi inceltir — çaresizlik çözümü, gerçek
-       bir kadın sesi değildir.
+       parçası yeter).
+       **Perde (`FYOS_VOICE_PITCH`, varsayılan `'auto'`):** seçilen ses *bilinen bir erkek*
+       sesiyse perdesi yükseltilir (1,45) ve hız biraz düşer. Kadın seste ve **cinsiyeti
+       bilinmeyen** seste hiç dokunulmaz — Android'deki «Google Türkçe» gibi adlar çoğu
+       cihazda zaten kadındır ve inceltilirse cıyaklar; bilmediğin yerde müdahale etmek
+       etmemekten kötüdür. Sayı yazmak her sesde o perdeyi kullanır; `1` inceltmeyi kapatır.
+       Dürüst olalım: bu incelmiş bir erkek sesidir, kadın sesi değil.
        **Ses teşhisi:** adrese `?ses` eklenip mikrofon açılınca FYOS cihazdaki bütün sesleri,
        hangisini seçtiğini ve kadın sayıp saymadığını sohbete yazar (telefonda da görünür;
        sıradan ziyaretçi bunu hiç görmez). Konsolda karşılığı
