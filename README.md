@@ -244,9 +244,19 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
        dolana kadar yoklanır (en çok 5 sn), dolunca önbelleğe alınır ve sesli mod açılırken
        önceden ısıtılır.
        Belirli bir sesi sabitlemek için `js/main.js` içindeki `FYOS_VOICE_NAME` (adın bir
-       parçası yeter). Cihazda hangi sesler var, hangisi seçiliyor:
-       konsolda `FYOS_VOICE.voices().then(console.log)`. Kadın ses bulunamazsa konsola bir
-       kez sebebi ve mevcut sesler yazılır — «hâlâ erkek sesi» durumunda bakılacak tek yer.
+       parçası yeter). `FYOS_VOICE_PITCH` sesin perdesini değiştirir (1 = kendi perdesi);
+       yalnızca erkek ses olan cihazlarda 1,3-1,5 sesi inceltir — çaresizlik çözümü, gerçek
+       bir kadın sesi değildir.
+       **Ses teşhisi:** adrese `?ses` eklenip mikrofon açılınca FYOS cihazdaki bütün sesleri,
+       hangisini seçtiğini ve kadın sayıp saymadığını sohbete yazar (telefonda da görünür;
+       sıradan ziyaretçi bunu hiç görmez). Konsolda karşılığı
+       `FYOS_VOICE.voices().then(console.log)`. Kadın ses bulunamazsa konsola ayrıca bir kez
+       sebep yazılır. «Hâlâ erkek sesi» şikâyetinde bakılacak ilk yer burasıdır: liste kısaysa
+       ve içinde kadın ses yoksa sorun kodda değil, cihazdadır.
+       **Cihaz sınırı gerçektir.** Windows'ta yerel Türkçe TTS çoğu kurulumda yalnızca
+       «Microsoft Tolga» (erkek) içerir; Edge, Azure'un çevrimiçi «Emel» sesini de sunduğu için
+       aynı bilgisayarda Edge'de kadın, Chrome'da erkek çıkabilir. Her cihazda garanti genç
+       kadın sesi için tek yol worker'a seslendirme anahtarı koymaktır (`worker/README.md`).
     2. *Nasıl konuştuğu* — worker'daki `TTS_STYLE` (OpenAI `instructions`). Bu metin okunmaz,
        sese gülümseyerek ve arkadaşça okumasını söyler. ElevenLabs'te karşılığı `voice_settings`.
     3. *Ne söylediği* — sistem istemi (`SYSTEM_PROMPT` ve `js.system`, dört dilde) ve hazır

@@ -191,6 +191,9 @@
     var ttsUrl = opts.ttsUrl || '';
     // Belirli bir tarayıcı sesini sabitlemek için (adın bir parçası yeter). Boşsa otomatik seçilir.
     var voiceName = opts.voiceName || '';
+    /* Perde (pitch). 1 = sesin kendi perdesi. Cihazda yalnızca erkek ses varsa 1,3-1,5 arası
+       sesi inceltir — düzeltme değil, çaresizlik çözümü: fazlası ciddiyeti bozar. */
+    var pitch = typeof opts.pitch === 'number' && opts.pitch > 0 ? opts.pitch : 1;
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
@@ -518,7 +521,7 @@
           var u = new SpeechSynthesisUtterance(piece);
           if (v) u.voice = v;
           u.lang = (v && v.lang) || lang;
-          u.rate = 1.02; u.pitch = 1;
+          u.rate = 1.02; u.pitch = pitch;
           var moved = false, wd = 0, began = false;
           function step() {
             if (moved) return; moved = true;
