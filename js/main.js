@@ -20,6 +20,9 @@
   var raf = window.requestAnimationFrame;
   // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
   var FYOS_ENDPOINT = '';
+  // Sesli yanıt ucu (worker'ın /tts yolu): yanıtları gerçek bir insan sesiyle okutur.
+  // Boş bırakılırsa FYOS_ENDPOINT'ten türetilir; ikisi de boşsa tarayıcının kendi sesi kullanılır.
+  var FYOS_VOICE_ENDPOINT = '';
   // Tarayıcı içi ücretsiz model (WebGPU). Kapatmak için false yap. Model adları: https://mlc.ai/models
   var FYOS_LOCAL_AI = true;
   var FYOS_LOCAL_MODEL = 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC';       // masaüstü (~1 GB, bir kez iner)
@@ -958,9 +961,18 @@
       });
     }
 
+    /* Sesli yanıt ucu. Ayrı bir adres verilmediyse sohbet ucunun /tts yolu kullanılır —
+       worker ikisini de aynı yerde sunuyor. Uç yoksa motor tarayıcı sesine döner. */
+    function ttsEndpoint() {
+      if (FYOS_VOICE_ENDPOINT) return FYOS_VOICE_ENDPOINT;
+      if (FYOS_ENDPOINT) return FYOS_ENDPOINT.replace(/\/+$/, '') + '/tts';
+      return '';
+    }
+
     function buildVoice(V) {
       return V.create({
         lang: VLANG,
+        ttsUrl: ttsEndpoint(),
         onLocal: function (isLocal) {
           if (!vtext) return;
           // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.

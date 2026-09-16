@@ -34,12 +34,63 @@ Son komut şöyle bir adres verir: `https://fyos-chat.<hesap-adın>.workers.dev`
 3. Commit, push. Bitti: FYOS artık her soruya kendisi cevap verir. Worker'a ulaşılamazsa
    site kendiliğinden hazır yanıtlı çevrimdışı demoya döner.
 
+## Sesli yanıt (`/tts`)
+
+FYOS'un sesli modu varsayılan olarak tarayıcının kendi sesiyle konuşur — ücretsiz ama robotik.
+Worker'a bir seslendirme anahtarı eklersen yanıtlar gerçek bir insan sesiyle okunur.
+
+```
+npx wrangler secret put OPENAI_API_KEY       # ya da: ELEVENLABS_API_KEY
+npx wrangler deploy
+```
+
+Sonra `js/main.js` içindeki `FYOS_VOICE_ENDPOINT` boş kalabilir: `FYOS_ENDPOINT` doluysa
+site kendiliğinden onun `/tts` yolunu kullanır. Worker'ı yalnızca ses için kullanacaksan
+(beyin tarayıcı içi modelde kalsın istiyorsan) `FYOS_VOICE_ENDPOINT`'e tam adresi yaz:
+`https://fyos-chat.<hesap-adın>.workers.dev/tts`.
+
+**CSP'yi unutma.** Worker adresi `index.html`'deki `connect-src` listesinde yoksa tarayıcı
+isteği engeller ve ses sessizce robotik sese döner (konsola tek satırlık bir uyarı düşer).
+Sohbet için eklediğin adres `/tts` için de geçerlidir — tek kayıt ikisini birden kapsar.
+
+Anahtar yoksa `/tts` 503 döner ve site tarayıcı sesine döner: yani bu bölümü hiç yapmamak
+bir şeyi bozmaz.
+
+### Ses frenleri
+
+`src/index.js` başında:
+
+| Fren | Değer | Ne yapar |
+|---|---|---|
+| `MAX_TTS_CHARS` | 500 | Tek istekte seslendirilecek en fazla karakter; fazlası kesilir. |
+| `TTS_DAILY_CHARS` | 2500 | Ziyaretçi başına günlük karakter tavanı (~6 yanıt). Dolunca 429. |
+
+Ayrıca origin denetimi, hız sınırı ve isolate içi eşzamanlılık freni sohbetle ortaktır;
+sağlayıcı hata verirse ayrılan karakter hakkı iade edilir.
+
+**Bu uç noktanın KORUMADIĞI şey:** gönderilen metnin FYOS'un kendi yanıtı olduğunu doğrulamaz.
+Tarayıcı konsolunu açan biri başka bir metni de seslendirebilir — günlük karakter tavanı kadar.
+Tamamen kapatmanın yolu sohbet yanıtına HMAC imza koyup `/tts`'te doğrulamaktır; ama o zaman
+tarayıcı içi model ve hazır yanıtlar (ikisi de worker'a hiç uğramaz) seslendirilemez. Demo için
+seçilen fren imza değil, sıkı tavandır.
+
+### Ses maliyeti
+
+Kesin fiyat sağlayıcıya ve modele göre değişir; buraya rakam yazmak yerine tavanı veriyoruz:
+günlük en kötü durum **ziyaretçi sayısı × 2500 karakter**. Günde 100 farklı ziyaretçi =
+en fazla 250.000 karakter. Sağlayıcının güncel karakter (ya da token) fiyatıyla çarp,
+aylık bütçeni ona göre belirle — ve **sağlayıcı panelinde aylık harcama tavanını koy.**
+Anthropic için söylenen burada da geçerli: koda hiç güvenmeyen tek fren odur.
+
 ## Ayarlar
 
 - `ALLOWED_ORIGINS` (wrangler.toml): izinli site adresleri. Kendi alan adına geçince ekle.
 - `DAILY_LIMIT`: ziyaretçi başına günlük soru hakkı (varsayılan 4).
 - `MODEL`: `claude-sonnet-5` en yetenekli; `claude-haiku-4-5` yarı fiyat ve bu iş için yeterli.
   Model kimliğine tarih eki ekleme — bu dizeler olduğu gibi tamdır.
+- `TTS_VOICE` / `TTS_MODEL`: seslendirme sesi ve modeli. `wrangler.toml`'da bilerek yorumda
+  duruyorlar; açarsan sağlayıcıya uygun değeri yaz (OpenAI ses adı ve `gpt-4o-mini-tts`,
+  ElevenLabs voice id ve `eleven_multilingual_v2`).
 - Sistem talimatı ve FY bilgileri `src/index.js` içindeki `SYSTEM_PROMPT` sabitinde. Fiyat ya da
   kurs bilgisi değişince orayı da güncelle. (Kurs şu an ücretsiz; metin buna göre yazılı.)
 
@@ -70,7 +121,10 @@ node test/security.mjs      # ya da: npm test
 ```
 
 Bağımlılığı yok. Gerçek worker modülünü içe aktarır, dört saldırıyı da yeniden oynatır ve
-herhangi biri geçerse `✗ AÇIK` yazıp 1 ile çıkar. (Denendi: sahte assistant turu korumasını
+herhangi biri geçerse `✗ AÇIK` yazıp 1 ile çıkar. Sesli yanıt eklendikten sonra denetim
+`/tts` uç noktasını da kapsıyor: anahtar yokken kapalı mı, yabancı origin eleniyor mu,
+istek başına ve günlük karakter tavanları tutuyor mu, sağlayıcı hata verince hak iade
+ediliyor mu, ve `/tts` eklenmesi sohbet yolunu bozmuş mu. (Denendi: sahte assistant turu korumasını
 bilerek geri alan bir kopyada test 2 hatayla ve çıkış kodu 1 ile düşüyor.)
 
 **Origin denetimi güvenlik değildir.** `Origin` başlığını istemci yazar; `curl` tek satırda

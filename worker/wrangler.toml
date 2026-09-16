@@ -24,6 +24,25 @@ id = "KV_ID_BURAYA"
 # Gizli anahtar wrangler.toml'a YAZILMAZ; terminalden girilir:
 #   npx wrangler secret put ANTHROPIC_API_KEY
 
+# ---------------------------------------------------------------------------
+# SESLİ YANIT (/tts) — FYOS'un yanıtlarını gerçek bir insan sesiyle okutur.
+# Anahtar girilmezse /tts kapalı kalır (503) ve site tarayıcının kendi sesine döner;
+# yani burayı boş bırakmak bir şeyi bozmaz, yalnızca ses robotik kalır.
+# İkisinden BİRİNİ gir:
+#   npx wrangler secret put OPENAI_API_KEY       # OpenAI TTS — ucuz, Türkçesi iyi
+#   npx wrangler secret put ELEVENLABS_API_KEY   # ElevenLabs — daha iyi ses, daha pahalı
+# İkisi de varsa ElevenLabs kullanılır.
+#
+# Aşağıdakiler BİLEREK yorumda: [vars] içindeki bir değer her zaman tanımlı olur ve
+# sağlayıcı değiştirdiğinde yanlış modeli gönderir. Yorumda kalırsa kod, hangi anahtar
+# varsa o sağlayıcının doğru varsayılanını seçer.
+# TTS_VOICE = "alloy"                  # OpenAI'de ses adı; ElevenLabs'te voice id
+# TTS_MODEL = "gpt-4o-mini-tts"        # ElevenLabs için: eleven_multilingual_v2
+#
+# Frenler src/index.js başındadır: istek başına 500 karakter, ziyaretçi başına günde
+# 2500 karakter. Sağlayıcı panelinde aylık harcama tavanını da koy.
+# ---------------------------------------------------------------------------
+
 # Ücretsiz açık model için Workers AI bağlantısı (Anthropic anahtarı yoksa devreye girer)
 [ai]
 binding = "AI"
