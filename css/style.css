@@ -555,6 +555,27 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 .ask__send { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; transition: transform .15s; background: hsla(var(--mesh-hue), 85%, 60%, .15); border: 1px solid hsla(var(--mesh-hue), 85%, 60%, .35); color: hsla(var(--mesh-hue), 85%, 70%, 1); }
 .ask__send:hover { transform: scale(1.05); }
 .ask__send:disabled { opacity: .4; transform: none; }
+
+/* Sesli mod: mikrofon düğmesi yalnız betik çalışırken görünür (basılınca iş yapmayan düğme durmasın) */
+.ask__mic { display: none; }
+.js .ask__mic { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; flex: none; transition: transform .15s, background .2s, color .2s; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: #8b93a7; }
+.js .ask__pill { padding-inline-start: 8px; }
+.ask__mic:hover { transform: scale(1.05); color: #fff; }
+.ask__mic.is-on { background: hsla(var(--mesh-hue), 85%, 60%, .18); border-color: hsla(var(--mesh-hue), 85%, 60%, .5); color: hsla(var(--mesh-hue), 85%, 72%, 1); box-shadow: 0 0 0 0 hsla(var(--mesh-hue), 85%, 60%, .45); animation: micPulse 2.4s ease-out infinite; }
+@keyframes micPulse { 70% { box-shadow: 0 0 0 9px hsla(var(--mesh-hue), 85%, 60%, 0); } 100% { box-shadow: 0 0 0 0 hsla(var(--mesh-hue), 85%, 60%, 0); } }
+
+.ask__voice { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 9px; font-size: 11.5px; color: rgb(var(--fg-muted)); text-align: center; }
+.ask__voice[hidden] { display: none; }
+.ask__voice-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; background: hsla(var(--mesh-hue), 85%, 62%, 1); box-shadow: 0 0 10px hsla(var(--mesh-hue), 85%, 62%, .9); animation: micPulse 2.4s ease-out infinite; }
+
+.ask__consent { margin-top: 10px; border-radius: 16px; padding: 14px 16px; text-align: start; background: rgba(7,6,4,.86); border: 1px solid hsla(var(--mesh-hue), 85%, 60%, .3); backdrop-filter: blur(24px); }
+.ask__consent[hidden] { display: none; }
+.ask__consent p { font-size: 12px; line-height: 1.6; color: rgb(var(--fg-muted)); margin: 0 0 8px; }
+.ask__consent-t { font-size: 13px !important; color: #fff !important; font-weight: 600; }
+.ask__consent-w { font-size: 11px !important; color: rgb(var(--fg-dim)) !important; }
+.ask__consent-b { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+
+@media (prefers-reduced-motion: reduce) { .ask__mic.is-on, .ask__voice-dot { animation: none; } }
 .ask__note { font-size: 10px; color: rgb(var(--fg-dim)); text-align: center; margin-top: 8px; }
 .ask__log { display: flex; flex-direction: column; gap: 10px; max-width: 42rem; margin: 0 auto 10px; max-height: 208px; overflow-y: auto; padding: 0 4px; scrollbar-width: thin; }
 .ask__log:empty { display: none; }

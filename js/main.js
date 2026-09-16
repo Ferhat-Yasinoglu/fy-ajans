@@ -860,28 +860,34 @@
       log.appendChild(d); log.scrollTop = log.scrollHeight;
       return d;
     }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var q = input.value.trim(); if (!q || quota <= 0 || busy) return;
+    /* sendQuestion(q, spoken): yazılı formun da sesli modun da tek girişi.
+       spoken=true ise yanıt sesli okunur, sonra sesli mod yine dinlemeye döner.
+       false döner: soru boş, günlük hak bitmiş ya da bir yanıt sürüyor. */
+    function sendQuestion(q, spoken) {
+      q = String(q || '').trim();
+      if (!q || quota <= 0 || busy) return false;
       quota--; if (left) left.textContent = quota;
       try { localStorage.setItem(key, String(4 - quota)); } catch (er) {}
-      input.value = ''; send.disabled = true; busy = true;
+      busy = true;
       clearTimeout(idleTimer);
       bubble('user', q);
       if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = t('badgeThinking', 'Düşünüyorum…');
       history.push({ role: 'user', content: q });
-      var b = null, streamed = false;
+      var b = null, streamed = false, told = false;
       function finish(text) {
         busy = false;
         if (sub) sub.textContent = quota > 0 ? t('subMore', 'Başka bir şey sor.') : t('subDone', 'Bugünlük bu kadar — yarın yine buradayım.');
         idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
+        if (spoken) voiceSay(text);
       }
       answer(q, {
         onProgress: function (pct) {
           if (!b) b = bubble('bot', '');
           b.textContent = t('modelLoading', 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %{pct}').replace('{pct}', pct) + (pct < 100 ? ' ' + t('modelLoadingHint', '— bu arada sayfayı gezebilirsin.') : '');
           if (sub) sub.textContent = t('subLoading', 'Model yükleniyor %{pct}').replace('{pct}', pct);
+          // Sesli modda model inerken sessizlik dakikalarca sürebilir: bir kez haber ver.
+          if (spoken && !told) { told = true; voiceSay(t('voiceLoading', 'Bir saniye, beynimi indiriyorum. Biraz sürebilir.'), true); }
         },
         onStream: function () {
           streamed = true;
@@ -896,15 +902,181 @@
         history.push({ role: 'assistant', content: text });
         if (streamed) { if (b) b.textContent = text; finish(text); return; }
         if (!b) b = bubble('bot', '');
-        var i = 0;
         if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
+        // Sesli modda daktilo animasyonu yok: harf harf yazmak konuşmayı saniyelerce geciktirir.
+        if (spoken) { b.textContent = text; log.scrollTop = log.scrollHeight; finish(text); return; }
+        var i = 0;
         (function type() {
           b.textContent = text.slice(0, i); log.scrollTop = log.scrollHeight;
           if (i++ < text.length) setTimeout(type, 14);
           else finish(text);
         })();
       });
+      return true;
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sendQuestion(input.value, false)) { input.value = ''; send.disabled = true; }
     });
+
+    /* ---------- FYOS: canlı sesli mod ----------
+       Mikrofona bir kez basılır (tarayıcı izni bir kez sorar); sonrası tıklamasızdır.
+       «Faiz» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine dinlemeye döner.
+       Sonraki ziyaretlerde izin zaten verilmişse kendiliğinden açılır — hiç basılmaz.
+       Motor js/fyos-voice.js; ancak sesli mod ilk açıldığında indirilir, kapalıyken hiç inmez. */
+    var mic = $('#askMic'), vline = $('#askVoice'), vtext = $('#askVoiceText');
+    var vcons = $('#voiceConsent'), vconsWhere = $('#voiceConsentWhere');
+    var voice = null, vBusy = false, vGreet = 0;
+    var VKEY = 'fyos-voice-on', VOK = 'fyos-voice-ok';
+    // Tanıyıcı ve seslendirme tam dil etiketi ister; sayfanın <html lang> değeri kısadır.
+    var VLANG = { tr: 'tr-TR', de: 'de-DE', en: 'en-US', fa: 'fa-IR' }[(document.documentElement.lang || 'tr').slice(0, 2)] || 'tr-TR';
+
+    function voiceSay(text, interim) {
+      if (!voice || !voice.isOn()) return;
+      voice.speak(text, function () { if (interim && voice) voice.hold(); });
+    }
+    function vsay(k, tr) { if (vtext) vtext.textContent = t(k, tr); }
+    function vshow(on) { if (vline) vline.hidden = !on; }
+    function micOn(on) {
+      if (!mic) return;
+      mic.classList.toggle('is-on', !!on);
+      mic.setAttribute('aria-pressed', on ? 'true' : 'false');
+      mic.setAttribute('aria-label', on ? t('micOff', 'Sesli modu kapat') : t('micOn', 'Sesli modu aç'));
+    }
+    function vremember(on) { try { on ? localStorage.setItem(VKEY, '1') : localStorage.removeItem(VKEY); } catch (e) {} }
+
+    // Motoru getirir. Mikrofonu açmaz: yalnız dosyayı indirir, izin sorulmaz.
+    function importVoice() {
+      return new Promise(function (resolve, reject) {
+        if (window.FYOS_VOICE) return resolve(window.FYOS_VOICE);
+        try {
+          var sc = document.createElement('script'); sc.src = SCRIPT_BASE + 'js/fyos-voice.js';
+          sc.onload = function () { if (window.FYOS_VOICE) resolve(window.FYOS_VOICE); else reject(new Error('modül boş')); };
+          sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
+          document.head.appendChild(sc);
+        } catch (e) { reject(e); }
+      });
+    }
+
+    function buildVoice(V) {
+      return V.create({
+        lang: VLANG,
+        onLocal: function (isLocal) {
+          if (!vtext) return;
+          // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.
+          vtext.title = isLocal ? t('voiceLocal', 'Ses bu cihazda çözülüyor; dışarı çıkmıyor.')
+                                : t('voiceCloud', 'Sesi tarayıcının konuşma servisi çözüyor.');
+        },
+        onState: function (m) {
+          if (m === 'wake') { vsay('voiceWake', '«Faiz» de — dinliyorum.'); if (!busy && window.FYOS) window.FYOS.setState('idle'); }
+          else if (m === 'open') { vsay('voiceOpen', 'Dinliyorum…'); if (window.FYOS) window.FYOS.setState('listening'); }
+          else if (m === 'speak') { if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); } }
+          else if (m === 'off') { vshow(false); micOn(false); if (window.FYOS) window.FYOS.setState('idle'); }
+        },
+        onWake: function () {
+          if (window.FYOS) window.FYOS.ping();
+          // Yalnız «Faiz» denip susulduysa karşılık ver; cümle sürüyorsa üstüne konuşma.
+          clearTimeout(vGreet);
+          vGreet = setTimeout(function () {
+            if (!voice || voice.mode() !== 'open') return;
+            voice.speak(t('voiceGreet', 'Efendim?'), function () { if (voice) voice.listen(); });
+          }, 900);
+        },
+        onHeard: function (text) {
+          if (text && text.length > 1) clearTimeout(vGreet);
+          if (vtext && text) vtext.textContent = '“' + text + '”';
+        },
+        onQuestion: function (q) {
+          clearTimeout(vGreet);
+          if (sendQuestion(q, true)) return;
+          if (quota <= 0) voiceSay(t('voiceQuota', 'Bugünlük soru hakkın doldu; yarın yine buradayım.'));
+          else if (voice) voice.resume();
+        },
+        onError: function (code) {
+          vshow(true); micOn(false);
+          if (code === 'denied') { vremember(false); vsay('voiceDenied', 'Mikrofon izni verilmedi. Adres çubuğundaki kilit simgesinden izin verip yeniden dene.'); }
+          else if (code === 'nomic') vsay('voiceNoMic', 'Mikrofon bulunamadı.');
+          else if (code === 'unsupported') vsay('voiceUnsupported', 'Bu tarayıcı canlı sesi desteklemiyor; Chrome ya da Edge dene.');
+          else if (code === 'lang') vsay('voiceLang', 'Bu tarayıcı bu dili sesle tanımıyor.');
+          else { vremember(false); vsay('voiceStopped', 'Ses durdu. Yeniden açmak için mikrofona bas.'); }
+        }
+      });
+    }
+
+    function startVoice() {
+      if (vBusy || (voice && voice.isOn())) return;
+      vBusy = true;
+      vshow(true); vsay('voiceStarting', 'Mikrofon açılıyor…');
+      importVoice().then(function (V) {
+        vBusy = false;
+        if (!V.supported()) { micOn(false); vsay('voiceUnsupported', 'Bu tarayıcı canlı sesi desteklemiyor; Chrome ya da Edge dene.'); return; }
+        if (!voice) voice = buildVoice(V);
+        micOn(true);
+        return voice.start().then(function () { vremember(true); });
+      }).catch(function (e) {
+        vBusy = false; micOn(false);
+        try { console.warn('Sesli mod açılamadı', e); } catch (er) {}
+        vsay('voiceStopped', 'Ses durdu. Yeniden açmak için mikrofona bas.');
+      });
+    }
+    function stopVoice() {
+      clearTimeout(vGreet);
+      vremember(false);
+      if (voice) voice.stop(); else { micOn(false); vshow(false); }
+    }
+
+    /* Onay: mikrofon ilk kez açılırken sesin nerede çözüleceğini yazıp sorar.
+       Cihaz içi tanıma varsa ses cihazdan çıkmaz; yoksa tarayıcının konuşma servisine gider
+       ve bu açıkça yazılır (bkz. Kurallar ve Gizlilik). */
+    function askConsent() {
+      if (!vcons) { startVoice(); return; }
+      vcons.hidden = false;
+      if (vconsWhere) vconsWhere.textContent = t('voiceWhereChecking', 'Kontrol ediliyor…');
+      importVoice().then(function (V) {
+        return V.check(VLANG).then(function (state) {
+          var here = state === 'available' || state === 'downloadable' || state === 'downloading';
+          if (vconsWhere) vconsWhere.textContent = here
+            ? t('voiceWhereLocal', 'Bu tarayıcı sesi cihazın içinde çözebiliyor: söylediklerin dışarı çıkmaz.')
+            : t('voiceWhereCloud', 'Bu tarayıcı sesi kendi konuşma servisinde çözüyor: söylediklerin tanıma için tarayıcı üreticisine gider. Yanıtı üreten model yine cihazında çalışır.');
+        });
+      }).catch(function () {
+        if (vconsWhere) vconsWhere.textContent = t('voiceWhereCloud', 'Bu tarayıcı sesi kendi konuşma servisinde çözüyor: söylediklerin tanıma için tarayıcı üreticisine gider. Yanıtı üreten model yine cihazında çalışır.');
+      });
+    }
+
+    if (mic) {
+      // Tarayıcıda konuşma tanıma yoksa düğmeyi hiç gösterme.
+      if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) mic.hidden = true;
+      else {
+        micOn(false);
+        mic.addEventListener('click', function () {
+          if (voice && voice.isOn()) { stopVoice(); return; }
+          var ok = false; try { ok = localStorage.getItem(VOK) === '1'; } catch (e) {}
+          if (ok) startVoice(); else askConsent();
+        });
+        var cgo = $('#voiceConsentGo'), cno = $('#voiceConsentNo');
+        if (cgo) cgo.addEventListener('click', function () {
+          try { localStorage.setItem(VOK, '1'); } catch (e) {}
+          if (vcons) vcons.hidden = true;
+          startVoice();
+        });
+        if (cno) cno.addEventListener('click', function () { if (vcons) vcons.hidden = true; });
+
+        /* Sonraki ziyaretler: daha önce açılmışsa ve mikrofon izni duruyorsa kendiliğinden başlar.
+           İzin durumu okunamıyorsa hiçbir şey yapılmaz — kimseye sürpriz izin penceresi çıkmaz. */
+        (function autoStart() {
+          var on = false; try { on = localStorage.getItem(VKEY) === '1'; } catch (e) {}
+          if (!on || !navigator.permissions || !navigator.permissions.query) return;
+          try {
+            navigator.permissions.query({ name: 'microphone' }).then(function (st) {
+              if (st.state === 'granted') startVoice();
+              else if (st.state === 'denied') vremember(false);
+            }).catch(function () {});
+          } catch (e) {}
+        })();
+      }
+    }
+
   })();
 
   /* ---------- Sekmeler: renk tonu değiştirir ---------- */
