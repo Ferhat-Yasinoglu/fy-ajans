@@ -47,6 +47,10 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
   Safari 16.4 öncesi bunu ayrıştıramaz ve dosyanın tamamı çalışmaz.
 - FYOS'u gerçek bir modele bağlarken API anahtarını asla sayfaya koyma; küçük bir ara
   sunucu (ör. Cloudflare Worker) kullan, günlük sınırı ve istek boyutunu orada denetle.
+- Canlı sesli mod kapalı gelir ve ziyaretçi açıkça onaylamadan mikrofonu açmaz. Onay
+  kutusu, sesin cihazda mı yoksa tarayıcının konuşma servisinde mi çözüleceğini söyler;
+  aynı ayrım `terms.html`'de hem 2. bölümde hem DSGVO Md. 13 listesinde yazılıdır. Ses
+  kaydı hiçbir yerde saklanmaz, bize gelmez. Bu davranışı değiştirirsen ikisini de güncelle.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
 - GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
   için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
@@ -100,6 +104,7 @@ img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yan
 img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
 img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
+js/fyos-voice.js      FYOS canlı sesli mod: «Faiz» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
@@ -187,6 +192,20 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
   2. `FYOS_LOCAL_AI` açıksa ve cihazda WebGPU varsa tarayıcı içi model (`js/fyos-local.js`, WebLLM + Qwen2.5-1.5B). Ücretsiz, hesapsız, sınırsız; model ilk soruda bir kez iner (~1 GB) ve tarayıcı önbelleğinde kalır. Telefon ve düşük bellekli cihazlarda atlanır (`FYOS_LOCAL_MODEL_SMALL` boş).
   3. Aksi hâlde 20 konulu hazır yanıtlı çevrimdışı demo.
   Yerel model için `index.html` CSP'sinde cdn.jsdelivr.net, huggingface.co ve *.hf.co izinli; kapatırsan CSP'yi de eski hâline döndür.
+- **Canlı sesli mod** (`js/fyos-voice.js`): sohbet çubuğundaki mikrofon düğmesi açar. Açıkken tıklama yoktur —
+  «Faiz» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine beklemeye döner. Sözünü kesebilirsin:
+  ziyaretçi konuşmaya başlayınca okuma durur. Soru yine yukarıdaki üç kaynaktan yanıtlanır ve aynı günlük
+  hakkı harcar; sesli modda daktilo animasyonu atlanır (yoksa konuşma saniyelerce gecikir).
+  - Dış bağımlılık ve yeni CSP kaydı yok: her şey tarayıcının `SpeechRecognition` ve `speechSynthesis` API'leri.
+    Motor dosyası ancak sesli mod ilk açıldığında iner.
+  - Tarayıcı cihaz içi tanımayı destekliyorsa (`SpeechRecognition.available({processLocally:true})`, Chrome 138+)
+    ses cihazdan hiç çıkmaz. Desteklemiyorsa tanıma tarayıcının kendi servisinde yapılır; bu, açılış onayında
+    açıkça yazılır ve `terms.html`'de belgelenmiştir. Onay verilmeden mikrofon açılmaz.
+  - İlk açılışta tarayıcı izni bir kez sorar. Sonraki ziyaretlerde izin hâlâ duruyorsa sesli mod kendiliğinden
+    başlar (`navigator.permissions` 'granted' dönerse); izin yoksa hiçbir şey yapılmaz, sürpriz izin penceresi çıkmaz.
+  - Uyandırma kelimesi tanıyıcıdan «fayiz», «fais», «vaiz» gibi de dönebildiğinden 1 harf uzaklığa kadar eşleşir.
+    Soru metni her zaman ziyaretçinin söylediği hâliyle kesilir (Türkçe harfler ve noktalama korunur).
+  - `SpeechRecognition` olmayan tarayıcılarda mikrofon düğmesi hiç gösterilmez; yazılı sohbet olduğu gibi çalışır.
 - Öğrenci paneli henüz yok; sayfa şifre sormaz, yalnızca haber listesi e-postası hazırlar. Panel açılınca formu gerçek girişe çevir.
 
 ## Tasarım tokenları
