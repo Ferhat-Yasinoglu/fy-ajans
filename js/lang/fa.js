@@ -26,7 +26,7 @@ window.FY_STRINGS = {
  "subjDefault": "تماس",
  "micOn": "روشن کردن گفت‌وگوی زنده",
  "micOff": "خاموش کردن گفت‌وگوی زنده",
- "voiceWake": "«فائز» را بگو — گوش می‌دهم.",
+ "voiceWake": "«ملیس» را بگو — گوش می‌دهم.",
  "voiceOpen": "گوش می‌دهم…",
  "voiceStarting": "میکروفون روشن می‌شود…",
  "voiceGreet": "بله؟ گوش می‌دهم.",

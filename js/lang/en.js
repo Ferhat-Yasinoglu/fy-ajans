@@ -26,7 +26,7 @@ window.FY_STRINGS = {
  "subjDefault": "contact",
  "micOn": "Turn on live voice",
  "micOff": "Turn off live voice",
- "voiceWake": "Say «Faiz» — I’m listening.",
+ "voiceWake": "Say «Melis» — I’m listening.",
  "voiceOpen": "Listening…",
  "voiceStarting": "Turning on the microphone…",
  "voiceGreet": "Yes? I'm listening.",

@@ -747,8 +747,11 @@
   (function ask() {
     var form = $('#askForm'), input = $('#askInput'), send = $('#askSend'), log = $('#askLog'), sub = $('#stageSub'), left = $('#askLeft');
     if (!form) return;
-    var quota = 4, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10), busy = false, idleTimer = 0;
-    try { quota = Math.max(0, 4 - (parseInt(localStorage.getItem(key) || '0', 10))); } catch (e) {}
+    /* Günlük soru hakkı. Sayı TEK yerde durur: index.html'deki «en fazla N soru» notu ve
+       worker'daki DAILY_LIMIT de aynı değere ayarlanır (bkz. worker/wrangler.toml). */
+    var DAILY = 10;
+    var quota = DAILY, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10), busy = false, idleTimer = 0;
+    try { quota = Math.max(0, DAILY - (parseInt(localStorage.getItem(key) || '0', 10))); } catch (e) {}
     if (left) left.textContent = quota;
     input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0 || busy; });
     input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
@@ -870,7 +873,7 @@
       q = String(q || '').trim();
       if (!q || quota <= 0 || busy) return false;
       quota--; if (left) left.textContent = quota;
-      try { localStorage.setItem(key, String(4 - quota)); } catch (er) {}
+      try { localStorage.setItem(key, String(DAILY - quota)); } catch (er) {}
       busy = true;
       clearTimeout(idleTimer);
       bubble('user', q);
@@ -921,7 +924,7 @@
         },
         onToken: function (text) { bump(); if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
       }, function (text, meta) {
-        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, '4'); } catch (er) {} }
+        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, String(DAILY)); } catch (er) {} }
         history.push({ role: 'assistant', content: text });
         if (streamed) { if (b) b.textContent = text; finish(text); return; }
         if (!b) b = bubble('bot', '');
@@ -944,7 +947,7 @@
 
     /* ---------- FYOS: canlı sesli mod ----------
        Mikrofona bir kez basılır (tarayıcı izni bir kez sorar); sonrası tıklamasızdır.
-       «Faiz» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine dinlemeye döner.
+       «Melis» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine dinlemeye döner.
        Sonraki ziyaretlerde izin zaten verilmişse kendiliğinden açılır — hiç basılmaz.
        Motor js/fyos-voice.js; ancak sesli mod ilk açıldığında indirilir, kapalıyken hiç inmez. */
     var mic = $('#askMic'), vline = $('#askVoice'), vtext = $('#askVoiceText');
@@ -1000,14 +1003,14 @@
                                 : t('voiceCloud', 'Sesi tarayıcının konuşma servisi çözüyor.');
         },
         onState: function (m) {
-          if (m === 'wake') { vsay('voiceWake', '«Faiz» de — dinliyorum.'); if (!busy && window.FYOS) window.FYOS.setState('idle'); }
+          if (m === 'wake') { vsay('voiceWake', '«Melis» de — dinliyorum.'); if (!busy && window.FYOS) window.FYOS.setState('idle'); }
           else if (m === 'open') { vsay('voiceOpen', 'Dinliyorum…'); if (window.FYOS) window.FYOS.setState('listening'); }
           else if (m === 'speak') { if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); } }
           else if (m === 'off') { vshow(false); micOn(false); if (window.FYOS) window.FYOS.setState('idle'); }
         },
         onWake: function () {
           if (window.FYOS) window.FYOS.ping();
-          // Yalnız «Faiz» denip susulduysa karşılık ver; cümle sürüyorsa üstüne konuşma.
+          // Yalnız «Melis» denip susulduysa karşılık ver; cümle sürüyorsa üstüne konuşma.
           clearTimeout(vGreet);
           vGreet = setTimeout(function () {
             if (!voice || voice.mode() !== 'open') return;

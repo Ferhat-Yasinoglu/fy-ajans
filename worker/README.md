@@ -106,7 +106,7 @@ Anthropic için söylenen burada da geçerli: koda hiç güvenmeyen tek fren odu
 ## Ayarlar
 
 - `ALLOWED_ORIGINS` (wrangler.toml): izinli site adresleri. Kendi alan adına geçince ekle.
-- `DAILY_LIMIT`: ziyaretçi başına günlük soru hakkı (varsayılan 4).
+- `DAILY_LIMIT`: ziyaretçi başına günlük soru hakkı (varsayılan 10).
 - `MODEL`: `claude-sonnet-5` en yetenekli; `claude-haiku-4-5` yarı fiyat ve bu iş için yeterli.
   Model kimliğine tarih eki ekleme — bu dizeler olduğu gibi tamdır.
 - `TTS_VOICE` / `TTS_MODEL`: seslendirme sesi ve modeli. `wrangler.toml`'da bilerek yorumda

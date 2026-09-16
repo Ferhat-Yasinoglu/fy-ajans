@@ -26,7 +26,7 @@ window.FY_STRINGS = {
  "subjDefault": "Kontakt",
  "micOn": "Live-Sprache einschalten",
  "micOff": "Live-Sprache ausschalten",
- "voiceWake": "»Faiz« sagen — ich höre zu.",
+ "voiceWake": "»Melis« sagen — ich höre zu.",
  "voiceOpen": "Ich höre…",
  "voiceStarting": "Mikrofon wird eingeschaltet…",
  "voiceGreet": "Ja? Ich hör dir zu.",

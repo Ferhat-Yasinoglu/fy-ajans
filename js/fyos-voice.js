@@ -3,7 +3,7 @@
    Dış bağımlılık yok: her şey tarayıcının kendi API'leri (SpeechRecognition, speechSynthesis);
    CSP'ye yeni bir kaynak eklemez. Kendini window.FYOS_VOICE'a yazar.
 
-   Akış: dinle → «Faiz» duy → soruyu al → main.js yanıtı üretir → sesli oku → yine dinle.
+   Akış: dinle → «Melis» duy → soruyu al → main.js yanıtı üretir → sesli oku → yine dinle.
    Ziyaretçi konuşmaya başlarsa okuma kesilir (sözünü kesebilmesi için). */
 (function () {
   'use strict';
@@ -49,8 +49,12 @@
     return prev[n];
   }
 
-  // Tanıyıcının "faiz" yerine yazabildiği biçimler. Normalleştirilmiş (aksansız) hâlleriyle.
-  var WAKE_DEFAULT = ['faiz', 'fayiz', 'fais', 'fayis', 'fayez', 'feyiz', 'faizi', 'vaiz', 'fahiz', 'faiiz'];
+  // Tanıyıcının "melis" yerine yazabildiği biçimler. Normalleştirilmiş (aksansız) hâlleriyle.
+  var WAKE_DEFAULT = ['melis', 'meliss', 'melisa', 'melissa', 'mehlis', 'melys'];
+  /* 1 harf uzaklık gerçek bir kelimeye denk gelirse orayı kapatıyoruz: «meclis» tek harf
+     silinince «melis» oluyor ve FYOS'u boş yere uyandırırdı. Liste kısa kalsın — her ekleme
+     uyandırma kelimesini biraz daha sağırlaştırır. */
+  var NOT_WAKE = ['meclis'];
 
   /* Kelime dizisinde uyandırma kelimesini arar; bulursa dizinini döndürür, yoksa -1.
      Birebir eşleşme ya da 1 harf uzaklık (kısa kelimede yanlış pozitifi önlemek için en az 4 harf). */
@@ -58,6 +62,7 @@
     for (var i = 0; i < ws.length; i++) {
       var w = ws[i];
       if (w.length < 3) continue;
+      if (NOT_WAKE.indexOf(w) >= 0) continue;
       for (var j = 0; j < list.length; j++) {
         var k = list[j];
         if (w === k) return i;
