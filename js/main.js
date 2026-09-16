@@ -23,6 +23,10 @@
   // Sesli yanıt ucu (worker'ın /tts yolu): yanıtları gerçek bir insan sesiyle okutur.
   // Boş bırakılırsa FYOS_ENDPOINT'ten türetilir; ikisi de boşsa tarayıcının kendi sesi kullanılır.
   var FYOS_VOICE_ENDPOINT = '';
+  /* Tarayıcı sesini elle sabitlemek için: adın bir parçası yeter ("Emel", "Yelda"…).
+     Boşsa ses kendiliğinden seçilir ve kadın sesi tercih edilir. Cihazdaki sesleri görmek
+     için konsola: FYOS_VOICE.voices().then(console.log) */
+  var FYOS_VOICE_NAME = '';
   // Tarayıcı içi ücretsiz model (WebGPU). Kapatmak için false yap. Model adları: https://mlc.ai/models
   var FYOS_LOCAL_AI = true;
   var FYOS_LOCAL_MODEL = 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC';       // masaüstü (~1 GB, bir kez iner)
@@ -996,6 +1000,7 @@
       return V.create({
         lang: VLANG,
         ttsUrl: ttsEndpoint(),
+        voiceName: FYOS_VOICE_NAME,
         onLocal: function (isLocal) {
           if (!vtext) return;
           // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.

@@ -101,45 +101,73 @@
     } catch (e) { return Promise.resolve(false); }
   }
 
-  /* Sesler geç gelir: getVoices() ilk çağrıda boş dönebilir, voiceschanged'i bekleriz. */
+  /* Sesler geç gelir: getVoices() ilk çağrıda çoğu tarayıcıda BOŞ döner.
+     Eskiden 1,2 saniye beklenip boş liste kabul ediliyordu; o zaman hiç ses seçilemiyor ve
+     tarayıcı kendi VARSAYILAN sesini kullanıyordu — Windows'ta Türkçe varsayılanı «Tolga»,
+     yani erkek. Kadın sesi seçme kodu doğru çalışsa bile ses erkek çıkıyordu.
+     Artık 'voiceschanged' olayına güvenilmiyor (bazı tarayıcılarda hiç gelmiyor): liste
+     dolana kadar yoklanıyor, dolduğunda da önbelleğe alınıyor. */
+  var voiceCache = null;
   function voicesReady() {
+    if (voiceCache && voiceCache.length) return Promise.resolve(voiceCache);
     return new Promise(function (resolve) {
       if (!TTS) return resolve([]);
-      var v = TTS.getVoices();
-      if (v && v.length) return resolve(v);
-      var done = false, t = setTimeout(function () { if (!done) { done = true; resolve(TTS.getVoices() || []); } }, 1200);
-      TTS.addEventListener('voiceschanged', function h() {
-        if (done) return; done = true; clearTimeout(t);
-        TTS.removeEventListener('voiceschanged', h); resolve(TTS.getVoices() || []);
-      });
+      var waited = 0, step = 150, cap = 5000, timer = 0;
+      function look() {
+        var v = [];
+        try { v = TTS.getVoices() || []; } catch (e) {}
+        if (v.length) { voiceCache = v; if (timer) clearInterval(timer); resolve(v); return true; }
+        return false;
+      }
+      if (look()) return;
+      timer = setInterval(function () {
+        waited += step;
+        if (look()) return;
+        if (waited >= cap) { clearInterval(timer); resolve([]); }
+      }, step);
     });
   }
+  // Sesli mod açılırken listeyi ısıt: ilk yanıt okunurken hazır olsun.
+  function warmVoices() { try { voicesReady(); } catch (e) {} }
   /* Tarayıcı sesleri cinsiyet bilgisi vermez; elde yalnızca ad var. Bu yüzden bilinen
      kadın/erkek ses adlarıyla eşleştiriyoruz. Önemi şu: Windows'ta Türkçe varsayılanı
      «Tolga» (erkek), oysa yanında «Emel» (kadın) duruyor — ad bakılmazsa hep erkek seçilir. */
-  var SHE = ['emel', 'yelda', 'filiz', 'seda', 'aylin',                       // tr
-             'anna', 'katja', 'marlene', 'vicki', 'hedda', 'petra', 'amala',  // de
-             'samantha', 'karen', 'zira', 'aria', 'jenny', 'ava', 'joanna', 'salli', 'kimberly', 'moira', 'tessa', 'serena', 'fiona', 'susan', 'michelle', // en
-             'dilara', 'darya', 'dilnavaz',                                   // fa
-             'female', 'kadın', 'woman', 'weiblich'];
-  var HE = ['tolga', 'ahmet', 'burak', 'stefan', 'conrad', 'hans', 'yannick', 'klaus',
-            'daniel', 'david', 'mark', 'alex', 'fred', 'guy', 'ryan', 'thomas', 'george', 'james', 'oliver', 'aaron',
-            'farid', 'male', 'erkek', 'man', 'männlich'];
+  var SHE = ['emel', 'yelda', 'filiz', 'seda', 'aylin', 'defne', 'zeynep',            // tr
+             'anna', 'katja', 'marlene', 'vicki', 'hedda', 'petra', 'amala', 'ingrid', 'gisela', 'louisa', 'sabina', // de
+             'samantha', 'karen', 'zira', 'aria', 'jenny', 'ava', 'joanna', 'salli', 'kimberly', 'moira', 'tessa',
+             'serena', 'fiona', 'susan', 'michelle', 'zoe', 'allison', 'ivy', 'kendra', 'nicole', 'amy', 'emma',
+             'olivia', 'sonia', 'libby', 'natasha', 'clara', 'eva', 'luna', 'victoria',                             // en
+             'dilara', 'darya', 'dilnavaz', 'goli',                                                                // fa
+             'female', 'kadin', 'woman', 'weiblich', 'zan'];
+  var HE = ['tolga', 'ahmet', 'burak', 'umit', 'erkan',                                                            // tr
+            'stefan', 'conrad', 'hans', 'yannick', 'klaus', 'markus', 'bernd',                                     // de
+            'daniel', 'david', 'mark', 'alex', 'fred', 'guy', 'ryan', 'thomas', 'george', 'james', 'oliver',
+            'aaron', 'brian', 'eric', 'matthew', 'joey', 'liam', 'christopher', 'tom', 'arthur', 'rishi',           // en
+            'farid', 'reza', 'amir',                                                                               // fa
+            'male', 'erkek', 'mann', 'mannlich'];
+  /* Ad eşleşmesi KELİME bazında. Alt dize araması yanlış sonuç veriyordu: «Microsoft Hedda -
+     German (Germany)» adındaki «German» içinde «man» geçtiği için kadın ses erkek sayılıyordu. */
   function nameHas(name, list) {
-    var n = String(name || '').toLowerCase();
-    for (var i = 0; i < list.length; i++) if (n.indexOf(list[i]) >= 0) return true;
+    var toks = fold(name).split(' ');
+    for (var i = 0; i < toks.length; i++) {
+      if (!toks[i]) continue;
+      for (var j = 0; j < list.length; j++) if (toks[i] === list[j]) return true;
+    }
     return false;
   }
   /* Ses seçimi puanla: önce dil (tam etiket > aynı dil), sonra kadın sesi, sonra cihazda
      yüklü olması (localService — ağa çıkmaz, gecikmesi yoktur). */
-  function pickVoice(list, lang) {
+  function pickVoice(list, lang, prefer) {
     var want = String(lang || 'tr-TR').toLowerCase(), base = want.slice(0, 2), best = null, bestScore = -1;
+    var pin = fold(prefer || '');
     for (var i = 0; i < list.length; i++) {
       var v = list[i], vl = String(v.lang || '').toLowerCase().replace('_', '-');
       var score = 0;
       if (vl === want) score += 100;
       else if (vl.slice(0, 2) === base) score += 60;
       else continue;                                       // başka dil: hiç bakma
+      // Elle sabitlenmiş ses adı her şeyin önünde gelir (js/main.js: FYOS_VOICE_NAME).
+      if (pin && fold(v.name).indexOf(pin) >= 0) score += 1000;
       if (nameHas(v.name, SHE)) score += 30;
       else if (nameHas(v.name, HE)) score -= 20;
       if (v.localService) score += 5;
@@ -147,6 +175,7 @@
     }
     return best;
   }
+  function isShe(v) { return !!(v && nameHas(v.name, SHE)); }
 
   /* create(opts) → denetleyici.
      opts: lang, wake[], onState(ad), onHeard(metin, kesin), onQuestion(metin),
@@ -160,6 +189,8 @@
        Ulaşılamaz, kapalı ya da günlük ses hakkı bitmişse sessizce tarayıcının kendi
        sesine dönülür — ses hiçbir durumda tümden kesilmez. */
     var ttsUrl = opts.ttsUrl || '';
+    // Belirli bir tarayıcı sesini sabitlemek için (adın bir parçası yeter). Boşsa otomatik seçilir.
+    var voiceName = opts.voiceName || '';
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
@@ -176,6 +207,7 @@
     var echoText = '', echoUntil = 0;
     var audio = null, audioUrl = '';                       // uzak sesin çalan öğesi ve blob adresi
     var warned = false;                                    // uzak ses uyarısı bir kez yazılır
+    var toldVoice = false;                                 // ses uyarısı bir kez yazılır
 
     function setMode(m) { if (mode === m) return; mode = m; onState(m); }
 
@@ -323,6 +355,7 @@
     function start() {
       if (!SR) { onError('unsupported'); return Promise.resolve(false); }
       want = true; buf = ''; backoff = 250; lastAlive = Date.now();
+      warmVoices();                                        // liste ilk yanıttan önce dolsun
       if (!heal) heal = setInterval(healthTick, 5000);
       return localCheck(lang).then(function (state) {
         if (state === 'downloadable' || state === 'downloading') {
@@ -450,6 +483,25 @@
       return list.length ? list : [String(t)];
     }
 
+    /* Cihazda bu dil için kadın ses yoksa sessizce erkek sesle konuşmak yerine bir kez haber
+       veriyoruz: «hâlâ erkek sesi» durumunda sebebin cihazda mı kodda mı olduğunu ancak bu
+       satır ayırt ettiriyor. Liste de yazılır ki istenen ses sabitlenebilsin. */
+    function tellVoice(v, list) {
+      if (toldVoice) return; toldVoice = true;
+      try {
+        if (!v) { console.warn('FYOS: bu dil için hiç ses bulunamadı; tarayıcının varsayılanı konuşacak.'); return; }
+        if (isShe(v)) return;
+        var base = String(lang).slice(0, 2).toLowerCase(), ayni = [];
+        for (var i = 0; i < list.length; i++) {
+          var vl = String(list[i].lang || '').toLowerCase().replace('_', '-');
+          if (vl.slice(0, 2) === base) ayni.push(list[i].name + ' [' + list[i].lang + ']');
+        }
+        console.warn('FYOS: bu cihazda bu dil için kadın ses bulunamadı. Seçilen: ' + v.name +
+          '. Bu dildeki sesler: ' + (ayni.join(' · ') || '(yok)') +
+          '. Belirli bir sesi sabitlemek için js/main.js icindeki FYOS_VOICE_NAME.');
+      } catch (e) {}
+    }
+
     // Tarayıcının kendi sesi (ücretsiz, çevrimdışı; sesi sistemin yüklü seslerinden seçilir).
     function sayLocal(t, mine, onEnd) {
       if (!TTS || !window.SpeechSynthesisUtterance) { onEnd(); return; }
@@ -457,7 +509,8 @@
       voicesReady().then(function (voices) {
         // Bu arada kesildi ya da yerine yenisi geldi: durumu YENİSİ yönetiyor, dokunma.
         if (mine !== speakSeq) return;
-        var v = pickVoice(voices, lang);
+        var v = pickVoice(voices, lang, voiceName);
+        tellVoice(v, voices);
         (function next() {
           if (mine !== speakSeq) return;
           if (at >= list.length) { onEnd(); return; }
@@ -513,6 +566,23 @@
   }
 
   window.FYOS_VOICE = {
+    /* Teşhis: konsola `FYOS_VOICE.voices().then(console.log)` yazınca cihazdaki sesler ve
+       hangisinin seçileceği görünür. «Hâlâ erkek sesi» gibi bir durumda bakılacak tek yer. */
+    voices: function (lang) {
+      return voicesReady().then(function (list) {
+        var l = lang || document.documentElement.lang || 'tr-TR';
+        if (l.length === 2) l = { tr: 'tr-TR', de: 'de-DE', en: 'en-US', fa: 'fa-IR' }[l] || l;
+        var secilen = pickVoice(list, l);
+        return {
+          dil: l,
+          secilen: secilen ? secilen.name + ' [' + secilen.lang + ']' : '(yok — tarayıcı varsayılanı)',
+          kadinMi: isShe(secilen),
+          hepsi: list.map(function (v) {
+            return v.name + ' [' + v.lang + ']' + (nameHas(v.name, SHE) ? ' (kadın)' : nameHas(v.name, HE) ? ' (erkek)' : '');
+          })
+        };
+      });
+    },
     supported: function () { return !!SR; },
     canSpeak: function () { return !!(TTS && window.SpeechSynthesisUtterance); },
     check: localCheck,
