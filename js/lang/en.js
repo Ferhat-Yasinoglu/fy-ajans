@@ -42,6 +42,7 @@ window.FY_STRINGS = {
  "voiceWhereChecking": "Checking…",
  "voiceWhereLocal": "This browser can recognise speech inside your device: what you say never leaves it.",
  "voiceWhereCloud": "This browser recognises speech in its own speech service: what you say goes to the browser maker for recognition. The model that writes the answer still runs on your device.",
+ "answerStuck": "I got stuck on that one. Could you ask again?",
  "canned": [
   [
    "hello|hi|hey|good (morning|afternoon|evening)|how are you|what's up",

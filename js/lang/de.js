@@ -42,6 +42,7 @@ window.FY_STRINGS = {
  "voiceWhereChecking": "Wird geprüft…",
  "voiceWhereLocal": "Dieser Browser kann Sprache im Gerät selbst erkennen: Was du sagst, verlässt es nicht.",
  "voiceWhereCloud": "Dieser Browser erkennt Sprache in seinem eigenen Sprachdienst: Was du sagst, geht zur Erkennung an den Browser-Hersteller. Das Modell, das die Antwort schreibt, läuft weiterhin auf deinem Gerät.",
+ "answerStuck": "Da bin ich hängengeblieben. Fragst du noch einmal?",
  "canned": [
   [
    "hallo|hi|hey|servus|moin|guten (morgen|tag|abend)|wie geht",

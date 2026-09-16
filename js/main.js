@@ -877,8 +877,26 @@
       if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = t('badgeThinking', 'Düşünüyorum…');
       history.push({ role: 'user', content: q });
-      var b = null, streamed = false, told = false;
+      var b = null, streamed = false, told = false, ended = false, deadline = 0;
+      /* Emniyet süresi: yanıt kaynağı hiç dönmezse (tarayıcı içi model takılır, ağ sessizce
+         ölür) busy sonsuza kadar açık kalır ve o andan sonra sorulan HER soru sessizce
+         düşer — sesli modda bu, FYOS'un bir kez konuşup bir daha hiç cevap vermemesi demek.
+         İlerleme geldikçe süre tazelenir; 1 GB'lık model inişi bu yüzden kesilmez. */
+      function bump() {
+        clearTimeout(deadline);
+        deadline = setTimeout(function () {
+          if (ended) return;
+          var msg = t('answerStuck', 'Bu soruda takıldım. Bir daha sorar mısın?');
+          if (!b) b = bubble('bot', '');
+          b.textContent = msg;
+          finish(msg);
+        }, 60000);
+      }
+      bump();
       function finish(text) {
+        if (ended) return;
+        ended = true;
+        clearTimeout(deadline);
         busy = false;
         if (sub) sub.textContent = quota > 0 ? t('subMore', 'Başka bir şey sor.') : t('subDone', 'Bugünlük bu kadar — yarın yine buradayım.');
         idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
@@ -889,17 +907,19 @@
           if (!b) b = bubble('bot', '');
           b.textContent = t('modelLoading', 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %{pct}').replace('{pct}', pct) + (pct < 100 ? ' ' + t('modelLoadingHint', '— bu arada sayfayı gezebilirsin.') : '');
           if (sub) sub.textContent = t('subLoading', 'Model yükleniyor %{pct}').replace('{pct}', pct);
+          bump();
           // Sesli modda model inerken sessizlik dakikalarca sürebilir: bir kez haber ver.
           if (spoken && !told) { told = true; voiceSay(t('voiceLoading', 'Bir saniye, beynimi indiriyorum. Biraz sürebilir.'), true); }
         },
         onStream: function () {
           streamed = true;
+          bump();
           if (!b) b = bubble('bot', '');
           b.textContent = '…';
           if (sub) sub.textContent = t('subTyping', 'Yazıyorum…');
           if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
         },
-        onToken: function (text) { if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
+        onToken: function (text) { bump(); if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
       }, function (text, meta) {
         if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, '4'); } catch (er) {} }
         history.push({ role: 'assistant', content: text });

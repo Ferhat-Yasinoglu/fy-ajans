@@ -210,6 +210,21 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
   - Uyandırma kelimesi tanıyıcıdan «fayiz», «fais», «vaiz» gibi de dönebildiğinden 1 harf uzaklığa kadar eşleşir.
     Soru metni her zaman ziyaretçinin söylediği hâliyle kesilir (Türkçe harfler ve noktalama korunur).
   - `SpeechRecognition` olmayan tarayıcılarda mikrofon düğmesi hiç gösterilmez; yazılı sohbet olduğu gibi çalışır.
+  - **Kendini toparlar.** Sahada «bir kez cevap verdi, sonra sesi kesildi» diye bildirilen hatanın
+    dört ayrı sebebi vardı, dördü de kapatıldı — hepsi sesli modu kalıcı olarak sağır bırakıyordu:
+    1. Chrome, yanıt okunurken sürekli dinlemeyi arka arkaya kapatıyor. Eski kod bu kapanmaları
+       sayıyordu ve 10 saniyede 12 tanesi sesli modu **tümden kapatıyordu**. Artık vazgeçme yok;
+       bekleme yalnızca açılış gerçekten başarısız olduğunda (onstart hiç gelmediğinde) uzuyor.
+    2. `rec.start()` «zaten çalışıyor» dışında bir sebeple patlarsa hata yutuluyordu; `onend` de
+       gelmediği için mikrofon bir daha hiç açılmıyordu. Artık tanıyıcı baştan kuruluyor.
+    3. Tanıyıcı sessizce de ölebiliyor. 5 saniyede bir çalışan sağlık nöbetçisi, dinlemede olmamız
+       gerekirken 15 saniye hiç olay gelmediyse tanıyıcıyı yeniliyor.
+    4. Chrome uzun bir konuşma parçasında `onend`'i bazen hiç göndermiyor. Yanıt artık cümlelere
+       (~180 karakter) bölünerek okunuyor; her parçanın kendi nöbetçisi var ve konuşmanın gerçekten
+       başlayıp başlamadığı 1,5 saniyede anlaşılıyor.
+    Ayrıca `js/main.js` tarafında yanıt kaynağı hiç dönmezse `busy` sonsuza kadar açık kalıyordu ve
+    o andan sonraki her soru sessizce düşüyordu: artık 60 saniyelik bir emniyet süresi var, ilerleme
+    geldikçe tazeleniyor (1 GB'lık model inişi kesilmez).
   - **Ses kalitesi iki kademeli.** Varsayılan: tarayıcının kendi sesi — ücretsiz, çevrimdışı, robotik.
     Worker'a bir seslendirme anahtarı (`OPENAI_API_KEY` ya da `ELEVENLABS_API_KEY`) eklenirse
     yanıtlar gerçek bir insan sesiyle okunur; kurulum `worker/README.md` içinde. Adres
