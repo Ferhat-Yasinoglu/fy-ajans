@@ -56,6 +56,27 @@ Sohbet için eklediğin adres `/tts` için de geçerlidir — tek kayıt ikisini
 Anahtar yoksa `/tts` 503 döner ve site tarayıcı sesine döner: yani bu bölümü hiç yapmamak
 bir şeyi bozmaz.
 
+### Sesin kimliği
+
+FYOS genç, güler yüzlü ve samimi bir kadın sesiyle konuşur. Bu iki ayrı koldan gelir:
+
+- **Ses tınısı:** `TTS_VOICE`. OpenAI'de varsayılan `coral` (genç, sıcak kadın); `shimmer`,
+  `nova`, `sage` de benzer, `alloy` nötrdür. ElevenLabs'te bu alan voice id'dir.
+- **Nasıl konuştuğu:** OpenAI'nin `instructions` alanı — `src/index.js` içindeki `TTS_STYLE`
+  sabiti. Bu metin **okunmaz**, sese nasıl okuyacağını söyler: gülümseyerek, sıcak, arkadaşça,
+  yeri geldiğinde hafif bir gülüşle. `TTS_INSTRUCTIONS` ile değiştirilebilir. Yalnızca
+  `gpt-4o-*` seslendirme modellerinde vardır; eski `tts-1`'e gönderilmez (o alanı bilmez).
+  ElevenLabs tarafında karşılığı `voice_settings`'tir: `TTS_STABILITY` (varsayılan 0,35 —
+  düşük olması okumayı tekdüzelikten çıkarır), `TTS_SIMILARITY` (0,75), `TTS_STYLE_LEVEL` (0,5).
+
+Sözlerin kendisi ayrı bir yerden gelir: `SYSTEM_PROMPT`. Ses ne kadar sıcak olursa olsun
+resmî bir cümle resmî kalır, o yüzden ikisi birlikte ayarlanır.
+
+**Gülme metne yazılmaz.** Sistem istemi modele «haha» gibi şeyler yazmayı yasaklar, çünkü
+aynı metin ekranda da görünüyor ve tarayıcının kendi sesi onu harf harf okur. Gülümseme
+sesin tonundan gelir. Belirli bir kelimede *senaryolu* bir kahkaha istiyorsan o, ElevenLabs
+v3'ün `[laughs]` etiketleriyle olur — şu an kurulu değil.
+
 ### Ses frenleri
 
 `src/index.js` başında:
@@ -90,7 +111,9 @@ Anthropic için söylenen burada da geçerli: koda hiç güvenmeyen tek fren odu
   Model kimliğine tarih eki ekleme — bu dizeler olduğu gibi tamdır.
 - `TTS_VOICE` / `TTS_MODEL`: seslendirme sesi ve modeli. `wrangler.toml`'da bilerek yorumda
   duruyorlar; açarsan sağlayıcıya uygun değeri yaz (OpenAI ses adı ve `gpt-4o-mini-tts`,
-  ElevenLabs voice id ve `eleven_multilingual_v2`).
+  ElevenLabs voice id ve `eleven_multilingual_v2`). Varsayılan ses `coral`.
+- `TTS_INSTRUCTIONS`: sesin nasıl konuşacağı (OpenAI). Boşsa `src/index.js`'teki `TTS_STYLE`.
+- `TTS_STABILITY` / `TTS_SIMILARITY` / `TTS_STYLE_LEVEL`: ElevenLabs ifade ayarları.
 - Sistem talimatı ve FY bilgileri `src/index.js` içindeki `SYSTEM_PROMPT` sabitinde. Fiyat ya da
   kurs bilgisi değişince orayı da güncelle. (Kurs şu an ücretsiz; metin buna göre yazılı.)
 

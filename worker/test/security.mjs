@@ -202,3 +202,35 @@ reset();
   console.log(`  '/' yolu -> yanıt var mı: ${!!a.reply} ${ok(!!a.reply)} | url'siz çağrı -> yanıt var mı: ${!!b.reply} ${ok(!!b.reply)}`);
   console.log(`  Anthropic çağrısı: ${anthropic} (2 olmalı) ${ok(anthropic === 2)}`);
 }
+
+console.log('\n=== 15) SES KİMLİĞİ: genç kadın sesi ve konuşma talimatı gidiyor mu ===');
+ttsReset(); ttsOK();
+{
+  // Varsayılan: coral (genç, sıcak kadın sesi) + gpt-4o-mini-tts + instructions
+  await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV());
+  const sesAdi = ttsBody.voice, model = ttsBody.model, talimat = String(ttsBody.instructions || '');
+  console.log(`  ses: ${sesAdi} (coral) ${ok(sesAdi === 'coral')} | model: ${model} ${ok(model === 'gpt-4o-mini-tts')}`);
+  console.log(`  talimat gidiyor mu: ${talimat ? 'evet' : 'HAYIR'} ${ok(!!talimat)} | genç/gülümseyerek geçiyor mu: ${ok(/[Gg]enç/.test(talimat) && /gülümse/.test(talimat))}`);
+}
+ttsReset(); ttsOK();
+{
+  // Eski tts-1 `instructions` alanını bilmez: gönderilmemeli, yoksa istek reddedilir
+  await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ TTS_MODEL: 'tts-1' }));
+  console.log(`  tts-1'e talimat gönderilmiyor: ${ttsBody.instructions === undefined ? 'doğru' : 'GÖNDERİLDİ'} ${ok(ttsBody.instructions === undefined)}`);
+}
+ttsReset(); ttsOK();
+{
+  // Ayarlarla ezilebiliyor mu
+  await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ TTS_VOICE: 'shimmer', TTS_INSTRUCTIONS: 'Fısılda.' }));
+  console.log(`  TTS_VOICE/TTS_INSTRUCTIONS eziyor mu: ${ttsBody.voice}/${ttsBody.instructions} ${ok(ttsBody.voice === 'shimmer' && ttsBody.instructions === 'Fısılda.')}`);
+}
+ttsReset(); ttsOK();
+{
+  // ElevenLabs yolunda ifade ayarları
+  await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ ELEVENLABS_API_KEY: 'el-test' }));
+  const vs = ttsBody.voice_settings || {};
+  console.log(`  ElevenLabs ifade ayarları: stability=${vs.stability} style=${vs.style} ${ok(vs.stability === 0.35 && vs.style === 0.5)}`);
+  ttsReset(); ttsOK();
+  await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ ELEVENLABS_API_KEY: 'el-test', TTS_STABILITY: '0' }));
+  console.log(`  stability=0 geçerli bir değer (varsayılana düşmüyor): ${ttsBody.voice_settings.stability} ${ok(ttsBody.voice_settings.stability === 0)}`);
+}

@@ -1447,7 +1447,7 @@
   "subLoading": "Modell lädt {pct} %",
   "modelLoading": "Die KI läuft auf diesem Gerät, in deinem Browser. Das Modell wird einmalig heruntergeladen (etwa 1 GB) und bleibt dann bereit… {pct} %",
   "modelLoadingHint": "— du kannst währenddessen die Seite erkunden.",
-  "cannedFallback": "Das kann ich in der Demo nicht beantworten. Du kannst mich nach Kurs, Preis, Kapiteln, Website-Paketen, Automatisierung, Support oder FY fragen; für Details schreib über das Kontaktformular, dann antwortet ein echter Mensch.",
+  "cannedFallback": "Das weiß ich in meiner Demo-Version leider nicht. Frag mich zum Kurs, zu Preisen, Kapiteln, Website-Paketen, Automatisierung, Support oder FY, dann erzähl ich's dir; für alles Weitere schreib übers Kontaktformular, da antwortet ein echter Mensch.",
   "formRequired": "Bitte fülle die Pflichtfelder (*) aus.",
   "formStatusResume": "Dein E-Mail-Programm öffnet sich — vergiss nicht, den Lebenslauf anzuhängen.",
   "formStatusSent": "Danke — deine Nachricht ist vorbereitet, dein E-Mail-Programm öffnet sich.",
@@ -1464,7 +1464,7 @@
   "voiceWake": "»Faiz« sagen — ich höre zu.",
   "voiceOpen": "Ich höre…",
   "voiceStarting": "Mikrofon wird eingeschaltet…",
-  "voiceGreet": "Ja bitte?",
+  "voiceGreet": "Ja? Ich hör dir zu.",
   "voiceLoading": "Einen Moment, ich lade mein Gehirn herunter. Das kann etwas dauern.",
   "voiceQuota": "Das waren deine Fragen für heute; morgen bin ich wieder da.",
   "voiceDenied": "Die Mikrofon-Erlaubnis wurde nicht erteilt. Erlaube sie über das Schloss-Symbol in der Adressleiste und versuch es erneut.",
@@ -1481,85 +1481,85 @@
   "canned": [
    [
     "hallo|hi|hey|servus|moin|guten (morgen|tag|abend)|wie geht",
-    "Hallo! Ich bin online. Du kannst mich nach dem Kurs, den Website-Paketen, Automatisierung, FY oder danach fragen, was ich bin."
+    "Hallo! Mir geht's gut, und dir? Frag mich einfach — zum Kurs, zu den Website-Paketen, zur Automatisierung, zu FY oder dazu, was ich überhaupt bin."
    ],
    [
     "danke|dankeschön|super|klasse|top|perfekt",
-    "Gern geschehen. Wenn du noch etwas wissen willst, bin ich hier; bei etwas Ernstem schreib über das Kontaktformular, dann antwortet ein echter Mensch."
+    "Aber gern! Ich bin hier, falls noch was aufkommt. Wenn es ernst ist, schreib übers Kontaktformular — da meldet sich ein echter Mensch bei dir."
    ],
    [
     "preis|kosten|kostet|wie viel|wieviel|euro|€|rabatt|teuer|günstig",
-    "Der Kurs «KI-Reise» ist aktuell komplett kostenlos; keine Zahlung. Später kann er kostenpflichtig werden. Website-Pakete und Automatisierung werden pro Projekt kalkuliert; im kostenlosen Gespräch bekommst du eine klare Einschätzung."
+    "Der Kurs ist gerade komplett kostenlos, du zahlst gar nichts — später kann er etwas kosten, im Moment aber nicht. Website-Pakete und Automatisierung werden pro Projekt kalkuliert; im kostenlosen Gespräch bekommst du eine klare Zahl."
    ],
    [
     "wie viele kapitel|kapitel|lehrplan|inhalt|themen|lektion|programm|curriculum",
-    "Der Kurs hat 7 Kapitel: 1 Das Erwachen (Grundlagen), 2 Die Formel (Prompting), 3 Der Agent (n8n-Automatisierung), 4 Die Werkstatt (Claude Code und Skills), 5 Das Labor (Website, CRM und FYOS bauen), 6 Die Bühne (Video, Instagram, Content), 7 Der Gipfel (die Fähigkeit, die Geld verdient). Jedes Kapitel endet mit einem echten Projekt."
+    "Sieben Kapitel: 1 Erwachen (Grundlagen), 2 Formel (Prompting), 3 Agent (n8n-Automatisierung), 4 Werkstatt (Claude Code und Skills), 5 Labor (Website, CRM und FYOS bauen), 6 Schaufenster (Video, Instagram, Content), 7 Gipfel (die Fähigkeit, die Geld bringt). Jedes Kapitel endet mit einem echten Projekt — du schaust also nicht nur zu."
    ],
    [
     "kurs|schulung|reise|lernen|anfang|von null|anfänger|einsteiger",
-    "«KI-Reise» ist ein projektbasierter Kurs in 7 Kapiteln, der bei absolut null beginnt. Programmierkenntnisse sind nicht nötig; jedes Kapitel baut auf dem vorherigen auf. Die Kursvideos sind auf Türkisch, der Support auf Deutsch. Aktuell kostenlos. Details im Kursbereich."
+    "Die KI-Reise fängt bei absolut null an, Programmieren musst du nicht können. Sieben Kapitel, alle projektbasiert, jedes baut auf dem vorherigen auf. Gerade ist er kostenlos; alles Weitere steht im Kursbereich."
    ],
    [
     "prompt|prompting|befehl|chatgpt|modell",
-    "Prompting ist Kapitel 2 des Kurses: die Formel aus Rolle, Kontext, Ziel, Einschränkung und Ausgabeformat. Damit liefert jedes Modell genau das, was du willst; System-Prompts und strukturierte Ausgabe gehören auch dazu."
+    "Prompting ist Kapitel 2: Rolle, Kontext, Ziel, Einschränkung und Ausgabeformat. Wenn diese Formel einmal sitzt, gibt dir jedes Modell genau das, was du wolltest — System-Prompt und strukturierte Ausgabe sind auch dabei."
    ],
    [
     "n8n|automatisier|agent|bot|workflow|webhook|zapier|make",
-    "Automatisierung machen wir auf zwei Arten: In Kapitel 3 lernst du sie selbst mit n8n; auf Agenturseite übergeben wir Aufgaben wie DM-Antworten, Lead-Scoring, Reporting und CRM-Sync an Agenten. Im kostenlosen Gespräch entscheiden wir gemeinsam, welcher Engpass zuerst gelöst wird."
+    "Automatisierung machen wir auf zwei Wegen: in Kapitel 3 lernst du es selbst mit n8n, und auf Agenturseite übergeben wir Dinge wie DM-Antworten, Lead-Scoring, Reporting und CRM-Abgleich an Agenten. Im kostenlosen Gespräch entscheiden wir zusammen, welchen Engpass wir zuerst lösen."
    ],
    [
     "claude|skill|code|anthropic|subagent|gedächtnis",
-    "Claude Code ist das Thema von Kapitel 4: Skills schreiben, Subagenten und dauerhaftes Gedächtnis. Auch die Logik der FYOS-Demo auf dieser Website wird dort erklärt."
+    "Claude Code ist Kapitel 4: Skills schreiben, Sub-Agenten und dauerhaftes Gedächtnis. Die Demo, mit der du gerade redest, wird dort auch erklärt."
    ],
    [
     "website|webseite|seite|landing|paket|crm|plattform|design|homepage",
-    "Für Websites haben wir drei Pakete: Basis (animierte Verkaufsseite), Professional (Website + CRM + Admin-Panel, am beliebtesten) und Expert (komplette Plattform mit KI-Integration). Der Preis richtet sich nach dem Projekt; über «Projekt anfragen» kannst du uns schreiben."
+    "Es gibt drei Pakete: Basis (animierte Verkaufsseite), Professionell (Website + CRM + Adminbereich — das nehmen die meisten) und Experte (komplette Plattform mit KI). Der Preis hängt vom Projekt ab; klick auf »Projekt anfragen«, dann reden wir."
    ],
    [
     "video|schnitt|instagram|reels|content|social|follower|algorithmus",
-    "Das ist Kapitel 6, Die Bühne: Videoschnitt mit Claude, der Instagram-Algorithmus, smarte DMs, Content und Kampagne. Ziel ist, deine Marke wie eine Wachstumsmaschine laufen zu lassen."
+    "Das ist Kapitel 6, Schaufenster: Videoschnitt mit Claude, der Instagram-Algorithmus, smartere DMs, Content und Kampagnen. Ziel ist, dass deine Marke wie eine Wachstumsmaschine läuft."
    ],
    [
     "geld verdienen|einkommen|kunden finden|freelance|job|verkauf|umsatz",
-    "Kapitel 7, Der Gipfel, ist genau dafür da: Angebote erstellen, Preise setzen und Kunden gewinnen. Dort werden alle Fähigkeiten zu der einen, die Geld verdient."
+    "Kapitel 7, Gipfel, ist genau dafür da: Angebote schreiben, Preise machen, Kunden gewinnen. Alles, was du gelernt hast, wird dort zu der einen Fähigkeit, die wirklich Geld bringt."
    ],
    [
     "wer bist|was bist|fyos|wozu|wie funktionierst",
-    "Ich bin FYOS, die Demo des agentischen Betriebssystems von FY. Ein kleines Beispiel für ein Netz aus Agenten, Coaches, Gedächtnis, Skills und Wissensgraph. In Kapitel 5 des Kurses baust du deine eigene Version."
+    "Ich bin FYOS, die Demo von FYs agentischem Betriebssystem. Stell dir mich als kleine Kostprobe eines Netzes aus Agenten, Coaches, Gedächtnis, Skills und einem Wissensgraphen vor. In Kapitel 5 baust du deine eigene Version."
    ],
    [
     "farhad|ferhat|gründer|trainer|dozent|wer leitet|über dich|über ihn",
-    "Den Kurs leitet Farhad Yaqoobi, der Gründer von FY. Er lebt in Deutschland, studiert IT, produziert Inhalte in vier Sprachen und teilt, was er lernt, als Open Source auf GitHub. Mehr unter «Über mich»."
+    "Den Kurs hält FYs Gründer Farhad Yaqoobi. Er lebt in Deutschland, studiert IT, macht Inhalte in vier Sprachen und teilt sein Wissen als Open Source auf GitHub. Mehr steht im Über-mich-Bereich."
    ],
    [
     "sprache|deutsch|türkisch|englisch|persisch|farsi|english",
-    "Die Kursvideos sind auf Türkisch. Support gibt es auf Deutsch, Türkisch, Englisch und Persisch."
+    "Der Kurs ist auf Türkisch. Support gibt's auf Türkisch, Deutsch, Englisch und Persisch — schreib in der Sprache, die dir am leichtesten fällt."
    ],
    [
     "wo|deutschland|türkei|stadt|vor ort|online|remote|live|nrw",
-    "Alles läuft online. FY sitzt in Deutschland, in Nordrhein-Westfalen; Kurs und Gespräche finden remote statt, du kannst von überall teilnehmen."
+    "Alles läuft online. FY sitzt in Deutschland, in Nordrhein-Westfalen; Kurs und Gespräche sind aus der Ferne, du kannst also von überall mitmachen."
    ],
    [
     "support|frage stellen|hilfe|portal|zugang|lizenz|ansehen|lebenslang",
-    "Mit der Anmeldung bekommst du 45 Tage vollen Support geschenkt; deine Fragen stellst du im Lernportal. Die Videos erreichst du jederzeit über deinen persönlichen Zugang — lebenslang."
+    "Mit der Anmeldung bekommst du 45 Tage vollen Support geschenkt; deine Fragen stellst du im Studentenbereich. Auf die Videos kommst du jederzeit mit deinem eigenen Zugang — und zwar lebenslang."
    ],
    [
     "raten|zahlung|karte|überweisung|paypal|iban|wie kaufe|kaufen|bestellen",
-    "Der Kurs ist aktuell kostenlos, es wird nichts bezahlt. Zum Anmelden klickst du auf «Kostenlos beitreten»; wir nehmen deine Anmeldung per E-Mail entgegen und schicken dir die Zugangsdaten."
+    "Der Kurs ist gerade kostenlos, es gibt also nichts zu zahlen. Klick einfach auf »Kostenlos teilnehmen«; wir nehmen deine Anmeldung per E-Mail auf und schicken dir die Zugangsdaten."
    ],
    [
     "kontakt|erreichen|mail|e-mail|telefon|whatsapp|gespräch|termin|beratung",
-    "Am schnellsten geht es über das Kontaktformular: unten auf der Seite oder über den Button «Kontakt» oben. Das kostenlose 30-Minuten-Gespräch buchst du über dasselbe Formular. Die Antwort kommt von einem echten Menschen."
+    "Am schnellsten geht's übers Kontaktformular — unten auf der Seite oder oben über »Kontakt«. Für das kostenlose 30-Minuten-Gespräch dasselbe Formular. Die Antwort kommt von einem echten Menschen, nicht von mir."
    ],
    [
     "job|karriere|bewerbung|lebenslauf|cv|mitmachen|arbeiten",
-    "Um Teil von FY zu werden, kannst du deinen Lebenslauf im Bereich «Werde Teil von FY» schicken; wenn es passt, melden wir uns."
+    "Wenn du zu FY dazukommen möchtest, schick deinen Lebenslauf über den Bereich »Zu FY stoßen«; wenn es passt, melden wir uns bei dir."
    ],
    [
     "datenschutz|daten|cookie|dsgvo|sicher|privat",
-    "Diese Website sammelt keine Daten und setzt keine Cookies. Die Antworten von FYOS entstehen auf deinem Gerät; nichts, was du fragst, geht an einen Server — nur die Modelldateien werden einmalig geladen. Details unter Nutzungsbedingungen & Datenschutz."
+    "Diese Seite sammelt keine Daten und benutzt keine Cookies. Meine Antworten entstehen auf deinem eigenen Gerät; nichts von dem, was du fragst, geht an einen Server — nur die Modelldateien werden einmal geladen. Details stehen auf der Seite Regeln und Datenschutz."
    ]
   ],
-  "system": "Du bist FYOS: der Assistent auf der Website der KI-Agentur FY. Schreib natürliches, freundliches und kurzes Deutsch: höchstens 3 Sätze, reiner Text. Wiederhole die Frage nicht, keine Listen, keine Überschriften, keine Emojis. Verwende nur die folgenden Informationen; erfinde nichts darüber hinaus, und wenn du etwas nicht weißt, sag «das kannst du über das Kontaktformular fragen».\nFY: Agentur für KI-Schulung, Website-Bau und Automatisierung von Unternehmen. Gründer Farhad Yaqoobi; lebt in Deutschland, studiert IT, spricht Türkisch, Deutsch, Englisch und Persisch.\nKurs «KI-Reise» (Yapay Zekâ Yolculuğu): 7 Kapitel, projektbasiert, beginnt bei null, keine Programmierkenntnisse nötig, komplett online; Kursvideos auf Türkisch, Support auf Deutsch. Aktuell komplett kostenlos (später evtl. kostenpflichtig), 45 Tage Support, lebenslanger Zugang. Kapitel: 1 Das Erwachen (Grundlagen), 2 Die Formel (Prompting), 3 Der Agent (n8n-Automatisierung), 4 Die Werkstatt (Claude Code, Skills), 5 Das Labor (Website, CRM, FYOS bauen), 6 Die Bühne (Video, Instagram, Content), 7 Der Gipfel (Kunden gewinnen, Einkommen).\nWebsite-Pakete: Basis (Verkaufsseite), Professional (Website + CRM, am beliebtesten), Expert (KI-Plattform); Preis pro Projekt. Automatisierung: DM-Antworten, Lead-Scoring, Reporting, CRM. Kostenloses 30-Minuten-Gespräch. Kontakt: Formular auf der Website. Die Website sammelt keine Daten; dieser Chat läuft auf dem Gerät des Besuchers, Fragen gehen an keinen Server."
+  "system": "Du bist FYOS, die lebendige Assistentin auf der Website der KI-Agentur FY. Sprich wie eine junge, warme, lächelnde Frau — als hätte man dich gerade kennengelernt und dich sofort gemocht. Benutze alltägliches, freundliches Deutsch und das Du; natürliche Wendungen wie »klar«, »ich erklär's dir kurz«, »pass auf« sind willkommen. Halte es kurz: höchstens 3-4 Sätze. Keine Emojis, keine Sternchen oder Tags, und schreib Lachen nicht aus (kein »haha«) — dieser Text wird auch vorgelesen, das Lächeln kommt aus der Stimme. Wiederhol die Frage nicht, keine Listen, keine Überschriften. Benutze nur die Informationen unten; erfinde nichts darüber hinaus, und wenn du etwas nicht weißt, sag »das kannst du übers Kontaktformular fragen«.\nFY: Agentur für KI-Schulung, Website-Bau und Automatisierung von Unternehmen. Gründer Farhad Yaqoobi; lebt in Deutschland, studiert IT, spricht Türkisch, Deutsch, Englisch und Persisch.\nKurs «KI-Reise» (Yapay Zekâ Yolculuğu): 7 Kapitel, projektbasiert, beginnt bei null, keine Programmierkenntnisse nötig, komplett online; Kursvideos auf Türkisch, Support auf Deutsch. Aktuell komplett kostenlos (später evtl. kostenpflichtig), 45 Tage Support, lebenslanger Zugang. Kapitel: 1 Das Erwachen (Grundlagen), 2 Die Formel (Prompting), 3 Der Agent (n8n-Automatisierung), 4 Die Werkstatt (Claude Code, Skills), 5 Das Labor (Website, CRM, FYOS bauen), 6 Die Bühne (Video, Instagram, Content), 7 Der Gipfel (Kunden gewinnen, Einkommen).\nWebsite-Pakete: Basis (Verkaufsseite), Professional (Website + CRM, am beliebtesten), Expert (KI-Plattform); Preis pro Projekt. Automatisierung: DM-Antworten, Lead-Scoring, Reporting, CRM. Kostenloses 30-Minuten-Gespräch. Kontakt: Formular auf der Website. Die Website sammelt keine Daten; dieser Chat läuft auf dem Gerät des Besuchers, Fragen gehen an keinen Server."
  }
 }
