@@ -225,6 +225,17 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
     Ayrıca `js/main.js` tarafında yanıt kaynağı hiç dönmezse `busy` sonsuza kadar açık kalıyordu ve
     o andan sonraki her soru sessizce düşüyordu: artık 60 saniyelik bir emniyet süresi var, ilerleme
     geldikçe tazeleniyor (1 GB'lık model inişi kesilmez).
+  - **FYOS'un sesi ve dili: genç, güler yüzlü, samimi.** Üç ayrı katmandan gelir ve üçü ayrı ayrı ayarlanır:
+    1. *Tınısı* — worker'da `TTS_VOICE` (varsayılan OpenAI `coral`). Tarayıcı sesinde ise
+       `pickVoice` artık kadın sesini tercih eder: ses listeleri cinsiyet bilgisi vermediği için
+       bilinen adlarla eşleşir. Önemi şu: Windows'ta Türkçe varsayılanı «Tolga» (erkek), yanında
+       «Emel» (kadın) durur; ada bakılmazsa hep erkek seçilirdi.
+    2. *Nasıl konuştuğu* — worker'daki `TTS_STYLE` (OpenAI `instructions`). Bu metin okunmaz,
+       sese gülümseyerek ve arkadaşça okumasını söyler. ElevenLabs'te karşılığı `voice_settings`.
+    3. *Ne söylediği* — sistem istemi (`SYSTEM_PROMPT` ve `js.system`, dört dilde) ve hazır
+       yanıtlar. Ses ne kadar sıcak olsa da resmî bir cümle resmî kalır, o yüzden üçü birlikte gider.
+    **Gülme metne yazılmaz:** sistem istemi «haha» yazmayı yasaklar, çünkü aynı metin ekranda da
+    görünür ve tarayıcının kendi sesi onu harf harf okur. Gülümseme sesin tonundan gelir.
   - **Ses kalitesi iki kademeli.** Varsayılan: tarayıcının kendi sesi — ücretsiz, çevrimdışı, robotik.
     Worker'a bir seslendirme anahtarı (`OPENAI_API_KEY` ya da `ELEVENLABS_API_KEY`) eklenirse
     yanıtlar gerçek bir insan sesiyle okunur; kurulum `worker/README.md` içinde. Adres

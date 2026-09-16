@@ -29,7 +29,15 @@ const MAX_INFLIGHT_PER_IP = 2;    // aynı isolate'te aynı IP'den eşzamanlı i
 const MAX_TTS_CHARS = 500;        // tek istekte seslendirilecek en fazla karakter
 const TTS_DAILY_CHARS = 2500;     // ziyaretçi başına günlük karakter tavanı (~6 yanıt)
 
-const SYSTEM_PROMPT = `Sen FYOS'sun: FY yapay zekâ ajansının sitesindeki canlı asistan. Kısa, sıcak ve net Türkçe yaz; kullanıcı başka dilde yazarsa (Almanca, İngilizce, Farsça) o dilde yanıtla. En fazla 3-4 cümle. Emoji kullanma. Bilmediğin şeyi uydurma; emin olmadığında iletişim formuna yönlendir ve "gerçek bir insan yanıtlar" de.
+/* FYOS'un sesi: genç, sıcak, güler yüzlü bir kadın. Bu metin OKUNMAZ — sese NASIL okuyacağını
+   söyler (OpenAI'nin `instructions` alanı). Ses tonu buradan ayarlanır; sözlerin kendisi
+   SYSTEM_PROMPT'tan gelir. TTS_INSTRUCTIONS ile değiştirilebilir. */
+const TTS_STYLE = 'Genç bir kadın sesiyle, gülümseyerek konuş. Sıcak, samimi ve arkadaşça ol; ' +
+  'karşındaki yakın bir arkadaşınmış gibi. Temponu doğal tut, cümleleri robot gibi eşit aralıklarla okuma. ' +
+  'Konu neşeliyse sesine hafif bir gülümseme, yeri geldiğinde kısa ve doğal bir gülüş karışsın — abartma. ' +
+  'Resmî sunucu tonundan kaçın; içten ve rahat konuş.';
+
+const SYSTEM_PROMPT = `Sen FYOS'sun: FY yapay zekâ ajansının sitesindeki canlı asistan. Genç, güler yüzlü ve samimi bir kadın gibi konuş — karşındaki yeni tanıştığın ama hemen ısındığın biri. Gündelik, sıcak Türkçe kullan; «tabii ki», «hemen anlatayım», «bak şöyle» gibi doğal bağlayıcılar serbest. Sen diliyle konuş, resmî «siz» kurma. Kısa tut: en fazla 3-4 cümle. Emoji kullanma, yıldız ya da etiket koyma, gülmeyi yazıyla taklit etme («haha», «hihi» yazma) — bu metin sesli de okunuyor, gülümseme sesin tonundan geliyor. Kullanıcı başka dilde yazarsa (Almanca, İngilizce, Farsça) o dilde ve aynı sıcaklıkta yanıtla. Bilmediğin şeyi uydurma; emin olmadığında iletişim formuna yönlendir ve "gerçek bir insan yanıtlar" de.
 
 FY hakkında bildiklerin:
 - FY: yapay zekâ ajansı. Üç iş: yapay zekâ eğitimi, web sitesi kurmak, işletmeleri otomasyonla akıllılaştırmak.
@@ -58,6 +66,11 @@ const json = (data, status, headers) =>
 function dayKey(ip) {
   const d = new Date();
   return `q:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
+}
+// Ortam değişkeni sayıya çevrilir; boş ya da bozuksa varsayılan kalır (0 geçerli bir değerdir).
+function num(v, def) {
+  const n = parseFloat(v);
+  return isFinite(n) ? n : def;
 }
 function ttsDayKey(ip) {
   const d = new Date();
@@ -187,21 +200,39 @@ async function handleTts(request, env, cors, ip) {
   try {
     if (env.ELEVENLABS_API_KEY) {
       const voice = env.TTS_VOICE || '21m00Tcm4TlvDq8ikWAM';
+      /* voice_settings ses tonunu belirler: stability düşürülünce okuma tekdüzelikten çıkar,
+         style yükselince duygu artar. Varsayılanlar sıcak ve canlı bir okuma için seçildi;
+         çok düşürülürse ses kararsızlaşır, çok yükseltilirse robotlaşır. */
       res = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + encodeURIComponent(voice), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'xi-api-key': env.ELEVENLABS_API_KEY, 'Accept': 'audio/mpeg' },
-        body: JSON.stringify({ text, model_id: env.TTS_MODEL || 'eleven_multilingual_v2' })
+        body: JSON.stringify({
+          text,
+          model_id: env.TTS_MODEL || 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: num(env.TTS_STABILITY, 0.35),
+            similarity_boost: num(env.TTS_SIMILARITY, 0.75),
+            style: num(env.TTS_STYLE_LEVEL, 0.5),
+            use_speaker_boost: true
+          }
+        })
       });
     } else {
+      const model = env.TTS_MODEL || 'gpt-4o-mini-tts';
+      const body = {
+        model,
+        // coral: genç, sıcak kadın sesi. Diğer seçenekler: shimmer, nova, sage, alloy (nötr).
+        voice: env.TTS_VOICE || 'coral',
+        input: text,
+        response_format: 'mp3'
+      };
+      /* `instructions` yalnızca gpt-4o-* seslendirme modellerinde var; eski tts-1'e gönderilmez.
+         Sesin genç, güler yüzlü ve samimi olmasını sağlayan asıl kol budur. */
+      if (model.indexOf('gpt-4o') === 0) body.instructions = env.TTS_INSTRUCTIONS || TTS_STYLE;
       res = await fetch('https://api.openai.com/v1/audio/speech', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.OPENAI_API_KEY },
-        body: JSON.stringify({
-          model: env.TTS_MODEL || 'gpt-4o-mini-tts',
-          voice: env.TTS_VOICE || 'alloy',
-          input: text,
-          response_format: 'mp3'
-        })
+        body: JSON.stringify(body)
       });
     }
   } catch (e) {

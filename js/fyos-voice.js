@@ -109,14 +109,38 @@
       });
     });
   }
+  /* Tarayıcı sesleri cinsiyet bilgisi vermez; elde yalnızca ad var. Bu yüzden bilinen
+     kadın/erkek ses adlarıyla eşleştiriyoruz. Önemi şu: Windows'ta Türkçe varsayılanı
+     «Tolga» (erkek), oysa yanında «Emel» (kadın) duruyor — ad bakılmazsa hep erkek seçilir. */
+  var SHE = ['emel', 'yelda', 'filiz', 'seda', 'aylin',                       // tr
+             'anna', 'katja', 'marlene', 'vicki', 'hedda', 'petra', 'amala',  // de
+             'samantha', 'karen', 'zira', 'aria', 'jenny', 'ava', 'joanna', 'salli', 'kimberly', 'moira', 'tessa', 'serena', 'fiona', 'susan', 'michelle', // en
+             'dilara', 'darya', 'dilnavaz',                                   // fa
+             'female', 'kadın', 'woman', 'weiblich'];
+  var HE = ['tolga', 'ahmet', 'burak', 'stefan', 'conrad', 'hans', 'yannick', 'klaus',
+            'daniel', 'david', 'mark', 'alex', 'fred', 'guy', 'ryan', 'thomas', 'george', 'james', 'oliver', 'aaron',
+            'farid', 'male', 'erkek', 'man', 'männlich'];
+  function nameHas(name, list) {
+    var n = String(name || '').toLowerCase();
+    for (var i = 0; i < list.length; i++) if (n.indexOf(list[i]) >= 0) return true;
+    return false;
+  }
+  /* Ses seçimi puanla: önce dil (tam etiket > aynı dil), sonra kadın sesi, sonra cihazda
+     yüklü olması (localService — ağa çıkmaz, gecikmesi yoktur). */
   function pickVoice(list, lang) {
-    var base = String(lang || 'tr').slice(0, 2).toLowerCase(), exact = null, near = null;
+    var want = String(lang || 'tr-TR').toLowerCase(), base = want.slice(0, 2), best = null, bestScore = -1;
     for (var i = 0; i < list.length; i++) {
       var v = list[i], vl = String(v.lang || '').toLowerCase().replace('_', '-');
-      if (vl === String(lang).toLowerCase()) { if (!exact || v.localService) exact = v; }
-      else if (vl.slice(0, 2) === base) { if (!near || v.localService) near = v; }
+      var score = 0;
+      if (vl === want) score += 100;
+      else if (vl.slice(0, 2) === base) score += 60;
+      else continue;                                       // başka dil: hiç bakma
+      if (nameHas(v.name, SHE)) score += 30;
+      else if (nameHas(v.name, HE)) score -= 20;
+      if (v.localService) score += 5;
+      if (score > bestScore) { bestScore = score; best = v; }
     }
-    return exact || near || null;
+    return best;
   }
 
   /* create(opts) → denetleyici.
