@@ -108,7 +108,7 @@ img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yan
 img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
 img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
-js/fyos-voice.js      FYOS canlı sesli mod: «Faiz» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
+js/fyos-voice.js      FYOS canlı sesli mod: «Melis» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
@@ -191,13 +191,16 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
   işaret eden göreli yolları derinleştirir). Ad, unvan, sosyal hesaplar `contact/index.html`'den, e-posta `js/main.js`'ten
   okunur — kartta ayrıca elle güncellenecek bir yer yok. E-posta adresi bu dosyada düz metin durur (sayfada durmuyor).
 - Formlar sunucusuzdur: gönderince e-posta uygulamasını mailto ile açar. Gerçek bir uç nokta için `js/main.js` içindeki `wireForm` fonksiyonunu değiştir.
+- Günlük soru hakkı **10**. Sayı üç yerde birden tutarlı olmalı: `js/main.js` içindeki `DAILY`,
+  `index.html`'deki «en fazla N soru» notu (ve üç çeviride aynı anahtar) ve worker'daki
+  `DAILY_LIMIT`. Worker bağlı değilse yalnızca ilk ikisi geçerlidir.
 - FYOS sohbetinin üç kaynağı var, `js/main.js` içindeki `answer()` sırayla dener:
   1. `FYOS_ENDPOINT` doluysa Cloudflare Worker (`worker/`; Claude ya da ücretsiz Workers AI). Kurulum `worker/README.md`.
   2. `FYOS_LOCAL_AI` açıksa ve cihazda WebGPU varsa tarayıcı içi model (`js/fyos-local.js`, WebLLM + Qwen2.5-1.5B). Ücretsiz, hesapsız, sınırsız; model ilk soruda bir kez iner (~1 GB) ve tarayıcı önbelleğinde kalır. Telefon ve düşük bellekli cihazlarda atlanır (`FYOS_LOCAL_MODEL_SMALL` boş).
   3. Aksi hâlde 20 konulu hazır yanıtlı çevrimdışı demo.
   Yerel model için `index.html` CSP'sinde cdn.jsdelivr.net, huggingface.co ve *.hf.co izinli; kapatırsan CSP'yi de eski hâline döndür.
 - **Canlı sesli mod** (`js/fyos-voice.js`): sohbet çubuğundaki mikrofon düğmesi açar. Açıkken tıklama yoktur —
-  «Faiz» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine beklemeye döner. Sözünü kesebilirsin:
+  «Melis» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine beklemeye döner. Sözünü kesebilirsin:
   ziyaretçi konuşmaya başlayınca okuma durur. Soru yine yukarıdaki üç kaynaktan yanıtlanır ve aynı günlük
   hakkı harcar; sesli modda daktilo animasyonu atlanır (yoksa konuşma saniyelerce gecikir).
   - Dış bağımlılık ve yeni CSP kaydı yok: her şey tarayıcının `SpeechRecognition` ve `speechSynthesis` API'leri.
@@ -207,7 +210,11 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
     açıkça yazılır ve `terms.html`'de belgelenmiştir. Onay verilmeden mikrofon açılmaz.
   - İlk açılışta tarayıcı izni bir kez sorar. Sonraki ziyaretlerde izin hâlâ duruyorsa sesli mod kendiliğinden
     başlar (`navigator.permissions` 'granted' dönerse); izin yoksa hiçbir şey yapılmaz, sürpriz izin penceresi çıkmaz.
-  - Uyandırma kelimesi tanıyıcıdan «fayiz», «fais», «vaiz» gibi de dönebildiğinden 1 harf uzaklığa kadar eşleşir.
+  - Uyandırma kelimesi **«Melis»**. Tanıyıcı bunu «meliss», «melisa», «mehlis» diye de yazabildiğinden
+    1 harf uzaklığa kadar eşleşir. Bu tolerans gerçek bir kelimeye denk gelirse orası ayrıca kapatılır:
+    «meclis» tek harf silinince «melis» oluyor ve FYOS'u boş yere uyandırırdı (`NOT_WAKE` listesi).
+    İsmi değiştirirsen `WAKE_DEFAULT`, `NOT_WAKE` ve dört dildeki `voiceWake` / `voiceConsentText`
+    metinleri birlikte değişir; `terms.html` de ismi anıyor.
     Soru metni her zaman ziyaretçinin söylediği hâliyle kesilir (Türkçe harfler ve noktalama korunur).
   - `SpeechRecognition` olmayan tarayıcılarda mikrofon düğmesi hiç gösterilmez; yazılı sohbet olduğu gibi çalışır.
   - **Kendini toparlar.** Sahada «bir kez cevap verdi, sonra sesi kesildi» diye bildirilen hatanın

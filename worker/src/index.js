@@ -285,7 +285,7 @@ async function handle(request, env, cors, ip) {
      aradaki 2-5 saniyede gelen bütün istekler aynı eski değeri okuyordu. KV atomik artırma
      yapamaz, yani yarış tümüyle bitmez; ama pencere model gecikmesinden KV yazma süresine
      (~10-50 ms) iner, yani yüz kat daralır. Kalanı RATE_LIMITER ve harcama tavanı kapatır. */
-  const limit = parseInt(env.DAILY_LIMIT || '4', 10);
+  const limit = parseInt(env.DAILY_LIMIT || '10', 10);
   const key = dayKey(ip);
   const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
   if (before >= limit) return json({ reply: 'Bugünlük soru hakkın doldu; yarın yine buradayım. Acil bir şeyse iletişim formundan yaz.', limited: true, left: 0 }, 200, cors);

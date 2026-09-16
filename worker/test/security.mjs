@@ -234,3 +234,16 @@ ttsReset(); ttsOK();
   await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ ELEVENLABS_API_KEY: 'el-test', TTS_STABILITY: '0' }));
   console.log(`  stability=0 geçerli bir değer (varsayılana düşmüyor): ${ttsBody.voice_settings.stability} ${ok(ttsBody.voice_settings.stability === 0)}`);
 }
+
+console.log('\n=== 16) GÜNLÜK HAK: DAILY_LIMIT yazılmamışsa varsayılan ===');
+reset();
+{
+  // wrangler.toml'daki değer silinirse ne oluyor: koddaki varsayılan geçerli olmalı (10).
+  globalThis.fetch = async (u, o) => { anthropic++; lastBody = JSON.parse(o.body);
+    return { ok: true, async json() { return { content: [{ type: 'text', text: 'ok' }] }; } }; };
+  const env = ENV({ DAILY_LIMIT: undefined });
+  let sonYanit = null;
+  for (let i = 0; i < 12; i++) sonYanit = await (await worker.fetch(req({ message: 'x' }), env)).json();
+  console.log(`  12 seri istek -> Anthropic çağrısı: ${anthropic} (10 olmalı) ${ok(anthropic === 10)}`);
+  console.log(`  11. istekte sınır yanıtı geldi mi: ${sonYanit.limited ? 'evet' : 'HAYIR'} ${ok(!!sonYanit.limited)}`);
+}
