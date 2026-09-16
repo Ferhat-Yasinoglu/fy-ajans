@@ -111,6 +111,7 @@ js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 js/fyos-voice.js      FYOS canlı sesli mod: «Melis» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
+tools/set-worker.mjs  worker'ı siteye bağlar: uç noktalar, CSP connect-src ve çeviriler tek komutta (--temizle ile geri alır)
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
 img/og-profil*.png    bağlantı sayfasının paylaşım görseli (1200×630; founder.jpg + ad + unvan, dört dilde; tools/build-og-profile.mjs üretir)
 farhad-yaqoobi.vcf    kişi kartı — «Rehbere ekle» satırının indirdiği dosya (vCard 3.0, fotoğraf gömülü; tools/build-vcard.mjs üretir)

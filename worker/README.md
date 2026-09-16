@@ -44,14 +44,25 @@ npx wrangler secret put OPENAI_API_KEY       # ya da: ELEVENLABS_API_KEY
 npx wrangler deploy
 ```
 
-Sonra `js/main.js` içindeki `FYOS_VOICE_ENDPOINT` boş kalabilir: `FYOS_ENDPOINT` doluysa
-site kendiliğinden onun `/tts` yolunu kullanır. Worker'ı yalnızca ses için kullanacaksan
-(beyin tarayıcı içi modelde kalsın istiyorsan) `FYOS_VOICE_ENDPOINT`'e tam adresi yaz:
-`https://fyos-chat.<hesap-adın>.workers.dev/tts`.
+Anahtar terminalde sorulur ve doğrudan Cloudflare'in gizli değişkenine gider: depoya,
+`wrangler.toml`'a ya da herhangi bir dosyaya **yazılmaz**. Kimseyle paylaşma.
+Dağıtmadan önce sağlayıcı panelinde **aylık harcama tavanını** koy.
 
-**CSP'yi unutma.** Worker adresi `index.html`'deki `connect-src` listesinde yoksa tarayıcı
-isteği engeller ve ses sessizce robotik sese döner (konsola tek satırlık bir uyarı düşer).
-Sohbet için eklediğin adres `/tts` için de geçerlidir — tek kayıt ikisini birden kapsar.
+Sonra siteyi worker'a bağla — **tek komut, depo kökünde**:
+
+```
+node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev            # yalnız ses
+node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev --sohbet   # ses + sohbet
+node tools/set-worker.mjs --temizle                                             # bağlantıyı kaldır
+```
+
+Betik `js/main.js`'teki uç noktaları yazar, **CSP'nin `connect-src` listesine adresi ekler**,
+çeviri sayfalarını yeniden üretir ve `ALLOWED_ORIGINS` sitenin adresini kapsamıyorsa uyarır.
+Adresi değiştirirsen eskisini listeden çıkarır; birikmez. Sonra commit + push.
+
+**CSP neden önemli:** worker adresi `connect-src`'de yoksa tarayıcı isteği engeller ve ses
+sessizce robotik sese döner (konsola tek satırlık uyarı düşer). Betiğin bu adımı yapmasının
+sebebi bu — elle yapılınca en sık atlanan yer orası.
 
 Anahtar yoksa `/tts` 503 döner ve site tarayıcı sesine döner: yani bu bölümü hiç yapmamak
 bir şeyi bozmaz.
