@@ -539,7 +539,11 @@ html[lang="fa"] .cover__title { font-size: 6.4cqw; line-height: 1.25; }   /* Far
 @media (max-width: 767px) {
   /* Konumlar HTML'de satır içi yazılı (--c ile aynı style niteliğinde), o yüzden burada
      !important şart: satır içi bildirimi başka türlü ezemiyoruz. */
-  .hud--m { display: block; width: 41vw; max-width: 152px; padding: 10px; }
+  /* Kartlar telefonda 60 fps'lik bir tuvalin ÜSTÜNDE duruyor. backdrop-filter orada her
+     karede yeni bir bulanıklık geçişi demek; 768px altında kartlar zaten gizli olduğu için
+     bu maliyet daha önce hiç oluşmuyordu. Saydamlığı biraz azaltıp bulanıklığı bırakıyoruz:
+     koyu sahnenin üstünde gözle fark edilmiyor, telefon ise bedelini ödemiyor. */
+  .hud--m { display: block; width: 41vw; max-width: 152px; padding: 10px; backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(7,6,4,.88); }
   .hud--m[data-stat="agents"]  { left: 3% !important;  right: auto !important; top: 0 !important;    bottom: auto !important; }
   .hud--m[data-stat="coaches"] { left: auto !important; right: 3% !important;  top: 0 !important;    bottom: auto !important; }
   .hud--m[data-stat="skills"]  { left: 3% !important;  right: auto !important; top: auto !important; bottom: 0 !important; }

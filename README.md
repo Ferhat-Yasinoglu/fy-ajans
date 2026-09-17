@@ -13,8 +13,8 @@ FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
 Türkçe HTML kaynaktır; `de/`, `en/`, `fa/` klasörleri ondan **üretilir**:
 
 ```
-node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js ve sitemap.xml'i yazar
-node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
+node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js, sitemap.xml + varlık damgası
+node tools/build-i18n.mjs --check  # eksik anahtar / bayat damga (çıkış kodu 1)
 ```
 
 - Çevrilecek her öğe kaynakta `data-i18n="anahtar"` (iç HTML) ya da `data-i18n-attr="öznitelik=anahtar"` taşır.
@@ -22,6 +22,28 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
 - Çevrilen sayfalar `tools/build-i18n.mjs` içindeki `SOURCES` listesindedir; yeni bir sayfa eklerken oraya da yazılır.
 - Bir metni değiştirince: Türkçe HTML → aynı anahtar üç sözlükte → betiği çalıştır → üretilenlerle birlikte commit.
 - Üretilen dosyalar (`de/`, `en/`, `fa/`, `js/lang/`) elle düzenlenmez.
+
+### Varlık sürüm damgası
+
+GitHub Pages `css/style.css` ve `js/main.js` dosyalarını kısa bir `max-age` ile veriyor ve
+başlıkları değiştirmenin yolu yok. Dağıtımdan sonra bir süre ziyaretçi **yeni HTML + eski
+CSS/JS** karışımı alabiliyor; bu karışım "biraz eski" değil, bozuk görünüyor (bir sınıf
+HTML'e girer ama kuralı eski CSS'te yoktur). Bu yüzden `build-i18n.mjs` her çalıştığında
+paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara yazıyor:
+
+```html
+<link rel="stylesheet" href="css/style.css?v=55b039d8">
+<script src="js/main.js?v=55b039d8"></script>
+```
+
+- Damga **içerik özeti**, zaman damgası değil: kaynak değişmediyse çıktı da değişmez.
+- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`,
+  `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
+- `js/main.js` damgayı kendi adresinden okuyup sonradan yüklediği betiklere devrediyor
+  (`js/fyos-voice.js`, `js/fyos-local.js`), yani onlar da bayat kalmıyor.
+- **CSS, JS ya da sözlük değiştirdiysen commit'ten önce betiği çalıştır.** Unutursan
+  `--check` 1 ile çıkıp "eski damga" der — ama onu çalıştırmayı zorlayan bir şey yok.
+- Bu, betiğin Türkçe kaynaklara dokunan tek adımı: yalnız o iki satırı yeniden yazıyor.
 - Her sayfada dört dilin `hreflang` bağlantıları ve bir dil seçici var; Farsça sayfalar `dir="rtl"` ile
   sağdan sola akar (CSS mantıksal özellikler kullanır). `404.html` üretilmez; GitHub Pages her yol için
   aynı dosyayı verdiğinden dört dili tek sayfada gösterir.
