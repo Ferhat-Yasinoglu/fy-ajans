@@ -13,7 +13,12 @@
   function t(k, tr) { return T[k] != null ? T[k] : tr; }
   // Bu betiğin bulunduğu kök: sonradan yüklenen dosyalar (js/fyos-local.js) sayfanın değil betiğin konumuna göre
   // çözülür; böylece de/ en/ fa/ altındaki üretilmiş sayfalarda da doğru yol bulunur.
-  var SCRIPT_BASE = (document.currentScript && document.currentScript.src ? document.currentScript.src : '').replace(/js\/main\.js(\?.*)?$/, '');
+  var SCRIPT_SRC = (document.currentScript && document.currentScript.src) ? document.currentScript.src : '';
+  var SCRIPT_BASE = SCRIPT_SRC.replace(/js\/main\.js(\?.*)?$/, '');
+  /* Sürüm damgası: main.js kendi adresinde ?v=… ile geldiyse sonradan yüklenen betikler de onu
+     taşır. Yoksa main.js tazelenirken js/fyos-voice.js eski kalabiliyordu. Damgayı üreten
+     tools/lib/stamp.mjs; damga yokken boş dize kalır ve adresler bugünküyle birebir aynıdır. */
+  var ASSET_Q = (SCRIPT_SRC.match(/js\/main\.js(\?[^#]*)/) || ['', ''])[1] || '';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -1040,7 +1045,7 @@
       return new Promise(function (resolve, reject) {
         if (window.FYOS_LOCAL) return resolve(window.FYOS_LOCAL);
         try {
-          var sc = document.createElement('script'); sc.type = 'module'; sc.src = SCRIPT_BASE + 'js/fyos-local.js';
+          var sc = document.createElement('script'); sc.type = 'module'; sc.src = SCRIPT_BASE + 'js/fyos-local.js' + ASSET_Q;
           sc.onload = function () { if (window.FYOS_LOCAL) resolve(window.FYOS_LOCAL); else reject(new Error('modül boş')); };
           sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
           document.head.appendChild(sc);
@@ -1193,7 +1198,7 @@
       return new Promise(function (resolve, reject) {
         if (window.FYOS_VOICE) return resolve(window.FYOS_VOICE);
         try {
-          var sc = document.createElement('script'); sc.src = SCRIPT_BASE + 'js/fyos-voice.js';
+          var sc = document.createElement('script'); sc.src = SCRIPT_BASE + 'js/fyos-voice.js' + ASSET_Q;
           sc.onload = function () { if (window.FYOS_VOICE) resolve(window.FYOS_VOICE); else reject(new Error('modül boş')); };
           sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
           document.head.appendChild(sc);

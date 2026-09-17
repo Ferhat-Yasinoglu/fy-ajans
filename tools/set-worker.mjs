@@ -75,7 +75,11 @@ if (!temizle && !kaynaklar.includes(origin)) kaynaklar.push(origin);
 html = html.replace(cspRe, (_, a, __, c) => a + kaynaklar.join(' ') + c);
 writeFileSync(INDEX, html);
 
-// --- çeviriler ---
+/* --- çeviriler ---
+   SON ADIM OLARAK KALMALI. build-i18n yalnız de/ en/ fa/ üretmiyor; js/main.js ile
+   css/style.css'in içerik özetinden bir ?v=… damgası hesaplayıp sayfalara yazıyor. Yukarıda
+   js/main.js'i yeni değiştirdik, yani damga şu an bayat; bu çağrı onu tazeliyor. Bu satır
+   index.html yazmasının önüne alınırsa damga ezilir ve bir daha üretilmez. */
 execFileSync(process.execPath, [join(ROOT, 'tools/build-i18n.mjs')], { cwd: ROOT, stdio: 'inherit' });
 
 // --- ALLOWED_ORIGINS kontrolü (uyarı; işi durdurmaz) ---

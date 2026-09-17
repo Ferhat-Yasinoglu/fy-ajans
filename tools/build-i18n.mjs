@@ -3,6 +3,8 @@
    Kaynak: kökteki Türkçe HTML (index.html, contact/*.html, portal/login.html, terms.html, impressum.html).
    Sözlük: i18n/<dil>.json  (biçim: i18n/README.md)
    Çıktı:  <dil>/…  aynı klasör yapısıyla; js/lang/<dil>.js; sitemap.xml
+           + Türkçe kaynakların css/style.css ve js/main.js etiketlerine ?v=<içerik özeti>
+             damgası (tools/lib/stamp.mjs) — kaynaklara dokunan tek adım budur
 
    Kullanım (depo kökünde):   node tools/build-i18n.mjs          üret
                               node tools/build-i18n.mjs --check  yalnızca eksik anahtarları listele (çıkış kodu 1)
@@ -15,9 +17,10 @@
    - Sözlükte anahtar yoksa Türkçe metin olduğu gibi kalır ve uyarı yazılır (kısmi çeviri güvenlidir).
    Bağımlılık yok. */
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { assetToken, stampHtml } from './lib/stamp.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CHECK = process.argv.includes('--check');
@@ -111,9 +114,17 @@ function translate(src, html, dict, report) {
     return ASSET_DIRS.some(p => rest.startsWith(p)) ? `${a}="${ups}../${rest}"` : all;
   });
 
-  // 4) dil dosyası main.js'ten önce
-  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/main\\.js"></script>`);
-  if (dict.js && mainRe.test(html)) html = html.replace(mainRe, (all, pre) => `<script src="${pre}js/lang/${lang}.js"></script>${all}`);
+  /* 4) dil dosyası main.js'ten önce.
+     Sürüm damgası (?v=…) YAKALANIYOR ve dil etiketine devrediliyor — böylece damgayı ayrıca
+     buraya taşımaya gerek kalmıyor. Eskiden ifade «js/main.js"» tam eşleşmesi istiyordu:
+     damga gelince eşleşmeyi bırakıyor, else dalı da olmadığı için otuz sayfanın dil dosyası
+     etiketi HİÇ UYARI VERMEDEN düşüyordu (üç dil de Türkçe'ye döner, --check yine 0 der,
+     «33 dosya yazıldı» çıktısı bile aynı kalır). else dalı o sessizliği kapatıyor. */
+  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/main\\.js(\\?[^"]*)?"></script>`);
+  if (dict.js) {
+    if (mainRe.test(html)) html = html.replace(mainRe, (all, pre, q) => `<script src="${pre}js/lang/${lang}.js${q || ''}"></script>${all}`);
+    else report.error.push(`${src}: js/main.js etiketi bulunamadı — ${lang} dil dosyası EKLENMEDİ`);
+  }
 
   // 5) mutlak adresler: canonical, og:url, twitter, JSON-LD "url"
   const trUrl = BASE + pageUrl(src), langUrl = BASE + lang + '/' + pageUrl(src);
@@ -159,12 +170,31 @@ function translate(src, html, dict, report) {
 
 /* ---------- Ana akış ---------- */
 const dicts = loadDicts();
-const report = { warn: [], missing: {} };
+const report = { warn: [], error: [], missing: {} };
+
+/* Varlık sürüm damgası: kaynakların iki paylaşılan etiketi ?v=<içerik özeti> alır, üretilen
+   sayfalar da onu adım 3'teki derinlik yeniden yazıcısından olduğu gibi devralır.
+   Kaynaklar burada BİR kez okunuyor (eskiden dil başına yeniden okunuyordu) ve yalnız baytı
+   değişen geri yazılıyor, yani boş bir çalıştırma hiçbir dosyaya dokunmuyor.
+   Not: bu adım betiğin sözleşmesini genişletiyor — artık Türkçe kaynakların da iki satırını
+   yazıyor. Ayrı bir betik olamazdı: tools/set-worker.mjs js/main.js'i yazdıktan sonra bunu
+   doğrudan çağırıyor, ayrı bir araç o zincirde atlanıp damga tam orada bayatlardı. */
+const TOKEN = assetToken(ROOT);
+const srcHtml = new Map(), stale = [];
+for (const src of SOURCES) {
+  const before = read(src);
+  const stamped = stampHtml(before, TOKEN);
+  if (stamped.css !== 1) throw new Error(`${src}: stylesheet etiketi beklenen biçimde değil (${stamped.css} eşleşme) — tools/lib/stamp.mjs`);
+  if (stamped.js !== 1) report.error.push(`${src}: js/main.js etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
+  srcHtml.set(src, stamped.html);
+  if (stamped.html !== before) stale.push(src);
+}
+
 const outputs = [];
 for (const dict of dicts) {
   if (dict.lang === 'tr') continue;
   for (const src of SOURCES) {
-    const { outFile, html } = translate(src, read(src), dict, report);
+    const { outFile, html } = translate(src, srcHtml.get(src), dict, report);
     outputs.push({ file: outFile, html });
   }
   if (dict.js) outputs.push({ file: `js/lang/${dict.lang}.js`, html: `/* Üretilmiş dosya — elle düzenleme: i18n/${dict.lang}.json → node tools/build-i18n.mjs */\nwindow.FY_STRINGS = ${JSON.stringify(dict.js, null, 1)};\n` });
@@ -188,8 +218,18 @@ for (const [lang, pages] of Object.entries(report.missing)) for (const [src, key
   missingTotal += keys.length; console.log(`  eksik  ${lang}  ${src}: ${keys.join(', ')}`);
 }
 for (const w of report.warn) console.log('  uyarı  ' + w);
+for (const e of report.error) console.log('  HATA   ' + e);
+if (stale.length) console.log(`  eski damga  ${stale.length} kaynak (${stale.join(', ')}): ?v=${TOKEN} bekleniyor → node tools/build-i18n.mjs`);
 
-if (CHECK) { console.log(missingTotal ? `${missingTotal} eksik anahtar` : 'tüm anahtarlar tam'); process.exit(missingTotal ? 1 : 0); }
+/* --check yalnız uyarı verip çıkar, hiçbir şey yazmaz. Çıkış kodu artık bayat damgayı ve
+   report.error'ı da sayıyor; report.warn (hreflang gibi tavsiyeler) eskisi gibi kodu
+   etkilemiyor. Depoda CI yok, yani bu değişiklik hiçbir boru hattını kırmıyor. */
+if (CHECK) {
+  const bad = missingTotal + stale.length + report.error.length;
+  console.log(bad ? `${missingTotal} eksik anahtar, ${stale.length} eski damga, ${report.error.length} hata` : 'tüm anahtarlar tam, damga güncel');
+  process.exit(bad ? 1 : 0);
+}
+for (const src of stale) write(src, srcHtml.get(src));       // damgası değişen Türkçe kaynaklar
 for (const o of outputs) write(o.file, o.html);
 write('sitemap.xml', sm);
 console.log(`${outputs.length} dosya yazıldı (${langs.filter(l => l !== 'tr').join(', ')}) + sitemap.xml${missingTotal ? ` — ${missingTotal} eksik anahtar Türkçe kaldı` : ''}`);
