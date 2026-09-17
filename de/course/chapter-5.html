@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Kapitel 5: Das Labor — Baue deine Website, dein CRM und FYOS | KI-Reise | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Das fünfte Kapitel des Kurses: mit Code bauen, ohne Angst. HTML, CSS und JavaScript in Menschensprache; eine Website von null und online stellen; wo Daten liegen; dein eigenes CRM; der Proxy, der deinen Schlüssel hütet; und FYOS — dein persönliches agentisches Betriebssystem.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Kapitel 5: Das Labor — Baue deine Website, dein CRM und FYOS">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Mit Code bauen, ohne Angst: Website, Veröffentlichung, Daten, CRM, Proxy und FYOS.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-de.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css?v=433fea65">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch5.back">← Alle Kapitel</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch5.barNum">Kapitel 5 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch5.barCta">Am Kurs teilnehmen</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l5-cover-static.svg"><img src="../../img/course/l5-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Lab</span>
+        <span class="lesson__cover-note" data-i18n="ch5.coverNote">Material geht hinein, etwas Lebendiges kommt heraus</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch5.eyebrow">Kapitel 5 · Das Labor</span>
+      <h1 class="font-display text-h1" data-i18n="ch5.title">Mit Code bauen — <span class="text-accent-gradient">ohne Angst</span></h1>
+      <p class="lesson__lead" data-i18n="ch5.lead">Vier Kapitel lang hast du die Werkzeuge gelernt: mich, die Anfrage, die Abläufe und die Werkstatt. In diesem bauen wir damit echte Dinge. Am Ende hast du drei: eine Website, die online ist, dein eigenes CRM mit deinen Kunden, und FYOS — das persönliche Betriebssystem, das dich kennt und für dich arbeitet. Wir schreiben Code; aber schreiben werde ich, und du sagst, was du willst, und lernst zu lesen, was zurückkommt.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch5.meta">Lesezeit ~50 Minuten · Voraussetzung: Kapitel 4</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch5.goals.title">Am Ende dieses Kapitels</h2>
+      <ul class="check-list space-2" data-i18n="ch5.goals.list"><li>erkennst du die drei Schichten einer Webseite — Skelett, Aussehen, Verhalten</li> <li>weißt du, was Programmiersprachen sind und welche wofür taugt</li> <li>hast du eine Seite von null gebaut und unter einer echten Adresse veröffentlicht</li> <li>unterscheidest du, wo Daten liegen — Datei, Tabelle, Datenbank</li> <li>baust du dein eigenes CRM und verbindest deine Website damit</li> <li>verstehst du, warum ein Schlüssel nie in den Browser gehört und was ein Proxy ist</li> <li>siehst du die vier Schichten von FYOS und wie du deine eigene Version baust</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch5.toc.title" class="text-fg">Inhalt</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch5.guide.t">Der Claude-Leitfaden</strong><span data-i18n="ch5.guide.p">In diesem Kapitel schreibe ich den Code. Wenn du dich erinnern willst, was ich gut kann und wo ich mich irre — auf einer Seite, in vier Sprachen.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch5.s1.title">Angst vor Code — und der Code, den du längst geschrieben hast</span></h2>
+      <p data-i18n="ch5.s1.p1">«Ich kann nicht programmieren» hast du in diesem Kurs oft gesagt und bist jedes Mal trotzdem zum nächsten Schritt gegangen. Im Werkstatt-Kapitel hast du eine Datei anlegen lassen, auf einer Seite drei Stellen ändern lassen, die Unterschiede gelesen und gespeichert. Diese Plus- und Minuszeilen waren Code. Du hast ihn gelesen, freigegeben und verstanden, dass er stimmt. Du hast also längst angefangen, Code zu lesen.</p>
+      <p data-i18n="ch5.s1.p2">In diesem Kapitel gehen wir einen Schritt weiter: wir ändern nicht nur etwas Vorhandenes, wir <strong class="text-fg">bauen etwas von null</strong>. Der beängstigende Teil ist immer derselbe: vor einer leeren Datei zu sitzen und nicht zu wissen, was hineingehört. Dieser Teil ist meiner. Deiner ist zu wissen, was du willst, das Ergebnis zu sehen und sagen zu können: «die Stelle stimmt nicht».</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s1.note">Eine ehrliche Grenze: Am Ende dieses Kapitels bist du keine professionelle Entwicklerin oder Entwickler. Du wirst etwas Nützlicheres sein — jemand, der <em>sagen kann, was er will, und prüfen kann, was herauskommt</em>. Das sind ohnehin achtzig Prozent der Arbeit in der Softwareentwicklung; für die restlichen zwanzig gibt es entweder mich oder eine Fachperson.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch5.s1.do">Mach das jetzt: Schreib drei Dinge auf, die du bauen möchtest. Eine Seite, eine Liste, ein Rechner, ein Kundenbuch — was auch immer. In diesem Kapitel bauen wir mindestens eines davon wirklich.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch5.s2.title">Drei Wörter: HTML, CSS, JavaScript</span></h2>
+      <p data-i18n="ch5.s2.p1">In jedem Kapitel haben drei Wörter das ganze Feld geöffnet. Fürs Web reichen auch drei — und sie teilen sich so auf, wie man einen Menschen beschreibt: Skelett, Aussehen, Verhalten.</p>
+      <figure class="trio">
+        <span class="trio__cap font-mono" data-i18n="ch5.fig.trio.cap">Die drei Schichten einer Seite</span>
+        <div class="trio__row">
+          <div class="trio__l" style="--i:0">
+            <span class="trio__e" aria-hidden="true">🦴</span>
+            <b data-i18n="ch5.fig.trio.t1">HTML · Skelett</b>
+            <i data-i18n="ch5.fig.trio.d1">Was da ist: Überschrift, Absatz, Bild, Schaltfläche. Bedeutung und Reihenfolge.</i>
+            <div class="trio__demo trio__demo--html" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:1">
+            <span class="trio__e" aria-hidden="true">🎨</span>
+            <b data-i18n="ch5.fig.trio.t2">CSS · Aussehen</b>
+            <i data-i18n="ch5.fig.trio.d2">Wie es aussieht: Farbe, Abstand, Schrift, Anordnung.</i>
+            <div class="trio__demo trio__demo--css" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:2">
+            <span class="trio__e" aria-hidden="true">⚡</span>
+            <b data-i18n="ch5.fig.trio.t3">JavaScript · Verhalten</b>
+            <i data-i18n="ch5.fig.trio.d3">Was passiert: öffnet sich beim Klick, filtert beim Tippen, speichert.</i>
+            <div class="trio__demo trio__demo--js" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.trio.fc">Alle drei schauen auf denselben Inhalt. Ohne HTML gibt es keine Seite; ohne CSS ist sie hässlich, funktioniert aber; ohne JavaScript ist sie still, aber lesbar. Diese Reihenfolge ist zugleich die Lernreihenfolge.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s2.p2">Alle drei gelten als <em>Sprachen</em>, sind aber nicht von derselben Art. HTML ist eine <strong class="text-fg">Auszeichnungssprache</strong>: sie sagt «das ist eine Überschrift, das ist ein Absatz». CSS ist eine <strong class="text-fg">Gestaltungssprache</strong>: sie sagt «Überschriften sollen golden sein». Nur JavaScript ist im eigentlichen Sinn eine <strong class="text-fg">Programmiersprache</strong>: sie entscheidet, wiederholt und rechnet.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch5.s2.do">Mach das jetzt: Klick mit der rechten Maustaste auf eine leere Stelle dieser Seite und wähle «Seitenquelltext anzeigen». Was du siehst, ist das HTML dieser Website. Du musst es nicht verstehen; schau es nur an. Es ist nicht beängstigend, sondern ein sich wiederholendes Muster.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch5.s3.title">Eine Website ist eigentlich ein Ordner</span></h2>
+      <p data-i18n="ch5.s3.p1">Das Wort Website lässt an etwas Großes denken. Ist es nicht. Eine Website ist ein Ordner mit Dateien darin. Der Browser liest eine Datei aus diesem Ordner und zeichnet sie auf den Bildschirm. Der Satz «der Ordner ist mein Schreibtisch» aus dem Werkstatt-Kapitel gilt hier wörtlich.</p>
+      <figure class="tree">
+        <span class="tree__cap font-mono" data-i18n="ch5.fig.tree.cap">Innen in einer kleinen Website</span>
+        <div class="tree__box">
+          <ul class="tree__list">
+            <li class="tree__d"><span class="tree__e" aria-hidden="true">📁</span><b>ajans-site</b><i data-i18n="ch5.fig.tree.n0">die Website selbst</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>index.html</b><i data-i18n="ch5.fig.tree.n1">Startseite — die Datei, die sich bei der Adresse öffnet</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>iletisim.html</b><i data-i18n="ch5.fig.tree.n2">zweite Seite</i></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>css</b><i data-i18n="ch5.fig.tree.n3">Aussehen kommt hierher</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">🎨</span><b>style.css</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>js</b><i data-i18n="ch5.fig.tree.n4">Verhalten kommt hierher</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">⚡</span><b>main.js</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>img</b><i data-i18n="ch5.fig.tree.n5">Bilder</i></li>
+          </ul>
+        </div>
+        <figcaption data-i18n="ch5.fig.tree.fc">Nur eine Regel: die Startseite heißt <em>index.html</em>. Der Rest ist deine Ordnung. Die Seite, die du gerade liest, liegt in genau so einem Ordner — die Website dieses Kurses hat exakt diese Form.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s3.p2">Öffnest du diesen Ordner auf deinem Computer und klickst doppelt auf <em>index.html</em>, zeigt der Browser sie an. Internet ist nicht nötig. Das ist die erste Hälfte von «eine Website bauen»: ein Ordner mit Dateien. Die zweite Hälfte ist, diesen Ordner irgendwo hinzulegen, wo ihn alle sehen können — Abschnitt sechs.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📁</span><span data-i18n="ch5.s3.do">Mach das jetzt: Leg auf deinem Computer einen Ordner namens «erste-seite» an. Lass ihn vorerst leer. In Abschnitt fünf füllen wir ihn.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch5.s4.title">Programmiersprachen, in Menschensprache</span></h2>
+      <p data-i18n="ch5.s4.p1">Eine Programmiersprache ist die geschriebene Form davon, einem Computer zu sagen, was er tun soll. Wie menschliche Sprachen hat sie Grammatik und Wortschatz; der Unterschied ist, dass sie keine Mehrdeutigkeit zulässt. Du kannst nicht sagen «kümmere dich irgendwann darum»; du sagst «nimm diese Liste und mach für jede Zeile das».</p>
+      <p data-i18n="ch5.s4.p2">Es gibt Hunderte Sprachen, aber du musst nicht alle kennen. Für eine Agentur fällt fast die gesamte Arbeit in drei Familien:</p>
+      <figure class="langs">
+        <span class="langs__cap font-mono" data-i18n="ch5.fig.langs.cap">Welche Sprache wofür taugt</span>
+        <div class="langs__row">
+          <div class="langs__c langs__c--now">
+            <span class="langs__tag font-mono">HTML · CSS · JS</span>
+            <b data-i18n="ch5.fig.langs.t1">Die im Browser laufen</b>
+            <i data-i18n="ch5.fig.langs.d1">Webseiten, Oberflächen, alles Anklickbare. Die Sprache der Website und der FYOS-Box, die wir in diesem Kurs bauen.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u1">in diesem Kapitel im Einsatz</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">Python</span>
+            <b data-i18n="ch5.fig.langs.t2">Allzweck</b>
+            <i data-i18n="ch5.fig.langs.d2">Daten aufräumen, Dateien verarbeiten, Berichte erzeugen, an KI anbinden. Die am leichtesten lesbare Sprache; eine gute erste «richtige» Sprache.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u2">Automatisierung und Datenarbeit</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">SQL</span>
+            <b data-i18n="ch5.fig.langs.t3">Daten Fragen stellen</b>
+            <i data-i18n="ch5.fig.langs.d3">Weniger eine Sprache als eine Abfragesprache: die computergerechte Schreibweise von «wie viele neue Kunden kamen diesen Monat». Sie liegt unter deinem CRM.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u3">CRM und Berichte</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.langs.fc">Meistens wählst nicht du die Sprache, sondern die Aufgabe. Eine Webseite? Das Trio oben. Dateien zu einem Bericht verarbeiten? Python. Daten eine Frage stellen? SQL. Es reicht, mich zu fragen: «womit machen wir das?»</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch5.s4.note">Eine Erleichterung: die Wahl der Sprache ist viel unwichtiger, als du denkst. Dieselbe Aufgabe gelingt in fünf Sprachen. Wichtig ist, <em>klar zu sagen, was du tun willst</em> — dass die Regel aus dem Formel-Kapitel hier unverändert gilt, ist kein Zufall. Eine schlecht beschriebene Aufgabe gerät in jeder Sprache schlecht.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch5.s4.do">Mach das jetzt: Erzähl mir eines der drei Dinge aus 01 und frag: «mit welcher Sprache ergibt das Sinn, und warum?» Lies die Begründung in meiner Antwort — sieh an einem Beispiel, wie eine Sprache gewählt wird.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch5.s5.title">Deine erste echte Seite, in fünfzehn Minuten</span></h2>
+      <p data-i18n="ch5.s5.p1">Genug Theorie. Öffne das im Werkstatt-Kapitel installierte Claude Code, geh in den Ordner «erste-seite» und fang an zu sprechen. Die fünf Schritte unten bringen eine echte Seite hervor.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s5.st1">Schreib im Ordner <em>claude</em>. Dann verlang: «Bau in diesem Ordner eine einseitige Website: Überschrift, ein Einleitungsabsatz, drei Leistungskästen und Kontaktdaten. Dunkler Hintergrund, schlicht. Mach zuerst einen Plan.»</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s5.st2">Lies den Plan und korrigiere ihn. «Vier statt drei Kästen», «Telefon auch dazu». Der Plan ändert sich, ohne dass eine Datei angerührt wird; er stimmt, bevor die Arbeit beginnt.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s5.st3">Gib frei. Die Dateien entstehen: index.html, css/style.css, vielleicht js/main.js. Verlang, dass ich dir jede zeige, und überflieg sie — lern die Struktur kennen, auch ohne sie zu verstehen.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s5.st4">Öffnen und schauen: klick doppelt auf index.html im Ordner. Der Browser zeigt die Seite. Zum ersten Mal schaust du auf etwas, das du gebaut hast.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s5.st5">Ändere: «mach die Überschrift so», «ändere die Farbe der Kästen», «mach die Telefonnummer größer». Aktualisiere jedes Mal den Browser. Diese Schleife — verlangen, sehen, korrigieren — ist die ganze Arbeit.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s5.note">Wenn du beim vierten Schritt vergisst, den Browser zu aktualisieren, siehst du deine Änderung nicht und sagst «hat nicht funktioniert». Das ist der häufigste erste Fehler. Mach das Aktualisieren zur Gewohnheit.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s5.do">Mach das jetzt: Erledige die fünf Schritte heute. Die Seite darf hässlich sein, das macht nichts. Wichtig ist, dass das, was du wolltest, in deinem Ordner liegt.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch5.s6.title">Online stellen: eine Adresse, die die Welt sehen kann</span></h2>
+      <p data-i18n="ch5.s6.p1">Die Seite in deinem Ordner gehört nur dir. Veröffentlichen heißt, diesen Ordner auf einen Computer zu kopieren, den alle erreichen können. Der einfachste und kostenlose Weg ist GitHub Pages: die Git-Speicherpunkte aus dem Werkstatt-Kapitel waren genau dafür da.</p>
+      <figure class="deploy" data-deploy>
+        <span class="deploy__cap font-mono" data-i18n="ch5.fig.deploy.cap">Vom Ordner zur Adresse</span>
+        <div class="deploy__stage" data-step="1">
+          <div class="deploy__track" aria-hidden="true">
+            <div class="deploy__n deploy__n--1"><span class="deploy__e">💻</span><b data-i18n="ch5.fig.deploy.n1">dein Computer</b></div>
+            <span class="deploy__w deploy__w--a"></span>
+            <div class="deploy__n deploy__n--2"><span class="deploy__e">🗂️</span><b data-i18n="ch5.fig.deploy.n2">Repository</b></div>
+            <span class="deploy__w deploy__w--b"></span>
+            <div class="deploy__n deploy__n--3"><span class="deploy__e">⚙️</span><b data-i18n="ch5.fig.deploy.n3">Build</b></div>
+            <span class="deploy__w deploy__w--c"></span>
+            <div class="deploy__n deploy__n--4"><span class="deploy__e">🌐</span><b data-i18n="ch5.fig.deploy.n4">Adresse</b></div>
+          </div>
+          <div class="deploy__bar" aria-hidden="true">
+            <span class="deploy__lock">🔒</span>
+            <span class="deploy__url font-mono">kullanici.github.io/ilk-site</span>
+            <span class="deploy__ok">✓</span>
+          </div>
+        </div>
+        <ol class="deploy__steps">
+          <li><button type="button" data-go="1"><span class="deploy__se" aria-hidden="true">🗂️</span><span data-i18n="ch5.fig.deploy.s1">Ordner in Git nehmen, speichern</span></button></li>
+          <li><button type="button" data-go="2"><span class="deploy__se" aria-hidden="true">☁️</span><span data-i18n="ch5.fig.deploy.s2">Auf GitHub ein Repo anlegen, pushen</span></button></li>
+          <li><button type="button" data-go="3"><span class="deploy__se" aria-hidden="true">⚙️</span><span data-i18n="ch5.fig.deploy.s3">In den Einstellungen Pages einschalten</span></button></li>
+          <li><button type="button" data-go="4"><span class="deploy__se" aria-hidden="true">⏳</span><span data-i18n="ch5.fig.deploy.s4">Eine Minute warten, es baut sich auf</span></button></li>
+          <li><button type="button" data-go="5"><span class="deploy__se" aria-hidden="true">🌐</span><span data-i18n="ch5.fig.deploy.s5">Adresse live — mit https</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.deploy.fc">Von da an aktualisiert sich die Website bei jedem «speichern und pushen» von selbst. Die Seite, die du gerade liest, wird genau so veröffentlicht: ein Ordner, ein Repository, eine Adresse.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s6.p2">Die Adresse kommt zuerst in der Form <em>deinname.github.io/projekt</em>, und das ist eine völlig echte Adresse — https inklusive. Willst du eine eigene Domain (agenturname.com), wird sie später verbunden; die Seiten baust du nicht neu, nur die Adresse ändert sich.</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s6.note">Das Veröffentlichen ist die größte Schwelle dieses Kapitels und der am meisten gemiedene Schritt. Meide ihn nicht. Eine nicht veröffentlichte Website ist eine unfertige Website; und wenn du am ersten Tag veröffentlichst, siehst du jede Änderung unter der echten Adresse — der Satz «bei mir lief es» fällt nie.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch5.s6.do">Mach das jetzt: Sag mir «schick diesen Ordner zu GitHub und veröffentliche ihn mit Pages, zeig mir die Schritte». Wo du ein Konto anlegen musst, halte ich an; den Rest machen wir zusammen. Wenn du die Adresse hast, schick sie jemandem.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch5.s7.title">Statisch oder dynamisch</span></h2>
+      <p data-i18n="ch5.s7.p1">Die Website, die du veröffentlicht hast, ist <strong class="text-fg">statisch</strong>: die Dateien liegen fertig da, alle sehen dasselbe. Es gibt auch <strong class="text-fg">dynamische</strong> Websites: die Seite wird in dem Moment, in dem du sie öffnest, für dich erzeugt — angemeldete Nutzer, persönliche Liste, Lagerbestand in Echtzeit. Den Unterschied zu kennen, beantwortet die Frage «können wir das machen» von vornherein.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s7.strong">Statisch</span>
+          <p class="compare__note" data-i18n="ch5.s7.strongNote">Präsentationsseite, Portfolio, Blog, Kursseite. Kostenlos gehostet, sehr schnell, geht fast nie kaputt und bietet keine Angriffsfläche. Diese ganze Website ist statisch.</p>
+        </div>
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s7.weak">Dynamisch</span>
+          <p class="compare__note" data-i18n="ch5.s7.weakNote">Mitgliederanmeldung, Warenkorb, persönliches Dashboard, Live-Daten. Braucht Server und Datenbank; bringt monatliche Kosten, Wartung und Sicherheitsverantwortung. Geh da nicht hin, solange du es nicht wirklich brauchst.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s7.p2">Gute Nachricht: Es gibt einen Mittelweg, und diesen bevorzugt der Kurs. Die Website bleibt statisch; die ein, zwei dynamischen Aufgaben (ein Formular speichern, die KI fragen) übernimmt ein kleiner Proxy. Du bekommst so viel, wie du brauchst, ohne alles Teure mitzuschleppen. Den Proxy bauen wir in Abschnitt zwölf.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch5.s7.do">Mach das jetzt: Verteile deine drei Ideen aus 01 auf diese beiden Spalten. Landet etwas bei dynamisch, schreib daneben: ist es wirklich nötig, oder reicht statisch plus ein kleiner Proxy?</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch5.s8.title">Wo Daten liegen</span></h2>
+      <p data-i18n="ch5.s8.p1">Sobald du etwas baust, kommt zuerst diese Frage: wo liegt die Kundenliste? Es gibt drei Stufen, und die meisten wählen eine schwerere, als sie brauchen, und tun sich schwer. Die richtige Antwort ist meist die leichteste.</p>
+      <figure class="store">
+        <span class="store__cap font-mono" data-i18n="ch5.fig.store.cap">Drei Stufen, leicht bis schwer</span>
+        <ol class="store__row">
+          <li class="store__t" style="--i:0">
+            <span class="store__e" aria-hidden="true">📄</span>
+            <b data-i18n="ch5.fig.store.t1">Datei</b>
+            <i data-i18n="ch5.fig.store.d1">Eine Text- oder Tabellendatei im Ordner. Perfekt für eine Person, ein paar hundert Zeilen, selten wechselnde Daten.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w1">Leistungsliste · Preise · Inhalte</span>
+          </li>
+          <li class="store__t" style="--i:1">
+            <span class="store__e" aria-hidden="true">📊</span>
+            <b data-i18n="ch5.fig.store.t2">Tabelle</b>
+            <i data-i18n="ch5.fig.store.d2">Eine Cloud-Tabelle. Du und dein Team könnt sie von Hand sehen und korrigieren; Abläufe können auch hineinschreiben. Der praktischste Startpunkt.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w2">Kunden · Aufträge · Nachverfolgung</span>
+          </li>
+          <li class="store__t" style="--i:2">
+            <span class="store__e" aria-hidden="true">🗄️</span>
+            <b data-i18n="ch5.fig.store.t3">Datenbank</b>
+            <i data-i18n="ch5.fig.store.d3">Tausende Datensätze, viele Personen gleichzeitig, komplexe Abfragen. Mächtig, aber mit Einrichtung und Pflege verbunden; hier kommt SQL ins Spiel.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w3">beim Wachsen · Dashboards · Berichte</span>
+          </li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.store.fc">Die Regel: eine Stufe höher erst, wenn die darunter wirklich eng wird. Eine Agentur, die mit einer Tabelle beginnt, kommt bequem bis zu Hunderten Kunden; und wenn der Umzug ansteht, gibst du mir die Daten und lässt sie umziehen.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🗃️</span><span data-i18n="ch5.s8.do">Mach das jetzt: Wo bewahrst du Kundendaten gerade auf? Telefonbuch, Postfach, Notizbuch, Tabelle? Schreib es auf — im nächsten Abschnitt ziehen wir diese Zerstreuung an einen Ort zusammen.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch5.s9.title">Dein eigenes CRM: was es hält, was es tut</span></h2>
+      <p data-i18n="ch5.s9.p1">CRM schreckt mit drei Buchstaben, bedeutet aber etwas Einfaches: Kundenbeziehungsverwaltung. In der Praxis ist es der eine Ort, an dem «mit wem habe ich was besprochen, was habe ich zugesagt, wann muss ich mich melden» beantwortet wird. Fertige CRMs gibt es, und die meisten sind das Zehnfache deines Bedarfs; baust du selbst, bekommst du genau das, was du nutzt.</p>
+      <figure class="crm">
+        <span class="crm__cap font-mono" data-i18n="ch5.fig.crm.cap">Vier Datensätze, mehr nicht</span>
+        <div class="crm__row">
+          <div class="crm__c" style="--i:0">
+            <b data-i18n="ch5.fig.crm.t1">Person</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f1a">Name</li><li data-i18n="ch5.fig.crm.f1b">Kontakt</li><li data-i18n="ch5.fig.crm.f1c">woher gekommen</li><li data-i18n="ch5.fig.crm.f1d">Status</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:1">
+            <b data-i18n="ch5.fig.crm.t2">Auftrag</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f2a">welche Arbeit</li><li data-i18n="ch5.fig.crm.f2b">Betrag</li><li data-i18n="ch5.fig.crm.f2c">Phase</li><li data-i18n="ch5.fig.crm.f2d">wem gehört er</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:2">
+            <b data-i18n="ch5.fig.crm.t3">Notiz</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f3a">Datum</li><li data-i18n="ch5.fig.crm.f3b">was besprochen wurde</li><li data-i18n="ch5.fig.crm.f3c">wer schrieb</li>
+            </ul>
+          </div>
+          <div class="crm__c crm__c--last" style="--i:3">
+            <b data-i18n="ch5.fig.crm.t4">Erinnerung</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f4a">wann</li><li data-i18n="ch5.fig.crm.f4b">was zu tun ist</li><li data-i18n="ch5.fig.crm.f4c">erledigt?</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.crm.fc">Eine Person hängt an einem oder mehreren Aufträgen; unter jedem Auftrag sammeln sich Notizen und Erinnerungen. Das ganze CRM, das eine Agentur braucht, sind diese vier Datensätze. Mehr heißt, Felder auszufüllen, die du nie nutzt.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s9.p2">Beachte: hier steckt keinerlei «Software». Vier Datensätze und die Verbindungen dazwischen. Du kannst das als vier Blätter in einer Tabelle bauen oder als vier Tabellen in einer Datenbank. Zuerst entscheidest du, <em>was du festhältst</em>; wo, ist die zweite Frage.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📇</span><span data-i18n="ch5.s9.do">Mach das jetzt: Schreib die Felder dieser vier Datensätze für deine eigene Arbeit auf. Welches Feld wird in deinem Geschäft wirklich genutzt? Streich, was nicht. Eine kurze Liste ist ein gutes CRM.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch5.s10.title">Das CRM bauen: Schritt für Schritt</span></h2>
+      <p data-i18n="ch5.s10.p1">Als Datenschicht beginnen wir mit einer Cloud-Tabelle — der mittleren Stufe aus Abschnitt acht. Der Grund ist einfach: du kannst sie sehen und dein Team auch; und ein späterer Umzug in eine Datenbank ist leicht.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s10.st1">Öffne eine neue Cloud-Tabelle und leg vier Blätter an: Personen, Aufträge, Notizen, Erinnerungen. Setz die Spalten aus den Feldern, die du in 09 geschrieben hast.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s10.st2">Gib jedem Datensatz eine ID-Spalte. Die «Personen-ID» im Blatt Aufträge sagt, zu welcher Person dieser Auftrag gehört. Mehr ist eine Verbindung nicht; eine Spalte.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s10.st3">Trag von Hand drei Kunden, drei Aufträge und ein paar Notizen ein. Füll es mit echten Daten — ein mit erfundenen Daten gebautes System stolpert im echten Leben.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s10.st4">Lass mich ein Dashboard schreiben: «Lies diese Tabelle und mach ein einseitiges Dashboard mit den Kunden, bei denen ich mich heute melden muss.» Mit dem Ablauf aus dem Agenten-Kapitel liest es die Tabelle und zeigt die Seite.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s10.st5">Automatisiere die Erinnerung: ein Ablauf, der dir jeden Morgen um neun die heutigen Erinnerungen als Nachricht schickt. Der Zeitauslöser aus dem Agenten-Kapitel, hier an eine echte Aufgabe gehängt.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s10.note">Achte auf die Reihenfolge: zuerst Daten, dann Dashboard, zuletzt Automatisierung. Wer es umgekehrt macht — zuerst das glänzende Dashboard und die Daten später — fängt zwei Wochen später von vorn an. Stimmen die Daten, ist der Rest leicht.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch5.s10.do">Mach das jetzt: Beende heute die ersten drei Schritte. Füll die Tabelle mit deinen echten Kunden. Vier und fünf morgen; die Tabelle funktioniert auch ohne Dashboard für sich.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch5.s11.title">Vom Formular ins CRM: die Website verbinden</span></h2>
+      <p data-i18n="ch5.s11.p1">Jetzt hast du zwei Teile: eine veröffentlichte Website und ein gefülltes CRM. Dazwischen fehlt nur eines — ein Formular auf deiner Website. Wenn jemand das Formular ausfüllt, sollen die Angaben direkt im CRM landen.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch5.fig.form.cap">Was passiert, wenn ein Formular kommt</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch5.fig.form.s1">Eine Besucherin füllt das Formular auf deiner Website aus</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch5.fig.form.s2">Das Formular geht an die Webhook-Adresse deines Ablaufs</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch5.fig.form.s3">Ich: ich lese die Nachricht und ordne sie ein</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch5.fig.form.s4">Im CRM entstehen eine neue Personen- und eine Auftragszeile</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch5.fig.form.s5">Benachrichtigung an dich: «neue Anfrage, zu diesem Thema»</span></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.form.fc">Diese ganze Kette ist, was du im Agenten-Kapitel gelernt hast — der einzige Unterschied ist, dass beide Enden jetzt deine Website und dein CRM sind. Die Teile greifen ineinander; das ist es, was dieser Kurs eigentlich erzählt.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s11.p2">Dass eine statische Website kein Formular speichern kann, ist kein Problem: das Formular schickt die Angaben an die Adresse deines Ablaufs. Die Website bleibt statisch, die Arbeit passiert im Ablauf. Genau das ist der «Mittelweg» aus Abschnitt sieben.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔗</span><span data-i18n="ch5.s11.do">Mach das jetzt: Lass ein Formular mit drei Feldern auf deine Website setzen: Name, Kontakt, Nachricht. Öffne dann in deinem Ablauf einen Webhook und verbinde das Formular damit. Füll dein eigenes Formular aus; sieh die neue Zeile im CRM erscheinen.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch5.s12.title">Der Schlüssel gehört nicht in den Browser: der Proxy</span></h2>
+      <p data-i18n="ch5.s12.p1">Du willst mich auf die Website setzen: Besucher fragen etwas, ich antworte. Die erste Idee — den Schlüssel in den Code der Website zu schreiben — ist die gefährlichste. Denn alles, was in den Browser gelangt, kann jeder lesen. Dein Schlüssel wird sichtbar und auf deine Rechnung ausgegeben.</p>
+      <figure class="proxy">
+        <span class="proxy__cap font-mono" data-i18n="ch5.fig.proxy.cap">Wer den Schlüssel hat</span>
+        <div class="proxy__row">
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🖥️</span><b data-i18n="ch5.fig.proxy.t1">Browser</b><i data-i18n="ch5.fig.proxy.d1">der Computer der Besucherin — hier lässt sich kein Geheimnis wahren</i></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n proxy__n--mid"><span class="proxy__e" aria-hidden="true">🛡️</span><b data-i18n="ch5.fig.proxy.t2">Proxy</b><i data-i18n="ch5.fig.proxy.d2">dein kleiner Vermittler: hält den Schlüssel im Tresor, zählt das Kontingent</i><span class="proxy__key">🔑</span></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🧠</span><b data-i18n="ch5.fig.proxy.t3">KI</b><i data-i18n="ch5.fig.proxy.d3">nimmt die Anfrage, schickt die Antwort zurück</i></div>
+        </div>
+        <div class="proxy__bad">
+          <span class="proxy__x" aria-hidden="true">✕</span>
+          <span data-i18n="ch5.fig.proxy.bad">Direkt verbinden: der Schlüssel landet im Browser, alle sehen ihn, die Rechnung kommt zu dir</span>
+        </div>
+        <figcaption data-i18n="ch5.fig.proxy.fc">Ein Proxy erledigt drei Dinge: er verwahrt den Schlüssel, zählt das Tageskontingent und antwortet nur auf Anfragen von deiner Website. Die FYOS-Box dieser Website funktioniert genau so.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s12.p2">«Proxy» klingt groß; ist es nicht. Ein hundertzeiliges Programm, das auf kostenlosen Stufen lebt. Das ist die Internet-Fassung der Regel «Schlüssel kommen nicht ins Gehirn» aus dem Werkstatt-Kapitel: ein Schlüssel liegt immer in einem Tresor unter deiner Kontrolle, nie auf dem Computer einer Besucherin.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🛡️</span><span data-i18n="ch5.s12.do">Mach das jetzt: Sieh dir alle gebauten Abläufe und Seiten an: steht irgendwo ein Schlüssel an einer Stelle, die der Browser sieht? Wenn du unsicher bist, frag mich — «entweicht aus dieser Datei ein Geheimnis?»</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch5.s13.title">Eine sprechende Box auf die Website setzen</span></h2>
+      <p data-i18n="ch5.s13.p1">Steht der Proxy, ist es kurze Arbeit, mich auf die Website zu setzen: ein Textfeld, eine Sendeschaltfläche und ein Bereich, der die Antwort zeigt. Damit es gut läuft, braucht es aber drei Entscheidungen — und keine davon ist technisch. Sie sind deine.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k1.t">Was sie wissen wird</h3><p data-i18n="ch5.s13.k1.p">Deine Leistungen, deine Preisspanne, deine Arbeitsweise, die häufigen Fragen. Du schreibst das als Text und hängst es an jede Anfrage — der «Kontext» aus dem Formel-Kapitel zahlt sich genau hier aus. Und du nennst ihre Grenze, damit sie nichts erfindet, was sie nicht weiß.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k2.t">Was sie nicht tun wird</h3><p data-i18n="ch5.s13.k2.p">Sie nennt keinen festen Preis, macht keine Zusagen, verspricht keinen Termin. Das ist deine Aufgabe. Die Box soll empfangen, verstehen und die richtige Frage stellen — und dann dich einschalten.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k3.t">Wann sie dich ruft</h3><p data-i18n="ch5.s13.k3.p">Wenn die Besucherin ernst wird: «kann ich einen Preis bekommen», «wann könnten wir starten». In dem Moment wird das Gespräch zur Anfrage, landet im CRM und eine Benachrichtigung erreicht dich. Das ist die eigentliche Aufgabe der sprechenden Box; nicht plaudern, sondern Arbeit hereinholen.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s13.note">Noch eine Grenze: was auch immer eine Besucherin in die Box tippt, erreicht mich als <em>Daten</em>, nicht als Anweisung. Die Warnung vor versteckten Anweisungen aus dem Kapitel über mich wiegt auf einer Live-Website viel schwerer — wer «vergiss deine vorherigen Anweisungen» schreibt, darf die Regeln der Box nicht ändern können. Halte die Einschränkungen im Proxy, nicht im Browser.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.s13.do">Mach das jetzt: Schreib auf einer Seite auf, was die Box wissen muss: Leistungen, Arbeitsweise, fünf häufige Fragen samt Antwort. Dieser Text wird das Gehirn der Box — die nach außen gewandte Fassung der CLAUDE.md aus dem Werkstatt-Kapitel.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch5.s14.title">Was FYOS ist</span></h2>
+      <p data-i18n="ch5.s14.p1">Bis hierher haben wir Teile gebaut: Website, CRM, Abläufe, sprechende Box. FYOS ist nicht der Name dieser Teile; es ist der Name dafür, dass <strong class="text-fg">sie alle von einem Ort aus erreichbar sind</strong>. Ein persönliches agentisches Betriebssystem heißt: jede deiner täglichen Aufgaben hat einen Agenten, und du sprichst mit allen von einer Stelle aus.</p>
+      <figure class="oslab">
+        <span class="oslab__cap font-mono" data-i18n="ch5.fig.os.cap">Der Kern und sein Umfeld</span>
+        <div class="oslab__ring">
+          <div class="oslab__core"><b>FYOS</b><i data-i18n="ch5.fig.os.core">du sprichst</i></div>
+          <div class="oslab__s" style="--i:0"><span aria-hidden="true">🧠</span><b data-i18n="ch5.fig.os.a1">Gedächtnis</b></div>
+          <div class="oslab__s" style="--i:1"><span aria-hidden="true">📇</span><b data-i18n="ch5.fig.os.a2">Kunden</b></div>
+          <div class="oslab__s" style="--i:2"><span aria-hidden="true">📅</span><b data-i18n="ch5.fig.os.a3">Kalender</b></div>
+          <div class="oslab__s" style="--i:3"><span aria-hidden="true">✍️</span><b data-i18n="ch5.fig.os.a4">Inhalte</b></div>
+          <div class="oslab__s" style="--i:4"><span aria-hidden="true">📊</span><b data-i18n="ch5.fig.os.a5">Berichte</b></div>
+          <div class="oslab__s" style="--i:5"><span aria-hidden="true">⚙️</span><b data-i18n="ch5.fig.os.a6">Abläufe</b></div>
+        </div>
+        <figcaption data-i18n="ch5.fig.os.fc">Jeder Trabant ist etwas, das du schon gebaut hast: Gedächtnis ist CLAUDE.md, Kunden ist das CRM, Abläufe ist n8n. Der Kern ist nichts Neues, sondern eine Tür — die Stelle, die auf alle schaut und dir eine Antwort gibt, wenn du fragst «was ist heute?».</figcaption>
+      </figure>
+      <p data-i18n="ch5.s14.p2">Die FYOS-Box auf der Startseite ist eine kleine Vorführung davon. In der echten Version hängen die Trabanten an deinen Daten: deinem Kalender, deinen Kunden, deinen Dateien. Du fragst «wer wartet diese Woche auf mich?»; der Kern schaut ins CRM, schaut in den Kalender und antwortet.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🪐</span><span data-i18n="ch5.s14.do">Mach das jetzt: Teile deine tägliche Arbeit in sechs Überschriften. Sie können den sechs oben ähneln oder nicht. Was sind deine sechs Trabanten? Das ist der Entwurf deines FYOS.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch5.s15.title">Die vier Schichten von FYOS</span></h2>
+      <p data-i18n="ch5.s15.p1">Deine eigene Version zu bauen heißt, vier Schichten der Reihe nach zu legen. Brich die Reihenfolge nicht; jede steht auf der vorigen.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f1.t">Daten</h3>
+          <p data-i18n="ch5.s15.f1.p">Dein CRM, deine Dateien, dein Kalender. Alles, was FYOS weiß, kommt von hier; ein auf leeren Daten gebautes System gibt leere Antworten. Diese Schicht hast du in Abschnitt zehn bereits gebaut.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f2.t">Hände</h3>
+          <p data-i18n="ch5.s15.f2.p">Abläufe und Werkzeuge: die Teile, die Daten lesen, schreiben und senden. Die Knoten aus dem Agenten-Kapitel und die Skills aus dem Werkstatt-Kapitel leben in dieser Schicht.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f3.t">Verstand</h3>
+          <p data-i18n="ch5.s15.f3.p">Ich. Die Schicht, die die Frage versteht, entscheidet, welches Werkzeug gerufen wird, und die Antwort in Menschensprache übersetzt. Sie steht hinter dem Proxy; der Schlüssel bleibt dort.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f4.t">Tür</h3>
+          <p data-i18n="ch5.s15.f4.p">Wo du sprichst: eine Seite, eine Messaging-App, ein Telefonbildschirm. Diese Schicht kommt zuletzt — und ist die unwichtigste. Eine Tür kann schön sein, aber wenn nichts dahinter ist, bleibt sie leer.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s15.note">Der teuerste Fehler dieses Kapitels ist, mit der vierten Schicht zu beginnen. Eine schöne Oberfläche zu bauen und dann zu sagen «jetzt hängen wir das an irgendetwas» heißt, ein Haus vom Dach her zu bauen. Daten, Hände, Verstand, Tür — diese Reihenfolge ist nicht willkürlich.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s15.do">Mach das jetzt: Markiere die vier Schichten für deine Lage: welche ist fertig, welche halb, welche fehlt? Sag mir die erste leere; von dort machen wir weiter.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch5.s16.title">Kosten, Kontingent und wann man keinen Code schreibt</span></h2>
+      <p data-i18n="ch5.s16.p1">Alles, was du in diesem Kapitel gebaut hast, hat eine kostenlose Stufe: Hosting kostenlos, Tabelle kostenlos, der Einsteigerplan des Ablaufwerkzeugs kostenlos, der Proxy bis hunderttausend Anfragen am Tag kostenlos. Geld fließt nur bei KI-Anfragen, und auch dort wenig. Aber zwei Fallen solltest du kennen.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s16.weak">Nicht selbst bauen</span>
+          <p class="compare__note" data-i18n="ch5.s16.weakNote">Deckt ein fertiges Werkzeug neunzig Prozent der Aufgabe, kauf es. Rechnungen, Buchhaltung, Zahlungen annehmen, Kalender — dafür gibt es reife und günstige Werkzeuge. Was du selbst baust, pflegst du für immer; das ist nicht kostenlos.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s16.strong">Selbst bauen</span>
+          <p class="compare__note" data-i18n="ch5.s16.strongNote">Wenn die Aufgabe deinem Geschäft eigen ist, wenn fertige Werkzeuge sich nicht verbinden lassen und wenn du eine wiederkehrende Aufgabe beschreiben kannst. Dein CRM, dein Dashboard und dein FYOS stehen in dieser Spalte — weil keines davon zu deiner Arbeitsweise fertig geliefert wird.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s16.p2">Die zweite Falle ist das Kontingent: kostenlose Stufen haben eine Grenze, und an der Grenze bleibt das System still stehen. Deshalb zählt dein Proxy ein Tageslimit und deine Abläufe schicken Fehlermeldungen. Die Regel vom «stillen Bruch» aus dem Agenten-Kapitel gilt auch hier — setz die Grenze im Voraus und erfahre, wenn sie erreicht ist.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">💳</span><span data-i18n="ch5.s16.do">Mach das jetzt: Setz in deinem KI-Konto eine monatliche Ausgabengrenze. Das dauert fünf Minuten und verhindert die Rechnung einer schlechten Nacht. Notier dann für jeden eingerichteten Dienst die Grenze der kostenlosen Stufe.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch5.s17.title">Fünf häufige Fehler</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m1.t">1 · Das Veröffentlichen ans Ende schieben</h3>
+          <p data-i18n="ch5.s17.m1.p">Die Website, die sagt «erst fertig, dann online», geht nie online. Veröffentliche am ersten Tag, solange sie hässlich ist. Dann siehst du jede Änderung unter der echten Adresse.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m2.t">2 · Die Oberfläche vor den Daten bauen</h3>
+          <p data-i18n="ch5.s17.m2.p">Ein glänzendes Dashboard ohne Daten dahinter ist eine leere Schachtel. Bau zuerst die Daten und füll sie mit echten Datensätzen; ein Dashboard kommt an einem Tag, Daten nicht.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m3.t">3 · Den Schlüssel in die Website schreiben</h3>
+          <p data-i18n="ch5.s17.m3.p">Alles, was in den Browser gelangt, ist öffentlich. Der Schlüssel liegt im Tresor des Proxys. Diese eine Regel verhindert den teuersten Fehler dieses Kapitels.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m4.t">4 · Selbst bauen, obwohl es ein Werkzeug gibt</h3>
+          <p data-i18n="ch5.s17.m4.p">Fang nicht an, eine Buchhaltungssoftware zu schreiben. Selbst bauen ergibt Sinn, wo das Fertige nicht reicht. Alles, was du baust, pflegst du lebenslang.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m5.t">5 · Das Ergebnis ungelesen annehmen</h3>
+          <p data-i18n="ch5.s17.m5.p">Den Code schreibe ich, die Verantwortung liegt bei dir. Sieh nach, ob es läuft, lies den Unterschied, probier es im Browser. «Wird schon passen» lässt alles Gebaute mit der Zeit verrotten.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch5.s17.do">Mach das jetzt: Füg diese fünf in die CLAUDE.md deines Projekts ein. Besonders 3 — daraus einen Hook zu machen, ist durchaus sinnvoll, wie im Werkstatt-Kapitel besprochen.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch5.s18.title">Was alle fragen</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q1">Kann man wirklich ohne Programmierkenntnisse eine Website bauen?</summary><p data-i18n="ch5.faq.a1">Man kann, und in diesem Kapitel tust du es. Aber ehrlich: ohne je Code zu lesen, kommst du langfristig nicht aus. Der Punkt ist, dass Lesen viel leichter ist als Schreiben und du es beim Lesen der Unterschiede ohnehin schon lernst. In einem halben Jahr schaust du auf eine Datei und sagst «diese Stelle macht das»; das Schreiben kannst du weiterhin mir überlassen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q2">Warum das, wenn es Website-Baukästen gibt?</summary><p data-i18n="ch5.faq.a2">Für eine Präsentationsseite ist ein Baukasten eine gute Wahl und nichts, wofür man sich schämen müsste. Der Unterschied hier ist Eigentum: eine selbst gebaute Website ist ein Ordner — sie zieht um, wird gesichert, lässt sich an alles anbinden und hat keine Monatsgebühr. Zudem passen das CRM, die Abläufe und FYOS, die wir im Kurs bauen, nicht in einen Baukasten. Wir bauen die Website selbst, weil sie die Tür zum eigentlichen System ist.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q3">Wenn ich etwas kaputt mache, kann ich es rückgängig machen?</summary><p data-i18n="ch5.faq.a3">Ja — Git aus dem Werkstatt-Kapitel ist genau dafür da. Jeder Speicherpunkt ist ein Rückkehrort. Selbst wenn die veröffentlichte Website kaputtgeht, sagst du «geh zum vorherigen Speicherpunkt zurück» und sie ist binnen einer Minute im alten Zustand. Deshalb bestehe ich darauf, alles Gebaute in Git zu nehmen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q4">Was passiert, wenn mein CRM wächst?</summary><p data-i18n="ch5.faq.a4">Wenn die Tabelle eng wird — meist einige tausend Zeilen oder mehrere Personen gleichzeitig — zieht es in eine Datenbank um. Der Umzug ist eine Tagesarbeit, und du machst sie nicht: du exportierst die Daten, lässt mich die Datenbank einrichten und änderst die Adresse in deinen Abläufen. Jetzt schon mit einer Datenbank anzufangen, bringt gar nichts; es macht es nur schwerer.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q5">Wie lange dauert es, FYOS von null zu bauen?</summary><p data-i18n="ch5.faq.a5">Ehrliche Antwort: eine erste laufende Version an einem Wochenende, eine wirklich nützliche in ein paar Monaten. Aber du hältst in dieser Zeit nie etwas Halbfertiges — jede Schicht funktioniert für sich. Dein CRM nützt vom ersten Tag an; deine Abläufe sparen ab der zweiten Woche Zeit. FYOS ist keine Ziellinie, sondern ein System, dem du weiter hinzufügst.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q6">Kann ich das Gebaute an Kunden verkaufen?</summary><p data-i18n="ch5.faq.a6">Ja, und darum geht es im Gipfel-Kapitel. Hast du dein eigenes CRM gebaut, geht dasselbe für einen Kunden beim zweiten Mal dreimal schneller; Abläufe lassen sich exportieren, die Website wird zur Vorlage. Das Wertvollste, was eine Agentur verkaufen kann, ist das System, das sie an sich selbst erprobt hat.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.faq.do">Mach das jetzt: Wenn du beim Bauen irgendwo hängst, frag mich — füg die Fehlermeldung oder den Text vom Bildschirm genau so ein. Fehlermeldungen zu lesen, gehört zu dem, was ich am besten kann.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch5.s19.title">Übungen</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e1.t">1 · Bau die Seite und stell sie online</h3>
+          <p data-i18n="ch5.ex.e1.p">Bau deine einseitige Website mit den fünf Schritten aus 05, veröffentliche sie mit den fünf Schritten aus 06. Schick die Adresse einer Freundin oder einem Freund.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e1.g"><strong class="text-fg">Ziel:</strong> etwas im Internet zu haben, das du gebaut hast, unter deiner Adresse.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e2.t">2 · Füll das CRM</h3>
+          <p data-i18n="ch5.ex.e2.p">Bau die Tabelle mit vier Datensätzen und füll sie mit deinen echten Kunden. Mindestens zehn Personen, fünf Aufträge, zehn Notizen.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e2.g"><strong class="text-fg">Ziel:</strong> dass «mit wem habe ich was besprochen» zum ersten Mal an einem Ort beantwortet ist.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e3.t">3 · Verbinde beides</h3>
+          <p data-i18n="ch5.ex.e3.p">Setz ein Formular auf deine Website, verbinde es per Ablauf mit dem CRM, füll dein eigenes Formular aus und sieh die Zeile erscheinen.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e3.g"><strong class="text-fg">Ziel:</strong> dass das in zwei getrennten Kapiteln Gelernte zum ersten Mal in einem laufenden System zusammenkommt.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e4.t">4 · Bau einen Trabanten</h3>
+          <p data-i18n="ch5.ex.e4.p">Wähl einen der sechs Trabanten aus 14 und bau ihn wirklich. Er soll eine einzige Frage richtig beantworten: «wer wartet heute auf mich?»</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e4.g"><strong class="text-fg">Ziel:</strong> dass FYOS aufhört, abstrakt zu sein, und zu etwas Echtem wird, das eine Frage beantwortet.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch5.ex.do">Mach das jetzt: Die erste an diesem Wochenende. Die zweite nächste Woche. Drei und vier im Lauf des Monats. Brich die Reihenfolge nicht; die dritte geht ohne die ersten beiden nicht.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch5.quiz.title">Teste dich</span></h2>
+      <p data-i18n="ch5.quiz.p1">Antworte erst selbst, dann öffnen.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q1">HTML, CSS, JavaScript — in einem Satz?</summary><p data-i18n="ch5.quiz.a1">HTML ist das Skelett: was da ist. CSS ist das Aussehen: wie es aussieht. JavaScript ist das Verhalten: was passiert. Nur das dritte ist eine echte Programmiersprache.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q2">Was ist eine Website?</summary><p data-i18n="ch5.quiz.a2">Ein Ordner mit Dateien darin. Die Startseite heißt index.html. Der Browser liest eine Datei aus dem Ordner und zeichnet sie auf den Bildschirm.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q3">Was heißt veröffentlichen?</summary><p data-i18n="ch5.quiz.a3">Den Ordner auf einen Computer legen, den alle erreichen. Du speicherst mit Git und pushst in ein Repository, schaltest Pages ein; die Adresse geht mit https live und aktualisiert sich bei jedem Push von selbst.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q4">Der Unterschied zwischen statisch und dynamisch?</summary><p data-i18n="ch5.quiz.a4">Bei statisch liegen die Dateien fertig da, alle bekommen dasselbe; kostenlos, schnell, robust. Bei dynamisch wird die Seite beim Öffnen für dich erzeugt; das braucht Server, Datenbank und Pflege. Der Mittelweg: statische Website plus kleiner Proxy.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q5">Wo liegen Daten, und in welcher Reihenfolge?</summary><p data-i18n="ch5.quiz.a5">Datei, Tabelle, Datenbank — leicht bis schwer. Eine Stufe höher erst, wenn die darunter eng wird. Die meisten Agenturen kommen mit einer Tabelle bis zu Hunderten Kunden.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q6">Die vier Datensätze eines CRM?</summary><p data-i18n="ch5.quiz.a6">Person, Auftrag, Notiz, Erinnerung. Eine Person hängt an Aufträgen; unter den Aufträgen sammeln sich Notizen und Erinnerungen. Mehr wird zu Feldern, die du nie nutzt.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q7">Warum gehört ein Schlüssel nicht in den Browser?</summary><p data-i18n="ch5.quiz.a7">Alles, was in den Browser gelangt, kann jeder lesen; der Schlüssel wird sichtbar und auf deine Rechnung ausgegeben. Der Schlüssel liegt im Tresor des Proxys; der zählt zudem das Kontingent und antwortet nur deiner Website.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q8">Die eigentliche Aufgabe der sprechenden Box auf der Website?</summary><p data-i18n="ch5.quiz.a8">Nicht plaudern, sondern Arbeit hereinholen: empfangen, verstehen, die richtige Frage stellen und, sobald die Besucherin ernst wird, die Anfrage ins CRM legen und dich rufen. Preise nennen und Zusagen machen gehört nicht dazu.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q9">Die vier Schichten von FYOS und ihre Reihenfolge?</summary><p data-i18n="ch5.quiz.a9">Daten, Hände, Verstand, Tür. Die Reihenfolge zählt: auch die schönste Oberfläche bleibt leer, wenn keine Daten dahinterstehen. Ein Haus baut man nicht vom Dach.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q10">Wann baust du nicht selbst?</summary><p data-i18n="ch5.quiz.a10">Wenn ein fertiges Werkzeug neunzig Prozent der Aufgabe deckt. In reifen Feldern wie Rechnungen, Buchhaltung, Zahlungen und Kalender kauf das Fertige. Alles Selbstgebaute pflegst du lebenslang.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch5.recap.title">Dieses Kapitel in einem Satz</h2>
+        <p data-i18n="ch5.recap.p">Leg einen Ordner an, lass darin eine Seite bauen und stell sie am ersten Tag online; halte die Daten auf der leichtesten Stufe und füll dein eigenes CRM mit vier Datensätzen; verbinde beides mit einem Ablauf; lass den Schlüssel immer im Tresor des Proxys — und wenn du diese Teile in der Reihenfolge Daten, Hände, Verstand, Tür aufeinanderlegst, heißt das, was du in Händen hältst, FYOS.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch5.next.eyebrow">Als Nächstes</span>
+          <h3 class="font-display text-h3" data-i18n="ch5.next.title">Kapitel 6 · Das Schaufenster</h3>
+          <p data-i18n="ch5.next.p">Was du gebaut hast, ist so gut wie nicht da, wenn es niemand sieht. Als Nächstes: sichtbar werden — Videoschnitt mit mir, worauf der Algorithmus wirklich schaut, smarte DMs, Inhalte und Kampagnen.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch5.next.soon">Demnächst</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Nach oben" data-i18n-attr="aria-label=ch5.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Alle Rechte vorbehalten.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Startseite</a><a href="../terms.html" data-i18n="footer.terms">Nutzungsbedingungen & Datenschutz</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Lernportal</a></div>
+    <div class="lang" role="group" aria-label="Sprache" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-5.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="chapter-5.html" data-lang="de" lang="de" hreflang="de" aria-current="page">DE</a>
+      <a href="../../en/course/chapter-5.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../../fa/course/chapter-5.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/de.js?v=433fea65"></script><script src="../../js/main.js?v=433fea65"></script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">فصل ۵: آزمایشگاه — سایت، CRM و FYOS خودت را بساز | سفر هوش مصنوعی | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="فصل پنجم دوره: ساختن با کد، بدون ترس. HTML، CSS و جاوااسکریپت به زبان آدمیزاد؛ یک سایت از صفر و انتشار آن؛ داده کجا می‌ماند؛ CRM خودت؛ واسطی که کلیدت را نگه می‌دارد؛ و FYOS — سیستم‌عامل عاملیِ شخصی‌ات.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="فصل ۵: آزمایشگاه — سایت، CRM و FYOS خودت را بساز">
+<meta property="og:description" data-i18n-attr="content=og.description" content="ساختن با کد بدون ترس: سایت، انتشار، داده، CRM، واسط و FYOS.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css?v=433fea65">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch5.back">← همهٔ فصل‌ها</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch5.barNum">فصل ۵ / ۷</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch5.barCta">ثبت‌نام در دوره</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l5-cover-static.svg"><img src="../../img/course/l5-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Lab</span>
+        <span class="lesson__cover-note" data-i18n="ch5.coverNote">مواد وارد می‌شود، چیزی زنده بیرون می‌آید</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch5.eyebrow">فصل ۵ · آزمایشگاه</span>
+      <h1 class="font-display text-h1" data-i18n="ch5.title">ساختن با کد — <span class="text-accent-gradient">بدون ترس</span></h1>
+      <p class="lesson__lead" data-i18n="ch5.lead">چهار فصل ابزارها را یاد گرفتی: من، درخواست، جریان‌ها و کارگاه. در این فصل با آن‌ها چیزهای واقعی می‌سازیم. در پایان سه چیز خواهی داشت: سایتی که منتشر شده، CRM خودت که مشتریانت را نگه می‌دارد، و FYOS — سیستم‌عامل شخصی‌ای که تو را می‌شناسد و برایت کار می‌کند. کد می‌نویسیم؛ اما نویسنده من خواهم بود، و تو می‌گویی چه می‌خواهی و خواندن آنچه برمی‌گردد را یاد می‌گیری.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch5.meta">زمان مطالعه ~۵۰ دقیقه · پیش‌نیاز: فصل ۴</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch5.goals.title">در پایان این فصل</h2>
+      <ul class="check-list space-2" data-i18n="ch5.goals.list"><li>سه لایهٔ یک صفحهٔ وب — اسکلت، ظاهر، رفتار — را می‌شناسی</li> <li>می‌دانی زبان‌های برنامه‌نویسی چه‌اند و کدام به چه کار می‌آید</li> <li>یک صفحه را از صفر ساخته و روی نشانی واقعی منتشر کرده‌ای</li> <li>تشخیص می‌دهی داده کجا می‌ماند — فایل، جدول، پایگاه داده</li> <li>CRM خودت را می‌سازی و سایتت را به آن وصل می‌کنی</li> <li>می‌فهمی چرا کلید هرگز در مرورگر نمی‌رود و واسط چیست</li> <li>چهار لایهٔ FYOS و راه ساختن نسخهٔ خودت را می‌بینی</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch5.toc.title" class="text-fg">فهرست</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch5.guide.t">راهنمای کلود</strong><span data-i18n="ch5.guide.p">در این فصل کد را من می‌نویسم. اگر می‌خواهی به یاد بیاوری چه چیزی را خوب انجام می‌دهم و کجا اشتباه می‌کنم — در یک صفحه، به چهار زبان.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch5.s1.title">ترس از کد و کدی که پیش‌تر نوشته‌ای</span></h2>
+      <p data-i18n="ch5.s1.p1">جملهٔ «من کد بلد نیستم» را در این دوره بارها گفتی و هر بار به گام بعدی رفتی. در فصل کارگاه فایلی ساختی، در یک صفحه سه جا را عوض کردی، تفاوت‌ها را خواندی و ذخیره کردی. آن خط‌های مثبت و منفی کد بودند. تو خواندی‌شان، تأیید کردی و فهمیدی درست‌اند. یعنی خواندن کد را مدت‌هاست شروع کرده‌ای.</p>
+      <p data-i18n="ch5.s1.p2">در این فصل یک گام دیگر برمی‌داریم: دیگر فقط چیزی موجود را عوض نمی‌کنیم، <strong class="text-fg">از صفر چیزی می‌سازیم</strong>. بخش ترسناک همیشه یکی است: نگاه‌کردن به فایلی خالی و ندانستن چه باید نوشت. آن بخش با من است. بخش تو دانستن آنچه می‌خواهی، دیدن نتیجه و توانایی گفتن «این‌جا اشتباه است».</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s1.note">یک مرز صادقانه: در پایان این فصل برنامه‌نویس حرفه‌ای نمی‌شوی. چیزی که می‌شوی کاربردی‌تر است — کسی که <em>می‌تواند بگوید چه می‌خواهد و آنچه درمی‌آید را بازبینی کند</em>. هشتاد درصد کارِ نرم‌افزار همین است؛ برای بیست درصد باقی یا من هستم یا یک متخصص.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch5.s1.do">همین حالا انجام بده: سه چیزی که می‌خواهی بسازی را بنویس. یک صفحه، یک فهرست، یک ماشین‌حساب، یک دفتر مشتری — هر چه باشد. در این فصل دست‌کم یکی را واقعاً می‌سازیم.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch5.s2.title">سه واژه: HTML، CSS، جاوااسکریپت</span></h2>
+      <p data-i18n="ch5.s2.p1">در هر فصل سه واژه کل میدان را باز کرد. برای وب هم سه واژه بس است — و این سه، مثل توصیف یک آدم از هم جدا می‌شوند: اسکلت، ظاهر، رفتار.</p>
+      <figure class="trio">
+        <span class="trio__cap font-mono" data-i18n="ch5.fig.trio.cap">سه لایهٔ یک صفحه</span>
+        <div class="trio__row">
+          <div class="trio__l" style="--i:0">
+            <span class="trio__e" aria-hidden="true">🦴</span>
+            <b data-i18n="ch5.fig.trio.t1">HTML · اسکلت</b>
+            <i data-i18n="ch5.fig.trio.d1">چه هست: عنوان، بند، تصویر، دکمه. معنا و ترتیب.</i>
+            <div class="trio__demo trio__demo--html" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:1">
+            <span class="trio__e" aria-hidden="true">🎨</span>
+            <b data-i18n="ch5.fig.trio.t2">CSS · ظاهر</b>
+            <i data-i18n="ch5.fig.trio.d2">چطور دیده می‌شود: رنگ، فاصله، قلم، چیدمان.</i>
+            <div class="trio__demo trio__demo--css" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:2">
+            <span class="trio__e" aria-hidden="true">⚡</span>
+            <b data-i18n="ch5.fig.trio.t3">جاوااسکریپت · رفتار</b>
+            <i data-i18n="ch5.fig.trio.d3">چه رخ می‌دهد: با کلیک باز می‌شود، با تایپ غربال می‌کند، ذخیره می‌کند.</i>
+            <div class="trio__demo trio__demo--js" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.trio.fc">هر سه به یک محتوا نگاه می‌کنند. بدون HTML صفحه‌ای نیست؛ بدون CSS زشت است اما کار می‌کند؛ بدون جاوااسکریپت خاموش است اما خواندنی. همین ترتیب، ترتیب یادگیری هم هست.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s2.p2">هر سه <em>زبان</em> شمرده می‌شوند اما از یک جنس نیستند. HTML زبان <strong class="text-fg">نشانه‌گذاری</strong> است: می‌گوید «این عنوان است، این بند است». CSS زبان <strong class="text-fg">شکل‌دهی</strong> است: می‌گوید «عنوان‌ها طلایی باشند». تنها جاوااسکریپت به معنای واقعی زبان <strong class="text-fg">برنامه‌نویسی</strong> است: تصمیم می‌گیرد، تکرار می‌کند، حساب می‌کند.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch5.s2.do">همین حالا انجام بده: روی جای خالی این صفحه راست‌کلیک کن و «نمایش کد منبع صفحه» را بزن. آنچه می‌بینی HTML این سایت است. لازم نیست بفهمی؛ فقط نگاه کن. ترسناک نیست، نظمی تکرارشونده است.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch5.s3.title">سایت در واقع یک پوشه است</span></h2>
+      <p data-i18n="ch5.s3.p1">واژهٔ سایت چیز بزرگی را به ذهن می‌آورد. نیست. سایت پوشه‌ای است که درونش فایل هست. مرورگر از آن پوشه فایلی را می‌خواند و روی صفحه می‌کشد. جملهٔ «پوشه میز من است» از فصل کارگاه اینجا مو به مو صادق است.</p>
+      <figure class="tree">
+        <span class="tree__cap font-mono" data-i18n="ch5.fig.tree.cap">درون یک سایت کوچک</span>
+        <div class="tree__box">
+          <ul class="tree__list">
+            <li class="tree__d"><span class="tree__e" aria-hidden="true">📁</span><b>ajans-site</b><i data-i18n="ch5.fig.tree.n0">خودِ سایت</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>index.html</b><i data-i18n="ch5.fig.tree.n1">صفحهٔ اصلی — فایلی که با ورود به نشانی باز می‌شود</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>iletisim.html</b><i data-i18n="ch5.fig.tree.n2">صفحهٔ دوم</i></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>css</b><i data-i18n="ch5.fig.tree.n3">ظاهر اینجا می‌آید</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">🎨</span><b>style.css</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>js</b><i data-i18n="ch5.fig.tree.n4">رفتار اینجا می‌آید</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">⚡</span><b>main.js</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>img</b><i data-i18n="ch5.fig.tree.n5">تصویرها</i></li>
+          </ul>
+        </div>
+        <figcaption data-i18n="ch5.fig.tree.fc">تنها یک قاعده: نام صفحهٔ اصلی <em>index.html</em> است. بقیه نظم توست. صفحه‌ای که همین حالا می‌خوانی هم در چنین پوشه‌ای است — سایت این دوره دقیقاً همین ساختار را دارد.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s3.p2">این پوشه را در رایانه‌ات باز کن و روی <em>index.html</em> دوبار کلیک کن؛ مرورگر بازش می‌کند. اینترنت لازم نیست. نیمهٔ اول «ساختن سایت» همین است: یک پوشه و فایل‌هایی در آن. نیمهٔ دوم گذاشتن آن پوشه جایی است که همه ببینند — بخش ششم.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📁</span><span data-i18n="ch5.s3.do">همین حالا انجام بده: در رایانه‌ات پوشه‌ای به نام «اولین-سایت» بساز. فعلاً خالی بماند. در بخش پنجم پرش می‌کنیم.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch5.s4.title">زبان‌های برنامه‌نویسی، به زبان آدمیزاد</span></h2>
+      <p data-i18n="ch5.s4.p1">زبان برنامه‌نویسی شکل نوشتاری گفتن به رایانه است که چه کند. مثل زبان‌های انسانی دستور زبان و واژگان دارد؛ فرقش این است که هیچ ابهامی نمی‌پذیرد. نمی‌توانی بگویی «یک وقتی حلش کن»؛ می‌گویی «این فهرست را بگیر و برای هر سطر این کار را بکن».</p>
+      <p data-i18n="ch5.s4.p2">صدها زبان هست اما لازم نیست همه را بدانی. برای یک آژانس، تقریباً تمام کار در سه خانواده می‌گنجد:</p>
+      <figure class="langs">
+        <span class="langs__cap font-mono" data-i18n="ch5.fig.langs.cap">کدام زبان به چه کار می‌آید</span>
+        <div class="langs__row">
+          <div class="langs__c langs__c--now">
+            <span class="langs__tag font-mono">HTML · CSS · JS</span>
+            <b data-i18n="ch5.fig.langs.t1">آن‌ها که در مرورگر اجرا می‌شوند</b>
+            <i data-i18n="ch5.fig.langs.d1">صفحه‌های وب، رابط‌ها، هر چیزی که کلیک می‌شود. زبان سایت و جعبهٔ FYOS که در این دوره می‌سازیم.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u1">در این فصل به کار می‌بریم</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">Python</span>
+            <b data-i18n="ch5.fig.langs.t2">همه‌منظوره</b>
+            <i data-i18n="ch5.fig.langs.d2">مرتب‌کردن داده، کار با فایل، ساختن گزارش، وصل‌شدن به هوش مصنوعی. خواناترین زبان؛ گزینهٔ خوبی برای نخستین زبان «واقعی».</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u2">خودکارسازی و کار داده</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">SQL</span>
+            <b data-i18n="ch5.fig.langs.t3">پرسیدن از داده</b>
+            <i data-i18n="ch5.fig.langs.d3">نه چندان یک زبان که یک زبان پرس‌وجو: شکل رایانه‌ایِ پرسش «این ماه چند مشتری تازه آمد». زیر CRM تو همین است.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u3">CRM و گزارش‌ها</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.langs.fc">بیشتر وقت‌ها تو زبان را انتخاب نمی‌کنی؛ کار انتخاب می‌کند. صفحهٔ وب؟ سه‌تایی بالا. پردازش فایل و گزارش؟ پایتون. پرسش از داده؟ SQL. کافی است از من بپرسی «با کدام انجامش دهیم؟»</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch5.s4.note">یک آسودگی: انتخاب زبان بسیار کم‌اهمیت‌تر از آن است که گمان می‌کنی. همان کار را با پنج زبان هم می‌شود کرد. مهم <em>روشن گفتن آن چیزی است که می‌خواهی</em> — اینکه قاعدهٔ فصل فرمول اینجا بی‌کم‌وکاست صادق است تصادفی نیست. کاری که بد توصیف شده، در هیچ زبانی خوب درنمی‌آید.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch5.s4.do">همین حالا انجام بده: یکی از سه چیز ۰۱ را برایم تعریف کن و بپرس: «این را با کدام زبان منطقی است بسازیم، چرا؟» دلیل پاسخم را بخوان — در یک نمونه ببین انتخاب زبان چطور انجام می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch5.s5.title">نخستین صفحهٔ واقعی‌ات، در پانزده دقیقه</span></h2>
+      <p data-i18n="ch5.s5.p1">نظریه بس است. Claude Code را که در فصل کارگاه نصب کردی باز کن، به پوشهٔ «اولین-سایت» برو و شروع کن به حرف‌زدن. پنج گام زیر یک صفحهٔ واقعی را بیرون می‌آورد.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s5.st1">در پوشه بنویس <em>claude</em>. بعد بخواه: «در این پوشه یک سایت تک‌صفحه‌ای بساز: عنوان، یک بند معرفی، سه جعبهٔ خدمات و اطلاعات تماس. زمینهٔ تیره، ساده. اول نقشه بکش.»</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s5.st2">نقشه را بخوان و اصلاح کن. «به‌جای سه، چهار جعبه»، «تلفن هم اضافه کن». نقشه بدون دست‌زدن به فایلی عوض می‌شود؛ پیش از شروع کار درست می‌شود.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s5.st3">تأیید کن. فایل‌ها ساخته می‌شوند: index.html، css/style.css، شاید js/main.js. بخواه هرکدام را نشانت بدهم و نگاهی بینداز — حتی اگر نفهمی، ساختار را بشناس.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s5.st4">باز کن و ببین: در پوشه روی index.html دوبار کلیک کن. مرورگر صفحه را نشان می‌دهد. برای نخستین بار به چیزی نگاه می‌کنی که خودت ساخته‌ای.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s5.st5">عوض کن: «عنوان را این‌طور کن»، «رنگ جعبه‌ها را عوض کن»، «تلفن را بزرگ‌تر کن». هر بار مرورگر را تازه کن. همین چرخه — بخواه، ببین، اصلاح کن — تمام کار است.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s5.note">اگر در گام چهارم تازه‌کردن مرورگر را فراموش کنی تغییر را نمی‌بینی و می‌گویی «کار نکرد». رایج‌ترین اشتباه نخست همین است. تازه‌کردن را عادت کن.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s5.do">همین حالا انجام بده: پنج گام را امروز تمام کن. صفحه ممکن است زشت باشد، مهم نیست. مهم این است که آنچه خواسته‌ای در پوشه‌ات ایستاده باشد.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch5.s6.title">منتشر کن: نشانی‌ای که دنیا می‌بیند</span></h2>
+      <p data-i18n="ch5.s6.p1">صفحهٔ درون پوشه فقط پیش توست. انتشار یعنی کپی‌کردن آن پوشه روی رایانه‌ای که همه به آن می‌رسند. آسان‌ترین و رایگان‌ترین راه GitHub Pages است: نقطه‌های ذخیرهٔ گیت که در فصل کارگاه آموختی دقیقاً برای همین بودند.</p>
+      <figure class="deploy" data-deploy>
+        <span class="deploy__cap font-mono" data-i18n="ch5.fig.deploy.cap">از پوشه تا نشانی</span>
+        <div class="deploy__stage" data-step="1">
+          <div class="deploy__track" aria-hidden="true">
+            <div class="deploy__n deploy__n--1"><span class="deploy__e">💻</span><b data-i18n="ch5.fig.deploy.n1">رایانه‌ات</b></div>
+            <span class="deploy__w deploy__w--a"></span>
+            <div class="deploy__n deploy__n--2"><span class="deploy__e">🗂️</span><b data-i18n="ch5.fig.deploy.n2">مخزن</b></div>
+            <span class="deploy__w deploy__w--b"></span>
+            <div class="deploy__n deploy__n--3"><span class="deploy__e">⚙️</span><b data-i18n="ch5.fig.deploy.n3">ساخت</b></div>
+            <span class="deploy__w deploy__w--c"></span>
+            <div class="deploy__n deploy__n--4"><span class="deploy__e">🌐</span><b data-i18n="ch5.fig.deploy.n4">نشانی</b></div>
+          </div>
+          <div class="deploy__bar" aria-hidden="true">
+            <span class="deploy__lock">🔒</span>
+            <span class="deploy__url font-mono">kullanici.github.io/ilk-site</span>
+            <span class="deploy__ok">✓</span>
+          </div>
+        </div>
+        <ol class="deploy__steps">
+          <li><button type="button" data-go="1"><span class="deploy__se" aria-hidden="true">🗂️</span><span data-i18n="ch5.fig.deploy.s1">پوشه را به گیت بسپار، ذخیره کن</span></button></li>
+          <li><button type="button" data-go="2"><span class="deploy__se" aria-hidden="true">☁️</span><span data-i18n="ch5.fig.deploy.s2">در گیت‌هاب مخزن بساز، بفرست</span></button></li>
+          <li><button type="button" data-go="3"><span class="deploy__se" aria-hidden="true">⚙️</span><span data-i18n="ch5.fig.deploy.s3">از تنظیمات Pages را روشن کن</span></button></li>
+          <li><button type="button" data-go="4"><span class="deploy__se" aria-hidden="true">⏳</span><span data-i18n="ch5.fig.deploy.s4">یک دقیقه صبر کن، ساخته می‌شود</span></button></li>
+          <li><button type="button" data-go="5"><span class="deploy__se" aria-hidden="true">🌐</span><span data-i18n="ch5.fig.deploy.s5">نشانی زنده — با https</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.deploy.fc">از آن پس هر بار که بگویی «ذخیره کن و بفرست» سایت خودش به‌روز می‌شود. صفحه‌ای که همین حالا می‌خوانی دقیقاً به همین شکل منتشر می‌شود: یک پوشه، یک مخزن، یک نشانی.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s6.p2">نشانی نخست به شکل <em>نام‌کاربری.github.io/پروژه</em> می‌آید و این یک نشانی کاملاً واقعی است — https هم آماده. اگر دامنهٔ خودت را بخواهی (مثل نام‌آژانس.com) بعداً وصل می‌شود؛ لازم نیست صفحه‌ها را از نو بسازی، فقط نشانی عوض می‌شود.</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s6.note">انتشار بزرگ‌ترین آستانهٔ این فصل و پرهیزشده‌ترین گام است. پرهیز نکن. سایتی که منتشر نشده سایتی ناتمام است؛ و اگر روز اول منتشر کنی هر تغییر را روی نشانی واقعی می‌بینی — جملهٔ «روی دستگاه من کار می‌کرد» هرگز گفته نمی‌شود.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch5.s6.do">همین حالا انجام بده: به من بگو «این پوشه را به گیت‌هاب بفرست و با Pages منتشر کن، گام‌ها را نشانم بده». جایی که باید حساب بسازی می‌ایستم؛ بقیه را با هم انجام می‌دهیم. وقتی نشانی به دستت رسید برای کسی بفرست.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch5.s7.title">ایستا یا پویا</span></h2>
+      <p data-i18n="ch5.s7.p1">سایتی که منتشر کردی <strong class="text-fg">ایستا</strong>ست: فایل‌ها آماده می‌مانند و به همه یک چیز نشان داده می‌شود. سایت‌های <strong class="text-fg">پویا</strong> هم هستند: صفحه همان لحظه که بازش می‌کنی برای تو ساخته می‌شود — کاربر واردشده، فهرست شخصی، موجودی زنده. دانستن تفاوت، پاسخ پرسش «این را می‌توانیم بکنیم؟» را از همان اول می‌دهد.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s7.strong">ایستا</span>
+          <p class="compare__note" data-i18n="ch5.s7.strongNote">سایت معرفی، نمونه‌کار، وبلاگ، صفحهٔ دوره. رایگان میزبانی می‌شود، بسیار سریع است، تقریباً خراب نمی‌شود و جایی برای حمله ندارد. تمام این سایت ایستاست.</p>
+        </div>
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s7.weak">پویا</span>
+          <p class="compare__note" data-i18n="ch5.s7.weakNote">ورود اعضا، سبد خرید، پنل شخصی، دادهٔ زنده. سرور و پایگاه داده می‌خواهد؛ هزینهٔ ماهانه، نگهداری و مسئولیت امنیتی می‌آورد. تا واقعاً لازم نشده واردش نشو.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s7.p2">خبر خوب: میان این دو راه میانه‌ای هست و همان راهی است که این دوره می‌پسندد. سایت ایستا می‌ماند؛ یکی دو کار پویای لازم (ذخیرهٔ فرم، پرسیدن از هوش مصنوعی) به واسطی کوچک سپرده می‌شود. به‌اندازهٔ نیاز می‌گیری، بی‌آنکه هر چیز گران را حمل کنی. واسط را در بخش دوازدهم می‌سازیم.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch5.s7.do">همین حالا انجام بده: سه ایدهٔ ۰۱ را میان این دو ستون پخش کن. اگر چیزی در ستون پویا افتاد کنارش بنویس: واقعاً لازم است، یا ایستا به‌علاوهٔ واسطی کوچک بس است؟</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch5.s8.title">داده کجا می‌ماند</span></h2>
+      <p data-i18n="ch5.s8.p1">تا ساختن چیزی را شروع کنی نخستین پرسش همین است: فهرست مشتریان کجا بماند؟ سه طبقه هست و بیشتر آدم‌ها سنگین‌تر از نیازشان را برمی‌دارند و به زحمت می‌افتند. پاسخ درست معمولاً سبک‌ترین است.</p>
+      <figure class="store">
+        <span class="store__cap font-mono" data-i18n="ch5.fig.store.cap">سه طبقه، از سبک به سنگین</span>
+        <ol class="store__row">
+          <li class="store__t" style="--i:0">
+            <span class="store__e" aria-hidden="true">📄</span>
+            <b data-i18n="ch5.fig.store.t1">فایل</b>
+            <i data-i18n="ch5.fig.store.d1">یک فایل متنی یا جدولی در پوشه. برای یک نفر، چند صد سطر و دادهٔ کم‌تغییر عالی است.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w1">فهرست خدمات · قیمت‌ها · محتوا</span>
+          </li>
+          <li class="store__t" style="--i:1">
+            <span class="store__e" aria-hidden="true">📊</span>
+            <b data-i18n="ch5.fig.store.t2">جدول</b>
+            <i data-i18n="ch5.fig.store.d2">جدول ابری. هم تو هم تیمت می‌توانید دستی ببینید و اصلاح کنید؛ جریان‌ها هم می‌توانند بنویسند. عملی‌ترین جا برای شروع.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w2">مشتریان · کارها · پیگیری</span>
+          </li>
+          <li class="store__t" style="--i:2">
+            <span class="store__e" aria-hidden="true">🗄️</span>
+            <b data-i18n="ch5.fig.store.t3">پایگاه داده</b>
+            <i data-i18n="ch5.fig.store.d3">هزاران رکورد، چند نفر هم‌زمان، پرس‌وجوهای پیچیده. نیرومند اما نیازمند برپایی و نگهداری؛ SQL اینجا وارد می‌شود.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w3">وقت رشد · پنل · گزارش‌ها</span>
+          </li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.store.fc">قاعده: تنها وقتی طبقهٔ پایین واقعاً تنگ شد یک طبقه بالا برو. آژانسی که با جدول شروع کند تا صدها مشتری راحت پیش می‌رود؛ وقت جابه‌جایی هم داده را به من می‌دهی و جابه‌جا می‌کنم.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🗃️</span><span data-i18n="ch5.s8.do">همین حالا انجام بده: همین حالا اطلاعات مشتریان را کجا نگه می‌داری؟ دفترچهٔ تلفن، صندوق پیام، دفتر، جدول؟ بنویس — در بخش بعد آن پراکندگی را در یک جا جمع می‌کنیم.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch5.s9.title">CRM خودت: چه نگه می‌دارد، چه می‌کند</span></h2>
+      <p data-i18n="ch5.s9.p1">CRM با سه حرف می‌ترساند اما معنایش ساده است: مدیریت ارتباط با مشتری. در عمل یعنی پاسخ پرسش «با که چه گفتم، چه قول دادم، کی باید برگردم» در یک جا. CRMهای آماده هست و بیشترشان ده برابر نیاز توست؛ وقتی خودت بسازی دقیقاً همان را می‌گیری که به کارت می‌آید.</p>
+      <figure class="crm">
+        <span class="crm__cap font-mono" data-i18n="ch5.fig.crm.cap">چهار رکورد، همین</span>
+        <div class="crm__row">
+          <div class="crm__c" style="--i:0">
+            <b data-i18n="ch5.fig.crm.t1">شخص</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f1a">نام</li><li data-i18n="ch5.fig.crm.f1b">تماس</li><li data-i18n="ch5.fig.crm.f1c">از کجا آمد</li><li data-i18n="ch5.fig.crm.f1d">وضعیت</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:1">
+            <b data-i18n="ch5.fig.crm.t2">کار</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f2a">چه کاری</li><li data-i18n="ch5.fig.crm.f2b">مبلغ</li><li data-i18n="ch5.fig.crm.f2c">مرحله</li><li data-i18n="ch5.fig.crm.f2d">مال که</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:2">
+            <b data-i18n="ch5.fig.crm.t3">یادداشت</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f3a">تاریخ</li><li data-i18n="ch5.fig.crm.f3b">چه گفته شد</li><li data-i18n="ch5.fig.crm.f3c">که نوشت</li>
+            </ul>
+          </div>
+          <div class="crm__c crm__c--last" style="--i:3">
+            <b data-i18n="ch5.fig.crm.t4">یادآوری</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f4a">کی</li><li data-i18n="ch5.fig.crm.f4b">چه باید کرد</li><li data-i18n="ch5.fig.crm.f4c">انجام شد؟</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.crm.fc">شخص به یک یا چند کار وصل می‌شود؛ زیر هر کار یادداشت‌ها و یادآوری‌ها جمع می‌شوند. تمام CRMی که یک آژانس لازم دارد همین چهار رکورد است. بیشترش یعنی پرکردن میدان‌هایی که هرگز به کار نمی‌بری.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s9.p2">دقت کن: اینجا هیچ «نرم‌افزاری» نیست. چهار رکورد و پیوند میانشان. این را هم می‌شود چهار برگ در یک جدول ساخت، هم چهار جدول در یک پایگاه داده. اول تصمیم می‌گیری <em>چه نگه می‌داری</em>؛ کجا نگه‌داشتنش پرسش دوم است.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📇</span><span data-i18n="ch5.s9.do">همین حالا انجام بده: میدان‌های این چهار رکورد را برای کار خودت بنویس. کدام میدان در کار تو واقعاً به کار می‌رود؟ آن‌که نمی‌رود را پاک کن. فهرست کوتاه، CRM خوب است.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch5.s10.title">ساختن CRM: گام‌به‌گام</span></h2>
+      <p data-i18n="ch5.s10.p1">به‌عنوان لایهٔ داده با جدول ابری شروع می‌کنیم — همان طبقهٔ میانی بخش هشتم. دلیلش ساده است: هم تو می‌بینی هم تیمت؛ و جابه‌جایی به پایگاه داده در آینده آسان است.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s10.st1">جدول ابری تازه‌ای باز کن و چهار برگ بساز: اشخاص، کارها، یادداشت‌ها، یادآوری‌ها. ستون‌ها را از میدان‌هایی بگذار که در ۰۹ نوشتی.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s10.st2">به هر رکورد ستون شناسه بیفزا. «شناسهٔ شخص» در برگ کارها می‌گوید آن کار مال کدام شخص است. پیوند همین است؛ یک ستون.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s10.st3">دستی سه مشتری، سه کار و چند یادداشت وارد کن. با دادهٔ واقعی پرش کن — سیستمی که با دادهٔ خیالی ساخته شود در زندگی واقعی می‌لغزد.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s10.st4">از من پنل بخواه: «این جدول را بخوان و پنلی تک‌صفحه‌ای بساز که مشتریانی را نشان دهد که امروز باید به آن‌ها برگردم.» با جریان فصل عامل، جدول را می‌خواند و صفحه را نشان می‌دهد.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s10.st5">یادآوری را خودکار کن: جریانی که هر صبح ساعت نه یادآوری‌های امروز را برایت پیام می‌کند. محرک زمانی فصل عامل، اینجا به کاری واقعی بسته می‌شود.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s10.note">به ترتیب دقت کن: اول داده، بعد پنل، آخر خودکارسازی. هرکس وارونه‌اش کند — اول پنل براق و داده را بعد — دو هفته بعد از نو شروع می‌کند. اگر داده درست باشد بقیه آسان است.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch5.s10.do">همین حالا انجام بده: سه گام نخست را امروز تمام کن. جدول را با مشتریان واقعی‌ات پر کن. چهار و پنج فردا؛ جدول بدون پنل هم به‌تنهایی کار می‌کند.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch5.s11.title">از فرم تا CRM: وصل‌کردن سایت</span></h2>
+      <p data-i18n="ch5.s11.p1">حالا دو تکه داری: سایتی منتشرشده و CRMی پر. میانشان تنها یک چیز خالی است — فرمی که از سایت می‌آید. می‌خواهی وقتی کسی فرم سایتت را پر کرد، اطلاعات مستقیم در CRM بیفتد.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch5.fig.form.cap">وقتی فرم می‌آید چه می‌شود</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch5.fig.form.s1">بازدیدکننده فرم سایتت را پر می‌کند</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch5.fig.form.s2">فرم به نشانی وب‌هوک جریانت می‌رود</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch5.fig.form.s3">من: پیام را می‌خوانم و دسته‌بندی می‌کنم</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch5.fig.form.s4">در CRM سطر شخص و کار تازه افزوده می‌شود</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch5.fig.form.s5">اعلان به تو: «درخواست تازه، در این موضوع»</span></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.form.fc">تمام این زنجیره همان چیزی است که در فصل عامل آموختی — تنها فرق این است که دو سرش حالا سایتی است که ساختی و CRMی که ساختی. تکه‌ها در هم جا می‌افتند؛ چیزی که این دوره واقعاً می‌گوید همین است.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s11.p2">اینکه سایت ایستا نمی‌تواند فرم را ذخیره کند مشکلی نیست: فرم اطلاعات را به نشانی جریانت می‌فرستد. سایت ایستا می‌ماند، کار در جریان انجام می‌شود. همان «راه میانه»ای که در بخش هفتم گفتم دقیقاً همین است.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔗</span><span data-i18n="ch5.s11.do">همین حالا انجام بده: بخواه فرمی سه‌میدانی به سایتت افزوده شود: نام، تماس، پیام. بعد در جریانت وب‌هوکی باز کن و فرم را به آن وصل کن. فرم خودت را پر کن؛ پیداشدن سطر تازه در CRM را ببین.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch5.s12.title">کلید در مرورگر نمی‌رود: واسط</span></h2>
+      <p data-i18n="ch5.s12.p1">می‌خواهی مرا روی سایت بگذاری: بازدیدکننده چیزی بپرسد، من پاسخ بدهم. نخستین راه‌حلی که به ذهن می‌رسد — نوشتن کلید در کد سایت — خطرناک‌ترین است. چون هر چه به مرورگر می‌رسد را همه می‌توانند بخوانند. کلیدت دیده می‌شود و روی صورتحساب تو خرج می‌شود.</p>
+      <figure class="proxy">
+        <span class="proxy__cap font-mono" data-i18n="ch5.fig.proxy.cap">کلید دست کیست</span>
+        <div class="proxy__row">
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🖥️</span><b data-i18n="ch5.fig.proxy.t1">مرورگر</b><i data-i18n="ch5.fig.proxy.d1">رایانهٔ بازدیدکننده — اینجا هیچ رازی نگه داشته نمی‌شود</i></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n proxy__n--mid"><span class="proxy__e" aria-hidden="true">🛡️</span><b data-i18n="ch5.fig.proxy.t2">واسط</b><i data-i18n="ch5.fig.proxy.d2">واسطهٔ کوچک تو: کلید را در گاوصندوق نگه می‌دارد، سهمیه می‌شمارد</i><span class="proxy__key">🔑</span></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🧠</span><b data-i18n="ch5.fig.proxy.t3">هوش مصنوعی</b><i data-i18n="ch5.fig.proxy.d3">درخواست را می‌گیرد، پاسخ را برمی‌گرداند</i></div>
+        </div>
+        <div class="proxy__bad">
+          <span class="proxy__x" aria-hidden="true">✕</span>
+          <span data-i18n="ch5.fig.proxy.bad">اتصال مستقیم: کلید به مرورگر می‌رسد، همه می‌بینند، صورتحساب به تو می‌آید</span>
+        </div>
+        <figcaption data-i18n="ch5.fig.proxy.fc">واسط سه کار می‌کند: کلید را نگه می‌دارد، سهمیهٔ روزانه را می‌شمارد و فقط به درخواست‌هایی که از سایت تو می‌آید پاسخ می‌دهد. جعبهٔ FYOS این سایت دقیقاً همین‌طور کار می‌کند.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s12.p2">«واسط» بزرگ به گوش می‌آید؛ نیست. برنامه‌ای صدخطی که روی طبقه‌های رایگان جا می‌گیرد. این شکلِ اینترنتیِ قاعدهٔ «کلید در مغز نوشته نمی‌شود» از فصل کارگاه است: کلید همیشه در گاوصندوقی زیر کنترل تو می‌ماند، هرگز روی رایانهٔ بازدیدکننده.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🛡️</span><span data-i18n="ch5.s12.do">همین حالا انجام بده: به همهٔ جریان‌ها و صفحه‌هایی که ساخته‌ای نگاه کن: جایی کلیدی نوشته شده که مرورگر ببیند؟ اگر مطمئن نیستی از من بپرس — «از این فایل رازی بیرون درز می‌کند؟»</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch5.s13.title">گذاشتن جعبه‌ای سخنگو روی سایت</span></h2>
+      <p data-i18n="ch5.s13.p1">اگر واسط آماده باشد، گذاشتن من روی سایت کار کوتاهی است: یک کادر متن، یک دکمهٔ ارسال و جایی که پاسخ را نشان دهد. اما برای اینکه خوب کار کند سه تصمیم لازم است — و هیچ‌کدام فنی نیست. تصمیم توست.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k1.t">چه خواهد دانست</h3><p data-i18n="ch5.s13.k1.p">خدماتت، بازهٔ قیمتت، شیوهٔ کارت، پرسش‌های پرتکرار. این‌ها را به‌صورت متن می‌نویسی و به هر درخواست می‌چسبانی — «زمینه»ٔ فصل فرمول دقیقاً اینجا به کار می‌آید. و مرزش را می‌گویی تا چیزی را که نمی‌داند از خودش نسازد.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k2.t">چه نخواهد کرد</h3><p data-i18n="ch5.s13.k2.p">قیمت قطعی نمی‌دهد، قول نمی‌دهد، تاریخ تعهد نمی‌کند. این‌ها کار توست. کار جعبه پذیرایی، فهمیدن و پرسیدن پرسش درست است — و بعد وارد کردن تو.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k3.t">کی تو را صدا می‌زند</h3><p data-i18n="ch5.s13.k3.p">وقتی بازدیدکننده جدی می‌شود: «می‌توانم قیمت بگیرم»، «کی شروع کنیم». آن لحظه گفت‌وگو به درخواست بدل می‌شود، در CRM می‌افتد و اعلان به تو می‌رسد. کار اصلی جعبهٔ سخنگو همین است؛ گپ‌زدن نه، کار آوردن.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s13.note">یک مرز دیگر: بازدیدکننده هر چه در جعبه بنویسد، آن متن برای من <em>داده</em> است نه دستور. هشدار دستور پنهانِ فصل مربوط به من روی سایتی زنده بسیار مهم‌تر است — کسی که می‌نویسد «دستورهای قبلی را فراموش کن» نباید بتواند قاعده‌های جعبه را عوض کند. محدودیت‌ها را در واسط نگه دار، نه در مرورگر.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.s13.do">همین حالا انجام بده: آنچه جعبه باید بداند را در یک صفحه بنویس: خدمات، شیوهٔ کار، پنج پرسش پرتکرار و پاسخشان. این متن مغز جعبه می‌شود — نسخهٔ رو به بازدیدکنندهٔ همان CLAUDE.md فصل کارگاه.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch5.s14.title">FYOS چیست</span></h2>
+      <p data-i18n="ch5.s14.p1">تا اینجا تکه ساختیم: سایت، CRM، جریان‌ها، جعبهٔ سخنگو. FYOS نام این تکه‌ها نیست؛ نام <strong class="text-fg">در دسترس‌بودن همهٔ آن‌ها از یک جا</strong>ست. سیستم‌عامل عاملیِ شخصی یعنی هر کار روزانه‌ات عاملی داشته باشد و تو با همه از یک جا حرف بزنی.</p>
+      <figure class="oslab">
+        <span class="oslab__cap font-mono" data-i18n="ch5.fig.os.cap">هسته و پیرامونش</span>
+        <div class="oslab__ring">
+          <div class="oslab__core"><b>FYOS</b><i data-i18n="ch5.fig.os.core">تو حرف می‌زنی</i></div>
+          <div class="oslab__s" style="--i:0"><span aria-hidden="true">🧠</span><b data-i18n="ch5.fig.os.a1">حافظه</b></div>
+          <div class="oslab__s" style="--i:1"><span aria-hidden="true">📇</span><b data-i18n="ch5.fig.os.a2">مشتریان</b></div>
+          <div class="oslab__s" style="--i:2"><span aria-hidden="true">📅</span><b data-i18n="ch5.fig.os.a3">تقویم</b></div>
+          <div class="oslab__s" style="--i:3"><span aria-hidden="true">✍️</span><b data-i18n="ch5.fig.os.a4">محتوا</b></div>
+          <div class="oslab__s" style="--i:4"><span aria-hidden="true">📊</span><b data-i18n="ch5.fig.os.a5">گزارش‌ها</b></div>
+          <div class="oslab__s" style="--i:5"><span aria-hidden="true">⚙️</span><b data-i18n="ch5.fig.os.a6">جریان‌ها</b></div>
+        </div>
+        <figcaption data-i18n="ch5.fig.os.fc">هر قمر چیزی است که پیش‌تر ساخته‌ای: حافظه CLAUDE.md، مشتریان CRM، جریان‌ها n8n. هسته چیز تازه‌ای نیست، دری است — جایی که وقتی می‌پرسی «امروز چه هست؟» به همه نگاه می‌کند و یک پاسخ می‌دهد.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s14.p2">جعبهٔ FYOS در صفحهٔ اصلی نمایشی کوچک از همین است. در نسخهٔ واقعی، قمرها به دادهٔ تو وصل‌اند: تقویمت، مشتریانت، فایل‌هایت. می‌پرسی «این هفته که منتظر من است؟»؛ هسته به CRM نگاه می‌کند، به تقویم نگاه می‌کند و پاسخ می‌دهد.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🪐</span><span data-i18n="ch5.s14.do">همین حالا انجام بده: کارهای روزانه‌ات را به شش عنوان تقسیم کن. ممکن است شبیه شش تای بالا باشد یا نباشد. شش قمر تو چیست؟ این‌ها پیش‌نویس FYOS توست.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch5.s15.title">چهار لایهٔ FYOS</span></h2>
+      <p data-i18n="ch5.s15.p1">ساختن نسخهٔ خودت یعنی چیدن چهار لایه به‌ترتیب. ترتیب را نشکن؛ هر لایه روی لایهٔ پیشین می‌ایستد.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f1.t">داده</h3>
+          <p data-i18n="ch5.s15.f1.p">CRMت، فایل‌هایت، تقویمت. هر چه FYOS می‌داند از اینجا می‌آید؛ سیستمی که روی دادهٔ خالی ساخته شود پاسخ خالی می‌دهد. این لایه را در بخش دهم ساختی.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f2.t">دست‌ها</h3>
+          <p data-i18n="ch5.s15.f2.p">جریان‌ها و ابزارها: تکه‌هایی که داده را می‌خوانند، می‌نویسند و می‌فرستند. گره‌های فصل عامل و مهارت‌های فصل کارگاه در همین لایه زندگی می‌کنند.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f3.t">خرد</h3>
+          <p data-i18n="ch5.s15.f3.p">من. لایه‌ای که پرسش را می‌فهمد، تصمیم می‌گیرد کدام ابزار صدا زده شود و پاسخ را به زبان آدمیزاد برمی‌گرداند. پشت واسط می‌ایستد؛ کلید همان‌جا می‌ماند.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f4.t">در</h3>
+          <p data-i18n="ch5.s15.f4.p">جایی که تو حرف می‌زنی: یک صفحه، یک پیام‌رسان، صفحهٔ یک تلفن. این لایه آخر ساخته می‌شود — و کم‌اهمیت‌ترین است. در می‌تواند زیبا باشد، اما اگر پشتش چیزی نباشد خالی می‌ماند.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s15.note">گران‌ترین اشتباه این فصل، شروع از لایهٔ چهارم است. ساختن رابطی زیبا و بعد گفتن «حالا این را به چیزی وصل کنیم» یعنی ساختن خانه از سقف. داده، دست‌ها، خرد، در — این ترتیب تصادفی نیست.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s15.do">همین حالا انجام بده: چهار لایه را برای وضع خودت علامت بزن: کدام آماده است، کدام نیمه، کدام نیست؟ نخستین خالی را به من بگو؛ از آنجا ادامه می‌دهیم.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch5.s16.title">هزینه، سهمیه و اینکه کِی کد نوشته نمی‌شود</span></h2>
+      <p data-i18n="ch5.s16.p1">هر چه در این فصل ساختی طبقه‌ای رایگان دارد: میزبانی سایت رایگان، جدول رایگان، طرح آغازین ابزار جریان رایگان، واسط تا روزی صد هزار درخواست رایگان. پول فقط برای درخواست‌های هوش مصنوعی می‌رود و آنجا هم کم. اما دو دام را باید شناخت.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s16.weak">خودت نساز</span>
+          <p class="compare__note" data-i18n="ch5.s16.weakNote">اگر ابزاری آماده نود درصد کار را می‌کند، بخرش. فاکتور، حسابداری، دریافت پول، تقویم — این‌ها ابزارهای پخته و ارزان دارند. هر چه خودت بسازی تا ابد خودت نگه می‌داری؛ این رایگان نیست.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s16.strong">خودت بساز</span>
+          <p class="compare__note" data-i18n="ch5.s16.strongNote">وقتی کار ویژهٔ کسب‌وکار توست، وقتی ابزارهای آماده به هم وصل نمی‌شوند و وقتی می‌توانی کاری تکراری را توصیف کنی. CRMت، پنلت و FYOSت در همین ستون‌اند — چون هیچ‌کدام آماده به شکل کار تو نمی‌آید.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s16.p2">دام دوم سهمیه است: طبقه‌های رایگان مرزی دارند و وقتی به مرز برسی سیستم بی‌صدا می‌ایستد. برای همین واسطت سهمیهٔ روزانه می‌شمارد و جریان‌هایت اعلان خطا می‌فرستند. قاعدهٔ «شکستن بی‌صدا» از فصل عامل اینجا هم صادق است — مرز را از پیش بگذار و وقتی تمام شد خبردار شو.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">💳</span><span data-i18n="ch5.s16.do">همین حالا انجام بده: در حساب هوش مصنوعی‌ات سقف هزینهٔ ماهانه بگذار. پنج دقیقه طول می‌کشد و صورتحساب یک شب بد را جلو می‌گیرد. بعد برای هر سرویسی که راه انداخته‌ای مرز طبقهٔ رایگان را یادداشت کن.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch5.s17.title">پنج اشتباه رایج</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m1.t">۱ · انداختن انتشار به آخر</h3>
+          <p data-i18n="ch5.s17.m1.p">سایتی که می‌گوید «اول تمام شود بعد منتشر می‌کنم» منتشر نمی‌شود. روز اول، همان‌وقت که زشت است، منتشر کن. بعد هر تغییر را روی نشانی واقعی ببین.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m2.t">۲ · ساختن رابط پیش از داده</h3>
+          <p data-i18n="ch5.s17.m2.p">پنل براقی که پشتش داده نباشد جعبهٔ خالی است. اول داده را بساز و با رکوردهای واقعی پرش کن؛ پنل در یک روز می‌آید، داده نمی‌آید.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m3.t">۳ · نوشتن کلید در سایت</h3>
+          <p data-i18n="ch5.s17.m3.p">هر چه به مرورگر برسد عمومی است. کلید در گاوصندوق واسط می‌ماند. همین یک قاعده گران‌ترین اشتباه این فصل را جلو می‌گیرد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m4.t">۴ · خودت ساختن وقتی ابزار آماده هست</h3>
+          <p data-i18n="ch5.s17.m4.p">نرو نرم‌افزار حسابداری بنویس. خودت ساختن جایی معنا دارد که آمادهٔ موجود کفایت نمی‌کند. هر چه بسازی تا آخر عمر خودت نگهش می‌داری.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m5.t">۵ · پذیرفتن خروجی بدون خواندن</h3>
+          <p data-i18n="ch5.s17.m5.p">کد را من می‌نویسم اما مسئولیت با توست. ببین کار می‌کند یا نه، تفاوت را بخوان، در مرورگر امتحان کن. جملهٔ «لابد درست شده» با گذر زمان هر ساخته‌ای را می‌پوساند.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch5.s17.do">همین حالا انجام بده: این پنج را به CLAUDE.md پروژه‌ات اضافه کن. به‌ویژه ۳ — تبدیلش به یک قلاب هم منطقی است، همان‌طور که در فصل کارگاه گفتیم.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch5.s18.title">آنچه همه می‌پرسند</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q1">واقعاً بدون یادگرفتن کد می‌شود سایت ساخت؟</summary><p data-i18n="ch5.faq.a1">می‌شود و در این فصل می‌سازی. اما صادق باشم: بدون هیچ خواندن کد در درازمدت از پسش برنمی‌آیی. نکته این است که خواندن بسیار آسان‌تر از نوشتن است و تو با خواندن تفاوت‌ها همین حالا داری یادش می‌گیری. شش ماه دیگر به فایلی نگاه می‌کنی و می‌گویی «این‌جا این کار را می‌کند»؛ نوشتن را هنوز می‌توانی به من بسپاری.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q2">وقتی سایت‌ساز آماده هست چرا این؟</summary><p data-i18n="ch5.faq.a2">برای صفحهٔ معرفی، سایت‌ساز انتخاب خوبی است و جای خجالت ندارد. تفاوت اینجا مالکیت است: سایتی که خودت بسازی یک پوشه است، جابه‌جا می‌شود، پشتیبان می‌گیرد، به هر چیزی وصل می‌شود و هزینهٔ ماهانه ندارد. ضمناً CRM، جریان‌ها و FYOSی که در این دوره می‌سازیم درون سایت‌سازها جا نمی‌گیرند. سایت را خودمان می‌سازیم چون درِ سیستم اصلی است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q3">اگر چیزی را خراب کنم می‌توانم برگردانم؟</summary><p data-i18n="ch5.faq.a3">بله — گیت فصل کارگاه دقیقاً برای همین است. هر نقطهٔ ذخیره جایی برای بازگشت است. حتی اگر سایت منتشرشده خراب شود می‌گویی «به نقطهٔ ذخیرهٔ قبلی برگرد» و در یک دقیقه به حال پیشین برمی‌گردد. برای همین اصرار دارم هر چه می‌سازی را به گیت بسپاری.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q4">اگر CRMم بزرگ شود چه می‌شود؟</summary><p data-i18n="ch5.faq.a4">وقتی جدول تنگ شود — معمولاً چند هزار سطر یا چند نفر هم‌زمان — به پایگاه داده جابه‌جا می‌شود. جابه‌جایی کار یک روز است و تو انجامش نمی‌دهی: داده را برون‌بری می‌کنی، به من می‌گویی پایگاه داده را برپا کنم و نشانی را در جریان‌هایت عوض می‌کنی. از همین حالا با پایگاه داده شروع‌کردن هیچ سودی ندارد؛ فقط کار را سخت می‌کند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q5">ساختن FYOS از صفر چقدر طول می‌کشد؟</summary><p data-i18n="ch5.faq.a5">پاسخ صادقانه: نخستین نسخهٔ کارکن یک آخر هفته، نسخه‌ای که واقعاً به کارت بیاید چند ماه. اما در این مدت هیچ‌وقت چیزی نیمه‌کاره در دست نداری — هر لایه به‌تنهایی کار می‌کند. CRMت از روز اول به کار می‌آید؛ جریان‌هایت از هفتهٔ دوم وقت صرفه‌جویی می‌کنند. FYOS خط پایان نیست، سیستمی است که رویش می‌افزایی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q6">می‌توانم ساخته‌ام را به مشتری بفروشم؟</summary><p data-i18n="ch5.faq.a6">بله و موضوع فصل قله همین است. اگر CRM خودت را ساخته باشی، ساختن همان برای مشتری در بار دوم سه برابر سریع‌تر است؛ جریان‌ها برون‌بری می‌شوند، سایت قالب می‌شود. باارزش‌ترین چیزی که یک آژانس می‌تواند بفروشد سیستمی است که روی خودش آزموده.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.faq.do">همین حالا انجام بده: اگر هنگام ساختن جایی گیر کردی از من بپرس — پیام خطا یا نوشتهٔ روی صفحه را همان‌طور که هست بچسبان. خواندن خطاها از کارهایی است که در آن بهترینم.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch5.s19.title">تمرین‌ها</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e1.t">۱ · صفحه را بساز و منتشر کن</h3>
+          <p data-i18n="ch5.ex.e1.p">سایت تک‌صفحه‌ات را با پنج گام ۰۵ بساز، با پنج گام ۰۶ منتشر کن. نشانی را برای دوستی بفرست.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e1.g"><strong class="text-fg">هدف:</strong> اینکه در اینترنت چیزی داشته باشی که خودت ساخته‌ای، روی نشانی خودت.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e2.t">۲ · CRM را پر کن</h3>
+          <p data-i18n="ch5.ex.e2.p">جدول چهاررکوردی را بساز و با مشتریان واقعی‌ات پر کن. دست‌کم ده شخص، پنج کار، ده یادداشت.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e2.g"><strong class="text-fg">هدف:</strong> اینکه پرسش «با که چه گفتم» برای نخستین بار در یک جا پاسخ داشته باشد.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e3.t">۳ · این دو را به هم وصل کن</h3>
+          <p data-i18n="ch5.ex.e3.p">به سایتت فرم بیفزا، با جریان به CRM وصلش کن، فرم خودت را پر کن و پیداشدن سطر را ببین.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e3.g"><strong class="text-fg">هدف:</strong> اینکه آنچه در دو فصل جدا آموختی برای نخستین بار در یک سیستم کارکن یکی شود.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e4.t">۴ · یک قمر بساز</h3>
+          <p data-i18n="ch5.ex.e4.p">از شش قمری که در ۱۴ نوشتی یکی را برگزین و واقعاً بساز. به یک پرسش درست پاسخ بدهد: «امروز که منتظر من است؟»</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e4.g"><strong class="text-fg">هدف:</strong> اینکه FYOS از انتزاع درآید و چیزی واقعی شود که به یک پرسش پاسخ می‌دهد.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch5.ex.do">همین حالا انجام بده: اولی را این آخر هفته. دومی را هفتهٔ بعد. سه و چهار را در ماه. ترتیب را نشکن؛ سومی بدون دو تای اول ساخته نمی‌شود.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch5.quiz.title">خودت را بیازما</span></h2>
+      <p data-i18n="ch5.quiz.p1">اول خودت پاسخ بده، بعد باز کن.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q1">HTML، CSS، جاوااسکریپت — در یک جمله؟</summary><p data-i18n="ch5.quiz.a1">HTML اسکلت: چه هست. CSS ظاهر: چطور دیده می‌شود. جاوااسکریپت رفتار: چه رخ می‌دهد. تنها سومی زبان برنامه‌نویسی واقعی است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q2">سایت چیست؟</summary><p data-i18n="ch5.quiz.a2">پوشه‌ای که درونش فایل هست. نام صفحهٔ اصلی index.html است. مرورگر از آن پوشه فایلی می‌خواند و روی صفحه می‌کشد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q3">منتشر کردن یعنی چه؟</summary><p data-i18n="ch5.quiz.a3">گذاشتن پوشه روی رایانه‌ای که همه به آن می‌رسند. با گیت ذخیره و به مخزن می‌فرستی، Pages را روشن می‌کنی؛ نشانی با https زنده می‌شود و با هر فرستادن خودش به‌روز می‌شود.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q4">فرق ایستا و پویا؟</summary><p data-i18n="ch5.quiz.a4">در ایستا فایل‌ها آماده‌اند و به همه یک چیز می‌رسد؛ رایگان، سریع، خراب‌نشدنی. در پویا صفحه هنگام بازکردن برای تو ساخته می‌شود؛ سرور، پایگاه داده و نگهداری می‌خواهد. راه میانه: سایت ایستا به‌علاوهٔ واسطی کوچک.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q5">داده کجا می‌ماند، با چه ترتیبی؟</summary><p data-i18n="ch5.quiz.a5">فایل، جدول، پایگاه داده — از سبک به سنگین. تنها وقتی پایینی تنگ شد یک طبقه بالا می‌روی. بیشتر آژانس‌ها با جدول تا صدها مشتری پیش می‌روند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q6">چهار رکورد یک CRM؟</summary><p data-i18n="ch5.quiz.a6">شخص، کار، یادداشت، یادآوری. شخص به کارها وصل می‌شود؛ زیر کارها یادداشت و یادآوری جمع می‌شود. بیشترش می‌شود میدان‌هایی که هرگز به کار نمی‌بری.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q7">چرا کلید در مرورگر نمی‌رود؟</summary><p data-i18n="ch5.quiz.a7">هر چه به مرورگر برسد را همه می‌خوانند؛ کلید دیده می‌شود و روی صورتحساب تو خرج می‌شود. کلید در گاوصندوق واسط می‌ماند؛ واسط سهمیه هم می‌شمارد و فقط به سایت تو پاسخ می‌دهد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q8">کار اصلی جعبهٔ سخنگوی روی سایت؟</summary><p data-i18n="ch5.quiz.a8">گپ‌زدن نه، کار آوردن: پذیرایی، فهمیدن، پرسیدن پرسش درست و وقتی بازدیدکننده جدی شد انداختن درخواست در CRM و صدا زدن تو. قیمت‌دادن و قول‌دادن کار او نیست.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q9">چهار لایهٔ FYOS و ترتیبشان؟</summary><p data-i18n="ch5.quiz.a9">داده، دست‌ها، خرد، در. ترتیب مهم است: زیباترین رابط هم اگر پشتش داده نباشد خالی می‌ماند. خانه را از سقف نمی‌سازند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q10">کِی خودت نمی‌سازی؟</summary><p data-i18n="ch5.quiz.a10">وقتی ابزاری آماده نود درصد کار را می‌کند. در قلمروهای پخته مثل فاکتور، حسابداری، پرداخت و تقویم آمادهٔ موجود را بگیر. هر چه خودت بسازی تا آخر عمر خودت نگهش می‌داری.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch5.recap.title">این فصل در یک جمله</h2>
+        <p data-i18n="ch5.recap.p">پوشه‌ای باز کن، در آن صفحه‌ای بساز و همان روز اول منتشرش کن؛ داده را در سبک‌ترین طبقه نگه دار و CRM چهاررکوردی خودت را پر کن؛ این دو را با یک جریان به هم وصل کن؛ کلید را همیشه در گاوصندوق واسط بگذار — و وقتی این تکه‌ها را به ترتیب داده، دست‌ها، خرد، در روی هم بگذاری، نام آنچه در دست داری FYOS است.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch5.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="ch5.next.title">فصل ۶ · ویترین</h3>
+          <p data-i18n="ch5.next.p">چیزی که ساخته‌ای اگر دیده نشود مثل نبودن است. در ادامه دیده‌شدن است: تدوین ویدیو با من، اینکه الگوریتم واقعاً به چه نگاه می‌کند، دایرکتِ هوشمند، محتوا و کمپین.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch5.next.soon">به‌زودی</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="بازگشت به بالا" data-i18n-attr="aria-label=ch5.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-5.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-5.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/course/chapter-5.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="chapter-5.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js?v=433fea65"></script><script src="../../js/main.js?v=433fea65"></script>
+</body>
+</html>

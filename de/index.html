@@ -40,7 +40,7 @@
 <link rel="manifest" href="../manifest.webmanifest">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/style.css?v=5e9022ce">
+<link rel="stylesheet" href="../css/style.css?v=433fea65">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY KI-Agentur — KI-Schulung, Webdesign und Automatisierung für Unternehmen.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/#contact","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},{"@type":"ImageObject","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo","url":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg","contentUrl":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg"},{"@type":"Person","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder","name":"Farhad Yaqoobi","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/#about","jobTitle":"Gründer","image":"https://ferhat-yasinoglu.github.io/fy-ajans/img/founder.jpg","worksFor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"knowsAbout":["Künstliche Intelligenz","Prompting","Automatisierung mit n8n","Claude Code","Webentwicklung"]},{"@type":"WebSite","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/","name":"FY","publisher":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"de"},{"@type":"WebPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#webpage","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/","name":"FY — KI-Agentur","isPartOf":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website"},"about":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"de"},{"@type":"ProfessionalService","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#service","name":"FY — KI-Agentur","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"serviceType":["Webdesign","Unternehmensautomatisierung","KI-Schulung"]},{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"KI-Reise (Yapay Zekâ Yolculuğu)","description":"Komplett projektbasierter KI-Kurs in 7 Kapiteln (Kurssprache Türkisch): Prompting, n8n-Automatisierung, Claude Code, Website und CRM bauen, Video und Marketing.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/#training","inLanguage":"de","educationalLevel":"Beginner","isAccessibleForFree":true,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"0","priceCurrency":"EUR","category":"Free","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/de/#training"},{"@type":"FAQPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#faq","mainEntity":[{"@type":"Question","name":"Ist der Kurs online?","acceptedAnswer":{"@type":"Answer","text":"Ja. Der Kurs wird komplett online angeboten, mit geschützter Wiedergabe und persönlicher Lizenz. Alle 7 Kapitel sind fertig."}},{"@type":"Question","name":"Kann ich bei null anfangen?","acceptedAnswer":{"@type":"Answer","text":"Genau dafür ist er gemacht. Kapitel 1 beginnt bei absolut null; weder Programmierkenntnisse noch Vorerfahrung mit KI sind nötig."}}]}]}
 </script>
@@ -285,27 +285,30 @@
           <ul class="check-list check-list--xs space-1" data-i18n="chapters.4.list"><li>Claude Code</li><li>Skills</li><li>Gehirn und Gedächtnis für Claude</li></ul></div>
           <span class="chapter__go" data-i18n="chapters.4.go">Kapitel öffnen →</span>
       </a></div>
-      <div data-reveal><div class="glass chapter">
+      <div data-reveal><a class="glass chapter chapter--open" href="course/chapter-5.html" data-i18n-attr="href=chapters.5.href">
         <div class="chapter__art art-5"><span class="en font-mono" lang="en">The Lab</span><img class="chapter__img" src="../img/course/ch5-static.svg" data-live="../img/course/ch5.svg" alt="" width="800" height="800" loading="lazy" decoding="async">
           <div class="chapter__meta"><span class="eyebrow eyebrow--xs" data-i18n="chapters.5.label">Kapitel 5</span><span class="tag font-mono" lang="en">The Lab</span></div></div>
         <div class="chapter__body"><h4 class="font-display" data-i18n="chapters.5.title">Das Labor</h4>
           <p data-i18n="chapters.5.text">Mit Code produzieren — ohne Angst. Programmiersprachen in Menschensprache, eine echte Website bauen, ein maßgeschneidertes CRM und FYOS: dein persönliches agentisches Betriebssystem.</p>
           <ul class="check-list check-list--xs space-1" data-i18n="chapters.5.list"><li>Website bauen</li><li>CRM bauen</li><li>FYOS bauen</li></ul></div>
-      </div></div>
-      <div data-reveal><div class="glass chapter">
+          <span class="chapter__go" data-i18n="chapters.5.go">Kapitel öffnen →</span>
+      </a></div>
+      <div data-reveal><a class="glass chapter chapter--open" href="course/chapter-6.html" data-i18n-attr="href=chapters.6.href">
         <div class="chapter__art art-6"><span class="en font-mono" lang="en">The Showcase</span><img class="chapter__img" src="../img/course/ch6-static.svg" data-live="../img/course/ch6.svg" alt="" width="800" height="800" loading="lazy" decoding="async">
           <div class="chapter__meta"><span class="eyebrow eyebrow--xs" data-i18n="chapters.6.label">Kapitel 6</span><span class="tag font-mono" lang="en">The Showcase</span></div></div>
         <div class="chapter__body"><h4 class="font-display" data-i18n="chapters.6.title">Die Bühne</h4>
           <p data-i18n="chapters.6.text">Sichtbar werden. Videoschnitt mit Claude, der Instagram-Algorithmus, smarte DMs, Content-Produktion, Seitenaufbau und Kampagne — lass deine Marke wie eine Wachstumsmaschine laufen.</p>
           <ul class="check-list check-list--xs space-1" data-i18n="chapters.6.list"><li>Videoschnitt mit Claude</li><li>Instagram-Algorithmus</li><li>Content und Kampagne</li></ul></div>
-      </div></div>
-      <div data-reveal><div class="glass chapter">
+          <span class="chapter__go" data-i18n="chapters.6.go">Kapitel öffnen →</span>
+      </a></div>
+      <div data-reveal><a class="glass chapter chapter--open" href="course/chapter-7.html" data-i18n-attr="href=chapters.7.href">
         <div class="chapter__art art-7"><span class="en font-mono" lang="en">The Summit</span><img class="chapter__img" src="../img/course/ch7-static.svg" data-live="../img/course/ch7.svg" alt="" width="800" height="800" loading="lazy" decoding="async">
           <div class="chapter__meta"><span class="eyebrow eyebrow--xs" data-i18n="chapters.7.label">Kapitel 7</span><span class="tag font-mono" lang="en">The Summit</span></div></div>
         <div class="chapter__body"><h4 class="font-display" data-i18n="chapters.7.title">Der Gipfel</h4>
           <p data-i18n="chapters.7.text">Die Ziellinie — und die Startlinie. Hier werden alle Fähigkeiten zu der einen, die Geld verdient: Angebot, Preisgestaltung und Kundengewinnung; oder du vervielfachst den Umsatz deines eigenen Geschäfts. Steig auf deinen Gipfel.</p>
           <ul class="check-list check-list--xs space-1" data-i18n="chapters.7.list"><li>Die Fähigkeit, die Geld verdient</li><li>Kunden gewinnen</li><li>Deinen eigenen Gipfel bauen</li></ul></div>
-      </div></div>
+          <span class="chapter__go" data-i18n="chapters.7.go">Kapitel öffnen →</span>
+      </a></div>
     </div>
   </div>
 </section>
@@ -843,6 +846,6 @@
       <button class="btn btn-ghost" type="button" data-modal-close data-i18n="modal.done.close">Schließen</button>
     </div>
   </div>
-</div><script src="../js/lang/de.js?v=5e9022ce"></script><script src="../js/main.js?v=5e9022ce"></script>
+</div><script src="../js/lang/de.js?v=433fea65"></script><script src="../js/main.js?v=433fea65"></script>
 </body>
 </html>
