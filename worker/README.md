@@ -34,12 +34,97 @@ Son komut şöyle bir adres verir: `https://fyos-chat.<hesap-adın>.workers.dev`
 3. Commit, push. Bitti: FYOS artık her soruya kendisi cevap verir. Worker'a ulaşılamazsa
    site kendiliğinden hazır yanıtlı çevrimdışı demoya döner.
 
+## Sesli yanıt (`/tts`)
+
+FYOS'un sesli modu varsayılan olarak tarayıcının kendi sesiyle konuşur — ücretsiz ama robotik.
+Worker'a bir seslendirme anahtarı eklersen yanıtlar gerçek bir insan sesiyle okunur.
+
+```
+npx wrangler secret put OPENAI_API_KEY       # ya da: ELEVENLABS_API_KEY
+npx wrangler deploy
+```
+
+Anahtar terminalde sorulur ve doğrudan Cloudflare'in gizli değişkenine gider: depoya,
+`wrangler.toml`'a ya da herhangi bir dosyaya **yazılmaz**. Kimseyle paylaşma.
+Dağıtmadan önce sağlayıcı panelinde **aylık harcama tavanını** koy.
+
+Sonra siteyi worker'a bağla — **tek komut, depo kökünde**:
+
+```
+node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev            # yalnız ses
+node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev --sohbet   # ses + sohbet
+node tools/set-worker.mjs --temizle                                             # bağlantıyı kaldır
+```
+
+Betik `js/main.js`'teki uç noktaları yazar, **CSP'nin `connect-src` listesine adresi ekler**,
+çeviri sayfalarını yeniden üretir ve `ALLOWED_ORIGINS` sitenin adresini kapsamıyorsa uyarır.
+Adresi değiştirirsen eskisini listeden çıkarır; birikmez. Sonra commit + push.
+
+**CSP neden önemli:** worker adresi `connect-src`'de yoksa tarayıcı isteği engeller ve ses
+sessizce robotik sese döner (konsola tek satırlık uyarı düşer). Betiğin bu adımı yapmasının
+sebebi bu — elle yapılınca en sık atlanan yer orası.
+
+Anahtar yoksa `/tts` 503 döner ve site tarayıcı sesine döner: yani bu bölümü hiç yapmamak
+bir şeyi bozmaz.
+
+### Sesin kimliği
+
+FYOS genç, güler yüzlü ve samimi bir kadın sesiyle konuşur. Bu iki ayrı koldan gelir:
+
+- **Ses tınısı:** `TTS_VOICE`. OpenAI'de varsayılan `coral` (genç, sıcak kadın); `shimmer`,
+  `nova`, `sage` de benzer, `alloy` nötrdür. ElevenLabs'te bu alan voice id'dir.
+- **Nasıl konuştuğu:** OpenAI'nin `instructions` alanı — `src/index.js` içindeki `TTS_STYLE`
+  sabiti. Bu metin **okunmaz**, sese nasıl okuyacağını söyler: gülümseyerek, sıcak, arkadaşça,
+  yeri geldiğinde hafif bir gülüşle. `TTS_INSTRUCTIONS` ile değiştirilebilir. Yalnızca
+  `gpt-4o-*` seslendirme modellerinde vardır; eski `tts-1`'e gönderilmez (o alanı bilmez).
+  ElevenLabs tarafında karşılığı `voice_settings`'tir: `TTS_STABILITY` (varsayılan 0,35 —
+  düşük olması okumayı tekdüzelikten çıkarır), `TTS_SIMILARITY` (0,75), `TTS_STYLE_LEVEL` (0,5).
+
+Sözlerin kendisi ayrı bir yerden gelir: `SYSTEM_PROMPT`. Ses ne kadar sıcak olursa olsun
+resmî bir cümle resmî kalır, o yüzden ikisi birlikte ayarlanır.
+
+**Gülme metne yazılmaz.** Sistem istemi modele «haha» gibi şeyler yazmayı yasaklar, çünkü
+aynı metin ekranda da görünüyor ve tarayıcının kendi sesi onu harf harf okur. Gülümseme
+sesin tonundan gelir. Belirli bir kelimede *senaryolu* bir kahkaha istiyorsan o, ElevenLabs
+v3'ün `[laughs]` etiketleriyle olur — şu an kurulu değil.
+
+### Ses frenleri
+
+`src/index.js` başında:
+
+| Fren | Değer | Ne yapar |
+|---|---|---|
+| `MAX_TTS_CHARS` | 500 | Tek istekte seslendirilecek en fazla karakter; fazlası kesilir. |
+| `TTS_DAILY_CHARS` | 2500 | Ziyaretçi başına günlük karakter tavanı (~6 yanıt). Dolunca 429. |
+
+Ayrıca origin denetimi, hız sınırı ve isolate içi eşzamanlılık freni sohbetle ortaktır;
+sağlayıcı hata verirse ayrılan karakter hakkı iade edilir.
+
+**Bu uç noktanın KORUMADIĞI şey:** gönderilen metnin FYOS'un kendi yanıtı olduğunu doğrulamaz.
+Tarayıcı konsolunu açan biri başka bir metni de seslendirebilir — günlük karakter tavanı kadar.
+Tamamen kapatmanın yolu sohbet yanıtına HMAC imza koyup `/tts`'te doğrulamaktır; ama o zaman
+tarayıcı içi model ve hazır yanıtlar (ikisi de worker'a hiç uğramaz) seslendirilemez. Demo için
+seçilen fren imza değil, sıkı tavandır.
+
+### Ses maliyeti
+
+Kesin fiyat sağlayıcıya ve modele göre değişir; buraya rakam yazmak yerine tavanı veriyoruz:
+günlük en kötü durum **ziyaretçi sayısı × 2500 karakter**. Günde 100 farklı ziyaretçi =
+en fazla 250.000 karakter. Sağlayıcının güncel karakter (ya da token) fiyatıyla çarp,
+aylık bütçeni ona göre belirle — ve **sağlayıcı panelinde aylık harcama tavanını koy.**
+Anthropic için söylenen burada da geçerli: koda hiç güvenmeyen tek fren odur.
+
 ## Ayarlar
 
 - `ALLOWED_ORIGINS` (wrangler.toml): izinli site adresleri. Kendi alan adına geçince ekle.
-- `DAILY_LIMIT`: ziyaretçi başına günlük soru hakkı (varsayılan 4).
+- `DAILY_LIMIT`: ziyaretçi başına günlük soru hakkı (varsayılan 10).
 - `MODEL`: `claude-sonnet-5` en yetenekli; `claude-haiku-4-5` yarı fiyat ve bu iş için yeterli.
   Model kimliğine tarih eki ekleme — bu dizeler olduğu gibi tamdır.
+- `TTS_VOICE` / `TTS_MODEL`: seslendirme sesi ve modeli. `wrangler.toml`'da bilerek yorumda
+  duruyorlar; açarsan sağlayıcıya uygun değeri yaz (OpenAI ses adı ve `gpt-4o-mini-tts`,
+  ElevenLabs voice id ve `eleven_multilingual_v2`). Varsayılan ses `coral`.
+- `TTS_INSTRUCTIONS`: sesin nasıl konuşacağı (OpenAI). Boşsa `src/index.js`'teki `TTS_STYLE`.
+- `TTS_STABILITY` / `TTS_SIMILARITY` / `TTS_STYLE_LEVEL`: ElevenLabs ifade ayarları.
 - Sistem talimatı ve FY bilgileri `src/index.js` içindeki `SYSTEM_PROMPT` sabitinde. Fiyat ya da
   kurs bilgisi değişince orayı da güncelle. (Kurs şu an ücretsiz; metin buna göre yazılı.)
 
@@ -70,7 +155,10 @@ node test/security.mjs      # ya da: npm test
 ```
 
 Bağımlılığı yok. Gerçek worker modülünü içe aktarır, dört saldırıyı da yeniden oynatır ve
-herhangi biri geçerse `✗ AÇIK` yazıp 1 ile çıkar. (Denendi: sahte assistant turu korumasını
+herhangi biri geçerse `✗ AÇIK` yazıp 1 ile çıkar. Sesli yanıt eklendikten sonra denetim
+`/tts` uç noktasını da kapsıyor: anahtar yokken kapalı mı, yabancı origin eleniyor mu,
+istek başına ve günlük karakter tavanları tutuyor mu, sağlayıcı hata verince hak iade
+ediliyor mu, ve `/tts` eklenmesi sohbet yolunu bozmuş mu. (Denendi: sahte assistant turu korumasını
 bilerek geri alan bir kopyada test 2 hatayla ve çıkış kodu 1 ile düşüyor.)
 
 **Origin denetimi güvenlik değildir.** `Origin` başlığını istemci yazar; `curl` tek satırda

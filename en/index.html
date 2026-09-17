@@ -38,9 +38,9 @@
 <link rel="icon" href="../img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="manifest" href="../manifest.webmanifest">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=5e9022ce">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY AI agency — AI training, web design and business automation.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/#contact","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},{"@type":"ImageObject","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo","url":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg","contentUrl":"https://ferhat-yasinoglu.github.io/fy-ajans/img/logo.svg"},{"@type":"Person","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder","name":"Farhad Yaqoobi","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/#about","jobTitle":"Founder","image":"https://ferhat-yasinoglu.github.io/fy-ajans/img/founder.jpg","worksFor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"knowsAbout":["Artificial intelligence","Prompting","Automation with n8n","Claude Code","Web development"]},{"@type":"WebSite","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/","name":"FY","publisher":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#webpage","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/","name":"FY — AI Agency","isPartOf":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#website"},"about":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"inLanguage":"en"},{"@type":"ProfessionalService","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#service","name":"FY — AI Agency","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"serviceType":["Web design","Business automation","AI training"]},{"@type":"Course","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course","name":"AI Journey (Yapay Zekâ Yolculuğu)","description":"A completely project-based AI course in 7 chapters (taught in Turkish): prompting, n8n automation, Claude Code, building websites and CRMs, video and marketing.","provider":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization"},"url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/#training","inLanguage":"en","educationalLevel":"Beginner","isAccessibleForFree":true,"hasCourseInstance":{"@type":"CourseInstance","courseMode":"Online","instructor":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},"offers":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer"}},{"@type":"Offer","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#course-offer","price":"0","priceCurrency":"EUR","category":"Free","availability":"https://schema.org/InStock","url":"https://ferhat-yasinoglu.github.io/fy-ajans/en/#training"},{"@type":"FAQPage","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#faq","mainEntity":[{"@type":"Question","name":"Is the course online?","acceptedAnswer":{"@type":"Answer","text":"Yes. The course is offered fully online, with protected playback and a personal licence. All 7 chapters are ready."}},{"@type":"Question","name":"Can I start from zero?","acceptedAnswer":{"@type":"Answer","text":"It was designed exactly for that. Chapter 1 starts from absolute zero; no programming knowledge and no prior experience with AI is needed."}}]}]}
 </script>
@@ -312,7 +312,7 @@
 
 <!-- ===== FYOS ===== -->
 <section id="fyos" class="section xos">
-  <div class="xos__glow"><i></i></div>
+  <div class="xos__glow"><i></i><i></i><i></i></div>
   <div class="container-x">
     <div data-reveal>
       <div class="xos__head">
@@ -334,11 +334,11 @@
             </div>
           </div>
           <canvas id="linkCanvas" aria-hidden="true"></canvas>
-          <div class="hud" data-stat="agents" style="--c:#38BDF8; left:3%; top:14%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Agents</div><div class="hud__sub" data-stat-sub>1 online · 0 off</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="studio" style="--c:#F472B6; left:24%; top:3%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Studio</div><div class="hud__sub" data-stat-sub>1 posts</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="coaches" style="--c:#F59E0B; right:18%; top:5%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>3</div><div class="hud__name">Coaches</div><div class="hud__sub" data-stat-sub>3 minds</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="agents" style="--c:#38BDF8; left:3%; top:14%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Agents</div><div class="hud__sub" data-stat-sub>1 online · 0 off</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="studio" style="--c:#F472B6; left:24%; top:3%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Studio</div><div class="hud__sub" data-stat-sub>1 posts</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="coaches" style="--c:#F59E0B; right:18%; top:5%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>3</div><div class="hud__name">Coaches</div><div class="hud__sub" data-stat-sub>3 minds</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="memory" style="--c:#C084FC; right:2%; top:24%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>7</div><div class="hud__name">Memory</div><div class="hud__sub" data-stat-sub>7 memories</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="skills" style="--c:#A78BFA; left:4%; top:56%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>35</div><div class="hud__name">Skills</div><div class="hud__sub" data-stat-sub>35 skills</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="skills" style="--c:#A78BFA; left:4%; top:56%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>35</div><div class="hud__name">Skills</div><div class="hud__sub" data-stat-sub>35 skills</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="knowledge" style="--c:#FB923C; left:16%; bottom:6%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>4175</div><div class="hud__name">Knowledge</div><div class="hud__sub" data-stat-sub>4175 notes</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="analytics" style="--c:#F87171; right:4%; top:60%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>0</div><div class="hud__name">Analytics</div><div class="hud__sub" data-stat-sub>0 events</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="boardroom" style="--c:#EAB308; right:19%; bottom:4%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>2</div><div class="hud__name">Boardroom</div><div class="hud__sub" data-stat-sub>2 meetings</div><div class="hud__bar"></div></div>
@@ -347,10 +347,24 @@
         <div class="ask">
           <div class="ask__log" id="askLog" aria-live="polite"></div>
           <form class="ask__pill" id="askForm" method="post" autocomplete="off">
+            <button class="ask__mic" id="askMic" type="button" aria-pressed="false" aria-label="Turn on live voice" data-i18n-attr="aria-label=fyos.micOn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-3.08A7 7 0 0 0 19 11z"/></svg></button>
             <input id="askInput" maxlength="300" placeholder="Ask FYOS — type something…" aria-label="Ask FYOS" data-i18n-attr="placeholder=fyos.askPlaceholder|aria-label=fyos.askAria">
             <button class="ask__send" id="askSend" type="submit" disabled aria-label="Send" data-i18n-attr="aria-label=fyos.send"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2-15 2z"/></svg></button>
           </form>
-          <div class="ask__note" data-i18n="fyos.note">Answers are generated by AI · up to <span id="askLeft">4</span> questions a day · click the network ✨</div>
+          <div class="ask__voice" id="askVoice" hidden>
+            <span class="ask__voice-dot" aria-hidden="true"></span>
+            <span id="askVoiceText" data-i18n="fyos.voiceWake">Say «Melis» — I’m listening.</span>
+          </div>
+          <div class="ask__consent" id="voiceConsent" hidden>
+            <p class="ask__consent-t" data-i18n="fyos.voiceConsentTitle">Turn on live voice?</p>
+            <p data-i18n="fyos.voiceConsentText">The microphone stays on and waits for one word: «Melis». When you say it, I listen to your question, read the answer out loud, then wait again. Your browser asks for permission only once — after that you never press a button.</p>
+            <p class="ask__consent-w" id="voiceConsentWhere" data-i18n="fyos.voiceWhereChecking">Checking…</p>
+            <div class="ask__consent-b">
+              <button type="button" class="btn btn-ghost btn-sm" id="voiceConsentNo" data-i18n="fyos.voiceConsentNo">Cancel</button>
+              <button type="button" class="btn btn-primary btn-sm" id="voiceConsentGo" data-i18n="fyos.voiceConsentGo">Turn on and listen</button>
+            </div>
+          </div>
+          <div class="ask__note" data-i18n="fyos.note">Answers are generated by AI · up to <span id="askLeft">10</span> questions a day · click the network ✨</div>
         </div>
       </div>
     </div>
@@ -612,7 +626,7 @@
       <div class="portrait" data-portrait>
         <picture class="portrait__aura" aria-hidden="true"><source media="(prefers-reduced-motion: reduce)" srcset="../img/portrait-aura-static.svg"><img src="../img/portrait-aura.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></picture>
         <div class="portrait__inner">
-          <img src="../img/founder.jpg" alt="Farhad Yaqoobi — founder of FY" data-i18n-attr="alt=about.imgAlt" width="1000" height="1250" loading="lazy" decoding="async">
+          <img src="../img/founder.jpg" alt="Farhad Yaqoobi — founder of FY" data-i18n-attr="alt=about.imgAlt" width="1000" height="1000" loading="lazy" decoding="async">
           <span class="portrait__shine" aria-hidden="true"></span>
         </div>
       </div>
@@ -829,6 +843,6 @@
       <button class="btn btn-ghost" type="button" data-modal-close data-i18n="modal.done.close">Close</button>
     </div>
   </div>
-</div><script src="../js/lang/en.js"></script><script src="../js/main.js"></script>
+</div><script src="../js/lang/en.js?v=5e9022ce"></script><script src="../js/main.js?v=5e9022ce"></script>
 </body>
 </html>

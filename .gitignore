@@ -28,3 +28,7 @@ _shot.html
 **/_shot.html
 _preview-*.html
 _cover-*.html
+
+# tools/build-og-profile.mjs geçici sayfası
+og-profil-tmp.html
+

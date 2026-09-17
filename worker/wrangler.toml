@@ -7,7 +7,7 @@ compatibility_date = "2026-09-01"
 # BOŞ BIRAKILIRSA worker hiçbir isteğe yanıt vermez (eskiden tam tersiydi: boşsa herkese açılıyordu).
 ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
 # Ziyaretçi başına günlük soru hakkı
-DAILY_LIMIT = "4"
+DAILY_LIMIT = "10"
 # Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5 (yarı fiyat).
 # Model kimliğine tarih eki YAZMA — bu dizeler olduğu gibi tamdır.
 MODEL = "claude-sonnet-5"
@@ -23,6 +23,32 @@ id = "KV_ID_BURAYA"
 
 # Gizli anahtar wrangler.toml'a YAZILMAZ; terminalden girilir:
 #   npx wrangler secret put ANTHROPIC_API_KEY
+
+# ---------------------------------------------------------------------------
+# SESLİ YANIT (/tts) — FYOS'un yanıtlarını gerçek bir insan sesiyle okutur.
+# Anahtar girilmezse /tts kapalı kalır (503) ve site tarayıcının kendi sesine döner;
+# yani burayı boş bırakmak bir şeyi bozmaz, yalnızca ses robotik kalır.
+# İkisinden BİRİNİ gir:
+#   npx wrangler secret put OPENAI_API_KEY       # OpenAI TTS — ucuz, Türkçesi iyi
+#   npx wrangler secret put ELEVENLABS_API_KEY   # ElevenLabs — daha iyi ses, daha pahalı
+# İkisi de varsa ElevenLabs kullanılır.
+#
+# Aşağıdakiler BİLEREK yorumda: [vars] içindeki bir değer her zaman tanımlı olur ve
+# sağlayıcı değiştirdiğinde yanlış modeli gönderir. Yorumda kalırsa kod, hangi anahtar
+# varsa o sağlayıcının doğru varsayılanını seçer.
+# TTS_VOICE = "coral"                  # OpenAI'de ses adı (varsayılan coral: genç, sıcak kadın
+#                                      # sesi; shimmer/nova/sage benzer, alloy nötr).
+#                                      # ElevenLabs'te bu alan voice id'dir.
+# TTS_MODEL = "gpt-4o-mini-tts"        # ElevenLabs için: eleven_multilingual_v2
+# TTS_INSTRUCTIONS = "..."             # Sesin NASIL konuşacağı (OpenAI). Boşsa src/index.js
+#                                      # içindeki TTS_STYLE: gülümseyerek, sıcak, arkadaşça.
+# TTS_STABILITY = "0.35"               # ElevenLabs ifade ayarları: düşük stability = daha canlı
+# TTS_SIMILARITY = "0.75"
+# TTS_STYLE_LEVEL = "0.5"
+#
+# Frenler src/index.js başındadır: istek başına 500 karakter, ziyaretçi başına günde
+# 2500 karakter. Sağlayıcı panelinde aylık harcama tavanını da koy.
+# ---------------------------------------------------------------------------
 
 # Ücretsiz açık model için Workers AI bağlantısı (Anthropic anahtarı yoksa devreye girer)
 [ai]

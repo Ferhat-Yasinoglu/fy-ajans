@@ -24,7 +24,20 @@ const MAX_TOKENS = 350;           // yanıt uzunluğu (kısa tutulur; maliyet)
 const MAX_BODY = 16 * 1024;       // istek gövdesi tavanı (bayt)
 const MAX_INFLIGHT_PER_IP = 2;    // aynı isolate'te aynı IP'den eşzamanlı istek tavanı
 
-const SYSTEM_PROMPT = `Sen FYOS'sun: FY yapay zekâ ajansının sitesindeki canlı asistan. Kısa, sıcak ve net Türkçe yaz; kullanıcı başka dilde yazarsa (Almanca, İngilizce, Farsça) o dilde yanıtla. En fazla 3-4 cümle. Emoji kullanma. Bilmediğin şeyi uydurma; emin olmadığında iletişim formuna yönlendir ve "gerçek bir insan yanıtlar" de.
+/* --- Sesli yanıt (/tts) ---
+   Frenler bilerek sıkı: bu bir vitrin demosu, bir seslendirme servisi değil. */
+const MAX_TTS_CHARS = 500;        // tek istekte seslendirilecek en fazla karakter
+const TTS_DAILY_CHARS = 2500;     // ziyaretçi başına günlük karakter tavanı (~6 yanıt)
+
+/* FYOS'un sesi: genç, sıcak, güler yüzlü bir kadın. Bu metin OKUNMAZ — sese NASIL okuyacağını
+   söyler (OpenAI'nin `instructions` alanı). Ses tonu buradan ayarlanır; sözlerin kendisi
+   SYSTEM_PROMPT'tan gelir. TTS_INSTRUCTIONS ile değiştirilebilir. */
+const TTS_STYLE = 'Genç bir kadın sesiyle, gülümseyerek konuş. Sıcak, samimi ve arkadaşça ol; ' +
+  'karşındaki yakın bir arkadaşınmış gibi. Temponu doğal tut, cümleleri robot gibi eşit aralıklarla okuma. ' +
+  'Konu neşeliyse sesine hafif bir gülümseme, yeri geldiğinde kısa ve doğal bir gülüş karışsın — abartma. ' +
+  'Resmî sunucu tonundan kaçın; içten ve rahat konuş.';
+
+const SYSTEM_PROMPT = `Sen FYOS'sun: FY yapay zekâ ajansının sitesindeki canlı asistan. Genç, güler yüzlü ve samimi bir kadın gibi konuş — karşındaki yeni tanıştığın ama hemen ısındığın biri. Gündelik, sıcak Türkçe kullan; «tabii ki», «hemen anlatayım», «bak şöyle» gibi doğal bağlayıcılar serbest. Sen diliyle konuş, resmî «siz» kurma. Kısa tut: en fazla 3-4 cümle. Emoji kullanma, yıldız ya da etiket koyma, gülmeyi yazıyla taklit etme («haha», «hihi» yazma) — bu metin sesli de okunuyor, gülümseme sesin tonundan geliyor. Kullanıcı başka dilde yazarsa (Almanca, İngilizce, Farsça) o dilde ve aynı sıcaklıkta yanıtla. Bilmediğin şeyi uydurma; emin olmadığında iletişim formuna yönlendir ve "gerçek bir insan yanıtlar" de.
 
 FY hakkında bildiklerin:
 - FY: yapay zekâ ajansı. Üç iş: yapay zekâ eğitimi, web sitesi kurmak, işletmeleri otomasyonla akıllılaştırmak.
@@ -53,6 +66,15 @@ const json = (data, status, headers) =>
 function dayKey(ip) {
   const d = new Date();
   return `q:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
+}
+// Ortam değişkeni sayıya çevrilir; boş ya da bozuksa varsayılan kalır (0 geçerli bir değerdir).
+function num(v, def) {
+  const n = parseFloat(v);
+  return isFinite(n) ? n : def;
+}
+function ttsDayKey(ip) {
+  const d = new Date();
+  return `t:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
 }
 function secondsToMidnightUTC() {
   const now = new Date();
@@ -92,7 +114,14 @@ export default {
     }
     // Bu bir kimlik doğrulaması değil; yalnızca tarayıcıdan gelen yabancı site isteklerini eler.
     if (!allowed.includes(origin)) return json({ error: 'Bu kaynaktan istek kabul edilmiyor.' }, 403, cors);
-    if (!env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
+
+    /* Yol ayrımı: /tts metni sese çevirir, kalan her yol sohbettir — eski davranış aynen korunur.
+       request.url'i olmayan çağrılarda (birim testi doğrudan modülü çağırır) sohbet kabul edilir. */
+    let path = '/';
+    try { path = new URL(request.url).pathname.replace(/\/+$/, '') || '/'; } catch (e) {}
+    const isTts = path === '/tts';
+
+    if (!isTts && !env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
 
     // Sayaç bağlı değilse hiç yanıt üretme. Eskiden bu blok atlanır, sınır tümüyle kapanırdı.
     if (!env.QUOTA) {
@@ -112,23 +141,125 @@ export default {
 
     if (!openSlot(ip)) return json({ reply: 'Bir önceki sorun hâlâ yanıtlanıyor; bitince yenisini sorabilirsin.', limited: true }, 429, cors);
     try {
-      return await handle(request, env, cors, ip);
+      return isTts ? await handleTts(request, env, cors, ip) : await handle(request, env, cors, ip);
     } finally {
       closeSlot(ip);
     }
   }
 };
 
+/* Gövde okuma — iki uç nokta da aynı tavanı ve aynı hata metinlerini kullanır.
+   Dönüş: { body } ya da { res } (hazır hata yanıtı). */
+async function readBody(request, cors) {
+  const len = parseInt(request.headers.get('Content-Length') || '0', 10);
+  if (len > MAX_BODY) return { res: json({ error: 'İstek çok büyük.' }, 413, cors) };
+  let raw;
+  try { raw = await request.text(); } catch { return { res: json({ error: 'Geçersiz istek.' }, 400, cors) }; }
+  if (raw.length > MAX_BODY) return { res: json({ error: 'İstek çok büyük.' }, 413, cors) };
+  let body;
+  try { body = JSON.parse(raw); } catch { return { res: json({ error: 'Geçersiz istek.' }, 400, cors) }; }
+  if (!body || typeof body !== 'object') return { res: json({ error: 'Geçersiz istek.' }, 400, cors) };
+  return { body };
+}
+
+/* Metni sese çevirir ve ses baytlarını döner (audio/mpeg).
+
+   FRENLER: istek başına 500 karakter; ziyaretçi başına günde 2500 karakter (KV, sohbetteki
+   gibi hak önce ayrılır, sağlayıcı hata verirse iade edilir); origin denetimi, hız sınırı ve
+   isolate içi eşzamanlılık freni sohbetle ortaktır.
+
+   NE KORUMADIĞI — bilerek: bu uç nokta, gönderilen metnin FYOS'un kendi yanıtı olduğunu
+   DOĞRULAMAZ. Tarayıcı konsolunu açan biri başka bir metin de seslendirebilir; günlük
+   karakter tavanı kadar. Tamamen kapatmanın yolu /chat yanıtına HMAC imza koyup burada
+   doğrulamaktır — ama o zaman tarayıcı içi model ve hazır yanıtlar (ikisi de worker'a hiç
+   uğramaz) seslendirilemez. Demo için seçilen fren imza değil, sıkı tavandır. Sağlayıcı
+   panelindeki aylık harcama tavanını yine de mutlaka koy: koda güvenmeyen tek fren odur. */
+async function handleTts(request, env, cors, ip) {
+  if (!env.OPENAI_API_KEY && !env.ELEVENLABS_API_KEY) {
+    // Anahtar yoksa site kendiliğinden tarayıcının kendi sesine döner; hata değil, kapalı durum.
+    return json({ error: 'Ses kapalı.', off: true }, 503, cors);
+  }
+  const parsed = await readBody(request, cors);
+  if (parsed.res) return parsed.res;
+
+  const text = String(parsed.body.text || '').replace(/\s+/g, ' ').trim().slice(0, MAX_TTS_CHARS);
+  if (!text) return json({ error: 'Boş metin.' }, 400, cors);
+
+  const key = ttsDayKey(ip);
+  const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
+  // 429: sohbetteki «200 + limited» kuralından bilerek ayrı. Burada gösterilecek bir metin yok;
+  // istemci ses gelmediğini durum kodundan anlayıp tarayıcının kendi sesine dönüyor.
+  if (before + text.length > TTS_DAILY_CHARS) return json({ error: 'Bugünlük ses hakkın doldu.', limited: true }, 429, cors);
+  await env.QUOTA.put(key, String(before + text.length), { expirationTtl: secondsToMidnightUTC() });
+  const refund = async () => {
+    try { await env.QUOTA.put(key, String(before), { expirationTtl: secondsToMidnightUTC() }); }
+    catch (e) { console.error('Ses hakkı iadesi başarısız', e && e.message); }
+  };
+
+  let res;
+  try {
+    if (env.ELEVENLABS_API_KEY) {
+      const voice = env.TTS_VOICE || '21m00Tcm4TlvDq8ikWAM';
+      /* voice_settings ses tonunu belirler: stability düşürülünce okuma tekdüzelikten çıkar,
+         style yükselince duygu artar. Varsayılanlar sıcak ve canlı bir okuma için seçildi;
+         çok düşürülürse ses kararsızlaşır, çok yükseltilirse robotlaşır. */
+      res = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + encodeURIComponent(voice), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'xi-api-key': env.ELEVENLABS_API_KEY, 'Accept': 'audio/mpeg' },
+        body: JSON.stringify({
+          text,
+          model_id: env.TTS_MODEL || 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: num(env.TTS_STABILITY, 0.35),
+            similarity_boost: num(env.TTS_SIMILARITY, 0.75),
+            style: num(env.TTS_STYLE_LEVEL, 0.5),
+            use_speaker_boost: true
+          }
+        })
+      });
+    } else {
+      const model = env.TTS_MODEL || 'gpt-4o-mini-tts';
+      const body = {
+        model,
+        // coral: genç, sıcak kadın sesi. Diğer seçenekler: shimmer, nova, sage, alloy (nötr).
+        voice: env.TTS_VOICE || 'coral',
+        input: text,
+        response_format: 'mp3'
+      };
+      /* `instructions` yalnızca gpt-4o-* seslendirme modellerinde var; eski tts-1'e gönderilmez.
+         Sesin genç, güler yüzlü ve samimi olmasını sağlayan asıl kol budur. */
+      if (model.indexOf('gpt-4o') === 0) body.instructions = env.TTS_INSTRUCTIONS || TTS_STYLE;
+      res = await fetch('https://api.openai.com/v1/audio/speech', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.OPENAI_API_KEY },
+        body: JSON.stringify(body)
+      });
+    }
+  } catch (e) {
+    console.error('Ses sağlayıcısı ağ hatası', e && e.message);
+    await refund();
+    return json({ error: 'Ses üretilemedi.' }, 502, cors);
+  }
+
+  if (!res.ok) {
+    // Ham sağlayıcı hatası yalnızca kayda düşer; istemciye asla gitmez (anahtar, kota sızmasın).
+    const err = await res.text().catch(() => '');
+    console.error('Ses sağlayıcısı hata', res.status, err.slice(0, 300));
+    await refund();
+    return json({ error: 'Ses üretilemedi.' }, 502, cors);
+  }
+
+  return new Response(res.body, {
+    status: 200,
+    headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store', ...cors }
+  });
+}
+
 async function handle(request, env, cors, ip) {
   // Girdi — gövde tavanı, devasa istekler modele hiç ulaşmasın
-  const len = parseInt(request.headers.get('Content-Length') || '0', 10);
-  if (len > MAX_BODY) return json({ error: 'İstek çok büyük.' }, 413, cors);
-  let raw;
-  try { raw = await request.text(); } catch { return json({ error: 'Geçersiz istek.' }, 400, cors); }
-  if (raw.length > MAX_BODY) return json({ error: 'İstek çok büyük.' }, 413, cors);
-  let body;
-  try { body = JSON.parse(raw); } catch { return json({ error: 'Geçersiz istek.' }, 400, cors); }
-  if (!body || typeof body !== 'object') return json({ error: 'Geçersiz istek.' }, 400, cors);
+  const parsed = await readBody(request, cors);
+  if (parsed.res) return parsed.res;
+  const body = parsed.body;
 
   const message = String(body.message || '').trim().slice(0, MAX_MESSAGE);
   if (!message) return json({ error: 'Boş mesaj.' }, 400, cors);
@@ -154,7 +285,7 @@ async function handle(request, env, cors, ip) {
      aradaki 2-5 saniyede gelen bütün istekler aynı eski değeri okuyordu. KV atomik artırma
      yapamaz, yani yarış tümüyle bitmez; ama pencere model gecikmesinden KV yazma süresine
      (~10-50 ms) iner, yani yüz kat daralır. Kalanı RATE_LIMITER ve harcama tavanı kapatır. */
-  const limit = parseInt(env.DAILY_LIMIT || '4', 10);
+  const limit = parseInt(env.DAILY_LIMIT || '10', 10);
   const key = dayKey(ip);
   const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
   if (before >= limit) return json({ reply: 'Bugünlük soru hakkın doldu; yarın yine buradayım. Acil bir şeyse iletişim formundan yaz.', limited: true, left: 0 }, 200, cors);

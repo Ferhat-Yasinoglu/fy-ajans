@@ -19,7 +19,7 @@
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <link rel="preload" href="fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=5e9022ce">
 </head>
 <body>
 <main class="page">
@@ -45,6 +45,7 @@
         <li>Site çerez kullanmaz. Reklam ya da üçüncü taraf izleyici yoktur.</li>
         <li>FYOS sohbeti günlük soru sayacını yalnızca senin tarayıcının hafızasında tutar; bu sayı bize gönderilmez ve tarayıcı verilerini silince kaybolur.</li>
 <li>FYOS'un yanıtları senin cihazında üretilir: uygun cihazlarda tarayıcın, ilk soruda açık kaynak bir yapay zekâ modelini bir kez indirir ve sonraki yanıtları cihaz üzerinde hesaplar. Sorduğun sorular ve aldığın yanıtlar ne bize ne de başka bir sunucuya gönderilir; model önbelleği tarayıcı verilerini silince kaybolur.</li>
+        <li><strong>Canlı sesli mod</strong> kapalı gelir; yalnızca mikrofon düğmesine basıp onay verirsen açılır. Açıkken mikrofon «Melis» kelimesini bekler. Tarayıcın konuşmayı cihazın içinde tanıyabiliyorsa sesin cihazdan hiç çıkmaz; tanıyamıyorsa yalnızca metne çevrilmek üzere tarayıcı üreticisinin konuşma servisine gider — hangisinin geçerli olduğu onay kutusunda yazar. Ses kaydın bize gelmez ve hiçbir yerde saklanmaz; yanıtı üreten model yine senin cihazında çalışır. Sesli modun açık olduğu bilgisi yalnızca senin tarayıcının hafızasında durur, mikrofonu kapatınca silinir.</li>
       </ul>
       <h2>3. Dış servisler ve barındırma</h2>
       <ul>
@@ -107,9 +108,10 @@
         <li><strong>Öğrenci paneli haber listesi.</strong> Panel açılınca sana haber vermek için yalnızca e-posta adresin. Dayanak: Md. 6(1)(a) — onayın; onayını istediğin zaman <a href="#" data-mail="Haber listesinden çık">e-postayla</a> geri alabilirsin, geri alma o ana kadarki işlemenin hukukiliğini etkilemez.</li>
         <li><strong>Barındırma erişim günlükleri.</strong> Site GitHub Pages üzerinde barındırılır; GitHub, Inc. (San Francisco, ABD) her web sunucusu gibi IP adresi, zaman ve istenen dosya gibi erişim verilerini kendi sorumluluğunda ve kendi gizlilik politikasına göre tutabilir. Dayanak: Md. 6(1)(f) — sitenin güvenli ve kararlı sunulması. AB'deki kullanıcılar için sözleşme tarafı GitHub B.V. (Amsterdam); ABD'ye aktarımın güvenceleri (Veri Gizliliği Çerçevesi ya da standart sözleşme maddeleri) GitHub'ın kendi gizlilik beyanında açıklanır.</li>
         <li><strong>FYOS yerel model dosyaları.</strong> Yalnızca sohbete ilk soruyu sorduğunda ve cihazın uygunsa tarayıcın yapay zekâ kütüphanesini jsDelivr'den (cdn.jsdelivr.net) ve model dosyalarını Hugging Face'ten (huggingface.co) indirir. Bu sağlayıcılara yalnızca sıradan bir dosya isteği (IP adresi, tarayıcı bilgisi) gider; sorduğun soru gitmez. Dayanak: Md. 6(1)(f) — sohbeti sunucusuz, cihazında çalıştırma menfaati. Tarayıcı hafızasındaki günlük sayaç, açıkça istediğin bir işlev için zorunlu olduğundan onay gerektirmez (§ 25 Abs. 2 Nr. 2 TDDDG).</li>
+        <li><strong>Canlı sesli mod (konuşma tanıma).</strong> Yalnızca sen mikrofonu açıkça açtığında çalışır. Tarayıcı konuşmayı cihaz içinde tanıyabiliyorsa ses cihazdan çıkmaz ve bizim açımızdan bir işleme doğmaz. Tanıyamıyorsa ses kaydın, metne çevrilmesi için tarayıcı üreticisinin konuşma servisine gider (ör. Google LLC, ABD — Chrome; Microsoft Corporation, ABD — Edge); bu işleme ve ABD'ye aktarım ilgili üreticinin kendi gizlilik politikasına tabidir, biz bu veriye erişemeyiz. Dayanak: Md. 6(1)(a) — açık onayın; onayını mikrofonu kapatarak istediğin an geri alırsın, geri alma o ana kadarki işlemenin hukukiliğini etkilemez.</li>
       </ul>
       <h3>Sohbet gerçek bir modele bağlandığında</h3>
-      <p>Şu an kapalıdır. Açıldığı gün bu bölüm güncellenir ve şunlar geçerli olur: günlük soru hakkını saymak için IP adresin Cloudflare KV'de gün sonuna kadar tutulur; sorduğun soru ve önceki en fazla altı mesaj yanıt üretmek için Anthropic, PBC (ABD) ya da Cloudflare Workers AI'ya gönderilir. Dayanak: Md. 6(1)(f); üçüncü ülkeye aktarım Md. 46 uyarınca standart sözleşme maddeleriyle güvence altına alınır.</p>
+      <p>Şu an kapalıdır. Açıldığı gün bu bölüm güncellenir ve şunlar geçerli olur: günlük soru hakkını saymak için IP adresin Cloudflare KV'de gün sonuna kadar tutulur; sorduğun soru ve önceki en fazla altı mesaj yanıt üretmek için Anthropic, PBC (ABD) ya da Cloudflare Workers AI'ya gönderilir. Dayanak: Md. 6(1)(f); üçüncü ülkeye aktarım Md. 46 uyarınca standart sözleşme maddeleriyle güvence altına alınır. Yanıtların sesli okunması da aynı koşula bağlıdır: açıldığı gün, FYOS'un ürettiği yanıt metni ve IP adresin, sesi üretmesi için seslendirme sağlayıcısına (OpenAI, L.L.C. ya da ElevenLabs Inc., ikisi de ABD) gönderilir. Senin ses kaydın oraya gitmez — yalnızca FYOS'un kendi yanıtı gider. Aynı dayanak ve aynı aktarım güvencesi geçerlidir.</p>
       <h3>Ne kadar saklanır</h3>
       <ul>
         <li>İletişim ve teklif e-postaları: talep tamamlanana kadar; sözleşme kurulmazsa en geç altı ay sonra silinir.</li>
@@ -143,6 +145,6 @@
       </div>
 </div>
 </footer>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=5e9022ce"></script>
 </body>
 </html>

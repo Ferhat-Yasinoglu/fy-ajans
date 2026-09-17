@@ -13,8 +13,8 @@ FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
 Türkçe HTML kaynaktır; `de/`, `en/`, `fa/` klasörleri ondan **üretilir**:
 
 ```
-node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js ve sitemap.xml'i yazar
-node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
+node tools/build-i18n.mjs          # de/ en/ fa/, js/lang/*.js, sitemap.xml + varlık damgası
+node tools/build-i18n.mjs --check  # eksik anahtar / bayat damga (çıkış kodu 1)
 ```
 
 - Çevrilecek her öğe kaynakta `data-i18n="anahtar"` (iç HTML) ya da `data-i18n-attr="öznitelik=anahtar"` taşır.
@@ -22,6 +22,28 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
 - Çevrilen sayfalar `tools/build-i18n.mjs` içindeki `SOURCES` listesindedir; yeni bir sayfa eklerken oraya da yazılır.
 - Bir metni değiştirince: Türkçe HTML → aynı anahtar üç sözlükte → betiği çalıştır → üretilenlerle birlikte commit.
 - Üretilen dosyalar (`de/`, `en/`, `fa/`, `js/lang/`) elle düzenlenmez.
+
+### Varlık sürüm damgası
+
+GitHub Pages `css/style.css` ve `js/main.js` dosyalarını kısa bir `max-age` ile veriyor ve
+başlıkları değiştirmenin yolu yok. Dağıtımdan sonra bir süre ziyaretçi **yeni HTML + eski
+CSS/JS** karışımı alabiliyor; bu karışım "biraz eski" değil, bozuk görünüyor (bir sınıf
+HTML'e girer ama kuralı eski CSS'te yoktur). Bu yüzden `build-i18n.mjs` her çalıştığında
+paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara yazıyor:
+
+```html
+<link rel="stylesheet" href="css/style.css?v=55b039d8">
+<script src="js/main.js?v=55b039d8"></script>
+```
+
+- Damga **içerik özeti**, zaman damgası değil: kaynak değişmediyse çıktı da değişmez.
+- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`,
+  `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
+- `js/main.js` damgayı kendi adresinden okuyup sonradan yüklediği betiklere devrediyor
+  (`js/fyos-voice.js`, `js/fyos-local.js`), yani onlar da bayat kalmıyor.
+- **CSS, JS ya da sözlük değiştirdiysen commit'ten önce betiği çalıştır.** Unutursan
+  `--check` 1 ile çıkıp "eski damga" der — ama onu çalıştırmayı zorlayan bir şey yok.
+- Bu, betiğin Türkçe kaynaklara dokunan tek adımı: yalnız o iki satırı yeniden yazıyor.
 - Her sayfada dört dilin `hreflang` bağlantıları ve bir dil seçici var; Farsça sayfalar `dir="rtl"` ile
   sağdan sola akar (CSS mantıksal özellikler kullanır). `404.html` üretilmez; GitHub Pages her yol için
   aynı dosyayı verdiğinden dört dili tek sayfada gösterir.
@@ -47,6 +69,14 @@ node tools/build-i18n.mjs --check  # eksik çeviri anahtarlarını listeler
   Safari 16.4 öncesi bunu ayrıştıramaz ve dosyanın tamamı çalışmaz.
 - FYOS'u gerçek bir modele bağlarken API anahtarını asla sayfaya koyma; küçük bir ara
   sunucu (ör. Cloudflare Worker) kullan, günlük sınırı ve istek boyutunu orada denetle.
+- Canlı sesli mod kapalı gelir ve ziyaretçi açıkça onaylamadan mikrofonu açmaz. Onay
+  kutusu, sesin cihazda mı yoksa tarayıcının konuşma servisinde mi çözüleceğini söyler;
+  aynı ayrım `terms.html`'de hem 2. bölümde hem DSGVO Md. 13 listesinde yazılıdır. Ses
+  kaydı hiçbir yerde saklanmaz, bize gelmez. Bu davranışı değiştirirsen ikisini de güncelle.
+- Worker'ın `/tts` ucu, gönderilen metnin FYOS'un kendi yanıtı olduğunu **doğrulamaz**; freni
+  imza değil, sıkı karakter tavanıdır (istek başına 500, ziyaretçi başına günde 2500). Gerekçesi
+  ve daha sıkı seçenek `worker/README.md` içinde. Seslendirme anahtarı eklersen sağlayıcı
+  panelinde aylık harcama tavanını koy.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
 - GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
   için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
@@ -100,12 +130,18 @@ img/logo-hero.svg     ana sayfa hero sahnesi (halka, ışın, parçacıklar, yan
 img/logo-*-static.svg aynı iki logonun animasyonsuz kopyaları (prefers-reduced-motion; <picture> seçer)
 img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üretir
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
+js/fyos-voice.js      FYOS canlı sesli mod: «Melis» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
 tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
+tools/set-worker.mjs  worker'ı siteye bağlar: uç noktalar, CSP connect-src ve çeviriler tek komutta (--temizle ile geri alır)
 img/og.png, og-*.png  paylaşım görselleri (1200×630; logo-master.png + slogan, betik üretir; TR og.png, en/de/fa og-<dil>.png — build-i18n og:image'ı çevirir)
+img/og-profil*.png    bağlantı sayfasının paylaşım görseli (1200×630; founder.jpg + ad + unvan, dört dilde; tools/build-og-profile.mjs üretir)
+farhad-yaqoobi.vcf    kişi kartı — «Rehbere ekle» satırının indirdiği dosya (vCard 3.0, fotoğraf gömülü; tools/build-vcard.mjs üretir)
 img/icon-*.png        uygulama simgeleri (180 iOS, 192/512 manifest; logo.svg'den betik üretir)
 img/favicon.ico       16/32/48 px favicon (SVG favicon okumayan Safari ve eski tarayıcılar için; logo.svg'den betik üretir)
 tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için --raster (Playwright + Chromium)
+tools/build-og-profile.mjs  bağlantı sayfasının paylaşım görseli (Playwright + Chromium)
+tools/build-vcard.mjs  kişi kartı üretici (Playwright + Chromium; fotoğrafın karesini kırpar)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
 404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
 robots.txt  sitemap.xml  manifest.webmanifest
@@ -164,13 +200,103 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
 - Site adresi `https://ferhat-yasinoglu.github.io/fy-ajans/` olarak ayarlı (canonical, Open Graph, JSON-LD, sitemap, robots). GitHub'da `fy-ajans` deposu açıp Pages'i etkinleştirmen yeterli. Başka bir alan adına geçersen bu adresi topluca değiştir.
 - Kurs fiyatı `100 €`, üstü çizili eski fiyat `200 €` (index.html, contact/course.html, JSON-LD Offer).
 - Kurs sayıları: 7 bölüm · 49 ders · 7 gerçek proje · 14 şablon. Gerçek müfredata göre güncelle.
-- Kurucu fotoğrafı `img/founder.jpg` (1000×1250 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
+- Kurucu fotoğrafı `img/founder.jpg` (1000×1000 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
+  Dosya dairesel bir avatar: fotoğraf daire içinde, daire dışı portre zemini (`#0b0906`) ile dolu. Sitede iki yerde de
+  yuvarlak çerçeveye girdiği için köşeler görünmez. Daire, çerçeveden %4 taşacak şekilde ölçeklendi — imleç paralaksı
+  görseli ±4px kaydırıyor, pay olmasa kenarda koyu bir şerit açılırdı (`@keyframes portrait-zoom` de bu yüzden 1.0'dan
+  değil 1.04'ten başlar).
+  Fotoğraf iki türev besler; üzerine yazdıktan sonra ikisini de yenile:
+  `node tools/build-og-profile.mjs` (paylaşım görselleri) ve `node tools/build-vcard.mjs` (kişi kartı).
+  Kişi kartı üreticisi kaynağın dairesel mi dikdörtgen mi olduğunu köşelerinden anlar: dairesel ise dairenin içine sığan
+  kareyi alır (kartta koyu köşe kalmasın), dikdörtgen ise sayfadaki kırpımı uygular
+  (`object-fit: cover`, `object-position: 50% 28%`).
+- Kişi kartı `farhad-yaqoobi.vcf` kökte durur, dört dilin bağlantı sayfası da onu gösterir (build-i18n yalnızca köke
+  işaret eden göreli yolları derinleştirir). Ad, unvan, sosyal hesaplar `contact/index.html`'den, e-posta `js/main.js`'ten
+  okunur — kartta ayrıca elle güncellenecek bir yer yok. E-posta adresi bu dosyada düz metin durur (sayfada durmuyor).
 - Formlar sunucusuzdur: gönderince e-posta uygulamasını mailto ile açar. Gerçek bir uç nokta için `js/main.js` içindeki `wireForm` fonksiyonunu değiştir.
+- Günlük soru hakkı **10**. Sayı üç yerde birden tutarlı olmalı: `js/main.js` içindeki `DAILY`,
+  `index.html`'deki «en fazla N soru» notu (ve üç çeviride aynı anahtar) ve worker'daki
+  `DAILY_LIMIT`. Worker bağlı değilse yalnızca ilk ikisi geçerlidir.
 - FYOS sohbetinin üç kaynağı var, `js/main.js` içindeki `answer()` sırayla dener:
   1. `FYOS_ENDPOINT` doluysa Cloudflare Worker (`worker/`; Claude ya da ücretsiz Workers AI). Kurulum `worker/README.md`.
   2. `FYOS_LOCAL_AI` açıksa ve cihazda WebGPU varsa tarayıcı içi model (`js/fyos-local.js`, WebLLM + Qwen2.5-1.5B). Ücretsiz, hesapsız, sınırsız; model ilk soruda bir kez iner (~1 GB) ve tarayıcı önbelleğinde kalır. Telefon ve düşük bellekli cihazlarda atlanır (`FYOS_LOCAL_MODEL_SMALL` boş).
   3. Aksi hâlde 20 konulu hazır yanıtlı çevrimdışı demo.
   Yerel model için `index.html` CSP'sinde cdn.jsdelivr.net, huggingface.co ve *.hf.co izinli; kapatırsan CSP'yi de eski hâline döndür.
+- **Canlı sesli mod** (`js/fyos-voice.js`): sohbet çubuğundaki mikrofon düğmesi açar. Açıkken tıklama yoktur —
+  «Melis» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine beklemeye döner. Sözünü kesebilirsin:
+  ziyaretçi konuşmaya başlayınca okuma durur. Soru yine yukarıdaki üç kaynaktan yanıtlanır ve aynı günlük
+  hakkı harcar; sesli modda daktilo animasyonu atlanır (yoksa konuşma saniyelerce gecikir).
+  - Dış bağımlılık ve yeni CSP kaydı yok: her şey tarayıcının `SpeechRecognition` ve `speechSynthesis` API'leri.
+    Motor dosyası ancak sesli mod ilk açıldığında iner.
+  - Tarayıcı cihaz içi tanımayı destekliyorsa (`SpeechRecognition.available({processLocally:true})`, Chrome 138+)
+    ses cihazdan hiç çıkmaz. Desteklemiyorsa tanıma tarayıcının kendi servisinde yapılır; bu, açılış onayında
+    açıkça yazılır ve `terms.html`'de belgelenmiştir. Onay verilmeden mikrofon açılmaz.
+  - İlk açılışta tarayıcı izni bir kez sorar. Sonraki ziyaretlerde izin hâlâ duruyorsa sesli mod kendiliğinden
+    başlar (`navigator.permissions` 'granted' dönerse); izin yoksa hiçbir şey yapılmaz, sürpriz izin penceresi çıkmaz.
+  - Uyandırma kelimesi **«Melis»**. Tanıyıcı bunu «meliss», «melisa», «mehlis» diye de yazabildiğinden
+    1 harf uzaklığa kadar eşleşir. Bu tolerans gerçek bir kelimeye denk gelirse orası ayrıca kapatılır:
+    «meclis» tek harf silinince «melis» oluyor ve FYOS'u boş yere uyandırırdı (`NOT_WAKE` listesi).
+    İsmi değiştirirsen `WAKE_DEFAULT`, `NOT_WAKE` ve dört dildeki `voiceWake` / `voiceConsentText`
+    metinleri birlikte değişir; `terms.html` de ismi anıyor.
+    Soru metni her zaman ziyaretçinin söylediği hâliyle kesilir (Türkçe harfler ve noktalama korunur).
+  - `SpeechRecognition` olmayan tarayıcılarda mikrofon düğmesi hiç gösterilmez; yazılı sohbet olduğu gibi çalışır.
+  - **Kendini toparlar.** Sahada «bir kez cevap verdi, sonra sesi kesildi» diye bildirilen hatanın
+    dört ayrı sebebi vardı, dördü de kapatıldı — hepsi sesli modu kalıcı olarak sağır bırakıyordu:
+    1. Chrome, yanıt okunurken sürekli dinlemeyi arka arkaya kapatıyor. Eski kod bu kapanmaları
+       sayıyordu ve 10 saniyede 12 tanesi sesli modu **tümden kapatıyordu**. Artık vazgeçme yok;
+       bekleme yalnızca açılış gerçekten başarısız olduğunda (onstart hiç gelmediğinde) uzuyor.
+    2. `rec.start()` «zaten çalışıyor» dışında bir sebeple patlarsa hata yutuluyordu; `onend` de
+       gelmediği için mikrofon bir daha hiç açılmıyordu. Artık tanıyıcı baştan kuruluyor.
+    3. Tanıyıcı sessizce de ölebiliyor. 5 saniyede bir çalışan sağlık nöbetçisi, dinlemede olmamız
+       gerekirken 15 saniye hiç olay gelmediyse tanıyıcıyı yeniliyor.
+    4. Chrome uzun bir konuşma parçasında `onend`'i bazen hiç göndermiyor. Yanıt artık cümlelere
+       (~180 karakter) bölünerek okunuyor; her parçanın kendi nöbetçisi var ve konuşmanın gerçekten
+       başlayıp başlamadığı 1,5 saniyede anlaşılıyor.
+    Ayrıca `js/main.js` tarafında yanıt kaynağı hiç dönmezse `busy` sonsuza kadar açık kalıyordu ve
+    o andan sonraki her soru sessizce düşüyordu: artık 60 saniyelik bir emniyet süresi var, ilerleme
+    geldikçe tazeleniyor (1 GB'lık model inişi kesilmez).
+  - **FYOS'un sesi ve dili: genç, güler yüzlü, samimi.** Üç ayrı katmandan gelir ve üçü ayrı ayrı ayarlanır:
+    1. *Tınısı* — worker'da `TTS_VOICE` (varsayılan OpenAI `coral`). Tarayıcı sesinde ise
+       `pickVoice` kadın sesini tercih eder: ses listeleri cinsiyet bilgisi vermediği için
+       bilinen adlarla **kelime kelime** eşleşir (alt dize araması «Microsoft Hedda - German
+       (Germany)» adındaki «man» yüzünden kadın sesi erkek sayıyordu). Önemi şu: Windows'ta
+       Türkçe varsayılanı «Tolga» (erkek), yanında «Emel» (kadın) durur.
+       **Ses listesi geç gelir.** `getVoices()` çoğu tarayıcıda ilk çağrıda boş döner ve
+       `voiceschanged` olayı bazı tarayıcılarda hiç gelmez. Liste boş kabul edilirse hiç ses
+       seçilemez ve tarayıcı kendi varsayılanını kullanır — Türkçede erkek. Bu yüzden liste
+       dolana kadar yoklanır (en çok 5 sn), dolunca önbelleğe alınır ve sesli mod açılırken
+       önceden ısıtılır.
+       Belirli bir sesi sabitlemek için `js/main.js` içindeki `FYOS_VOICE_NAME` (adın bir
+       parçası yeter).
+       **Perde (`FYOS_VOICE_PITCH`, varsayılan `'auto'`):** seçilen ses *bilinen bir erkek*
+       sesiyse perdesi yükseltilir (1,45) ve hız biraz düşer. Kadın seste ve **cinsiyeti
+       bilinmeyen** seste hiç dokunulmaz — Android'deki «Google Türkçe» gibi adlar çoğu
+       cihazda zaten kadındır ve inceltilirse cıyaklar; bilmediğin yerde müdahale etmek
+       etmemekten kötüdür. Sayı yazmak her sesde o perdeyi kullanır; `1` inceltmeyi kapatır.
+       Dürüst olalım: bu incelmiş bir erkek sesidir, kadın sesi değil.
+       **Ses teşhisi:** adrese `?ses` eklenip mikrofon açılınca FYOS cihazdaki bütün sesleri,
+       hangisini seçtiğini ve kadın sayıp saymadığını sohbete yazar (telefonda da görünür;
+       sıradan ziyaretçi bunu hiç görmez). Konsolda karşılığı
+       `FYOS_VOICE.voices().then(console.log)`. Kadın ses bulunamazsa konsola ayrıca bir kez
+       sebep yazılır. «Hâlâ erkek sesi» şikâyetinde bakılacak ilk yer burasıdır: liste kısaysa
+       ve içinde kadın ses yoksa sorun kodda değil, cihazdadır.
+       **Cihaz sınırı gerçektir.** Windows'ta yerel Türkçe TTS çoğu kurulumda yalnızca
+       «Microsoft Tolga» (erkek) içerir; Edge, Azure'un çevrimiçi «Emel» sesini de sunduğu için
+       aynı bilgisayarda Edge'de kadın, Chrome'da erkek çıkabilir. Her cihazda garanti genç
+       kadın sesi için tek yol worker'a seslendirme anahtarı koymaktır (`worker/README.md`).
+    2. *Nasıl konuştuğu* — worker'daki `TTS_STYLE` (OpenAI `instructions`). Bu metin okunmaz,
+       sese gülümseyerek ve arkadaşça okumasını söyler. ElevenLabs'te karşılığı `voice_settings`.
+    3. *Ne söylediği* — sistem istemi (`SYSTEM_PROMPT` ve `js.system`, dört dilde) ve hazır
+       yanıtlar. Ses ne kadar sıcak olsa da resmî bir cümle resmî kalır, o yüzden üçü birlikte gider.
+    **Gülme metne yazılmaz:** sistem istemi «haha» yazmayı yasaklar, çünkü aynı metin ekranda da
+    görünür ve tarayıcının kendi sesi onu harf harf okur. Gülümseme sesin tonundan gelir.
+  - **Ses kalitesi iki kademeli.** Varsayılan: tarayıcının kendi sesi — ücretsiz, çevrimdışı, robotik.
+    Worker'a bir seslendirme anahtarı (`OPENAI_API_KEY` ya da `ELEVENLABS_API_KEY`) eklenirse
+    yanıtlar gerçek bir insan sesiyle okunur; kurulum `worker/README.md` içinde. Adres
+    `FYOS_VOICE_ENDPOINT` ile verilir, boşsa `FYOS_ENDPOINT + '/tts'` kullanılır.
+    Uzak ses herhangi bir sebeple gelmezse (anahtar yok, ağ yok, günlük karakter hakkı bitti,
+    CSP engelledi) sessizce tarayıcı sesine dönülür ve konsola tek satırlık uyarı düşer —
+    FYOS hiçbir durumda sessiz kalmaz. `blob:` ses çalabilmek için CSP'de `media-src 'self' blob:` var.
 - Öğrenci paneli henüz yok; sayfa şifre sormaz, yalnızca haber listesi e-postası hazırlar. Panel açılınca formu gerçek girişe çevir.
 
 ## Tasarım tokenları

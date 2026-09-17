@@ -13,13 +13,32 @@
   function t(k, tr) { return T[k] != null ? T[k] : tr; }
   // Bu betiğin bulunduğu kök: sonradan yüklenen dosyalar (js/fyos-local.js) sayfanın değil betiğin konumuna göre
   // çözülür; böylece de/ en/ fa/ altındaki üretilmiş sayfalarda da doğru yol bulunur.
-  var SCRIPT_BASE = (document.currentScript && document.currentScript.src ? document.currentScript.src : '').replace(/js\/main\.js(\?.*)?$/, '');
+  var SCRIPT_SRC = (document.currentScript && document.currentScript.src) ? document.currentScript.src : '';
+  var SCRIPT_BASE = SCRIPT_SRC.replace(/js\/main\.js(\?.*)?$/, '');
+  /* Sürüm damgası: main.js kendi adresinde ?v=… ile geldiyse sonradan yüklenen betikler de onu
+     taşır. Yoksa main.js tazelenirken js/fyos-voice.js eski kalabiliyordu. Damgayı üreten
+     tools/lib/stamp.mjs; damga yokken boş dize kalır ve adresler bugünküyle birebir aynıdır. */
+  var ASSET_Q = (SCRIPT_SRC.match(/js\/main\.js(\?[^#]*)/) || ['', ''])[1] || '';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var raf = window.requestAnimationFrame;
   // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
   var FYOS_ENDPOINT = '';
+  // Sesli yanıt ucu (worker'ın /tts yolu): yanıtları gerçek bir insan sesiyle okutur.
+  // Boş bırakılırsa FYOS_ENDPOINT'ten türetilir; ikisi de boşsa tarayıcının kendi sesi kullanılır.
+  var FYOS_VOICE_ENDPOINT = '';
+  /* Tarayıcı sesini elle sabitlemek için: adın bir parçası yeter ("Emel", "Yelda"…).
+     Boşsa ses kendiliğinden seçilir ve kadın sesi tercih edilir. Cihazdaki sesleri görmek
+     için konsola: FYOS_VOICE.voices().then(console.log) */
+  var FYOS_VOICE_NAME = '';
+  /* Tarayıcı sesinin perdesi.
+     'auto' (varsayılan): cihazda kadın ses bulunamazsa erkek sesin perdesi yükseltilir,
+     bulunursa sese hiç dokunulmaz. Bir sayı verilirse (1 = sesin kendi perdesi) her sesde
+     o kullanılır; 1 yazmak inceltmeyi tümden kapatır.
+     Dürüst olalım: bu incelmiş bir erkek sesidir, kadın sesi değil. Her cihazda gerçek bir
+     genç kadın sesi için worker'a seslendirme anahtarı gerekir (worker/README.md). */
+  var FYOS_VOICE_PITCH = 'auto';
   // Tarayıcı içi ücretsiz model (WebGPU). Kapatmak için false yap. Model adları: https://mlc.ai/models
   var FYOS_LOCAL_AI = true;
   var FYOS_LOCAL_MODEL = 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC';       // masaüstü (~1 GB, bir kez iner)
@@ -222,13 +241,35 @@
   (function mesh() {
     var canvas = $('#meshCanvas'), area = $('#stageArea'), voiceC = $('#voiceCanvas');
     if (!canvas || !area) return;
+    /* «scan»: parlaklığın kümeler arasında dolaşması — düşünürken sahne gerçekten çalışıyor
+       gibi görünsün diye. «packets»: aynı anda akan ışık paketi sayısı; eskiden her durumda
+       sabit 10'du, yani durum değişimi yoğunlukta hiç karşılık bulmuyordu.
+       listening artık UYANIK okunuyor: ziyaretçi konuşurken sahnenin kararıp yavaşlaması
+       (bright .72, speed .55) yanlış bir işaretti — dinleyen bir şey uyanık durur. */
     var STATES = {
-      idle:      { speed: 1,   fireEvery: 3,   bright: 1,    waveAmp: .25, waveFreq: 1,   shimmer: 0 },
-      thinking:  { speed: 2,   fireEvery: 1.1, bright: 1.25, waveAmp: .35, waveFreq: 1.6, shimmer: .3 },
-      speaking:  { speed: 1.4, fireEvery: 2,   bright: 1.35, waveAmp: 1,   waveFreq: 2.2, shimmer: 1 },
-      listening: { speed: .55, fireEvery: 4.5, bright: .72,  waveAmp: .12, waveFreq: .5,  shimmer: 0 }
+      idle:      { speed: 1,   fireEvery: 3,   bright: 1,    waveAmp: .25, waveFreq: 1,   shimmer: 0,   scan: 0,   packets: 10 },
+      thinking:  { speed: 2,   fireEvery: 1.1, bright: 1.3,  waveAmp: .35, waveFreq: 1.6, shimmer: .3,  scan: 1,   packets: 17 },
+      speaking:  { speed: 1.4, fireEvery: 2,   bright: 1.35, waveAmp: 1,   waveFreq: 2.2, shimmer: 1,   scan: 0,   packets: 13 },
+      listening: { speed: .85, fireEvery: 2.4, bright: 1.12, waveAmp: .55, waveFreq: .9,  shimmer: .15, scan: .35, packets: 8 }
     };
-    var PALETTE = [190, 210, 265, 300, 160, 330, 45];
+    /* Dolaşan küresel ton. Değerlerin çoğu sekmelerin data-hue'suyla aynı (Terminal 187,
+       Memory 270, Studio 330, Coaches 38); 210 ve 160 aradaki boşlukları kapatıyor ki
+       tur soğuk-sıcak dengesini korusun. */
+    var PALETTE = [187, 210, 270, 300, 160, 330, 38];
+    /* Karede çok renk. Bunlar sitenin ZATEN kullandığı alt sistem renkleri (sekmelerdeki ve
+       HUD kartlarındaki palet): Agents, Studio, Coaches, Memory, Skills, Knowledge.
+       Ağ bu tonları aynı anda taşır ama hepsi küresel tonun ±TINT_SPREAD derecelik kuşağında
+       kalır — sahne tek bir ruh hâlinde kalır, konfetiye dönmez. */
+    var TINT_HUES = [24, 38, 199, 255, 270, 330];        // ton sırasına dizili: kümeler merkez çevresinde yumuşak bir kuşak oluşturur
+    var TINTS = TINT_HUES.length, TINT_SPREAD = 52;
+    var tintHue = [], tintAdd = [], tintSlot = [];       // tintHue/tintAdd her karede bir kez hesaplanır
+    for (var ti0 = 0; ti0 < TINTS; ti0++) {
+      tintHue.push(0); tintAdd.push(0);
+      /* Kümenin küresel tondan sabit sapması. Marka tonuna doğrudan kenetlemek (ör. «en fazla
+         52 derece yaklaş») altı kümeyi üç değere çökertiyordu; eşit aralıklı yuva hem altısını
+         da ayrı tutuyor hem de ton gezinirken hiçbir sıçrama üretmiyor. */
+      tintSlot.push((ti0 / (TINTS - 1) - .5) * 2 * TINT_SPREAD);
+    }
     var BADGE = { idle: t('badgeIdle', 'Canlı ve çevrimiçi'), thinking: t('badgeThinking', 'Düşünüyorum…'), speaking: t('badgeSpeaking', 'Yanıt veriyorum'), listening: t('badgeListening', 'Dinliyorum') };
     var badge = $('#liveState');
 
@@ -240,25 +281,59 @@
     var linkC = $('#linkCanvas'), links = [], flows = [], linksReady = false;
     for (var i = 0; i < 80; i++) {
       var hub = i < 8;
+      var nbx = .5 + .42 * gauss(), nby = .5 + .4 * gauss();
+      var nr = hub ? 6 + 2 * srnd() : 1.5 + 2.5 * srnd();
+      var sA = 1000 * srnd(), sB = 1000 * srnd();
+      /* srnd() burada da bir kez tüketiliyor: eskiden «purple» bayrağını üretiyordu.
+         Tüketmezsek tohum sırası kayar ve ağın yerleşimi tamamen değişirdi. */
+      var jit = srnd();
+      /* Küme: düğümün merkeze göre açısı. Kartlar da çevreye açıyla dizildiği için kümeler
+         kendiliğinden kartlarla hizalanır; buildLinks'e bağlanmadığı için telefonda da çalışır. */
+      var ang = Math.atan2(nby - .5, nbx - .5) + Math.PI + (jit - .5) * .35;
       nodes.push({
-        bx: .5 + .42 * gauss(), by: .5 + .4 * gauss(), x: 0, y: 0,
-        r: hub ? 6 + 2 * srnd() : 1.5 + 2.5 * srnd(), hub: hub,
-        seedA: 1000 * srnd(), seedB: 1000 * srnd(), purple: srnd() < .12
+        bx: nbx, by: nby, x: 0, y: 0, r: nr, hub: hub, seedA: sA, seedB: sB,
+        tint: Math.floor(ang / (2 * Math.PI) * TINTS + TINTS) % TINTS
       });
     }
 
     var w = 0, h = 0;
+    /* Dar ve uzun ekranda taban yerleşim dikey bir şeride sıkışıyor (bx/by kare bir alan için
+       ölçülmüş). Yatay yayılım en-boy oranına göre açılır; kenarları maske zaten söndürüyor. */
+    var spreadX = 1;
+    function nodeX(nd) { return (.5 + (nd.bx - .5) * spreadX) * w; }
+    /* fit() her çağrıda getBoundingClientRect() okuyor, yani düzeni zorluyor — üstelik karede
+       üç ayrı tuval için. Ölçü yalnızca pencere boyutuyla değişir; yine de yazı tipi yüklenmesi
+       gibi sessiz kaymaları kaçırmamak için yarım saniyede bir tazelenir. Ölçü tazelenmediğinde
+       dönüşüm matrisine de dokunmaya gerek yok: bu dosyada başka hiçbir yer onu değiştirmiyor. */
+    var fitRound = 0, fitFrame = 0, fitCache = [];
+    /* offsetParent okuması da düzeni zorluyor. Bir tuvalin görünürlüğü kare kare değişmez,
+       o yüzden fit ölçüsüyle aynı turda, yarım saniyede bir bakılır. */
+    var shownRound = -1, shownLink = false;
+    function linkShown() {
+      if (shownRound !== fitRound) { shownRound = fitRound; shownLink = !!(linkC && linkC.offsetParent); }
+      return shownLink;
+    }
+    function fitC(c) {
+      var e = null;
+      for (var i = 0; i < fitCache.length; i++) if (fitCache[i].c === c) { e = fitCache[i]; break; }
+      if (!e) { e = { c: c, round: -1, f: null }; fitCache.push(e); }
+      if (e.round !== fitRound) { e.round = fitRound; e.f = fit(c); }
+      return e.f;
+    }
     function buildEdges() {
       edges = [];
       var s2 = 4242, rr = function () { s2 = s2 * 16807 % 2147483647; return (s2 - 1) / 2147483646; };
+      spreadX = w && h ? Math.min(1.25, Math.max(1, Math.sqrt(h / w))) : 1;
       var reach = .24 * Math.min(w, h);
       for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
-        var d = Math.hypot((nodes[i].bx - nodes[j].bx) * w, (nodes[i].by - nodes[j].by) * h);
-        if (d < reach && rr() < .55) edges.push({
-          a: i, b: j, cpOff: (rr() - .5) * d * .55,
-          alpha: Math.max(.05, .35 * (1 - d / reach)),
-          purple: (nodes[i].purple || nodes[j].purple) ? rr() < .5 : rr() < .06
-        });
+        var d = Math.hypot((nodes[i].bx - nodes[j].bx) * spreadX * w, (nodes[i].by - nodes[j].by) * h);
+        if (d < reach && rr() < .55) {
+          var cp = (rr() - .5) * d * .55, rv = rr();
+          /* Kenarın tonu: iki ucu aynı kümedeyse o küme. Farklı kümelerdeyse çoğunlukla
+             nötr (-1 = küresel ton) kalır; kümelerin içi renklenir, araları bağ dokusu olur. */
+          var et = nodes[i].tint === nodes[j].tint ? nodes[i].tint : (rv < .3 ? (rv < .15 ? nodes[i].tint : nodes[j].tint) : -1);
+          edges.push({ a: i, b: j, cpOff: cp, alpha: Math.max(.05, .35 * (1 - d / reach)), tint: et });
+        }
       }
     }
 
@@ -325,6 +400,12 @@
         if (links.indexOf(L) >= 0) fireFlow(L, -1);              // arada yeniden kurulduysa bırak
       }, 420);
     }
+    /* Karttan dönen yanıt ağa varınca geçit düğümünde küçük bir parlama bırakır.
+       Eskiden sessizce yok oluyordu: gidiş görünür, dönüş görünmezdi. */
+    function returned(L) {
+      var g = nodes[L.gate];
+      if (g) sparks.push({ x: g.x, y: g.y, r: 2, max: 22 + 10 * Math.random(), alpha: .6, tint: g.tint });
+    }
     function drawLinks(lc, lw, lh, dt) {
       lc.clearRect(0, 0, lw, lh);
       for (var li = 0; li < links.length; li++) {
@@ -343,7 +424,12 @@
       for (var fi = flows.length - 1; fi >= 0; fi--) {
         var F = flows[fi];
         F.t += dt * F.speed;
-        if (F.t >= 1) { flows.splice(fi, 1); if (F.dir === 1) landed(F.L); continue; }
+        if (F.t >= 1) {
+          flows.splice(fi, 1);
+          if (F.dir === 1) landed(F.L);
+          else returned(F.L);                                    // yanıt merkeze ulaştı: küçük bir karşılık
+          continue;
+        }
         var FP = linkPath(F.L), ft = F.dir === 1 ? F.t : 1 - F.t;
         for (var k = 1; k < 7; k++) {                             // kuyruk
           var kt = ft - k * .022 * F.dir;
@@ -360,10 +446,88 @@
       }
     }
 
-    var hue = 190, hueTarget = 190, hueTimer = 9, hueLast = -999;
+    var HUE_PERIOD = 10;                                 // sahibinin isteği: renk tam 10 saniyede bir değişir
+    var hue = 187, hueTarget = 187, hueTimer = HUE_PERIOD, hueLast = -999;
+    /* Ton sırası: palet turlar hâlinde, her tur karıştırılarak gezilir. Yerine koyarak
+       seçilseydi ~%14 ihtimalle aynı ton gelir ve o 10 saniye hiç değişim görünmezdi. */
+    var hueBag = [], hueBagAt = 0;
+    function nextHue() {
+      if (hueBagAt >= hueBag.length) {
+        hueBag = PALETTE.slice();
+        for (var i = hueBag.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1)), tmp = hueBag[i];
+          hueBag[i] = hueBag[j]; hueBag[j] = tmp;
+        }
+        // Tur başı, önceki turun sonuyla aynıysa bir sonrakiyle yer değiştirir
+        if (hueBag.length > 1 && hueBag[0] === hueTarget) { var s0 = hueBag[0]; hueBag[0] = hueBag[1]; hueBag[1] = s0; }
+        hueBagAt = 0;
+      }
+      return hueBag[hueBagAt++];
+    }
     function col(l, a, off, sat) {
       return 'hsla(' + ((hue + (off || 0) + 360) % 360) + ',' + (sat || 85) + '%,' + l + '%,' + a + ')';
     }
+    // Küme tonuyla renk. t < 0 ise nötr, yani küresel ton.
+    function tcol(t, l, a) {
+      return 'hsla(' + (t >= 0 ? tintHue[t] : ((hue + 360) % 360)).toFixed(1) + ',85%,'
+        + (t >= 0 ? l + tintAdd[t] : l).toFixed(1) + '%,' + a + ')';
+    }
+    /* Kenar kovaları: (küme tonu + 1) × saydamlık kademesi. «+1» nötr kenarları 0. sıraya alır.
+       Diziler bir kez kurulur, her karede length = 0 ile boşaltılır — kare başına ayırma yok. */
+    var ASTEPS = 8, buckets = [], edgeCss = [];
+    for (var bk = 0; bk < (TINTS + 1) * ASTEPS; bk++) { buckets.push([]); edgeCss.push(''); }
+    /* Küme tonlarını ve kovaların hazır CSS dizelerini kare başına BİR kez üretir. */
+    function refreshTints(scan, ph) {
+      for (var i = 0; i < TINTS; i++) {
+        /* Marka çekimi: küresel ton kümenin kendi rengine yaklaştıkça yuva bir miktar
+           daralır — genliği yuva aralığının yarısından küçük tutulduğu için sıra hiç bozulmaz. */
+        var pull = TINT_SPREAD * .18 * Math.sin((TINT_HUES[i] - hue) * Math.PI / 180);
+        tintHue[i] = (hue + tintSlot[i] + pull + 360) % 360;
+        // Tarama dalgası her kümeden sırayla geçer; küp alınarak dar bir tepeye dönüşür
+        var c = scan ? Math.cos(((ph || 0) - i / TINTS) * 6.283) : 0;
+        tintAdd[i] = c > 0 ? 10 * scan * c * c * c : 0;
+      }
+      for (var t = -1; t < TINTS; t++) {
+        var hh = (t >= 0 ? tintHue[t] : (hue + 360) % 360).toFixed(1);
+        var ll = (t >= 0 ? 60 + tintAdd[t] : 60).toFixed(1);
+        for (var l = 0; l < ASTEPS; l++) {
+          edgeCss[(t + 1) * ASTEPS + l] = 'hsla(' + hh + ',85%,' + ll + '%,' + ((l + .5) * .7 / ASTEPS).toFixed(3) + ')';
+        }
+      }
+    }
+    /* ---------- Zemin derinliği ----------
+       Köşeler dümdüz siyahtı. Üç geniş, çok düşük alfalı leke sahneye derinlik veriyor.
+       Her karede yeniden üretmek pahalı olurdu: çeyrek çözünürlüklü bir tuvale çizilip
+       ton 8 dereceden fazla kayana kadar saklanıyor. Kare maliyeti tek drawImage.
+       Tonlar küresel tonu İZLEMİYOR, ona doğru yalnızca biraz esniyor: zemin hep lacivert
+       (+ bir köşede markanın altını) kalsın diye. Küresel tona bağlansaydı sahne sarıya
+       geçtiğinde zemin de zeytin yeşiline dönüp çamurlaşıyordu.
+       [x, y, yarıçap, taban ton, açıklık, alfa] — hepsi sahnenin kendi oranlarında. */
+    var NEB = [[.16, .2, .66, 225, 28, .32], [.86, .8, .6, 209, 24, .28], [.66, .12, .42, 42, 26, .15]];
+    var neb = null, nebHue = -999, nebW = 0, nebH = 0;
+    function nebula() {
+      if (!w || !h) return null;
+      var moved = Math.abs(((hue - nebHue + 540) % 360) - 180);
+      if (neb && nebW === w && nebH === h && moved < 8) return neb;
+      if (!neb) neb = document.createElement('canvas');
+      nebW = w; nebH = h; nebHue = hue;
+      var sw = Math.max(1, Math.round(w / 4)), sh = Math.max(1, Math.round(h / 4));
+      if (neb.width !== sw || neb.height !== sh) { neb.width = sw; neb.height = sh; }
+      var nc = neb.getContext('2d');
+      nc.clearRect(0, 0, sw, sh);
+      for (var i = 0; i < NEB.length; i++) {
+        var b = NEB[i], cx = b[0] * sw, cy = b[1] * sh, rr = b[2] * Math.max(sw, sh);
+        // Küresel ton yaklaştıkça leke ona doğru en fazla 20 derece esner — bağlanmaz
+        var hh = ((b[3] + 20 * Math.sin((hue - b[3]) * Math.PI / 180) + 360) % 360).toFixed(1);
+        var stop = ',70%,' + b[4] + '%,';
+        var g = nc.createRadialGradient(cx, cy, 0, cx, cy, rr);
+        g.addColorStop(0, 'hsla(' + hh + stop + b[5] + ')');
+        g.addColorStop(1, 'hsla(' + hh + stop + '0)');
+        nc.fillStyle = g; nc.fillRect(0, 0, sw, sh);
+      }
+      return neb;
+    }
+
     // Kavisli lif üzerinde nokta (quadratic bezier)
     function bez(e, t) {
       var a = nodes[e.a], b = nodes[e.b];
@@ -371,6 +535,21 @@
       var dx = b.x - a.x, dy = b.y - a.y, dd = Math.hypot(dx, dy) || 1;
       var cx = mx + -dy / dd * e.cpOff, cy = my + dx / dd * e.cpOff, m = 1 - t;
       return { x: m * m * a.x + 2 * m * t * cx + t * t * b.x, y: m * m * a.y + 2 * m * t * cy + t * t * b.y, cx: cx, cy: cy };
+    }
+    /* Halkanın geçtiği yerde ağı parlatır. Ölçü halkanın KENDİ merkezinden alınır:
+       eskiden hep sahnenin ortasından ölçülüyordu, yani tıklanan yerin hiç önemi yoktu. */
+    function boost(x, y) {
+      var a = 0;
+      for (var i = 0; i < ripples.length; i++) {
+        var rp = ripples[i], d = Math.abs(Math.hypot(x - rp.x, y - rp.y) - rp.r);
+        if (d < 90) a += (1 - d / 90) * rp.alpha;
+      }
+      return a;
+    }
+    // Halka her zaman bir merkezle doğar; yer verilmezse sahnenin ortası
+    function ripple(x, y) {
+      if (reduce) return;
+      ripples.push({ r: 0, alpha: .9, x: x == null ? w / 2 : x, y: y == null ? h / 2 : y });
     }
     function spawnPacket() {
       if (edges.length) packets.push({ fiber: Math.floor(Math.random() * edges.length), t: 0, speed: .25 + .5 * Math.random(), dir: Math.random() < .5 ? 1 : -1, trail: [] });
@@ -387,28 +566,35 @@
     var sparkTimer = 0, tPrev = performance.now(), q = 0;
     function draw(now) {
       if (!visible(canvas) && !ripples.length) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx;
+      if (++fitFrame >= 30) { fitFrame = 0; fitRound++; }
+      var f = fitC(canvas), ctx = f.ctx;
       if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); linksReady = false; }
       var s = Math.min((now - tPrev) / 1000, .05); tPrev = now; q += s;
 
-      var lerp = 2.2 * Math.min(1, s / .5);
+      var lerp = 4.4 * s;
       for (var k in cur) cur[k] += (target[k] - cur[k]) * lerp;
 
       // Renk kendi kendine gezinir
-      if ((hueTimer -= s) <= 0) { hueTarget = PALETTE[Math.floor(Math.random() * PALETTE.length)]; hueTimer = 12 + 10 * Math.random(); }
+      if ((hueTimer -= s) <= 0) { hueTarget = nextHue(); hueTimer = HUE_PERIOD; }
       var hd = (hueTarget - hue + 540) % 360 - 180;
-      hue += hd * Math.min(1, .35 * s);
-      if (Math.abs(hue - hueLast) >= .5) { hueLast = hue; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1)); }
+      hue = (hue + hd * .55 * s) % 360;                 // ~1,8 sn'lik geçiş: 10 sn'lik turda renk bir süre durur
+      if (hue < 0) hue += 360;                          // aksi hâlde ton sürekli aşağı kayıp eksiye dalıyor
+      if (Math.abs(hue - hueLast) >= 2) { hueLast = hue; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1)); }
+      refreshTints(cur.scan, q * .28);
 
       var osc = 1 + Math.sin(q * (stateName === 'listening' ? .9 : 1.6)) * (stateName === 'listening' ? .12 : .05);
       var bright = cur.bright * osc;
 
-      // İz bırakan zemin
+      // İz bırakan zemin + derinlik katmanı
       ctx.fillStyle = 'rgba(7, 6, 4, 0.28)';
       ctx.fillRect(0, 0, w, h);
+      var nb = nebula();
+      /* İz bırakan zemin her karede yalnızca %28 karartıyor, yani buraya konan her şey
+         ~3,5 katına yığılıyor. Kare başına alfa bu yüzden bilerek çok düşük. */
+      if (nb) { ctx.globalAlpha = .18; ctx.drawImage(nb, 0, 0, w, h); ctx.globalAlpha = 1; }
 
       nodes.forEach(function (nd) {
-        nd.x = nd.bx * w + 6 * Math.sin(.3 * q + nd.seedA) + 4 * Math.cos(.17 * q + nd.seedB);
+        nd.x = nodeX(nd) + 6 * Math.sin(.3 * q + nd.seedA) + 4 * Math.cos(.17 * q + nd.seedB);
         nd.y = nd.by * h + 6 * Math.cos(.26 * q + nd.seedB) + 4 * Math.sin(.21 * q + nd.seedA);
       });
 
@@ -418,28 +604,37 @@
         rp.r += s * Math.max(w, h) * .75; rp.alpha -= .75 * s;
         if (rp.alpha <= 0) ripples.splice(ri, 1);
       }
-      function boost(x, y) {
-        var a = 0;
-        for (var i = 0; i < ripples.length; i++) {
-          var d = Math.abs(Math.hypot(x - w / 2, y - h / 2) - ripples[i].r);
-          if (d < 90) a += (1 - d / 90) * ripples[i].alpha;
-        }
-        return a;
-      }
 
-      // Kavisli lifler
+      /* Kavisli lifler — KOVALI çizim.
+         Eskiden her kenar tek tek strokeStyle atayıp stroke() çağırıyordu: ölçüldü, karede 379
+         stroke() ve o kadar da dize ayırma. Artık kenarlar (küme tonu × saydamlık kademesi)
+         kovalarına dağıtılıp kova başına TEK yol ve TEK stroke() ile çiziliyor — çağrı sayısı
+         yaklaşık sekizde bire iniyor. Saydamlık 8 kademeye yuvarlanıyor; 0,7 tavanlı saç teli
+         çizgilerde ve yüzlerce kenarın üst üste binmesinde adım görünmüyor. */
       ctx.lineWidth = .7;
+      for (var bi = 0; bi < buckets.length; bi++) buckets[bi].length = 0;
       for (var ei = 0; ei < edges.length; ei++) {
-        var e = edges[ei], a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
+        var e = edges[ei], a = nodes[e.a], b = nodes[e.b];
         var al = e.alpha * bright * .9;
         if (cur.shimmer > .01) al *= 1 + .5 * cur.shimmer * Math.sin(6 * q + 1.7 * ei);
         al += .4 * boost((a.x + b.x) / 2, (a.y + b.y) / 2);
-        ctx.strokeStyle = e.purple ? col(75, Math.min(al, .7), 55) : col(60, Math.min(al, .7));
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx.stroke();
+        if (al > .7) al = .7;
+        var lvl = (al * ASTEPS / .7) | 0; if (lvl < 1) continue; if (lvl >= ASTEPS) lvl = ASTEPS - 1;
+        buckets[(e.tint + 1) * ASTEPS + lvl].push(ei);
+      }
+      for (var bi = 0; bi < buckets.length; bi++) {
+        var bucket = buckets[bi]; if (!bucket.length) continue;
+        ctx.strokeStyle = edgeCss[bi];
+        ctx.beginPath();
+        for (var bj = 0; bj < bucket.length; bj++) {
+          var e2 = edges[bucket[bj]], a2 = nodes[e2.a], b2 = nodes[e2.b], p2 = bez(e2, .5);
+          ctx.moveTo(a2.x, a2.y); ctx.quadraticCurveTo(p2.cx, p2.cy, b2.x, b2.y);
+        }
+        ctx.stroke();
       }
 
       // Lifler üzerinde akan ışık paketleri
-      while (edges.length && packets.length < 10) spawnPacket();
+      while (edges.length && packets.length < cur.packets) spawnPacket();
       ctx.shadowBlur = 0;
       var heads = [];
       for (var pi = packets.length - 1; pi >= 0; pi--) {
@@ -466,13 +661,13 @@
       if ((sparkTimer -= s) <= 0) {
         sparkTimer = (2 + 2 * Math.random()) / (cur.fireEvery > 0 ? 3 / cur.fireEvery : 1);
         var sn = nodes[Math.floor(Math.random() * nodes.length)];
-        sparks.push({ x: sn.x, y: sn.y, r: 2, max: 34 + 22 * Math.random(), alpha: .75 });
+        sparks.push({ x: sn.x, y: sn.y, r: 2, max: 34 + 22 * Math.random(), alpha: .75, tint: sn.tint });
       }
       for (var si = sparks.length - 1; si >= 0; si--) {
         var sp = sparks[si];
         sp.r += 46 * s; sp.alpha -= 1.15 * s;
         if (sp.alpha <= 0 || sp.r >= sp.max) { sparks.splice(si, 1); continue; }
-        ctx.strokeStyle = col(70, sp.alpha * bright); ctx.lineWidth = 1;
+        ctx.strokeStyle = tcol(sp.tint, 70, sp.alpha * bright); ctx.lineWidth = 1;
         ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r, 0, 6.283); ctx.stroke();
         ctx.fillStyle = col(93, .8 * sp.alpha * bright, 0, 60);
         ctx.beginPath(); ctx.arc(sp.x, sp.y, 2.4, 0, 6.283); ctx.fill();
@@ -483,15 +678,15 @@
       nodes.forEach(function (nd) {
         if (nd.hub) return;
         var t = boost(nd.x, nd.y), a = Math.min(1, .65 * bright + t);
-        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(60, a);
+        ctx.fillStyle = tcol(nd.tint, 60, a);
         ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
       });
       ctx.shadowBlur = 14;
       nodes.forEach(function (nd) {
         if (!nd.hub) return;
         var t = boost(nd.x, nd.y), a = Math.min(1, .9 * bright + t);
-        ctx.shadowColor = nd.purple ? col(75, .8, 55) : col(62, .8);
-        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(70, a);
+        ctx.shadowColor = tcol(nd.tint, 62, .8);
+        ctx.fillStyle = tcol(nd.tint, 70, a);
         ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
       });
       ctx.shadowBlur = 0;
@@ -499,19 +694,19 @@
       // Halkaların kendisi
       ripples.forEach(function (rp) {
         ctx.strokeStyle = col(62, .5 * rp.alpha); ctx.lineWidth = 1.4;
-        ctx.beginPath(); ctx.arc(w / 2, h / 2, rp.r, 0, 6.283); ctx.stroke();
+        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, 6.283); ctx.stroke();
       });
 
       // Kartlara giden bağlantılar (sahne maskesinin dışındaki katman)
-      if (linkC) {
+      if (linkShown()) {                          // telefonda display:none — ölçme de çizme de gereksiz
         if (!linksReady) buildLinks();
-        var lf = fit(linkC);
+        var lf = fitC(linkC);
         drawLinks(lf.ctx, lf.w, lf.h, s);
       }
 
       // Ses dalgası: tek parlayan çizgi
       if (voiceC) {
-        var vf = fit(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
+        var vf = fitC(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
         vc.clearRect(0, 0, C, E);
         vc.strokeStyle = col(68, .75 + .25 * cur.waveAmp); vc.lineWidth = 1.6;
         vc.shadowBlur = 8; vc.shadowColor = col(62, .8);
@@ -520,7 +715,7 @@
         for (var x = 0; x <= C; x += 2) {
           var env = Math.sin(x / C * Math.PI), yy;
           if (stateName === 'speaking') yy = D + env * (4 * Math.sin(.11 * x + 14 * q) + 5 * Math.sin(.043 * x + 9 * q) + 3 * Math.sin(.021 * x + 21 * q)) * cur.waveAmp * .9;
-          else yy = D + env * Math.sin(.05 * x + 2.4 * q * cur.waveFreq) * 7 * cur.waveAmp * 4;
+          else yy = D + env * Math.sin(.05 * x + 2.4 * q * cur.waveFreq) * 28 * cur.waveAmp;
           if (x === 0) vc.moveTo(x, yy); else vc.lineTo(x, yy);
         }
         vc.stroke(); vc.shadowBlur = 0;
@@ -528,41 +723,71 @@
       raf(draw);
     }
 
-    if (reduce) {
-      // Hareket azaltılmışsa: tek karelik durağan çizim
-      var f0 = fit(canvas); w = f0.w; h = f0.h; buildEdges();
+    /* Hareket azaltılmışsa çizilen tek kare. Sekmeye tıklanınca yeniden çağrılır: yoksa
+       renk seçimi bu bağlamda hiçbir karşılık vermiyordu (--mesh-hue yalnızca draw()
+       içinde yazılıyordu, o da burada hiç çalışmaz). */
+    function paintStatic() {
+      var f0 = fit(canvas);
+      if (f0.w !== w || f0.h !== h) { w = f0.w; h = f0.h; buildEdges(); }
+      hue = hueTarget;                                   // geçiş yok: hedef ton doğrudan uygulanır
+      document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1));
+      refreshTints(0, 0);
       var ctx0 = f0.ctx;
       ctx0.fillStyle = '#070604'; ctx0.fillRect(0, 0, w, h);
-      nodes.forEach(function (nd) { nd.x = nd.bx * w; nd.y = nd.by * h; });
+      var nb0 = nebula();
+      if (nb0) { ctx0.globalAlpha = .32; ctx0.drawImage(nb0, 0, 0, w, h); ctx0.globalAlpha = 1; }
+      nodes.forEach(function (nd) { nd.x = nodeX(nd); nd.y = nd.by * h; });
       ctx0.lineWidth = .7;
       edges.forEach(function (e) {
         var a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
-        ctx0.strokeStyle = e.purple ? col(75, Math.min(.9 * e.alpha, .7), 55) : col(60, Math.min(.9 * e.alpha, .7));
+        ctx0.strokeStyle = tcol(e.tint, 60, Math.min(.9 * e.alpha, .7));
         ctx0.beginPath(); ctx0.moveTo(a.x, a.y); ctx0.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx0.stroke();
       });
       nodes.forEach(function (nd) {
-        ctx0.fillStyle = nd.purple ? col(75, nd.hub ? .9 : .65, 55) : col(nd.hub ? 70 : 60, nd.hub ? .9 : .65);
+        ctx0.fillStyle = tcol(nd.tint, nd.hub ? 70 : 60, nd.hub ? .9 : .65);
         ctx0.beginPath(); ctx0.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx0.fill();
       });
-      if (linkC) {
+    }
+    // Durağan sahnenin tamamı: ağ + kablolar + ses çizgisi. Yeniden boyutlandırmada tekrarlanır.
+    function paintStaticAll() {
+      paintStatic();
+      if (linkC && linkC.offsetParent) {
         buildLinks();
         var lf0 = fit(linkC);
         drawLinks(lf0.ctx, lf0.w, lf0.h, 0);
       }
       if (voiceC) {
         var vf0 = fit(voiceC), vc0 = vf0.ctx;
+        vc0.clearRect(0, 0, vf0.w, vf0.h);
         vc0.strokeStyle = col(68, .8); vc0.lineWidth = 1.6;
         vc0.beginPath(); vc0.moveTo(0, vf0.h / 2); vc0.lineTo(vf0.w, vf0.h / 2); vc0.stroke();
       }
-    } else {
-      raf(draw);
     }
+    if (reduce) paintStaticAll(); else raf(draw);
 
-    addEventListener('resize', function () { linksReady = false; });
-    area.addEventListener('pointerdown', function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); });
+    /* Hareket azaltılmışken draw() hiç çalışmıyor, yani fitRound'u kimse okumuyordu:
+       telefon döndürülünce tuval eski bit eşleminde gerili kalıyordu. Android'in pil
+       koruması «animasyonları kaldır»ı açıyor ve Chrome bunu prefers-reduced-motion'a
+       çeviriyor — yani bu, uç durum değil, pili azalmış her telefon. */
+    var reflowT = 0;
+    addEventListener('resize', function () {
+      linksReady = false; fitRound++;
+      if (!reduce) return;
+      clearTimeout(reflowT);                             // döndürme sırasında olay yağmuru olur
+      reflowT = setTimeout(paintStaticAll, 150);
+    });
+    area.addEventListener('pointerdown', function (ev) {
+      var b = canvas.getBoundingClientRect();
+      if (!b.width || !b.height) { ripple(); return; }
+      ripple((ev.clientX - b.left) / b.width * w, (ev.clientY - b.top) / b.height * h);
+    });
     window.FYOS = {
-      setHue: function (hh) { hueTarget = hh; hueTimer = 15; if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
-      ping: function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
+      setHue: function (hh) {
+        hueTarget = hh; hueTimer = HUE_PERIOD;
+        if (reduce) { paintStatic(); return; }            // durağan karede de renk karşılık versin
+        ripple();
+      },
+      ping: function () { ripple(); },
       setState: setState
     };
     setState('idle');
@@ -745,8 +970,11 @@
   (function ask() {
     var form = $('#askForm'), input = $('#askInput'), send = $('#askSend'), log = $('#askLog'), sub = $('#stageSub'), left = $('#askLeft');
     if (!form) return;
-    var quota = 4, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10), busy = false, idleTimer = 0;
-    try { quota = Math.max(0, 4 - (parseInt(localStorage.getItem(key) || '0', 10))); } catch (e) {}
+    /* Günlük soru hakkı. Sayı TEK yerde durur: index.html'deki «en fazla N soru» notu ve
+       worker'daki DAILY_LIMIT de aynı değere ayarlanır (bkz. worker/wrangler.toml). */
+    var DAILY = 10;
+    var quota = DAILY, key = 'fyos-quota-' + new Date().toISOString().slice(0, 10), busy = false, idleTimer = 0;
+    try { quota = Math.max(0, DAILY - (parseInt(localStorage.getItem(key) || '0', 10))); } catch (e) {}
     if (left) left.textContent = quota;
     input.addEventListener('input', function () { send.disabled = !input.value.trim() || quota <= 0 || busy; });
     input.addEventListener('focus', function () { if (!busy && window.FYOS) window.FYOS.setState('listening'); });
@@ -754,26 +982,26 @@
 
     // Bilgi tabanı: [anahtar kelimeler (regex), yanıt]. En çok eşleşen kazanır. Diğer diller: i18n/<dil>.json "js.canned".
     var canned = T.canned || [
-      ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! Çevrimiçiyim. Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum hakkında sorabilirsin.'],
-      ['teşekkür|sağ ol|sağol|eyvallah|süper|harika', 'Rica ederim. Başka bir şey merak edersen buradayım; ciddi bir konuysa iletişim formundan yaz, gerçek bir insan döner.'],
-      ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Yapay Zekâ Yolculuğu kursu şu an tamamen ücretsiz; ödeme yok. Kurs ileride ücretli olabilir. Site paketleri ve otomasyon ise projeye göre fiyatlanır; ücretsiz görüşmede net bir tahmin verilir.'],
-      ['kaç bölüm|bölüm|müfredat|içerik|konular|ders|program', 'Kurs 7 bölüm: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code ve skill\'ler), 5 Laboratuvar (site, CRM ve FYOS kurmak), 6 Vitrin (video, Instagram, içerik), 7 Zirve (para kazandıran beceri). Her bölüm gerçek bir projeyle biter.'],
-      ['kurs|eğitim|yolculuğu|öğren|başla|sıfırdan|acemi|yeni başlayan', 'Yapay Zekâ Yolculuğu, mutlak sıfırdan başlayan 7 bölümlük proje odaklı bir kurs. Programlama bilgisi gerekmez; her bölüm bir öncekinin üstüne kurulur. Şu an ücretsiz. Ayrıntılar eğitim bölümünde.'],
-      ['prompt|promt|komut|chatgpt|model', 'Prompt yazımı kursun 2. bölümü: rol, bağlam, hedef, kısıt ve çıktı biçimi formülü. Bu formülle her model tam istediğini verir; sistem promptu ve yapılandırılmış çıktı da orada.'],
-      ['n8n|otomasyon|ajan|bot|akış|workflow|webhook|zapier|make', 'Otomasyonu iki şekilde yapıyoruz: kursun 3. bölümünde n8n ile kendin öğreniyorsun; ajans tarafında ise DM yanıtları, müşteri adayı puanlama, raporlama ve CRM eşitleme gibi işleri senin için ajanlara devrediyoruz. Ücretsiz görüşmede önce hangi darboğaz çözülecek, birlikte karar veririz.'],
-      ['claude|skill|kod|code|anthropic|alt ajan|hafıza', 'Claude Code kursun 4. bölümünün konusu: skill yazımı, alt ajanlar ve kalıcı hafıza. Bu sitedeki FYOS demosunun mantığı da orada anlatılıyor.'],
-      ['site|web|landing|sayfa|paket|crm|platform|tasarım', 'Site için üç paketimiz var: Temel (animasyonlu satış sayfası), Profesyonel (site + CRM + yönetim paneli, en çok tercih edilen) ve Uzman (yapay zekâ entegrasyonlu tam platform). Fiyat projeye göre; "Proje talep et" düğmesinden yazabilirsin.'],
-      ['video|kurgu|instagram|reels|içerik|sosyal|takipçi|algoritma', 'Bunlar kursun 6. bölümü, Vitrin: Claude ile video kurgusu, Instagram algoritması, DM akıllılaştırma, içerik ve kampanya. Amaç markanı büyüme makinesi gibi döndürmek.'],
-      ['para kazan|gelir|müşteri bul|freelance|iş bul|satış', 'Kursun 7. bölümü Zirve tam olarak bunun için: teklif hazırlama, fiyatlama ve müşteri kazanma. Bütün beceriler orada para kazandıran tek beceriye dönüşür.'],
-      ['kim|sen|nesin|fyos|ne işe yarar|nasıl çalış', 'Ben FYOS, FY\'nin ajantik işletim sistemi demosuyum. Ajanlar, koçlar, hafıza, beceriler ve bilgi grafiğinden oluşan bir ağın küçük bir örneği. Kursun 5. bölümünde kendi sürümünü kuruyorsun.'],
-      ['farhad|ferhat|kurucu|hoca|eğitmen|anlatan|kimdir|hakkında', 'Kursu FY\'nin kurucusu Farhad Yaqoobi anlatıyor. Almanya\'da yaşıyor, IT okuyor, dört dilde içerik üretiyor ve öğrendiklerini açık kaynak olarak GitHub\'da paylaşıyor. Ayrıntı Hakkımda bölümünde.'],
-      ['dil|türkçe|almanca|ingilizce|farsça|deutsch|english', 'Kurs Türkçe. Destek Türkçe, Almanca, İngilizce ve Farsça olarak veriliyor.'],
-      ['nerede|almanya|türkiye|şehir|yüz yüze|online|uzaktan|canlı', 'Her şey online. FY Almanya\'da, Kuzey Ren-Vestfalya\'da; kurs ve görüşmeler uzaktan yapılıyor, dünyanın her yerinden katılabilirsin.'],
-      ['destek|soru sor|yardım|panel|erişim|lisans|izle|ömür', 'Kayıt olunca 45 gün tam destek hediye; sorularını öğrenci panelinde sorarsın. Videolara sana özel erişimle istediğin zaman ulaşırsın, erişim ömür boyu.'],
-      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme yok. Kaydolmak için "Ücretsiz katıl" düğmesine bas; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
-      ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu: sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt gerçek bir insandan gelir.'],
-      ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak için "FY\'ye katıl" bölümünden özgeçmişini gönderebilirsin; uygun görürsek iletişime geçeriz.'],
-      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamaz ve çerez kullanmaz. FYOS yanıtları senin cihazında üretilir; sorduğun hiçbir şey bir sunucuya gitmez, yalnızca model dosyaları bir kez indirilir. Ayrıntı Kurallar ve Gizlilik sayfasında.']
+      ['merhaba|selam|hey|günaydın|iyi akşamlar|nasılsın|naber', 'Merhaba! İyiyim, sen nasılsın? Kurs, site paketleri, otomasyon, FY ya da benim ne olduğum — ne merak ediyorsan sor, anlatayım.'],
+      ['teşekkür|sağ ol|sağol|eyvallah|süper|harika', 'Ne demek, rica ederim! Başka bir şey takılırsa buradayım. Ciddi bir konuysa iletişim formundan yaz, sana gerçek bir insan döner.'],
+      ['fiyat|ücret|kaç para|kaça|ne kadar|euro|€|indirim', 'Kurs şu an tamamen ücretsiz, hiç ödeme yok — ileride ücretli olabilir ama şimdilik bedava. Site paketleri ve otomasyon projeye göre fiyatlanıyor; ücretsiz görüşmede sana net bir rakam veriyoruz.'],
+      ['kaç bölüm|bölüm|müfredat|içerik|konular|ders|program', 'Kurs 7 bölüm: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code ve skill\'ler), 5 Laboratuvar (site, CRM ve FYOS kurmak), 6 Vitrin (video, Instagram, içerik), 7 Zirve (para kazandıran beceri). Her bölüm gerçek bir projeyle bitiyor, yani izleyip geçmiyorsun.'],
+      ['kurs|eğitim|yolculuğu|öğren|başla|sıfırdan|acemi|yeni başlayan', 'Yapay Zekâ Yolculuğu tam sıfırdan başlıyor, programlama bilmene hiç gerek yok. 7 bölüm, hepsi proje odaklı ve her biri bir öncekinin üstüne kuruluyor. Şu an da ücretsiz; ayrıntısı eğitim bölümünde.'],
+      ['prompt|promt|komut|chatgpt|model', 'Prompt yazımı kursun 2. bölümü: rol, bağlam, hedef, kısıt ve çıktı biçimi. Bu formülü bir öğrendin mi her model tam istediğini veriyor; sistem promptu ve yapılandırılmış çıktı da orada.'],
+      ['n8n|otomasyon|ajan|bot|akış|workflow|webhook|zapier|make', 'Otomasyonu iki türlü yapıyoruz: kursun 3. bölümünde n8n ile kendin öğreniyorsun, ajans tarafında ise DM yanıtları, müşteri adayı puanlama, raporlama ve CRM eşitleme gibi işleri senin yerine ajanlara devrediyoruz. Ücretsiz görüşmede önce hangi darboğazı çözeceğimize birlikte karar veriyoruz.'],
+      ['claude|skill|kod|code|anthropic|alt ajan|hafıza', 'Claude Code kursun 4. bölümü: skill yazımı, alt ajanlar ve kalıcı hafıza. Şu an benimle konuştuğun bu demonun mantığı da orada anlatılıyor.'],
+      ['site|web|landing|sayfa|paket|crm|platform|tasarım', 'Üç paketimiz var: Temel (animasyonlu satış sayfası), Profesyonel (site + CRM + yönetim paneli — en çok bunu seçiyorlar) ve Uzman (yapay zekâ entegrasyonlu tam platform). Fiyat projeye göre; "Proje talep et" düğmesinden yazarsan konuşuruz.'],
+      ['video|kurgu|instagram|reels|içerik|sosyal|takipçi|algoritma', 'Bunlar kursun 6. bölümü, Vitrin: Claude ile video kurgusu, Instagram algoritması, DM akıllılaştırma, içerik ve kampanya. Amaç markanı bir büyüme makinesi gibi döndürmek.'],
+      ['para kazan|gelir|müşteri bul|freelance|iş bul|satış', 'Kursun 7. bölümü Zirve tam olarak bunun için: teklif hazırlama, fiyatlama ve müşteri kazanma. Öğrendiğin bütün beceriler orada para kazandıran tek beceriye dönüşüyor.'],
+      ['kim|sen|nesin|fyos|ne işe yarar|nasıl çalış', 'Ben FYOS, FY\'nin ajantik işletim sistemi demosuyum. Ajanlar, koçlar, hafıza, beceriler ve bilgi grafiğinden oluşan bir ağın küçük bir örneğiyim. Kursun 5. bölümünde kendi sürümünü sen kuruyorsun.'],
+      ['farhad|ferhat|kurucu|hoca|eğitmen|anlatan|kimdir|hakkında', 'Kursu FY\'nin kurucusu Farhad Yaqoobi anlatıyor. Almanya\'da yaşıyor, IT okuyor, dört dilde içerik üretiyor ve öğrendiklerini açık kaynak olarak GitHub\'da paylaşıyor. Hakkımda bölümünde daha çok şey var.'],
+      ['dil|türkçe|almanca|ingilizce|farsça|deutsch|english', 'Kurs Türkçe. Destek ise Türkçe, Almanca, İngilizce ve Farsça — hangisi sana rahat geliyorsa ondan yaz.'],
+      ['nerede|almanya|türkiye|şehir|yüz yüze|online|uzaktan|canlı', 'Her şey online. FY Almanya\'da, Kuzey Ren-Vestfalya\'da; kurs da görüşmeler de uzaktan, yani dünyanın neresinde olursan ol katılabilirsin.'],
+      ['destek|soru sor|yardım|panel|erişim|lisans|izle|ömür', 'Kayıt olunca 45 gün tam destek hediye; sorularını öğrenci panelinden soruyorsun. Videolara sana özel erişimle istediğin zaman ulaşıyorsun, üstelik ömür boyu.'],
+      ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme diye bir şey yok. "Ücretsiz katıl" düğmesine basman yeter; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
+      ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu — sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt benden değil, gerçek bir insandan geliyor.'],
+      ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak istiyorsan "FY\'ye katıl" bölümünden özgeçmişini gönder; uygun görürsek biz sana dönüyoruz.'],
+      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamıyor, çerez de kullanmıyor. Benim yanıtlarım senin cihazında üretiliyor; sorduğun hiçbir şey sunucuya gitmiyor, yalnızca model dosyaları bir kez iniyor. Ayrıntısı Kurallar ve Gizlilik sayfasında.']
     ];
     function reply(q) {
       var lq = q.toLowerCase(), best = null, bestScore = 0;
@@ -782,11 +1010,11 @@
         if (score > bestScore) { bestScore = score; best = canned[i][1]; }
       }
       if (best) return best;
-      return t('cannedFallback', 'Bunu demo sürümünde yanıtlayamıyorum. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorabilirsin; ayrıntı için iletişim formundan yaz, gerçek bir insan yanıtlar.');
+      return t('cannedFallback', 'Bunu demo sürümümde bilemiyorum, kusura bakma. Kurs, fiyat, bölümler, site paketleri, otomasyon, destek ya da FY hakkında sorarsan anlatırım; ayrıntı için iletişim formundan yaz, sana gerçek bir insan yanıtlar.');
     }
 
     // Yerel modele verilen talimat ve FY bilgileri
-    var SYSTEM = T.system || ('Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki asistan. Doğal Türkçe, samimi ve kısa yaz: en fazla 3 cümle, düz metin. Soruyu tekrar etme, liste ve başlık yapma, emoji kullanma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
+    var SYSTEM = T.system || ('Sen FYOS\'sun: FY yapay zekâ ajansının sitesindeki canlı asistan. Genç, güler yüzlü ve samimi bir kadın gibi konuş — karşındaki yeni tanıştığın ama hemen ısındığın biri. Gündelik, sıcak Türkçe kullan; «tabii ki», «hemen anlatayım», «bak şöyle» gibi doğal bağlayıcılar serbest. Sen diliyle konuş, resmî «siz» kurma. Kısa tut: en fazla 3-4 cümle. Emoji kullanma, yıldız ya da etiket koyma, gülmeyi yazıyla taklit etme («haha», «hihi» yazma) — bu metin sesli de okunuyor, gülümseme sesin tonundan geliyor. Soruyu tekrar etme, liste ve başlık yapma. Yalnızca aşağıdaki bilgileri kullan; bunların dışında bir şey uydurma, bilmiyorsan «bunu iletişim formundan sorabilirsin» de.\n' +
       'FY: yapay zekâ eğitimi, web sitesi kurma ve işletmeleri otomasyonla akıllılaştırma ajansı. Kurucu Farhad Yaqoobi; Almanya\'da yaşıyor, IT okuyor, Türkçe/Almanca/İngilizce/Farsça biliyor.\n' +
       'Kurs "Yapay Zekâ Yolculuğu": 7 bölüm, proje odaklı, sıfırdan başlar, programlama gerekmez, tamamen online. Şu an tamamen ücretsiz (ileride ücretli olabilir), 45 gün destek, ömür boyu erişim. Bölümler: 1 Uyanış (temeller), 2 Formül (prompt yazımı), 3 Ajan (n8n otomasyon), 4 Atölye (Claude Code, skill\'ler), 5 Laboratuvar (site, CRM, FYOS kurma), 6 Vitrin (video, Instagram, içerik), 7 Zirve (müşteri kazanma, gelir).\n' +
       'Site paketleri: Temel (satış sayfası), Profesyonel (site + CRM, en popüler), Uzman (yapay zekâlı platform); fiyat projeye göre. Otomasyon: DM yanıtı, müşteri adayı puanlama, raporlama, CRM. Ücretsiz 30 dakikalık görüşme var. İletişim: sitedeki form. Site veri toplamaz; bu sohbet ziyaretçinin cihazında çalışır, sorular sunucuya gitmez.');
@@ -818,7 +1046,7 @@
       return new Promise(function (resolve, reject) {
         if (window.FYOS_LOCAL) return resolve(window.FYOS_LOCAL);
         try {
-          var sc = document.createElement('script'); sc.type = 'module'; sc.src = SCRIPT_BASE + 'js/fyos-local.js';
+          var sc = document.createElement('script'); sc.type = 'module'; sc.src = SCRIPT_BASE + 'js/fyos-local.js' + ASSET_Q;
           sc.onload = function () { if (window.FYOS_LOCAL) resolve(window.FYOS_LOCAL); else reject(new Error('modül boş')); };
           sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
           document.head.appendChild(sc);
@@ -861,51 +1089,274 @@
       log.appendChild(d); log.scrollTop = log.scrollHeight;
       return d;
     }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var q = input.value.trim(); if (!q || quota <= 0 || busy) return;
+    /* sendQuestion(q, spoken): yazılı formun da sesli modun da tek girişi.
+       spoken=true ise yanıt sesli okunur, sonra sesli mod yine dinlemeye döner.
+       false döner: soru boş, günlük hak bitmiş ya da bir yanıt sürüyor. */
+    function sendQuestion(q, spoken) {
+      q = String(q || '').trim();
+      if (!q || quota <= 0 || busy) return false;
       quota--; if (left) left.textContent = quota;
-      try { localStorage.setItem(key, String(4 - quota)); } catch (er) {}
-      input.value = ''; send.disabled = true; busy = true;
+      try { localStorage.setItem(key, String(DAILY - quota)); } catch (er) {}
+      busy = true;
       clearTimeout(idleTimer);
       bubble('user', q);
       if (window.FYOS) window.FYOS.setState('thinking');
       if (sub) sub.textContent = t('badgeThinking', 'Düşünüyorum…');
       history.push({ role: 'user', content: q });
-      var b = null, streamed = false;
+      var b = null, streamed = false, told = false, ended = false, deadline = 0;
+      /* Emniyet süresi: yanıt kaynağı hiç dönmezse (tarayıcı içi model takılır, ağ sessizce
+         ölür) busy sonsuza kadar açık kalır ve o andan sonra sorulan HER soru sessizce
+         düşer — sesli modda bu, FYOS'un bir kez konuşup bir daha hiç cevap vermemesi demek.
+         İlerleme geldikçe süre tazelenir; 1 GB'lık model inişi bu yüzden kesilmez. */
+      function bump() {
+        clearTimeout(deadline);
+        deadline = setTimeout(function () {
+          if (ended) return;
+          var msg = t('answerStuck', 'Bu soruda takıldım. Bir daha sorar mısın?');
+          if (!b) b = bubble('bot', '');
+          b.textContent = msg;
+          finish(msg);
+        }, 60000);
+      }
+      bump();
       function finish(text) {
+        if (ended) return;
+        ended = true;
+        clearTimeout(deadline);
         busy = false;
         if (sub) sub.textContent = quota > 0 ? t('subMore', 'Başka bir şey sor.') : t('subDone', 'Bugünlük bu kadar — yarın yine buradayım.');
         idleTimer = setTimeout(function () { if (!busy && window.FYOS) window.FYOS.setState('idle'); }, 3500);
+        if (spoken) voiceSay(text);
       }
       answer(q, {
         onProgress: function (pct) {
           if (!b) b = bubble('bot', '');
           b.textContent = t('modelLoading', 'Yapay zekâ bu cihazda, tarayıcında çalışacak. Model bir kez indiriliyor (yaklaşık 1 GB), sonra hazır kalıyor… %{pct}').replace('{pct}', pct) + (pct < 100 ? ' ' + t('modelLoadingHint', '— bu arada sayfayı gezebilirsin.') : '');
           if (sub) sub.textContent = t('subLoading', 'Model yükleniyor %{pct}').replace('{pct}', pct);
+          bump();
+          // Sesli modda model inerken sessizlik dakikalarca sürebilir: bir kez haber ver.
+          if (spoken && !told) { told = true; voiceSay(t('voiceLoading', 'Bir saniye, beynimi indiriyorum. Biraz sürebilir.'), true); }
         },
         onStream: function () {
           streamed = true;
+          bump();
           if (!b) b = bubble('bot', '');
           b.textContent = '…';
           if (sub) sub.textContent = t('subTyping', 'Yazıyorum…');
           if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
         },
-        onToken: function (text) { if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
+        onToken: function (text) { bump(); if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
       }, function (text, meta) {
-        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, '4'); } catch (er) {} }
+        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, String(DAILY)); } catch (er) {} }
         history.push({ role: 'assistant', content: text });
         if (streamed) { if (b) b.textContent = text; finish(text); return; }
         if (!b) b = bubble('bot', '');
-        var i = 0;
         if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); }
+        // Sesli modda daktilo animasyonu yok: harf harf yazmak konuşmayı saniyelerce geciktirir.
+        if (spoken) { b.textContent = text; log.scrollTop = log.scrollHeight; finish(text); return; }
+        var i = 0;
         (function type() {
           b.textContent = text.slice(0, i); log.scrollTop = log.scrollHeight;
           if (i++ < text.length) setTimeout(type, 14);
           else finish(text);
         })();
       });
+      return true;
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sendQuestion(input.value, false)) { input.value = ''; send.disabled = true; }
     });
+
+    /* ---------- FYOS: canlı sesli mod ----------
+       Mikrofona bir kez basılır (tarayıcı izni bir kez sorar); sonrası tıklamasızdır.
+       «Melis» denince FYOS uyanır, soruyu dinler, yanıtı sesli okur ve yine dinlemeye döner.
+       Sonraki ziyaretlerde izin zaten verilmişse kendiliğinden açılır — hiç basılmaz.
+       Motor js/fyos-voice.js; ancak sesli mod ilk açıldığında indirilir, kapalıyken hiç inmez. */
+    var mic = $('#askMic'), vline = $('#askVoice'), vtext = $('#askVoiceText');
+    var vcons = $('#voiceConsent'), vconsWhere = $('#voiceConsentWhere');
+    var voice = null, vBusy = false, vGreet = 0;
+    var VKEY = 'fyos-voice-on', VOK = 'fyos-voice-ok';
+    // Tanıyıcı ve seslendirme tam dil etiketi ister; sayfanın <html lang> değeri kısadır.
+    var VLANG = { tr: 'tr-TR', de: 'de-DE', en: 'en-US', fa: 'fa-IR' }[(document.documentElement.lang || 'tr').slice(0, 2)] || 'tr-TR';
+
+    function voiceSay(text, interim) {
+      if (!voice || !voice.isOn()) return;
+      voice.speak(text, function () { if (interim && voice) voice.hold(); });
+    }
+    function vsay(k, tr) { if (vtext) vtext.textContent = t(k, tr); }
+    function vshow(on) { if (vline) vline.hidden = !on; }
+    function micOn(on) {
+      if (!mic) return;
+      mic.classList.toggle('is-on', !!on);
+      mic.setAttribute('aria-pressed', on ? 'true' : 'false');
+      mic.setAttribute('aria-label', on ? t('micOff', 'Sesli modu kapat') : t('micOn', 'Sesli modu aç'));
+    }
+    function vremember(on) { try { on ? localStorage.setItem(VKEY, '1') : localStorage.removeItem(VKEY); } catch (e) {} }
+
+    // Motoru getirir. Mikrofonu açmaz: yalnız dosyayı indirir, izin sorulmaz.
+    function importVoice() {
+      return new Promise(function (resolve, reject) {
+        if (window.FYOS_VOICE) return resolve(window.FYOS_VOICE);
+        try {
+          var sc = document.createElement('script'); sc.src = SCRIPT_BASE + 'js/fyos-voice.js' + ASSET_Q;
+          sc.onload = function () { if (window.FYOS_VOICE) resolve(window.FYOS_VOICE); else reject(new Error('modül boş')); };
+          sc.onerror = function () { reject(new Error('modül yüklenemedi')); };
+          document.head.appendChild(sc);
+        } catch (e) { reject(e); }
+      });
+    }
+
+    /* Sesli yanıt ucu. Ayrı bir adres verilmediyse sohbet ucunun /tts yolu kullanılır —
+       worker ikisini de aynı yerde sunuyor. Uç yoksa motor tarayıcı sesine döner. */
+    function ttsEndpoint() {
+      if (FYOS_VOICE_ENDPOINT) return FYOS_VOICE_ENDPOINT;
+      if (FYOS_ENDPOINT) return FYOS_ENDPOINT.replace(/\/+$/, '') + '/tts';
+      return '';
+    }
+
+    function buildVoice(V) {
+      return V.create({
+        lang: VLANG,
+        ttsUrl: ttsEndpoint(),
+        voiceName: FYOS_VOICE_NAME,
+        pitch: typeof FYOS_VOICE_PITCH === 'number' ? FYOS_VOICE_PITCH : null,
+        onLocal: function (isLocal) {
+          if (!vtext) return;
+          // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.
+          vtext.title = isLocal ? t('voiceLocal', 'Ses bu cihazda çözülüyor; dışarı çıkmıyor.')
+                                : t('voiceCloud', 'Sesi tarayıcının konuşma servisi çözüyor.');
+        },
+        onState: function (m) {
+          if (m === 'wake') { vsay('voiceWake', '«Melis» de — dinliyorum.'); if (!busy && window.FYOS) window.FYOS.setState('idle'); }
+          else if (m === 'open') { vsay('voiceOpen', 'Dinliyorum…'); if (window.FYOS) window.FYOS.setState('listening'); }
+          else if (m === 'speak') { if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); } }
+          else if (m === 'off') { vshow(false); micOn(false); if (window.FYOS) window.FYOS.setState('idle'); }
+        },
+        onWake: function () {
+          if (window.FYOS) window.FYOS.ping();
+          // Yalnız «Melis» denip susulduysa karşılık ver; cümle sürüyorsa üstüne konuşma.
+          clearTimeout(vGreet);
+          vGreet = setTimeout(function () {
+            if (!voice || voice.mode() !== 'open') return;
+            voice.speak(t('voiceGreet', 'Buyur, dinliyorum.'), function () { if (voice) voice.listen(); });
+          }, 900);
+        },
+        onHeard: function (text) {
+          if (text && text.length > 1) clearTimeout(vGreet);
+          if (vtext && text) vtext.textContent = '“' + text + '”';
+        },
+        onQuestion: function (q) {
+          clearTimeout(vGreet);
+          if (sendQuestion(q, true)) return;
+          if (quota <= 0) voiceSay(t('voiceQuota', 'Bugünlük soru hakkın doldu; yarın yine buradayım.'));
+          else if (voice) voice.resume();
+        },
+        onError: function (code) {
+          vshow(true); micOn(false);
+          if (code === 'denied') { vremember(false); vsay('voiceDenied', 'Mikrofon izni verilmedi. Adres çubuğundaki kilit simgesinden izin verip yeniden dene.'); }
+          else if (code === 'nomic') vsay('voiceNoMic', 'Mikrofon bulunamadı.');
+          else if (code === 'unsupported') vsay('voiceUnsupported', 'Bu tarayıcı canlı sesi desteklemiyor; Chrome ya da Edge dene.');
+          else if (code === 'lang') vsay('voiceLang', 'Bu tarayıcı bu dili sesle tanımıyor.');
+          else { vremember(false); vsay('voiceStopped', 'Ses durdu. Yeniden açmak için mikrofona bas.'); }
+        }
+      });
+    }
+
+    function startVoice() {
+      if (vBusy || (voice && voice.isOn())) return;
+      vBusy = true;
+      vshow(true); vsay('voiceStarting', 'Mikrofon açılıyor…');
+      importVoice().then(function (V) {
+        vBusy = false;
+        if (!V.supported()) { micOn(false); vsay('voiceUnsupported', 'Bu tarayıcı canlı sesi desteklemiyor; Chrome ya da Edge dene.'); return; }
+        if (!voice) voice = buildVoice(V);
+        micOn(true);
+        if (sesTeshisi()) showVoices(V);
+        return voice.start().then(function () { vremember(true); });
+      }).catch(function (e) {
+        vBusy = false; micOn(false);
+        try { console.warn('Sesli mod açılamadı', e); } catch (er) {}
+        vsay('voiceStopped', 'Ses durdu. Yeniden açmak için mikrofona bas.');
+      });
+    }
+    /* Ses teşhisi: adresin sonuna ?ses eklenince, mikrofon açıldığında FYOS cihazdaki
+       sesleri sohbete yazar. Konsol açmadan (telefonda da) görülebilsin diye böyle:
+       «hâlâ erkek sesi» derken sebebin cihazda mı kodda mı olduğu ancak bu listeyle anlaşılıyor.
+       Sıradan ziyaretçi bunu hiç görmez. */
+    function sesTeshisi() {
+      try { return /[?&](ses|voices)\b/.test(location.search); } catch (e) { return false; }
+    }
+    function showVoices(V) {
+      if (!V || !V.voices) return;
+      V.voices(VLANG).then(function (d) {
+        var satir = 'Ses teşhisi (' + d.dil + ')\n' +
+          'Seçilen: ' + d.secilen + (d.kadinMi ? ' — kadın' : ' — kadın DEĞİL') + '\n' +
+          'Bu cihazdaki sesler (' + d.hepsi.length + '):\n' + (d.hepsi.join('\n') || '(hiç yok)');
+        var b = bubble('bot', satir);
+        b.style.whiteSpace = 'pre-wrap';
+        b.style.maxWidth = '100%';
+      }).catch(function () {});
+    }
+
+    function stopVoice() {
+      clearTimeout(vGreet);
+      vremember(false);
+      if (voice) voice.stop(); else { micOn(false); vshow(false); }
+    }
+
+    /* Onay: mikrofon ilk kez açılırken sesin nerede çözüleceğini yazıp sorar.
+       Cihaz içi tanıma varsa ses cihazdan çıkmaz; yoksa tarayıcının konuşma servisine gider
+       ve bu açıkça yazılır (bkz. Kurallar ve Gizlilik). */
+    function askConsent() {
+      if (!vcons) { startVoice(); return; }
+      vcons.hidden = false;
+      if (vconsWhere) vconsWhere.textContent = t('voiceWhereChecking', 'Kontrol ediliyor…');
+      importVoice().then(function (V) {
+        return V.check(VLANG).then(function (state) {
+          var here = state === 'available' || state === 'downloadable' || state === 'downloading';
+          if (vconsWhere) vconsWhere.textContent = here
+            ? t('voiceWhereLocal', 'Bu tarayıcı sesi cihazın içinde çözebiliyor: söylediklerin dışarı çıkmaz.')
+            : t('voiceWhereCloud', 'Bu tarayıcı sesi kendi konuşma servisinde çözüyor: söylediklerin tanıma için tarayıcı üreticisine gider. Yanıtı üreten model yine cihazında çalışır.');
+        });
+      }).catch(function () {
+        if (vconsWhere) vconsWhere.textContent = t('voiceWhereCloud', 'Bu tarayıcı sesi kendi konuşma servisinde çözüyor: söylediklerin tanıma için tarayıcı üreticisine gider. Yanıtı üreten model yine cihazında çalışır.');
+      });
+    }
+
+    if (mic) {
+      // Tarayıcıda konuşma tanıma yoksa düğmeyi hiç gösterme.
+      if (!(window.SpeechRecognition || window.webkitSpeechRecognition)) mic.hidden = true;
+      else {
+        micOn(false);
+        mic.addEventListener('click', function () {
+          if (voice && voice.isOn()) { stopVoice(); return; }
+          var ok = false; try { ok = localStorage.getItem(VOK) === '1'; } catch (e) {}
+          if (ok) startVoice(); else askConsent();
+        });
+        var cgo = $('#voiceConsentGo'), cno = $('#voiceConsentNo');
+        if (cgo) cgo.addEventListener('click', function () {
+          try { localStorage.setItem(VOK, '1'); } catch (e) {}
+          if (vcons) vcons.hidden = true;
+          startVoice();
+        });
+        if (cno) cno.addEventListener('click', function () { if (vcons) vcons.hidden = true; });
+
+        /* Sonraki ziyaretler: daha önce açılmışsa ve mikrofon izni duruyorsa kendiliğinden başlar.
+           İzin durumu okunamıyorsa hiçbir şey yapılmaz — kimseye sürpriz izin penceresi çıkmaz. */
+        (function autoStart() {
+          var on = false; try { on = localStorage.getItem(VKEY) === '1'; } catch (e) {}
+          if (!on || !navigator.permissions || !navigator.permissions.query) return;
+          try {
+            navigator.permissions.query({ name: 'microphone' }).then(function (st) {
+              if (st.state === 'granted') startVoice();
+              else if (st.state === 'denied') vremember(false);
+            }).catch(function () {});
+          } catch (e) {}
+        })();
+      }
+    }
+
   })();
 
   /* ---------- Sekmeler: renk tonu değiştirir ---------- */

@@ -38,9 +38,9 @@
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="preload" href="fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=5e9022ce">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY yapay zekâ ajansı — yapay zekâ eğitimi, web tasarım ve işletme akıllılaştırma.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#contact","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},
@@ -328,7 +328,7 @@
 
 <!-- ===== FYOS ===== -->
 <section id="fyos" class="section xos">
-  <div class="xos__glow"><i></i></div>
+  <div class="xos__glow"><i></i><i></i><i></i></div>
   <div class="container-x">
     <div data-reveal>
       <div class="xos__head">
@@ -350,11 +350,11 @@
             </div>
           </div>
           <canvas id="linkCanvas" aria-hidden="true"></canvas>
-          <div class="hud" data-stat="agents" style="--c:#38BDF8; left:3%; top:14%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Agents</div><div class="hud__sub" data-stat-sub>1 online · 0 off</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="studio" style="--c:#F472B6; left:24%; top:3%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Studio</div><div class="hud__sub" data-stat-sub>1 posts</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="coaches" style="--c:#F59E0B; right:18%; top:5%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>3</div><div class="hud__name">Coaches</div><div class="hud__sub" data-stat-sub>3 minds</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="agents" style="--c:#38BDF8; left:3%; top:14%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Agents</div><div class="hud__sub" data-stat-sub>1 online · 0 off</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="studio" style="--c:#F472B6; left:24%; top:3%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>1</div><div class="hud__name">Studio</div><div class="hud__sub" data-stat-sub>1 posts</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="coaches" style="--c:#F59E0B; right:18%; top:5%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>3</div><div class="hud__name">Coaches</div><div class="hud__sub" data-stat-sub>3 minds</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="memory" style="--c:#C084FC; right:2%; top:24%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>7</div><div class="hud__name">Memory</div><div class="hud__sub" data-stat-sub>7 memories</div><div class="hud__bar"></div></div>
-          <div class="hud" data-stat="skills" style="--c:#A78BFA; left:4%; top:56%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>35</div><div class="hud__name">Skills</div><div class="hud__sub" data-stat-sub>35 skills</div><div class="hud__bar"></div></div>
+          <div class="hud hud--m" data-stat="skills" style="--c:#A78BFA; left:4%; top:56%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>35</div><div class="hud__name">Skills</div><div class="hud__sub" data-stat-sub>35 skills</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="knowledge" style="--c:#FB923C; left:16%; bottom:6%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>4175</div><div class="hud__name">Knowledge</div><div class="hud__sub" data-stat-sub>4175 notes</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="analytics" style="--c:#F87171; right:4%; top:60%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>0</div><div class="hud__name">Analytics</div><div class="hud__sub" data-stat-sub>0 events</div><div class="hud__bar"></div></div>
           <div class="hud" data-stat="boardroom" style="--c:#EAB308; right:19%; bottom:4%"><div class="hud__top"><span class="hud__icon">◈</span><span class="hud__online">online</span></div><div class="hud__num font-mono" data-stat-num>2</div><div class="hud__name">Boardroom</div><div class="hud__sub" data-stat-sub>2 meetings</div><div class="hud__bar"></div></div>
@@ -363,10 +363,24 @@
         <div class="ask">
           <div class="ask__log" id="askLog" aria-live="polite"></div>
           <form class="ask__pill" id="askForm" method="post" autocomplete="off">
+            <button class="ask__mic" id="askMic" type="button" aria-pressed="false" aria-label="Sesli modu aç" data-i18n-attr="aria-label=fyos.micOn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-3.08A7 7 0 0 0 19 11z"/></svg></button>
             <input id="askInput" maxlength="300" placeholder="FYOS'a sor — bir şey yaz…" aria-label="FYOS'a sor" data-i18n-attr="placeholder=fyos.askPlaceholder|aria-label=fyos.askAria">
             <button class="ask__send" id="askSend" type="submit" disabled aria-label="Gönder" data-i18n-attr="aria-label=fyos.send"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2-15 2z"/></svg></button>
           </form>
-          <div class="ask__note" data-i18n="fyos.note">Yanıtlar yapay zekâ tarafından üretilir · günde en fazla <span id="askLeft">4</span> soru · ağa tıkla ✨</div>
+          <div class="ask__voice" id="askVoice" hidden>
+            <span class="ask__voice-dot" aria-hidden="true"></span>
+            <span id="askVoiceText" data-i18n="fyos.voiceWake">«Melis» de — dinliyorum.</span>
+          </div>
+          <div class="ask__consent" id="voiceConsent" hidden>
+            <p class="ask__consent-t" data-i18n="fyos.voiceConsentTitle">Canlı ses açılsın mı?</p>
+            <p data-i18n="fyos.voiceConsentText">Mikrofon açık kalır ve yalnızca «Melis» kelimesini bekler. «Melis» dediğinde sorunu dinler, yanıtı sesli okur, sonra yine bekler. Tarayıcı izni yalnızca bir kez sorar; sonrasında düğmeye basman gerekmez.</p>
+            <p class="ask__consent-w" id="voiceConsentWhere" data-i18n="fyos.voiceWhereChecking">Kontrol ediliyor…</p>
+            <div class="ask__consent-b">
+              <button type="button" class="btn btn-ghost btn-sm" id="voiceConsentNo" data-i18n="fyos.voiceConsentNo">Vazgeç</button>
+              <button type="button" class="btn btn-primary btn-sm" id="voiceConsentGo" data-i18n="fyos.voiceConsentGo">Aç ve dinle</button>
+            </div>
+          </div>
+          <div class="ask__note" data-i18n="fyos.note">Yanıtlar yapay zekâ tarafından üretilir · günde en fazla <span id="askLeft">10</span> soru · ağa tıkla ✨</div>
         </div>
       </div>
     </div>
@@ -628,7 +642,7 @@
       <div class="portrait" data-portrait>
         <picture class="portrait__aura" aria-hidden="true"><source media="(prefers-reduced-motion: reduce)" srcset="img/portrait-aura-static.svg"><img src="img/portrait-aura.svg" alt="" width="1000" height="1000" loading="lazy" decoding="async"></picture>
         <div class="portrait__inner">
-          <img src="img/founder.jpg" alt="Farhad Yaqoobi — FY kurucusu" data-i18n-attr="alt=about.imgAlt" width="1000" height="1250" loading="lazy" decoding="async">
+          <img src="img/founder.jpg" alt="Farhad Yaqoobi — FY kurucusu" data-i18n-attr="alt=about.imgAlt" width="1000" height="1000" loading="lazy" decoding="async">
           <span class="portrait__shine" aria-hidden="true"></span>
         </div>
       </div>
@@ -845,6 +859,6 @@
       <button class="btn btn-ghost" type="button" data-modal-close data-i18n="modal.done.close">Kapat</button>
     </div>
   </div>
-</div><script src="js/main.js"></script>
+</div><script src="js/main.js?v=5e9022ce"></script>
 </body>
 </html>
