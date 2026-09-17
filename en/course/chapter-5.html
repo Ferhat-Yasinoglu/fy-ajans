@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Chapter 5: The Lab — Build your own site, CRM and FYOS | AI Journey | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="The course's fifth chapter: building with code, without fear. HTML, CSS and JavaScript in human language; a site from zero and putting it live; where data lives; your own CRM; the proxy that keeps your key; and FYOS — your personal agentic operating system.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Chapter 5: The Lab — Build your own site, CRM and FYOS">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Building with code, without fear: site, publishing, data, CRM, proxy and FYOS.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css?v=d25ce12e">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch5.back">← All chapters</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch5.barNum">Chapter 5 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch5.barCta">Join the course</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l5-cover-static.svg"><img src="../../img/course/l5-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Lab</span>
+        <span class="lesson__cover-note" data-i18n="ch5.coverNote">materials go in, something alive comes out</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch5.eyebrow">Chapter 5 · The Lab</span>
+      <h1 class="font-display text-h1" data-i18n="ch5.title">Building with code — <span class="text-accent-gradient">without fear</span></h1>
+      <p class="lesson__lead" data-i18n="ch5.lead">For four chapters you learned the tools: me, the request, flows and the workshop. In this one we build real things with them. By the end you'll have three: a site that's live, your own CRM holding your clients, and FYOS — the personal operating system that knows you and works for you. We'll write code; but I'll be the one writing it, and you'll say what you want and learn to read what comes back.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch5.meta">Reading time ~50 minutes · Prerequisite: Chapter 4</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch5.goals.title">By the end of this chapter</h2>
+      <ul class="check-list space-2" data-i18n="ch5.goals.list"><li>You'll recognise a web page's three layers — skeleton, look, behaviour</li> <li>You'll know what programming languages are and which one is for what</li> <li>You'll have built a page from zero and put it live at a real address</li> <li>You'll tell apart where data lives — file, spreadsheet, database</li> <li>You'll build your own CRM and connect your site to it</li> <li>You'll understand why a key never goes in the browser, and what a proxy is</li> <li>You'll see FYOS's four layers and how to build your own version</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch5.toc.title" class="text-fg">Contents</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch5.guide.t">The Claude Guide</strong><span data-i18n="ch5.guide.p">In this chapter I'll be writing the code. If you want to recall what I do well and where I get things wrong — on one page, in four languages.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch5.s1.title">Code fear, and the code you've already written</span></h2>
+      <p data-i18n="ch5.s1.p1">You've said «I don't know how to code» many times in this course, and every time you went on to the next step anyway. In the workshop chapter you had a file created, had three places changed on a page, read the diffs and saved. Those plus and minus lines were code. You read it, approved it and understood it was right. So you've already started reading code.</p>
+      <p data-i18n="ch5.s1.p2">In this chapter we take one more step: we won't only change something that exists, we'll <strong class="text-fg">build something from zero</strong>. The frightening part is always the same: staring at an empty file, not knowing what goes in it. That part is mine. Your part is knowing what you want, seeing the result and being able to say «that bit is wrong».</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s1.note">An honest limit: you won't be a professional developer by the end of this chapter. What you will be is more useful — someone who <em>can say what they want and inspect what comes back</em>. That's eighty percent of the work in software anyway; for the remaining twenty there's either me or a specialist.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch5.s1.do">Do this now: Write down three things you'd like to build. A page, a list, a calculator, a client book — whatever. In this chapter we'll actually build at least one of them.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch5.s2.title">Three words: HTML, CSS, JavaScript</span></h2>
+      <p data-i18n="ch5.s2.p1">In every chapter three words opened the whole field. Three do it for the web too — and they split the way you'd describe a person: skeleton, appearance, behaviour.</p>
+      <figure class="trio">
+        <span class="trio__cap font-mono" data-i18n="ch5.fig.trio.cap">A page's three layers</span>
+        <div class="trio__row">
+          <div class="trio__l" style="--i:0">
+            <span class="trio__e" aria-hidden="true">🦴</span>
+            <b data-i18n="ch5.fig.trio.t1">HTML · skeleton</b>
+            <i data-i18n="ch5.fig.trio.d1">What's there: heading, paragraph, image, button. Meaning and order.</i>
+            <div class="trio__demo trio__demo--html" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:1">
+            <span class="trio__e" aria-hidden="true">🎨</span>
+            <b data-i18n="ch5.fig.trio.t2">CSS · appearance</b>
+            <i data-i18n="ch5.fig.trio.d2">How it looks: colour, spacing, typeface, layout.</i>
+            <div class="trio__demo trio__demo--css" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:2">
+            <span class="trio__e" aria-hidden="true">⚡</span>
+            <b data-i18n="ch5.fig.trio.t3">JavaScript · behaviour</b>
+            <i data-i18n="ch5.fig.trio.d3">What happens: opens on click, filters as you type, saves.</i>
+            <div class="trio__demo trio__demo--js" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.trio.fc">All three look at the same content. Without HTML there's no page; without CSS it's ugly but works; without JavaScript it's silent but readable. That order is also the order to learn them in.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s2.p2">All three count as <em>languages</em> but they're not the same kind. HTML is a <strong class="text-fg">markup</strong> language: it says «this is a heading, this is a paragraph». CSS is a <strong class="text-fg">style</strong> language: it says «headings should be gold». Only JavaScript is a real <strong class="text-fg">programming</strong> language: it decides, repeats and calculates.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch5.s2.do">Do this now: Right-click an empty spot on this page and choose «view page source». What you see is this site's HTML. You don't have to understand it; just look. It isn't frightening, it's a repeating pattern.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch5.s3.title">A site is really a folder</span></h2>
+      <p data-i18n="ch5.s3.p1">The word site suggests something big. It isn't. A site is a folder with files in it. The browser reads one file from that folder and draws it on screen. The «the folder is my desk» sentence from the workshop chapter applies here word for word.</p>
+      <figure class="tree">
+        <span class="tree__cap font-mono" data-i18n="ch5.fig.tree.cap">Inside a small site</span>
+        <div class="tree__box">
+          <ul class="tree__list">
+            <li class="tree__d"><span class="tree__e" aria-hidden="true">📁</span><b>ajans-site</b><i data-i18n="ch5.fig.tree.n0">the site itself</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>index.html</b><i data-i18n="ch5.fig.tree.n1">home page — the file opened when you visit the address</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>iletisim.html</b><i data-i18n="ch5.fig.tree.n2">second page</i></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>css</b><i data-i18n="ch5.fig.tree.n3">appearance goes here</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">🎨</span><b>style.css</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>js</b><i data-i18n="ch5.fig.tree.n4">behaviour goes here</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">⚡</span><b>main.js</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>img</b><i data-i18n="ch5.fig.tree.n5">images</i></li>
+          </ul>
+        </div>
+        <figcaption data-i18n="ch5.fig.tree.fc">One rule only: the home page is named <em>index.html</em>. The rest is your own order. The page you're reading sits in a folder just like this — this course's site has exactly this shape.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s3.p2">Open that folder on your computer and double-click <em>index.html</em> and the browser opens it. No internet needed. That's the first half of «building a site»: a folder with files in it. The second half is putting that folder somewhere everyone can see — section six.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📁</span><span data-i18n="ch5.s3.do">Do this now: Create a folder called «first-site» on your computer. Leave it empty for now. We'll fill it in section five.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch5.s4.title">Programming languages, in human language</span></h2>
+      <p data-i18n="ch5.s4.p1">A programming language is the written form of telling a computer what to do. Like human languages it has grammar and vocabulary; the difference is that it accepts no ambiguity. You can't say «sort that out at some point»; you say «take this list and for each row do this».</p>
+      <p data-i18n="ch5.s4.p2">There are hundreds of languages but you don't need all of them. For an agency, almost all of the work falls into three families:</p>
+      <figure class="langs">
+        <span class="langs__cap font-mono" data-i18n="ch5.fig.langs.cap">Which language is for what</span>
+        <div class="langs__row">
+          <div class="langs__c langs__c--now">
+            <span class="langs__tag font-mono">HTML · CSS · JS</span>
+            <b data-i18n="ch5.fig.langs.t1">The ones that run in the browser</b>
+            <i data-i18n="ch5.fig.langs.d1">Web pages, interfaces, everything that gets clicked. The language of the site and the FYOS box we'll build in this course.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u1">we're using it in this chapter</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">Python</span>
+            <b data-i18n="ch5.fig.langs.t2">General purpose</b>
+            <i data-i18n="ch5.fig.langs.d2">Tidying data, processing files, producing reports, connecting to AI. The easiest language to read; a good choice as a first «real» language.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u2">automation and data work</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">SQL</span>
+            <b data-i18n="ch5.fig.langs.t3">Asking data questions</b>
+            <i data-i18n="ch5.fig.langs.d3">Not a language so much as a query language: the computer-shaped way of writing «how many new clients came this month». It sits underneath your CRM.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u3">CRM and reports</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.langs.fc">Most of the time you don't choose the language; the job does. A web page? The trio above. Processing files into a report? Python. Asking data a question? SQL. Asking me «which one should we use» is enough.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch5.s4.note">A relief: the choice of language matters far less than you think. You could do the same job in five of them. What matters is <em>saying clearly what you want to do</em> — it's no accident that the rule from the formula chapter applies here unchanged. A badly described job comes out badly in every language.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch5.s4.do">Do this now: Describe one of the three things from 01 to me and ask: «which language makes sense for this, and why?» Read the reasoning in my answer — see how a language gets chosen, on one example.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch5.s5.title">Your first real page, in fifteen minutes</span></h2>
+      <p data-i18n="ch5.s5.p1">Enough theory. Open the Claude Code you installed in the workshop chapter, go into the «first-site» folder and start talking. The five steps below produce a real page.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s5.st1">Type <em>claude</em> in the folder. Then ask: «Build a one-page site in this folder: a heading, an intro paragraph, three service boxes and contact details. Dark background, plain. Make a plan first.»</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s5.st2">Read the plan and correct it. «Four boxes instead of three», «add a phone number too». The plan changes without a file being touched; it gets right before the work starts.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s5.st3">Approve. The files appear: index.html, css/style.css, maybe js/main.js. Ask me to show you each one and skim them — get to know the shape even if you don't understand it.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s5.st4">Open it and look: double-click index.html in the folder. The browser shows the page. For the first time you're looking at something you built.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s5.st5">Change it: «make the heading say this», «change the colour of the boxes», «make the phone bigger». Refresh the browser each time. This loop — ask, look, fix — is the whole job.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s5.note">If you forget to refresh the browser at the fourth step you won't see your change and you'll say «it didn't work». That's the most common first mistake. Make hitting refresh a habit.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s5.do">Do this now: Finish the five steps today. The page can be ugly, it doesn't matter. What matters is that what you asked for is sitting in your folder.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch5.s6.title">Go live: an address the world can see</span></h2>
+      <p data-i18n="ch5.s6.p1">The page in your folder is yours alone. Publishing means copying that folder onto a computer everyone can reach. The easiest and free way is GitHub Pages: the git save points from the workshop chapter were for exactly this.</p>
+      <figure class="deploy" data-deploy>
+        <span class="deploy__cap font-mono" data-i18n="ch5.fig.deploy.cap">From folder to address</span>
+        <div class="deploy__stage" data-step="1">
+          <div class="deploy__track" aria-hidden="true">
+            <div class="deploy__n deploy__n--1"><span class="deploy__e">💻</span><b data-i18n="ch5.fig.deploy.n1">your computer</b></div>
+            <span class="deploy__w deploy__w--a"></span>
+            <div class="deploy__n deploy__n--2"><span class="deploy__e">🗂️</span><b data-i18n="ch5.fig.deploy.n2">repository</b></div>
+            <span class="deploy__w deploy__w--b"></span>
+            <div class="deploy__n deploy__n--3"><span class="deploy__e">⚙️</span><b data-i18n="ch5.fig.deploy.n3">build</b></div>
+            <span class="deploy__w deploy__w--c"></span>
+            <div class="deploy__n deploy__n--4"><span class="deploy__e">🌐</span><b data-i18n="ch5.fig.deploy.n4">address</b></div>
+          </div>
+          <div class="deploy__bar" aria-hidden="true">
+            <span class="deploy__lock">🔒</span>
+            <span class="deploy__url font-mono">kullanici.github.io/ilk-site</span>
+            <span class="deploy__ok">✓</span>
+          </div>
+        </div>
+        <ol class="deploy__steps">
+          <li><button type="button" data-go="1"><span class="deploy__se" aria-hidden="true">🗂️</span><span data-i18n="ch5.fig.deploy.s1">Put the folder in git, save</span></button></li>
+          <li><button type="button" data-go="2"><span class="deploy__se" aria-hidden="true">☁️</span><span data-i18n="ch5.fig.deploy.s2">Create a repo on GitHub, push</span></button></li>
+          <li><button type="button" data-go="3"><span class="deploy__se" aria-hidden="true">⚙️</span><span data-i18n="ch5.fig.deploy.s3">Turn on Pages in settings</span></button></li>
+          <li><button type="button" data-go="4"><span class="deploy__se" aria-hidden="true">⏳</span><span data-i18n="ch5.fig.deploy.s4">Wait a minute, it builds</span></button></li>
+          <li><button type="button" data-go="5"><span class="deploy__se" aria-hidden="true">🌐</span><span data-i18n="ch5.fig.deploy.s5">Address live — with https</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.deploy.fc">From then on, every time you say «save and push» the site updates itself. The page you're reading is published exactly this way: a folder, a repository, an address.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s6.p2">The address arrives as <em>yourname.github.io/project</em> at first, and that is a completely real address — https included. If you want your own domain (agencyname.com) it's connected later; you don't rebuild the pages, only the address changes.</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s6.note">Publishing is the biggest threshold in this chapter and the most avoided step. Don't avoid it. A site that isn't live is an unfinished site; and if you publish on day one you see every change at the real address — the sentence «it worked on my machine» never gets said.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch5.s6.do">Do this now: Tell me «push this folder to GitHub and publish it with Pages, showing me the steps». I'll stop where you need to create an account; we'll do the rest together. Once you have the address, send it to someone.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch5.s7.title">Static or dynamic</span></h2>
+      <p data-i18n="ch5.s7.p1">The site you published is <strong class="text-fg">static</strong>: the files sit there ready and everyone is shown the same thing. There are also <strong class="text-fg">dynamic</strong> sites: the page is produced for you at the moment you open it — a logged-in user, a personal list, live stock. Knowing the difference answers «can we do this» up front.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s7.strong">Static</span>
+          <p class="compare__note" data-i18n="ch5.s7.strongNote">A brochure site, a portfolio, a blog, a course page. Hosted free, very fast, almost never breaks and has nothing to attack. This entire site is static.</p>
+        </div>
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s7.weak">Dynamic</span>
+          <p class="compare__note" data-i18n="ch5.s7.weakNote">Member login, a basket, a personal dashboard, live data. Needs a server and a database; brings a monthly cost, maintenance and a security responsibility. Don't go there unless you really need to.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s7.p2">Good news: there's a middle road between the two, and it's the one this course prefers. The site stays static; the one or two dynamic jobs you need (saving a form, asking the AI) go to a small proxy. You get as much as you need without carrying everything that's expensive. We'll build the proxy in section twelve.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch5.s7.do">Do this now: Sort your three ideas from 01 into these two columns. If anything lands in dynamic, write next to it: is it really necessary, or would static plus a small proxy do?</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch5.s8.title">Where data lives</span></h2>
+      <p data-i18n="ch5.s8.p1">As soon as you start building something, this is the first question: where will the client list live? There are three tiers, and most people pick a heavier one than they need and struggle. The right answer is usually the lightest.</p>
+      <figure class="store">
+        <span class="store__cap font-mono" data-i18n="ch5.fig.store.cap">Three tiers, light to heavy</span>
+        <ol class="store__row">
+          <li class="store__t" style="--i:0">
+            <span class="store__e" aria-hidden="true">📄</span>
+            <b data-i18n="ch5.fig.store.t1">File</b>
+            <i data-i18n="ch5.fig.store.d1">A text or table file in the folder. Perfect for one person, a few hundred rows, data that doesn't change often.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w1">service list · prices · content</span>
+          </li>
+          <li class="store__t" style="--i:1">
+            <span class="store__e" aria-hidden="true">📊</span>
+            <b data-i18n="ch5.fig.store.t2">Spreadsheet</b>
+            <i data-i18n="ch5.fig.store.d2">A cloud spreadsheet. You and your team can see and fix it by hand; flows can write to it too. The most practical place to start.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w2">clients · jobs · follow-ups</span>
+          </li>
+          <li class="store__t" style="--i:2">
+            <span class="store__e" aria-hidden="true">🗄️</span>
+            <b data-i18n="ch5.fig.store.t3">Database</b>
+            <i data-i18n="ch5.fig.store.d3">Thousands of records, many people at once, complex queries. Powerful but needs setup and maintenance; this is where SQL comes in.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w3">when you grow · dashboards · reports</span>
+          </li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.store.fc">The rule: only move up a tier when the one below genuinely gets tight. An agency that starts with a spreadsheet goes comfortably to hundreds of clients; and when it's time to move, you hand me the data and have it moved.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🗃️</span><span data-i18n="ch5.s8.do">Do this now: Where do you keep client details right now? Phone contacts, message inbox, a notebook, a spreadsheet? Write it down — in the next section we'll pull that scatter into one place.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch5.s9.title">Your own CRM: what it holds, what it does</span></h2>
+      <p data-i18n="ch5.s9.p1">CRM is three intimidating letters but it spells something simple: customer relationship management. In practice it's one place that answers «who did I talk to, what did I promise, when do I need to get back to them». Ready-made CRMs exist and most of them are ten times what you need; when you build your own you get exactly what you'll use.</p>
+      <figure class="crm">
+        <span class="crm__cap font-mono" data-i18n="ch5.fig.crm.cap">Four records, that's all</span>
+        <div class="crm__row">
+          <div class="crm__c" style="--i:0">
+            <b data-i18n="ch5.fig.crm.t1">Person</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f1a">name</li><li data-i18n="ch5.fig.crm.f1b">contact</li><li data-i18n="ch5.fig.crm.f1c">where from</li><li data-i18n="ch5.fig.crm.f1d">status</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:1">
+            <b data-i18n="ch5.fig.crm.t2">Job</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f2a">what job</li><li data-i18n="ch5.fig.crm.f2b">amount</li><li data-i18n="ch5.fig.crm.f2c">stage</li><li data-i18n="ch5.fig.crm.f2d">whose</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:2">
+            <b data-i18n="ch5.fig.crm.t3">Note</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f3a">date</li><li data-i18n="ch5.fig.crm.f3b">what was said</li><li data-i18n="ch5.fig.crm.f3c">who wrote it</li>
+            </ul>
+          </div>
+          <div class="crm__c crm__c--last" style="--i:3">
+            <b data-i18n="ch5.fig.crm.t4">Reminder</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f4a">when</li><li data-i18n="ch5.fig.crm.f4b">what to do</li><li data-i18n="ch5.fig.crm.f4c">done?</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.crm.fc">A person links to one or more jobs; notes and reminders collect under each job. The whole CRM an agency needs is these four records. More than that is filling in fields you'll never use.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s9.p2">Notice: there's no «software» here at all. Four records and the links between them. You could build this as four sheets in a spreadsheet or four tables in a database. First you decide <em>what you'll hold</em>; where to hold it is the second question.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📇</span><span data-i18n="ch5.s9.do">Do this now: Write the fields of these four records for your own work. Which field will actually get used in your business? Delete the ones that won't. A short list is a good CRM.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch5.s10.title">Building the CRM: step by step</span></h2>
+      <p data-i18n="ch5.s10.p1">We start with a cloud spreadsheet as the data tier — the middle tier from section eight. The reason is simple: you can see it and so can your team; and moving to a database later is easy.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s10.st1">Open a new cloud spreadsheet and create four sheets: People, Jobs, Notes, Reminders. Set the columns from the fields you wrote in 09.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s10.st2">Add an id column to each record. The «person id» in the Jobs sheet says which person that job belongs to. That's all a link is; one column.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s10.st3">Enter three clients, three jobs and a few notes by hand. Fill it with real data — a system built on imaginary data trips over the real thing.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s10.st4">Have me write a dashboard: «Read this spreadsheet and make a one-page dashboard showing the clients I need to get back to today.» With the flow from the agent chapter it reads the sheet and shows the page.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s10.st5">Automate the reminder: a flow that messages you today's reminders every morning at nine. The schedule trigger from the agent chapter, connected to a real job here.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s10.note">Watch the order: data first, then the dashboard, automation last. Everyone who does it backwards — building the shiny dashboard first and thinking about data later — starts over two weeks in. If the data is right, the rest is easy.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch5.s10.do">Do this now: Finish the first three steps today. Fill the spreadsheet with your real clients. Four and five tomorrow; the spreadsheet works on its own even without a dashboard.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch5.s11.title">From form to CRM: connecting the site</span></h2>
+      <p data-i18n="ch5.s11.p1">Now you have two pieces: a live site and a full CRM. The gap between them is one thing — a form on your site. When someone fills in the form on your site you want the details to land straight in the CRM.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch5.fig.form.cap">What happens when a form arrives</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch5.fig.form.s1">A visitor fills in the form on your site</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch5.fig.form.s2">The form goes to your flow's webhook address</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch5.fig.form.s3">Me: I read the message and classify it</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch5.fig.form.s4">A new person and job row is added to the CRM</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch5.fig.form.s5">A notification to you: «new enquiry, about this»</span></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.form.fc">This whole chain is what you learned in the agent chapter — the only difference is that both ends are now the site you built and the CRM you built. The pieces slot together; that's what this course has really been teaching.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s11.p2">A static site not being able to save a form isn't a problem: the form sends the details to your flow's address. The site stays static, the work happens in the flow. That's exactly the «middle road» I mentioned in section seven.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔗</span><span data-i18n="ch5.s11.do">Do this now: Have a three-field form added to your site: name, contact, message. Then open a webhook in your flow and connect the form to it. Fill in your own form; watch the new row appear in the CRM.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch5.s12.title">A key never goes in the browser: the proxy</span></h2>
+      <p data-i18n="ch5.s12.p1">You want to put me on the site: a visitor asks something, I answer. The first solution that comes to mind — writing the key into the site's code — is the most dangerous one. Because everything that reaches the browser can be read by everyone. Your key becomes visible and gets spent on your bill.</p>
+      <figure class="proxy">
+        <span class="proxy__cap font-mono" data-i18n="ch5.fig.proxy.cap">Who holds the key</span>
+        <div class="proxy__row">
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🖥️</span><b data-i18n="ch5.fig.proxy.t1">Browser</b><i data-i18n="ch5.fig.proxy.d1">the visitor's computer — no secret can be kept here</i></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n proxy__n--mid"><span class="proxy__e" aria-hidden="true">🛡️</span><b data-i18n="ch5.fig.proxy.t2">Proxy</b><i data-i18n="ch5.fig.proxy.d2">your small middleman: keeps the key in a vault, counts the quota</i><span class="proxy__key">🔑</span></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🧠</span><b data-i18n="ch5.fig.proxy.t3">AI</b><i data-i18n="ch5.fig.proxy.d3">takes the request, sends the answer back</i></div>
+        </div>
+        <div class="proxy__bad">
+          <span class="proxy__x" aria-hidden="true">✕</span>
+          <span data-i18n="ch5.fig.proxy.bad">Connecting directly: the key lands in the browser, everyone sees it, the bill comes to you</span>
+        </div>
+        <figcaption data-i18n="ch5.fig.proxy.fc">A proxy does three jobs: it keeps the key, counts the daily allowance and answers only requests coming from your site. This site's FYOS box works exactly this way.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s12.p2">«Proxy» sounds big; it isn't. It's a hundred-line program that lives on free tiers. This is the internet form of the workshop chapter's «keys don't go in the brain» rule: a key always sits in a vault you control, never on a visitor's computer.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🛡️</span><span data-i18n="ch5.s12.do">Do this now: Look at all the flows and pages you've built: has a key been written anywhere the browser will see? If you're not sure, ask me — «is there a secret leaking out of this file?»</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch5.s13.title">Putting a talking box on the site</span></h2>
+      <p data-i18n="ch5.s13.p1">With the proxy ready, putting me on the site is short work: a text box, a send button and an area that shows the answer. But three decisions are needed to make it work well — and none of them is technical. They're yours.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k1.t">What it will know</h3><p data-i18n="ch5.s13.k1.p">Your services, your price range, how you work, the frequently asked questions. You write these as a text and attach them to every request — the «context» from the formula chapter is exactly what pays off here. And you state its limits so it doesn't invent what it doesn't know.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k2.t">What it won't do</h3><p data-i18n="ch5.s13.k2.p">It won't quote a firm price, won't make promises, won't commit to a date. Those are your job. The box's job is to greet, understand and ask the right question — then bring you in.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k3.t">When it will call you</h3><p data-i18n="ch5.s13.k3.p">When the visitor gets serious: «can I get a price», «when could we start». At that moment the chat turns into an enquiry, lands in the CRM and a notification reaches you. That's the talking box's real job; not chatting, but bringing work in.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s13.note">One more limit: whatever a visitor types into the box reaches me as <em>data</em>, not as instructions. The hidden-instruction warning from the chapter about me matters far more on a live site — a visitor typing «forget your previous instructions» must not be able to change the box's rules. Keep the constraints in the proxy, not in the browser.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.s13.do">Do this now: Write what the box needs to know on one page: services, how you work, five common questions and their answers. That text becomes the box's brain — the visitor-facing version of the workshop chapter's CLAUDE.md.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch5.s14.title">What FYOS is</span></h2>
+      <p data-i18n="ch5.s14.p1">So far we've built pieces: a site, a CRM, flows, a talking box. FYOS isn't the name of those pieces; it's the name for <strong class="text-fg">all of them being reachable from one place</strong>. A personal agentic operating system means each of your daily jobs has an agent, and you talk to all of them from a single place.</p>
+      <figure class="oslab">
+        <span class="oslab__cap font-mono" data-i18n="ch5.fig.os.cap">The core and what's around it</span>
+        <div class="oslab__ring">
+          <div class="oslab__core"><b>FYOS</b><i data-i18n="ch5.fig.os.core">you talk</i></div>
+          <div class="oslab__s" style="--i:0"><span aria-hidden="true">🧠</span><b data-i18n="ch5.fig.os.a1">memory</b></div>
+          <div class="oslab__s" style="--i:1"><span aria-hidden="true">📇</span><b data-i18n="ch5.fig.os.a2">clients</b></div>
+          <div class="oslab__s" style="--i:2"><span aria-hidden="true">📅</span><b data-i18n="ch5.fig.os.a3">calendar</b></div>
+          <div class="oslab__s" style="--i:3"><span aria-hidden="true">✍️</span><b data-i18n="ch5.fig.os.a4">content</b></div>
+          <div class="oslab__s" style="--i:4"><span aria-hidden="true">📊</span><b data-i18n="ch5.fig.os.a5">reports</b></div>
+          <div class="oslab__s" style="--i:5"><span aria-hidden="true">⚙️</span><b data-i18n="ch5.fig.os.a6">flows</b></div>
+        </div>
+        <figcaption data-i18n="ch5.fig.os.fc">Each satellite is something you already built: memory is CLAUDE.md, clients is the CRM, flows is n8n. The core isn't something new, it's a door — the place that looks at all of them and gives you one answer when you ask «what's on today?»</figcaption>
+      </figure>
+      <p data-i18n="ch5.s14.p2">The FYOS box on the home page is a small demonstration of this. In the real version the satellites are wired to your data: your calendar, your clients, your files. You ask «who's waiting on me this week?»; the core looks at the CRM, looks at the calendar and answers.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🪐</span><span data-i18n="ch5.s14.do">Do this now: Split your daily work into six headings. It may or may not look like the six above. What are your six satellites? That's the draft of your FYOS.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch5.s15.title">FYOS's four layers</span></h2>
+      <p data-i18n="ch5.s15.p1">Building your own version means laying four layers in order. Don't break the order; each one rests on the one before.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f1.t">Data</h3>
+          <p data-i18n="ch5.s15.f1.p">Your CRM, your files, your calendar. Everything FYOS knows comes from here; a system built on empty data gives empty answers. You already built this layer in section ten.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f2.t">Hands</h3>
+          <p data-i18n="ch5.s15.f2.p">Flows and tools: the parts that read, write and send the data. The nodes from the agent chapter and the skills from the workshop chapter live in this layer.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f3.t">Mind</h3>
+          <p data-i18n="ch5.s15.f3.p">Me. The layer that understands the question, decides which tool to call and turns the answer into human language. It sits behind the proxy; the key stays there.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f4.t">Door</h3>
+          <p data-i18n="ch5.s15.f4.p">Where you do the talking: a page, a messaging app, a phone screen. This is the last layer to build — and the least important. A door can be beautiful, but if there's nothing behind it, it stays empty.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s15.note">The most expensive mistake in this chapter is starting from the fourth layer. Building a beautiful interface and then saying «now let's connect this to something» is building a house from the roof down. Data, hands, mind, door — that order isn't arbitrary.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s15.do">Do this now: Mark the four layers for your own situation: which is ready, which is half done, which doesn't exist? Tell me the first empty one; we'll carry on from there.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch5.s16.title">Cost, quota, and when not to write code</span></h2>
+      <p data-i18n="ch5.s16.p1">Everything you built in this chapter has a free tier: site hosting is free, the spreadsheet is free, the flow tool's starter plan is free, the proxy is free up to a hundred thousand requests a day. Money only goes on AI requests, and even there it's little. But there are two traps to know about.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s16.weak">Don't build it</span>
+          <p class="compare__note" data-i18n="ch5.s16.weakNote">If a ready-made tool covers ninety percent of the job, buy it. Invoicing, accounting, taking payments, calendars — these have mature, cheap tools. Whatever you build, you maintain forever; that isn't free.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s16.strong">Build it</span>
+          <p class="compare__note" data-i18n="ch5.s16.strongNote">When the job is specific to your business, when ready-made tools won't talk to each other, and when you can describe a repeating task. Your CRM, your dashboard and your FYOS are in this column — because none of them comes ready-shaped to how you work.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s16.p2">The second trap is the quota: free tiers have a limit and when you hit it the system stops quietly. That's why your proxy counts a daily allowance and your flows send failure notifications. The «breaking silently» rule from the agent chapter applies here too — set the limit in advance and know when it runs out.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">💳</span><span data-i18n="ch5.s16.do">Do this now: Set a monthly spending cap on the AI account you use. It takes five minutes and prevents the bill from one bad night. Then note the free-tier limit of every service you've set up.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch5.s17.title">Five common mistakes</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m1.t">1 · Leaving publishing until last</h3>
+          <p data-i18n="ch5.s17.m1.p">The site that says «I'll publish it once it's finished» never gets published. Publish on day one, while it's ugly. Then see every change at the real address.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m2.t">2 · Building the interface before the data</h3>
+          <p data-i18n="ch5.s17.m2.p">A shiny dashboard with no data behind it is an empty box. Build the data first and fill it with real records; a dashboard arrives in a day, data doesn't.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m3.t">3 · Writing the key into the site</h3>
+          <p data-i18n="ch5.s17.m3.p">Everything that reaches the browser is public. The key sits in the proxy's vault. This one rule prevents the most expensive mistake in this chapter.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m4.t">4 · Building your own when a tool exists</h3>
+          <p data-i18n="ch5.s17.m4.p">Don't set out to write accounting software. Building your own makes sense where the ready-made one falls short. Everything you build, you will look after for life.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m5.t">5 · Accepting the output without reading it</h3>
+          <p data-i18n="ch5.s17.m5.p">I write the code but the responsibility is yours. See whether it works, read the diff, try it in the browser. «It's probably fine» slowly rots everything you build.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch5.s17.do">Do this now: Add these five to your project's CLAUDE.md. Especially 3 — turning that one into a hook is entirely reasonable, as we discussed in the workshop chapter.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch5.s18.title">What everyone asks</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q1">Can you really build a site without learning to code?</summary><p data-i18n="ch5.faq.a1">You can, and you will in this chapter. But let me be honest: without ever reading code you can't manage it long term. The thing is, reading is far easier than writing, and you're already learning it by reading diffs. In six months you'll look at a file and say «this bit does that»; you can still leave the writing to me.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q2">Why this, when site builders exist?</summary><p data-i18n="ch5.faq.a2">For a brochure page a site builder is a good choice and nothing to be ashamed of. The difference here is ownership: a site you build is a folder — it moves, it backs up, it connects to anything you like and has no monthly fee. Also, the CRM, flows and FYOS we build across this course don't fit inside a site builder. We build the site ourselves because it's the door to the real system.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q3">If I break something, can I undo it?</summary><p data-i18n="ch5.faq.a3">Yes — git from the workshop chapter is exactly for this. Every save point is a place to return to. Even if the live site breaks you say «go back to the previous save point» and it's back to its old state within a minute. That's why I keep insisting you put everything you build into git.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q4">What happens when my CRM grows?</summary><p data-i18n="ch5.faq.a4">When the spreadsheet starts to feel tight — usually a few thousand rows, or a few people working at once — you move to a database. The move is a day's work and you're not the one doing it: you export the data, have me set up the database, and change the address in your flows. Starting with a database now has no benefit at all; it only makes things harder.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q5">How long does it take to build FYOS from zero?</summary><p data-i18n="ch5.faq.a5">Honest answer: a first working version in a weekend, a version that genuinely helps in a few months. But you're never holding something half-finished during that time — each layer works on its own. Your CRM is useful from day one; your flows start saving time in the second week. FYOS isn't a finish line, it's a system you keep adding to.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q6">Can I sell what I build to a client?</summary><p data-i18n="ch5.faq.a6">Yes, and that's what the showcase chapter is about. If you've built your own CRM, building the same for a client is three times faster the second time; flows export, the site becomes a template. The most valuable thing an agency can sell is the system it has tried on itself.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.faq.do">Do this now: If you got stuck somewhere while building, ask me — paste the error message or the text on screen exactly as it is. Reading errors is one of the things I'm best at.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch5.s19.title">Exercises</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e1.t">1 · Build the page and publish it</h3>
+          <p data-i18n="ch5.ex.e1.p">Build your one-page site with the five steps in 05, publish it with the five steps in 06. Send the address to a friend.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e1.g"><strong class="text-fg">Goal:</strong> to have something on the internet that you built, at your address.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e2.t">2 · Fill the CRM</h3>
+          <p data-i18n="ch5.ex.e2.p">Build the four-record spreadsheet and fill it with your real clients. At least ten people, five jobs, ten notes.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e2.g"><strong class="text-fg">Goal:</strong> for «who did I talk to» to have an answer in one place, for the first time.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e3.t">3 · Connect the two</h3>
+          <p data-i18n="ch5.ex.e3.p">Add a form to your site, connect it to the CRM with a flow, fill in your own form and watch the row appear.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e3.g"><strong class="text-fg">Goal:</strong> for what you learned in two separate chapters to merge into one working system for the first time.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e4.t">4 · Build one satellite</h3>
+          <p data-i18n="ch5.ex.e4.p">Pick one of the six satellites you wrote in 14 and actually build it. Have it answer one question correctly: «who's waiting on me today?»</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e4.g"><strong class="text-fg">Goal:</strong> for FYOS to stop being abstract and become a real thing that answers a question.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch5.ex.do">Do this now: The first this weekend. The second next week. Three and four within the month. Don't break the order; the third can't be built without the first two.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch5.quiz.title">Test yourself</span></h2>
+      <p data-i18n="ch5.quiz.p1">Answer it yourself first, then open it.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q1">HTML, CSS, JavaScript — in one sentence?</summary><p data-i18n="ch5.quiz.a1">HTML is the skeleton: what's there. CSS is appearance: how it looks. JavaScript is behaviour: what happens. Only the third is a real programming language.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q2">What is a site?</summary><p data-i18n="ch5.quiz.a2">A folder with files in it. The home page is named index.html. The browser reads a file from that folder and draws it on screen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q3">What does publishing mean?</summary><p data-i18n="ch5.quiz.a3">Putting the folder on a computer everyone can reach. You save with git and push to a repository, turn on Pages; the address goes live with https and updates itself on every push.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q4">The difference between static and dynamic?</summary><p data-i18n="ch5.quiz.a4">In static the files sit ready and everyone gets the same thing; free, fast, doesn't break. In dynamic the page is produced for you when you open it; it needs a server, a database and maintenance. The middle road: a static site plus a small proxy.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q5">Where does data live, and in what order?</summary><p data-i18n="ch5.quiz.a5">File, spreadsheet, database — light to heavy. You only move up a tier when the one below gets tight. Most agencies get to hundreds of clients on a spreadsheet.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q6">A CRM's four records?</summary><p data-i18n="ch5.quiz.a6">Person, job, note, reminder. A person links to jobs; notes and reminders collect under the jobs. More than that becomes fields you never use.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q7">Why does a key never go in the browser?</summary><p data-i18n="ch5.quiz.a7">Everything that reaches the browser can be read by everyone; the key becomes visible and gets spent on your bill. The key sits in the proxy's vault; the proxy also counts the quota and answers only your site.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q8">The real job of the talking box on the site?</summary><p data-i18n="ch5.quiz.a8">Not to chat, but to bring work in: greet, understand, ask the right question, and when the visitor gets serious drop the enquiry into the CRM and call you. Quoting prices and making promises is not its job.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q9">FYOS's four layers and their order?</summary><p data-i18n="ch5.quiz.a9">Data, hands, mind, door. The order matters: even the most beautiful interface stays empty if there's no data behind it. You don't build a house from the roof.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q10">When do you not build it yourself?</summary><p data-i18n="ch5.quiz.a10">When a ready-made tool covers ninety percent of the job. In mature areas like invoicing, accounting, payments and calendars, buy the ready one. Everything you build yourself, you look after for life.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch5.recap.title">This chapter in one sentence</h2>
+        <p data-i18n="ch5.recap.p">Open a folder, have a page built in it and publish on day one; keep the data on the lightest tier and fill your own four-record CRM; connect the two with a flow; always leave the key in the proxy's vault — and when you stack these pieces in the order data, hands, mind, door, the thing in your hands is called FYOS.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch5.next.eyebrow">Next</span>
+          <h3 class="font-display text-h3" data-i18n="ch5.next.title">Chapter 6 · The Showcase</h3>
+          <p data-i18n="ch5.next.p">Building for someone else what you built for yourself. Packaging, pricing, delivering: how to turn the system you built into a service.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch5.next.soon">Coming soon</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Back to top" data-i18n-attr="aria-label=ch5.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — All rights reserved.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Home</a><a href="../terms.html" data-i18n="footer.terms">Terms & Privacy</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Student Portal</a></div>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-5.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-5.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="chapter-5.html" data-lang="en" lang="en" hreflang="en" aria-current="page">EN</a>
+      <a href="../../fa/course/chapter-5.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/en.js?v=d25ce12e"></script><script src="../../js/main.js?v=d25ce12e"></script>
+</body>
+</html>

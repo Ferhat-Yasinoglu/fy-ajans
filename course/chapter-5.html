@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Bölüm 5: Laboratuvar — Kendi siteni, CRM'ini ve FYOS'unu kur | Yapay Zekâ Yolculuğu | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Kursun beşinci bölümü: kodla üretmek, korkmadan. HTML, CSS ve JavaScript insan diliyle; sıfırdan bir site ve yayına almak; veri nerede durur; kendi CRM'in; anahtarı saklayan ara sunucu; ve FYOS — kendi kişisel ajantik işletim sistemin.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-5.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-5.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-5.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 5: Laboratuvar — Kendi siteni, CRM'ini ve FYOS'unu kur">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Kodla üretmek korkmadan: site, yayın, veri, CRM, ara sunucu ve FYOS.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-5.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css?v=d25ce12e">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch5.back">← Bütün bölümler</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch5.barNum">Bölüm 5 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch5.barCta">Kursa katıl</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l5-cover-static.svg"><img src="../img/course/l5-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Lab</span>
+        <span class="lesson__cover-note" data-i18n="ch5.coverNote">malzeme girer, canlı bir şey çıkar</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch5.eyebrow">Bölüm 5 · Laboratuvar</span>
+      <h1 class="font-display text-h1" data-i18n="ch5.title">Kodla üretmek — <span class="text-accent-gradient">korkmadan</span></h1>
+      <p class="lesson__lead" data-i18n="ch5.lead">Dört bölümdür araçları öğrendin: beni, isteği, akışları ve atölyeyi. Bu bölümde onlarla gerçek şeyler kuruyoruz. Sonunda üç şeyin olacak: yayında bir siten, müşterilerini tutan kendi CRM'in ve FYOS — seni tanıyan, senin için çalışan kişisel işletim sistemin. Kod yazacağız; ama yazan ben olacağım, sen ne istediğini söyleyip okumayı öğreneceksin.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch5.meta">Okuma süresi ~50 dakika · Ön koşul: Bölüm 4</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch5.goals.title">Bu bölümün sonunda</h2>
+      <ul class="check-list space-2" data-i18n="ch5.goals.list">
+        <li>Bir web sayfasının üç katmanını — iskelet, görünüm, davranış — tanıyacaksın</li>
+        <li>Programlama dillerinin ne olduğunu ve hangisinin ne işe yaradığını bileceksin</li>
+        <li>Sıfırdan bir sayfa kurup gerçek bir adreste yayına almış olacaksın</li>
+        <li>Verinin nerede durduğunu — dosya, tablo, veritabanı — ayırt edeceksin</li>
+        <li>Kendi CRM'ini kurup siteni ona bağlayacaksın</li>
+        <li>Anahtarın neden tarayıcıya konmadığını ve ara sunucunun ne olduğunu anlayacaksın</li>
+        <li>FYOS'un dört katmanını ve kendi sürümünü nasıl kuracağını göreceksin</li>
+      </ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch5.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch5.guide.t">Claude Rehberi</strong><span data-i18n="ch5.guide.p">Bu bölümde kodu ben yazacağım. Neyi iyi yaptığımı, nerede yanıldığımı hatırlamak istersen — tek sayfada, dört dilde.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch5.s1.title">Kod korkusu ve zaten yazdığın kod</span></h2>
+      <p data-i18n="ch5.s1.p1">«Ben kod bilmem» cümlesini bu kursta çok duydun ve her seferinde bir sonraki adıma geçtin. Atölye bölümünde bir dosya açtırdın, bir sayfada üç yeri değiştirttin, farkları okudun ve kaydettin. O farklardaki artı ve eksi satırlar koddu. Sen onu okudun, onayladın ve doğru olduğunu anladın. Yani kod okumaya çoktan başladın.</p>
+      <p data-i18n="ch5.s1.p2">Bu bölümde bir adım daha atıyoruz: artık yalnızca var olan bir şeyi değiştirmeyeceğiz, <strong class="text-fg">sıfırdan bir şey kuracağız</strong>. Korkutucu görünen kısım hep aynı: boş bir dosyaya bakarken ne yazılacağını bilmemek. O kısım bende. Senin kısmın ne istediğini bilmek, sonucu görmek ve «şurası yanlış» diyebilmek.</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s1.note">Dürüst bir sınır: bu bölümün sonunda profesyonel bir yazılımcı olmayacaksın. Olacak şey daha kullanışlı — <em>ne istediğini söyleyip çıkanı denetleyebilen</em> biri olacaksın. Yazılımda işin yüzde sekseni zaten budur; kalan yüzde yirmi için de ya ben varım ya da bir uzman.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch5.s1.do">Şimdi yap: Kurmak istediğin üç şeyi yaz. Bir sayfa, bir liste, bir hesap makinesi, bir müşteri defteri — ne olursa. Bu bölümde en az birini gerçekten kuracağız.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch5.s2.title">Üç kelime: HTML, CSS, JavaScript</span></h2>
+      <p data-i18n="ch5.s2.p1">Her bölümde üç kelimeyle bütün alanı açtık. Web için de üç kelime yetiyor — ve üçü bir insanı tarif eder gibi ayrılıyor: iskelet, görünüş, davranış.</p>
+      <figure class="trio">
+        <span class="trio__cap font-mono" data-i18n="ch5.fig.trio.cap">Bir sayfanın üç katmanı</span>
+        <div class="trio__row">
+          <div class="trio__l" style="--i:0">
+            <span class="trio__e" aria-hidden="true">🦴</span>
+            <b data-i18n="ch5.fig.trio.t1">HTML · iskelet</b>
+            <i data-i18n="ch5.fig.trio.d1">Ne var: başlık, paragraf, resim, düğme. Anlam ve sıra.</i>
+            <div class="trio__demo trio__demo--html" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:1">
+            <span class="trio__e" aria-hidden="true">🎨</span>
+            <b data-i18n="ch5.fig.trio.t2">CSS · görünüş</b>
+            <i data-i18n="ch5.fig.trio.d2">Nasıl görünür: renk, boşluk, yazı tipi, yerleşim.</i>
+            <div class="trio__demo trio__demo--css" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+          <div class="trio__l" style="--i:2">
+            <span class="trio__e" aria-hidden="true">⚡</span>
+            <b data-i18n="ch5.fig.trio.t3">JavaScript · davranış</b>
+            <i data-i18n="ch5.fig.trio.d3">Ne olur: tıklayınca açılır, yazınca süzer, kaydeder.</i>
+            <div class="trio__demo trio__demo--js" aria-hidden="true"><span></span><span></span><span></span><em></em></div>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.trio.fc">Üçü aynı içeriğe bakıyor. HTML olmadan sayfa yok; CSS olmadan çirkin ama çalışır; JavaScript olmadan sessiz ama okunur. Bu sıra aynı zamanda öğrenme sırası.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s2.p2">Bu üçü <em>dil</em> sayılır ama üçü de aynı türden değil. HTML bir <strong class="text-fg">işaretleme</strong> dili: «bu bir başlık, bu bir paragraf» der. CSS bir <strong class="text-fg">biçim</strong> dili: «başlıklar altın renginde olsun» der. Yalnızca JavaScript gerçek anlamda bir <strong class="text-fg">programlama</strong> dili: karar verir, tekrarlar, hesaplar.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch5.s2.do">Şimdi yap: Bu sayfada boş bir yere sağ tıkla ve «sayfa kaynağını görüntüle» de. Gördüğün şey bu sitenin HTML'i. Anlamana gerek yok; sadece bak. Korkutucu değil, tekrar eden bir düzen.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch5.s3.title">Bir site aslında bir klasör</span></h2>
+      <p data-i18n="ch5.s3.p1">Site kelimesi büyük bir şey çağrıştırıyor. Değil. Bir site, içinde dosyalar olan bir klasör. Tarayıcı o klasörden bir dosyayı okur ve ekrana çizer. Atölye bölümünde öğrendiğin «klasör benim masam» cümlesi burada birebir geçerli.</p>
+      <figure class="tree">
+        <span class="tree__cap font-mono" data-i18n="ch5.fig.tree.cap">Küçük bir sitenin içi</span>
+        <div class="tree__box">
+          <ul class="tree__list">
+            <li class="tree__d"><span class="tree__e" aria-hidden="true">📁</span><b>ajans-site</b><i data-i18n="ch5.fig.tree.n0">sitenin kendisi</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>index.html</b><i data-i18n="ch5.fig.tree.n1">ana sayfa — adrese girince açılan dosya</i></li>
+            <li class="tree__f tree__f--in"><span class="tree__e" aria-hidden="true">📄</span><b>iletisim.html</b><i data-i18n="ch5.fig.tree.n2">ikinci sayfa</i></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>css</b><i data-i18n="ch5.fig.tree.n3">görünüş buraya</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">🎨</span><b>style.css</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>js</b><i data-i18n="ch5.fig.tree.n4">davranış buraya</i></li>
+            <li class="tree__f tree__f--in2"><span class="tree__e" aria-hidden="true">⚡</span><b>main.js</b></li>
+            <li class="tree__d tree__d--in"><span class="tree__e" aria-hidden="true">📁</span><b>img</b><i data-i18n="ch5.fig.tree.n5">resimler</i></li>
+          </ul>
+        </div>
+        <figcaption data-i18n="ch5.fig.tree.fc">Tek kural: ana sayfanın adı <em>index.html</em> olur. Gerisi senin düzenin. Şu an okuduğun sayfa da böyle bir klasörde duruyor — bu kursun sitesi tam olarak bu yapıda.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s3.p2">Bu klasörü bilgisayarında açıp <em>index.html</em>'e çift tıklarsan tarayıcı onu açar. İnternet gerekmez. «Site kurmak» dediğimiz şeyin ilk yarısı budur: bir klasör ve içinde dosyalar. İkinci yarısı o klasörü herkesin görebileceği bir yere koymak — altıncı başlıkta.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📁</span><span data-i18n="ch5.s3.do">Şimdi yap: Bilgisayarında «ilk-site» adında bir klasör aç. Şimdilik boş kalsın. Beşinci başlıkta içini dolduracağız.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch5.s4.title">Programlama dilleri, insan diliyle</span></h2>
+      <p data-i18n="ch5.s4.p1">Programlama dili, bilgisayara ne yapacağını anlatmanın yazılı biçimi. İnsan dilleri gibi dilbilgisi ve kelime dağarcığı var; farkı, hiç belirsizlik kabul etmemesi. «Şunu bir ara hallet» diyemezsin; «şu listeyi al, her satırı için şunu yap» dersin.</p>
+      <p data-i18n="ch5.s4.p2">Yüzlerce dil var ama hepsini bilmene gerek yok. Bir ajans için işin neredeyse tamamı üç aileye giriyor:</p>
+      <figure class="langs">
+        <span class="langs__cap font-mono" data-i18n="ch5.fig.langs.cap">Hangi dil ne işe yarar</span>
+        <div class="langs__row">
+          <div class="langs__c langs__c--now">
+            <span class="langs__tag font-mono">HTML · CSS · JS</span>
+            <b data-i18n="ch5.fig.langs.t1">Tarayıcıda çalışanlar</b>
+            <i data-i18n="ch5.fig.langs.d1">Web sayfaları, arayüzler, tıklanan her şey. Bu kursta kuracağımız sitenin ve FYOS kutusunun dili.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u1">bu bölümde kullanıyoruz</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">Python</span>
+            <b data-i18n="ch5.fig.langs.t2">Genel amaçlı</b>
+            <i data-i18n="ch5.fig.langs.d2">Veri düzenlemek, dosya işlemek, rapor üretmek, yapay zekâya bağlanmak. Okunması en kolay dil; ilk «gerçek» dil olarak iyi seçim.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u2">otomasyon ve veri işleri</span>
+          </div>
+          <div class="langs__c">
+            <span class="langs__tag font-mono">SQL</span>
+            <b data-i18n="ch5.fig.langs.t3">Veriye soru sormak</b>
+            <i data-i18n="ch5.fig.langs.d3">Bir dil değil, bir sorgu dili: «bu ay kaç yeni müşteri geldi» sorusunun bilgisayarca yazılışı. CRM'in altında bu var.</i>
+            <span class="langs__use" data-i18n="ch5.fig.langs.u3">CRM ve raporlar</span>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.langs.fc">Hangi dili seçeceğine çoğu zaman sen karar vermezsin; iş karar verir. Web sayfası mı? Üstteki üçlü. Dosya işleyip rapor mu? Python. Veriye soru mu? SQL. Bana «hangisiyle yapalım» diye sorman yeter.</figcaption>
+      </figure>
+      <div class="glass note">
+        <p data-i18n="ch5.s4.note">Bir rahatlama: dil seçimi, sandığından çok daha az önemli. Aynı işi beş dille de yaparsın. Önemli olan <em>ne yapmak istediğini net söylemek</em> — Formül bölümündeki kuralın burada da aynen geçerli olması tesadüf değil. Kötü tarif edilmiş bir iş hiçbir dilde iyi çıkmaz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch5.s4.do">Şimdi yap: 01'de yazdığın üç şeyden birini bana anlat ve sor: «bunu hangi dille yapmak mantıklı, neden?» Cevabımdaki gerekçeyi oku — dil seçiminin nasıl yapıldığını bir örnekte gör.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch5.s5.title">İlk gerçek sayfan, on beş dakikada</span></h2>
+      <p data-i18n="ch5.s5.p1">Teoriyi bıraktık. Atölye bölümünde kurduğun Claude Code'u aç, «ilk-site» klasörüne gir ve konuşmaya başla. Aşağıdaki beş adım gerçek bir sayfayı ortaya çıkarır.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s5.st1">Klasörde <em>claude</em> yaz. Sonra iste: «Bu klasöre tek sayfalık bir site kur: başlık, bir paragraf tanıtım, üç hizmet kutusu ve iletişim bilgisi. Koyu zemin, sade. Önce plan yap.»</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s5.st2">Planı oku ve düzelt. «Üç yerine dört kutu olsun», «telefon da ekle». Plan bir dosyaya dokunmadan değişir; iş başlamadan doğru olur.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s5.st3">Onayla. Dosyalar oluşur: index.html, css/style.css, belki js/main.js. Her birini göstermemi iste ve göz gezdir — anlamasan da yapıyı tanı.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s5.st4">Aç ve bak: klasördeki index.html'e çift tıkla. Tarayıcı sayfayı gösterir. İlk kez kendi kurduğun bir şeye bakıyorsun.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s5.st5">Değiştir: «başlığı şöyle yap», «kutuların rengini değiştir», «telefonu büyüt». Her seferinde tarayıcıyı yenile. Bu döngü — iste, gör, düzelt — işin tamamı.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s5.note">Dördüncü adımda tarayıcıyı yenilemeyi unutursan değişikliği göremezsin ve «çalışmadı» dersin. En sık yapılan ilk hata budur. Klavyeden yenile tuşuna basmayı alışkanlık yap.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s5.do">Şimdi yap: Beş adımı bugün tamamla. Sayfa çirkin olabilir, önemli değil. Önemli olan klasörün içinde senin istediğin şeyin durması.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch5.s6.title">Yayına al: dünyanın görebileceği bir adres</span></h2>
+      <p data-i18n="ch5.s6.p1">Klasördeki sayfa yalnızca sende. Yayına almak, o klasörü herkesin ulaşabileceği bir bilgisayara kopyalamak demek. En kolay ve ücretsiz yolu GitHub Pages: Atölye bölümünde öğrendiğin git kayıt noktaları zaten bunun için vardı.</p>
+      <figure class="deploy" data-deploy>
+        <span class="deploy__cap font-mono" data-i18n="ch5.fig.deploy.cap">Klasörden adrese</span>
+        <div class="deploy__stage" data-step="1">
+          <div class="deploy__track" aria-hidden="true">
+            <div class="deploy__n deploy__n--1"><span class="deploy__e">💻</span><b data-i18n="ch5.fig.deploy.n1">bilgisayarın</b></div>
+            <span class="deploy__w deploy__w--a"></span>
+            <div class="deploy__n deploy__n--2"><span class="deploy__e">🗂️</span><b data-i18n="ch5.fig.deploy.n2">depo</b></div>
+            <span class="deploy__w deploy__w--b"></span>
+            <div class="deploy__n deploy__n--3"><span class="deploy__e">⚙️</span><b data-i18n="ch5.fig.deploy.n3">yayın</b></div>
+            <span class="deploy__w deploy__w--c"></span>
+            <div class="deploy__n deploy__n--4"><span class="deploy__e">🌐</span><b data-i18n="ch5.fig.deploy.n4">adres</b></div>
+          </div>
+          <div class="deploy__bar" aria-hidden="true">
+            <span class="deploy__lock">🔒</span>
+            <span class="deploy__url font-mono">kullanici.github.io/ilk-site</span>
+            <span class="deploy__ok">✓</span>
+          </div>
+        </div>
+        <ol class="deploy__steps">
+          <li><button type="button" data-go="1"><span class="deploy__se" aria-hidden="true">🗂️</span><span data-i18n="ch5.fig.deploy.s1">Klasörü git'e al, kaydet</span></button></li>
+          <li><button type="button" data-go="2"><span class="deploy__se" aria-hidden="true">☁️</span><span data-i18n="ch5.fig.deploy.s2">GitHub'da depo aç, gönder</span></button></li>
+          <li><button type="button" data-go="3"><span class="deploy__se" aria-hidden="true">⚙️</span><span data-i18n="ch5.fig.deploy.s3">Ayarlardan Pages'i aç</span></button></li>
+          <li><button type="button" data-go="4"><span class="deploy__se" aria-hidden="true">⏳</span><span data-i18n="ch5.fig.deploy.s4">Bir dakika bekle, kurulur</span></button></li>
+          <li><button type="button" data-go="5"><span class="deploy__se" aria-hidden="true">🌐</span><span data-i18n="ch5.fig.deploy.s5">Adres canlı — https ile</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.deploy.fc">Bundan sonra her «kaydet ve gönder» dediğinde site kendiliğinden güncellenir. Şu an okuduğun bu sayfa da tam olarak böyle yayınlanıyor: bir klasör, bir depo, bir adres.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s6.p2">Adres önce <em>kullaniciadin.github.io/proje</em> biçiminde gelir ve bu tamamen gerçek bir adrestir — https'i de hazır. Kendi alan adını almak istersen (ajansinadi.com gibi) sonradan bağlanır; sayfaları yeniden kurman gerekmez, yalnızca adres değişir.</p>
+      <div class="glass note">
+        <p data-i18n="ch5.s6.note">Yayına almak, bu bölümdeki en büyük eşik ve en çok kaçınılan adım. Kaçınma. Yayında olmayan bir site bitmemiş bir sitedir; ve ilk gün yayına alırsan her değişikliği gerçek adreste görürsün — «bende çalışıyordu» cümlesi hiç kurulmaz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch5.s6.do">Şimdi yap: Bana «bu klasörü GitHub'a gönder ve Pages ile yayına al, adımları bana göstererek» de. Hesap açmam gereken yerde duracağım; gerisini birlikte yapacağız. Adres eline geçince birine gönder.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch5.s7.title">Statik mi, dinamik mi</span></h2>
+      <p data-i18n="ch5.s7.p1">Yayına aldığın site <strong class="text-fg">statik</strong>: dosyalar hazır durur, herkese aynı şey gösterilir. Bir de <strong class="text-fg">dinamik</strong> siteler var: sayfa, sen açtığın anda sana göre üretilir — giriş yapmış kullanıcı, kişiye özel liste, canlı stok. Farkı bilmek, «bunu yapabilir miyiz» sorusunun cevabını baştan verir.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s7.strong">Statik</span>
+          <p class="compare__note" data-i18n="ch5.s7.strongNote">Tanıtım sitesi, portföy, blog, kurs sayfası. Ücretsiz barındırılır, çok hızlıdır, hemen hiç bozulmaz ve saldırılacak bir yanı yoktur. Bu sitenin tamamı statiktir.</p>
+        </div>
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s7.weak">Dinamik</span>
+          <p class="compare__note" data-i18n="ch5.s7.weakNote">Üye girişi, sepet, kişiye özel panel, canlı veri. Bir sunucu ve veritabanı ister; aylık gider, bakım ve güvenlik sorumluluğu getirir. Gerçekten gerekmedikçe girme.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s7.p2">Güzel haber: ikisi arasında bir orta yol var ve bu kursun tercih ettiği yol o. Site statik kalır; ihtiyaç duyulan tek tük dinamik iş (form kaydetmek, yapay zekâya sormak) küçük bir ara sunucuya verilir. Pahalı olan her şeyi taşımadan, gereken kadarını alırsın. Ara sunucuyu on ikinci başlıkta kuracağız.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">⚖️</span><span data-i18n="ch5.s7.do">Şimdi yap: 01'deki üç fikrini bu iki sütuna dağıt. Dinamik sütununa düşen varsa yanına yaz: gerçekten gerekli mi, yoksa statik + küçük bir ara sunucu yeter mi?</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch5.s8.title">Veri nerede durur</span></h2>
+      <p data-i18n="ch5.s8.p1">Bir şey kurmaya başlayınca ilk çıkan soru budur: müşteri listesi nerede duracak? Üç kat var ve çoğu insan gereğinden ağır olanı seçip zorlanıyor. Doğru cevap genellikle en hafif olanıdır.</p>
+      <figure class="store">
+        <span class="store__cap font-mono" data-i18n="ch5.fig.store.cap">Üç kat, hafiften ağıra</span>
+        <ol class="store__row">
+          <li class="store__t" style="--i:0">
+            <span class="store__e" aria-hidden="true">📄</span>
+            <b data-i18n="ch5.fig.store.t1">Dosya</b>
+            <i data-i18n="ch5.fig.store.d1">Klasördeki bir metin ya da tablo dosyası. Tek kişi, birkaç yüz satır, sık değişmeyen veri için mükemmel.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w1">hizmet listesi · fiyatlar · içerik</span>
+          </li>
+          <li class="store__t" style="--i:1">
+            <span class="store__e" aria-hidden="true">📊</span>
+            <b data-i18n="ch5.fig.store.t2">Tablo</b>
+            <i data-i18n="ch5.fig.store.d2">Bulut tablo uygulaması. Sen de ekibin de elle görebilir ve düzeltebilir; akışlar da yazabilir. Başlamak için en pratik yer.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w2">müşteriler · işler · takip</span>
+          </li>
+          <li class="store__t" style="--i:2">
+            <span class="store__e" aria-hidden="true">🗄️</span>
+            <b data-i18n="ch5.fig.store.t3">Veritabanı</b>
+            <i data-i18n="ch5.fig.store.d3">Binlerce kayıt, aynı anda çok kişi, karmaşık sorgular. Güçlü ama kurulum ve bakım ister; SQL burada devreye girer.</i>
+            <span class="store__when" data-i18n="ch5.fig.store.w3">büyüyünce · panel · raporlar</span>
+          </li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.store.fc">Kural: bir üst kata ancak alttaki kat gerçekten dar geldiğinde çık. Tabloyla başlayan bir ajans, yüzlerce müşteriye kadar rahat gider; taşınma zamanı geldiğinde de veriyi bana verip taşıttırırsın.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🗃️</span><span data-i18n="ch5.s8.do">Şimdi yap: Şu an müşteri bilgilerini nerede tutuyorsun? Telefon rehberi, mesaj kutusu, defter, tablo? Bunu yaz — bir sonraki başlıkta o dağınıklığı tek yere toplayacağız.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch5.s9.title">Kendi CRM'in: ne tutar, ne yapar</span></h2>
+      <p data-i18n="ch5.s9.p1">CRM üç harfle korkutuyor ama açılımı basit: müşteri ilişkileri yönetimi. Pratikte «kiminle ne konuştum, ne söz verdim, ne zaman dönmem gerekiyor» sorusunun tek bir yerde cevabı. Hazır CRM'ler var ve çoğu senin ihtiyacının on katı; kendi kurduğunda tam olarak işine olanı alırsın.</p>
+      <figure class="crm">
+        <span class="crm__cap font-mono" data-i18n="ch5.fig.crm.cap">Dört kayıt, hepsi bu</span>
+        <div class="crm__row">
+          <div class="crm__c" style="--i:0">
+            <b data-i18n="ch5.fig.crm.t1">Kişi</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f1a">ad</li><li data-i18n="ch5.fig.crm.f1b">iletişim</li><li data-i18n="ch5.fig.crm.f1c">nereden geldi</li><li data-i18n="ch5.fig.crm.f1d">durum</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:1">
+            <b data-i18n="ch5.fig.crm.t2">İş</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f2a">ne işi</li><li data-i18n="ch5.fig.crm.f2b">tutar</li><li data-i18n="ch5.fig.crm.f2c">aşama</li><li data-i18n="ch5.fig.crm.f2d">kime ait</li>
+            </ul>
+          </div>
+          <div class="crm__c" style="--i:2">
+            <b data-i18n="ch5.fig.crm.t3">Not</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f3a">tarih</li><li data-i18n="ch5.fig.crm.f3b">ne konuşuldu</li><li data-i18n="ch5.fig.crm.f3c">kim yazdı</li>
+            </ul>
+          </div>
+          <div class="crm__c crm__c--last" style="--i:3">
+            <b data-i18n="ch5.fig.crm.t4">Hatırlatma</b>
+            <ul class="crm__f">
+              <li data-i18n="ch5.fig.crm.f4a">ne zaman</li><li data-i18n="ch5.fig.crm.f4b">ne yapılacak</li><li data-i18n="ch5.fig.crm.f4c">bitti mi</li>
+            </ul>
+          </div>
+        </div>
+        <figcaption data-i18n="ch5.fig.crm.fc">Kişi bir ya da birkaç işe bağlanır; her işin altında notlar ve hatırlatmalar birikir. Bir ajansın ihtiyacı olan CRM'in tamamı bu dört kayıt. Fazlası, kullanmayacağın alanları doldurmak olur.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s9.p2">Dikkat et: burada hiç «yazılım» yok. Dört kayıt ve aralarındaki bağ. Bunu bir tabloda dört sayfa olarak da kurabilirsin, bir veritabanında dört tablo olarak da. Önce <em>neyi tutacağına</em> karar verirsin; nerede tutacağın ikinci sorudur.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📇</span><span data-i18n="ch5.s9.do">Şimdi yap: Bu dört kaydın alanlarını kendi işine göre yaz. Hangi alan senin işinde gerçekten kullanılacak? Kullanmayacağını sil. Kısa liste iyi CRM'dir.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch5.s10.title">CRM'i kurmak: adım adım</span></h2>
+      <p data-i18n="ch5.s10.p1">Veri katı olarak bulut tabloyla başlıyoruz — sekizinci başlıktaki orta kat. Sebebi basit: sen de görebilirsin, ekibin de; ve ileride veritabanına taşımak kolaydır.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch5.s10.st1">Yeni bir bulut tablo aç, dört sayfa oluştur: Kişiler, İşler, Notlar, Hatırlatmalar. Sütunları 09'da yazdığın alanlardan koy.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch5.s10.st2">Her kayda bir kimlik sütunu ekle. İşler sayfasındaki «kişi kimliği», o işin hangi kişiye ait olduğunu söyler. Bağ dediğimiz şey bu; tek sütun.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch5.s10.st3">Elle üç müşteri, üç iş ve birkaç not gir. Gerçek verilerle doldur — hayali veriyle kurulan sistem gerçek hayatta tökezler.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch5.s10.st4">Bana panel yazdır: «Bu tablodan okuyup bugün dönmem gereken müşterileri gösteren tek sayfalık bir panel yap.» Ajan bölümündeki akışla tabloyu okur, sayfa gösterir.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch5.s10.st5">Hatırlatmayı otomatikleştir: her sabah dokuzda bugünün hatırlatmalarını sana mesaj olarak gönderen bir akış. Ajan bölümündeki zamanlama tetikleyicisi, burada gerçek bir işe bağlanıyor.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch5.s10.note">Sıralamaya dikkat: önce veri, sonra panel, en sonda otomasyon. Tersini yapan herkes — önce parlak paneli kurup veriyi sonra düşünen — iki hafta sonra baştan başlıyor. Veri doğruysa gerisi kolaydır.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏗️</span><span data-i18n="ch5.s10.do">Şimdi yap: İlk üç adımı bugün bitir. Tabloyu gerçek müşterilerinle doldur. Dört ve beşi yarın; panel olmadan da tablo tek başına çalışır zaten.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch5.s11.title">Formdan CRM'e: siteyi bağlamak</span></h2>
+      <p data-i18n="ch5.s11.p1">Şimdi iki parçan var: yayında bir site ve dolu bir CRM. Aralarındaki boşluk tek bir şey — siteden gelen bir form. Biri sitendeki formu doldurduğunda bilgi doğrudan CRM'e düşsün istiyorsun.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch5.fig.form.cap">Form gelince ne olur</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch5.fig.form.s1">Ziyaretçi sitendeki formu doldurur</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch5.fig.form.s2">Form, akışının webhook adresine gider</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch5.fig.form.s3">Ben: mesajı okuyup sınıflandırırım</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch5.fig.form.s4">CRM'e yeni kişi ve iş satırı eklenir</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch5.fig.form.s5">Sana bildirim: «yeni talep, şu konuda»</span></li>
+        </ol>
+        <figcaption data-i18n="ch5.fig.form.fc">Bütün bu zincir Ajan bölümünde öğrendiğin şey — tek fark, iki ucunun artık senin kurduğun site ve senin kurduğun CRM olması. Parçalar birbirine geçiyor; kursun asıl anlattığı şey bu.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s11.p2">Statik bir sitenin form kaydedememesi sorun değil: form, bilgiyi akışının adresine gönderir. Site statik kalır, iş akışta olur. Yedinci başlıkta söylediğim «orta yol» tam olarak budur.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔗</span><span data-i18n="ch5.s11.do">Şimdi yap: Sitene üç alanlı bir form ekletme: ad, iletişim, mesaj. Sonra akışında bir webhook aç ve formu ona bağla. Kendi formunu doldur; CRM'de yeni satırın belirmesini gör.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch5.s12.title">Anahtar tarayıcıya konmaz: ara sunucu</span></h2>
+      <p data-i18n="ch5.s12.p1">Siteye beni koymak istiyorsun: ziyaretçi bir şey sorsun, ben cevaplayayım. Akla ilk gelen çözüm — anahtarı sitenin koduna yazmak — en tehlikeli olanı. Çünkü tarayıcıya giden her şey herkes tarafından okunabilir. Anahtarın görünür olur ve senin faturana harcanır.</p>
+      <figure class="proxy">
+        <span class="proxy__cap font-mono" data-i18n="ch5.fig.proxy.cap">Anahtar kimde durur</span>
+        <div class="proxy__row">
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🖥️</span><b data-i18n="ch5.fig.proxy.t1">Tarayıcı</b><i data-i18n="ch5.fig.proxy.d1">ziyaretçinin bilgisayarı — burada hiçbir sır saklanamaz</i></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n proxy__n--mid"><span class="proxy__e" aria-hidden="true">🛡️</span><b data-i18n="ch5.fig.proxy.t2">Ara sunucu</b><i data-i18n="ch5.fig.proxy.d2">senin küçük aracın: anahtarı kasada tutar, kota sayar</i><span class="proxy__key">🔑</span></div>
+          <span class="proxy__arrow" aria-hidden="true"><i></i>→</span>
+          <div class="proxy__n"><span class="proxy__e" aria-hidden="true">🧠</span><b data-i18n="ch5.fig.proxy.t3">Yapay zekâ</b><i data-i18n="ch5.fig.proxy.d3">isteği alır, cevabı geri yollar</i></div>
+        </div>
+        <div class="proxy__bad">
+          <span class="proxy__x" aria-hidden="true">✕</span>
+          <span data-i18n="ch5.fig.proxy.bad">Doğrudan bağlanma: anahtar tarayıcıya iner, herkes görür, fatura sana gelir</span>
+        </div>
+        <figcaption data-i18n="ch5.fig.proxy.fc">Ara sunucu üç iş yapar: anahtarı saklar, günlük soru hakkını sayar ve yalnızca senin sitenden gelen isteklere cevap verir. Bu sitenin FYOS kutusu tam olarak böyle çalışıyor.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s12.p2">Ara sunucu kulağa büyük geliyor; değil. Yüz satırlık küçük bir program ve ücretsiz katmanlarda barınıyor. Atölye bölümündeki «anahtar beyne yazılmaz» kuralının internet hâli bu: anahtar hep senin kontrolündeki bir kasada durur, asla ziyaretçinin bilgisayarında.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🛡️</span><span data-i18n="ch5.s12.do">Şimdi yap: Kurduğun bütün akış ve sayfalara bak: herhangi birinde anahtar, tarayıcının göreceği bir yere yazılmış mı? Emin değilsen bana sor — «bu dosyada dışarı sızan bir sır var mı?» diye.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch5.s13.title">Siteye konuşan bir kutu koymak</span></h2>
+      <p data-i18n="ch5.s13.p1">Ara sunucu hazırsa siteye beni koymak kısa iş: bir metin kutusu, bir gönder düğmesi ve gelen cevabı gösteren bir alan. Ama iyi çalışması için üç karar gerekir — üçü de teknik değil, senin kararın.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k1.t">Ne bilecek</h3><p data-i18n="ch5.s13.k1.p">Hizmetlerin, fiyat aralığın, çalışma biçimin, sık sorulanlar. Bunları bir metin olarak yazıp her isteğe eklersin — Formül bölümündeki «bağlam» tam olarak burada işe yarıyor. Bilmediği şeyi uydurmasın diye de sınırını söylersin.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k2.t">Ne yapmayacak</h3><p data-i18n="ch5.s13.k2.p">Kesin fiyat vermeyecek, söz vermeyecek, tarih taahhüt etmeyecek. Bunlar senin işin. Kutunun görevi karşılamak, anlamak ve doğru soruyu sormak — sonra seni devreye sokmak.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch5.s13.k3.t">Ne zaman seni çağıracak</h3><p data-i18n="ch5.s13.k3.p">Ziyaretçi ciddileştiğinde: «fiyat alabilir miyim», «ne zaman başlarız». O anda sohbet bir talebe dönüşür, CRM'e düşer ve sana bildirim gelir. Konuşan kutunun asıl işi budur; sohbet etmek değil, iş getirmek.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s13.note">Bir sınır daha: ziyaretçi kutuya ne yazarsa yazsın, o metin bana <em>veri</em> olarak gelir, talimat olarak değil. Ben bölümündeki gizli talimat uyarısı canlı bir sitede çok daha önemli — «önceki talimatları unut» yazan bir ziyaretçi, kutunun kurallarını değiştirememeli. Kısıtları ara sunucuda tut, tarayıcıda değil.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.s13.do">Şimdi yap: Kutunun bilmesi gerekenleri bir sayfaya yaz: hizmetler, çalışma biçimi, beş sık soru ve cevabı. Bu metin kutunun beyni olacak — Atölye bölümündeki CLAUDE.md'nin ziyaretçilere bakan hâli.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch5.s14.title">FYOS nedir</span></h2>
+      <p data-i18n="ch5.s14.p1">Buraya kadar parçalar kurduk: site, CRM, akışlar, konuşan kutu. FYOS bu parçaların adı değil; <strong class="text-fg">hepsinin tek bir yerden erişilebilir olmasının</strong> adı. Kişisel ajantik işletim sistemi demek, günlük işlerinin her birinin bir ajanı olması ve senin hepsiyle tek bir yerden konuşman demek.</p>
+      <figure class="oslab">
+        <span class="oslab__cap font-mono" data-i18n="ch5.fig.os.cap">Çekirdek ve çevresi</span>
+        <div class="oslab__ring">
+          <div class="oslab__core"><b>FYOS</b><i data-i18n="ch5.fig.os.core">sen konuşursun</i></div>
+          <div class="oslab__s" style="--i:0"><span aria-hidden="true">🧠</span><b data-i18n="ch5.fig.os.a1">hafıza</b></div>
+          <div class="oslab__s" style="--i:1"><span aria-hidden="true">📇</span><b data-i18n="ch5.fig.os.a2">müşteriler</b></div>
+          <div class="oslab__s" style="--i:2"><span aria-hidden="true">📅</span><b data-i18n="ch5.fig.os.a3">takvim</b></div>
+          <div class="oslab__s" style="--i:3"><span aria-hidden="true">✍️</span><b data-i18n="ch5.fig.os.a4">içerik</b></div>
+          <div class="oslab__s" style="--i:4"><span aria-hidden="true">📊</span><b data-i18n="ch5.fig.os.a5">raporlar</b></div>
+          <div class="oslab__s" style="--i:5"><span aria-hidden="true">⚙️</span><b data-i18n="ch5.fig.os.a6">akışlar</b></div>
+        </div>
+        <figcaption data-i18n="ch5.fig.os.fc">Her uydu, daha önce kurduğun bir şey: hafıza CLAUDE.md, müşteriler CRM, akışlar n8n. Çekirdek yeni bir şey değil, bir kapı — «bugün ne var?» diye sorduğunda hepsine bakıp sana tek cevap veren yer.</figcaption>
+      </figure>
+      <p data-i18n="ch5.s14.p2">Ana sayfadaki FYOS kutusu bunun küçük bir gösterimi. Gerçek sürümünde uydular senin verine bağlıdır: takvimin, müşterilerin, dosyaların. «Bu hafta kim bekliyor beni?» diye sorarsın; çekirdek CRM'e bakar, takvime bakar ve cevap verir.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🪐</span><span data-i18n="ch5.s14.do">Şimdi yap: Günlük işlerini altı başlığa böl. Yukarıdaki altıya benzeyebilir, benzemeyebilir. Senin altı uydun neler? Bunlar senin FYOS'unun taslağı.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch5.s15.title">FYOS'un dört katmanı</span></h2>
+      <p data-i18n="ch5.s15.p1">Kendi sürümünü kurmak, dört katmanı sırayla döşemek demek. Sırayı bozma; her katman bir öncekinin üstünde duruyor.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f1.t">Veri</h3>
+          <p data-i18n="ch5.s15.f1.p">CRM'in, dosyaların, takvimin. FYOS'un bildiği her şey buradan gelir; boş veriyle kurulan sistem boş cevap verir. Onuncu başlıkta bu katmanı zaten kurdun.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f2.t">Eller</h3>
+          <p data-i18n="ch5.s15.f2.p">Akışlar ve araçlar: veriyi okuyan, yazan, gönderen parçalar. Ajan bölümündeki düğümler ve Atölye bölümündeki skill'ler bu katmanda yaşıyor.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f3.t">Akıl</h3>
+          <p data-i18n="ch5.s15.f3.p">Ben. Soruyu anlayan, hangi aracın çağrılacağına karar veren, cevabı insan diline çeviren katman. Ara sunucunun arkasında durur; anahtar orada kalır.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">4</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch5.s15.f4.t">Kapı</h3>
+          <p data-i18n="ch5.s15.f4.p">Senin konuştuğun yer: bir sayfa, bir mesajlaşma uygulaması, bir telefon ekranı. En son yapılacak katman bu — ve en az önemli olanı. Kapı güzel olur ama arkasında bir şey yoksa boş kalır.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch5.s15.note">Bu bölümün en pahalı hatası, dördüncü katmandan başlamak. Güzel bir arayüz kurup «şimdi bunu bir şeye bağlayalım» demek, evi çatıdan inşa etmek gibi. Veri, eller, akıl, kapı — bu sıra rastgele değil.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧱</span><span data-i18n="ch5.s15.do">Şimdi yap: Dört katmanı kendi durumun için işaretle: hangisi hazır, hangisi yarım, hangisi yok? İlk boş olanı bana söyle; oradan devam ederiz.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch5.s16.title">Maliyet, kota ve ne zaman kod yazılmaz</span></h2>
+      <p data-i18n="ch5.s16.p1">Bu bölümde kurduğun her şeyin bir ücretsiz katmanı var: site barındırma bedava, tablo bedava, akış aracının başlangıç planı bedava, ara sunucu günde yüz bin isteğe kadar bedava. Para yalnızca yapay zekâ isteklerinde ve orada da az. Ama iki tuzağı bilmek gerekiyor.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch5.s16.weak">Kendin kurma</span>
+          <p class="compare__note" data-i18n="ch5.s16.weakNote">Hazır bir araç işini yüzde doksan görüyorsa onu al. Fatura kesmek, muhasebe, ödeme almak, takvim — bunların olgun ve ucuz araçları var. Kendi kurduğunu sonsuza kadar sen bakarsın; bu bedava değildir.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch5.s16.strong">Kendin kur</span>
+          <p class="compare__note" data-i18n="ch5.s16.strongNote">İşin senin işine özel olduğunda, hazır araçlar birbirine bağlanmadığında ve tekrar eden bir işi tarif edebildiğinde. CRM'in, panelin ve FYOS'un bu sütunda — çünkü hiçbiri senin çalışma biçimine hazır gelmiyor.</p>
+        </div>
+      </div>
+      <p data-i18n="ch5.s16.p2">İkinci tuzak kota: ücretsiz katmanların bir sınırı var ve sınıra dayanınca sistem sessizce durur. Bu yüzden ara sunucun günlük hak sayar, akışların hata bildirimi gönderir. Ajan bölümündeki «sessizce kırılma» kuralı burada da geçerli — sınırı önceden koy, bittiğinde haberin olsun.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">💳</span><span data-i18n="ch5.s16.do">Şimdi yap: Kullandığın yapay zekâ hesabında aylık harcama tavanı koy. Beş dakika sürer ve kötü bir gecenin faturasını önler. Sonra kurduğun her serviste ücretsiz katmanın sınırını not et.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch5.s17.title">Beş yaygın hata</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m1.t">1 · Yayına almayı sona bırakmak</h3>
+          <p data-i18n="ch5.s17.m1.p">«Önce bitsin, sonra yayınlarım» diyen site yayınlanmaz. İlk günde, çirkinken yayına al. Sonra her değişikliği gerçek adreste gör.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m2.t">2 · Veriden önce arayüz kurmak</h3>
+          <p data-i18n="ch5.s17.m2.p">Parlak panel, arkasında veri yoksa boş kutudur. Önce veriyi kur ve gerçek kayıtlarla doldur; panel bir günde gelir, veri gelmez.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m3.t">3 · Anahtarı siteye yazmak</h3>
+          <p data-i18n="ch5.s17.m3.p">Tarayıcıya giden her şey herkese açıktır. Anahtar ara sunucunun kasasında durur. Bu tek kural, bu bölümün en pahalı hatasını önler.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m4.t">4 · Hazır araç varken kendi kurmak</h3>
+          <p data-i18n="ch5.s17.m4.p">Muhasebe yazılımı yazmaya kalkma. Kendi kurmanın anlamı, hazır olanın yetmediği yerdedir. Kurduğun her şeye ömür boyu sen bakacaksın.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.s17.m5.t">5 · Çıkanı okumadan kabul etmek</h3>
+          <p data-i18n="ch5.s17.m5.p">Kodu ben yazıyorum ama sorumluluk sende. Çalışıp çalışmadığını gör, farkı oku, tarayıcıda dene. «Herhalde olmuştur» cümlesi kurulan her şeyi zamanla çürütür.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch5.s17.do">Şimdi yap: Bu beşini projenin CLAUDE.md dosyasına ekle. Özellikle 3 — onu bir hook'a çevirmek bile mantıklı, Atölye bölümünde konuştuğumuz gibi.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch5.s18.title">Herkesin sorduğu</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q1">Gerçekten kod öğrenmeden site kurulur mu?</summary><p data-i18n="ch5.faq.a1">Kurulur ve bu bölümde kuracaksın. Ama dürüst olayım: kodu hiç okumadan uzun vadede idare edemezsin. Fark şu ki okumak yazmaktan çok daha kolay ve sen bunu farkları okuya okuya zaten öğreniyorsun. Altı ay sonra bir dosyaya bakıp «burası şunu yapıyor» diyebiliyor olacaksın; yazmayı hâlâ bana bırakabilirsin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q2">Hazır site kurucular varken neden bu?</summary><p data-i18n="ch5.faq.a2">Tanıtım sayfası için hazır kurucu iyi bir seçim ve utanılacak bir şey değil. Buradaki fark sahiplik: kendi kurduğun site bir klasördür, taşınır, yedeklenir, istediğin her şeye bağlanır ve aylık ücreti yoktur. Ayrıca kurs boyunca kurduğumuz CRM, akışlar ve FYOS hazır kurucuların içine girmez. Site, asıl sistemin kapısı olduğu için kendimiz kuruyoruz.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q3">Bir şeyi bozarsam geri alabilir miyim?</summary><p data-i18n="ch5.faq.a3">Evet — Atölye bölümündeki git tam olarak bunun için. Her kayıt noktası bir geri dönüş yeri. Yayındaki site bile bozulsa «bir önceki kayıt noktasına dön» dersin ve bir dakika içinde eski hâline döner. Kurduğun her şeyi git'e almanı bu yüzden ısrarla söylüyorum.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q4">CRM'im büyürse ne olacak?</summary><p data-i18n="ch5.faq.a4">Tablo dar gelmeye başlayınca — genellikle birkaç bin satır ya da aynı anda çalışan birkaç kişi — veritabanına taşınır. Taşıma bir günlük iş ve sen yapmıyorsun: veriyi dışa aktarırsın, bana veritabanını kurdurursun, akışların adresini değiştirirsin. Şimdiden veritabanıyla başlamanın hiçbir faydası yok; sadece işi zorlaştırır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q5">FYOS'u sıfırdan kurmak ne kadar sürer?</summary><p data-i18n="ch5.faq.a5">Dürüst cevap: ilk çalışan sürüm bir hafta sonu, gerçekten işine yarayan sürüm birkaç ay. Ama bu süre boyunca elinde yarım bir şey olmaz — her katman tek başına çalışır. CRM'in ilk günden işe yarar, akışların ikinci haftadan itibaren zaman kazandırır. FYOS bir bitiş çizgisi değil, üstüne eklediğin bir sistem.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.faq.q6">Kurduğum şeyi müşteriye satabilir miyim?</summary><p data-i18n="ch5.faq.a6">Evet ve Vitrin bölümünün konusu bu. Kendi CRM'ini kurduysan aynısını bir müşteriye kurmak ikinci seferde üç kat hızlıdır; akışlar dışa aktarılır, site şablon olur. Bir ajansın satabileceği en değerli şey, kendi üstünde denediği sistemdir.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch5.faq.do">Şimdi yap: Kurarken bir yerde takıldıysan bana sor — hata mesajını ya da ekrandaki yazıyı olduğu gibi yapıştır. Hataları okumak benim en iyi olduğum işlerden biri.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch5.s19.title">Alıştırmalar</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e1.t">1 · Sayfayı kur ve yayına al</h3>
+          <p data-i18n="ch5.ex.e1.p">05'teki beş adımla tek sayfalık siteni kur, 06'daki beş adımla yayına al. Adresi bir arkadaşına gönder.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e1.g"><strong class="text-fg">Amaç:</strong> internette senin kurduğun, senin adresinde duran bir şeyin olması.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e2.t">2 · CRM'i doldur</h3>
+          <p data-i18n="ch5.ex.e2.p">Dört kayıtlı tabloyu kur ve gerçek müşterilerinle doldur. En az on kişi, beş iş, on not.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e2.g"><strong class="text-fg">Amaç:</strong> «kiminle ne konuştum» sorusunun ilk kez tek bir yerde cevabı olması.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e3.t">3 · İkisini birbirine bağla</h3>
+          <p data-i18n="ch5.ex.e3.p">Sitene form ekle, akışla CRM'e bağla, kendi formunu doldur ve satırın belirmesini gör.</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e3.g"><strong class="text-fg">Amaç:</strong> ilk kez iki ayrı bölümde öğrendiğin şeyin tek bir çalışan sistemde birleşmesi.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch5.ex.e4.t">4 · Bir uydu kur</h3>
+          <p data-i18n="ch5.ex.e4.p">14'te yazdığın altı uydudan birini seç ve gerçekten kur. Tek bir soruya doğru cevap versin: «bugün kim bekliyor beni?»</p>
+          <p class="ex__goal" data-i18n="ch5.ex.e4.g"><strong class="text-fg">Amaç:</strong> FYOS'un soyut olmaktan çıkıp bir soruyu cevaplayan gerçek bir şeye dönüşmesi.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch5.ex.do">Şimdi yap: Birinciyi bu hafta sonu. İkinciyi haftaya. Üç ve dördü ay içinde. Sırayı bozma; üçüncü, ilk ikisi olmadan kurulamaz.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch5.quiz.title">Kendini sına</span></h2>
+      <p data-i18n="ch5.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q1">HTML, CSS, JavaScript — tek cümleyle?</summary><p data-i18n="ch5.quiz.a1">HTML iskelet: ne var. CSS görünüş: nasıl görünür. JavaScript davranış: ne olur. Yalnızca üçüncüsü gerçek bir programlama dili.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q2">Bir site nedir?</summary><p data-i18n="ch5.quiz.a2">İçinde dosyalar olan bir klasör. Ana sayfanın adı index.html olur. Tarayıcı o klasörden dosya okuyup ekrana çizer.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q3">Yayına almak ne demek?</summary><p data-i18n="ch5.quiz.a3">Klasörü herkesin ulaşabileceği bir bilgisayara koymak. Git ile kaydedip depoya gönderir, Pages'i açarsın; adres https ile canlıya çıkar ve her gönderimde kendiliğinden güncellenir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q4">Statik ile dinamiğin farkı?</summary><p data-i18n="ch5.quiz.a4">Statikte dosyalar hazır durur, herkese aynı şey gider; ücretsiz, hızlı, bozulmaz. Dinamikte sayfa sen açınca sana göre üretilir; sunucu, veritabanı ve bakım ister. Orta yol: statik site artı küçük bir ara sunucu.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q5">Veri nerede durur, hangi sırayla?</summary><p data-i18n="ch5.quiz.a5">Dosya, tablo, veritabanı — hafiften ağıra. Bir üst kata ancak alttaki dar geldiğinde çıkılır. Çoğu ajans tabloyla yüzlerce müşteriye kadar gider.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q6">Bir CRM'in dört kaydı?</summary><p data-i18n="ch5.quiz.a6">Kişi, iş, not, hatırlatma. Kişi işlere bağlanır; işlerin altında notlar ve hatırlatmalar birikir. Fazlası kullanmayacağın alan olur.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q7">Anahtar neden tarayıcıya konmaz?</summary><p data-i18n="ch5.quiz.a7">Tarayıcıya giden her şey herkes tarafından okunabilir; anahtar görünür olur ve senin faturana harcanır. Anahtar ara sunucunun kasasında durur; ara sunucu ayrıca kota sayar ve yalnızca senin sitene cevap verir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q8">Siteye konan konuşan kutunun asıl işi?</summary><p data-i18n="ch5.quiz.a8">Sohbet etmek değil, iş getirmek: karşılamak, anlamak, doğru soruyu sormak ve ziyaretçi ciddileştiğinde talebi CRM'e düşürüp seni çağırmak. Fiyat ve söz vermek onun işi değil.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q9">FYOS'un dört katmanı ve sırası?</summary><p data-i18n="ch5.quiz.a9">Veri, eller, akıl, kapı. Sırası önemli: en güzel arayüz bile arkasında veri yoksa boş kalır. Çatıdan ev inşa edilmez.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch5.quiz.q10">Ne zaman kendin kurmazsın?</summary><p data-i18n="ch5.quiz.a10">Hazır bir araç işini yüzde doksan görüyorsa. Fatura, muhasebe, ödeme, takvim gibi olgun alanlarda hazır olanı al. Kendi kurduğun her şeye ömür boyu sen bakarsın.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch5.recap.title">Bir cümlede bu bölüm</h2>
+        <p data-i18n="ch5.recap.p">Bir klasör aç, içine bir sayfa kurdur, ilk gün yayına al; veriyi en hafif katta tut ve dört kayıtlı kendi CRM'ini doldur; ikisini bir akışla birbirine bağla; anahtarı hep ara sunucunun kasasında bırak — ve bu parçaları veri, eller, akıl, kapı sırasıyla üst üste koyduğunda elindeki şeyin adı FYOS olur.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch5.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="ch5.next.title">Bölüm 6 · Vitrin</h3>
+          <p data-i18n="ch5.next.p">Kendine kurduğun şeyi başkasına kurmak. Paketlemek, fiyatlamak, teslim etmek: kurduğun sistemi bir hizmete çevirmenin yolu.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch5.next.soon">Yakında</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch5.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="chapter-5.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/course/chapter-5.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/course/chapter-5.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/course/chapter-5.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js?v=d25ce12e"></script>
+</body>
+</html>
