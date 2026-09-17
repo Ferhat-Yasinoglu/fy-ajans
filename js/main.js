@@ -301,6 +301,13 @@
        gibi sessiz kaymaları kaçırmamak için yarım saniyede bir tazelenir. Ölçü tazelenmediğinde
        dönüşüm matrisine de dokunmaya gerek yok: bu dosyada başka hiçbir yer onu değiştirmiyor. */
     var fitRound = 0, fitFrame = 0, fitCache = [];
+    /* offsetParent okuması da düzeni zorluyor. Bir tuvalin görünürlüğü kare kare değişmez,
+       o yüzden fit ölçüsüyle aynı turda, yarım saniyede bir bakılır. */
+    var shownRound = -1, shownLink = false;
+    function linkShown() {
+      if (shownRound !== fitRound) { shownRound = fitRound; shownLink = !!(linkC && linkC.offsetParent); }
+      return shownLink;
+    }
     function fitC(c) {
       var e = null;
       for (var i = 0; i < fitCache.length; i++) if (fitCache[i].c === c) { e = fitCache[i]; break; }
@@ -686,7 +693,7 @@
       });
 
       // Kartlara giden bağlantılar (sahne maskesinin dışındaki katman)
-      if (linkC && linkC.offsetParent) {          // telefonda display:none — ölçme de çizme de gereksiz
+      if (linkShown()) {                          // telefonda display:none — ölçme de çizme de gereksiz
         if (!linksReady) buildLinks();
         var lf = fitC(linkC);
         drawLinks(lf.ctx, lf.w, lf.h, s);
@@ -736,23 +743,34 @@
         ctx0.beginPath(); ctx0.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx0.fill();
       });
     }
-    if (reduce) {
+    // Durağan sahnenin tamamı: ağ + kablolar + ses çizgisi. Yeniden boyutlandırmada tekrarlanır.
+    function paintStaticAll() {
       paintStatic();
-      if (linkC) {
+      if (linkC && linkC.offsetParent) {
         buildLinks();
         var lf0 = fit(linkC);
         drawLinks(lf0.ctx, lf0.w, lf0.h, 0);
       }
       if (voiceC) {
         var vf0 = fit(voiceC), vc0 = vf0.ctx;
+        vc0.clearRect(0, 0, vf0.w, vf0.h);
         vc0.strokeStyle = col(68, .8); vc0.lineWidth = 1.6;
         vc0.beginPath(); vc0.moveTo(0, vf0.h / 2); vc0.lineTo(vf0.w, vf0.h / 2); vc0.stroke();
       }
-    } else {
-      raf(draw);
     }
+    if (reduce) paintStaticAll(); else raf(draw);
 
-    addEventListener('resize', function () { linksReady = false; fitRound++; });
+    /* Hareket azaltılmışken draw() hiç çalışmıyor, yani fitRound'u kimse okumuyordu:
+       telefon döndürülünce tuval eski bit eşleminde gerili kalıyordu. Android'in pil
+       koruması «animasyonları kaldır»ı açıyor ve Chrome bunu prefers-reduced-motion'a
+       çeviriyor — yani bu, uç durum değil, pili azalmış her telefon. */
+    var reflowT = 0;
+    addEventListener('resize', function () {
+      linksReady = false; fitRound++;
+      if (!reduce) return;
+      clearTimeout(reflowT);                             // döndürme sırasında olay yağmuru olur
+      reflowT = setTimeout(paintStaticAll, 150);
+    });
     area.addEventListener('pointerdown', function (ev) {
       var b = canvas.getBoundingClientRect();
       if (!b.width || !b.height) { ripple(); return; }
