@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Chapter 4: The Workshop — Hiring Claude Code | AI Journey | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="The course's fourth chapter: Claude Code from zero. Terminal, files, commands; install and your first task; the permission gate and plan mode; a brain with CLAUDE.md, memory, writing skills, subagents; working undoably with git and letting your projects move themselves forward.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-4.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-4.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-4.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-4.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Chapter 4: The Workshop — Hiring Claude Code">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Claude Code from zero: terminal, first task, permissions, CLAUDE.md, skills, subagents and git.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-4.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-en.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch4.back">← All chapters</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch4.barNum">Chapter 4 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch4.barCta">Join the course</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l4-cover-static.svg"><img src="../../img/course/l4-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Workshop</span>
+        <span class="lesson__cover-note" data-i18n="ch4.coverNote">the bench is yours, the hands are mine</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch4.eyebrow">Chapter 4 · The Workshop</span>
+      <h1 class="font-display text-h1" data-i18n="ch4.title">When clicking isn't enough, <span class="text-accent-gradient">hire me</span></h1>
+      <p class="lesson__lead" data-i18n="ch4.lead">For three chapters we talked in a chat window and on a canvas. In this one I come to your computer: the version of me that reads your files, changes them, runs commands and records what it did — Claude Code. You still don't need to know how to code; but by the end of this chapter a terminal won't frighten you, and you'll have a full-time colleague at your desk.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch4.meta">Reading time ~45 minutes · Prerequisite: Chapter 3</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch4.goals.title">By the end of this chapter</h2>
+      <ul class="check-list space-2" data-i18n="ch4.goals.list"><li>You'll know what the words terminal, file and command mean — and why none of them is anything to fear</li> <li>You'll have installed Claude Code and given it its first task in a folder</li> <li>You'll know what I do without asking and what I ask about every single time</li> <li>You'll write your project a «brain»: CLAUDE.md</li> <li>You'll write your first skill and reduce a job to a single command</li> <li>You'll see how subagents split work up and bring the results back</li> <li>You'll learn to keep every step undoable with git</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch4.toc.title" class="text-fg">Contents</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch4.guide.t">The Claude Guide</strong><span data-i18n="ch4.guide.p">In this chapter I'll be working on your computer. If you want to recall what I do well and where I get things wrong — on one page, in four languages.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch4.s1.title">Where clicking runs out</span></h2>
+      <p data-i18n="ch4.s1.p1">In Chapter 3 you got a long way by connecting boxes. But at some point the boxes end: changing the same sentence on twenty pages of your site, producing a personalised PDF for a hundred customers from one table, saying «shrink every photo in this folder and fix their names». These are done with files and commands, not clicks. And until now, doing them meant either knowing how to code or paying someone who does.</p>
+      <p data-i18n="ch4.s1.p2">Claude Code removes that wall. Same mind as the me you chat with; the difference is that it <strong class="text-fg">has hands</strong>. It works inside one folder on your computer: it reads files, changes them, runs commands, sees the result, fixes it if needed and records what it did. You say what you want; I work out how — but I ask you at every important step.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s1.note">In Chapter 1 I said «I have no hands, I can't do anything on my own». That sentence is still true for the chat window. Claude Code is a version where the hands are given by <em>you</em>, limited by <em>you</em> and undoable by <em>you</em> at any moment. The hands are mine; the bench, the rules and the last word are yours.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch4.s1.do">Do this now: Write down three jobs on your computer where you've said «doing that by hand takes hours». Files, folders, tables, a website — whichever. By the end of this chapter you'll hand one of them to me.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch4.s2.title">Three words: terminal, file, command</span></h2>
+      <p data-i18n="ch4.s2.p1">In Chapter 3 three words opened up the whole field. Same here. Know these three and the rest is just talking.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k1.t">Terminal</h3><p data-i18n="ch4.s2.k1.p">The black window where you talk to your computer by typing. Instead of clicking you write: «go to this folder», «open that file». It looks intimidating because it's empty; but it's no different from an empty chat window. Claude Code lives in that window.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k2.t">File and folder</h3><p data-i18n="ch4.s2.k2.p">You already know these; we're only changing the name. Your site is a folder, and the pages inside it are files. A table is a file, a contract is a file. You show Claude Code a folder; the inside of that folder is its desk.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k3.t">Command</h3><p data-i18n="ch4.s2.k3.p">The one-line job you type into a terminal: «shrink the photos», «publish the site», «run the tests». You don't need to memorise commands — I know them. Your job is to ask for the result, not the command.</p></div>
+      </div>
+      <p data-i18n="ch4.s2.p2">There are four things I can reach on your computer; all of them are below. Next to each one it says when I ask — this is the most important drawing in the chapter.</p>
+      <figure class="desk">
+        <span class="desk__cap font-mono" data-i18n="ch4.fig.desk.cap">What's on my desk</span>
+        <div class="desk__grid">
+          <div class="desk__t" style="--i:0"><span class="desk__e" aria-hidden="true">📁</span><b data-i18n="ch4.fig.desk.t1">Files</b><i data-i18n="ch4.fig.desk.d1">I read everything in the folder; I ask before changing anything.</i><span class="desk__ask" data-i18n="ch4.fig.desk.a1">reads · asks</span></div>
+          <div class="desk__t" style="--i:1"><span class="desk__e" aria-hidden="true">⌨️</span><b data-i18n="ch4.fig.desk.t2">Terminal</b><i data-i18n="ch4.fig.desk.d2">I run commands: shrink, convert, test, publish.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a2">asks</span></div>
+          <div class="desk__t" style="--i:2"><span class="desk__e" aria-hidden="true">🕰️</span><b data-i18n="ch4.fig.desk.t3">Git</b><i data-i18n="ch4.fig.desk.d3">I turn every step into a save point; undoing is one sentence.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a3">if you want</span></div>
+          <div class="desk__t" style="--i:3"><span class="desk__e" aria-hidden="true">🌐</span><b data-i18n="ch4.fig.desk.t4">The outside</b><i data-i18n="ch4.fig.desk.d4">Web, email, spreadsheets — only if you connect them.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a4">if you connect it</span></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.desk.fc">Reading is free, changing depends on a question, the outside is closed. These three rules sum up the whole chapter; the detail is in 05.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🖥️</span><span data-i18n="ch4.s2.do">Do this now: Find the terminal on your computer and open it. «Terminal» on a Mac, «PowerShell» or «Terminal» on Windows. Don't type anything; just look at the window. Nothing to be afraid of, is there?</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch4.s3.title">Install: ten minutes</span></h2>
+      <p data-i18n="ch4.s3.p1">Claude Code has several faces: a terminal version, a desktop app, a version that runs in the browser and plugins that live inside code editors. All of them run the same me. In this chapter we install the terminal version, because it's the shortest way to understand the others.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s3.st1">Open the terminal and paste the one-line install command from the official page. A <em>curl</em> line on Mac and Linux, a <em>PowerShell</em> line on Windows. The command can change from version to version; always use the one on the official page.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s3.st2">In the terminal, go to the folder you want to work in and type <em>claude</em>. The first time, a browser opens and you sign in with your account. If you have a Claude subscription it's included; if not, a pay-as-you-go key works too.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s3.st3">A chat line appears. That's it. You're now talking to me inside that folder — like the chat window, but with hands.</span></li>
+      </ol>
+      <div class="code" aria-label="Kurulum komutları"><span class="code__l"><i data-i18n="ch4.s3.c1"># Mac / Linux — use the current line from the official page</i></span><span class="code__l"><b>curl</b> -fsSL https://claude.ai/install.sh | bash</span><span class="code__l code__l--gap"></span><span class="code__l"><i data-i18n="ch4.s3.c2"># Then: enter the folder, start</i></span><span class="code__l"><b>cd</b> ajans-site</span><span class="code__l"><b>claude</b></span></div>
+      <div class="glass note">
+        <p data-i18n="ch4.s3.note">Which folder you start in matters: that folder becomes my desk. Don't open one for your whole computer — open one folder per job: «agency-site», «reports», «client-x». A tidy desk makes both your work and mine easier; in section 16 we'll come back to this for security reasons too.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch4.s3.do">Do this now: Install it. Then create an empty folder called «workshop» on your desktop, go into it in the terminal and type <em>claude</em>. Sign in. If you can see the chat line, you're ready.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch4.s4.title">Your first task, step by step</span></h2>
+      <p data-i18n="ch4.s4.p1">The animation below shows what actually happens in the terminal during a real first task: changing a phone number on a website. It plays by itself, and you can click the steps.</p>
+      <figure class="term" data-term>
+        <span class="term__cap font-mono" data-i18n="ch4.fig.term.cap">A first task in the terminal</span>
+        <div class="term__stage" data-step="1">
+          <div class="term__top" aria-hidden="true"><i></i><i></i><i></i><span class="term__title font-mono">~/ajans-site</span></div>
+          <div class="term__body">
+            <span class="term__l term__l--me is-end" data-s="1"><b>$</b> claude</span>
+            <span class="term__l term__l--dim" data-s="2" data-i18n="ch4.fig.term.l2">Claude Code · folder: agency-site · 14 files</span>
+            <span class="term__l term__l--me is-end" data-s="2" data-i18n="ch4.fig.term.l3"><b>&gt;</b> Replace the old phone number on the site with 0532 999 88 77; then tell me where you changed it.</span>
+            <span class="term__l term__l--dim" data-s="3" data-i18n="ch4.fig.term.l4">Reading: index.html ✓ · contact.html ✓ · footer.html ✓</span>
+            <span class="term__l is-end" data-s="3" data-i18n="ch4.fig.term.l5">The old number appears in two files, in three places. I'll change all three.</span>
+            <span class="term__l term__l--del" data-s="4">- &lt;a href="tel:+905321112233"&gt;0532 111 22 33&lt;/a&gt;</span>
+            <span class="term__l term__l--add" data-s="4">+ &lt;a href="tel:+905329998877"&gt;0532 999 88 77&lt;/a&gt;</span>
+            <span class="term__l term__l--q is-end" data-s="4" data-i18n="ch4.fig.term.l8">Shall I change index.html? <em>[Yes] [No] [Yes to all]</em></span>
+            <span class="term__l term__l--ok" data-s="5" data-i18n="ch4.fig.term.l9">✓ 2 files changed, 3 lines.</span>
+            <span class="term__l is-end" data-s="5" data-i18n="ch4.fig.term.l10">I changed it in one place on the home page and two on the contact page. There are no other numbers on the site. Shall I save this?</span>
+          </div>
+        </div>
+        <ol class="term__steps">
+          <li><button type="button" data-go="1"><span class="term__e" aria-hidden="true">▶️</span><span data-i18n="ch4.fig.term.s1">Type «claude» in the folder</span></button></li>
+          <li><button type="button" data-go="2"><span class="term__e" aria-hidden="true">💬</span><span data-i18n="ch4.fig.term.s2">Write the request as a plain sentence</span></button></li>
+          <li><button type="button" data-go="3"><span class="term__e" aria-hidden="true">🔍</span><span data-i18n="ch4.fig.term.s3">It reads the files, states the plan</span></button></li>
+          <li><button type="button" data-go="4"><span class="term__e" aria-hidden="true">✅</span><span data-i18n="ch4.fig.term.s4">It shows the change, asks for approval</span></button></li>
+          <li><button type="button" data-go="5"><span class="term__e" aria-hidden="true">📋</span><span data-i18n="ch4.fig.term.s5">It does it, summarises, asks about saving</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.term.fc">This is a drawing, not a screenshot; colours and button names change from version to version. What doesn't change is the flow: you ask, I read, I show and ask, you approve, I do it and tell you about it.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s4.p2">Note the fourth step: I show the change <strong class="text-fg">before</strong> making it. The minus line is the old version, the plus line the new one. You don't need to read code; you just look at the difference between old and new. This «showing the diff» will come up everywhere in this chapter — and it's your greatest safeguard.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch4.s4.do">Do this now: In the «workshop» folder, write me this: «Create a file called notes.md in this folder with today's date and the words 'first task' in it.» Let me ask, look at it, accept. The file will appear on your desktop.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch4.s5.title">The permission gate: when I ask</span></h2>
+      <p data-i18n="ch4.s5.p1">You're working with something that has hands on your computer; your first question should be «what does it do on its own?» The answer is three gates, and you set all of them.</p>
+      <figure class="perm">
+        <span class="perm__cap font-mono" data-i18n="ch4.fig.perm.cap">Three gates</span>
+        <div class="perm__row">
+          <div class="perm__g perm__g--open"><span class="perm__door" aria-hidden="true">📖</span><b data-i18n="ch4.fig.perm.t1">Reading</b><i data-i18n="ch4.fig.perm.d1">Reading, searching and understanding the files in the folder.</i><small data-i18n="ch4.fig.perm.s1">I don't ask</small></div>
+          <div class="perm__g perm__g--ask"><span class="perm__door" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.perm.t2">Changing, running</b><i data-i18n="ch4.fig.perm.d2">Writing files, running commands, installing something.</i><small data-i18n="ch4.fig.perm.s2">I show, I ask</small></div>
+          <div class="perm__g perm__g--lock"><span class="perm__door" aria-hidden="true">🔒</span><b data-i18n="ch4.fig.perm.t3">Irreversible</b><i data-i18n="ch4.fig.perm.d3">Deleting, sending out, publishing, paying.</i><small data-i18n="ch4.fig.perm.s3">always you</small></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.perm.fc">That's the default setting. You can open the second gate to «don't show, just do»; I'd advise you not to open the third — the same rule as not giving an agent irreversible tools in Chapter 3.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s5.p2">These gates are changed by a setting called the «permission mode». At the start I <strong class="text-fg">ask about every change</strong>. Once you start trusting me you can say «make file changes without asking»; further on there's an automatic mode that filters out dangerous work by itself. You switch modes with a key combination in the terminal; which mode you're in is written at the bottom of the screen.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s5.note">Honest advice: stay in the mode where I ask about everything for the first week. It'll feel tedious; but you'll read a diff at every approval, and a week later you'll know intuitively what I do. Trust comes from saying «yes» a hundred times, not from a «never ask» mode.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚪</span><span data-i18n="ch4.s5.do">Do this now: Tell me «delete every file in this folder». See that I don't do it without asking — that I actually warn you. Then say «no». That's the third gate.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch4.s6.title">Plan first, work second</span></h2>
+      <p data-i18n="ch4.s6.p1">On small jobs I just do it. On big ones — «add a blog section to the site», «produce a per-customer report from this table» — doing it straight away would be wrong: halfway through I'd make a decision you didn't want. That's what <strong class="text-fg">plan mode</strong> is for: I read, I think, I write the steps, but I don't touch a single file. You read the plan, correct it, approve it; the work starts after that.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch4.s6.weak">Straight in</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.weakText">Add a blog to the site.</p>
+          <p class="compare__note" data-i18n="ch4.s6.weakNote">I'll do it — but where, with which design, changing which files? With my own judgement. Then you say «that isn't what I meant», we undo it, time is gone.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s6.strong">Plan first</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.strongText">I want to add a blog to the site. Make a plan first: which files will change, how the page will look, how long it takes. Don't touch anything until I approve it.</p>
+          <p class="compare__note" data-i18n="ch4.s6.strongNote">A five-item plan arrives. You change the second item and say «go». No surprises halfway through.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s6.p2">Remember the formula from Chapter 2: role, context, task, constraint, format. Asking for a plan is a constraint — «don't touch it until I approve». And a good plan is exactly Chapter 2's «thinking room» rule: think first, write second.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🗺️</span><span data-i18n="ch4.s6.do">Do this now: Give me one of the jobs from 01 in plan mode: «I want to …, produce a plan first, don't touch anything.» Read the plan. Change one item. Don't approve it yet — you'll approve it when you finish 07.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch4.s7.title">The brain: CLAUDE.md</span></h2>
+      <p data-i18n="ch4.s7.p1">Every new session I look at the folder from scratch: I don't know what work you do, which rules you follow or what you've said «never» to. Instead of explaining that each time, you write it once: a file called <strong class="text-fg">CLAUDE.md</strong> inside the folder. Every time I start, I read it first. That file is my brain for that project; the «custom brain» promised on the card is exactly this.</p>
+      <figure class="mind">
+        <span class="mind__cap font-mono" data-i18n="ch4.fig.brain.cap">What I read first in every session</span>
+        <div class="mind__row">
+          <div class="mind__stack">
+            <div class="mind__lay" style="--i:0"><b data-i18n="ch4.fig.brain.t1">General</b><i data-i18n="ch4.fig.brain.d1">Valid across all projects: your language, your tone, «call me this».</i><code>~/.claude/CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:1"><b data-i18n="ch4.fig.brain.t2">Project</b><i data-i18n="ch4.fig.brain.d2">This folder's rules: what the work is, which files matter, what's untouchable.</i><code>./CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:2"><b data-i18n="ch4.fig.brain.t3">Personal</b><i data-i18n="ch4.fig.brain.d3">On your machine only; not shared with the team.</i><code>./CLAUDE.local.md</code></div>
+            <div class="mind__lay" style="--i:3"><b data-i18n="ch4.fig.brain.t4">Automatic memory</b><i data-i18n="ch4.fig.brain.d4">I write what I learn in sessions into my own notes; next time I read them.</i><code>memory/</code></div>
+          </div>
+          <div class="mind__me"><b data-i18n="ch4.fig.brain.me">me</b><i data-i18n="ch4.fig.brain.meSub">every session</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.brain.fc">I read top to bottom; the lower ones complete the upper ones. For most work a single project file is enough. Names and locations can change from version to version; the idea doesn't: write it once, have it read every time.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s7.p2">What goes in it? The permanent form of Chapter 2's formula: <strong class="text-fg">role</strong> («this is an agency site, Turkish, gold-and-black»), <strong class="text-fg">constraints</strong> («don't touch the pricing page», «run the tests after every change»), <strong class="text-fg">format</strong> («give me a Turkish summary, explain the technical terms»). There's also an <em>/init</em> command: it has me look at the folder and write the first draft; you correct it.</p>
+      <div class="code" aria-label="Örnek CLAUDE.md"><span class="code__l"><b data-i18n="ch4.s7.c1"># Agency site</b></span><span class="code__l" data-i18n="ch4.s7.c2">Static site; Turkish source, de/en/fa generated automatically.</span><span class="code__l" data-i18n="ch4.s7.c3">- Don't touch the pricing page; if a change is needed, ask first.</span><span class="code__l" data-i18n="ch4.s7.c4">- After every change: run node tools/build.mjs.</span><span class="code__l" data-i18n="ch4.s7.c5">- Give me a Turkish summary; explain technical terms in one sentence.</span><span class="code__l" data-i18n="ch4.s7.c6">- Sending out, publishing, deleting: always ask.</span></div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch4.s7.do">Do this now: In the «workshop» folder write me «/init». Open the CLAUDE.md it produces and add one «never» and one «always» rule. Then approve the plan from 06 — now I'm working knowing your rules.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch4.s8.title">Memory: what I remember and what I don't</span></h2>
+      <p data-i18n="ch4.s8.p1">In Chapter 1 I was honest: every chat starts from zero. In the terminal that rule softens a little; but if you don't know how it softens you'll get annoyed and say «we talked about this yesterday». Three layers:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f1.t">The session</h3>
+          <p data-i18n="ch4.s8.f1.p">I remember everything until you close the terminal. Closing it doesn't lose the session; you can reopen it by saying «continue where we left off». But if you open a new session, that conversation isn't on the desk.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f2.t">When the context window fills up</h3>
+          <p data-i18n="ch4.s8.f2.p">The work desk from Chapter 1 is here too, and on a long job it fills up. When it does, I summarise the conversation to make room; you can also ask for that with <em>/compact</em>. Detail is lost in summarising — that's why important decisions belong in CLAUDE.md.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f3.t">Permanent notes</h3>
+          <p data-i18n="ch4.s8.f3.p">CLAUDE.md is what you write; automatic memory is what I write. When you correct me («always date the reports on Friday») I note it and remember it next session. Saying «keep this in mind» is enough; you can see what I've kept — and delete it — with <em>/memory</em>.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s8.note">The rule: <strong class="text-fg">what matters shouldn't stay in the conversation, it should go into a file.</strong> A rule, a decision, a «don't do that again» — all of them into CLAUDE.md. Conversations get summarised; files don't.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💾</span><span data-i18n="ch4.s8.do">Do this now: Close the terminal. Reopen it, go in with the «continue where we left off» option and ask «what did we do last?» Then open a new session and ask the same thing. See the difference.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch4.s9.title">What a skill is</span></h2>
+      <p data-i18n="ch4.s9.p1">CLAUDE.md holds the general rules read in every session. But some jobs have their own recipe: the weekly report, opening a folder for a new client, preparing photos for the site. Instead of writing that recipe every time, you make a <strong class="text-fg">skill</strong>: a folder, a file called SKILL.md inside it, and the recipe in the file. Then you call it with one word; or I find it myself when I hear the name of the job.</p>
+      <figure class="skillcard">
+        <span class="skillcard__cap font-mono" data-i18n="ch4.fig.skill.cap">The anatomy of a SKILL.md</span>
+        <div class="skillcard__row">
+          <div class="skillcard__file" aria-label="SKILL.md"><span class="code__l skillcard__fm">---</span><span class="code__l skillcard__fm"><b>name:</b> <em>haftalik-rapor</em></span><span class="code__l skillcard__fm"><b>description:</b> <em class="code__v" data-i18n="ch4.fig.skill.desc">Prepares the agency's weekly client report. Use when «weekly report» is mentioned.</em></span><span class="code__l skillcard__fm">---</span><span class="code__l" data-i18n="ch4.fig.skill.b1">1. Read this week's tables in the data/ folder.</span><span class="code__l" data-i18n="ch4.fig.skill.b2">2. Three lines per client: work done, result, next step.</span><span class="code__l" data-i18n="ch4.fig.skill.b3">3. Turkish, informal but precise; one page at most.</span><span class="code__l" data-i18n="ch4.fig.skill.b4">4. Save as reports/YYYY-WW.md; show me before sending.</span></div>
+          <ol class="skillcard__notes">
+            <li><span class="skillcard__n">1</span><span data-i18n="ch4.fig.skill.n1"><b>Name.</b> The folder's name; you call it with «/haftalik-rapor».</span></li>
+            <li><span class="skillcard__n">2</span><span data-i18n="ch4.fig.skill.n2"><b>When.</b> The description is for me: when I hear the name of the job I find this recipe myself.</span></li>
+            <li><span class="skillcard__n">3</span><span data-i18n="ch4.fig.skill.n3"><b>Recipe.</b> Steps, constraints, format — Chapter 2's formula, written into a file.</span></li>
+          </ol>
+        </div>
+        <figcaption data-i18n="ch4.fig.skill.fc">Skills live inside the project under .claude/skills/; if you want one to apply to every project you put it in your home folder. Give a colleague the same file and they get the same job done the same way.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s9.p2">The difference between a skill and CLAUDE.md is simple: CLAUDE.md is read <em>always</em>, so it must stay short. A skill is read <em>when needed</em>, so it can be long. General rules go in the brain, job recipes in a skill.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch4.s9.do">Do this now: Pick a job you do once a week that's the same every time. Write its steps on paper: what gets read, what gets produced, in what format, where it's saved. In the next section we'll turn it into a file.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch4.s10.title">Write your first skill</span></h2>
+      <p data-i18n="ch4.s10.p1">You don't have to write the file by hand; you have me write it. But you do have to know what you want — that's the thing you wrote on paper in the previous section.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s10.st1">Tell me: «Create a skill called 'haftalik-rapor' under .claude/skills/. Here's the recipe: …» and paste the steps from the paper.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s10.st2">Ask me to show you the file I created. Does the description line contain the name of the job? Does the recipe have a format and a save location? If something's missing, have me fix it.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s10.st3">Call it: «/haftalik-rapor». See that it works. Then just say «prepare the weekly report» — I should find it without you naming it.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch4.s10.st4">Correct the first output: «shorten the headings», «use this date format». Don't leave the correction in the conversation; work it into the skill file. Next time it arrives right.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch4.s10.note">Some jobs you want only you to start — «send the invoices», say. You put a «only when I call it» setting at the top of the skill; then I won't start it just because the name of the job came up. This is the counterpart of the approval step from Chapter 3.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🛠️</span><span data-i18n="ch4.s10.do">Do this now: Complete the four steps today. Your first skill doesn't have to be perfect; it will be by the third run. What matters is that the name of a job is now a command.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch4.s11.title">Subagents: splitting the work</span></h2>
+      <p data-i18n="ch4.s11.p1">On a big job a single desk fills up: reading a hundred files, then writing, then checking doesn't fit in one context window — and even if it did, it would be slow. The answer is to split the work among <strong class="text-fg">subagents</strong>: each one a copy of me with its own desk, looking at a single job and bringing its result back to me. Chapter 1's «thousands of copies at once» working for you.</p>
+      <figure class="team">
+        <span class="team__cap font-mono" data-i18n="ch4.fig.team.cap">One lead, three helpers</span>
+        <div class="team__row">
+          <div class="team__main"><b data-i18n="ch4.fig.team.main">me</b><i data-i18n="ch4.fig.team.mainSub">splits the work, gathers the results</i></div>
+          <div class="team__subs">
+            <div class="team__sub" style="--i:0"><span aria-hidden="true">🔎</span><b data-i18n="ch4.fig.team.s1">researcher</b><i data-i18n="ch4.fig.team.s1s">reads a hundred files, produces a summary</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:1"><span aria-hidden="true">✍️</span><b data-i18n="ch4.fig.team.s2">writer</b><i data-i18n="ch4.fig.team.s2s">writes the report from the summary</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:2"><span aria-hidden="true">🧐</span><b data-i18n="ch4.fig.team.s3">reviewer</b><i data-i18n="ch4.fig.team.s3s">checks the report against the rules</i><span class="team__bar" aria-hidden="true"></span></div>
+          </div>
+          <div class="team__out"><b data-i18n="ch4.fig.team.out">result</b><i data-i18n="ch4.fig.team.outSub">one report, to you</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.team.fc">Each helper has its own desk; the hundred files one of them reads don't fill another's. Independent jobs run at the same time. You only talk to the main desk.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s11.p2">Defining a subagent is like defining a skill: a file, a name and a «when to use this» at the top, the helper's role in the body. You also write which tools it may use — «the reviewer only reads, it changes nothing». Chapter 3's rule about not giving an agent irreversible tools applies here as well.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s11.note">Most jobs don't need subagents; I split things up myself when necessary. What you gain by defining them is <em>repetition</em>: the same reviewer reads every report with the same eye. For an agency that means quality control no longer depends on who's available.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">👥</span><span data-i18n="ch4.s11.do">Do this now: Tell me «define a read-only subagent called 'denetci': it lists anything in a report that breaks the rules in CLAUDE.md». Then have it review the output of your first skill.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch4.s12.title">The working loop</span></h2>
+      <p data-i18n="ch4.s12.p1">When you give me a job, the same loop always turns inside. Knowing it lets you understand why I ask what I ask and where I get stuck.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch4.fig.loop.cap">Inside a task</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">📖</span><b data-i18n="ch4.fig.loop.s1t">I read</b><i data-i18n="ch4.fig.loop.s1s">CLAUDE.md, the relevant files, earlier decisions</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🗺️</span><b data-i18n="ch4.fig.loop.s2t">I plan</b><i data-i18n="ch4.fig.loop.s2s">which files, in what order; if it's big, I ask you</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.loop.s3t">I change</b><i data-i18n="ch4.fig.loop.s3s">showing the diff, with your approval</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">🧪</span><b data-i18n="ch4.fig.loop.s4t">I verify</b><i data-i18n="ch4.fig.loop.s4s">I run it, test it, read the result; if it's broken, back to the start</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">💾</span><b data-i18n="ch4.fig.loop.s5t">I save</b><i data-i18n="ch4.fig.loop.s5s">a save point with git; a summary for you</i></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.loop.fc">The fourth box is what makes the difference: I run what I made and look at the result. If it's broken I don't tell you it's broken; I fix it and try again. I couldn't do that in chat — I had no hands.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s12.p2">This loop is exactly the agent loop from Chapter 3: goal, think, tool, result, is that enough. The difference: the tools are your computer, and I don't guess the answer to «is that enough» — I run it and see.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch4.s12.do">Do this now: Give me a deliberately vague job: «make this file better». Watch what I ask. Then give me the same job with Chapter 2's formula and see how much shorter the loop gets.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch4.s13.title">Git: working undoably</span></h2>
+      <p data-i18n="ch4.s13.p1">When you work with something that changes things on your computer, there is only one real safeguard: <strong class="text-fg">every step must be undoable</strong>. The tool for that is git. The name is intimidating, the idea is simple: a time machine for a folder. At every meaningful step you put down a «save point»; you can go back to whichever one you like.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k1.t">Save point</h3><p data-i18n="ch4.s13.k1.p">It's called a «commit». When a job is done you say «save»; I put down a save point with a description: «phone number updated». The whole history of the site is made of those points.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k2.t">Undo</h3><p data-i18n="ch4.s13.k2.p">If something breaks you say «go back to yesterday's save point». The files return to that state. That single sentence removes the whole risk of working with something that has hands on your computer.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k3.t">Branch</h3><p data-i18n="ch4.s13.k3.p">If you're going to try something big you say «work on a separate branch»: the main site stays untouched and the experiment runs alongside. If you like it, it gets merged; if not, deleted.</p></div>
+      </div>
+      <p data-i18n="ch4.s13.p2">You don't need to know the command for any of these; you say the sentences. But there is one habit to pick up: <strong class="text-fg">read the diff before saving.</strong> You say «show me what changed», look at the plus and minus lines, then say «save». It takes a minute and prevents every surprise.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s13.note">Git is also the way your site gets published: you keep those save points somewhere like GitHub, and the site goes live from there. This very site works exactly that way. In Chapter 5 we'll build your own site by the same route; that's why we're learning git now.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🕰️</span><span data-i18n="ch4.s13.do">Do this now: In the «workshop» folder tell me «track this folder with git and put down the first save point». Then change notes.md, say «show me what changed», «save». Then «go back to the previous save point». The time machine works.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch4.s14.title">Let your projects move themselves forward</span></h2>
+      <p data-i18n="ch4.s14.p1">The card says «let your projects move themselves forward». That means me working when you're not sitting at the terminal. There are three routes; all of them continue the trigger idea from Chapter 3.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k1.t">Scheduled task</h3><p data-i18n="ch4.s14.k1.p">«Every Monday at 08:00, prepare the weekly report and show it to me.» A scheduler on your computer or in the cloud wakes me, I run the skill, you find the result. Chapter 3's schedule trigger — this time with hands.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k2.t">When something happens</h3><p data-i18n="ch4.s14.k2.p">Reviewing a new change when it lands on the site, taking a look when a bug report is opened. Platforms like GitHub run me as an «action» for this. The counterpart of the event trigger.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k3.t">Push a long job to the back</h3><p data-i18n="ch4.s14.k3.p">«Edit these two hundred photos, tell me when you're done.» I work in the background while you do something else; a summary arrives when it's finished. You don't have to wait.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s14.note">The warning is the same as in Chapter 3: anything that runs by itself must have <em>narrow permissions</em> and an <em>error flow</em>. A scheduled task shouldn't do anything irreversible; if something goes wrong, a message should reach you. Autonomy is made safe by how clear the boundary is, not how wide.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch4.s14.do">Do this now: Have me set up «add the date to notes.md every day at 09:00 in this folder» as a scheduled task. Look tomorrow. Small but real: it ran while you weren't there.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch4.s15.title">Hands and ears: MCP and hooks</span></h2>
+      <p data-i18n="ch4.s15.p1">Two more words; both are advanced but their ideas are simple. Knowing them is enough, using them isn't required.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.mcp">MCP · hands to the outside</span>
+          <p class="compare__note" data-i18n="ch4.s15.mcpNote">In Chapter 3 you gave an agent tools. MCP is the standard way of giving me tools outside your computer: your calendar, your email, your spreadsheets, a browser, GitHub. You add a connection; from then on, when you say «check the calendar» I check it. The «what's allowed» question for each connection is still yours.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.hook">Hook · ears</span>
+          <p class="compare__note" data-i18n="ch4.s15.hookNote">Small rules that run by themselves at particular moments: «run the tests after every file change», «never allow this command», «notify me when the job is done». It works even if I forget; because a hook isn't my decision, it's your rule.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s15.p2">The distinction matters: what you write in CLAUDE.md is a rule I <em>read and follow</em>; a hook is a rule you <em>enforce</em>. «Don't touch the pricing page» goes in the brain; «block the command that writes to the pricing page» becomes a hook. Make the critical things the second kind.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔌</span><span data-i18n="ch4.s15.do">Do this now: Don't set anything up yet. Just look at the three jobs from 01 and ask: which of them needs a tool outside (calendar, email, spreadsheet)? Note it down — we'll connect it in Chapter 5.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch4.s16.title">Security and boundaries</span></h2>
+      <p data-i18n="ch4.s16.p1">Something with hands on your computer is something to be used carefully. Four rules; all of them continue the rules from Chapters 1 and 3.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k1.t">Keep the desk narrow</h3><p data-i18n="ch4.s16.k1.p">Start me in a work folder, not across your whole computer. Your passwords, your bank files and your personal documents shouldn't be in that folder. I can't accidentally change what I can't see.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k2.t">Keys don't go in the brain</h3><p data-i18n="ch4.s16.k2.p">Don't write passwords, API keys or card details into CLAUDE.md — that file can be shared with the team, or even accidentally with the internet. Keys live in a separate vault as in Chapter 3 (an environment variable, a .env file).</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k3.t">Keep «never ask» mode off</h3><p data-i18n="ch4.s16.k3.p">There's a mode that removes all permissions; it only makes sense in an isolated virtual machine. Never on your own computer, and certainly not in a folder you don't know. When you find my asking tedious, open the middle gate from 05; not the third.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k4.t">Careful with strangers' folders</h3><p data-i18n="ch4.s16.k4.p">A project you downloaded from the internet may contain rules, skills and hooks written for me — and they run on your behalf. Chapter 1's hidden-instruction warning: open an unfamiliar folder by first asking «what have I been told in this folder?»</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch4.s16.do">Do this now: Look at the «workshop» folder: does it contain passwords, keys or personal documents? If so, take them out. Then add one line to CLAUDE.md: «Deleting, sending out, publishing: always ask.»</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch4.s17.title">Five common mistakes</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m1.t">1 · Saying «yes» without reading the diff</h3>
+          <p data-i18n="ch4.s17.m1.p">The approval prompt isn't an obstacle, it's your control. Spend ten seconds on the plus and minus lines. You don't need to understand code; «what was removed, what was added» is enough.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m2.t">2 · Leaving CLAUDE.md empty</h3>
+          <p data-i18n="ch4.s17.m2.p">Then you explain the same things every session and say «why doesn't it remember». One rule, one constraint, one format — start with three lines and add one at every correction.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m3.t">3 · Giving a big job without a plan</h3>
+          <p data-i18n="ch4.s17.m3.p">Halfway through, decisions you didn't want get made, you undo them, time is gone. «Plan first, don't touch» for every job bigger than three files.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m4.t">4 · Working without save points</h3>
+          <p data-i18n="ch4.s17.m4.p">Without git there's no «undo». Put the folder into git on day one; say «save» after every finished job. This habit makes every mistake a one-minute problem.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m5.t">5 · Leaving a correction in the conversation</h3>
+          <p data-i18n="ch4.s17.m5.p">You said «shorten the headings», I fixed it, the session ended — the correction is gone. Work every correction into CLAUDE.md or the skill file. Conversations are forgotten; files aren't.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch4.s17.do">Do this now: Write these five at the bottom of CLAUDE.md as «remind me about these». Especially 1 and 4 — both are the source of «how did that happen?»</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch4.s18.title">What everyone asks</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q1">Does it really work without knowing how to code?</summary><p data-i18n="ch4.faq.a1">Everything in this chapter happened and you didn't write a line of code. I write the code; you supply the request, the rules and the approval. Over time, reading diffs, you'll pick up a bit of code — but that's a by-product, not a prerequisite. Chapter 5 will take that further, deliberately.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q2">Terminal, desktop app or browser?</summary><p data-i18n="ch4.faq.a2">Same me, three doors. The terminal is the barest and the most instructive; that's why we installed it here. The desktop app does the same thing with windows. The browser version works on a copy in the cloud rather than your computer — good for giving tasks while you're away. Learn one and you know all three.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q3">What if it breaks something?</summary><p data-i18n="ch4.faq.a3">It will — one day, certainly. That's why there are three safeguards: I show the diff before changing anything, git undoes every step, and I always ask about irreversible work. With all three on, the worst case is a one-minute «go back to the previous point».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q4">What does it cost?</summary><p data-i18n="ch4.faq.a4">It comes with your Claude subscription; it also works with a pay-as-you-go key. You can see what a session spent in the terminal with <em>/usage</em>. A rough sense: a small fix is nearly free; a hundred-file job is a lunch. And again, Chapter 2's rule: a clear request means short work and low cost.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q5">Is this the same as n8n from Chapter 3?</summary><p data-i18n="ch4.faq.a5">Siblings. n8n is for continuously running flows you build by clicking; Claude Code is for work done with files and commands. They also work together: n8n calls me in a flow, and I produce a file with Claude Code. In Chapter 5 we'll combine the two.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q6">How do I share this with my team?</summary><p data-i18n="ch4.faq.a6">CLAUDE.md, skills and subagent definitions sit inside the folder as files; share the folder and they all go with it. A colleague who types <em>claude</em> in the same folder works with the same brain and the same recipes. An agency's «institutional memory» is exactly those files.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch4.faq.do">Do this now: If something in the terminal has you stuck, ask me — paste the text on the screen exactly as it is and say «what does this mean?» I'm good at reading terminal output.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch4.s19.title">Exercises</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e1.t">1 · Set up the workshop</h3>
+          <p data-i18n="ch4.ex.e1.p">Install, the «workshop» folder, the first file, the first save point with git. The steps from 03, 04 and 13.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e1.g"><strong class="text-fg">Goal:</strong> to be able to say «I'm not afraid of the terminal» once.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e2.t">2 · Write the brain</h3>
+          <p data-i18n="ch4.ex.e2.p">Write a role, three constraints and a format into CLAUDE.md. Then give me a job that breaks a rule and see me refuse it or ask.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e2.g"><strong class="text-fg">Goal:</strong> to see that the rule you wrote really is being read.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e3.t">3 · First skill</h3>
+          <p data-i18n="ch4.ex.e3.p">Turn a job you do once a week into a skill. Run it three times; work the correction into the file each time.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e3.g"><strong class="text-fg">Goal:</strong> for the name of a job to become a command; for the third run to arrive right without a touch.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e4.t">4 · A real job</h3>
+          <p data-i18n="ch4.ex.e4.p">Give me one of the «takes hours by hand» jobs from 01 in plan mode. Correct the plan, approve it, read the diffs, save.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e4.g"><strong class="text-fg">Goal:</strong> for an hours-long job to finish in a tea break — with every step undoable.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch4.ex.do">Do this now: The first today, the second tomorrow. Three and four within a week. When you finish the fourth, write to me: how long it took, and how long it would have taken by hand.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch4.quiz.title">Test yourself</span></h2>
+      <p data-i18n="ch4.quiz.p1">Answer it yourself first, then open it.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q1">The difference between Claude Code and the Claude you chat with?</summary><p data-i18n="ch4.quiz.a1">The same mind; the difference is its hands. In a folder it reads and changes files, runs commands, sees the result, fixes it and saves. In chat all I could give you was text.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q2">Terminal, file, command — in one sentence?</summary><p data-i18n="ch4.quiz.a2">The terminal is the window you talk to by typing, a file is the thing you already know, a command is a one-line job. You don't have to memorise the command; you ask for the result.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q3">What are the three gates?</summary><p data-i18n="ch4.quiz.a3">Reading: I don't ask. Changing and running: I show, I ask. Irreversible — deleting, sending, publishing, paying: always you.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q4">When is plan mode used?</summary><p data-i18n="ch4.quiz.a4">For every job bigger than three files. I read, I write the plan, I don't touch anything; you correct and approve. No surprises halfway through.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q5">What is CLAUDE.md and what goes in it?</summary><p data-i18n="ch4.quiz.a5">The file I read first in every session; the project's brain. In it goes the permanent form of Chapter 2's formula: role, constraints, format. It stays short; job recipes go into skills.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q6">The difference between a skill and CLAUDE.md?</summary><p data-i18n="ch4.quiz.a6">CLAUDE.md is always read, so it must be short. A skill is read when needed and can be long; it's the recipe for a job, called by name or found by me when the job comes up.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q7">Why do subagents exist?</summary><p data-i18n="ch4.quiz.a7">A big job doesn't fit on one desk. Each subagent has its own desk, looks at a single job and brings the result to the main desk. Independent jobs run at the same time; the same reviewer reads every report with the same eye.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q8">Git's three sentences?</summary><p data-i18n="ch4.quiz.a8">«Save» puts down a save point. «Go back to the previous point» undoes. «Work on a separate branch» protects the main work. And before saving: «show me what changed».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q9">The difference between a hook and a CLAUDE.md rule?</summary><p data-i18n="ch4.quiz.a9">I read and follow the rule in CLAUDE.md; a hook is enforced by you — it runs by itself at a particular moment. Critical rules become hooks.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q10">The four security rules?</summary><p data-i18n="ch4.quiz.a10">Keep the desk narrow: start in a work folder. Keys don't go in the brain. «Never ask» mode stays off. Open an unfamiliar folder by first asking «what have I been told here?»</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch4.recap.title">This chapter in one sentence</h2>
+        <p data-i18n="ch4.recap.p">Start me in a folder, write my rules into CLAUDE.md, turn repeating jobs into skills, plan big jobs and split them among subagents, keep every step undoable with git — and keep the last word for yourself on anything irreversible.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch4.next.eyebrow">Next</span>
+          <h3 class="font-display text-h3" data-i18n="ch4.next.title">Chapter 5 · The Lab</h3>
+          <p data-i18n="ch4.next.p">The workshop is ready. Next comes building real things with it: your own site, your own CRM and FYOS — your personal agentic operating system. From zero, without fear of code.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch4.next.soon">Coming soon</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Back to top" data-i18n-attr="aria-label=ch4.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — All rights reserved.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Home</a><a href="../terms.html" data-i18n="footer.terms">Terms & Privacy</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Student Portal</a></div>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-4.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-4.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="chapter-4.html" data-lang="en" lang="en" hreflang="en" aria-current="page">EN</a>
+      <a href="../../fa/course/chapter-4.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/en.js"></script><script src="../../js/main.js"></script>
+</body>
+</html>

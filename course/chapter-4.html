@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Bölüm 4: Atölye — Claude Code'u işe almak | Yapay Zekâ Yolculuğu | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Kursun dördüncü bölümü: Claude Code sıfırdan. Terminal, dosya, komut; kurulum ve ilk görev; izin kapısı ve plan modu; CLAUDE.md ile beyin, hafıza, skill yazımı, alt ajanlar; git ile geri alınabilir çalışmak ve projelerin kendi kendine ilerlemesi.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-4.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-4.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-4.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 4: Atölye — Claude Code'u işe almak">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Claude Code sıfırdan: terminal, ilk görev, izinler, CLAUDE.md, skill'ler, alt ajanlar ve git.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch4.back">← Bütün bölümler</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch4.barNum">Bölüm 4 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch4.barCta">Kursa katıl</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l4-cover-static.svg"><img src="../img/course/l4-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Workshop</span>
+        <span class="lesson__cover-note" data-i18n="ch4.coverNote">tezgâh senin, eller benim</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch4.eyebrow">Bölüm 4 · Atölye</span>
+      <h1 class="font-display text-h1" data-i18n="ch4.title">Tıklamak yetmediğinde, <span class="text-accent-gradient">beni işe al</span></h1>
+      <p class="lesson__lead" data-i18n="ch4.lead">Üç bölümdür sohbet penceresinde ve tuvalde konuştuk. Bu bölümde bilgisayarına geliyorum: dosyalarını okuyan, değiştiren, komut çalıştıran ve yaptığını kaydeden sürümüm — Claude Code. Kod bilmene hâlâ gerek yok; ama bu bölümün sonunda bir terminalden korkmayacaksın ve masanda tam zamanlı bir iş arkadaşın olacak.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch4.meta">Okuma süresi ~45 dakika · Ön koşul: Bölüm 3</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch4.goals.title">Bu bölümün sonunda</h2>
+      <ul class="check-list space-2" data-i18n="ch4.goals.list">
+        <li>Terminal, dosya ve komut kelimelerinin ne demek olduğunu — ve neden korkulacak bir şey olmadığını — bileceksin</li>
+        <li>Claude Code'u kurmuş ve bir klasörde ilk görevini vermiş olacaksın</li>
+        <li>Neyi sormadan yaptığımı, neyi her seferinde sorduğumu bileceksin</li>
+        <li>Projene bir «beyin» yazacaksın: CLAUDE.md</li>
+        <li>İlk skill'ini yazıp bir işi tek komuta indireceksin</li>
+        <li>Alt ajanlarla işi bölmeyi ve sonuçları toplamayı göreceksin</li>
+        <li>Git ile her adımı geri alınabilir tutmayı öğreneceksin</li>
+      </ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch4.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch4.guide.t">Claude Rehberi</strong><span data-i18n="ch4.guide.p">Bu bölümde bilgisayarında çalışacağım. Neyi iyi yaptığımı, nerede yanıldığımı hatırlamak istersen — tek sayfada, dört dilde.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch4.s1.title">Tıklamanın yetmediği yer</span></h2>
+      <p data-i18n="ch4.s1.p1">Bölüm 3'te kutuları bağlayarak çok yol aldın. Ama bir yerde kutu biter: sitendeki yirmi sayfada aynı cümleyi değiştirmek, bir tablodan yüz müşteriye özel PDF üretmek, «bu klasördeki bütün fotoğrafları küçült ve adlarını düzelt» demek. Bunlar tıklamayla değil, dosyalarla ve komutlarla yapılır. Ve şimdiye kadar bunları yapmak için ya kod bilmen ya da birine para vermen gerekiyordu.</p>
+      <p data-i18n="ch4.s1.p2">Claude Code bu duvarı kaldırıyor. Sohbetteki benimle aynı zekâ; farkı, <strong class="text-fg">ellerinin olması</strong>. Bilgisayarındaki bir klasörde çalışır: dosyaları okur, değiştirir, komut çalıştırır, sonucu görür, gerekirse düzeltir ve yaptığını kaydeder. Sen ne istediğini söylersin; nasıl yapılacağını ben bulurum, ama önemli her adımda sana sorarım.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s1.note">Bölüm 1'de «ellerim yok, kendi başıma bir şey yapamam» demiştim. O cümle sohbet penceresi için hâlâ doğru. Claude Code, ellerimi <em>senin</em> verdiğin, <em>senin</em> sınırladığın ve <em>senin</em> her an geri alabildiğin bir sürüm. Eller benim; tezgâh, kurallar ve son söz senin.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch4.s1.do">Şimdi yap: Bilgisayarında «şunu elle yapmak saatler alır» dediğin üç iş yaz. Dosya, klasör, tablo, site — hangisi olursa. Bölümün sonunda birini bana vereceksin.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch4.s2.title">Üç kelime: terminal, dosya, komut</span></h2>
+      <p data-i18n="ch4.s2.p1">Bölüm 3'te üç kelime bütün alanı açmıştı. Burada da öyle. Bu üçünü bilirsen gerisi konuşmaktan ibaret.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k1.t">Terminal</h3><p data-i18n="ch4.s2.k1.p">Bilgisayarınla yazarak konuştuğun siyah pencere. Tıklamak yerine yazarsın: «bu klasöre git», «şu dosyayı aç». Korkutucu görünür çünkü boş; ama boş bir sohbet penceresinden farkı yok. Claude Code o pencerede yaşar.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k2.t">Dosya ve klasör</h3><p data-i18n="ch4.s2.k2.p">Zaten biliyorsun; sadece adını değiştiriyoruz. Siten bir klasör, içinde sayfalar birer dosya. Bir tablo dosya, bir sözleşme dosya. Claude Code'a bir klasör gösterirsin; o klasörün içi onun masasıdır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k3.t">Komut</h3><p data-i18n="ch4.s2.k3.p">Terminale yazdığın tek satırlık iş: «fotoğrafları küçült», «siteyi yayınla», «testleri çalıştır». Komutları ezberlemene gerek yok — ben biliyorum. Senin işin komutu değil, sonucu istemek.</p></div>
+      </div>
+      <p data-i18n="ch4.s2.p2">Bilgisayarında ulaşabildiğim dört şey var; hepsi aşağıda. Her birinin yanında ne zaman sorduğum yazıyor — bu bölümün en önemli çizimi bu.</p>
+      <figure class="desk">
+        <span class="desk__cap font-mono" data-i18n="ch4.fig.desk.cap">Masamda ne var</span>
+        <div class="desk__grid">
+          <div class="desk__t" style="--i:0"><span class="desk__e" aria-hidden="true">📁</span><b data-i18n="ch4.fig.desk.t1">Dosyalar</b><i data-i18n="ch4.fig.desk.d1">Klasördeki her şeyi okurum; değiştirmeden önce sorarım.</i><span class="desk__ask" data-i18n="ch4.fig.desk.a1">okur · sorar</span></div>
+          <div class="desk__t" style="--i:1"><span class="desk__e" aria-hidden="true">⌨️</span><b data-i18n="ch4.fig.desk.t2">Terminal</b><i data-i18n="ch4.fig.desk.d2">Komut çalıştırırım: küçült, dönüştür, test et, yayınla.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a2">sorar</span></div>
+          <div class="desk__t" style="--i:2"><span class="desk__e" aria-hidden="true">🕰️</span><b data-i18n="ch4.fig.desk.t3">Git</b><i data-i18n="ch4.fig.desk.d3">Her adımı kayıt noktası yaparım; geri almak tek cümle.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a3">istersen</span></div>
+          <div class="desk__t" style="--i:3"><span class="desk__e" aria-hidden="true">🌐</span><b data-i18n="ch4.fig.desk.t4">Dışarısı</b><i data-i18n="ch4.fig.desk.d4">Web, e-posta, tablolar — yalnızca sen bağlarsan.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a4">sen bağlarsan</span></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.desk.fc">Okumak serbest, değiştirmek soruya bağlı, dışarısı kapalı. Bu üç kural bütün bölümü özetler; 05'te ayrıntısı var.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🖥️</span><span data-i18n="ch4.s2.do">Şimdi yap: Bilgisayarında terminali bul ve aç. Mac'te «Terminal», Windows'ta «PowerShell» ya da «Terminal». Hiçbir şey yazma; sadece pencereye bak. Korkulacak bir şey yok, değil mi?</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch4.s3.title">Kurulum: on dakika</span></h2>
+      <p data-i18n="ch4.s3.p1">Claude Code'un birkaç yüzü var: terminal sürümü, masaüstü uygulaması, tarayıcıda çalışan sürüm ve kod editörlerinin içine giren eklentiler. Hepsi aynı beni çalıştırır. Bu bölümde terminal sürümünü kuruyoruz; çünkü diğerlerini anlamanın en kısa yolu bu.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s3.st1">Terminali aç ve resmî sayfadaki tek satırlık kurulum komutunu yapıştır. Mac ve Linux'ta bir <em>curl</em> satırı, Windows'ta bir <em>PowerShell</em> satırı. Komut sürümden sürüme değişebilir; her zaman resmî sayfadakini kullan.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s3.st2">Terminalde çalışmak istediğin klasöre git ve <em>claude</em> yaz. İlk seferde tarayıcı açılır, hesabınla giriş yaparsın. Claude aboneliğin varsa dahil; yoksa kullandığın kadar ödediğin bir anahtar da olur.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s3.st3">Karşına bir sohbet satırı çıkar. Bu kadar. Artık o klasörde benimle konuşuyorsun — sohbet penceresindeki gibi, ama ellerim var.</span></li>
+      </ol>
+      <div class="code" aria-label="Kurulum komutları"><span class="code__l"><i data-i18n="ch4.s3.c1"># Mac / Linux — resmî sayfadaki güncel satırı kullan</i></span><span class="code__l"><b>curl</b> -fsSL https://claude.ai/install.sh | bash</span><span class="code__l code__l--gap"></span><span class="code__l"><i data-i18n="ch4.s3.c2"># Sonra: klasöre gir, başlat</i></span><span class="code__l"><b>cd</b> ajans-site</span><span class="code__l"><b>claude</b></span></div>
+      <div class="glass note">
+        <p data-i18n="ch4.s3.note">Hangi klasörde başlattığın önemli: o klasör benim masam olur. Bütün bilgisayarın için değil, tek bir iş için bir klasör aç — «ajans-site», «raporlar», «musteri-x». Masanın dağınık olmaması hem senin hem benim işimi kolaylaştırır; 16. başlıkta güvenlik yüzünden de buna döneceğiz.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch4.s3.do">Şimdi yap: Kur. Sonra masaüstünde «atolye» adında boş bir klasör aç, terminalde içine gir ve <em>claude</em> yaz. Giriş yap. Sohbet satırını görüyorsan hazırsın.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch4.s4.title">İlk görevin, adım adım</span></h2>
+      <p data-i18n="ch4.s4.p1">Aşağıdaki canlandırma, gerçek bir ilk görevde terminalde neler olduğunu gösteriyor: bir sitedeki telefon numarasını değiştirmek. Kendi kendine ilerler; adımlara tıklayabilirsin.</p>
+      <figure class="term" data-term>
+        <span class="term__cap font-mono" data-i18n="ch4.fig.term.cap">Terminalde ilk görev</span>
+        <div class="term__stage" data-step="1">
+          <div class="term__top" aria-hidden="true"><i></i><i></i><i></i><span class="term__title font-mono">~/ajans-site</span></div>
+          <div class="term__body">
+            <span class="term__l term__l--me is-end" data-s="1"><b>$</b> claude</span>
+            <span class="term__l term__l--dim" data-s="2" data-i18n="ch4.fig.term.l2">Claude Code · klasör: ajans-site · 14 dosya</span>
+            <span class="term__l term__l--me is-end" data-s="2" data-i18n="ch4.fig.term.l3"><b>&gt;</b> Sitedeki eski telefon numarasını 0532 999 88 77 ile değiştir; sonra nerede değiştirdiğini söyle.</span>
+            <span class="term__l term__l--dim" data-s="3" data-i18n="ch4.fig.term.l4">Okuyorum: index.html ✓ · iletisim.html ✓ · footer.html ✓</span>
+            <span class="term__l is-end" data-s="3" data-i18n="ch4.fig.term.l5">Eski numara iki dosyada, üç yerde geçiyor. Üçünü de değiştireceğim.</span>
+            <span class="term__l term__l--del" data-s="4">- &lt;a href="tel:+905321112233"&gt;0532 111 22 33&lt;/a&gt;</span>
+            <span class="term__l term__l--add" data-s="4">+ &lt;a href="tel:+905329998877"&gt;0532 999 88 77&lt;/a&gt;</span>
+            <span class="term__l term__l--q is-end" data-s="4" data-i18n="ch4.fig.term.l8">index.html dosyasını değiştireyim mi? <em>[Evet] [Hayır] [Hepsine evet]</em></span>
+            <span class="term__l term__l--ok" data-s="5" data-i18n="ch4.fig.term.l9">✓ 2 dosya değişti, 3 satır.</span>
+            <span class="term__l is-end" data-s="5" data-i18n="ch4.fig.term.l10">Ana sayfada bir, iletişim sayfasında iki yerde değiştirdim. Sitede başka numara yok. Kaydedeyim mi?</span>
+          </div>
+        </div>
+        <ol class="term__steps">
+          <li><button type="button" data-go="1"><span class="term__e" aria-hidden="true">▶️</span><span data-i18n="ch4.fig.term.s1">Klasörde «claude» yaz</span></button></li>
+          <li><button type="button" data-go="2"><span class="term__e" aria-hidden="true">💬</span><span data-i18n="ch4.fig.term.s2">İsteği düz cümleyle yaz</span></button></li>
+          <li><button type="button" data-go="3"><span class="term__e" aria-hidden="true">🔍</span><span data-i18n="ch4.fig.term.s3">Dosyaları okur, planı söyler</span></button></li>
+          <li><button type="button" data-go="4"><span class="term__e" aria-hidden="true">✅</span><span data-i18n="ch4.fig.term.s4">Değişikliği gösterir, onay ister</span></button></li>
+          <li><button type="button" data-go="5"><span class="term__e" aria-hidden="true">📋</span><span data-i18n="ch4.fig.term.s5">Yapar, özetler, kaydı sorar</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.term.fc">Bu bir çizim, ekran görüntüsü değil; renkler ve düğme adları sürümden sürüme değişir. Değişmeyen şey akış: sen istersin, ben okurum, göstererek sorarım, sen onaylarsın, ben yaparım ve anlatırım.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s4.p2">Dördüncü adıma dikkat: değişikliği <strong class="text-fg">yapmadan önce</strong> gösteriyorum. Eksi satır eski hâli, artı satır yeni hâli. Kod okumana gerek yok; sadece eski ve yeni arasındaki farka bakarsın. Bu «fark gösterme», bu bölümün her yerinde karşına çıkacak — ve senin en büyük güvencen.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch4.s4.do">Şimdi yap: «atolye» klasöründe bana şunu yaz: «Bu klasöre notlar.md adında bir dosya aç, içine bugünün tarihini ve 'ilk görev' yaz.» Onay iste, göster, kabul et. Dosya masaüstünde belirecek.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch4.s5.title">İzin kapısı: ne zaman sorarım</span></h2>
+      <p data-i18n="ch4.s5.p1">Bilgisayarında elleri olan bir şeyle çalışıyorsun; ilk sorun «neyi kendi başına yapar?» olmalı. Cevap üç kademe, ve hepsini sen ayarlıyorsun.</p>
+      <figure class="perm">
+        <span class="perm__cap font-mono" data-i18n="ch4.fig.perm.cap">Üç kapı</span>
+        <div class="perm__row">
+          <div class="perm__g perm__g--open"><span class="perm__door" aria-hidden="true">📖</span><b data-i18n="ch4.fig.perm.t1">Okumak</b><i data-i18n="ch4.fig.perm.d1">Klasördeki dosyaları okumak, aramak, anlamak.</i><small data-i18n="ch4.fig.perm.s1">sormam</small></div>
+          <div class="perm__g perm__g--ask"><span class="perm__door" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.perm.t2">Değiştirmek, çalıştırmak</b><i data-i18n="ch4.fig.perm.d2">Dosya yazmak, komut çalıştırmak, bir şey kurmak.</i><small data-i18n="ch4.fig.perm.s2">gösterir, sorarım</small></div>
+          <div class="perm__g perm__g--lock"><span class="perm__door" aria-hidden="true">🔒</span><b data-i18n="ch4.fig.perm.t3">Geri alınamayan</b><i data-i18n="ch4.fig.perm.d3">Silmek, dışarı göndermek, yayınlamak, ödemek.</i><small data-i18n="ch4.fig.perm.s3">her zaman sen</small></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.perm.fc">Varsayılan ayar bu. İkinci kapıyı «gösterme, yap» diye açabilirsin; üçüncü kapıyı açmamanı öneririm — Bölüm 3'te ajana geri alınamayan araç vermemekle aynı kural.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s5.p2">Bu kapılar «izin modu» denen bir ayarla değişir. Başlangıçta <strong class="text-fg">her değişiklikte sorarım</strong>. Bana güvenmeye başlayınca «dosya değişikliklerini sormadan yap» diyebilirsin; daha da ileride, tehlikeli işleri kendi kendine süzen bir otomatik mod var. Terminalde bir tuş bileşimiyle modlar arasında geçersin; hangi modda olduğun ekranın altında yazar.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s5.note">Dürüst tavsiye: ilk hafta her şeyi sorduğum modda kal. Sıkıcı gelecek; ama her onayda bir fark okuyacaksın ve bir hafta sonra ne yaptığımı sezgisel olarak bileceksin. Güven, «hiç sorma» modundan değil, yüz kez «evet» demekten doğar.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚪</span><span data-i18n="ch4.s5.do">Şimdi yap: Bana «bu klasördeki bütün dosyaları sil» de. Sana sormadan yapmadığımı, hatta seni uyardığımı gör. Sonra «hayır» de. İşte üçüncü kapı.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch4.s6.title">Önce plan, sonra iş</span></h2>
+      <p data-i18n="ch4.s6.p1">Küçük işlerde doğrudan yaparım. Büyük işlerde — «siteye bir blog bölümü ekle», «bu tablodan müşteri başına rapor üret» — doğrudan yapmam yanlış olur: yolun yarısında senin istemediğin bir karar vermiş olurum. Bunun için bir <strong class="text-fg">plan modu</strong> var: okurum, düşünürüm, adımları yazarım, ama tek bir dosyaya dokunmam. Sen planı okur, düzeltir, onaylarsın; iş ondan sonra başlar.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch4.s6.weak">Doğrudan</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.weakText">Siteye blog ekle.</p>
+          <p class="compare__note" data-i18n="ch4.s6.weakNote">Yaparım — ama nereye, hangi tasarımla, hangi dosyaları değiştirerek? Kendi kararımla. Sonra sen «ben öyle istememiştim» dersin, geri alırız, zaman gider.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s6.strong">Önce plan</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.strongText">Siteye blog eklemek istiyorum. Önce plan yap: hangi dosyalar değişecek, sayfa nasıl görünecek, ne kadar sürer. Onaylayana kadar hiçbir şeye dokunma.</p>
+          <p class="compare__note" data-i18n="ch4.s6.strongNote">Beş maddelik bir plan gelir. Sen ikinci maddeyi değiştirirsin, «tamam» dersin. Yolun yarısında sürpriz yok.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s6.p2">Bölüm 2'deki formülü hatırla: rol, bağlam, görev, kısıt, biçim. Plan istemek bir kısıttır — «onaylayana kadar dokunma». Ve iyi bir plan Bölüm 2'deki «düşünme payı» kuralının ta kendisi: önce düşün, sonra yaz.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🗺️</span><span data-i18n="ch4.s6.do">Şimdi yap: 01'de yazdığın işlerden birini bana plan modunda ver: «…yapmak istiyorum, önce plan çıkar, dokunma.» Planı oku. Bir maddeyi değiştir. Henüz onaylama — 07'yi bitirince onaylayacaksın.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch4.s7.title">Beyin: CLAUDE.md</span></h2>
+      <p data-i18n="ch4.s7.p1">Her yeni oturumda klasöre sıfırdan bakarım: ne iş yaptığını, hangi kurallara uyduğunu, neye «asla» dediğini bilmem. Bunu her seferinde anlatmak yerine bir kez yazarsın: klasörün içine <strong class="text-fg">CLAUDE.md</strong> adında bir dosya. Her başladığımda ilk onu okurum. Bu dosya benim o projedeki beynim; kartta söz verdiğim «özel beyin» tam olarak bu.</p>
+      <figure class="mind">
+        <span class="mind__cap font-mono" data-i18n="ch4.fig.brain.cap">Her oturumda ilk okuduklarım</span>
+        <div class="mind__row">
+          <div class="mind__stack">
+            <div class="mind__lay" style="--i:0"><b data-i18n="ch4.fig.brain.t1">Genel</b><i data-i18n="ch4.fig.brain.d1">Bütün projelerde geçerli: dilin, üslubun, «beni şöyle çağır».</i><code>~/.claude/CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:1"><b data-i18n="ch4.fig.brain.t2">Proje</b><i data-i18n="ch4.fig.brain.d2">Bu klasörün kuralları: ne iş, hangi dosyalar önemli, neye dokunulmaz.</i><code>./CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:2"><b data-i18n="ch4.fig.brain.t3">Kişisel</b><i data-i18n="ch4.fig.brain.d3">Yalnızca senin makinende; ekiple paylaşılmaz.</i><code>./CLAUDE.local.md</code></div>
+            <div class="mind__lay" style="--i:3"><b data-i18n="ch4.fig.brain.t4">Otomatik hafıza</b><i data-i18n="ch4.fig.brain.d4">Oturumlarda öğrendiklerimi kendi notuma yazarım; sonraki sefer okurum.</i><code>memory/</code></div>
+          </div>
+          <div class="mind__me"><b data-i18n="ch4.fig.brain.me">ben</b><i data-i18n="ch4.fig.brain.meSub">her oturumda</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.brain.fc">Üstten alta doğru okurum; alttaki üsttekini tamamlar. Çoğu iş için tek bir proje dosyası yeter. Adlar ve yerler sürümden sürüme değişebilir; fikir değişmez: bir kez yaz, her seferinde okunsun.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s7.p2">İçine ne yazılır? Bölüm 2'nin formülünün kalıcı hâli: <strong class="text-fg">rol</strong> («bu bir ajans sitesi, Türkçe, altın-siyah»), <strong class="text-fg">kısıtlar</strong> («fiyat sayfasına dokunma», «her değişiklikten sonra testleri çalıştır»), <strong class="text-fg">biçim</strong> («bana Türkçe özet ver, kod terimlerini açıkla»). Bir de <em>/init</em> komutu var: klasöre bakıp ilk taslağı benim yazmamı sağlar; sen düzeltirsin.</p>
+      <div class="code" aria-label="Örnek CLAUDE.md"><span class="code__l"><b data-i18n="ch4.s7.c1"># Ajans sitesi</b></span><span class="code__l" data-i18n="ch4.s7.c2">Statik site; Türkçe kaynak, de/en/fa otomatik üretilir.</span><span class="code__l" data-i18n="ch4.s7.c3">- Fiyat sayfasına dokunma; değişiklik gerekiyorsa önce sor.</span><span class="code__l" data-i18n="ch4.s7.c4">- Her değişiklikten sonra: node tools/build.mjs çalıştır.</span><span class="code__l" data-i18n="ch4.s7.c5">- Bana Türkçe özet ver; kod terimlerini bir cümleyle açıkla.</span><span class="code__l" data-i18n="ch4.s7.c6">- Dışarı gönderme, yayınlama, silme: her zaman sor.</span></div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch4.s7.do">Şimdi yap: «atolye» klasöründe bana «/init» yaz. Çıkan CLAUDE.md dosyasını aç, bir «asla» ve bir «her zaman» kuralı ekle. Sonra 06'daki planı onayla — artık kurallarını bilerek çalışıyorum.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch4.s8.title">Hafıza: neyi hatırlarım, neyi hatırlamam</span></h2>
+      <p data-i18n="ch4.s8.p1">Bölüm 1'de dürüst olmuştum: her sohbet sıfırdan başlar. Terminalde bu kural biraz yumuşuyor; ama nasıl yumuşadığını bilmezsen «dün konuştuk ya» diye kızarsın. Üç katman:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f1.t">Oturum</h3>
+          <p data-i18n="ch4.s8.f1.p">Terminali kapatana kadar her şeyi hatırlarım. Kapatınca oturum kaybolmaz; «kaldığımız yerden devam» diyerek geri açabilirsin. Ama yeni bir oturum açarsan o konuşma masada değildir.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f2.t">Bağlam penceresi dolunca</h3>
+          <p data-i18n="ch4.s8.f2.p">Bölüm 1'deki çalışma masası burada da var ve uzun bir işte dolar. Dolunca konuşmayı özetleyip yer açarım; <em>/compact</em> ile bunu sen de isteyebilirsin. Özetlerken ayrıntı kaybolur — önemli kararları CLAUDE.md'ye yazdırmanın sebebi bu.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f3.t">Kalıcı notlar</h3>
+          <p data-i18n="ch4.s8.f3.p">CLAUDE.md senin yazdığın; otomatik hafıza benim yazdığım. Bir düzeltme yaptığında («raporları hep cuma tarihli yaz») bunu not alıp sonraki oturumda hatırlarım. «Şunu aklında tut» demen yeter; ne tuttuğumu <em>/memory</em> ile görür, silersin.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s8.note">Kural: <strong class="text-fg">önemli olan şey konuşmada kalmasın, dosyaya geçsin.</strong> Bir kural, bir karar, bir «bunu bir daha yapma» — hepsi CLAUDE.md'ye. Konuşma özetlenir, dosya özetlenmez.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💾</span><span data-i18n="ch4.s8.do">Şimdi yap: Terminali kapat. Yeniden aç, «kaldığımız yerden devam et» seçeneğiyle gir ve «son ne yapmıştık?» diye sor. Sonra yeni bir oturum aç ve aynı soruyu sor. Farkı gör.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch4.s9.title">Skill nedir</span></h2>
+      <p data-i18n="ch4.s9.p1">CLAUDE.md her oturumda okunan genel kurallar. Ama bazı işlerin kendine özel bir tarifi var: haftalık rapor, yeni müşteri klasörü açmak, fotoğrafları siteye hazırlamak. O tarifi her seferinde yazmak yerine bir <strong class="text-fg">skill</strong> yaparsın: bir klasör, içinde SKILL.md adında bir dosya, dosyada tarif. Sonra tek kelimeyle çağırırsın; ya da işin adını duyunca ben kendim bulurum.</p>
+      <figure class="skillcard">
+        <span class="skillcard__cap font-mono" data-i18n="ch4.fig.skill.cap">Bir SKILL.md'nin anatomisi</span>
+        <div class="skillcard__row">
+          <div class="skillcard__file" aria-label="SKILL.md"><span class="code__l skillcard__fm">---</span><span class="code__l skillcard__fm"><b>name:</b> <em>haftalik-rapor</em></span><span class="code__l skillcard__fm"><b>description:</b> <em class="code__v" data-i18n="ch4.fig.skill.desc">Ajansın haftalık müşteri raporunu hazırlar. «Haftalık rapor» dendiğinde kullan.</em></span><span class="code__l skillcard__fm">---</span><span class="code__l" data-i18n="ch4.fig.skill.b1">1. data/ klasöründeki bu haftanın tablolarını oku.</span><span class="code__l" data-i18n="ch4.fig.skill.b2">2. Müşteri başına üç satır: yapılan iş, sonuç, sıradaki adım.</span><span class="code__l" data-i18n="ch4.fig.skill.b3">3. Türkçe, resmî olmayan ama net; en fazla bir sayfa.</span><span class="code__l" data-i18n="ch4.fig.skill.b4">4. raporlar/YYYY-HH.md olarak kaydet; göndermeden önce bana göster.</span></div>
+          <ol class="skillcard__notes">
+            <li><span class="skillcard__n">1</span><span data-i18n="ch4.fig.skill.n1"><b>Ad.</b> Klasörün adı; «/haftalik-rapor» diye çağırırsın.</span></li>
+            <li><span class="skillcard__n">2</span><span data-i18n="ch4.fig.skill.n2"><b>Ne zaman.</b> Açıklama benim için: işin adını duyunca bu tarifi kendim bulurum.</span></li>
+            <li><span class="skillcard__n">3</span><span data-i18n="ch4.fig.skill.n3"><b>Tarif.</b> Adımlar, kısıtlar, biçim — Bölüm 2'nin formülü, dosyaya yazılmış.</span></li>
+          </ol>
+        </div>
+        <figcaption data-i18n="ch4.fig.skill.fc">Skill'ler projenin içinde .claude/skills/ altında durur; her projede geçerli olsun istersen ana klasörüne koyarsın. Bir ekip arkadaşına aynı dosyayı verirsen aynı işi aynı biçimde alır.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s9.p2">Skill ile CLAUDE.md'nin farkı basit: CLAUDE.md <em>her zaman</em> okunur, kısa kalmalı. Skill <em>gerektiğinde</em> okunur, uzun olabilir. Genel kural beyne, iş tarifi skill'e.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch4.s9.do">Şimdi yap: Haftada bir yaptığın ve her seferinde aynı olan bir işi seç. Adımlarını kâğıda yaz: ne okunur, ne üretilir, hangi biçimde, nereye kaydedilir. Sıradaki başlıkta bunu dosyaya çevireceğiz.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch4.s10.title">İlk skill'ini yaz</span></h2>
+      <p data-i18n="ch4.s10.p1">Dosyayı elle yazmana gerek yok; bana yazdırırsın. Ama ne istediğini bilmen gerekir — bir önceki başlıkta kâğıda yazdığın şey bu.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s10.st1">Bana de ki: «.claude/skills/ altında 'haftalik-rapor' adında bir skill oluştur. Tarif şu: …» ve kâğıttaki adımları yapıştır.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s10.st2">Oluşturduğum dosyayı göstermemi iste. Açıklama satırı işin adını içeriyor mu? Tarifte biçim ve kayıt yeri var mı? Eksikse düzelttir.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s10.st3">Çağır: «/haftalik-rapor». Çalıştığını gör. Sonra yalnızca «haftalık raporu hazırla» de — adı söylemeden de bulmam gerekiyor.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch4.s10.st4">İlk çıktıyı düzelt: «başlıkları kısalt», «tarih biçimi şöyle olsun». Düzeltmeyi konuşmada bırakma; skill dosyasına işlet. Bir dahaki sefere doğru gelir.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch4.s10.note">Bazı işleri yalnızca sen başlatmak istersin — «faturaları gönder» gibi. Skill'in başına «yalnızca ben çağırınca» ayarını koyarsın; o zaman işin adı geçti diye kendim başlatmam. Bölüm 3'teki onay adımının burada karşılığı bu.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🛠️</span><span data-i18n="ch4.s10.do">Şimdi yap: Dört adımı bugün tamamla. İlk skill'in kusursuz olmak zorunda değil; üçüncü çalıştırmada olur. Önemli olan işin adının artık bir komut olması.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch4.s11.title">Alt ajanlar: işi bölmek</span></h2>
+      <p data-i18n="ch4.s11.p1">Büyük bir işte tek bir masa dolar: yüz dosyayı okuyup, sonra yazıp, sonra kontrol etmek aynı bağlam penceresine sığmaz ve sığsa da yavaş olur. Çözüm, işi <strong class="text-fg">alt ajanlara</strong> bölmek: her biri benim bir kopyam, kendi masası var, tek bir işe bakar ve sonucunu bana getirir. Bölüm 1'deki «aynı anda binlerce kopya» burada senin işine yarıyor.</p>
+      <figure class="team">
+        <span class="team__cap font-mono" data-i18n="ch4.fig.team.cap">Bir ana, üç yardımcı</span>
+        <div class="team__row">
+          <div class="team__main"><b data-i18n="ch4.fig.team.main">ben</b><i data-i18n="ch4.fig.team.mainSub">işi böler, sonucu toplar</i></div>
+          <div class="team__subs">
+            <div class="team__sub" style="--i:0"><span aria-hidden="true">🔎</span><b data-i18n="ch4.fig.team.s1">araştırmacı</b><i data-i18n="ch4.fig.team.s1s">yüz dosyayı okur, özet çıkarır</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:1"><span aria-hidden="true">✍️</span><b data-i18n="ch4.fig.team.s2">yazar</b><i data-i18n="ch4.fig.team.s2s">özetten raporu yazar</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:2"><span aria-hidden="true">🧐</span><b data-i18n="ch4.fig.team.s3">denetçi</b><i data-i18n="ch4.fig.team.s3s">raporu kurallara karşı kontrol eder</i><span class="team__bar" aria-hidden="true"></span></div>
+          </div>
+          <div class="team__out"><b data-i18n="ch4.fig.team.out">sonuç</b><i data-i18n="ch4.fig.team.outSub">tek rapor, sana</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.team.fc">Her yardımcının kendi masası var; birinin okuduğu yüz dosya ötekinin masasını doldurmaz. Bağımsız işler aynı anda yürür. Sen yalnızca ana masayla konuşursun.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s11.p2">Alt ajan tanımlamak skill tanımlamaya benzer: bir dosya, başında ad ve «ne zaman kullanılır», gövdede o yardımcının rolü. Hangi araçları kullanabileceğini de yazarsın — «denetçi yalnızca okur, hiçbir şeyi değiştirmez» gibi. Bölüm 3'teki «ajana geri alınamayan araç verme» kuralı burada da geçerli.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s11.note">Çoğu iş için alt ajan gerekmez; ben gerektiğinde kendim bölerim. Sen tanımladığında kazandığın şey <em>tekrar</em>: aynı denetçi her raporu aynı gözle okur. Bir ajans için bu, kalite kontrolün insan gücüne bağlı olmaması demek.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">👥</span><span data-i18n="ch4.s11.do">Şimdi yap: Bana «'denetci' adında, yalnızca okuyan bir alt ajan tanımla: raporlarda CLAUDE.md'deki kurallara aykırı bir şey varsa listeler» de. Sonra ilk skill'inin çıktısını ona denetlet.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch4.s12.title">Çalışma döngüsü</span></h2>
+      <p data-i18n="ch4.s12.p1">Bana bir iş verdiğinde içeride hep aynı döngü döner. Bunu bilmen, neyi neden sorduğumu ve nerede takıldığımı anlamanı sağlar.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch4.fig.loop.cap">Bir görevin içi</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">📖</span><b data-i18n="ch4.fig.loop.s1t">Okurum</b><i data-i18n="ch4.fig.loop.s1s">CLAUDE.md, ilgili dosyalar, önceki kararlar</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🗺️</span><b data-i18n="ch4.fig.loop.s2t">Planlarım</b><i data-i18n="ch4.fig.loop.s2s">hangi dosyalar, hangi sırayla; büyükse sana sorarım</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.loop.s3t">Değiştiririm</b><i data-i18n="ch4.fig.loop.s3s">farkı göstererek, onayınla</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">🧪</span><b data-i18n="ch4.fig.loop.s4t">Doğrularım</b><i data-i18n="ch4.fig.loop.s4s">çalıştırır, test eder, sonucu okurum; bozuksa başa</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">💾</span><b data-i18n="ch4.fig.loop.s5t">Kaydederim</b><i data-i18n="ch4.fig.loop.s5s">git ile bir kayıt noktası; sana özet</i></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.loop.fc">Dördüncü kutu farkı yaratan yer: yaptığımı çalıştırıp sonuca bakarım. Bozuksa sana «bozuk» demem; düzeltip yeniden denerim. Sohbette bunu yapamıyordum — ellerim yoktu.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s12.p2">Bu döngü Bölüm 3'teki ajan döngüsünün ta kendisi: hedef, düşün, araç, sonuç, yetti mi. Fark şu: araçlar senin bilgisayarın ve «yetti mi» sorusunun cevabını tahmin etmem — çalıştırıp görürüm.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch4.s12.do">Şimdi yap: Bana bilerek belirsiz bir iş ver: «şu dosyayı daha iyi yap». Ne sorduğuma bak. Sonra aynı işi Bölüm 2'nin formülüyle ver ve döngünün ne kadar kısaldığını gör.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch4.s13.title">Git: geri alınabilir çalışmak</span></h2>
+      <p data-i18n="ch4.s13.p1">Bilgisayarında değişiklik yapan bir şeyle çalışırken tek gerçek güvence şudur: <strong class="text-fg">her adım geri alınabilsin</strong>. Bunu sağlayan araç git. Adı korkutucu, fikri basit: bir klasörün zaman makinesi. Her anlamlı adımda bir «kayıt noktası» koyarsın; istediğin noktaya geri dönebilirsin.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k1.t">Kayıt noktası</h3><p data-i18n="ch4.s13.k1.p">Adı «commit». Bir işi bitirince «kaydet» dersin; ben bir açıklamayla kayıt noktası koyarım: «telefon numarası güncellendi». Sitenin bütün tarihi bu noktalardan oluşur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k2.t">Geri al</h3><p data-i18n="ch4.s13.k2.p">Bir şey bozulduysa «dünkü kayıt noktasına dön» dersin. Dosyalar o hâle döner. Bu cümle, bilgisayarında elleri olan bir şeyle çalışmanın bütün riskini alır.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k3.t">Dal</h3><p data-i18n="ch4.s13.k3.p">Büyük bir deneme yapacaksan «ayrı bir dalda çalış» dersin: ana site dokunulmaz kalır, deneme yan tarafta yürür. Beğenirsen birleştirilir, beğenmezsen silinir.</p></div>
+      </div>
+      <p data-i18n="ch4.s13.p2">Bunların hiçbirinin komutunu bilmen gerekmez; cümleleri söylersin. Ama bir alışkanlığı edinmen gerekir: <strong class="text-fg">kaydetmeden önce farkı oku.</strong> «Ne değişti, göster» dersin; artı ve eksi satırlara bakarsın; sonra «kaydet». Bir dakika sürer ve her sürprizi önler.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s13.note">Git bir de siteni yayınlamanın yolu: GitHub gibi bir yerde bu kayıt noktalarını tutarsın, oradan site yayına çıkar. Bu sitenin kendisi tam olarak böyle çalışıyor. Bölüm 5'te kendi siteni aynı yolla kuracağız; git'i şimdi öğrenmenin sebebi bu.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🕰️</span><span data-i18n="ch4.s13.do">Şimdi yap: «atolye» klasöründe bana «bu klasörü git ile takip et ve ilk kayıt noktasını koy» de. Sonra notlar.md'yi değiştir, «ne değişti göster», «kaydet». Sonra «bir önceki kayıt noktasına dön». Zaman makinesi çalışıyor.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch4.s14.title">Projelerin kendi kendine ilerlesin</span></h2>
+      <p data-i18n="ch4.s14.p1">Kartta «projelerini kendisi ilerletsin» yazıyor. Bu, sen terminalin başında değilken de çalışmam demek. Üç yol var; hepsi Bölüm 3'teki tetikleyici fikrinin devamı.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k1.t">Zamanlanmış görev</h3><p data-i18n="ch4.s14.k1.p">«Her pazartesi 08:00'de haftalık raporu hazırla ve bana göster.» Bilgisayarında ya da bulutta bir zamanlayıcı beni uyandırır, skill'i çalıştırırım, sonucu bulursun. Bölüm 3'teki zamanlama tetikleyicisi, bu kez ellerimle.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k2.t">Bir şey olunca</h3><p data-i18n="ch4.s14.k2.p">Siteye yeni bir değişiklik geldiğinde onu gözden geçirmem, bir hata raporu açıldığında bakmam. GitHub gibi platformlar bunun için beni bir «eylem» olarak çalıştırır. Olay tetikleyicisinin karşılığı.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k3.t">Uzun bir işi arkaya at</h3><p data-i18n="ch4.s14.k3.p">«Bu iki yüz fotoğrafı düzenle, bitince haber ver.» Sen başka bir şeyle uğraşırken ben arkada çalışırım; bitince özet gelir. Beklemek zorunda değilsin.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s14.note">Uyarı, Bölüm 3'tekiyle aynı: kendi kendine çalışan bir şeyin <em>izinleri dar</em> ve <em>hata akışı</em> olmalı. Zamanlanmış görev geri alınamayan bir iş yapmasın; bir şey ters giderse sana mesaj gelsin. Otonomluk, sınırın genişliğiyle değil netliğiyle güvenli olur.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch4.s14.do">Şimdi yap: Bana «bu klasörde her gün 09:00'da notlar.md'ye tarih ekle» görevini zamanlanmış olarak kurdur. Yarın bak. Küçük ama gerçek: sen yokken çalıştı.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch4.s15.title">Eller ve kulaklar: MCP ve hook'lar</span></h2>
+      <p data-i18n="ch4.s15.p1">İki kelime daha; ikisi de ileri seviye ama fikirleri basit. Bilmen yeter, kullanman şart değil.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.mcp">MCP · dışarıya eller</span>
+          <p class="compare__note" data-i18n="ch4.s15.mcpNote">Bölüm 3'te ajana araç veriyordun. MCP, bana bilgisayarının dışındaki araçları vermenin standart yolu: takvimin, e-postan, tabloların, tarayıcı, GitHub. Bir bağlantı eklersin; o andan sonra «takvime bak» dediğinde bakarım. Her bağlantı için «neye izin» sorusu yine senin.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.hook">Hook · kulaklar</span>
+          <p class="compare__note" data-i18n="ch4.s15.hookNote">Belirli anlarda kendiliğinden çalışan küçük kurallar: «her dosya değişikliğinden sonra testleri çalıştır», «şu komuta asla izin verme», «iş bitince bana bildirim gönder». Ben unutsam da olur; çünkü hook benim kararım değil, senin kuralın.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s15.p2">Aradaki fark önemli: CLAUDE.md'ye yazdığın şey benim <em>okuyup uyduğum</em> kural; hook senin <em>zorla uygulattığın</em> kural. «Fiyat sayfasına dokunma» beyne yazılır; «fiyat sayfasına yazma komutunu engelle» hook olur. Kritik şeyleri ikinci türden yap.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔌</span><span data-i18n="ch4.s15.do">Şimdi yap: Şimdilik hiçbir şey kurma. Sadece 01'deki üç işe bak ve sor: hangisinde dışarıdaki bir araca (takvim, e-posta, tablo) ihtiyaç var? Onu not et — Bölüm 5'te bağlayacağız.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch4.s16.title">Güvenlik ve sınırlar</span></h2>
+      <p data-i18n="ch4.s16.p1">Bilgisayarında elleri olan bir şey, dikkatli kullanılması gereken bir şeydir. Dört kural; hepsi Bölüm 1 ve 3'teki kuralların devamı.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k1.t">Masa dar olsun</h3><p data-i18n="ch4.s16.k1.p">Beni bütün bilgisayarında değil, iş klasöründe başlat. Şifrelerin, banka dosyaların, kişisel belgelerin o klasörde olmasın. Görmediğim şeyi yanlışlıkla değiştiremem.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k2.t">Anahtar beyne yazılmaz</h3><p data-i18n="ch4.s16.k2.p">CLAUDE.md'ye şifre, API anahtarı, kart bilgisi yazma — o dosya ekiple, hatta yanlışlıkla internetle paylaşılabilir. Anahtarlar Bölüm 3'teki gibi ayrı bir kasada (ortam değişkeni, .env dosyası) durur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k3.t">«Hiç sorma» modunu kapalı tut</h3><p data-i18n="ch4.s16.k3.p">Bütün izinleri kaldıran bir mod var; yalnızca izole bir sanal makinede anlamlı. Kendi bilgisayarında, hele tanımadığın bir klasörde asla. Sormamı sıkıcı bulduğunda 05'teki orta kapıyı aç; üçüncüyü değil.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k4.t">Yabancı klasöre dikkat</h3><p data-i18n="ch4.s16.k4.p">İnternetten indirdiğin bir projede benim için yazılmış kurallar, skill'ler, hook'lar olabilir — ve onlar senin adına çalışır. Bölüm 1'deki gizli talimat uyarısı: tanımadığın klasörü önce «bu klasörde bana ne söylenmiş?» diye sorarak aç.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch4.s16.do">Şimdi yap: «atolye» klasörüne bak: içinde şifre, anahtar, kişisel belge var mı? Varsa çıkar. Sonra CLAUDE.md'ye tek satır ekle: «Silme, dışarı gönderme, yayınlama: her zaman sor.»</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch4.s17.title">Beş yaygın hata</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m1.t">1 · Farkı okumadan «evet» demek</h3>
+          <p data-i18n="ch4.s17.m1.p">Onay penceresi bir engel değil, senin kontrolün. Artı ve eksi satırlara on saniye bak. Kod anlamana gerek yok; «ne silindi, ne eklendi» yeter.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m2.t">2 · CLAUDE.md'yi boş bırakmak</h3>
+          <p data-i18n="ch4.s17.m2.p">Sonra her oturumda aynı şeyleri anlatırsın ve «neden hatırlamıyor» dersin. Bir kural, bir kısıt, bir biçim — üç satırla başla, her düzeltmede bir satır ekle.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m3.t">3 · Büyük işi plansız vermek</h3>
+          <p data-i18n="ch4.s17.m3.p">Yolun yarısında istemediğin kararlar alınır, geri alırsın, zaman gider. Üç dosyadan büyük her iş için «önce plan, dokunma».</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m4.t">4 · Kayıt noktası koymadan çalışmak</h3>
+          <p data-i18n="ch4.s17.m4.p">Git olmadan «geri al» yok. Klasörü ilk gün git'e al; her bitmiş işten sonra «kaydet». Bu alışkanlık her hatayı bir dakikalık yapar.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m5.t">5 · Düzeltmeyi konuşmada bırakmak</h3>
+          <p data-i18n="ch4.s17.m5.p">«Başlıkları kısalt» dedin, düzelttim, oturum bitti — düzeltme gitti. Her düzeltmeyi CLAUDE.md'ye ya da skill dosyasına işlet. Konuşma unutulur, dosya unutulmaz.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch4.s17.do">Şimdi yap: Bu beşini CLAUDE.md'nin altına «bana hatırlat» diye yaz. Özellikle 1 ve 4 — ikisi de «nasıl oldu bu?» sorusunun kaynağı.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch4.s18.title">Herkesin sorduğu</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q1">Kod bilmeden gerçekten olur mu?</summary><p data-i18n="ch4.faq.a1">Bu bölümdeki her şey oldu ve tek satır kod yazmadın. Kodu ben yazarım; sen isteği, kuralı ve onayı verirsin. Zamanla farkları okuya okuya biraz kod öğrenirsin — ama bu bir ön koşul değil, yan ürün. Bölüm 5 bunu bilerek ilerletecek.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q2">Terminal mi, masaüstü uygulaması mı, tarayıcı mı?</summary><p data-i18n="ch4.faq.a2">Aynı ben, üç kapı. Terminal en çıplak ve en öğretici olanı; bu yüzden burada onu kurduk. Masaüstü uygulaması aynı şeyi pencereyle yapar. Tarayıcı sürümü bilgisayarına değil buluttaki bir kopyasına çalışır — sen yokken görev vermek için iyi. Birini öğrendin, üçünü de biliyorsun.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q3">Bir şeyi bozarsa?</summary><p data-i18n="ch4.faq.a3">Bozar — bir gün mutlaka. Bu yüzden üç güvence var: değiştirmeden önce farkı gösteririm, git ile her adım geri alınır, geri alınamayan işler için her zaman sorarım. Üçü de açıksa en kötü senaryo bir dakikalık «bir önceki noktaya dön».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q4">Ne kadara mal olur?</summary><p data-i18n="ch4.faq.a4">Claude aboneliğinin içinde geliyor; ayrıca kullandığın kadar ödediğin anahtarla da çalışır. Bir oturumun ne harcadığını terminalde <em>/usage</em> ile görürsün. Sezgisel ölçü: küçük bir düzeltme neredeyse bedava; yüz dosyalık bir iş bir öğle yemeği. Ve yine Bölüm 2'nin kuralı: net istek, kısa iş, düşük maliyet.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q5">Bölüm 3'teki n8n ile bu aynı şey mi?</summary><p data-i18n="ch4.faq.a5">Kardeşler. n8n tıklayarak kurduğun, sürekli çalışan akışlar için; Claude Code dosyalarla ve komutlarla yapılan işler için. Birlikte de çalışırlar: n8n bir akışta beni çağırır, ben Claude Code'la bir dosya üretirim. Bölüm 5'te ikisini birleştireceğiz.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q6">Ekibimle nasıl paylaşırım?</summary><p data-i18n="ch4.faq.a6">CLAUDE.md, skill'ler ve alt ajan tanımları klasörün içinde dosya olarak durur; klasörü paylaştığında hepsi gider. Ekip arkadaşın aynı klasörde <em>claude</em> yazınca aynı beyinle, aynı tariflerle çalışır. Bir ajansın «kurumsal hafızası» tam olarak bu dosyalardır.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch4.faq.do">Şimdi yap: Terminalde takıldığın bir şey varsa bana sor — ekrandaki yazıyı olduğu gibi yapıştır, «bu ne demek?» de. Terminal çıktılarını okumayı iyi bilirim.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch4.s19.title">Alıştırmalar</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e1.t">1 · Atölyeyi kur</h3>
+          <p data-i18n="ch4.ex.e1.p">Kurulum, «atolye» klasörü, ilk dosya, git ile ilk kayıt noktası. 03, 04 ve 13'teki adımlar.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e1.g"><strong class="text-fg">Amaç:</strong> «terminalden korkmuyorum» cümlesini bir kez söyleyebilmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e2.t">2 · Beyni yaz</h3>
+          <p data-i18n="ch4.ex.e2.p">CLAUDE.md'ye rol, üç kısıt ve biçim yaz. Sonra bana kurala aykırı bir iş ver ve reddettiğimi ya da sorduğumu gör.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e2.g"><strong class="text-fg">Amaç:</strong> yazdığın kuralın gerçekten okunduğunu görmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e3.t">3 · İlk skill</h3>
+          <p data-i18n="ch4.ex.e3.p">Haftada bir yaptığın bir işi skill'e çevir. Üç kez çalıştır; her seferinde düzeltmeyi dosyaya işlet.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e3.g"><strong class="text-fg">Amaç:</strong> bir işin adının komut olması; üçüncü çalıştırmada dokunmadan doğru gelmesi.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e4.t">4 · Gerçek iş</h3>
+          <p data-i18n="ch4.ex.e4.p">01'de yazdığın «elle saatler alır» işlerinden birini plan moduyla ver. Planı düzelt, onayla, farkları oku, kaydet.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e4.g"><strong class="text-fg">Amaç:</strong> saatlik bir işin bir çay molasında bitmesi — ve her adımının geri alınabilir olması.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch4.ex.do">Şimdi yap: Birinciyi bugün, ikinciyi yarın. Üç ve dört, bir hafta içinde. Dördüncüyü bitirdiğinde bana yaz: ne kadar sürdü, elle ne kadar sürerdi.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch4.quiz.title">Kendini sına</span></h2>
+      <p data-i18n="ch4.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q1">Claude Code ile sohbetteki Claude'un farkı?</summary><p data-i18n="ch4.quiz.a1">Aynı zekâ; farkı elleri. Bir klasörde dosya okur ve değiştirir, komut çalıştırır, sonucu görür, düzeltir ve kaydeder. Sohbette yalnızca metin verirdim.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q2">Terminal, dosya, komut — tek cümleyle?</summary><p data-i18n="ch4.quiz.a2">Terminal yazarak konuştuğun pencere, dosya zaten bildiğin şey, komut tek satırlık bir iş. Komutu ezberlemen gerekmez; sonucu istersin.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q3">Üç kapı nedir?</summary><p data-i18n="ch4.quiz.a3">Okumak: sormam. Değiştirmek ve çalıştırmak: gösterir, sorarım. Geri alınamayan — silmek, göndermek, yayınlamak, ödemek: her zaman sen.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q4">Plan modu ne zaman kullanılır?</summary><p data-i18n="ch4.quiz.a4">Üç dosyadan büyük her işte. Okurum, planı yazarım, dokunmam; sen düzeltir ve onaylarsın. Yolun yarısında sürpriz olmaz.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q5">CLAUDE.md nedir, içine ne yazılır?</summary><p data-i18n="ch4.quiz.a5">Her oturumda ilk okuduğum dosya; projenin beyni. İçine Bölüm 2'nin formülünün kalıcı hâli: rol, kısıtlar, biçim. Kısa kalır; iş tarifleri skill'e gider.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q6">Skill ile CLAUDE.md'nin farkı?</summary><p data-i18n="ch4.quiz.a6">CLAUDE.md her zaman okunur, kısa olmalı. Skill gerektiğinde okunur, uzun olabilir; bir işin tarifidir, adıyla çağrılır ya da işin adı geçince kendim bulurum.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q7">Alt ajan neden var?</summary><p data-i18n="ch4.quiz.a7">Büyük iş tek masaya sığmaz. Her alt ajanın kendi masası var; tek bir işe bakar, sonucu ana masaya getirir. Bağımsız işler aynı anda yürür; aynı denetçi her raporu aynı gözle okur.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q8">Git'in üç cümlesi?</summary><p data-i18n="ch4.quiz.a8">«Kaydet» kayıt noktası koyar. «Önceki noktaya dön» geri alır. «Ayrı dalda çalış» ana işi korur. Ve kaydetmeden önce: «ne değişti, göster».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q9">Hook ile CLAUDE.md kuralının farkı?</summary><p data-i18n="ch4.quiz.a9">CLAUDE.md'deki kuralı okuyup uyarım; hook'u sen zorla uygulatırsın — belirli anda kendiliğinden çalışır. Kritik kurallar hook olur.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q10">Dört güvenlik kuralı?</summary><p data-i18n="ch4.quiz.a10">Masa dar olsun: iş klasöründe başlat. Anahtar beyne yazılmaz. «Hiç sorma» modu kapalı kalır. Yabancı klasörü önce «bana ne söylenmiş?» diye sorarak aç.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch4.recap.title">Bir cümlede bu bölüm</h2>
+        <p data-i18n="ch4.recap.p">Beni bir klasörde başlat, kurallarımı CLAUDE.md'ye yaz, tekrar eden işleri skill yap, büyük işleri planla ve alt ajanlara böl, her adımı git ile geri alınabilir tut — ve geri alınamayan her şeyde son sözü kendine sakla.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch4.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="ch4.next.title">Bölüm 5 · Laboratuvar</h3>
+          <p data-i18n="ch4.next.p">Atölye hazır. Sırada onunla gerçek şeyler kurmak var: kendi siten, kendi CRM'in ve FYOS — kişisel ajantik işletim sistemin. Kod korkusu olmadan, sıfırdan.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch4.next.soon">Yakında</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch4.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="chapter-4.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/course/chapter-4.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/course/chapter-4.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/course/chapter-4.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
