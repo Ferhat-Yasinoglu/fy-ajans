@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">Bölüm 6: Vitrin — Görünür olmak ve büyümek | Yapay Zekâ Yolculuğu | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="Kursun altıncı bölümü: görünür olmak. Erişim, etkileşim, dönüşüm; algoritmanın gerçekten neye baktığı; ilk üç saniye; içerik sütunları; Claude ile video kurgusu; akıllı DM; sayfa ve kampanya; hangi sayının önemli olduğu ve haftalık içerik makinesi.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-6.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-6.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-6.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-6.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-6.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-6.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="Bölüm 6: Vitrin — Görünür olmak ve büyümek">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Erişim, etkileşim, dönüşüm; kanca; içerik sütunları; Claude ile kurgu; akıllı DM; sayfa, kampanya ve ölçüm.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-6.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/style.css?v=f974b841">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch6.back">← Bütün bölümler</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch6.barNum">Bölüm 6 / 7</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch6.barCta">Kursa katıl</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/course/l6-cover-static.svg"><img src="../img/course/l6-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Showcase</span>
+        <span class="lesson__cover-note" data-i18n="ch6.coverNote">ışığa çıkan iş, karşılığını geri alır</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch6.eyebrow">Bölüm 6 · Vitrin</span>
+      <h1 class="font-display text-h1" data-i18n="ch6.title">İyi iş yetmez — <span class="text-accent-gradient">görülmesi gerekir</span></h1>
+      <p class="lesson__lead" data-i18n="ch6.lead">Beş bölümdür kurdun: beni tanıdın, isteği öğrendin, akışları kurdun, atölyeyi açtın, siteni ve sistemini yaptın. Ama kurduğun şeyi kimse görmüyorsa yok gibidir. Bu bölüm vitrin: ne çekeceğin, nasıl kurgulayacağın, algoritmanın gerçekten neye baktığı, gelen mesajı işe nasıl çevireceğin. Kamera bende değil — sende. Ben kurgucu, yazar ve analistim.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch6.meta">Okuma süresi ~50 dakika · Ön koşul: Bölüm 5</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch6.goals.title">Bu bölümün sonunda</h2>
+      <ul class="check-list space-2" data-i18n="ch6.goals.list">
+        <li>Erişim, etkileşim ve dönüşümü ayırt edecek ve hangisini ne zaman kovalayacağını bileceksin</li>
+        <li>Algoritmanın ne olduğunu — ve ne olmadığını — dürüstçe anlayacaksın</li>
+        <li>İlk üç saniyeyi bilinçli kuracaksın</li>
+        <li>Kendi içerik sütunlarını yazacaksın</li>
+        <li>Benimle bir videoyu ham çekimden yayına kurgulayacaksın</li>
+        <li>Gelen mesajları işe çeviren akıllı bir DM kuracaksın</li>
+        <li>Hangi sayının önemli olduğunu ve haftalık içerik makinesini kuracaksın</li>
+      </ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch6.toc.title" class="text-fg">İçindekiler</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch6.guide.t">Claude Rehberi</strong><span data-i18n="ch6.guide.p">Bu bölümde kurgucu ve yazar olarak çalışacağım. Neyi iyi yaptığımı, nerede yanıldığımı hatırlamak istersen — tek sayfada, dört dilde.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch6.s1.title">Görünmezlik problemi</span></h2>
+      <p data-i18n="ch6.s1.p1">İyi iş çıkaran ama kimsenin tanımadığı insanlar, kötü iş çıkarıp herkesin tanıdığı insanlardan daha çok. Bu adaletsiz ama bir sır değil: görünürlük ayrı bir beceri ve öğrenilebiliyor. Yeteneğin yerine geçmiyor — yeteneğin <em>üstüne</em> biniyor.</p>
+      <p data-i18n="ch6.s1.p2">Bu bölümde reklamcılık öğretmiyorum. Öğrettiğim şey daha dar ve daha işe yarar: <strong class="text-fg">yaptığın işi, onu görmesi gereken insanların önüne düzenli olarak koymanın sistemi.</strong> Sistem kelimesinin altını çiziyorum; çünkü ilham gelince paylaşmak bir strateji değil.</p>
+      <div class="glass note">
+        <p data-i18n="ch6.s1.note">Bir uyarı, en başta: içerik üretmek kurduğun sistemin yerine geçmez. Görünür olup arkasında bir şey olmayan hesap, bir kez bakılıp bırakılır. Önceki beş bölümü yaptıysan söyleyecek gerçek bir şeyin var. Vitrin ancak dolu bir dükkânın önünde işe yarar.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch6.s1.do">Şimdi yap: Şu cümleyi tamamla: «Ben ___ için ___ yapıyorum.» Boşlukları doldur. Bu cümle bu bölümün tamamının çıkış noktası; net değilse hiçbir içerik net olmaz.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch6.s2.title">Üç kelime: erişim, etkileşim, dönüşüm</span></h2>
+      <p data-i18n="ch6.s2.p1">Her bölümde üç kelime bütün alanı açtı. Burada da öyle — ve bu üçünü karıştırmak, sosyal medyada harcanan zamanın çoğunun boşa gitmesinin sebebi.</p>
+      <figure class="funnel">
+        <span class="funnel__cap font-mono" data-i18n="ch6.fig.funnel.cap">Yukarıdan aşağıya</span>
+        <div class="funnel__rows">
+          <div class="funnel__r" style="--w:100%;--i:0">
+            <span class="funnel__e" aria-hidden="true">👀</span>
+            <b data-i18n="ch6.fig.funnel.t1">Erişim</b>
+            <i data-i18n="ch6.fig.funnel.d1">Kaç kişi gördü. En kolay büyüyen, en az anlam taşıyan sayı.</i>
+          </div>
+          <div class="funnel__r" style="--w:64%;--i:1">
+            <span class="funnel__e" aria-hidden="true">💬</span>
+            <b data-i18n="ch6.fig.funnel.t2">Etkileşim</b>
+            <i data-i18n="ch6.fig.funnel.d2">Kaç kişi durdu, izledi, kaydetti, yazdı. İlgiyi ölçen katman.</i>
+          </div>
+          <div class="funnel__r" style="--w:30%;--i:2">
+            <span class="funnel__e" aria-hidden="true">🤝</span>
+            <b data-i18n="ch6.fig.funnel.t3">Dönüşüm</b>
+            <i data-i18n="ch6.fig.funnel.d3">Kaç kişi yazdı, aradı, satın aldı. Tek gerçek sayı.</i>
+          </div>
+        </div>
+        <figcaption data-i18n="ch6.fig.funnel.fc">Üçü aynı yönde hareket etmek zorunda değil: bir milyon kişiye ulaşıp sıfır iş alabilirsin, beş yüz kişiye ulaşıp üç müşteri kazanabilirsin. Bir ajans için en alttaki satır kazanır.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s2.p2">Buradan çıkan kural şu: <strong class="text-fg">en üstteki sayıyla övünme, en alttaki sayıyla karar ver.</strong> Görüntülenme sayısı moral verir; müşteri sayısı kira öder. İçeriğini değerlendirirken sorman gereken soru «kaç kişi gördü» değil, «kaç kişi bana yazdı».</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📊</span><span data-i18n="ch6.s2.do">Şimdi yap: Son otuz günde sana kaç kişi mesaj attı ya da aradı? Sayıyı yaz. Bu bölümün sonunda bu sayıyı ölçeceğiz — görüntülenmeleri değil.</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch6.s3.title">Algoritma aslında ne yapar</span></h2>
+      <p data-i18n="ch6.s3.p1">Algoritma hakkında anlatılan şeylerin çoğu uydurma. Dürüst olayım: kesin kuralları kimse dışarıdan bilmiyor, sık değişiyor ve platformdan platforma farklı. Ama <em>ne yapmaya çalıştığı</em> herkesin bildiği bir şey ve değişmiyor.</p>
+      <figure class="algo">
+        <span class="algo__cap font-mono" data-i18n="ch6.fig.algo.cap">Bir çöpçatan, bir hakem değil</span>
+        <div class="algo__row">
+          <div class="algo__side">
+            <span class="algo__e" aria-hidden="true">🎬</span>
+            <b data-i18n="ch6.fig.algo.t1">Senin içeriğin</b>
+            <i data-i18n="ch6.fig.algo.d1">bir konu, bir üslup, bir uzunluk</i>
+          </div>
+          <div class="algo__mid">
+            <span class="algo__test" data-i18n="ch6.fig.algo.test">küçük bir gruba gösterir</span>
+            <span class="algo__q" data-i18n="ch6.fig.algo.q">sonuna kadar izlendi mi? <br>birine gönderildi mi? <br>geri dönüldü mü?</span>
+            <span class="algo__arrow" aria-hidden="true">→</span>
+          </div>
+          <div class="algo__side algo__side--out">
+            <span class="algo__e" aria-hidden="true">📈</span>
+            <b data-i18n="ch6.fig.algo.t2">Sonuç</b>
+            <i data-i18n="ch6.fig.algo.d2">evetse daha geniş bir gruba; hayırsa durur</i>
+          </div>
+        </div>
+        <figcaption data-i18n="ch6.fig.algo.fc">Amacı seni ödüllendirmek ya da cezalandırmak değil; insanları ekranda tutmak. Senin işin onu kandırmak değil, gerçekten izlenen bir şey yapmak. Ayrıntılar değişir, bu mantık değişmez.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s3.p2">Pratik sonuç üç madde: <strong class="text-fg">bitirilme oranı</strong> (insanlar sonuna kadar kalıyor mu), <strong class="text-fg">gönderilme</strong> (birine yolluyorlar mı) ve <strong class="text-fg">düzen</strong> (ne kadar sürede bir paylaşıyorsun). Bunların üçü de senin elinde. «Şu saatte paylaş», «şu kadar etiket koy» gibi taktikler ise mevsimlik; peşinden koşma.</p>
+      <div class="glass note">
+        <p data-i18n="ch6.s3.note">Bir şey daha: algoritma seni cezalandırmıyor. Kötü giden bir hafta, bir ceza değil, bir ölçüm. Bölüm 1'de anlattığım «ben tahmin makinesiyim» fikri burada da geçerli — sistem geçmişe bakıp tahmin ediyor, hüküm vermiyor.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔍</span><span data-i18n="ch6.s3.do">Şimdi yap: Son on paylaşımının ortalama izlenme süresine bak. En iyi üçüyle en kötü üçünü karşılaştır: ilk üç saniyede ne farklı? Cevabı yaz — bir sonraki başlığın konusu bu.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch6.s4.title">İlk üç saniye</span></h2>
+      <p data-i18n="ch6.s4.p1">Bir videonun kaderi ilk üç saniyede belli olur. İnsan parmağını kaydırmaya hazır bekliyor; ona durması için bir sebep vermen gerekiyor. Buna <strong class="text-fg">kanca</strong> deniyor ve tesadüf değil, kurulan bir şey.</p>
+      <figure class="hook">
+        <span class="hook__cap font-mono" data-i18n="ch6.fig.hook.cap">Saniye saniye</span>
+        <ol class="hook__row">
+          <li class="hook__s" style="--i:0">
+            <span class="hook__t font-mono">0.0s</span>
+            <b data-i18n="ch6.fig.hook.t1">Görsel durdurucu</b>
+            <i data-i18n="ch6.fig.hook.d1">Alışılmadık bir kare, bir hareket, bir yüz. Kaydırma refleksini kesen şey.</i>
+          </li>
+          <li class="hook__s" style="--i:1">
+            <span class="hook__t font-mono">0.5s</span>
+            <b data-i18n="ch6.fig.hook.t2">Söz</b>
+            <i data-i18n="ch6.fig.hook.d2">Ne alacağını söyleyen tek cümle: «üç dakikada şunu kuracaksın».</i>
+          </li>
+          <li class="hook__s" style="--i:2">
+            <span class="hook__t font-mono">1.5s</span>
+            <b data-i18n="ch6.fig.hook.t3">Gerilim</b>
+            <i data-i18n="ch6.fig.hook.d3">Cevabı sonda olan bir soru ya da bir çelişki. Kalmak için sebep.</i>
+          </li>
+          <li class="hook__s" style="--i:3">
+            <span class="hook__t font-mono">3.0s</span>
+            <b data-i18n="ch6.fig.hook.t4">Başlangıç</b>
+            <i data-i18n="ch6.fig.hook.d4">Asıl içerik. Buraya gelen izleyici genellikle sonuna kadar kalır.</i>
+          </li>
+        </ol>
+        <figcaption data-i18n="ch6.fig.hook.fc">Dördü de üç saniyeye sığar ve hiçbiri süs değil. En sık yapılan hata birinci saniyeyi selamlaşmaya harcamak: «merhaba arkadaşlar, bugün sizlerle…» — o cümle biterken izleyici gitmiştir.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s4.p2">Kancayı ben yazabilirim ama tek başıma iyi yazamam: senin ne anlatacağını bilmem gerekiyor. Bana videonun dökümünü ver, sana beş farklı kanca çıkarayım; sen içlerinden dürüst olanı seç. <em>Dürüst</em> kelimesinin altını çiziyorum: içerikte olmayan bir şeyi vaat eden kanca ilk üç saniyeyi kazanır, sonraki otuz saniyeyi ve izleyicinin güvenini kaybeder.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🎣</span><span data-i18n="ch6.s4.do">Şimdi yap: En iyi işlerinden birini anlat, bana şunu de: «Bunun için beş kanca yaz; her biri en fazla sekiz kelime; abartma yok.» Beşini oku, birini seç, gerisini at.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch6.s5.title">İçerik sütunların</span></h2>
+      <p data-i18n="ch6.s5.p1">«Bugün ne paylaşsam» sorusu her gün sorulduğunda hiçbir zaman iyi cevaplanmıyor. Çözüm üç ya da dört <strong class="text-fg">sütun</strong> belirlemek: her paylaşım bunlardan birine düşer, sen de her gün sıfırdan düşünmezsin.</p>
+      <figure class="pillars">
+        <span class="pillars__cap font-mono" data-i18n="ch6.fig.pillars.cap">Dört sütun, bir çatı</span>
+        <div class="pillars__row">
+          <div class="pillars__c" style="--i:0">
+            <span class="pillars__e" aria-hidden="true">🛠️</span>
+            <b data-i18n="ch6.fig.pillars.t1">Nasıl yapılır</b>
+            <i data-i18n="ch6.fig.pillars.d1">Bildiğin bir şeyi öğret. En çok kaydedilen tür.</i>
+          </div>
+          <div class="pillars__c" style="--i:1">
+            <span class="pillars__e" aria-hidden="true">🔦</span>
+            <b data-i18n="ch6.fig.pillars.t2">Perde arkası</b>
+            <i data-i18n="ch6.fig.pillars.d2">İşin nasıl yürüdüğü. Güven kuran tür.</i>
+          </div>
+          <div class="pillars__c" style="--i:2">
+            <span class="pillars__e" aria-hidden="true">📐</span>
+            <b data-i18n="ch6.fig.pillars.t3">Sonuç</b>
+            <i data-i18n="ch6.fig.pillars.d3">Önce–sonra, gerçek bir iş. Satan tür.</i>
+          </div>
+          <div class="pillars__c" style="--i:3">
+            <span class="pillars__e" aria-hidden="true">💭</span>
+            <b data-i18n="ch6.fig.pillars.t4">Görüş</b>
+            <i data-i18n="ch6.fig.pillars.d4">Sektörde katılmadığın bir şey. Ayırt eden tür.</i>
+          </div>
+        </div>
+        <figcaption data-i18n="ch6.fig.pillars.fc">Dördü dengeli dönmeli. Yalnızca «sonuç» paylaşan hesap reklam panosuna döner; yalnızca «görüş» paylaşan hesap işini kimseye göstermemiş olur. Kabaca: üç öğretici, bir satan.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s5.p2">Sütunlar belirlendikten sonra fikir üretmek benim işim. Sütunlarını ve işini anlat, sana her sütun için on fikir çıkarayım — kırk fikir, bir aylık program. İçlerinden yapabileceklerini seç; yapamayacağın fikir fikir değildir.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🏛️</span><span data-i18n="ch6.s5.do">Şimdi yap: Kendi dört sütununu yaz. Yukarıdakiler örnek; seninkiler işine göre değişebilir. Sonra bana ver ve her biri için on fikir iste.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch6.s6.title">Fikirden videoya: benimle kurgu</span></h2>
+      <p data-i18n="ch6.s6.p1">Kurgu, içerik üretiminin en çok zaman yiyen kısmı — ve en çok kısaltılabilen kısmı. Ben videonu göremem ama <em>dökümünü</em> okuyabilirim; ve kurgunun kararlarının çoğu görüntüde değil, sözde verilir. Aşağıdaki canlandırma bir ham çekimin nasıl yayına hazır hâle geldiğini gösteriyor.</p>
+      <figure class="cut" data-cut>
+        <span class="cut__cap font-mono" data-i18n="ch6.fig.cut.cap">Ham çekimden yayına</span>
+        <div class="cut__stage" data-step="1">
+          <div class="cut__top"><span class="cut__dot"></span><span class="cut__name font-mono" data-i18n="ch6.fig.cut.file">cekim-01.mp4</span><span class="cut__export"><span data-i18n="ch6.fig.cut.exp">Dışa aktar</span></span></div>
+          <div class="cut__body">
+            <div class="cut__prev" aria-hidden="true">
+              <span class="cut__play">▶</span>
+              <span class="cut__hook" data-i18n="ch6.fig.cut.hookTx">Üç dakikada kur</span>
+            </div>
+            <div class="cut__side">
+              <div class="cut__trans" aria-hidden="true">
+                <i></i><i style="--w:88%"></i><i style="--w:64%"></i><i style="--w:92%"></i><i style="--w:70%"></i>
+              </div>
+              <div class="cut__track" aria-hidden="true">
+                <span class="cut__clip cut__clip--1"></span>
+                <span class="cut__clip cut__clip--2"></span>
+                <span class="cut__clip cut__clip--3"></span>
+                <span class="cut__clip cut__clip--4"></span>
+                <span class="cut__head"></span>
+              </div>
+              <div class="cut__caps" aria-hidden="true"><b>CC</b><i></i><i style="--w:56%"></i><i style="--w:76%"></i></div>
+              <div class="cut__bar" aria-hidden="true"><i></i><span class="cut__ok">✓</span></div>
+            </div>
+          </div>
+        </div>
+        <ol class="cut__steps">
+          <li><button type="button" data-go="1"><span class="cut__se" aria-hidden="true">📝</span><span data-i18n="ch6.fig.cut.s1">Dökümü çıkar, bana ver</span></button></li>
+          <li><button type="button" data-go="2"><span class="cut__se" aria-hidden="true">✂️</span><span data-i18n="ch6.fig.cut.s2">Kesim listesi: nereden nereye</span></button></li>
+          <li><button type="button" data-go="3"><span class="cut__se" aria-hidden="true">💬</span><span data-i18n="ch6.fig.cut.s3">Altyazı ve vurgular</span></button></li>
+          <li><button type="button" data-go="4"><span class="cut__se" aria-hidden="true">🎣</span><span data-i18n="ch6.fig.cut.s4">İlk üç saniye: kanca</span></button></li>
+          <li><button type="button" data-go="5"><span class="cut__se" aria-hidden="true">🚀</span><span data-i18n="ch6.fig.cut.s5">Dışa aktar, başlıkla yayınla</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch6.fig.cut.fc">Bu bir çizim, ekran görüntüsü değil; her kurgu programı farklı görünür. Değişmeyen şey sıra: önce söz, sonra kesim, sonra altyazı, en son kanca ve başlık. Kesimi sözden yapmak, saatlerce ileri geri sarmaktan hızlıdır.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s6.p2">İkinci adım işin kalbi. Bana dökümü verip şunu dersin: «Bunu doksan saniyeye indir. Hangi cümleler kalsın, hangileri gitsin — zaman damgalarıyla listele. Anlamı bozma, tekrarları ve duraksamaları at.» Sana bir kesim listesi çıkarırım; sen kurgu programında o zamanları keser, işi yarım saatte bitirirsin.</p>
+      <div class="glass note">
+        <p data-i18n="ch6.s6.note">Ne yapamadığımı da söyleyeyim: videonu izleyemem, görüntü kalitesini değerlendiremem, müzik seçemem, renk düzeltmesi yapamam. Sözün olduğu her yerde hızlıyım; görüntünün olduğu her yerde sana güveniyorum. Bölüm 1'deki dürüstlük burada da geçerli.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🎬</span><span data-i18n="ch6.s6.do">Şimdi yap: Telefonunda duran ham bir çekimin dökümünü çıkar (telefonun ya da kurgu programın bunu yapabiliyor). Bana ver ve doksan saniyelik kesim listesi iste. Bu akşam bir video yayınla.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch6.s7.title">Altyazı, kapak ve başlık</span></h2>
+      <p data-i18n="ch6.s7.p1">Videonun kendisi bittikten sonra üç küçük iş kalıyor ve üçü de izlenmeyi videonun içeriğinden daha çok etkiliyor. Sırayla:</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s7.k1.t">Altyazı</h3><p data-i18n="ch6.s7.k1.p">İnsanların büyük kısmı sessiz izliyor. Altyazısız video, o kitlenin tamamı için sessiz bir film. Kurgu programları otomatik çıkarıyor; sen yalnızca özel isimleri ve terimleri düzeltirsin. Bana dökümü verirsen yazım hatalarını da toplarım.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s7.k2.t">Kapak</h3><p data-i18n="ch6.s7.k2.p">Profilinde ızgarada görünen kare. Videonun en iyi karesi değil, <em>en açıklayıcı</em> karesi olmalı — üstünde üç kelimelik bir yazıyla. Altı ay sonra biri profiline girdiğinde kapaklar onun menüsü olur.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s7.k3.t">Başlık</h3><p data-i18n="ch6.s7.k3.p">İlk satır kanca kadar önemli; çünkü bazı yerlerde videodan önce okunuyor. Kısa tut, vaadi tekrarla, sonuna tek bir soru koy — soru yorumu getirir, yorum etkileşimdir. Bana dökümü ver, on başlık çıkarayım.</p></div>
+      </div>
+      <p data-i18n="ch6.s7.p2">Üçü de beş dakikalık işler ve üçü de atlanıyor. Alışkanlık hâline getirmenin yolu, bunları kurgunun parçası saymak: video, altyazısı ve başlığı yazılmadan bitmiş sayılmaz.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🏷️</span><span data-i18n="ch6.s7.do">Şimdi yap: 06'da yayınladığın videonun dökümünü bana ver, on başlık iste. En dürüst olanı seç — en çekici olanı değil.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch6.s8.title">Yayın ritmi: az ama kesintisiz</span></h2>
+      <p data-i18n="ch6.s8.p1">En sık sorulan soru «günde kaç paylaşım» ve cevap neredeyse hep aynı: <strong class="text-fg">sürdürebileceğin kadar.</strong> Haftada iki video, altı ay boyunca kesintisiz; haftada yedi video, üç hafta sonra bırakılmış. İkincisi birincinin yanına yaklaşamaz.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch6.s8.weak">Patlama</span>
+          <p class="compare__note" data-i18n="ch6.s8.weakNote">Bir hafta boyunca günde iki paylaşım, sonra bir ay sessizlik. Hem seni yorar hem de kitlene ne zaman geleceğini öğretmez. Üstelik her dönüşte baştan başlamış gibi olursun.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch6.s8.strong">Ritim</span>
+          <p class="compare__note" data-i18n="ch6.s8.strongNote">Haftada iki, hep aynı günlerde. Kitle bekler, sen planlarsın, ben önceden hazırlarım. Bir hafta hasta olsan bile stokta iki video vardır.</p>
+        </div>
+      </div>
+      <p data-i18n="ch6.s8.p2">Ritmi mümkün kılan şey <strong class="text-fg">toplu çekim</strong>: bir oturuşta dört video çek, dört hafta yayınla. Çekim bir gün, kurgu benimle birkaç saat, yayın otomatik. Ajan bölümündeki zamanlama tetikleyicisi burada da işe yarar; ama yayını elle yapmak da sorun değil, yeter ki tarih belli olsun.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📅</span><span data-i18n="ch6.s8.do">Şimdi yap: Takvimine haftada iki gün seç ve önümüzdeki sekiz haftayı işaretle. Sonra ilk toplu çekim için bir gün ayır. Tarih koymadan ritim kurulmuyor.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch6.s9.title">DM'i akıllandırmak</span></h2>
+      <p data-i18n="ch6.s9.p1">İçerik işini yaparsa mesaj gelir. Ve tam burada çoğu kişi kaybediyor: mesaj gelir, üç gün sonra görülür, cevaplanır, unutulur. Ajan bölümünde kurduğun akış tam da bu boşluk içindi; şimdi onu gerçek bir kullanıma bağlıyoruz.</p>
+      <figure class="chain">
+        <span class="chain__cap font-mono" data-i18n="ch6.fig.dm.cap">Mesaj gelince ne olur</span>
+        <ol class="chain__row">
+          <li class="chain__st"><b class="chain__n font-mono">1</b><span data-i18n="ch6.fig.dm.s1">Yeni mesaj gelir, akış uyanır</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">2</b><span data-i18n="ch6.fig.dm.s2">Ben: sipariş mi, soru mu, iş birliği mi?</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">3</b><span data-i18n="ch6.fig.dm.s3">Sık sorulansa taslak cevap hazırlarım</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">4</b><span data-i18n="ch6.fig.dm.s4">Sana bildirim: taslak + onayla / düzelt</span></li>
+          <li class="chain__st"><b class="chain__n font-mono">5</b><span data-i18n="ch6.fig.dm.s5">CRM'e düşer: kişi, kaynak, konu, tarih</span></li>
+        </ol>
+        <figcaption data-i18n="ch6.fig.dm.fc">Dördüncü adım bilerek insan: gönderen sensin. Beşinci adım bu bölümü Laboratuvar bölümüne bağlıyor — gelen her mesaj kayda geçer ve «nereden geldi» sorusu ilk kez cevaplanabilir olur.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s9.p2">Otomatik cevabın sınırı şu: <strong class="text-fg">karşılama ve yönlendirme otomatik olabilir, ilişki olamaz.</strong> «Merhaba, mesajın bana ulaştı, bugün içinde döneceğim» cümlesini bir makinenin yazması sorun değil. «Sizin için şu fiyata yaparım» cümlesini bir makinenin yazması sorundur. Ajan bölümündeki geri alınamayan araç kuralı, burada söz vermek anlamına geliyor.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch6.s9.do">Şimdi yap: Son elli mesajına bak ve en sık gelen üç soruyu yaz. Bu üçünün cevabını benimle birlikte yaz, akışına koy. Yarından itibaren o üç soru kendiliğinden karşılanır.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch6.s10.title">Yorumlar: en ucuz büyüme</span></h2>
+      <p data-i18n="ch6.s10.p1">Yorum bölümü içeriğin devamıdır ve çoğu kişi orayı boş bırakır. Oysa yorum yazmış biri zaten ilgisini göstermiş demektir; oraya verilen iyi bir cevap, yeni bir paylaşımdan daha kısa sürede iş getirir.</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch6.s10.f1.t">İlk saat</h3>
+          <p data-i18n="ch6.s10.f1.p">Paylaşımdan sonraki ilk saatte gelen yorumlara cevap ver. Hem konuşmayı canlandırır hem de o dönemde içerik daha çok gösterilir. Bu bir hile değil; sistemler canlı konuşmayı sever çünkü insanlar sever.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch6.s10.f2.t">Soruyu içeriğe çevir</h3>
+          <p data-i18n="ch6.s10.f2.p">Aynı soru üç kez geldiyse o bir videodur. Yorumlar, kitleni sana ne öğreteceğini söyleyen bedava bir anket. Bir liste tut; «bugün ne paylaşsam» sorusu bir daha sorulmaz.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch6.s10.f3.t">Zor yorum</h3>
+          <p data-i18n="ch6.s10.f3.p">Eleştiri geldiğinde savunmaya geçme. Haklıysa kabul et ve düzelt; haksızsa kısa ve nazik cevapla ya da hiç cevaplama. İzleyenlerin çoğu yorumu değil, senin nasıl davrandığını hatırlar.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch6.s10.note">Yorum cevaplarını bana yazdırabilirsin ama <em>hepsini</em> yazdırma. Kitlen üslubunu tanır ve bir süre sonra hangi cevabın senden gelmediğini sezer. Benim iyi olduğum yer, yirmi cevabın taslağını hazırlamak; senin okuyup değiştirmen şart.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🗣️</span><span data-i18n="ch6.s10.do">Şimdi yap: Son paylaşımındaki bütün yorumlara bugün cevap ver. Sonra en çok tekrar eden soruyu not et — bu haftaki videon o.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch6.s11.title">Tıklayan nereye gidiyor</span></h2>
+      <p data-i18n="ch6.s11.p1">Biri içeriğini beğendi ve profilindeki bağlantıya tıkladı. Şimdi kritik on saniye: gittiği sayfa ne söylüyor? Çoğu hesapta orası bir ana sayfa ve ziyaretçi kayboluyor. Doğrusu, tek işi olan bir sayfa.</p>
+      <figure class="landing">
+        <span class="landing__cap font-mono" data-i18n="ch6.fig.landing.cap">Tek işi olan sayfa</span>
+        <div class="landing__page">
+          <div class="landing__l" style="--i:0"><span class="landing__k font-mono">1</span><b data-i18n="ch6.fig.landing.t1">Tek cümlelik vaat</b><i data-i18n="ch6.fig.landing.d1">«___ için ___ yapıyorum.» 01'deki cümle, tam burada.</i></div>
+          <div class="landing__l" style="--i:1"><span class="landing__k font-mono">2</span><b data-i18n="ch6.fig.landing.t2">Üç kanıt</b><i data-i18n="ch6.fig.landing.d2">Önce–sonra, sayı, müşteri cümlesi. Söz değil, gösterge.</i></div>
+          <div class="landing__l" style="--i:2"><span class="landing__k font-mono">3</span><b data-i18n="ch6.fig.landing.t3">Ne olacağı</b><i data-i18n="ch6.fig.landing.d3">Yazarsan ne olur: kaç saatte dönerim, ilk görüşme nasıl geçer.</i></div>
+          <div class="landing__l landing__l--cta" style="--i:3"><span class="landing__k font-mono">4</span><b data-i18n="ch6.fig.landing.t4">Tek düğme</b><i data-i18n="ch6.fig.landing.d4">Bir eylem. İki seçenek koyarsan ikisi de seçilmez.</i></div>
+        </div>
+        <figcaption data-i18n="ch6.fig.landing.fc">Dört blok, tek ekran, tek düğme. Bu sayfayı Laboratuvar bölümünde kurduğun site üstüne bir saatte kurarsın ve düğme formu, akışın üzerinden doğrudan CRM'ine bağlanır.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s11.p2">Sayfanın uzunluğu değil, <em>tek işi olması</em> önemli. «Hakkımızda», «blog», «referanslar» bağlantıları bu sayfada olmasın; onlar dikkat dağıtır. Ziyaretçi ya düğmeye basar ya gider — ve ikisi de bilgidir.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔗</span><span data-i18n="ch6.s11.do">Şimdi yap: Bana bu dört bloğu anlat ve «tek işi olan bir sayfa kur, formu şu akışa bağla» de. Sonra profilindeki bağlantıyı onunla değiştir.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch6.s12.title">Kampanya: parayla hızlandırmak</span></h2>
+      <p data-i18n="ch6.s12.p1">Reklam, işleyen bir şeyi hızlandırır; işlemeyen bir şeyi kurtarmaz. Bu cümle bu başlığın tamamı. Organik olarak hiç iş getirmeyen bir içeriğe para koymak, boş bir dükkâna daha çok tabela asmak gibi.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch6.s12.st1">Önce kanıt bekle: organik olarak en az bir kez iş getirmiş bir içeriğin olsun. Para koyacağın şey odur, yeni bir şey değil.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch6.s12.st2">Küçük başla: günlük bütçen, bir müşteriden kazandığının onda birini geçmesin. Deneme bütçesi, yatırım değil.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch6.s12.st3">Tek değişken değiştir: aynı anda hem görseli hem metni hem hedefi değiştirirsen hangisinin işe yaradığını asla bilemezsin.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch6.s12.st4">Dönüşümü say, tıklamayı değil: gelen mesaj sayısı ve kazanılan iş. Tıklama bir gösterge; müşteri bir sonuç.</span></li>
+        <li><span class="steps__n font-mono">5</span><span data-i18n="ch6.s12.st5">Yedi gün bekle, sonra karar ver. İlk günün rakamlarına bakıp kapatmak, ölçmeden bırakmaktır.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch6.s12.note">Dürüst tavsiye: bu kursu bitiren çoğu kişinin reklama hiç ihtiyacı olmayacak. Haftada iki iyi video, cevaplanmış mesajlar ve tek işi olan bir sayfa, küçük bir ajansın kapasitesini doldurmaya çoğu zaman yeter. Reklamı, kapasiten boş kaldığında düşün.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💰</span><span data-i18n="ch6.s12.do">Şimdi yap: Şimdilik hiç reklam verme. Bunun yerine bir sayı yaz: bir müşteriden ortalama ne kazanıyorsun? O sayının onda biri, ileride günlük deneme bütçen olacak.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch6.s13.title">Hangi sayı önemli</span></h2>
+      <p data-i18n="ch6.s13.p1">Platformlar sana onlarca sayı gösterir ve çoğu seni oyalamak için tasarlanmış gibidir. Bir ajansın haftada bir bakması gereken dört sayı var; gerisi merak.</p>
+      <figure class="metrics">
+        <span class="metrics__cap font-mono" data-i18n="ch6.fig.metrics.cap">Haftada bir, dört sayı</span>
+        <div class="metrics__row">
+          <div class="metrics__m metrics__m--key" style="--i:0">
+            <span class="metrics__e" aria-hidden="true">🤝</span>
+            <b data-i18n="ch6.fig.metrics.t1">Gelen talep</b>
+            <i data-i18n="ch6.fig.metrics.d1">Kaç kişi yazdı ya da aradı. Tek gerçek sayı.</i>
+          </div>
+          <div class="metrics__m" style="--i:1">
+            <span class="metrics__e" aria-hidden="true">💾</span>
+            <b data-i18n="ch6.fig.metrics.t2">Kaydetme ve gönderme</b>
+            <i data-i18n="ch6.fig.metrics.d2">İçeriğin işe yarayıp yaramadığının en dürüst göstergesi.</i>
+          </div>
+          <div class="metrics__m" style="--i:2">
+            <span class="metrics__e" aria-hidden="true">⏱️</span>
+            <b data-i18n="ch6.fig.metrics.t3">İzlenme süresi</b>
+            <i data-i18n="ch6.fig.metrics.d3">Kancanın ve kurgunun notu. Düşükse başa dön.</i>
+          </div>
+          <div class="metrics__m" style="--i:3">
+            <span class="metrics__e" aria-hidden="true">🔁</span>
+            <b data-i18n="ch6.fig.metrics.t4">Yayın sayısı</b>
+            <i data-i18n="ch6.fig.metrics.d4">Söz verdiğin ritmi tutturdun mu. Senin notun.</i>
+          </div>
+        </div>
+        <figcaption data-i18n="ch6.fig.metrics.fc">Takipçi sayısı listede yok, bilerek. Takipçi bir sonuçtur, hedef değil; ve bir ajansın kapasitesini beş yüz doğru kişi de doldurur, elli bin yanlış kişi de dolduramaz.</figcaption>
+      </figure>
+      <p data-i18n="ch6.s13.p2">Bu dört sayıyı haftada bir, aynı gün, aynı yere yaz. Laboratuvar bölümündeki tabloya bir sayfa daha eklemen yeter. Bir ay sonra bir eğri görürsün; iki ay sonra neyin işe yaradığını tahmin etmeyi bırakıp bilmeye başlarsın.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">📈</span><span data-i18n="ch6.s13.do">Şimdi yap: CRM tablona «hafta» adında bir sayfa aç: tarih ve bu dört sütun. Bu haftanın satırını şimdi doldur — ölçüm bugünden başlıyor.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch6.s14.title">Haftalık içerik makinesi</span></h2>
+      <p data-i18n="ch6.s14.p1">Bu bölümdeki her şey tek bir haftalık döngüde birleşiyor. Bir kez kurduğunda her hafta aynı şekilde döner ve toplam beş saatini alır.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch6.fig.week.cap">Beş adım, her hafta</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">🗂️</span><b data-i18n="ch6.fig.week.s1t">Topla</b><i data-i18n="ch6.fig.week.s1s">yorumlardan ve mesajlardan gelen sorular</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">💡</span><b data-i18n="ch6.fig.week.s2t">Seç</b><i data-i18n="ch6.fig.week.s2s">sütunlara göre iki fikir, bana kanca yazdır</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">🎥</span><b data-i18n="ch6.fig.week.s3t">Çek</b><i data-i18n="ch6.fig.week.s3s">tek oturuşta, ham, mükemmel değil</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">✂️</span><b data-i18n="ch6.fig.week.s4t">Kurgula</b><i data-i18n="ch6.fig.week.s4s">döküm → kesim listesi → altyazı → başlık</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">📊</span><b data-i18n="ch6.fig.week.s5t">Ölç</b><i data-i18n="ch6.fig.week.s5s">dört sayıyı yaz, gelecek haftayı ayarla</i></li>
+        </ol>
+        <figcaption data-i18n="ch6.fig.week.fc">Beşinci adım döngüyü kapatıyor: ölçtüğün şey bir sonraki haftanın seçimini değiştiriyor. Bu, Ajan bölümündeki döngünün insanla çalışan hâli — tetikleyici pazartesi, araç sen ve ben.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch6.s14.do">Şimdi yap: Bu beş adımı haftanın günlerine dağıt. Topla ve seç pazartesi; çek salı; kurgula çarşamba; ölç cuma. Takvimine tekrar eden etkinlik olarak koy.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch6.s15.title">Marka sesi: seni sen yapan şey</span></h2>
+      <p data-i18n="ch6.s15.p1">Bu bölümdeki her şeyi yapan yüzlerce hesap var ve çoğu birbirinin aynısı. Ayıran tek şey ses: nasıl konuştuğun, neye kızdığın, neyi asla yapmadığın. Ses bir slogan değil, tekrar eden bir tutum.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch6.s15.strong">Sesi olan</span>
+          <p class="compare__text font-mono" data-i18n="ch6.s15.strongText">«Bu işi üç günde bitiririm demiyorum. İki hafta sürer, çünkü ölçmeden başlamıyorum.»</p>
+          <p class="compare__note" data-i18n="ch6.s15.strongNote">Bir tutum var, bir sınır var, bir gerekçe var. Bu cümleyi başkası kuramaz.</p>
+        </div>
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch6.s15.weak">Sesi olmayan</span>
+          <p class="compare__text font-mono" data-i18n="ch6.s15.weakText">«Kaliteli hizmet, uygun fiyat, müşteri memnuniyeti önceliğimiz.»</p>
+          <p class="compare__note" data-i18n="ch6.s15.weakNote">Herkesin söylediği, kimsenin inanmadığı cümle. Silsen kimse fark etmez.</p>
+        </div>
+      </div>
+      <p data-i18n="ch6.s15.p2">Sesini ben bulamam — ama yakalayabilirim. Bana kendi yazdığın on metni verirsen üslubunu çıkarırım: cümle uzunluğun, sevdiğin kelimeler, kaçındıkların. O tarifi Atölye bölümündeki gibi bir dosyaya koyarız ve bundan sonra yazdığım her taslak sana benzer. Ama ilk on metni sen yazacaksın; kopyalanacak bir orijinal gerekiyor.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🎙️</span><span data-i18n="ch6.s15.do">Şimdi yap: Kendi yazdığın on metni (paylaşım, mesaj, e-posta) bir dosyada topla ve bana ver: «üslubumu çıkar, kurallar hâlinde yaz.» Çıkanı oku — kendini tanıyacaksın.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch6.s16.title">Dürüstlük sınırı</span></h2>
+      <p data-i18n="ch6.s16.p1">Bu araçlarla yapılabilecek çok şey var ve hepsi yapılmamalı. Dört sınır; ikisi yasal, ikisi sadece doğru olduğu için.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s16.k1.t">Yapmadığın işi gösterme</h3><p data-i18n="ch6.s16.k1.p">İnternetten bulduğun bir çalışmayı kendi portföyüne koymak — bunun adı sahtecilik ve er geç yakalanır. Az işin varsa az göster; bir tane gerçek iş, on tane çalıntıdan iyidir.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s16.k2.t">Yapay olanı gizleme</h3><p data-i18n="ch6.s16.k2.p">Yapay zekâyla üretilmiş görsel ya da sesi gerçekmiş gibi sunma. Kurguda ve metinde yardım almak normal; bir insanın söylemediği bir cümleyi onun sesiyle yayınlamak değil. Bazı ülkelerde bu ayrıca suç.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s16.k3.t">Sahte yorum ve takipçi alma</h3><p data-i18n="ch6.s16.k3.p">Satın alınan etkileşim, gerçek insanlara gösterilme oranını düşürür — yani parayla görünmezlik satın almış olursun. Ayrıca bir gün temizlendiğinde geriye hiçbir şey kalmaz.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch6.s16.k4.t">Müşteri işini izinsiz paylaşma</h3><p data-i18n="ch6.s16.k4.p">En iyi içerik gerçek işlerdir ama önce sormak gerekir. Sözleşmene tek satır ekle: «çalışmayı tanıtımda kullanabilir miyim?» Çoğu müşteri evet der; sormadan paylaşmak ilişkiyi bitirir.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch6.s16.note">Bunlar ahlak dersi değil, iş tavsiyesi. Görünürlük uzun bir oyun ve bu oyunda tek sermayen güven. Bir kez sarsıldığında geri kazanmanın maliyeti, kısa yoldan elde ettiğin her şeyden yüksek.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🛡️</span><span data-i18n="ch6.s16.do">Şimdi yap: Profiline ve portföyüne bak: gösterdiğin her şey gerçekten senin mi, izinli mi? Değilse bugün kaldır. Sonra sözleşmene o tek satırı ekle.</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch6.s17.title">Beş yaygın hata</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.s17.m1.t">1 · Mükemmel olsun diye yayınlamamak</h3>
+          <p data-i18n="ch6.s17.m1.p">Klasörde bekleyen on iyi video, yayınlanmış bir ortalama videodan az değer taşır. Yayınla, ölç, düzelt. İlk videoların zaten kötü olacak; o yüzden bir an önce geç onları.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.s17.m2.t">2 · Selamlaşmayla başlamak</h3>
+          <p data-i18n="ch6.s17.m2.p">«Merhaba arkadaşlar, bugün sizlerle…» derken izleyici gitti. İlk kelime konuya ait olsun; tanıtımı sona koy ya da hiç koyma.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.s17.m3.t">3 · Görüntülenmeye bakıp karar vermek</h3>
+          <p data-i18n="ch6.s17.m3.p">Çok izlenip hiç iş getirmeyen içerik, az izlenip iki müşteri getirenden kötüdür. Kararı en alttaki sayıyla ver.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.s17.m4.t">4 · Gelen mesajı bekletmek</h3>
+          <p data-i18n="ch6.s17.m4.p">İçerik işini yapıp mesaja üç gün sonra dönmek, bütün emeği çöpe atmaktır. Karşılamayı otomatikleştir, cevabı sen ver — ama aynı gün.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.s17.m5.t">5 · Her şeyi bana yazdırmak</h3>
+          <p data-i18n="ch6.s17.m5.p">Taslak benden, ses senden. Hiç dokunulmadan yayınlanan metinler birbirine benzemeye başlar ve kitlen bunu senden önce fark eder.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch6.s17.do">Şimdi yap: Bu beşini son on paylaşımına karşı kontrol et. Özellikle 2 ve 4 — ikisi de düzeltmesi en kolay, etkisi en büyük olanlar.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch6.s18.title">Herkesin sorduğu</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q1">Kameraya çıkmak zorunda mıyım?</summary><p data-i18n="ch6.faq.a1">Hayır, ama bir bedeli var. Yüz, güveni en hızlı kuran şey; yüzsüz hesaplar da büyüyor ama daha yavaş ve daha çok içerikle. Alternatifler: eller ve iş görünsün, ses senin olsun; ekran kaydı; önce–sonra çekimleri. Kamera korkusu genellikle üçüncü videoda geçiyor — bunu söyleyen herkes aynı şeyi anlatıyor.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q2">Algoritma değişirse her şey boşa mı gider?</summary><p data-i18n="ch6.faq.a2">Bu bölümde öğrendiğin hiçbir şey algoritmaya bağlı değil: kanca, sütunlar, ritim, kurgu, mesaj karşılama, tek işli sayfa, dört sayı. Hepsi platform değişse de aynı kalır. Bilerek böyle yazdım — «şu saatte paylaş» türü taktikleri dışarıda bıraktım çünkü onlar altı ayda eskiyor.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q3">Kaç takipçide iş gelmeye başlar?</summary><p data-i18n="ch6.faq.a3">Takipçi sayısıyla iş arasında zannedildiği kadar güçlü bir bağ yok. Doğru işi gösteren beş yüz takipçili bir hesap düzenli iş alır; genel içerik paylaşan elli bin takipçili bir hesap almayabilir. Önemli olan izleyenin senin ne yaptığını on saniyede anlaması ve nereye yazacağını bilmesi.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q4">Videolarımı sen kurgulayabilir misin?</summary><p data-i18n="ch6.faq.a4">Kısmen. Videoyu izleyemem; ama dökümü okuyup kesim listesi, altyazı düzeltmesi, kanca, başlık ve açıklama yazabilirim — yani kurgunun karar kısmının çoğunu. Kesme işlemini sen yapacaksın ya da bir kurgu programına yaptıracaksın. Pratikte bu, üç saatlik bir kurguyu kırk dakikaya indiriyor.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q5">Aynı içeriği bütün platformlara koyayım mı?</summary><p data-i18n="ch6.faq.a5">Aynı <em>fikri</em> evet, aynı <em>dosyayı</em> hayır. Her platformun kendi ölçüsü, kendi süresi ve kendi alışkanlığı var; üstünde başka bir platformun logosu olan video her yerde daha az gösterilir. Dökümü bana ver, her platform için ayrı sürümünü yazayım — bu beş dakikalık iş.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.faq.q6">Ne zaman sonuç görmeye başlarım?</summary><p data-i18n="ch6.faq.a6">Dürüst rakam: ilk mesajlar birkaç hafta içinde, düzenli iş akışı üç ila altı ay. Bu süre kısaltılabilir ama atlanamaz; çünkü insanlar seni bir kez görüp değil, birkaç kez görüp güveniyor. Bu yüzden ritim, içeriğin kalitesinden bile önemli — sekizinci başlıkta anlattığım şey buydu.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch6.faq.do">Şimdi yap: Bir içeriğin beklediğin gibi gitmediyse dökümünü ve sayılarını bana ver, «neden tutmadı?» diye sor. Kanca, uzunluk ve vaat uyumunu birlikte bakarız.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch6.s19.title">Alıştırmalar</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.ex.e1.t">1 · Tek cümle ve dört sütun</h3>
+          <p data-i18n="ch6.ex.e1.p">01'deki cümleyi ve 05'teki dört sütununu yaz. Sonra bana ver, her sütun için on fikir iste.</p>
+          <p class="ex__goal" data-i18n="ch6.ex.e1.g"><strong class="text-fg">Amaç:</strong> «bugün ne paylaşsam» sorusunu bir daha hiç sormamak.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.ex.e2.t">2 · İlk videoyu benimle kurgula</h3>
+          <p data-i18n="ch6.ex.e2.p">Bir ham çekim yap, dökümünü çıkar, 06'daki beş adımı uygula ve bu hafta yayınla.</p>
+          <p class="ex__goal" data-i18n="ch6.ex.e2.g"><strong class="text-fg">Amaç:</strong> kurgunun korkutucu olmadığını ve saatlerce sürmediğini bir kez yaşamak.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.ex.e3.t">3 · Sayfa ve DM'i bağla</h3>
+          <p data-i18n="ch6.ex.e3.p">Tek işi olan sayfayı kur, profil bağlantını değiştir, DM akışını aç ve kendi kendine bir mesaj at.</p>
+          <p class="ex__goal" data-i18n="ch6.ex.e3.g"><strong class="text-fg">Amaç:</strong> içerikten gelen ilginin kaybolmadan CRM'e ulaştığını görmek.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch6.ex.e4.t">4 · Dört haftalık ritim</h3>
+          <p data-i18n="ch6.ex.e4.p">Bir toplu çekimle dört video hazırla, haftada iki yayınla, her cuma dört sayıyı yaz.</p>
+          <p class="ex__goal" data-i18n="ch6.ex.e4.g"><strong class="text-fg">Amaç:</strong> dört hafta sonunda tahmin etmeyi bırakıp bir eğriye bakıyor olmak.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch6.ex.do">Şimdi yap: Birinciyi bugün, ikinciyi bu hafta. Üçüncüyü haftaya. Dördüncü zaten bir ay sürüyor — bugün başlat.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch6.quiz.title">Kendini sına</span></h2>
+      <p data-i18n="ch6.quiz.p1">Önce kendin cevapla, sonra aç.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q1">Erişim, etkileşim, dönüşüm — tek cümleyle?</summary><p data-i18n="ch6.quiz.a1">Erişim kaç kişi gördü, etkileşim kaç kişi durdu, dönüşüm kaç kişi yazdı. En üstteki sayıyla övünülür, en alttaki sayıyla karar verilir.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q2">Algoritma ne yapmaya çalışıyor?</summary><p data-i18n="ch6.quiz.a2">Seni ödüllendirmeye değil, insanları ekranda tutmaya. İçeriğini küçük bir gruba gösterir; sonuna kadar izlenip gönderiliyorsa yayar, yoksa durur. Ayrıntılar değişir, bu mantık değişmez.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q3">İlk üç saniyenin dört parçası?</summary><p data-i18n="ch6.quiz.a3">Görsel durdurucu, söz, gerilim, başlangıç. Hiçbiri selamlaşma değil; «merhaba arkadaşlar» biterken izleyici gitmiş olur.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q4">İçerik sütunu ne işe yarar?</summary><p data-i18n="ch6.quiz.a4">Her paylaşımın bir yere düşmesini sağlar; böylece her gün sıfırdan fikir aranmaz. Kabaca üç öğretici, bir satan. Yalnızca satan paylaşan hesap reklam panosuna döner.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q5">Kurguda benim yapabildiğim ve yapamadığım?</summary><p data-i18n="ch6.quiz.a5">Yapabildiğim: dökümden kesim listesi, altyazı düzeltmesi, kanca, başlık, platform sürümleri. Yapamadığım: videoyu izlemek, görüntü ve müzik seçmek, renk düzeltmek. Söz bende, görüntü sende.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q6">Ritimde doğru sayı nedir?</summary><p data-i18n="ch6.quiz.a6">Sürdürebileceğin sayı. Haftada iki, altı ay kesintisiz; haftada yedi, üç hafta sonra bırakılmış. İkincisi birincinin yanına yaklaşamaz. Ritmi toplu çekim mümkün kılar.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q7">DM'de neyi otomatikleştirirsin, neyi asla?</summary><p data-i18n="ch6.quiz.a7">Karşılama, sınıflandırma, sık sorulana taslak ve CRM kaydı otomatik olabilir. Fiyat vermek, söz vermek, tarih taahhüt etmek asla. Geri alınamayan işler senin onayında kalır.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q8">Tek işi olan sayfanın dört bloğu?</summary><p data-i18n="ch6.quiz.a8">Tek cümlelik vaat, üç kanıt, ne olacağı ve tek düğme. Menü yok, blog yok, dikkat dağıtan bağlantı yok. İki seçenek koyarsan ikisi de seçilmez.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q9">Haftada bakılacak dört sayı?</summary><p data-i18n="ch6.quiz.a9">Gelen talep, kaydetme ve gönderme, izlenme süresi, yayın sayısı. Takipçi listede yok — takipçi bir sonuçtur, hedef değil.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch6.quiz.q10">Reklam ne zaman verilir?</summary><p data-i18n="ch6.quiz.a10">Organik olarak en az bir kez iş getirmiş bir içerik varken. Reklam işleyeni hızlandırır, işlemeyeni kurtarmaz. Bütçe bir müşteri kazancının onda biri, tek değişken, yedi gün, sonra karar.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch6.recap.title">Bir cümlede bu bölüm</h2>
+        <p data-i18n="ch6.recap.p">Ne yaptığını tek cümlede söyle, dört sütuna böl, ilk üç saniyeyi bilinçli kur, kurgunun karar kısmını bana bırak, mesajı aynı gün karşıla, tıklayanı tek işi olan bir sayfaya gönder — sonra haftada bir yalnızca dört sayıya bak ve bir sonraki haftayı ona göre seç.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch6.next.eyebrow">Sırada</span>
+          <h3 class="font-display text-h3" data-i18n="ch6.next.title">Bölüm 7 · Zirve</h3>
+          <p data-i18n="ch6.next.p">Bitiş çizgisi ve başlangıç çizgisi. Bütün bu beceriler burada para kazandıran tek beceriye dönüşüyor: teklif, fiyatlama, müşteri kazanma — ya da kendi işinin gelirini katlamak.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch6.next.soon">Yakında</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="Başa dön" data-i18n-attr="aria-label=ch6.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../img/logo-mark-static.svg"><img class="footer__mark" src="../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — Tüm hakları saklıdır.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">Ana sayfa</a><a href="../terms.html" data-i18n="footer.terms">Kurallar ve Gizlilik</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">Öğrenci Paneli</a></div>
+    <div class="lang" role="group" aria-label="Dil" data-i18n-attr="aria-label=lang.label">
+      <a href="chapter-6.html" data-lang="tr" lang="tr" hreflang="tr" aria-current="page">TR</a>
+      <a href="../de/course/chapter-6.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../en/course/chapter-6.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="../fa/course/chapter-6.html" data-lang="fa" lang="fa" hreflang="fa">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js?v=f974b841"></script>
+</body>
+</html>
