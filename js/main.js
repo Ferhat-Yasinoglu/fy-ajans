@@ -962,6 +962,7 @@
   stepper($('[data-term]'), 'term', [0, 2000, 2400, 2600, 3200, 3800], 5);
   stepper($('[data-deploy]'), 'deploy', [0, 2200, 2400, 2400, 2000, 4000], 5);
   stepper($('[data-cut]'), 'cut', [0, 2400, 2600, 2200, 2400, 3800], 5);
+  stepper($('[data-call]'), 'call', [0, 2600, 2600, 2800, 2800, 3800], 5);
 
   /* ---------- FYOS: sohbet ----------
      Yanıt kaynağı sırası:
