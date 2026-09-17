@@ -236,13 +236,35 @@
   (function mesh() {
     var canvas = $('#meshCanvas'), area = $('#stageArea'), voiceC = $('#voiceCanvas');
     if (!canvas || !area) return;
+    /* «scan»: parlaklığın kümeler arasında dolaşması — düşünürken sahne gerçekten çalışıyor
+       gibi görünsün diye. «packets»: aynı anda akan ışık paketi sayısı; eskiden her durumda
+       sabit 10'du, yani durum değişimi yoğunlukta hiç karşılık bulmuyordu.
+       listening artık UYANIK okunuyor: ziyaretçi konuşurken sahnenin kararıp yavaşlaması
+       (bright .72, speed .55) yanlış bir işaretti — dinleyen bir şey uyanık durur. */
     var STATES = {
-      idle:      { speed: 1,   fireEvery: 3,   bright: 1,    waveAmp: .25, waveFreq: 1,   shimmer: 0 },
-      thinking:  { speed: 2,   fireEvery: 1.1, bright: 1.25, waveAmp: .35, waveFreq: 1.6, shimmer: .3 },
-      speaking:  { speed: 1.4, fireEvery: 2,   bright: 1.35, waveAmp: 1,   waveFreq: 2.2, shimmer: 1 },
-      listening: { speed: .55, fireEvery: 4.5, bright: .72,  waveAmp: .12, waveFreq: .5,  shimmer: 0 }
+      idle:      { speed: 1,   fireEvery: 3,   bright: 1,    waveAmp: .25, waveFreq: 1,   shimmer: 0,   scan: 0,   packets: 10 },
+      thinking:  { speed: 2,   fireEvery: 1.1, bright: 1.3,  waveAmp: .35, waveFreq: 1.6, shimmer: .3,  scan: 1,   packets: 17 },
+      speaking:  { speed: 1.4, fireEvery: 2,   bright: 1.35, waveAmp: 1,   waveFreq: 2.2, shimmer: 1,   scan: 0,   packets: 13 },
+      listening: { speed: .85, fireEvery: 2.4, bright: 1.12, waveAmp: .55, waveFreq: .9,  shimmer: .15, scan: .35, packets: 8 }
     };
-    var PALETTE = [190, 210, 265, 300, 160, 330, 45];
+    /* Dolaşan küresel ton. Değerlerin çoğu sekmelerin data-hue'suyla aynı (Terminal 187,
+       Memory 270, Studio 330, Coaches 38); 210 ve 160 aradaki boşlukları kapatıyor ki
+       tur soğuk-sıcak dengesini korusun. */
+    var PALETTE = [187, 210, 270, 300, 160, 330, 38];
+    /* Karede çok renk. Bunlar sitenin ZATEN kullandığı alt sistem renkleri (sekmelerdeki ve
+       HUD kartlarındaki palet): Agents, Studio, Coaches, Memory, Skills, Knowledge.
+       Ağ bu tonları aynı anda taşır ama hepsi küresel tonun ±TINT_SPREAD derecelik kuşağında
+       kalır — sahne tek bir ruh hâlinde kalır, konfetiye dönmez. */
+    var TINT_HUES = [24, 38, 199, 255, 270, 330];        // ton sırasına dizili: kümeler merkez çevresinde yumuşak bir kuşak oluşturur
+    var TINTS = TINT_HUES.length, TINT_SPREAD = 52;
+    var tintHue = [], tintAdd = [], tintSlot = [];       // tintHue/tintAdd her karede bir kez hesaplanır
+    for (var ti0 = 0; ti0 < TINTS; ti0++) {
+      tintHue.push(0); tintAdd.push(0);
+      /* Kümenin küresel tondan sabit sapması. Marka tonuna doğrudan kenetlemek (ör. «en fazla
+         52 derece yaklaş») altı kümeyi üç değere çökertiyordu; eşit aralıklı yuva hem altısını
+         da ayrı tutuyor hem de ton gezinirken hiçbir sıçrama üretmiyor. */
+      tintSlot.push((ti0 / (TINTS - 1) - .5) * 2 * TINT_SPREAD);
+    }
     var BADGE = { idle: t('badgeIdle', 'Canlı ve çevrimiçi'), thinking: t('badgeThinking', 'Düşünüyorum…'), speaking: t('badgeSpeaking', 'Yanıt veriyorum'), listening: t('badgeListening', 'Dinliyorum') };
     var badge = $('#liveState');
 
@@ -254,25 +276,52 @@
     var linkC = $('#linkCanvas'), links = [], flows = [], linksReady = false;
     for (var i = 0; i < 80; i++) {
       var hub = i < 8;
+      var nbx = .5 + .42 * gauss(), nby = .5 + .4 * gauss();
+      var nr = hub ? 6 + 2 * srnd() : 1.5 + 2.5 * srnd();
+      var sA = 1000 * srnd(), sB = 1000 * srnd();
+      /* srnd() burada da bir kez tüketiliyor: eskiden «purple» bayrağını üretiyordu.
+         Tüketmezsek tohum sırası kayar ve ağın yerleşimi tamamen değişirdi. */
+      var jit = srnd();
+      /* Küme: düğümün merkeze göre açısı. Kartlar da çevreye açıyla dizildiği için kümeler
+         kendiliğinden kartlarla hizalanır; buildLinks'e bağlanmadığı için telefonda da çalışır. */
+      var ang = Math.atan2(nby - .5, nbx - .5) + Math.PI + (jit - .5) * .35;
       nodes.push({
-        bx: .5 + .42 * gauss(), by: .5 + .4 * gauss(), x: 0, y: 0,
-        r: hub ? 6 + 2 * srnd() : 1.5 + 2.5 * srnd(), hub: hub,
-        seedA: 1000 * srnd(), seedB: 1000 * srnd(), purple: srnd() < .12
+        bx: nbx, by: nby, x: 0, y: 0, r: nr, hub: hub, seedA: sA, seedB: sB,
+        tint: Math.floor(ang / (2 * Math.PI) * TINTS + TINTS) % TINTS
       });
     }
 
     var w = 0, h = 0;
+    /* Dar ve uzun ekranda taban yerleşim dikey bir şeride sıkışıyor (bx/by kare bir alan için
+       ölçülmüş). Yatay yayılım en-boy oranına göre açılır; kenarları maske zaten söndürüyor. */
+    var spreadX = 1;
+    function nodeX(nd) { return (.5 + (nd.bx - .5) * spreadX) * w; }
+    /* fit() her çağrıda getBoundingClientRect() okuyor, yani düzeni zorluyor — üstelik karede
+       üç ayrı tuval için. Ölçü yalnızca pencere boyutuyla değişir; yine de yazı tipi yüklenmesi
+       gibi sessiz kaymaları kaçırmamak için yarım saniyede bir tazelenir. Ölçü tazelenmediğinde
+       dönüşüm matrisine de dokunmaya gerek yok: bu dosyada başka hiçbir yer onu değiştirmiyor. */
+    var fitRound = 0, fitFrame = 0, fitCache = [];
+    function fitC(c) {
+      var e = null;
+      for (var i = 0; i < fitCache.length; i++) if (fitCache[i].c === c) { e = fitCache[i]; break; }
+      if (!e) { e = { c: c, round: -1, f: null }; fitCache.push(e); }
+      if (e.round !== fitRound) { e.round = fitRound; e.f = fit(c); }
+      return e.f;
+    }
     function buildEdges() {
       edges = [];
       var s2 = 4242, rr = function () { s2 = s2 * 16807 % 2147483647; return (s2 - 1) / 2147483646; };
+      spreadX = w && h ? Math.min(1.25, Math.max(1, Math.sqrt(h / w))) : 1;
       var reach = .24 * Math.min(w, h);
       for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
-        var d = Math.hypot((nodes[i].bx - nodes[j].bx) * w, (nodes[i].by - nodes[j].by) * h);
-        if (d < reach && rr() < .55) edges.push({
-          a: i, b: j, cpOff: (rr() - .5) * d * .55,
-          alpha: Math.max(.05, .35 * (1 - d / reach)),
-          purple: (nodes[i].purple || nodes[j].purple) ? rr() < .5 : rr() < .06
-        });
+        var d = Math.hypot((nodes[i].bx - nodes[j].bx) * spreadX * w, (nodes[i].by - nodes[j].by) * h);
+        if (d < reach && rr() < .55) {
+          var cp = (rr() - .5) * d * .55, rv = rr();
+          /* Kenarın tonu: iki ucu aynı kümedeyse o küme. Farklı kümelerdeyse çoğunlukla
+             nötr (-1 = küresel ton) kalır; kümelerin içi renklenir, araları bağ dokusu olur. */
+          var et = nodes[i].tint === nodes[j].tint ? nodes[i].tint : (rv < .3 ? (rv < .15 ? nodes[i].tint : nodes[j].tint) : -1);
+          edges.push({ a: i, b: j, cpOff: cp, alpha: Math.max(.05, .35 * (1 - d / reach)), tint: et });
+        }
       }
     }
 
@@ -339,6 +388,12 @@
         if (links.indexOf(L) >= 0) fireFlow(L, -1);              // arada yeniden kurulduysa bırak
       }, 420);
     }
+    /* Karttan dönen yanıt ağa varınca geçit düğümünde küçük bir parlama bırakır.
+       Eskiden sessizce yok oluyordu: gidiş görünür, dönüş görünmezdi. */
+    function returned(L) {
+      var g = nodes[L.gate];
+      if (g) sparks.push({ x: g.x, y: g.y, r: 2, max: 22 + 10 * Math.random(), alpha: .6, tint: g.tint });
+    }
     function drawLinks(lc, lw, lh, dt) {
       lc.clearRect(0, 0, lw, lh);
       for (var li = 0; li < links.length; li++) {
@@ -357,7 +412,12 @@
       for (var fi = flows.length - 1; fi >= 0; fi--) {
         var F = flows[fi];
         F.t += dt * F.speed;
-        if (F.t >= 1) { flows.splice(fi, 1); if (F.dir === 1) landed(F.L); continue; }
+        if (F.t >= 1) {
+          flows.splice(fi, 1);
+          if (F.dir === 1) landed(F.L);
+          else returned(F.L);                                    // yanıt merkeze ulaştı: küçük bir karşılık
+          continue;
+        }
         var FP = linkPath(F.L), ft = F.dir === 1 ? F.t : 1 - F.t;
         for (var k = 1; k < 7; k++) {                             // kuyruk
           var kt = ft - k * .022 * F.dir;
@@ -374,10 +434,88 @@
       }
     }
 
-    var hue = 190, hueTarget = 190, hueTimer = 9, hueLast = -999;
+    var HUE_PERIOD = 10;                                 // sahibinin isteği: renk tam 10 saniyede bir değişir
+    var hue = 187, hueTarget = 187, hueTimer = HUE_PERIOD, hueLast = -999;
+    /* Ton sırası: palet turlar hâlinde, her tur karıştırılarak gezilir. Yerine koyarak
+       seçilseydi ~%14 ihtimalle aynı ton gelir ve o 10 saniye hiç değişim görünmezdi. */
+    var hueBag = [], hueBagAt = 0;
+    function nextHue() {
+      if (hueBagAt >= hueBag.length) {
+        hueBag = PALETTE.slice();
+        for (var i = hueBag.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1)), tmp = hueBag[i];
+          hueBag[i] = hueBag[j]; hueBag[j] = tmp;
+        }
+        // Tur başı, önceki turun sonuyla aynıysa bir sonrakiyle yer değiştirir
+        if (hueBag.length > 1 && hueBag[0] === hueTarget) { var s0 = hueBag[0]; hueBag[0] = hueBag[1]; hueBag[1] = s0; }
+        hueBagAt = 0;
+      }
+      return hueBag[hueBagAt++];
+    }
     function col(l, a, off, sat) {
       return 'hsla(' + ((hue + (off || 0) + 360) % 360) + ',' + (sat || 85) + '%,' + l + '%,' + a + ')';
     }
+    // Küme tonuyla renk. t < 0 ise nötr, yani küresel ton.
+    function tcol(t, l, a) {
+      return 'hsla(' + (t >= 0 ? tintHue[t] : ((hue + 360) % 360)).toFixed(1) + ',85%,'
+        + (t >= 0 ? l + tintAdd[t] : l).toFixed(1) + '%,' + a + ')';
+    }
+    /* Kenar kovaları: (küme tonu + 1) × saydamlık kademesi. «+1» nötr kenarları 0. sıraya alır.
+       Diziler bir kez kurulur, her karede length = 0 ile boşaltılır — kare başına ayırma yok. */
+    var ASTEPS = 8, buckets = [], edgeCss = [];
+    for (var bk = 0; bk < (TINTS + 1) * ASTEPS; bk++) { buckets.push([]); edgeCss.push(''); }
+    /* Küme tonlarını ve kovaların hazır CSS dizelerini kare başına BİR kez üretir. */
+    function refreshTints(scan, ph) {
+      for (var i = 0; i < TINTS; i++) {
+        /* Marka çekimi: küresel ton kümenin kendi rengine yaklaştıkça yuva bir miktar
+           daralır — genliği yuva aralığının yarısından küçük tutulduğu için sıra hiç bozulmaz. */
+        var pull = TINT_SPREAD * .18 * Math.sin((TINT_HUES[i] - hue) * Math.PI / 180);
+        tintHue[i] = (hue + tintSlot[i] + pull + 360) % 360;
+        // Tarama dalgası her kümeden sırayla geçer; küp alınarak dar bir tepeye dönüşür
+        var c = scan ? Math.cos(((ph || 0) - i / TINTS) * 6.283) : 0;
+        tintAdd[i] = c > 0 ? 10 * scan * c * c * c : 0;
+      }
+      for (var t = -1; t < TINTS; t++) {
+        var hh = (t >= 0 ? tintHue[t] : (hue + 360) % 360).toFixed(1);
+        var ll = (t >= 0 ? 60 + tintAdd[t] : 60).toFixed(1);
+        for (var l = 0; l < ASTEPS; l++) {
+          edgeCss[(t + 1) * ASTEPS + l] = 'hsla(' + hh + ',85%,' + ll + '%,' + ((l + .5) * .7 / ASTEPS).toFixed(3) + ')';
+        }
+      }
+    }
+    /* ---------- Zemin derinliği ----------
+       Köşeler dümdüz siyahtı. Üç geniş, çok düşük alfalı leke sahneye derinlik veriyor.
+       Her karede yeniden üretmek pahalı olurdu: çeyrek çözünürlüklü bir tuvale çizilip
+       ton 8 dereceden fazla kayana kadar saklanıyor. Kare maliyeti tek drawImage.
+       Tonlar küresel tonu İZLEMİYOR, ona doğru yalnızca biraz esniyor: zemin hep lacivert
+       (+ bir köşede markanın altını) kalsın diye. Küresel tona bağlansaydı sahne sarıya
+       geçtiğinde zemin de zeytin yeşiline dönüp çamurlaşıyordu.
+       [x, y, yarıçap, taban ton, açıklık, alfa] — hepsi sahnenin kendi oranlarında. */
+    var NEB = [[.16, .2, .66, 225, 28, .32], [.86, .8, .6, 209, 24, .28], [.66, .12, .42, 42, 26, .15]];
+    var neb = null, nebHue = -999, nebW = 0, nebH = 0;
+    function nebula() {
+      if (!w || !h) return null;
+      var moved = Math.abs(((hue - nebHue + 540) % 360) - 180);
+      if (neb && nebW === w && nebH === h && moved < 8) return neb;
+      if (!neb) neb = document.createElement('canvas');
+      nebW = w; nebH = h; nebHue = hue;
+      var sw = Math.max(1, Math.round(w / 4)), sh = Math.max(1, Math.round(h / 4));
+      if (neb.width !== sw || neb.height !== sh) { neb.width = sw; neb.height = sh; }
+      var nc = neb.getContext('2d');
+      nc.clearRect(0, 0, sw, sh);
+      for (var i = 0; i < NEB.length; i++) {
+        var b = NEB[i], cx = b[0] * sw, cy = b[1] * sh, rr = b[2] * Math.max(sw, sh);
+        // Küresel ton yaklaştıkça leke ona doğru en fazla 20 derece esner — bağlanmaz
+        var hh = ((b[3] + 20 * Math.sin((hue - b[3]) * Math.PI / 180) + 360) % 360).toFixed(1);
+        var stop = ',70%,' + b[4] + '%,';
+        var g = nc.createRadialGradient(cx, cy, 0, cx, cy, rr);
+        g.addColorStop(0, 'hsla(' + hh + stop + b[5] + ')');
+        g.addColorStop(1, 'hsla(' + hh + stop + '0)');
+        nc.fillStyle = g; nc.fillRect(0, 0, sw, sh);
+      }
+      return neb;
+    }
+
     // Kavisli lif üzerinde nokta (quadratic bezier)
     function bez(e, t) {
       var a = nodes[e.a], b = nodes[e.b];
@@ -385,6 +523,21 @@
       var dx = b.x - a.x, dy = b.y - a.y, dd = Math.hypot(dx, dy) || 1;
       var cx = mx + -dy / dd * e.cpOff, cy = my + dx / dd * e.cpOff, m = 1 - t;
       return { x: m * m * a.x + 2 * m * t * cx + t * t * b.x, y: m * m * a.y + 2 * m * t * cy + t * t * b.y, cx: cx, cy: cy };
+    }
+    /* Halkanın geçtiği yerde ağı parlatır. Ölçü halkanın KENDİ merkezinden alınır:
+       eskiden hep sahnenin ortasından ölçülüyordu, yani tıklanan yerin hiç önemi yoktu. */
+    function boost(x, y) {
+      var a = 0;
+      for (var i = 0; i < ripples.length; i++) {
+        var rp = ripples[i], d = Math.abs(Math.hypot(x - rp.x, y - rp.y) - rp.r);
+        if (d < 90) a += (1 - d / 90) * rp.alpha;
+      }
+      return a;
+    }
+    // Halka her zaman bir merkezle doğar; yer verilmezse sahnenin ortası
+    function ripple(x, y) {
+      if (reduce) return;
+      ripples.push({ r: 0, alpha: .9, x: x == null ? w / 2 : x, y: y == null ? h / 2 : y });
     }
     function spawnPacket() {
       if (edges.length) packets.push({ fiber: Math.floor(Math.random() * edges.length), t: 0, speed: .25 + .5 * Math.random(), dir: Math.random() < .5 ? 1 : -1, trail: [] });
@@ -401,28 +554,35 @@
     var sparkTimer = 0, tPrev = performance.now(), q = 0;
     function draw(now) {
       if (!visible(canvas) && !ripples.length) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx;
+      if (++fitFrame >= 30) { fitFrame = 0; fitRound++; }
+      var f = fitC(canvas), ctx = f.ctx;
       if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); linksReady = false; }
       var s = Math.min((now - tPrev) / 1000, .05); tPrev = now; q += s;
 
-      var lerp = 2.2 * Math.min(1, s / .5);
+      var lerp = 4.4 * s;
       for (var k in cur) cur[k] += (target[k] - cur[k]) * lerp;
 
       // Renk kendi kendine gezinir
-      if ((hueTimer -= s) <= 0) { hueTarget = PALETTE[Math.floor(Math.random() * PALETTE.length)]; hueTimer = 12 + 10 * Math.random(); }
+      if ((hueTimer -= s) <= 0) { hueTarget = nextHue(); hueTimer = HUE_PERIOD; }
       var hd = (hueTarget - hue + 540) % 360 - 180;
-      hue += hd * Math.min(1, .35 * s);
-      if (Math.abs(hue - hueLast) >= .5) { hueLast = hue; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1)); }
+      hue = (hue + hd * .55 * s) % 360;                 // ~1,8 sn'lik geçiş: 10 sn'lik turda renk bir süre durur
+      if (hue < 0) hue += 360;                          // aksi hâlde ton sürekli aşağı kayıp eksiye dalıyor
+      if (Math.abs(hue - hueLast) >= 2) { hueLast = hue; document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1)); }
+      refreshTints(cur.scan, q * .28);
 
       var osc = 1 + Math.sin(q * (stateName === 'listening' ? .9 : 1.6)) * (stateName === 'listening' ? .12 : .05);
       var bright = cur.bright * osc;
 
-      // İz bırakan zemin
+      // İz bırakan zemin + derinlik katmanı
       ctx.fillStyle = 'rgba(7, 6, 4, 0.28)';
       ctx.fillRect(0, 0, w, h);
+      var nb = nebula();
+      /* İz bırakan zemin her karede yalnızca %28 karartıyor, yani buraya konan her şey
+         ~3,5 katına yığılıyor. Kare başına alfa bu yüzden bilerek çok düşük. */
+      if (nb) { ctx.globalAlpha = .18; ctx.drawImage(nb, 0, 0, w, h); ctx.globalAlpha = 1; }
 
       nodes.forEach(function (nd) {
-        nd.x = nd.bx * w + 6 * Math.sin(.3 * q + nd.seedA) + 4 * Math.cos(.17 * q + nd.seedB);
+        nd.x = nodeX(nd) + 6 * Math.sin(.3 * q + nd.seedA) + 4 * Math.cos(.17 * q + nd.seedB);
         nd.y = nd.by * h + 6 * Math.cos(.26 * q + nd.seedB) + 4 * Math.sin(.21 * q + nd.seedA);
       });
 
@@ -432,28 +592,37 @@
         rp.r += s * Math.max(w, h) * .75; rp.alpha -= .75 * s;
         if (rp.alpha <= 0) ripples.splice(ri, 1);
       }
-      function boost(x, y) {
-        var a = 0;
-        for (var i = 0; i < ripples.length; i++) {
-          var d = Math.abs(Math.hypot(x - w / 2, y - h / 2) - ripples[i].r);
-          if (d < 90) a += (1 - d / 90) * ripples[i].alpha;
-        }
-        return a;
-      }
 
-      // Kavisli lifler
+      /* Kavisli lifler — KOVALI çizim.
+         Eskiden her kenar tek tek strokeStyle atayıp stroke() çağırıyordu: ölçüldü, karede 379
+         stroke() ve o kadar da dize ayırma. Artık kenarlar (küme tonu × saydamlık kademesi)
+         kovalarına dağıtılıp kova başına TEK yol ve TEK stroke() ile çiziliyor — çağrı sayısı
+         yaklaşık sekizde bire iniyor. Saydamlık 8 kademeye yuvarlanıyor; 0,7 tavanlı saç teli
+         çizgilerde ve yüzlerce kenarın üst üste binmesinde adım görünmüyor. */
       ctx.lineWidth = .7;
+      for (var bi = 0; bi < buckets.length; bi++) buckets[bi].length = 0;
       for (var ei = 0; ei < edges.length; ei++) {
-        var e = edges[ei], a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
+        var e = edges[ei], a = nodes[e.a], b = nodes[e.b];
         var al = e.alpha * bright * .9;
         if (cur.shimmer > .01) al *= 1 + .5 * cur.shimmer * Math.sin(6 * q + 1.7 * ei);
         al += .4 * boost((a.x + b.x) / 2, (a.y + b.y) / 2);
-        ctx.strokeStyle = e.purple ? col(75, Math.min(al, .7), 55) : col(60, Math.min(al, .7));
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx.stroke();
+        if (al > .7) al = .7;
+        var lvl = (al * ASTEPS / .7) | 0; if (lvl < 1) continue; if (lvl >= ASTEPS) lvl = ASTEPS - 1;
+        buckets[(e.tint + 1) * ASTEPS + lvl].push(ei);
+      }
+      for (var bi = 0; bi < buckets.length; bi++) {
+        var bucket = buckets[bi]; if (!bucket.length) continue;
+        ctx.strokeStyle = edgeCss[bi];
+        ctx.beginPath();
+        for (var bj = 0; bj < bucket.length; bj++) {
+          var e2 = edges[bucket[bj]], a2 = nodes[e2.a], b2 = nodes[e2.b], p2 = bez(e2, .5);
+          ctx.moveTo(a2.x, a2.y); ctx.quadraticCurveTo(p2.cx, p2.cy, b2.x, b2.y);
+        }
+        ctx.stroke();
       }
 
       // Lifler üzerinde akan ışık paketleri
-      while (edges.length && packets.length < 10) spawnPacket();
+      while (edges.length && packets.length < cur.packets) spawnPacket();
       ctx.shadowBlur = 0;
       var heads = [];
       for (var pi = packets.length - 1; pi >= 0; pi--) {
@@ -480,13 +649,13 @@
       if ((sparkTimer -= s) <= 0) {
         sparkTimer = (2 + 2 * Math.random()) / (cur.fireEvery > 0 ? 3 / cur.fireEvery : 1);
         var sn = nodes[Math.floor(Math.random() * nodes.length)];
-        sparks.push({ x: sn.x, y: sn.y, r: 2, max: 34 + 22 * Math.random(), alpha: .75 });
+        sparks.push({ x: sn.x, y: sn.y, r: 2, max: 34 + 22 * Math.random(), alpha: .75, tint: sn.tint });
       }
       for (var si = sparks.length - 1; si >= 0; si--) {
         var sp = sparks[si];
         sp.r += 46 * s; sp.alpha -= 1.15 * s;
         if (sp.alpha <= 0 || sp.r >= sp.max) { sparks.splice(si, 1); continue; }
-        ctx.strokeStyle = col(70, sp.alpha * bright); ctx.lineWidth = 1;
+        ctx.strokeStyle = tcol(sp.tint, 70, sp.alpha * bright); ctx.lineWidth = 1;
         ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r, 0, 6.283); ctx.stroke();
         ctx.fillStyle = col(93, .8 * sp.alpha * bright, 0, 60);
         ctx.beginPath(); ctx.arc(sp.x, sp.y, 2.4, 0, 6.283); ctx.fill();
@@ -497,15 +666,15 @@
       nodes.forEach(function (nd) {
         if (nd.hub) return;
         var t = boost(nd.x, nd.y), a = Math.min(1, .65 * bright + t);
-        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(60, a);
+        ctx.fillStyle = tcol(nd.tint, 60, a);
         ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
       });
       ctx.shadowBlur = 14;
       nodes.forEach(function (nd) {
         if (!nd.hub) return;
         var t = boost(nd.x, nd.y), a = Math.min(1, .9 * bright + t);
-        ctx.shadowColor = nd.purple ? col(75, .8, 55) : col(62, .8);
-        ctx.fillStyle = nd.purple ? col(75, a, 55) : col(70, a);
+        ctx.shadowColor = tcol(nd.tint, 62, .8);
+        ctx.fillStyle = tcol(nd.tint, 70, a);
         ctx.beginPath(); ctx.arc(nd.x, nd.y, nd.r * (1 + .4 * t), 0, 6.283); ctx.fill();
       });
       ctx.shadowBlur = 0;
@@ -513,19 +682,19 @@
       // Halkaların kendisi
       ripples.forEach(function (rp) {
         ctx.strokeStyle = col(62, .5 * rp.alpha); ctx.lineWidth = 1.4;
-        ctx.beginPath(); ctx.arc(w / 2, h / 2, rp.r, 0, 6.283); ctx.stroke();
+        ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, 6.283); ctx.stroke();
       });
 
       // Kartlara giden bağlantılar (sahne maskesinin dışındaki katman)
-      if (linkC) {
+      if (linkC && linkC.offsetParent) {          // telefonda display:none — ölçme de çizme de gereksiz
         if (!linksReady) buildLinks();
-        var lf = fit(linkC);
+        var lf = fitC(linkC);
         drawLinks(lf.ctx, lf.w, lf.h, s);
       }
 
       // Ses dalgası: tek parlayan çizgi
       if (voiceC) {
-        var vf = fit(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
+        var vf = fitC(voiceC), vc = vf.ctx, C = vf.w, E = vf.h;
         vc.clearRect(0, 0, C, E);
         vc.strokeStyle = col(68, .75 + .25 * cur.waveAmp); vc.lineWidth = 1.6;
         vc.shadowBlur = 8; vc.shadowColor = col(62, .8);
@@ -534,7 +703,7 @@
         for (var x = 0; x <= C; x += 2) {
           var env = Math.sin(x / C * Math.PI), yy;
           if (stateName === 'speaking') yy = D + env * (4 * Math.sin(.11 * x + 14 * q) + 5 * Math.sin(.043 * x + 9 * q) + 3 * Math.sin(.021 * x + 21 * q)) * cur.waveAmp * .9;
-          else yy = D + env * Math.sin(.05 * x + 2.4 * q * cur.waveFreq) * 7 * cur.waveAmp * 4;
+          else yy = D + env * Math.sin(.05 * x + 2.4 * q * cur.waveFreq) * 28 * cur.waveAmp;
           if (x === 0) vc.moveTo(x, yy); else vc.lineTo(x, yy);
         }
         vc.stroke(); vc.shadowBlur = 0;
@@ -542,22 +711,33 @@
       raf(draw);
     }
 
-    if (reduce) {
-      // Hareket azaltılmışsa: tek karelik durağan çizim
-      var f0 = fit(canvas); w = f0.w; h = f0.h; buildEdges();
+    /* Hareket azaltılmışsa çizilen tek kare. Sekmeye tıklanınca yeniden çağrılır: yoksa
+       renk seçimi bu bağlamda hiçbir karşılık vermiyordu (--mesh-hue yalnızca draw()
+       içinde yazılıyordu, o da burada hiç çalışmaz). */
+    function paintStatic() {
+      var f0 = fit(canvas);
+      if (f0.w !== w || f0.h !== h) { w = f0.w; h = f0.h; buildEdges(); }
+      hue = hueTarget;                                   // geçiş yok: hedef ton doğrudan uygulanır
+      document.documentElement.style.setProperty('--mesh-hue', hue.toFixed(1));
+      refreshTints(0, 0);
       var ctx0 = f0.ctx;
       ctx0.fillStyle = '#070604'; ctx0.fillRect(0, 0, w, h);
-      nodes.forEach(function (nd) { nd.x = nd.bx * w; nd.y = nd.by * h; });
+      var nb0 = nebula();
+      if (nb0) { ctx0.globalAlpha = .32; ctx0.drawImage(nb0, 0, 0, w, h); ctx0.globalAlpha = 1; }
+      nodes.forEach(function (nd) { nd.x = nodeX(nd); nd.y = nd.by * h; });
       ctx0.lineWidth = .7;
       edges.forEach(function (e) {
         var a = nodes[e.a], b = nodes[e.b], p = bez(e, .5);
-        ctx0.strokeStyle = e.purple ? col(75, Math.min(.9 * e.alpha, .7), 55) : col(60, Math.min(.9 * e.alpha, .7));
+        ctx0.strokeStyle = tcol(e.tint, 60, Math.min(.9 * e.alpha, .7));
         ctx0.beginPath(); ctx0.moveTo(a.x, a.y); ctx0.quadraticCurveTo(p.cx, p.cy, b.x, b.y); ctx0.stroke();
       });
       nodes.forEach(function (nd) {
-        ctx0.fillStyle = nd.purple ? col(75, nd.hub ? .9 : .65, 55) : col(nd.hub ? 70 : 60, nd.hub ? .9 : .65);
+        ctx0.fillStyle = tcol(nd.tint, nd.hub ? 70 : 60, nd.hub ? .9 : .65);
         ctx0.beginPath(); ctx0.arc(nd.x, nd.y, nd.r, 0, 6.283); ctx0.fill();
       });
+    }
+    if (reduce) {
+      paintStatic();
       if (linkC) {
         buildLinks();
         var lf0 = fit(linkC);
@@ -572,11 +752,19 @@
       raf(draw);
     }
 
-    addEventListener('resize', function () { linksReady = false; });
-    area.addEventListener('pointerdown', function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); });
+    addEventListener('resize', function () { linksReady = false; fitRound++; });
+    area.addEventListener('pointerdown', function (ev) {
+      var b = canvas.getBoundingClientRect();
+      if (!b.width || !b.height) { ripple(); return; }
+      ripple((ev.clientX - b.left) / b.width * w, (ev.clientY - b.top) / b.height * h);
+    });
     window.FYOS = {
-      setHue: function (hh) { hueTarget = hh; hueTimer = 15; if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
-      ping: function () { if (!reduce) ripples.push({ r: 0, alpha: .9 }); },
+      setHue: function (hh) {
+        hueTarget = hh; hueTimer = HUE_PERIOD;
+        if (reduce) { paintStatic(); return; }            // durağan karede de renk karşılık versin
+        ripple();
+      },
+      ping: function () { ripple(); },
       setState: setState
     };
     setState('idle');
