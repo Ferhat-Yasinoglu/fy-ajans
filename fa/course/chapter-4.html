@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title data-i18n="meta.title">فصل ۴: کارگاه — استخدام Claude Code | سفر هوش مصنوعی | FY</title>
+<meta name="description" data-i18n-attr="content=meta.description" content="فصل چهارم دوره: Claude Code از صفر. ترمینال، فایل، فرمان؛ نصب و اولین کار؛ دروازهٔ اجازه و حالت نقشه؛ مغز با CLAUDE.md، حافظه، نوشتن مهارت، زیرعامل‌ها؛ کار برگشت‌پذیر با گیت و پیش‌رفتن خودکار پروژه‌ها.">
+<link rel="canonical" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-4.html">
+<link rel="alternate" hreflang="tr" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<link rel="alternate" hreflang="de" href="https://ferhat-yasinoglu.github.io/fy-ajans/de/course/chapter-4.html">
+<link rel="alternate" hreflang="en" href="https://ferhat-yasinoglu.github.io/fy-ajans/en/course/chapter-4.html">
+<link rel="alternate" hreflang="fa" href="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-4.html">
+<link rel="alternate" hreflang="x-default" href="https://ferhat-yasinoglu.github.io/fy-ajans/course/chapter-4.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="FY">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" data-i18n-attr="content=og.title" content="فصل ۴: کارگاه — استخدام Claude Code">
+<meta property="og:description" data-i18n-attr="content=og.description" content="Claude Code از صفر: ترمینال، اولین کار، اجازه‌ها، CLAUDE.md، مهارت‌ها، زیرعامل‌ها و گیت.">
+<meta property="og:url" content="https://ferhat-yasinoglu.github.io/fy-ajans/fa/course/chapter-4.html">
+<meta property="og:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ferhat-yasinoglu.github.io/fy-ajans/img/og-fa.png">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="../../img/favicon.ico" sizes="32x32">
+<link rel="icon" href="../../img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../img/icon-180.png">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'">
+<link rel="preload" href="../../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../css/style.css?v=5e9022ce">
+</head>
+<body>
+<div class="course-bar">
+  <div class="container-x course-bar__inner">
+    <a class="back" href="../index.html#training" style="margin:0" data-i18n="ch4.back">← همهٔ فصل‌ها</a>
+    <div class="course-bar__price"><span class="now" data-i18n="ch4.barNum">فصل ۴ / ۷</span></div>
+    <a class="btn btn-primary btn-sm" href="../contact/course.html" data-i18n="ch4.barCta">ثبت‌نام در دوره</a>
+  </div>
+</div>
+
+<main>
+<article class="section lesson">
+  <div class="container-x">
+
+    <!-- ===== Giriş ===== -->
+    <header class="lesson__head" data-reveal>
+      <div class="lesson__cover">
+        <picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/course/l4-cover-static.svg"><img src="../../img/course/l4-cover.svg" alt="" width="1600" height="686" decoding="async"></picture>
+        <span class="lesson__cover-en font-mono" lang="en">The Workshop</span>
+        <span class="lesson__cover-note" data-i18n="ch4.coverNote">میزکار از تو، دست‌ها از من</span>
+      </div>
+      <span class="eyebrow" data-i18n="ch4.eyebrow">فصل ۴ · کارگاه</span>
+      <h1 class="font-display text-h1" data-i18n="ch4.title">وقتی کلیک کافی نیست، <span class="text-accent-gradient">مرا استخدام کن</span></h1>
+      <p class="lesson__lead" data-i18n="ch4.lead">سه فصل در پنجرهٔ گفت‌وگو و روی بوم حرف زدیم. در این فصل به رایانهٔ تو می‌آیم: همان نسخه‌ای از من که فایل‌هایت را می‌خواند، تغییر می‌دهد، فرمان اجرا می‌کند و کارش را ثبت می‌کند — Claude Code. هنوز لازم نیست کد بلد باشی؛ اما در پایان این فصل از ترمینال نمی‌ترسی و یک همکار تمام‌وقت روی میزت داری.</p>
+      <p class="lesson__meta font-mono" data-i18n="ch4.meta">زمان مطالعه ~۴۵ دقیقه · پیش‌نیاز: فصل ۳</p>
+    </header>
+
+    <!-- ===== Kazanımlar ===== -->
+    <div class="glass lesson__goals" data-reveal>
+      <h2 class="font-display" data-i18n="ch4.goals.title">در پایان این فصل</h2>
+      <ul class="check-list space-2" data-i18n="ch4.goals.list"><li>می‌دانی واژه‌های ترمینال، فایل و فرمان یعنی چه — و چرا هیچ‌کدام ترسناک نیستند</li> <li>Claude Code را نصب کرده‌ای و در یک پوشه اولین کار را به آن سپرده‌ای</li> <li>می‌دانی چه کاری را بی‌پرسش انجام می‌دهم و چه کاری را هر بار می‌پرسم</li> <li>برای پروژه‌ات یک «مغز» می‌نویسی: CLAUDE.md</li> <li>اولین مهارتت را می‌نویسی و یک کار را به یک فرمان تبدیل می‌کنی</li> <li>می‌بینی زیرعامل‌ها چطور کار را تقسیم می‌کنند و نتیجه را برمی‌گردانند</li> <li>یاد می‌گیری هر گام را با گیت برگشت‌پذیر نگه داری</li></ul>
+    </div>
+
+    <details class="lesson__toc" id="toc" hidden>
+      <summary><span aria-hidden="true">☰</span><span data-i18n="ch4.toc.title" class="text-fg">فهرست</span></summary>
+      <ol class="toc__list"></ol>
+    </details>
+
+    <div data-reveal>
+      <a class="guide-link" href="../claude/index.html">
+        <span class="guide-link__e" aria-hidden="true">📘</span>
+        <span class="guide-link__tx"><strong class="text-fg" data-i18n="ch4.guide.t">راهنمای کلود</strong><span data-i18n="ch4.guide.p">در این فصل روی رایانهٔ تو کار می‌کنم. اگر می‌خواهی به یاد بیاوری چه چیزی را خوب انجام می‌دهم و کجا اشتباه می‌کنم — در یک صفحه، به چهار زبان.</span></span>
+        <span class="guide-link__go" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- ===== 01 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">01</span><span data-i18n="ch4.s1.title">جایی که کلیک تمام می‌شود</span></h2>
+      <p data-i18n="ch4.s1.p1">در فصل ۳ با وصل‌کردن جعبه‌ها راه زیادی رفتی. اما جایی جعبه‌ها تمام می‌شوند: تغییر یک جمله در بیست صفحهٔ سایتت، ساختن PDF جداگانه برای صد مشتری از یک جدول، گفتن «همهٔ عکس‌های این پوشه را کوچک کن و نامشان را درست کن». این‌ها با کلیک انجام نمی‌شوند، با فایل و فرمان انجام می‌شوند. و تا امروز برای این کارها یا باید کد بلد می‌بودی یا به کسی پول می‌دادی.</p>
+      <p data-i18n="ch4.s1.p2">Claude Code این دیوار را برمی‌دارد. همان ذهنی که در گفت‌وگو داری؛ فرقش این است که <strong class="text-fg">دست دارد</strong>. در یک پوشه روی رایانه‌ات کار می‌کند: فایل‌ها را می‌خواند، تغییر می‌دهد، فرمان اجرا می‌کند، نتیجه را می‌بیند، اگر لازم باشد اصلاح می‌کند و کارش را ثبت می‌کند. تو می‌گویی چه می‌خواهی؛ چگونگی‌اش را من پیدا می‌کنم، اما در هر گام مهم از تو می‌پرسم.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s1.note">در فصل ۱ گفتم «دست ندارم، خودم کاری نمی‌توانم بکنم». آن جمله برای پنجرهٔ گفت‌وگو هنوز درست است. Claude Code نسخه‌ای است که دست‌هایش را <em>تو</em> می‌دهی، <em>تو</em> محدود می‌کنی و <em>تو</em> هر لحظه پس می‌گیری. دست‌ها از من؛ میزکار، قاعده‌ها و حرف آخر از تو.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">📝</span><span data-i18n="ch4.s1.do">همین حالا انجام بده: سه کار روی رایانه‌ات بنویس که دربارهٔ آن‌ها می‌گویی «دستی ساعت‌ها طول می‌کشد». فایل، پوشه، جدول، سایت — هر کدام. در پایان این فصل یکی‌شان را به من می‌سپاری.</span></p>
+    </section>
+
+    <!-- ===== 02 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">02</span><span data-i18n="ch4.s2.title">سه واژه: ترمینال، فایل، فرمان</span></h2>
+      <p data-i18n="ch4.s2.p1">در فصل ۳ سه واژه کل میدان را باز کرد. اینجا هم همین‌طور است. این سه را بدانی، بقیه‌اش فقط حرف‌زدن است.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k1.t">ترمینال</h3><p data-i18n="ch4.s2.k1.p">همان پنجرهٔ سیاهی که با نوشتن با رایانه‌ات حرف می‌زنی. به‌جای کلیک می‌نویسی: «به این پوشه برو»، «آن فایل را باز کن». ترسناک به نظر می‌رسد چون خالی است؛ اما با یک پنجرهٔ گفت‌وگوی خالی فرقی ندارد. Claude Code در همان پنجره زندگی می‌کند.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k2.t">فایل و پوشه</h3><p data-i18n="ch4.s2.k2.p">این را از قبل می‌دانی؛ فقط نامش را عوض می‌کنیم. سایتت یک پوشه است و صفحه‌هایش فایل. یک جدول فایل است، یک قرارداد فایل است. به Claude Code یک پوشه نشان می‌دهی؛ درون آن پوشه میز کار اوست.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s2.k3.t">فرمان</h3><p data-i18n="ch4.s2.k3.p">همان کار یک‌خطی که در ترمینال می‌نویسی: «عکس‌ها را کوچک کن»، «سایت را منتشر کن»، «آزمون‌ها را اجرا کن». لازم نیست فرمان‌ها را حفظ کنی — من بلدم. کار تو خواستن نتیجه است، نه فرمان.</p></div>
+      </div>
+      <p data-i18n="ch4.s2.p2">چهار چیز روی رایانه‌ات هست که به آن دسترسی دارم؛ همه در پایین آمده‌اند. کنار هرکدام نوشته کِی می‌پرسم — این مهم‌ترین تصویر این فصل است.</p>
+      <figure class="desk">
+        <span class="desk__cap font-mono" data-i18n="ch4.fig.desk.cap">روی میز من چه هست</span>
+        <div class="desk__grid">
+          <div class="desk__t" style="--i:0"><span class="desk__e" aria-hidden="true">📁</span><b data-i18n="ch4.fig.desk.t1">فایل‌ها</b><i data-i18n="ch4.fig.desk.d1">همه‌چیز پوشه را می‌خوانم؛ پیش از تغییر می‌پرسم.</i><span class="desk__ask" data-i18n="ch4.fig.desk.a1">می‌خواند · می‌پرسد</span></div>
+          <div class="desk__t" style="--i:1"><span class="desk__e" aria-hidden="true">⌨️</span><b data-i18n="ch4.fig.desk.t2">ترمینال</b><i data-i18n="ch4.fig.desk.d2">فرمان اجرا می‌کنم: کوچک‌کردن، تبدیل، آزمون، انتشار.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a2">می‌پرسد</span></div>
+          <div class="desk__t" style="--i:2"><span class="desk__e" aria-hidden="true">🕰️</span><b data-i18n="ch4.fig.desk.t3">گیت</b><i data-i18n="ch4.fig.desk.d3">هر گام را نقطهٔ ذخیره می‌کنم؛ برگشت یک جمله است.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a3">اگر بخواهی</span></div>
+          <div class="desk__t" style="--i:3"><span class="desk__e" aria-hidden="true">🌐</span><b data-i18n="ch4.fig.desk.t4">بیرون</b><i data-i18n="ch4.fig.desk.d4">وب، ایمیل، جدول‌ها — فقط اگر تو وصل کنی.</i><span class="desk__ask desk__ask--y" data-i18n="ch4.fig.desk.a4">اگر وصل کنی</span></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.desk.fc">خواندن آزاد است، تغییر به یک پرسش بند است، بیرون بسته است. این سه قاعده کل فصل را خلاصه می‌کند؛ جزئیاتش در ۰۵ است.</figcaption>
+      </figure>
+      <p class="do"><span class="do__e" aria-hidden="true">🖥️</span><span data-i18n="ch4.s2.do">همین حالا انجام بده: ترمینال را روی رایانه‌ات پیدا کن و باز کن. در مک «Terminal»، در ویندوز «PowerShell» یا «Terminal». چیزی ننویس؛ فقط به پنجره نگاه کن. ترسناک نیست، هست؟</span></p>
+    </section>
+
+    <!-- ===== 03 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">03</span><span data-i18n="ch4.s3.title">نصب: ده دقیقه</span></h2>
+      <p data-i18n="ch4.s3.p1">Claude Code چند چهره دارد: نسخهٔ ترمینال، برنامهٔ دسکتاپ، نسخه‌ای که در مرورگر کار می‌کند و افزونه‌هایی که درون ویرایشگرهای کد می‌نشینند. همه همین من را اجرا می‌کنند. در این فصل نسخهٔ ترمینال را نصب می‌کنیم، چون کوتاه‌ترین راه فهمیدن بقیه همین است.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s3.st1">ترمینال را باز کن و فرمان نصب یک‌خطی صفحهٔ رسمی را بچسبان. در مک و لینوکس یک خط <em>curl</em>، در ویندوز یک خط <em>PowerShell</em>. این فرمان ممکن است از نسخه‌ای به نسخهٔ دیگر عوض شود؛ همیشه همان صفحهٔ رسمی را بگیر.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s3.st2">در ترمینال به پوشه‌ای که می‌خواهی در آن کار کنی برو و بنویس <em>claude</em>. بار اول مرورگر باز می‌شود و با حسابت وارد می‌شوی. اگر اشتراک کلود داری، شامل است؛ وگرنه کلیدی که به‌اندازهٔ مصرف پول می‌دهی هم کار می‌کند.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s3.st3">یک خط گفت‌وگو ظاهر می‌شود. همین. حالا در آن پوشه با من حرف می‌زنی — مثل پنجرهٔ گفت‌وگو، اما با دست.</span></li>
+      </ol>
+      <div class="code" aria-label="Kurulum komutları"><span class="code__l"><i data-i18n="ch4.s3.c1"># مک / لینوکس — خط به‌روز صفحهٔ رسمی را بگیر</i></span><span class="code__l"><b>curl</b> -fsSL https://claude.ai/install.sh | bash</span><span class="code__l code__l--gap"></span><span class="code__l"><i data-i18n="ch4.s3.c2"># بعد: وارد پوشه شو، شروع کن</i></span><span class="code__l"><b>cd</b> ajans-site</span><span class="code__l"><b>claude</b></span></div>
+      <div class="glass note">
+        <p data-i18n="ch4.s3.note">اینکه در کدام پوشه شروع می‌کنی مهم است: آن پوشه میز من می‌شود. برای کل رایانه‌ات یکی باز نکن، برای هر کار یک پوشه — «سایت-آژانس»، «گزارش‌ها»، «مشتری-ایکس». میز مرتب کار تو و مرا آسان می‌کند؛ در بخش ۱۶ به دلیل امنیتی هم به این برمی‌گردیم.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⚙️</span><span data-i18n="ch4.s3.do">همین حالا انجام بده: نصب کن. بعد روی دسکتاپ پوشه‌ای خالی به نام «کارگاه» بساز، در ترمینال واردش شو و بنویس <em>claude</em>. وارد شو. اگر خط گفت‌وگو را می‌بینی، آماده‌ای.</span></p>
+    </section>
+
+    <!-- ===== 04 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">04</span><span data-i18n="ch4.s4.title">اولین کارت، گام‌به‌گام</span></h2>
+      <p data-i18n="ch4.s4.p1">انیمیشن پایین نشان می‌دهد در یک کار واقعیِ نخست در ترمینال چه می‌گذرد: عوض‌کردن شمارهٔ تلفن یک سایت. خودش پیش می‌رود و می‌توانی روی گام‌ها کلیک کنی.</p>
+      <figure class="term" data-term>
+        <span class="term__cap font-mono" data-i18n="ch4.fig.term.cap">اولین کار در ترمینال</span>
+        <div class="term__stage" data-step="1">
+          <div class="term__top" aria-hidden="true"><i></i><i></i><i></i><span class="term__title font-mono">~/ajans-site</span></div>
+          <div class="term__body">
+            <span class="term__l term__l--me is-end" data-s="1"><b>$</b> claude</span>
+            <span class="term__l term__l--dim" data-s="2" data-i18n="ch4.fig.term.l2">Claude Code · پوشه: سایت-آژانس · ۱۴ فایل</span>
+            <span class="term__l term__l--me is-end" data-s="2" data-i18n="ch4.fig.term.l3"><b>&gt;</b> شمارهٔ تلفن قدیمی سایت را با ۰۵۳۲ ۹۹۹ ۸۸ ۷۷ عوض کن؛ بعد بگو کجاها عوض کردی.</span>
+            <span class="term__l term__l--dim" data-s="3" data-i18n="ch4.fig.term.l4">می‌خوانم: index.html ✓ · tamas.html ✓ · footer.html ✓</span>
+            <span class="term__l is-end" data-s="3" data-i18n="ch4.fig.term.l5">شمارهٔ قدیمی در دو فایل و سه جا آمده است. هر سه را عوض می‌کنم.</span>
+            <span class="term__l term__l--del" data-s="4">- &lt;a href="tel:+905321112233"&gt;0532 111 22 33&lt;/a&gt;</span>
+            <span class="term__l term__l--add" data-s="4">+ &lt;a href="tel:+905329998877"&gt;0532 999 88 77&lt;/a&gt;</span>
+            <span class="term__l term__l--q is-end" data-s="4" data-i18n="ch4.fig.term.l8">index.html را عوض کنم؟ <em>[بله] [نه] [به همه بله]</em></span>
+            <span class="term__l term__l--ok" data-s="5" data-i18n="ch4.fig.term.l9">✓ ۲ فایل عوض شد، ۳ خط.</span>
+            <span class="term__l is-end" data-s="5" data-i18n="ch4.fig.term.l10">در صفحهٔ اصلی یک جا و در صفحهٔ تماس دو جا عوض کردم. شمارهٔ دیگری در سایت نیست. ذخیره کنم؟</span>
+          </div>
+        </div>
+        <ol class="term__steps">
+          <li><button type="button" data-go="1"><span class="term__e" aria-hidden="true">▶️</span><span data-i18n="ch4.fig.term.s1">در پوشه «claude» بنویس</span></button></li>
+          <li><button type="button" data-go="2"><span class="term__e" aria-hidden="true">💬</span><span data-i18n="ch4.fig.term.s2">خواسته را با جملهٔ ساده بنویس</span></button></li>
+          <li><button type="button" data-go="3"><span class="term__e" aria-hidden="true">🔍</span><span data-i18n="ch4.fig.term.s3">فایل‌ها را می‌خواند، نقشه را می‌گوید</span></button></li>
+          <li><button type="button" data-go="4"><span class="term__e" aria-hidden="true">✅</span><span data-i18n="ch4.fig.term.s4">تغییر را نشان می‌دهد، اجازه می‌خواهد</span></button></li>
+          <li><button type="button" data-go="5"><span class="term__e" aria-hidden="true">📋</span><span data-i18n="ch4.fig.term.s5">انجام می‌دهد، خلاصه می‌کند، دربارهٔ ذخیره می‌پرسد</span></button></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.term.fc">این یک نقاشی است، نه تصویر صفحه؛ رنگ‌ها و نام دکمه‌ها از نسخه‌ای به نسخهٔ دیگر عوض می‌شوند. آنچه عوض نمی‌شود جریان است: تو می‌خواهی، من می‌خوانم، نشان می‌دهم و می‌پرسم، تو تأیید می‌کنی، من انجام می‌دهم و تعریف می‌کنم.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s4.p2">به گام چهارم دقت کن: تغییر را <strong class="text-fg">پیش از انجام</strong> نشان می‌دهم. خط منفی حالت قدیم است و خط مثبت حالت نو. لازم نیست کد بخوانی؛ فقط به تفاوت قدیم و نو نگاه می‌کنی. این «نشان‌دادن تفاوت» در سراسر این فصل پیش می‌آید — و بزرگ‌ترین ضمانت توست.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🚀</span><span data-i18n="ch4.s4.do">همین حالا انجام بده: در پوشهٔ «کارگاه» این را به من بنویس: «در این پوشه فایلی به نام notlar.md بساز و تاریخ امروز و عبارت 'اولین کار' را در آن بنویس.» بگذار بپرسم، نگاه کن، بپذیر. فایل روی دسکتاپ ظاهر می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 05 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">05</span><span data-i18n="ch4.s5.title">دروازهٔ اجازه: کِی می‌پرسم</span></h2>
+      <p data-i18n="ch4.s5.p1">با چیزی کار می‌کنی که روی رایانه‌ات دست دارد؛ نخستین پرسشت باید این باشد: «خودش چه کار می‌کند؟» پاسخ سه دروازه است و همه را تو تنظیم می‌کنی.</p>
+      <figure class="perm">
+        <span class="perm__cap font-mono" data-i18n="ch4.fig.perm.cap">سه دروازه</span>
+        <div class="perm__row">
+          <div class="perm__g perm__g--open"><span class="perm__door" aria-hidden="true">📖</span><b data-i18n="ch4.fig.perm.t1">خواندن</b><i data-i18n="ch4.fig.perm.d1">خواندن، جست‌وجو و فهمیدن فایل‌های پوشه.</i><small data-i18n="ch4.fig.perm.s1">نمی‌پرسم</small></div>
+          <div class="perm__g perm__g--ask"><span class="perm__door" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.perm.t2">تغییر، اجرا</b><i data-i18n="ch4.fig.perm.d2">نوشتن فایل، اجرای فرمان، نصب چیزی.</i><small data-i18n="ch4.fig.perm.s2">نشان می‌دهم، می‌پرسم</small></div>
+          <div class="perm__g perm__g--lock"><span class="perm__door" aria-hidden="true">🔒</span><b data-i18n="ch4.fig.perm.t3">برگشت‌ناپذیر</b><i data-i18n="ch4.fig.perm.d3">حذف، فرستادن به بیرون، انتشار، پرداخت.</i><small data-i18n="ch4.fig.perm.s3">همیشه تو</small></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.perm.fc">این تنظیم پیش‌فرض است. دروازهٔ دوم را می‌توانی به «نشان نده، انجام بده» باز کنی؛ پیشنهاد من این است که سومی را باز نکنی — همان قاعدهٔ فصل ۳ دربارهٔ ندادن ابزار برگشت‌ناپذیر به عامل.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s5.p2">این دروازه‌ها با تنظیمی به نام «حالت اجازه» عوض می‌شوند. در آغاز <strong class="text-fg">هر تغییر را می‌پرسم</strong>. وقتی به من اعتماد کردی می‌توانی بگویی «تغییر فایل‌ها را بی‌پرسش انجام بده»؛ جلوتر حالتی خودکار هست که کارهای خطرناک را خودش غربال می‌کند. در ترمینال با یک ترکیب کلید بین حالت‌ها جابه‌جا می‌شوی؛ اینکه در کدام حالتی، پایین صفحه نوشته می‌شود.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s5.note">نصیحت صادقانه: هفتهٔ اول در همان حالتی بمان که همه‌چیز را می‌پرسم. کسل‌کننده به نظر می‌رسد؛ اما در هر تأیید یک تفاوت می‌خوانی و یک هفته بعد شهودی می‌دانی چه می‌کنم. اعتماد از حالت «هرگز نپرس» نمی‌آید، از صد بار «بله» گفتن می‌آید.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🚪</span><span data-i18n="ch4.s5.do">همین حالا انجام بده: به من بگو «همهٔ فایل‌های این پوشه را پاک کن». ببین که بی‌پرسش انجامش نمی‌دهم، حتی هشدارت می‌دهم. بعد بگو «نه». این همان دروازهٔ سوم است.</span></p>
+    </section>
+
+    <!-- ===== 06 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">06</span><span data-i18n="ch4.s6.title">اول نقشه، بعد کار</span></h2>
+      <p data-i18n="ch4.s6.p1">در کارهای کوچک مستقیم انجام می‌دهم. در کارهای بزرگ — «به سایت بخش وبلاگ اضافه کن»، «از این جدول برای هر مشتری گزارش بساز» — مستقیم انجام‌دادن اشتباه است: وسط راه تصمیمی می‌گیرم که تو نمی‌خواستی. برای همین <strong class="text-fg">حالت نقشه</strong> هست: می‌خوانم، فکر می‌کنم، گام‌ها را می‌نویسم، اما به هیچ فایلی دست نمی‌زنم. تو نقشه را می‌خوانی، اصلاح می‌کنی، تأیید می‌کنی؛ کار بعد از آن شروع می‌شود.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--weak">
+          <span class="compare__tag" data-i18n="ch4.s6.weak">مستقیم</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.weakText">به سایت وبلاگ اضافه کن.</p>
+          <p class="compare__note" data-i18n="ch4.s6.weakNote">انجام می‌دهم — اما کجا، با کدام طرح، با تغییر کدام فایل‌ها؟ با تصمیم خودم. بعد می‌گویی «من این‌طور نخواسته بودم»، برمی‌گردانیم، وقت می‌رود.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s6.strong">اول نقشه</span>
+          <p class="compare__text font-mono" data-i18n="ch4.s6.strongText">می‌خواهم به سایت وبلاگ اضافه کنم. اول نقشه بکش: کدام فایل‌ها عوض می‌شوند، صفحه چطور دیده می‌شود، چقدر طول می‌کشد. تا تأیید نکرده‌ام به چیزی دست نزن.</p>
+          <p class="compare__note" data-i18n="ch4.s6.strongNote">نقشه‌ای پنج‌بندی می‌آید. تو بند دوم را عوض می‌کنی و می‌گویی «باشد». وسط راه غافلگیری نیست.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s6.p2">فرمول فصل ۲ را به یاد بیاور: نقش، زمینه، وظیفه، محدودیت، قالب. خواستن نقشه یک محدودیت است — «تا تأیید نکرده‌ام دست نزن». و نقشهٔ خوب دقیقاً همان قاعدهٔ «مجال فکر» فصل ۲ است: اول فکر، بعد نوشتن.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🗺️</span><span data-i18n="ch4.s6.do">همین حالا انجام بده: یکی از کارهای ۰۱ را در حالت نقشه به من بده: «می‌خواهم …، اول نقشه بکش، دست نزن.» نقشه را بخوان. یک بند را عوض کن. هنوز تأیید نکن — وقتی ۰۷ را تمام کردی تأیید می‌کنی.</span></p>
+    </section>
+
+    <!-- ===== 07 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">07</span><span data-i18n="ch4.s7.title">مغز: CLAUDE.md</span></h2>
+      <p data-i18n="ch4.s7.p1">در هر نشست تازه پوشه را از صفر می‌بینم: نمی‌دانم چه کاری می‌کنی، از کدام قاعده‌ها پیروی می‌کنی و به چه چیزی «هرگز» گفته‌ای. به‌جای گفتن این‌ها در هر بار، یک بار می‌نویسی: فایلی به نام <strong class="text-fg">CLAUDE.md</strong> درون پوشه. هر بار که شروع می‌کنم، اول آن را می‌خوانم. آن فایل مغز من در آن پروژه است؛ «مغز ویژه»‌ای که روی کارت وعده داده شده دقیقاً همین است.</p>
+      <figure class="mind">
+        <span class="mind__cap font-mono" data-i18n="ch4.fig.brain.cap">آنچه در هر نشست اول می‌خوانم</span>
+        <div class="mind__row">
+          <div class="mind__stack">
+            <div class="mind__lay" style="--i:0"><b data-i18n="ch4.fig.brain.t1">عمومی</b><i data-i18n="ch4.fig.brain.d1">در همهٔ پروژه‌ها معتبر: زبانت، لحنت، «مرا این‌طور صدا کن».</i><code>~/.claude/CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:1"><b data-i18n="ch4.fig.brain.t2">پروژه</b><i data-i18n="ch4.fig.brain.d2">قاعده‌های این پوشه: چه کاری، کدام فایل‌ها مهم‌اند، به چه چیزی دست نمی‌زنیم.</i><code>./CLAUDE.md</code></div>
+            <div class="mind__lay" style="--i:2"><b data-i18n="ch4.fig.brain.t3">شخصی</b><i data-i18n="ch4.fig.brain.d3">فقط روی دستگاه خودت؛ با تیم به اشتراک گذاشته نمی‌شود.</i><code>./CLAUDE.local.md</code></div>
+            <div class="mind__lay" style="--i:3"><b data-i18n="ch4.fig.brain.t4">حافظهٔ خودکار</b><i data-i18n="ch4.fig.brain.d4">آنچه در نشست‌ها می‌آموزم در یادداشت خودم می‌نویسم؛ دفعهٔ بعد می‌خوانم.</i><code>memory/</code></div>
+          </div>
+          <div class="mind__me"><b data-i18n="ch4.fig.brain.me">من</b><i data-i18n="ch4.fig.brain.meSub">در هر نشست</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.brain.fc">از بالا به پایین می‌خوانم؛ پایینی بالایی را کامل می‌کند. برای بیشتر کارها یک فایل پروژه بس است. نام‌ها و جاها ممکن است از نسخه‌ای به نسخهٔ دیگر عوض شوند؛ ایده عوض نمی‌شود: یک بار بنویس، هر بار خوانده شود.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s7.p2">درونش چه می‌نویسی؟ شکل ماندگار فرمول فصل ۲: <strong class="text-fg">نقش</strong> («این سایت یک آژانس است، ترکی، طلایی-سیاه»)، <strong class="text-fg">محدودیت‌ها</strong> («به صفحهٔ قیمت دست نزن»، «بعد از هر تغییر آزمون‌ها را اجرا کن»)، <strong class="text-fg">قالب</strong> («خلاصهٔ ترکی بده، اصطلاح‌های فنی را توضیح بده»). فرمان <em>/init</em> هم هست: کاری می‌کند که من به پوشه نگاه کنم و پیش‌نویس اول را بنویسم؛ تو اصلاحش می‌کنی.</p>
+      <div class="code" aria-label="Örnek CLAUDE.md"><span class="code__l"><b data-i18n="ch4.s7.c1"># سایت آژانس</b></span><span class="code__l" data-i18n="ch4.s7.c2">سایت ایستا؛ منبع ترکی، de/en/fa خودکار ساخته می‌شوند.</span><span class="code__l" data-i18n="ch4.s7.c3">- به صفحهٔ قیمت دست نزن؛ اگر تغییری لازم است، اول بپرس.</span><span class="code__l" data-i18n="ch4.s7.c4">- بعد از هر تغییر: node tools/build.mjs را اجرا کن.</span><span class="code__l" data-i18n="ch4.s7.c5">- خلاصهٔ ترکی بده؛ اصطلاح فنی را در یک جمله توضیح بده.</span><span class="code__l" data-i18n="ch4.s7.c6">- فرستادن به بیرون، انتشار، حذف: همیشه بپرس.</span></div>
+      <p class="do"><span class="do__e" aria-hidden="true">🧠</span><span data-i18n="ch4.s7.do">همین حالا انجام بده: در پوشهٔ «کارگاه» به من بنویس «/init». فایل CLAUDE.md ساخته‌شده را باز کن و یک قاعدهٔ «هرگز» و یک قاعدهٔ «همیشه» اضافه کن. بعد نقشهٔ ۰۶ را تأیید کن — حالا با دانستن قاعده‌هایت کار می‌کنم.</span></p>
+    </section>
+
+    <!-- ===== 08 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">08</span><span data-i18n="ch4.s8.title">حافظه: چه چیزی را به یاد می‌آورم و چه چیزی را نه</span></h2>
+      <p data-i18n="ch4.s8.p1">در فصل ۱ صادق بودم: هر گفت‌وگو از صفر شروع می‌شود. در ترمینال این قاعده کمی نرم می‌شود؛ اما اگر ندانی چطور، دلخور می‌شوی و می‌گویی «دیروز که حرف زدیم». سه لایه:</p>
+      <div class="fact">
+        <span class="fact__n font-mono">1</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f1.t">نشست</h3>
+          <p data-i18n="ch4.s8.f1.p">تا وقتی ترمینال را نبسته‌ای همه‌چیز را به یاد دارم. با بستن، نشست از بین نمی‌رود؛ با «از همان‌جا که ماندیم ادامه بده» دوباره بازش می‌کنی. اما اگر نشست تازه‌ای باز کنی، آن گفت‌وگو روی میز نیست.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">2</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f2.t">وقتی پنجرهٔ زمینه پر می‌شود</h3>
+          <p data-i18n="ch4.s8.f2.p">میز کار فصل ۱ اینجا هم هست و در کار طولانی پر می‌شود. وقتی پر شد، گفت‌وگو را خلاصه می‌کنم تا جا باز شود؛ با <em>/compact</em> خودت هم می‌توانی این را بخواهی. در خلاصه‌کردن جزئیات از دست می‌رود — به همین دلیل تصمیم‌های مهم باید در CLAUDE.md نوشته شوند.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <span class="fact__n font-mono">3</span>
+        <div>
+          <h3 class="font-display" data-i18n="ch4.s8.f3.t">یادداشت‌های ماندگار</h3>
+          <p data-i18n="ch4.s8.f3.p">CLAUDE.md را تو می‌نویسی؛ حافظهٔ خودکار را من. وقتی اصلاحی می‌کنی («گزارش‌ها را همیشه به تاریخ جمعه بنویس») یادداشتش می‌کنم و در نشست بعدی به یاد می‌آورم. گفتن «این را به خاطر بسپار» کافی است؛ آنچه نگه داشته‌ام را با <em>/memory</em> می‌بینی و پاک می‌کنی.</p>
+        </div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s8.note">قاعده: <strong class="text-fg">آنچه مهم است در گفت‌وگو نماند، به فایل برود.</strong> یک قاعده، یک تصمیم، یک «این کار را دیگر نکن» — همه در CLAUDE.md. گفت‌وگو خلاصه می‌شود، فایل نه.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💾</span><span data-i18n="ch4.s8.do">همین حالا انجام بده: ترمینال را ببند. دوباره باز کن، با گزینهٔ «از همان‌جا که ماندیم ادامه بده» وارد شو و بپرس «آخرین کاری که کردیم چه بود؟». بعد نشستی تازه باز کن و همین را بپرس. تفاوت را ببین.</span></p>
+    </section>
+
+    <!-- ===== 09 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">09</span><span data-i18n="ch4.s9.title">مهارت چیست</span></h2>
+      <p data-i18n="ch4.s9.p1">CLAUDE.md قاعده‌های عمومی است که در هر نشست خوانده می‌شود. اما بعضی کارها دستور کار ویژهٔ خودشان را دارند: گزارش هفتگی، ساختن پوشه برای مشتری تازه، آماده‌کردن عکس‌ها برای سایت. به‌جای نوشتن آن دستور در هر بار، یک <strong class="text-fg">مهارت</strong> می‌سازی: یک پوشه، درونش فایلی به نام SKILL.md و در فایل، دستور کار. بعد با یک کلمه صدایش می‌زنی؛ یا وقتی نام کار را بشنوم خودم پیدایش می‌کنم.</p>
+      <figure class="skillcard">
+        <span class="skillcard__cap font-mono" data-i18n="ch4.fig.skill.cap">کالبدشکافی یک SKILL.md</span>
+        <div class="skillcard__row">
+          <div class="skillcard__file" aria-label="SKILL.md"><span class="code__l skillcard__fm">---</span><span class="code__l skillcard__fm"><b>name:</b> <em>haftalik-rapor</em></span><span class="code__l skillcard__fm"><b>description:</b> <em class="code__v" data-i18n="ch4.fig.skill.desc">گزارش هفتگی مشتریان آژانس را آماده می‌کند. وقتی «گزارش هفتگی» گفته شد به کار ببر.</em></span><span class="code__l skillcard__fm">---</span><span class="code__l" data-i18n="ch4.fig.skill.b1">۱. جدول‌های این هفته در پوشهٔ data/ را بخوان.</span><span class="code__l" data-i18n="ch4.fig.skill.b2">۲. برای هر مشتری سه خط: کار انجام‌شده، نتیجه، گام بعدی.</span><span class="code__l" data-i18n="ch4.fig.skill.b3">۳. ترکی، نه رسمی اما دقیق؛ حداکثر یک صفحه.</span><span class="code__l" data-i18n="ch4.fig.skill.b4">۴. با نام raporlar/YYYY-HH.md ذخیره کن؛ پیش از فرستادن به من نشان بده.</span></div>
+          <ol class="skillcard__notes">
+            <li><span class="skillcard__n">1</span><span data-i18n="ch4.fig.skill.n1"><b>نام.</b> نام پوشه؛ با «/haftalik-rapor» صدایش می‌زنی.</span></li>
+            <li><span class="skillcard__n">2</span><span data-i18n="ch4.fig.skill.n2"><b>کِی.</b> توضیح برای من است: وقتی نام کار را بشنوم خودم این دستور را پیدا می‌کنم.</span></li>
+            <li><span class="skillcard__n">3</span><span data-i18n="ch4.fig.skill.n3"><b>دستور کار.</b> گام‌ها، محدودیت‌ها، قالب — فرمول فصل ۲، نوشته‌شده در یک فایل.</span></li>
+          </ol>
+        </div>
+        <figcaption data-i18n="ch4.fig.skill.fc">مهارت‌ها درون پروژه زیر ‎.claude/skills/‎ می‌مانند؛ اگر بخواهی در هر پروژه معتبر باشد، در پوشهٔ خانگی‌ات می‌گذاری. اگر همان فایل را به همکارت بدهی، همان کار را به همان شکل می‌گیرد.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s9.p2">فرق مهارت و CLAUDE.md ساده است: CLAUDE.md <em>همیشه</em> خوانده می‌شود، پس باید کوتاه بماند. مهارت <em>در صورت نیاز</em> خوانده می‌شود، پس می‌تواند بلند باشد. قاعدهٔ عمومی در مغز، دستور کار در مهارت.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🧩</span><span data-i18n="ch4.s9.do">همین حالا انجام بده: کاری را انتخاب کن که هفته‌ای یک بار و هر بار یکسان انجام می‌دهی. گام‌هایش را روی کاغذ بنویس: چه خوانده می‌شود، چه ساخته می‌شود، با چه قالبی، کجا ذخیره می‌شود. در بخش بعد آن را به فایل تبدیل می‌کنیم.</span></p>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">10</span><span data-i18n="ch4.s10.title">اولین مهارتت را بنویس</span></h2>
+      <p data-i18n="ch4.s10.p1">لازم نیست فایل را دستی بنویسی؛ به من می‌نویسانی. اما باید بدانی چه می‌خواهی — همان چیزی که در بخش پیش روی کاغذ نوشتی.</p>
+      <ol class="steps">
+        <li><span class="steps__n font-mono">1</span><span data-i18n="ch4.s10.st1">به من بگو: «زیر ‎.claude/skills/‎ مهارتی به نام 'haftalik-rapor' بساز. دستور کار این است: …» و گام‌های روی کاغذ را بچسبان.</span></li>
+        <li><span class="steps__n font-mono">2</span><span data-i18n="ch4.s10.st2">بخواه فایلی که ساخته‌ام را نشانت بدهم. آیا خط توضیح نام کار را دارد؟ آیا در دستور کار قالب و محل ذخیره هست؟ اگر کم است، بگذار اصلاح کنم.</span></li>
+        <li><span class="steps__n font-mono">3</span><span data-i18n="ch4.s10.st3">صدایش بزن: «/haftalik-rapor». ببین کار می‌کند. بعد فقط بگو «گزارش هفتگی را آماده کن» — باید بدون گفتن نامش پیدایش کنم.</span></li>
+        <li><span class="steps__n font-mono">4</span><span data-i18n="ch4.s10.st4">خروجی اول را اصلاح کن: «عنوان‌ها را کوتاه کن»، «قالب تاریخ این‌طور باشد». اصلاح را در گفت‌وگو رها نکن؛ در فایل مهارت اعمالش کن. دفعهٔ بعد درست می‌آید.</span></li>
+      </ol>
+      <div class="glass note">
+        <p data-i18n="ch4.s10.note">بعضی کارها را می‌خواهی فقط خودت شروع کنی — مثل «فاکتورها را بفرست». بالای مهارت تنظیم «فقط وقتی من صدا زدم» را می‌گذاری؛ آن‌وقت چون نام کار آمده خودم شروعش نمی‌کنم. این همتای گام تأیید در فصل ۳ است.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🛠️</span><span data-i18n="ch4.s10.do">همین حالا انجام بده: چهار گام را امروز تمام کن. اولین مهارتت لازم نیست بی‌نقص باشد؛ در اجرای سوم می‌شود. مهم این است که نام یک کار حالا یک فرمان است.</span></p>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">11</span><span data-i18n="ch4.s11.title">زیرعامل‌ها: تقسیم کار</span></h2>
+      <p data-i18n="ch4.s11.p1">در کار بزرگ یک میز پر می‌شود: خواندن صد فایل، بعد نوشتن، بعد بررسی در یک پنجرهٔ زمینه جا نمی‌شود و اگر هم جا شود کند است. راه‌حل، تقسیم کار میان <strong class="text-fg">زیرعامل‌ها</strong>ست: هرکدام نسخه‌ای از من با میز خودش، به یک کار می‌پردازد و نتیجه‌اش را برایم می‌آورد. همان «هزاران نسخه در یک لحظه» فصل ۱ که اینجا به کار تو می‌آید.</p>
+      <figure class="team">
+        <span class="team__cap font-mono" data-i18n="ch4.fig.team.cap">یک سرپرست، سه دستیار</span>
+        <div class="team__row">
+          <div class="team__main"><b data-i18n="ch4.fig.team.main">من</b><i data-i18n="ch4.fig.team.mainSub">کار را تقسیم می‌کند، نتیجه را جمع می‌کند</i></div>
+          <div class="team__subs">
+            <div class="team__sub" style="--i:0"><span aria-hidden="true">🔎</span><b data-i18n="ch4.fig.team.s1">پژوهشگر</b><i data-i18n="ch4.fig.team.s1s">صد فایل می‌خواند، خلاصه درمی‌آورد</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:1"><span aria-hidden="true">✍️</span><b data-i18n="ch4.fig.team.s2">نویسنده</b><i data-i18n="ch4.fig.team.s2s">از خلاصه گزارش را می‌نویسد</i><span class="team__bar" aria-hidden="true"></span></div>
+            <div class="team__sub" style="--i:2"><span aria-hidden="true">🧐</span><b data-i18n="ch4.fig.team.s3">بازرس</b><i data-i18n="ch4.fig.team.s3s">گزارش را با قاعده‌ها می‌سنجد</i><span class="team__bar" aria-hidden="true"></span></div>
+          </div>
+          <div class="team__out"><b data-i18n="ch4.fig.team.out">نتیجه</b><i data-i18n="ch4.fig.team.outSub">یک گزارش، برای تو</i></div>
+        </div>
+        <figcaption data-i18n="ch4.fig.team.fc">هر دستیار میز خودش را دارد؛ صد فایلی که یکی می‌خواند میز دیگری را پر نمی‌کند. کارهای مستقل هم‌زمان پیش می‌روند. تو فقط با میز اصلی حرف می‌زنی.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s11.p2">تعریف زیرعامل شبیه تعریف مهارت است: یک فایل، بالایش نام و «کِی به کار می‌رود»، در متن نقش آن دستیار. اینکه از کدام ابزارها می‌تواند استفاده کند را هم می‌نویسی — مثل «بازرس فقط می‌خواند، چیزی را عوض نمی‌کند». قاعدهٔ فصل ۳ دربارهٔ ندادن ابزار برگشت‌ناپذیر به عامل اینجا هم معتبر است.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s11.note">بیشتر کارها به زیرعامل نیاز ندارند؛ در صورت نیاز خودم تقسیم می‌کنم. آنچه با تعریف خودت به دست می‌آوری <em>تکرارپذیری</em> است: همان بازرس هر گزارش را با همان چشم می‌خواند. برای یک آژانس یعنی کنترل کیفیت دیگر به نیروی انسانی بند نیست.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">👥</span><span data-i18n="ch4.s11.do">همین حالا انجام بده: به من بگو «زیرعاملی فقط‌خواندنی به نام 'denetci' تعریف کن: هر چیزی در گزارش که با قاعده‌های CLAUDE.md مغایر است را فهرست کند». بعد خروجی اولین مهارتت را به او بسپار.</span></p>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">12</span><span data-i18n="ch4.s12.title">چرخهٔ کار</span></h2>
+      <p data-i18n="ch4.s12.p1">وقتی کاری به من می‌دهی، درون همیشه همان چرخه می‌چرخد. دانستنش کمک می‌کند بفهمی چرا چه می‌پرسم و کجا گیر می‌کنم.</p>
+      <figure class="toolflow">
+        <span class="toolflow__cap font-mono" data-i18n="ch4.fig.loop.cap">درون یک وظیفه</span>
+        <ol class="toolflow__row">
+          <li class="toolflow__st" style="--i:0"><span class="toolflow__e" aria-hidden="true">📖</span><b data-i18n="ch4.fig.loop.s1t">می‌خوانم</b><i data-i18n="ch4.fig.loop.s1s">CLAUDE.md، فایل‌های مربوط، تصمیم‌های پیشین</i></li>
+          <li class="toolflow__st" style="--i:1"><span class="toolflow__e" aria-hidden="true">🗺️</span><b data-i18n="ch4.fig.loop.s2t">نقشه می‌کشم</b><i data-i18n="ch4.fig.loop.s2s">کدام فایل‌ها، به چه ترتیب؛ اگر بزرگ باشد از تو می‌پرسم</i></li>
+          <li class="toolflow__st" style="--i:2"><span class="toolflow__e" aria-hidden="true">✏️</span><b data-i18n="ch4.fig.loop.s3t">تغییر می‌دهم</b><i data-i18n="ch4.fig.loop.s3s">با نشان‌دادن تفاوت، با تأیید تو</i></li>
+          <li class="toolflow__st" style="--i:3"><span class="toolflow__e" aria-hidden="true">🧪</span><b data-i18n="ch4.fig.loop.s4t">راستی‌آزمایی می‌کنم</b><i data-i18n="ch4.fig.loop.s4s">اجرا می‌کنم، آزمون می‌گیرم، نتیجه را می‌خوانم؛ خراب بود، از نو</i></li>
+          <li class="toolflow__st" style="--i:4"><span class="toolflow__e" aria-hidden="true">💾</span><b data-i18n="ch4.fig.loop.s5t">ذخیره می‌کنم</b><i data-i18n="ch4.fig.loop.s5s">یک نقطهٔ ذخیره با گیت؛ خلاصه‌ای برای تو</i></li>
+        </ol>
+        <figcaption data-i18n="ch4.fig.loop.fc">جعبهٔ چهارم تفاوت را می‌سازد: آنچه ساخته‌ام را اجرا می‌کنم و به نتیجه نگاه می‌کنم. اگر خراب باشد به تو نمی‌گویم «خراب است»؛ درستش می‌کنم و دوباره امتحان می‌کنم. در گفت‌وگو نمی‌توانستم — دست نداشتم.</figcaption>
+      </figure>
+      <p data-i18n="ch4.s12.p2">این چرخه دقیقاً همان چرخهٔ عامل در فصل ۳ است: هدف، فکر، ابزار، نتیجه، بس است یا نه. تفاوت این است: ابزارها رایانهٔ توست و پاسخ «بس است یا نه» را حدس نمی‌زنم — اجرا می‌کنم و می‌بینم.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔁</span><span data-i18n="ch4.s12.do">همین حالا انجام بده: عمداً کاری مبهم به من بده: «این فایل را بهتر کن». ببین چه می‌پرسم. بعد همان کار را با فرمول فصل ۲ بده و ببین چرخه چقدر کوتاه می‌شود.</span></p>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">13</span><span data-i18n="ch4.s13.title">گیت: کارِ برگشت‌پذیر</span></h2>
+      <p data-i18n="ch4.s13.p1">وقتی با چیزی کار می‌کنی که روی رایانه‌ات تغییر می‌دهد، تنها ضمانت واقعی این است: <strong class="text-fg">هر گام برگشت‌پذیر باشد</strong>. ابزارش گیت است. نامش ترسناک است، ایده‌اش ساده: ماشین زمانِ یک پوشه. در هر گام معنادار یک «نقطهٔ ذخیره» می‌گذاری؛ به هر نقطه‌ای که بخواهی برمی‌گردی.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k1.t">نقطهٔ ذخیره</h3><p data-i18n="ch4.s13.k1.p">نامش «کامیت» است. وقتی کاری تمام شد می‌گویی «ذخیره کن»؛ من با یک توضیح نقطهٔ ذخیره می‌گذارم: «شمارهٔ تلفن به‌روز شد». کل تاریخ سایت از همین نقطه‌ها ساخته می‌شود.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k2.t">برگرداندن</h3><p data-i18n="ch4.s13.k2.p">اگر چیزی خراب شد می‌گویی «به نقطهٔ ذخیرهٔ دیروز برگرد». فایل‌ها به همان حالت برمی‌گردند. همین یک جمله کل خطرِ کار با چیزی که روی رایانه‌ات دست دارد را برمی‌دارد.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s13.k3.t">شاخه</h3><p data-i18n="ch4.s13.k3.p">اگر می‌خواهی آزمایش بزرگی بکنی می‌گویی «در شاخه‌ای جدا کار کن»: سایت اصلی دست‌نخورده می‌ماند و آزمایش کنارش پیش می‌رود. اگر پسندیدی ادغام می‌شود، وگرنه پاک.</p></div>
+      </div>
+      <p data-i18n="ch4.s13.p2">لازم نیست فرمان هیچ‌کدام را بدانی؛ جمله‌ها را می‌گویی. اما یک عادت باید در تو بنشیند: <strong class="text-fg">پیش از ذخیره، تفاوت را بخوان.</strong> می‌گویی «چه عوض شد، نشان بده»؛ به خط‌های مثبت و منفی نگاه می‌کنی؛ بعد می‌گویی «ذخیره کن». یک دقیقه طول می‌کشد و جلوی هر غافلگیری را می‌گیرد.</p>
+      <div class="glass note">
+        <p data-i18n="ch4.s13.note">گیت راه انتشار سایتت هم هست: این نقطه‌های ذخیره را جایی مثل گیت‌هاب نگه می‌داری و سایت از همان‌جا منتشر می‌شود. خود این سایت دقیقاً همین‌طور کار می‌کند. در فصل ۵ سایت خودت را از همین راه می‌سازیم؛ دلیل یادگرفتن گیت در همین لحظه همین است.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🕰️</span><span data-i18n="ch4.s13.do">همین حالا انجام بده: در پوشهٔ «کارگاه» به من بگو «این پوشه را با گیت دنبال کن و اولین نقطهٔ ذخیره را بگذار». بعد notlar.md را عوض کن، بگو «چه عوض شد نشان بده»، «ذخیره کن». بعد «به نقطهٔ ذخیرهٔ قبلی برگرد». ماشین زمان کار می‌کند.</span></p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">14</span><span data-i18n="ch4.s14.title">بگذار پروژه‌هایت خودشان پیش بروند</span></h2>
+      <p data-i18n="ch4.s14.p1">روی کارت نوشته «بگذار پروژه‌هایت خودشان پیش بروند». یعنی وقتی پشت ترمینال نیستی هم کار کنم. سه راه هست؛ همه ادامهٔ ایدهٔ محرک در فصل ۳ است.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k1.t">کار زمان‌بندی‌شده</h3><p data-i18n="ch4.s14.k1.p">«هر دوشنبه ساعت ۰۸:۰۰ گزارش هفتگی را آماده کن و نشانم بده.» زمان‌سنجی روی رایانه‌ات یا در ابر مرا بیدار می‌کند، مهارت را اجرا می‌کنم، نتیجه را می‌یابی. همان محرک زمانی فصل ۳، این بار با دست.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k2.t">وقتی چیزی رخ می‌دهد</h3><p data-i18n="ch4.s14.k2.p">مرور تغییری تازه وقتی روی سایت می‌آید، سرزدن وقتی گزارش خطایی باز می‌شود. سکوهایی مثل گیت‌هاب برای این کار مرا به‌عنوان یک «کنش» اجرا می‌کنند. همتای محرک رویدادی.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s14.k3.t">کار طولانی را به عقب بینداز</h3><p data-i18n="ch4.s14.k3.p">«این دویست عکس را مرتب کن، وقتی تمام شد خبر بده.» تو به کار دیگری می‌رسی و من پشت صحنه کار می‌کنم؛ وقتی تمام شد خلاصه می‌آید. لازم نیست منتظر بمانی.</p></div>
+      </div>
+      <div class="glass note">
+        <p data-i18n="ch4.s14.note">هشدار همان هشدار فصل ۳ است: چیزی که خودش کار می‌کند باید <em>اجازه‌های تنگ</em> و <em>جریان خطا</em> داشته باشد. کار زمان‌بندی‌شده کاری برگشت‌ناپذیر نکند؛ اگر چیزی خراب شد پیامی به تو برسد. خودگردانی با پهنای مرز امن نمی‌شود، با روشنی مرز امن می‌شود.</p>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">⏰</span><span data-i18n="ch4.s14.do">همین حالا انجام بده: به من بگو «در این پوشه هر روز ساعت ۰۹:۰۰ تاریخ را به notlar.md اضافه کن» را به‌صورت کار زمان‌بندی‌شده بسازم. فردا نگاه کن. کوچک اما واقعی: وقتی نبودی کار کرد.</span></p>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">15</span><span data-i18n="ch4.s15.title">دست‌ها و گوش‌ها: MCP و قلاب‌ها</span></h2>
+      <p data-i18n="ch4.s15.p1">دو واژهٔ دیگر؛ هر دو پیشرفته‌اند اما ایده‌هایشان ساده است. دانستنشان کافی است، به‌کاربردنشان ضروری نیست.</p>
+      <div class="compare">
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.mcp">MCP · دست به بیرون</span>
+          <p class="compare__note" data-i18n="ch4.s15.mcpNote">در فصل ۳ به عامل ابزار می‌دادی. MCP راه استاندارد دادن ابزارهای بیرون از رایانه‌ات به من است: تقویمت، ایمیلت، جدول‌هایت، مرورگر، گیت‌هاب. یک اتصال اضافه می‌کنی؛ از آن پس وقتی بگویی «به تقویم نگاه کن» نگاه می‌کنم. پرسش «چه چیزی مجاز است» برای هر اتصال باز هم از توست.</p>
+        </div>
+        <div class="compare__col compare__col--strong">
+          <span class="compare__tag" data-i18n="ch4.s15.hook">قلاب · گوش‌ها</span>
+          <p class="compare__note" data-i18n="ch4.s15.hookNote">قاعده‌های کوچکی که در لحظه‌های معین خودشان اجرا می‌شوند: «بعد از هر تغییر فایل آزمون‌ها را اجرا کن»، «هرگز به این فرمان اجازه نده»، «وقتی کار تمام شد به من اعلان بفرست». حتی اگر من فراموش کنم هم انجام می‌شود؛ چون قلاب تصمیم من نیست، قاعدهٔ توست.</p>
+        </div>
+      </div>
+      <p data-i18n="ch4.s15.p2">این تفاوت مهم است: آنچه در CLAUDE.md می‌نویسی قاعده‌ای است که من <em>می‌خوانم و رعایت می‌کنم</em>؛ قلاب را تو <em>به زور اجرا می‌کنی</em>. «به صفحهٔ قیمت دست نزن» به مغز می‌رود؛ «فرمانی که روی صفحهٔ قیمت می‌نویسد را مسدود کن» قلاب می‌شود. چیزهای حیاتی را از نوع دوم بساز.</p>
+      <p class="do"><span class="do__e" aria-hidden="true">🔌</span><span data-i18n="ch4.s15.do">همین حالا انجام بده: فعلاً چیزی راه نینداز. فقط به سه کار ۰۱ نگاه کن و بپرس: کدامشان به ابزاری از بیرون (تقویم، ایمیل، جدول) نیاز دارد؟ یادداشتش کن — در فصل ۵ وصلش می‌کنیم.</span></p>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">16</span><span data-i18n="ch4.s16.title">امنیت و مرزها</span></h2>
+      <p data-i18n="ch4.s16.p1">چیزی که روی رایانه‌ات دست دارد، چیزی است که باید با دقت به کار برود. چهار قاعده؛ همه ادامهٔ قاعده‌های فصل ۱ و ۳.</p>
+      <div class="skills">
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k1.t">میز را تنگ نگه دار</h3><p data-i18n="ch4.s16.k1.p">مرا در پوشهٔ کار شروع کن، نه در کل رایانه‌ات. رمزها، فایل‌های بانکی و مدارک شخصی‌ات در آن پوشه نباشند. آنچه نمی‌بینم را نمی‌توانم به اشتباه عوض کنم.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k2.t">کلید در مغز نوشته نمی‌شود</h3><p data-i18n="ch4.s16.k2.p">در CLAUDE.md رمز، کلید API یا اطلاعات کارت ننویس — آن فایل ممکن است با تیم، حتی به اشتباه با اینترنت به اشتراک گذاشته شود. کلیدها مثل فصل ۳ در گاوصندوقی جدا می‌مانند (متغیر محیطی، فایل ‎.env‎).</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k3.t">حالت «هرگز نپرس» را خاموش نگه دار</h3><p data-i18n="ch4.s16.k3.p">حالتی هست که همهٔ اجازه‌ها را برمی‌دارد؛ فقط در یک ماشین مجازی جدا معنا دارد. روی رایانهٔ خودت هرگز، به‌ویژه در پوشه‌ای ناشناس. وقتی پرسیدن من را کسل‌کننده یافتی، دروازهٔ میانی ۰۵ را باز کن؛ سومی را نه.</p></div>
+        <div class="glass skills__card"><h3 class="font-display" data-i18n="ch4.s16.k4.t">حواست به پوشهٔ بیگانه باشد</h3><p data-i18n="ch4.s16.k4.p">در پروژه‌ای که از اینترنت گرفته‌ای ممکن است قاعده‌ها، مهارت‌ها و قلاب‌هایی برای من نوشته شده باشد — و آن‌ها به نام تو اجرا می‌شوند. هشدار دستور پنهان در فصل ۱: پوشهٔ ناشناس را با پرسیدن «در این پوشه به من چه گفته‌اند؟» باز کن.</p></div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🔐</span><span data-i18n="ch4.s16.do">همین حالا انجام بده: به پوشهٔ «کارگاه» نگاه کن: رمز، کلید یا مدرک شخصی در آن هست؟ اگر هست بیرون بیاور. بعد یک خط به CLAUDE.md اضافه کن: «حذف، فرستادن به بیرون، انتشار: همیشه بپرس.»</span></p>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">17</span><span data-i18n="ch4.s17.title">پنج اشتباه رایج</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m1.t">۱ · «بله» گفتن بدون خواندن تفاوت</h3>
+          <p data-i18n="ch4.s17.m1.p">پنجرهٔ تأیید مانع نیست، کنترل توست. ده ثانیه به خط‌های مثبت و منفی نگاه کن. لازم نیست کد بفهمی؛ «چه پاک شد، چه اضافه شد» کافی است.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m2.t">۲ · خالی گذاشتن CLAUDE.md</h3>
+          <p data-i18n="ch4.s17.m2.p">بعد در هر نشست همان حرف‌ها را می‌زنی و می‌گویی «چرا یادش نمی‌ماند». یک قاعده، یک محدودیت، یک قالب — با سه خط شروع کن و در هر اصلاح یک خط اضافه کن.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m3.t">۳ · دادن کار بزرگ بدون نقشه</h3>
+          <p data-i18n="ch4.s17.m3.p">وسط راه تصمیم‌هایی گرفته می‌شود که نمی‌خواستی، برمی‌گردانی، وقت می‌رود. برای هر کاری بزرگ‌تر از سه فایل: «اول نقشه، دست نزن».</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m4.t">۴ · کارکردن بدون نقطهٔ ذخیره</h3>
+          <p data-i18n="ch4.s17.m4.p">بدون گیت «برگرداندن» نیست. پوشه را روز اول به گیت بسپار؛ بعد از هر کار تمام‌شده بگو «ذخیره کن». این عادت هر اشتباه را به یک دقیقه تبدیل می‌کند.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.s17.m5.t">۵ · رهاکردن اصلاح در گفت‌وگو</h3>
+          <p data-i18n="ch4.s17.m5.p">گفتی «عنوان‌ها را کوتاه کن»، اصلاح کردم، نشست تمام شد — اصلاح رفت. هر اصلاح را در CLAUDE.md یا فایل مهارت اعمال کن. گفت‌وگو فراموش می‌شود، فایل نه.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🩹</span><span data-i18n="ch4.s17.do">همین حالا انجام بده: این پنج را پایین CLAUDE.md به‌عنوان «این‌ها را به من یادآوری کن» بنویس. به‌ویژه ۱ و ۴ — هر دو سرچشمهٔ پرسش «این چطور شد؟» هستند.</span></p>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">18</span><span data-i18n="ch4.s18.title">آنچه همه می‌پرسند</span></h2>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q1">واقعاً بدون بلدبودن کد می‌شود؟</summary><p data-i18n="ch4.faq.a1">هر چیزی در این فصل انجام شد و تو یک خط کد ننوشتی. کد را من می‌نویسم؛ تو خواسته، قاعده و تأیید را می‌دهی. با گذشت زمان و خواندن تفاوت‌ها کمی کد یاد می‌گیری — اما این فرآورده‌ای جانبی است، نه پیش‌نیاز. فصل ۵ این را آگاهانه جلو می‌برد.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q2">ترمینال، برنامهٔ دسکتاپ یا مرورگر؟</summary><p data-i18n="ch4.faq.a2">همان من، سه در. ترمینال برهنه‌ترین و آموزنده‌ترین است؛ برای همین اینجا همان را نصب کردیم. برنامهٔ دسکتاپ همان کار را با پنجره می‌کند. نسخهٔ مرورگر روی رایانه‌ات کار نمی‌کند، روی نسخه‌ای در ابر — برای سپردن کار وقتی نیستی خوب است. یکی را یاد بگیری، هر سه را می‌دانی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q3">اگر چیزی را خراب کند؟</summary><p data-i18n="ch4.faq.a3">خراب می‌کند — روزی حتماً. برای همین سه ضمانت هست: پیش از تغییر تفاوت را نشان می‌دهم، گیت هر گام را برمی‌گرداند، و برای کارهای برگشت‌ناپذیر همیشه می‌پرسم. اگر هر سه روشن باشد، بدترین حالت یک «به نقطهٔ قبلی برگرد» یک‌دقیقه‌ای است.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q4">چقدر خرج دارد؟</summary><p data-i18n="ch4.faq.a4">در اشتراک کلود می‌آید؛ با کلیدی که به‌اندازهٔ مصرف پول می‌دهی هم کار می‌کند. اینکه یک نشست چقدر خرج کرده را در ترمینال با <em>/usage</em> می‌بینی. حسِ تقریبی: یک اصلاح کوچک تقریباً رایگان است؛ کاری صدفایلی یک ناهار. و باز همان قاعدهٔ فصل ۲: خواستهٔ روشن، کار کوتاه، هزینهٔ کم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q5">این همان n8n فصل ۳ است؟</summary><p data-i18n="ch4.faq.a5">خواهر و برادرند. n8n برای جریان‌هایی است که با کلیک می‌سازی و پیوسته کار می‌کنند؛ Claude Code برای کارهایی که با فایل و فرمان انجام می‌شوند. با هم هم کار می‌کنند: n8n در یک جریان مرا صدا می‌زند و من با Claude Code فایلی می‌سازم. در فصل ۵ این دو را به هم می‌رسانیم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.faq.q6">چطور با تیمم به اشتراک بگذارم؟</summary><p data-i18n="ch4.faq.a6">CLAUDE.md، مهارت‌ها و تعریف زیرعامل‌ها همه به‌صورت فایل درون پوشه هستند؛ پوشه را به اشتراک بگذاری، همه می‌روند. همکارت در همان پوشه <em>claude</em> بنویسد، با همان مغز و همان دستورها کار می‌کند. «حافظهٔ سازمانی» یک آژانس دقیقاً همین فایل‌هاست.</p></details>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">💬</span><span data-i18n="ch4.faq.do">همین حالا انجام بده: اگر جایی در ترمینال گیر کردی از من بپرس — نوشتهٔ روی صفحه را همان‌طور که هست بچسبان و بگو «این یعنی چه؟». خروجی ترمینال را خوب می‌خوانم.</span></p>
+    </section>
+
+    <!-- ===== 19 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">19</span><span data-i18n="ch4.s19.title">تمرین‌ها</span></h2>
+      <div class="ex">
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e1.t">۱ · کارگاه را برپا کن</h3>
+          <p data-i18n="ch4.ex.e1.p">نصب، پوشهٔ «کارگاه»، اولین فایل، اولین نقطهٔ ذخیره با گیت. گام‌های ۰۳، ۰۴ و ۱۳.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e1.g"><strong class="text-fg">هدف:</strong> یک بار بتوانی بگویی «از ترمینال نمی‌ترسم».</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e2.t">۲ · مغز را بنویس</h3>
+          <p data-i18n="ch4.ex.e2.p">در CLAUDE.md یک نقش، سه محدودیت و یک قالب بنویس. بعد کاری بده که با قاعده‌ای مغایر باشد و ببین که رد می‌کنم یا می‌پرسم.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e2.g"><strong class="text-fg">هدف:</strong> دیدن اینکه قاعده‌ای که نوشتی واقعاً خوانده می‌شود.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e3.t">۳ · اولین مهارت</h3>
+          <p data-i18n="ch4.ex.e3.p">کاری هفتگی را به مهارت تبدیل کن. سه بار اجرا کن؛ هر بار اصلاح را در فایل اعمال کن.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e3.g"><strong class="text-fg">هدف:</strong> اینکه نام یک کار فرمان شود؛ و در اجرای سوم بدون دست‌زدن درست بیاید.</p>
+        </div>
+        <div class="glass ex__card">
+          <h3 class="font-display" data-i18n="ch4.ex.e4.t">۴ · یک کار واقعی</h3>
+          <p data-i18n="ch4.ex.e4.p">یکی از کارهای «دستی ساعت‌ها طول می‌کشد» در ۰۱ را در حالت نقشه بده. نقشه را اصلاح کن، تأیید کن، تفاوت‌ها را بخوان، ذخیره کن.</p>
+          <p class="ex__goal" data-i18n="ch4.ex.e4.g"><strong class="text-fg">هدف:</strong> اینکه کاری ساعت‌ها طول‌کشیده در یک استراحت چای تمام شود — و هر گامش برگشت‌پذیر بماند.</p>
+        </div>
+      </div>
+      <p class="do"><span class="do__e" aria-hidden="true">🏁</span><span data-i18n="ch4.ex.do">همین حالا انجام بده: اولی را امروز، دومی را فردا. سه و چهار در یک هفته. وقتی چهارمی تمام شد برایم بنویس: چقدر طول کشید و دستی چقدر طول می‌کشید.</span></p>
+    </section>
+
+    <!-- ===== 20 ===== -->
+    <section class="lesson__block" data-reveal>
+      <h2 class="font-display text-h2"><span class="lesson__num font-mono">20</span><span data-i18n="ch4.quiz.title">خودت را بیازما</span></h2>
+      <p data-i18n="ch4.quiz.p1">اول خودت پاسخ بده، بعد باز کن.</p>
+      <div class="quiz">
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q1">فرق Claude Code با کلودِ گفت‌وگو؟</summary><p data-i18n="ch4.quiz.a1">همان ذهن؛ فرقش دست‌هایش است. در یک پوشه فایل می‌خواند و عوض می‌کند، فرمان اجرا می‌کند، نتیجه را می‌بیند، اصلاح می‌کند و ذخیره می‌کند. در گفت‌وگو فقط می‌توانستم متن بدهم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q2">ترمینال، فایل، فرمان — در یک جمله؟</summary><p data-i18n="ch4.quiz.a2">ترمینال پنجره‌ای است که با نوشتن در آن حرف می‌زنی، فایل همان چیزی است که می‌شناسی، فرمان کاری یک‌خطی است. لازم نیست فرمان را حفظ کنی؛ نتیجه را می‌خواهی.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q3">سه دروازه چیست؟</summary><p data-i18n="ch4.quiz.a3">خواندن: نمی‌پرسم. تغییر و اجرا: نشان می‌دهم، می‌پرسم. برگشت‌ناپذیر — حذف، فرستادن، انتشار، پرداخت: همیشه تو.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q4">حالت نقشه کِی به کار می‌رود؟</summary><p data-i18n="ch4.quiz.a4">در هر کاری بزرگ‌تر از سه فایل. می‌خوانم، نقشه را می‌نویسم، دست نمی‌زنم؛ تو اصلاح و تأیید می‌کنی. وسط راه غافلگیری نیست.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q5">CLAUDE.md چیست و درونش چه می‌نویسند؟</summary><p data-i18n="ch4.quiz.a5">فایلی که در هر نشست اول می‌خوانم؛ مغز پروژه. درونش شکل ماندگار فرمول فصل ۲: نقش، محدودیت‌ها، قالب. کوتاه می‌ماند؛ دستور کارها به مهارت می‌روند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q6">فرق مهارت با CLAUDE.md؟</summary><p data-i18n="ch4.quiz.a6">CLAUDE.md همیشه خوانده می‌شود، پس باید کوتاه باشد. مهارت در صورت نیاز خوانده می‌شود و می‌تواند بلند باشد؛ دستور کار یک کار است، با نام صدا زده می‌شود یا وقتی نام کار بیاید خودم پیدایش می‌کنم.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q7">زیرعامل برای چیست؟</summary><p data-i18n="ch4.quiz.a7">کار بزرگ روی یک میز جا نمی‌شود. هر زیرعامل میز خودش را دارد، به یک کار می‌پردازد و نتیجه را به میز اصلی می‌آورد. کارهای مستقل هم‌زمان پیش می‌روند؛ همان بازرس هر گزارش را با همان چشم می‌خواند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q8">سه جملهٔ گیت؟</summary><p data-i18n="ch4.quiz.a8">«ذخیره کن» نقطهٔ ذخیره می‌گذارد. «به نقطهٔ قبلی برگرد» برمی‌گرداند. «در شاخه‌ای جدا کار کن» کار اصلی را نگه می‌دارد. و پیش از ذخیره: «چه عوض شد، نشان بده».</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q9">فرق قلاب با قاعدهٔ CLAUDE.md؟</summary><p data-i18n="ch4.quiz.a9">قاعدهٔ CLAUDE.md را می‌خوانم و رعایت می‌کنم؛ قلاب را تو به زور اجرا می‌کنی — در لحظه‌ای معین خودش اجرا می‌شود. قاعده‌های حیاتی قلاب می‌شوند.</p></details>
+        <details class="glass quiz__item"><summary data-i18n="ch4.quiz.q10">چهار قاعدهٔ امنیتی؟</summary><p data-i18n="ch4.quiz.a10">میز را تنگ نگه دار: در پوشهٔ کار شروع کن. کلید در مغز نوشته نمی‌شود. حالت «هرگز نپرس» خاموش می‌ماند. پوشهٔ بیگانه را با پرسیدن «اینجا به من چه گفته‌اند؟» باز کن.</p></details>
+      </div>
+    </section>
+
+    <!-- ===== Özet + sonraki ===== -->
+    <section class="lesson__block" data-reveal>
+      <div class="glass lesson__recap">
+        <h2 class="font-display text-h3" data-i18n="ch4.recap.title">این فصل در یک جمله</h2>
+        <p data-i18n="ch4.recap.p">مرا در یک پوشه شروع کن، قاعده‌هایم را در CLAUDE.md بنویس، کارهای تکراری را مهارت کن، کارهای بزرگ را نقشه بکش و میان زیرعامل‌ها تقسیم کن، هر گام را با گیت برگشت‌پذیر نگه دار — و در هر چیز برگشت‌ناپذیر حرف آخر را برای خودت نگه دار.</p>
+      </div>
+      <div class="lesson__next">
+        <div>
+          <span class="eyebrow" data-i18n="ch4.next.eyebrow">در ادامه</span>
+          <h3 class="font-display text-h3" data-i18n="ch4.next.title">فصل ۵ · آزمایشگاه</h3>
+          <p data-i18n="ch4.next.p">کارگاه آماده است. در ادامه با آن چیزهای واقعی می‌سازیم: سایت خودت، CRM خودت و FYOS — سیستم‌عامل عاملیِ شخصی‌ات. از صفر، بدون ترس از کد.</p>
+        </div>
+        <span class="btn btn-ghost is-soon" data-i18n="ch4.next.soon">به‌زودی</span>
+      </div>
+    </section>
+
+  </div>
+</article>
+  <div class="readbar" aria-hidden="true"><i></i></div>
+  <a class="totop" href="#top" aria-label="بازگشت به بالا" data-i18n-attr="aria-label=ch4.totop"><span aria-hidden="true">↑</span></a>
+</main>
+
+<footer class="footer">
+  <div class="container-x footer__inner">
+    <div class="footer__brand"><picture><source media="(prefers-reduced-motion: reduce)" srcset="../../img/logo-mark-static.svg"><img class="footer__mark" src="../../img/logo-mark.svg" alt="FY" width="738" height="513" loading="lazy"></picture></div>
+    <div>© <span id="year">2026</span> <span data-i18n="footer.rights">FY — همهٔ حقوق محفوظ است.</span></div>
+    <div class="footer__links"><a href="../index.html" data-i18n="footer.home">صفحهٔ اصلی</a><a href="../terms.html" data-i18n="footer.terms">قوانین و حریم خصوصی</a><a href="../impressum.html">Impressum</a><a href="../portal/login.html" data-i18n="footer.portal">پنل دانشجو</a></div>
+    <div class="lang" role="group" aria-label="زبان" data-i18n-attr="aria-label=lang.label">
+      <a href="../../course/chapter-4.html" data-lang="tr" lang="tr" hreflang="tr">TR</a>
+      <a href="../../de/course/chapter-4.html" data-lang="de" lang="de" hreflang="de">DE</a>
+      <a href="../../en/course/chapter-4.html" data-lang="en" lang="en" hreflang="en">EN</a>
+      <a href="chapter-4.html" data-lang="fa" lang="fa" hreflang="fa" aria-current="page">فا</a>
+    </div>
+  </div>
+</footer>
+<script src="../../js/lang/fa.js?v=5e9022ce"></script><script src="../../js/main.js?v=5e9022ce"></script>
+</body>
+</html>
