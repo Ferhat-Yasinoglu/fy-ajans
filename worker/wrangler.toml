@@ -23,7 +23,7 @@ AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 # sınır uygulanamıyor, o yüzden açık bırakmak yerine kapalı kalıyor.
 [[kv_namespaces]]
 binding = "QUOTA"
-id = "KV_ID_BURAYA"
+id = "ac1964cdbb1e48ce8f2f8df00bb05688"
 
 # Gizli anahtar wrangler.toml'a YAZILMAZ; terminalden girilir:
 #   npx wrangler secret put ANTHROPIC_API_KEY
