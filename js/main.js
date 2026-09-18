@@ -24,10 +24,10 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var raf = window.requestAnimationFrame;
   // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
-  var FYOS_ENDPOINT = '';
+  var FYOS_ENDPOINT = 'https://fy-ajans.ferhatyasinoglu.workers.dev';
   // Sesli yanıt ucu (worker'ın /tts yolu): yanıtları gerçek bir insan sesiyle okutur.
   // Boş bırakılırsa FYOS_ENDPOINT'ten türetilir; ikisi de boşsa tarayıcının kendi sesi kullanılır.
-  var FYOS_VOICE_ENDPOINT = '';
+  var FYOS_VOICE_ENDPOINT = 'https://fy-ajans.ferhatyasinoglu.workers.dev/tts';
   /* Tarayıcı sesini elle sabitlemek için: adın bir parçası yeter ("Emel", "Yelda"…).
      Boşsa ses kendiliğinden seçilir ve kadın sesi tercih edilir. Cihazdaki sesleri görmek
      için konsola: FYOS_VOICE.voices().then(console.log) */

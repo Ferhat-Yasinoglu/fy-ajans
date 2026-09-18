@@ -23,14 +23,14 @@ npx wrangler secret put ANTHROPIC_API_KEY   # İSTEĞE BAĞLI: Claude istiyorsan
 npx wrangler deploy
 ```
 
-Son komut şöyle bir adres verir: `https://fyos-chat.<hesap-adın>.workers.dev`
+Son komut şöyle bir adres verir: `https://fy-ajans.<hesap-adın>.workers.dev`
 
 ## Siteyi bağlama
 
 1. `js/main.js` dosyasının başındaki `FYOS_ENDPOINT` değişkenine bu adresi yaz:
-   `var FYOS_ENDPOINT = 'https://fyos-chat.<hesap-adın>.workers.dev';`
+   `var FYOS_ENDPOINT = 'https://fy-ajans.<hesap-adın>.workers.dev';`
 2. `index.html` içindeki CSP satırında `connect-src 'self'` kısmına aynı adresi ekle:
-   `connect-src 'self' https://fyos-chat.<hesap-adın>.workers.dev`
+   `connect-src 'self' https://fy-ajans.<hesap-adın>.workers.dev`
 3. Commit, push. Bitti: FYOS artık her soruya kendisi cevap verir. Worker'a ulaşılamazsa
    site kendiliğinden hazır yanıtlı çevrimdışı demoya döner.
 
@@ -51,8 +51,8 @@ Dağıtmadan önce sağlayıcı panelinde **aylık harcama tavanını** koy.
 Sonra siteyi worker'a bağla — **tek komut, depo kökünde**:
 
 ```
-node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev            # yalnız ses
-node tools/set-worker.mjs https://fyos-chat.<hesap-adın>.workers.dev --sohbet   # ses + sohbet
+node tools/set-worker.mjs https://fy-ajans.<hesap-adın>.workers.dev            # yalnız ses
+node tools/set-worker.mjs https://fy-ajans.<hesap-adın>.workers.dev --sohbet   # ses + sohbet
 node tools/set-worker.mjs --temizle                                             # bağlantıyı kaldır
 ```
 
