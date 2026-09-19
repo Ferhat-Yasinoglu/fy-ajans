@@ -1154,7 +1154,9 @@
            bitince limited+left:0 döner; «biraz yavaşla» yanıtı busy gelir (eski sürümlerde
            left'siz limited). Karıştırılırsa tek bir 429 sohbeti gün sonuna kadar kapatıyordu. */
         var dayOver = meta && meta.limited && meta.left === 0;
-        var slowDown = meta && !dayOver && (meta.busy || meta.limited);
+        // counted:false = sunucu yanıt üretemedi ve hakkı kendi tarafında iade etti; burada da iade et,
+        // yoksa modelin her arızası ziyaretçinin günlük hakkını yer.
+        var slowDown = meta && !dayOver && (meta.busy || meta.limited || meta.counted === false);
         if (dayOver) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, String(DAILY)); } catch (er) {} }
         else if (slowDown) { quota = Math.min(DAILY, quota + 1); if (left) left.textContent = quota; try { localStorage.setItem(key, String(DAILY - quota)); } catch (er) {} }
         history.push({ role: 'assistant', content: text });
