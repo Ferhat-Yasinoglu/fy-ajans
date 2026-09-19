@@ -55,10 +55,19 @@ https://fy-ajans.<hesap-adın>.workers.dev/health
 Örnek çıktılar:
 
 ```
-{"ok":true,"provider":"workers-ai","model":"@cf/meta/llama-3.1-8b-instruct","tried":["@cf/meta/llama-3.1-8b-instruct"]}
-{"ok":false,"provider":"workers-ai","model":"@cf/meta/llama-3-8b-instruct","code":"5007","tried":[…]}
-{"ok":false,"provider":"anthropic","model":"claude-sonnet-5","code":"401"}
+{"ok":true,"provider":"workers-ai","model":"@cf/meta/llama-3.1-8b-instruct","tried":[…],"voice":"openai","voiceName":"coral","voiceChars":4000}
+{"ok":false,"provider":"workers-ai","model":"@cf/meta/llama-3-8b-instruct","code":"5007","tried":[…],"voice":"off","voiceHint":"npx wrangler secret put OPENAI_API_KEY"}
+{"ok":false,"provider":"anthropic","model":"claude-sonnet-5","code":"401","voice":"off",…}
 ```
+
+**`voice` — «gerçek ses açık mı».** `openai` | `elevenlabs` | `off`. Sağlayıcıya hiç istek atmaz,
+bir kuruş harcamaz ve anahtarın kendisini asla döndürmez, yalnız varlığını. `/health` günlük
+denemesi dolmuş olsa bile (429) bu alan yine döner: sesin kapalı olduğunu öğrenmek için modele
+gitmek gerekmesin diye.
+
+**`off` görüyorsan ses kapalıdır ve site sessizce tarayıcının kendi sesine düşer** — çoğu Android'de
+o ses erkektir. Açmak için aşağıdaki `wrangler secret put` komutu yeter; anahtar depoya da
+`wrangler.toml`'a da girmez.
 
 `code` Workers AI için Cloudflare'in dört haneli kodu (5007 model yok, 5035 ücretli plan gerek,
 3023 hesap engelli, 3036 günlük nöron hakkı bitti, 3040 kapasite yok), Anthropic için HTTP durumu

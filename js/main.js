@@ -1194,6 +1194,13 @@
        Sonraki ziyaretlerde izin zaten verilmişse kendiliğinden açılır — hiç basılmaz.
        Motor js/fyos-voice.js; ancak sesli mod ilk açıldığında indirilir, kapalıyken hiç inmez. */
     var mic = $('#askMic'), vline = $('#askVoice'), vtext = $('#askVoiceText');
+    var vnode = $('#askVoiceNote');
+    /* Gerçek ses düşüş sebebi: her sebep SESLİ OTURUM başına bir kez söylenir. Sayfa ömrü boyunca
+       bir kez olsaydı, sahibi mikrofonu kapatıp yeniden açtığında yine erkek ses duyup hiçbir
+       açıklama göremezdi — düzeltmek istediğimiz döngünün ta kendisi. */
+    var vFell = {};
+    function vnote(k, tr) { if (!vnode) return; vnode.textContent = t(k, tr); vnode.hidden = false; }
+    function vclear() { if (vnode) { vnode.textContent = ''; vnode.hidden = true; } }
     var vcons = $('#voiceConsent'), vconsWhere = $('#voiceConsentWhere');
     var voice = null, vBusy = false, vGreet = 0;
     var VKEY = 'fyos-voice-on', VOK = 'fyos-voice-ok';
@@ -1241,6 +1248,21 @@
         ttsUrl: ttsEndpoint(),
         voiceName: FYOS_VOICE_NAME,
         pitch: typeof FYOS_VOICE_PITCH === 'number' ? FYOS_VOICE_PITCH : null,
+        /* Gerçek ses devreye giremeyince SEBEBİ söyler. Eskiden düşüş tümüyle sessizdi:
+           yanıt tarayıcının kendi sesiyle okunuyordu (çoğu Android'de erkek) ve ne ziyaretçi
+           ne de sahibi nedenini görebiliyordu. Her sebep oturumda bir kez yazılır. */
+        onFallback: function (why) {
+          // null = gerçek ses çalıştı: geçici bir aksaklıktan kalan açıklama ekranda asılı kalmasın,
+          // yoksa satır «ulaşılamadı» derken altında coral sesi konuşuyor olurdu.
+          if (why === null) { vclear(); return; }
+          if (!voice || !voice.isOn()) return;             // mikrofon kapandıktan sonra geç gelen bildirim
+          if (vFell[why]) return;
+          vFell[why] = true;
+          if (why === 'off') vnote('voiceOffKey', 'Gerçek ses şu an kapalı — tarayıcının kendi sesiyle okuyorum.');
+          else if (why === 'limit') vnote('voiceTtsQuota', 'Bugünlük gerçek ses hakkın doldu; tarayıcının kendi sesiyle okuyorum.');
+          else if (why === 'play') vnote('voiceTtsPlay', 'Gerçek ses geldi ama tarayıcı çalamadı; kendi sesiyle okuyorum.');
+          else vnote('voiceTtsFail', 'Gerçek sese ulaşılamadı; tarayıcının kendi sesiyle okuyorum.');
+        },
         onLocal: function (isLocal) {
           if (!vtext) return;
           // Yalnız bilgi: sesin nerede çözüldüğünü söyler, durum satırını ezmez.
@@ -1251,7 +1273,7 @@
           if (m === 'wake') { vsay('voiceWake', '«Melis» de — dinliyorum.'); if (!busy && window.FYOS) window.FYOS.setState('idle'); }
           else if (m === 'open') { vsay('voiceOpen', 'Dinliyorum…'); if (window.FYOS) window.FYOS.setState('listening'); }
           else if (m === 'speak') { if (window.FYOS) { window.FYOS.setState('speaking'); window.FYOS.ping(); } }
-          else if (m === 'off') { vshow(false); micOn(false); if (window.FYOS) window.FYOS.setState('idle'); }
+          else if (m === 'off') { vshow(false); micOn(false); vclear(); vFell = {}; if (window.FYOS) window.FYOS.setState('idle'); }
         },
         onWake: function () {
           if (window.FYOS) window.FYOS.ping();

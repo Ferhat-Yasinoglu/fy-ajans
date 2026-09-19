@@ -181,14 +181,17 @@
   /* create(opts) → denetleyici.
      opts: lang, wake[], onState(ad), onHeard(metin, kesin), onQuestion(metin),
            onWake(), onError(kod), onLocal(bool)
+           onFallback(sebep): 'off' | 'limit' | 'play' | 'error' — gerçek ses devrede değil;
+                              null → gerçek ses çalıştı, varsa açıklama kaldırılmalı
      Durumlar: 'off' kapalı · 'wake' uyandırma kelimesi bekleniyor · 'open' soru dinleniyor
                'busy' yanıt üretiliyor · 'speak' yanıt okunuyor */
   function create(opts) {
     opts = opts || {};
     var lang = opts.lang || 'tr-TR';
     /* ttsUrl verilirse yanıtlar gerçek bir insan sesiyle okunur (worker'ın /tts ucu).
-       Ulaşılamaz, kapalı ya da günlük ses hakkı bitmişse sessizce tarayıcının kendi
-       sesine dönülür — ses hiçbir durumda tümden kesilmez. */
+       Ulaşılamaz, kapalı ya da günlük ses hakkı bitmişse tarayıcının kendi sesine dönülür —
+       ses hiçbir durumda tümden kesilmez. Düşüşün SEBEBİ onFallback ile yukarı bildirilir;
+       sessiz düşüş, sahibi «hâlâ erkek ses var» derken nedenini kimsenin görememesi demekti. */
     var ttsUrl = opts.ttsUrl || '';
     // Belirli bir tarayıcı sesini sabitlemek için (adın bir parçası yeter). Boşsa otomatik seçilir.
     var voiceName = opts.voiceName || '';
@@ -204,7 +207,8 @@
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
-        onError = opts.onError || function () {}, onLocal = opts.onLocal || function () {};
+        onError = opts.onError || function () {}, onLocal = opts.onLocal || function () {},
+        onFallback = opts.onFallback || function () {};
 
     var rec = null, mode = 'off', want = false, local = false;
     var buf = '', quiet = 0, speakingText = '', utter = null, speakSeq = 0;
@@ -431,7 +435,8 @@
       // Nöbetçi iki yol için de burada kurulur: hiçbir 'bitti' olayı gelmezse süre dolunca döneriz.
       guard = setTimeout(back, Math.min(90000, 8000 + t.length * 110));
       function toBrowser() { if (mine === speakSeq) sayLocal(t, mine, back); }
-      if (ttsUrl) sayRemote(t, mine, back, toBrowser); else toBrowser();
+      // Uç nokta hiç tanımlı değilse de sessiz kalınmaz: bu da bir «gerçek ses yok» hâlidir.
+      if (ttsUrl) sayRemote(t, mine, back, toBrowser); else { onFallback('off'); toBrowser(); }
     }
 
     // Worker'dan ses baytlarını indirip çalar. Ses gelmezse onFail ile tarayıcı sesine devreder.
@@ -439,15 +444,21 @@
       // Devretme tek seferlik: play() sözü ile onerror aynı başarısızlıkta ikisi birden
       // ateşlenebiliyor; korumasız bırakılırsa aynı cümle iki kez okunurdu.
       var handed = false;
-      function fail(why) {
+      /* Sebep kodu: 'off' worker'da ses anahtarı yok · 'limit' günlük ses hakkı doldu ·
+         'error' ulaşılamadı (en sık: worker adresi sayfanın CSP connect-src listesinde değil).
+         Bunu yukarı bildirmek şart: eskiden düşüş tümüyle sessizdi, yani ziyaretçi de sahibi de
+         gerçek sesin neden devreye girmediğini göremiyordu — yalnızca «erkek ses» duyuyordu. */
+      function fail(why, code) {
         if (handed) return; handed = true;
-        // Sessiz düşüş geliştiriciyi yanıltır: en sık sebep, worker adresinin sayfanın
-        // CSP'sindeki connect-src listesinde olmamasıdır (bkz. worker/README.md).
         if (!warned) { warned = true; try { console.warn('FYOS: uzak ses alınamadı, tarayıcı sesine dönüldü.', why || ''); } catch (e) {} }
+        // Kesilmiş ya da yerine yenisi gelmiş konuşma için bildirme: yoksa ziyaretçi mikrofonu
+        // kapattıktan sonra, gizlenmiş satırın altında geç gelen bir açıklama beliriyordu.
+        if (mine === speakSeq) onFallback(code || 'error');
         onFail();
       }
-      function end() { if (handed) return; handed = true; onEnd(); }
-      if (!window.fetch || !window.URL || !window.URL.createObjectURL) { fail('tarayıcı desteklemiyor'); return; }
+      function end() { if (handed) return; handed = true; if (mine === speakSeq) onFallback(null); onEnd(); }
+      // 'play': ses BAYTLARI geldi ama tarayıcı çalamadı — worker'ı suçlamak yanlış teşhis olur.
+      if (!window.fetch || !window.URL || !window.URL.createObjectURL) { fail('tarayıcı desteklemiyor', 'play'); return; }
       var ctrl = window.AbortController ? new AbortController() : null;
       var timer = ctrl ? setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 12000) : 0;
       fetch(ttsUrl, {
@@ -457,20 +468,26 @@
         signal: ctrl ? ctrl.signal : undefined
       }).then(function (res) {
         if (timer) clearTimeout(timer);
-        // Ses yoksa worker JSON döner (kapalı, hak bitti, hata): tarayıcı sesine geçilir.
+        // Ses yoksa worker JSON döner (kapalı, hak bitti, hata): sebebi okuyup tarayıcı sesine geçeriz.
         var ct = (res.headers && res.headers.get('Content-Type')) || '';
-        if (!res.ok || ct.indexOf('audio') < 0) throw new Error('ses yok: HTTP ' + res.status);
+        if (!res.ok || ct.indexOf('audio') < 0) {
+          return res.json().catch(function () { return {}; }).then(function (j) {
+            fail('ses yok: HTTP ' + res.status, j && j.off ? 'off' : (j && j.limited ? 'limit' : 'error'));
+            return null;
+          });
+        }
         return res.blob();
       }).then(function (blob) {
+        if (!blob) return;                                 // sebep yukarıda bildirildi
         if (mine !== speakSeq) return;                     // bu arada kesildi
         dropAudio();
         audioUrl = URL.createObjectURL(blob);
         var a = new Audio(audioUrl);
         audio = a;
         a.onended = end;
-        a.onerror = function () { fail('ses çalınamadı'); };
+        a.onerror = function () { fail('ses çalınamadı', 'play'); };
         var pr = a.play();
-        if (pr && pr.catch) pr.catch(function (e) { fail(e && e.message); });
+        if (pr && pr.catch) pr.catch(function (e) { fail(e && e.message, 'play'); });
       }).catch(function (e) {
         if (timer) clearTimeout(timer);
         fail(e && e.message);
