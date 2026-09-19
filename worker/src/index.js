@@ -63,7 +63,7 @@ const BOOK_DAILY = 2;             // ziyaretçi başına günlük randevu deneme
 /* --- Sesli yanıt (/tts) ---
    Frenler bilerek sıkı: bu bir vitrin demosu, bir seslendirme servisi değil. */
 const MAX_TTS_CHARS = 500;        // tek istekte seslendirilecek en fazla karakter
-const TTS_DAILY_CHARS = 2500;     // ziyaretçi başına günlük karakter tavanı (~6 yanıt)
+const TTS_DAILY_CHARS = 4000;     // ziyaretçi başına günlük karakter tavanı (~10 yanıt: DAILY_LIMIT ile aynı sayı)
 
 /* FYOS'un sesi: genç, sıcak, güler yüzlü bir kadın. Bu metin OKUNMAZ — sese NASIL okuyacağını
    söyler (OpenAI'nin `instructions` alanı). Ses tonu buradan ayarlanır; sözlerin kendisi
@@ -334,17 +334,31 @@ export default {
   }
 };
 
+/* Sesin durumu: yalnızca «yapılandırılmış mı» sorusunun yanıtı. Sağlayıcıya HİÇ istek atmaz,
+   bir kuruş harcamaz, günlük hakka dokunmaz — ve anahtarın kendisini asla döndürmez, yalnız
+   varlığını. Sebebi: anahtar yokken /tts sessizce 503 dönüyor, site de tarayıcının kendi sesine
+   düşüyor; sahibin bunu dışarıdan anlamasının başka yolu yoktu. */
+function voiceHealth(env) {
+  if (env.ELEVENLABS_API_KEY) return { voice: 'elevenlabs', voiceName: env.TTS_VOICE || '21m00Tcm4TlvDq8ikWAM', voiceChars: TTS_DAILY_CHARS };
+  if (env.OPENAI_API_KEY) return { voice: 'openai', voiceName: env.TTS_VOICE || 'coral', voiceChars: TTS_DAILY_CHARS };
+  return { voice: 'off', voiceHint: 'npx wrangler secret put OPENAI_API_KEY' };
+}
+
 /* /health — bkz. fetch() içindeki açıklama. Çıktı alanları: ok, provider ('anthropic' |
-   'workers-ai'), model, code (Anthropic için HTTP durumu, Workers AI için 4 haneli kod), tried.
-   Sohbetle aynı sırayı izler: anahtar varsa Claude, düşerse Workers AI. */
+   'workers-ai'), model, code (Anthropic için HTTP durumu, Workers AI için 4 haneli kod), tried,
+   voice ('openai' | 'elevenlabs' | 'off') ve sesin adı. Sohbetle aynı sırayı izler: anahtar
+   varsa Claude, düşerse Workers AI.
+   Ses alanı HER dönüşte var — /health günlük denemesi dolmuş olsa bile: sesin kapalı olup
+   olmadığını öğrenmek için modele gitmeye gerek yok. */
 async function handleHealth(request, env) {
-  if (!env.QUOTA) return json({ ok: false, reason: 'kv' }, 503, {});
+  const v = voiceHealth(env);
+  if (!env.QUOTA) return json({ ok: false, reason: 'kv', ...v }, 503, {});
   const ip = request.headers.get('CF-Connecting-IP') || 'anon';
   const key = healthDayKey(ip);
   const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
-  if (before >= HEALTH_DAILY) return json({ ok: false, reason: 'limit' }, 429, {});
+  if (before >= HEALTH_DAILY) return json({ ok: false, reason: 'limit', ...v }, 429, {});
   await env.QUOTA.put(key, String(before + 1), { expirationTtl: secondsToMidnightUTC() });
-  if (!openSlot(ip)) return json({ ok: false, reason: 'busy' }, 429, {});
+  if (!openSlot(ip)) return json({ ok: false, reason: 'busy', ...v }, 429, {});
   try {
     const probe = [{ role: 'user', content: 'Merhaba' }];
     if (env.ANTHROPIC_API_KEY) {
@@ -356,16 +370,16 @@ async function handleHealth(request, env) {
           headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
           body: JSON.stringify({ model, max_tokens: 8, messages: probe })
         });
-        if (res.ok) return json({ ok: true, provider: 'anthropic', model }, 200, {});
+        if (res.ok) return json({ ok: true, provider: 'anthropic', model, ...v }, 200, {});
         code = String(res.status);
         console.error('health: Anthropic', res.status, (await res.text().catch(() => '')).slice(0, 300));
       } catch (e) { console.error('health: Anthropic ağ', e && e.message); }
-      if (!env.AI) return json({ ok: false, provider: 'anthropic', model, code }, 200, {});
+      if (!env.AI) return json({ ok: false, provider: 'anthropic', model, code, ...v }, 200, {});
     }
-    if (!env.AI) return json({ ok: false, reason: 'no-provider' }, 200, {});
+    if (!env.AI) return json({ ok: false, reason: 'no-provider', ...v }, 200, {});
     const r = await runWorkersAI(env, probe, 8);
-    if (r.error) return json({ ok: false, provider: 'workers-ai', model: r.model, code: r.code || '?', tried: r.tried }, 200, {});
-    return json({ ok: true, provider: 'workers-ai', model: r.model, tried: r.tried }, 200, {});
+    if (r.error) return json({ ok: false, provider: 'workers-ai', model: r.model, code: r.code || '?', tried: r.tried, ...v }, 200, {});
+    return json({ ok: true, provider: 'workers-ai', model: r.model, tried: r.tried, ...v }, 200, {});
   } finally {
     closeSlot(ip);
   }

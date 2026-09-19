@@ -4,7 +4,8 @@ description: FYOS sohbeti «Şu an yanıt üretemiyorum» derse, ses çalışmaz
 ---
 ## Teşhis sırası
 1. Tarayıcıdan `https://fy-ajans.ferhatyasinoglu.workers.dev/health` (günde 5 deneme/IP). Alanlar:
-   `ok`, `provider` (anthropic | workers-ai), `model`, `code`, `tried`.
+   `ok`, `provider` (anthropic | workers-ai), `model`, `code`, `tried`,
+   `voice` (openai | elevenlabs | off) + `voiceName`/`voiceChars`.
    - Workers AI kodları: 5007 model yok · 5035 ücretli plan gerek · 3023 hesap engelli · 3036 günlük
      ücretsiz nöron hakkı bitti · 3040 kapasite yok.
    - Anthropic: 401 anahtar · 404 model adı · 429 kota · 529 aşırı yük.
@@ -13,6 +14,18 @@ description: FYOS sohbeti «Şu an yanıt üretemiyorum» derse, ses çalışmaz
    `Anthropic hata <durum>` satırı. (`[observability] enabled = true` wrangler.toml'da.)
 3. Site tarafı: `js/main.js` başında `FYOS_ENDPOINT` dolu mu; `index.html` CSP `connect-src` worker
    adresini içeriyor mu. İkisini de `node tools/set-worker.mjs <adres> --sohbet` yazar.
+
+## Ses erkek çıkıyorsa
+`/health` içindeki `voice` alanına bak — sağlayıcıya gitmez, `/health` sınırı dolsa bile döner.
+- `voice: "off"` → anahtar yok. `npx wrangler secret put OPENAI_API_KEY` (ya da `ELEVENLABS_API_KEY`);
+  bir kez girilir, depoya girmez. Varsayılan ses `coral` (genç, sıcak kadın). Sağlayıcı panelinde
+  aylık harcama tavanı koy.
+- `voice` dolu ama ses yine erkek → günlük ses hakkı bitmiştir (`TTS_DAILY_CHARS`, ~10 yanıt).
+  Site bunu artık ekranda söylüyor (`#askVoiceNote`), sessizce düşmüyor.
+- İkisi de değilse cihazın kendi sesi okunuyordur: siteyi `?ses` ile aç (ör. `…/?ses`), cihazdaki
+  ses listesi ekrana gelir. Türkçe için tek ses varsa ve o erkekse tarayıcı tarafında yapılacak
+  bir şey yoktur — gerçek ses şarttır. Belirli bir sesi sabitlemek için `js/main.js`
+  içindeki `FYOS_VOICE_NAME`.
 
 ## Düzeltme
 - Model sorunu (5007/5035): `worker/wrangler.toml` `AI_MODEL` (birden fazla için `AI_MODELS`, virgülle);

@@ -180,7 +180,7 @@
 
   /* create(opts) → denetleyici.
      opts: lang, wake[], onState(ad), onHeard(metin, kesin), onQuestion(metin),
-           onWake(), onError(kod), onLocal(bool)
+           onWake(), onError(kod), onLocal(bool), onFallback(sebep)
      Durumlar: 'off' kapalı · 'wake' uyandırma kelimesi bekleniyor · 'open' soru dinleniyor
                'busy' yanıt üretiliyor · 'speak' yanıt okunuyor */
   function create(opts) {
@@ -204,7 +204,8 @@
     var wakeList = opts.wake && opts.wake.length ? opts.wake.map(fold) : WAKE_DEFAULT;
     var onState = opts.onState || function () {}, onHeard = opts.onHeard || function () {},
         onQuestion = opts.onQuestion || function () {}, onWake = opts.onWake || function () {},
-        onError = opts.onError || function () {}, onLocal = opts.onLocal || function () {};
+        onError = opts.onError || function () {}, onLocal = opts.onLocal || function () {},
+        onFallback = opts.onFallback || function () {};
 
     var rec = null, mode = 'off', want = false, local = false;
     var buf = '', quiet = 0, speakingText = '', utter = null, speakSeq = 0;
@@ -439,11 +440,14 @@
       // Devretme tek seferlik: play() sözü ile onerror aynı başarısızlıkta ikisi birden
       // ateşlenebiliyor; korumasız bırakılırsa aynı cümle iki kez okunurdu.
       var handed = false;
-      function fail(why) {
+      /* Sebep kodu: 'off' worker'da ses anahtarı yok · 'limit' günlük ses hakkı doldu ·
+         'error' ulaşılamadı (en sık: worker adresi sayfanın CSP connect-src listesinde değil).
+         Bunu yukarı bildirmek şart: eskiden düşüş tümüyle sessizdi, yani ziyaretçi de sahibi de
+         gerçek sesin neden devreye girmediğini göremiyordu — yalnızca «erkek ses» duyuyordu. */
+      function fail(why, code) {
         if (handed) return; handed = true;
-        // Sessiz düşüş geliştiriciyi yanıltır: en sık sebep, worker adresinin sayfanın
-        // CSP'sindeki connect-src listesinde olmamasıdır (bkz. worker/README.md).
         if (!warned) { warned = true; try { console.warn('FYOS: uzak ses alınamadı, tarayıcı sesine dönüldü.', why || ''); } catch (e) {} }
+        onFallback(code || 'error');
         onFail();
       }
       function end() { if (handed) return; handed = true; onEnd(); }
@@ -457,11 +461,17 @@
         signal: ctrl ? ctrl.signal : undefined
       }).then(function (res) {
         if (timer) clearTimeout(timer);
-        // Ses yoksa worker JSON döner (kapalı, hak bitti, hata): tarayıcı sesine geçilir.
+        // Ses yoksa worker JSON döner (kapalı, hak bitti, hata): sebebi okuyup tarayıcı sesine geçeriz.
         var ct = (res.headers && res.headers.get('Content-Type')) || '';
-        if (!res.ok || ct.indexOf('audio') < 0) throw new Error('ses yok: HTTP ' + res.status);
+        if (!res.ok || ct.indexOf('audio') < 0) {
+          return res.json().catch(function () { return {}; }).then(function (j) {
+            fail('ses yok: HTTP ' + res.status, j && j.off ? 'off' : (j && j.limited ? 'limit' : 'error'));
+            return null;
+          });
+        }
         return res.blob();
       }).then(function (blob) {
+        if (!blob) return;                                 // sebep yukarıda bildirildi
         if (mine !== speakSeq) return;                     // bu arada kesildi
         dropAudio();
         audioUrl = URL.createObjectURL(blob);

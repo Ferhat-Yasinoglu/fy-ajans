@@ -159,19 +159,19 @@ ttsReset(); ttsOK();
   console.log(`  günlük sayaç: ${sayac} (500 olmalı) ${ok(sayac === 500)}`);
 }
 
-console.log('\n=== 11) SES: günlük karakter tavanı (2500) ===');
+console.log('\n=== 11) SES: günlük karakter tavanı (4000 ≈ 10 yanıt, DAILY_LIMIT ile aynı sayı) ===');
 ttsReset(); ttsOK();
 {
   const env = TENV();
   const outs = [];
-  for (let i = 0; i < 8; i++) {                        // 8 × 500 = 4000 > 2500
+  for (let i = 0; i < 10; i++) {                       // 10 × 500 = 5000 > 4000
     const r = await worker.fetch(req({ text: 'B'.repeat(500) }, { url: TTS_URL }), env);
     outs.push(r.status === 200 ? 'ses' : 'sınır(' + r.status + ')');
   }
   const sayac = parseInt(await env.QUOTA.get(ttsKey()) || '0', 10);
-  console.log('  8 istek ->', outs.join(', '));
+  console.log('  10 istek ->', outs.join(', '));
   const sesSayisi = outs.filter(o => o === 'ses').length;
-  console.log(`  ses dönen: ${sesSayisi} (5 olmalı) ${ok(sesSayisi === 5)} | sağlayıcı çağrısı: ${tts} ${ok(tts === 5)} | sayaç: ${sayac} ${ok(sayac <= 2500)}`);
+  console.log(`  ses dönen: ${sesSayisi} (8 olmalı) ${ok(sesSayisi === 8)} | sağlayıcı çağrısı: ${tts} ${ok(tts === 8)} | sayaç: ${sayac} ${ok(sayac <= 4000)}`);
 }
 
 console.log('\n=== 12) SES: sağlayıcı hata verirse karakter hakkı iade ediliyor mu ===');
@@ -518,4 +518,29 @@ reset();
   const r1 = await worker.fetch(statsReq('https://ferhat-yasinoglu.github.io'), env);
   const raw = await r1.text(); const body = JSON.parse(raw);
   console.log(`  yabancı Origin -> ${r0.status} (403) ${ok(r0.status === 403)} | site -> ${r1.status} ${ok(r1.status === 200)} | tek alan, sayı 1: ${ok(Object.keys(body).join() === 'bookings' && body.bookings === 1)} | ad/e-posta yok: ${ok(!raw.includes('Gizli') && !raw.includes('example.com'))}`);
+}
+
+console.log('\n=== 31) /health: ses durumu bildiriliyor, anahtarın kendisi asla sızmıyor ===');
+reset();
+{
+  const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'ok' });
+  // a) OpenAI anahtarı varken: sağlayıcı ve ses adı görünür, anahtar görünmez
+  const rA = await worker.fetch(healthReq('9.9.9.1'), ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-COK-GIZLI-ANAHTAR' }));
+  const tA = await rA.text(), dA = JSON.parse(tA);
+  console.log(`  anahtar varken -> voice: ${dA.voice} ${ok(dA.voice === 'openai')} | ses adı: ${dA.voiceName} ${ok(dA.voiceName === 'coral')} | anahtar sızdı mı: ${tA.includes('COK-GIZLI') ? 'EVET' : 'hayır'} ${ok(!tA.includes('COK-GIZLI'))}`);
+
+  // b) ElevenLabs önce gelir ve kendi ses kimliğini bildirir
+  const dB = await (await worker.fetch(healthReq('9.9.9.2'), ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-x', ELEVENLABS_API_KEY: 'el-GIZLI', TTS_VOICE: 'Rachel' }))).json();
+  console.log(`  ElevenLabs -> voice: ${dB.voice} ${ok(dB.voice === 'elevenlabs')} | ses adı: ${dB.voiceName} ${ok(dB.voiceName === 'Rachel')}`);
+
+  // c) Anahtar yokken: 'off' + sahibe ne yapacağını söyleyen ipucu
+  const dC = await (await worker.fetch(healthReq('9.9.9.3'), ENV({ ANTHROPIC_API_KEY: undefined, AI }))).json();
+  console.log(`  anahtar yokken -> voice: ${dC.voice} ${ok(dC.voice === 'off')} | ipucu var: ${ok(/wrangler secret put/.test(dC.voiceHint || ''))}`);
+
+  // d) /health günlük denemesi dolsa bile ses durumu yine dönüyor: kapalı sesi öğrenmek modele gitmeyi gerektirmemeli
+  const envD = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  let sonD = null;
+  for (let i = 0; i < 6; i++) sonD = await worker.fetch(healthReq('9.9.9.4'), envD);
+  const dD = await sonD.json();
+  console.log(`  sınır dolunca -> HTTP ${sonD.status} ${ok(sonD.status === 429)} | reason: ${dD.reason} ${ok(dD.reason === 'limit')} | ses yine bildirildi: ${dD.voice} ${ok(dD.voice === 'off')}`);
 }
