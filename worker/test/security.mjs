@@ -488,3 +488,20 @@ reset();
   const freeAgain = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots).some(s => s.at === slots[0].at);
   console.log(`  randevu silindi, saat yeniden boş: ${ok(freeAgain && !env.QUOTA.store.has('book:' + slots[0].at.slice(0, 16)))}`);
 }
+
+console.log('\n=== 29) /admin/mail-test: kimlik, kapalıyken eksik ad, açıkken yalnızca durum kodu, ham hata yok ===');
+reset();
+{
+  const env = BOOK_ENV({ ADMIN_USER: 'fy', ADMIN_PASS: 'p' });
+  const A = 'Basic ' + b64('fy:p');
+  const adm = (path) => ({ method: 'GET', url: 'https://fy-ajans.example.workers.dev' + path,
+    headers: { get: (h) => ({ Authorization: A, 'CF-Connecting-IP': '6.6.6.7' })[h] ?? null }, async text() { return ''; } });
+  const r0 = await worker.fetch({ ...adm('/admin/mail-test'), headers: { get: () => null } }, env);
+  const off = await (await worker.fetch(adm('/admin/mail-test'), env)).json();
+  let sent = 0, dest;
+  globalThis.fetch = async (u, o) => { sent++; dest = JSON.parse(o.body).to;
+    return { ok: false, status: 403, async text() { return JSON.stringify({ statusCode: 403, message: 'You can only send testing emails to your own email address (x@y.z)', name: 'validation_error' }); } }; };
+  const on = await (await worker.fetch(adm('/admin/mail-test'), { ...env, RESEND_API_KEY: 're_x', LEAD_TO: 'sahip@example.com' })).json();
+  const raw = JSON.stringify(on);
+  console.log(`  kimliksiz -> ${r0.status} (401) ${ok(r0.status === 401)} | kapalı: notify=off + eksik adlar ${ok(off.notify === 'off' && off.missing.join(',') === 'RESEND_API_KEY,LEAD_TO')} | açık: Resend'e tek istek, alıcı LEAD_TO ${ok(sent === 1 && dest[0] === 'sahip@example.com')} | yalnızca kod: 403 + validation_error, ham metin yok ${ok(on.ok === false && on.status === 403 && on.code === 'validation_error' && !raw.includes('own email'))}`);
+}

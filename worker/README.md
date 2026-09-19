@@ -104,7 +104,9 @@ Yeni kayıt geldiğinde e-posta bildirimi isteğe bağlıdır: `RESEND_API_KEY` 
 kendi alan adını doğrulayınca `LEAD_FROM`'u değiştir). Bildirim başarısız olsa da kayıt yazılmıştır.
 Resend'i açarsan `terms.html` bunu zaten «kullanılabilir» diye bildiriyor; kapalıyken hiçbir istek gitmez.
 `LEAD_TO` panodan girilirse `wrangler.toml`'daki `keep_vars = true` onu sonraki dağıtımlarda korur;
-teşhis için Observability → Logs'ta «Bildirim» ara (401 anahtar, 403 alıcı/gönderici, 422 içerik).
+teşhis için `/admin/mail-test` (admin girişi ister) bir deneme e-postası atıp yalnızca durum kodunu döner:
+`{"ok":true,"notify":"on","status":200}` ya da `notify:"off"` + eksik değişken adları; 401 anahtar, 403 alıcı/gönderici
+(`validation_error`), 422 içerik. Ham Resend mesajı loga yazılır, istemciye dönmez.
 
 ## Randevu: `/slots`, `/book`, `/bookings`, `/booking.ics`, `/calendar.ics`
 

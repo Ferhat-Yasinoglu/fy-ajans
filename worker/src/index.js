@@ -399,19 +399,27 @@ async function saveLead(env, lead) {
   const record = { id, ts: new Date().toISOString(), ...lead };
   await env.QUOTA.put('lead:' + id, JSON.stringify(record), { expirationTtl: LEAD_TTL_DAYS * 86400 });
 
-  // Bildirim: isteğe bağlı, kaydı geciktirmez ve başarısızlığı isteği düşürmez.
-  if (env.RESEND_API_KEY && env.LEAD_TO) {
-    try {
-      const text = Object.entries(lead).filter(([, v]) => v).map(([k, v]) => k + ': ' + v).join('\n') + '\n\nid: ' + id;
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.RESEND_API_KEY },
-        body: JSON.stringify({ from: env.LEAD_FROM || 'FY <onboarding@resend.dev>', to: [env.LEAD_TO], subject: 'FY — ' + lead.kind, text })
-      });
-      if (!res.ok) console.error('Bildirim e-postası', res.status, (await res.text().catch(() => '')).slice(0, 200));
-    } catch (e) { console.error('Bildirim e-postası ağ hatası', e && e.message); }
-  }
+  // Bildirim: isteğe bağlı, başarısızlığı kaydı düşürmez.
+  if (env.RESEND_API_KEY && env.LEAD_TO) await notifyLead(env, lead, id);
   return id;
+}
+
+/* Bildirim e-postası (Resend). Dönüş { status, code }: code yalnızca Resend'in hata adı (validation_error gibi),
+   ham mesaj loga gider, istemciye dönmez. /admin/mail-test aynı yolu kullanır; teşhis panodan yapılır. */
+async function notifyLead(env, lead, id) {
+  const text = Object.entries(lead).filter(([, v]) => v).map(([k, v]) => k + ': ' + v).join('\n') + '\n\nid: ' + id;
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.RESEND_API_KEY },
+      body: JSON.stringify({ from: env.LEAD_FROM || 'FY <onboarding@resend.dev>', to: [env.LEAD_TO], subject: 'FY — ' + lead.kind, text })
+    });
+    if (res.ok) return { status: res.status };
+    const body = (await res.text().catch(() => '')).slice(0, 300);
+    console.error('Bildirim e-postası', res.status, body);
+    let code; try { code = JSON.parse(body).name; } catch { /* JSON değil */ }
+    return { status: res.status, code: typeof code === 'string' ? code.slice(0, 40) : undefined };
+  } catch (e) { console.error('Bildirim e-postası ağ hatası', e && e.message); return { status: 0, code: 'ağ' }; }
 }
 
 /* Boş saatler: kuraldan üretilen adaylardan KV'de dolu olanlar çıkarılır. */
@@ -569,6 +577,14 @@ async function handleAdmin(request, env, path) {
   const tz = bookingConfig(env).tz;
   const back = new Response(null, { status: 303, headers: { Location: '/admin', 'Cache-Control': 'no-store' } });
   const m = /^\/admin\/(lead|booking)\/([^/]+)\/(done|delete)$/.exec(path);
+
+  if (path === '/admin/mail-test') {                                          // bildirim teşhisi: yalnızca kod döner
+    if (request.method !== 'GET') return json({ error: 'Yalnızca GET.' }, 405, {});
+    const missing = ['RESEND_API_KEY', 'LEAD_TO'].filter(k => !env[k]);
+    if (missing.length) return json({ ok: false, notify: 'off', missing }, 200, {});
+    const r = await notifyLead(env, { kind: 'deneme', message: 'Bildirim kanalı denemesi (/admin/mail-test)' }, 'test');
+    return json({ ok: r.status >= 200 && r.status < 300, notify: 'on', status: r.status, code: r.code }, 200, {});
+  }
 
   if (request.method === 'POST') {
     if (!m) return json({ error: 'Bulunamadı.' }, 404, {});
