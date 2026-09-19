@@ -633,7 +633,19 @@ ${b.message ? '<div class="m">' + esc(b.message) + '</div>' : ''}<div class="r">
   const lCards = leads.map(l => `<div class="c${l.done ? ' done' : ''}"><div class="top"><span class="k">${esc(l.kind)}</span><span class="t">${esc(fmtTs(l.ts, tz))}</span></div>
 <div>${esc(l.name || '—')}${l.company ? ' · ' + esc(l.company) : ''}</div><div>${l.email ? '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : ''}${l.phone ? (l.email ? ' · ' : '') + '<a href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : ''}</div>
 ${l.message ? '<div class="m">' + esc(l.message) + '</div>' : ''}<div class="r"><form method="post" action="/admin/lead/${encodeURIComponent(l.id)}/done"><button type="submit">${l.done ? 'Yeniden aç' : 'İlgilenildi'}</button></form><a href="/admin/lead/${encodeURIComponent(l.id)}/delete"><button class="d" type="button">Sil</button></a></div></div>`).join('');
+  // Haftalık ölçüm (Bölüm 6, «hangi sayı önemli»): dört sayının ilki, «gelen talep», buradan ölçülür.
+  // Randevu isteği de bir kayıt yazdığı için tek kaynak yeter. Öbür üçü platformdan elle alınır.
+  const now = Date.now(), wk = 7 * 86400000;
+  const tsOf = l => new Date(l.ts).getTime();
+  const thisWeek = leads.filter(l => tsOf(l) > now - wk).length;
+  const lastWeek = leads.filter(l => tsOf(l) <= now - wk && tsOf(l) > now - 2 * wk).length;
+  const trend = thisWeek > lastWeek ? '▲' : thisWeek < lastWeek ? '▼' : '=';
+  const week = `<div class="c"><div class="top"><span class="k">Gelen talep</span><span class="t">haftalık ölçüm</span></div>
+<div><b>${thisWeek}</b> son 7 gün · ${lastWeek} önceki 7 gün · ${trend}</div>
+<div class="t">Bölüm 6'nın dört sayısından ilki. Öbür üçü platformdan: kaydetme ve gönderme, izlenme süresi, yayın sayısı.</div></div>`;
+
   return html(adminPage('FY — kayıtlar', `<div class="top"><h1>FY — kayıtlar</h1><span class="t">${leads.length} kayıt · ${bookings.length} randevu</span></div>
+<h2>Bu hafta</h2>${week}
 <h2>Randevular</h2>${bCards || '<div class="e">Yaklaşan randevu yok.</div>'}
 <h2>Kayıtlar</h2>${lCards || '<div class="e">Kayıt yok.</div>'}
 <p class="t">Kayıtlar 180 gün, randevular 120 gün sonra kendiliğinden silinir. JSON: <a href="/leads">/leads</a> · <a href="/bookings">/bookings</a></p>`));
