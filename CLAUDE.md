@@ -15,6 +15,8 @@ Builds üzerinden dağıtılır.
 - `worker/` değişince `node worker/test/security.mjs` «hepsi kapalı» ve `npx wrangler deploy --dry-run` temiz.
 - Veri akışı değişiyorsa (yeni dış istek, sunucuda saklama, yeni sağlayıcı) gizlilik metni de değişir (`/gizlilik-kontrol`).
 - Yeni dış kaynak → her sayfanın CSP meta etiketi de güncellenir (`tools/set-worker.mjs` worker için yapar).
+- Sahne kartlarının sayıları depodan sayılır: `node tools/fy-stats.mjs` (`--check` yayın öncesi). Elle sayı yazılmaz;
+  karşılığı olmayan kart eklenmez — site «yapmadığın işi gösterme» diyor.
 - Commit mesajı Türkçe: ilk satır ne değişti, gövde neden.
 - Dal + PR; `main`'e doğrudan push yok.
 
