@@ -46,6 +46,7 @@ window.FY_STRINGS = {
  "voiceOffKey": "The real voice is off right now — I’ll read with your browser’s own voice.",
  "voiceTtsQuota": "You’ve used up today’s real voice; I’ll read with your browser’s own voice.",
  "voiceTtsFail": "Couldn’t reach the real voice; I’ll read with your browser’s own voice.",
+ "voiceTtsPlay": "The real voice arrived but your browser couldn’t play it; I’ll read with its own voice.",
  "voiceDenied": "Microphone permission was not granted. Allow it from the lock icon in the address bar and try again.",
  "voiceNoMic": "No microphone found.",
  "voiceUnsupported": "This browser does not support live voice; try Chrome or Edge.",

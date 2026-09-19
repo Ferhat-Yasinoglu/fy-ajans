@@ -159,7 +159,7 @@ ttsReset(); ttsOK();
   console.log(`  günlük sayaç: ${sayac} (500 olmalı) ${ok(sayac === 500)}`);
 }
 
-console.log('\n=== 11) SES: günlük karakter tavanı (4000 ≈ 10 yanıt, DAILY_LIMIT ile aynı sayı) ===');
+console.log('\n=== 11) SES: günlük karakter tavanı (4000: ~10 orta yanıt, hepsi 500 karakterse 8) ===');
 ttsReset(); ttsOK();
 {
   const env = TENV();
@@ -172,6 +172,11 @@ ttsReset(); ttsOK();
   console.log('  10 istek ->', outs.join(', '));
   const sesSayisi = outs.filter(o => o === 'ses').length;
   console.log(`  ses dönen: ${sesSayisi} (8 olmalı) ${ok(sesSayisi === 8)} | sağlayıcı çağrısı: ${tts} ${ok(tts === 8)} | sayaç: ${sayac} ${ok(sayac <= 4000)}`);
+  /* Gövdedeki limited bayrağı SÖZLEŞME: js/fyos-voice.js düşüşün sebebini bundan okuyup
+     ekranda «bugünlük ses hakkın doldu» diyor. Kalkarsa site yine tarayıcı sesine döner
+     ama sebebini söyleyemez — düzeltilen kusura geri dönülür. */
+  const asan = await (await worker.fetch(req({ text: 'B'.repeat(500) }, { url: TTS_URL }), env)).json();
+  console.log(`  sınır gövdesi limited: ${asan.limited} ${ok(asan.limited === true)}`);
 }
 
 console.log('\n=== 12) SES: sağlayıcı hata verirse karakter hakkı iade ediliyor mu ===');
@@ -190,6 +195,11 @@ ttsReset(); ttsOK();
   const r2 = await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), TENV({ QUOTA: undefined }));
   console.log(`  boş metin -> HTTP: ${r1.status} (400) ${ok(r1.status === 400)}`);
   console.log(`  KV bağlı değil -> HTTP: ${r2.status} (503, fail-closed) ${ok(r2.status === 503)} | sağlayıcı: ${tts} ${ok(tts === 0)}`);
+  /* Anahtar yokken dönen gövdedeki off bayrağı da SÖZLEŞME (bkz. denetim 11'deki limited).
+     İstemci bundan «gerçek ses kapalı» diyor; kalkarsa sebep söylenemez. */
+  const r3 = await worker.fetch(req({ text: 'merhaba' }, { url: TTS_URL }), ENV());   // OPENAI/ELEVENLABS yok
+  const d3 = await r3.json();
+  console.log(`  anahtar yok -> HTTP: ${r3.status} (503) ${ok(r3.status === 503)} | gövde off: ${d3.off} ${ok(d3.off === true)} | sağlayıcı: ${tts} ${ok(tts === 0)}`);
 }
 
 console.log('\n=== 14) GERİLEME: /tts eklenince sohbet yolu bozuldu mu ===');
@@ -524,23 +534,42 @@ console.log('\n=== 31) /health: ses durumu bildiriliyor, anahtarın kendisi asla
 reset();
 {
   const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'ok' });
-  // a) OpenAI anahtarı varken: sağlayıcı ve ses adı görünür, anahtar görünmez
-  const rA = await worker.fetch(healthReq('9.9.9.1'), ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-COK-GIZLI-ANAHTAR' }));
-  const tA = await rA.text(), dA = JSON.parse(tA);
-  console.log(`  anahtar varken -> voice: ${dA.voice} ${ok(dA.voice === 'openai')} | ses adı: ${dA.voiceName} ${ok(dA.voiceName === 'coral')} | anahtar sızdı mı: ${tA.includes('COK-GIZLI') ? 'EVET' : 'hayır'} ${ok(!tA.includes('COK-GIZLI'))}`);
+  /* Sızıntı denetimi YAPISAL, metin araması değil. Önceki hâli tek bir gövdede tek bir alt dize
+     arıyordu; voiceName'e anahtarı yazmak ya da voiceKeyTail diye yeni bir alan eklemek testi
+     yeşil bırakabiliyordu. Artık HER gövdede (a-d) hem enjekte edilen anahtarların hiçbiri
+     geçmiyor hem de «voice» ile başlayan alanlar izin listesinin dışına çıkamıyor. */
+  const IZIN = ['voice', 'voiceName', 'voiceChars', 'voiceHint'];
+  const SIRLAR = ['sk-COK-GIZLI-ANAHTAR', 'el-COK-GIZLI-ANAHTAR', 'COK-GIZLI', 'ANAHTAR'];
+  const govdeler = [];
+  const bak = async (etiket, env, ip) => {
+    const r = await worker.fetch(healthReq(ip), env);
+    const ham = await r.text();
+    govdeler.push({ etiket, ham, d: JSON.parse(ham), status: r.status });
+    return govdeler[govdeler.length - 1];
+  };
 
-  // b) ElevenLabs önce gelir ve kendi ses kimliğini bildirir
-  const dB = await (await worker.fetch(healthReq('9.9.9.2'), ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-x', ELEVENLABS_API_KEY: 'el-GIZLI', TTS_VOICE: 'Rachel' }))).json();
-  console.log(`  ElevenLabs -> voice: ${dB.voice} ${ok(dB.voice === 'elevenlabs')} | ses adı: ${dB.voiceName} ${ok(dB.voiceName === 'Rachel')}`);
+  // a) OpenAI anahtarı varken, TTS_VOICE TANIMSIZ: varsayılan dal da kapsanır
+  const A = await bak('a', ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-COK-GIZLI-ANAHTAR' }), '9.9.9.1');
+  console.log(`  anahtar varken (TTS_VOICE yok) -> voice: ${A.d.voice} ${ok(A.d.voice === 'openai')} | ses adı: ${A.d.voiceName} ${ok(A.d.voiceName === 'coral')}`);
+
+  // b) ElevenLabs önce gelir; burada da TTS_VOICE tanımsız ki varsayılan ses kimliği sınansın
+  const B = await bak('b', ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-x', ELEVENLABS_API_KEY: 'el-COK-GIZLI-ANAHTAR' }), '9.9.9.2');
+  console.log(`  ElevenLabs (TTS_VOICE yok) -> voice: ${B.d.voice} ${ok(B.d.voice === 'elevenlabs')} | ses kimliği: ${B.d.voiceName} ${ok(B.d.voiceName === '21m00Tcm4TlvDq8ikWAM')}`);
 
   // c) Anahtar yokken: 'off' + sahibe ne yapacağını söyleyen ipucu
-  const dC = await (await worker.fetch(healthReq('9.9.9.3'), ENV({ ANTHROPIC_API_KEY: undefined, AI }))).json();
-  console.log(`  anahtar yokken -> voice: ${dC.voice} ${ok(dC.voice === 'off')} | ipucu var: ${ok(/wrangler secret put/.test(dC.voiceHint || ''))}`);
+  const C = await bak('c', ENV({ ANTHROPIC_API_KEY: undefined, AI }), '9.9.9.3');
+  console.log(`  anahtar yokken -> voice: ${C.d.voice} ${ok(C.d.voice === 'off')} | ipucu var: ${ok(/wrangler secret put/.test(C.d.voiceHint || ''))}`);
 
   // d) /health günlük denemesi dolsa bile ses durumu yine dönüyor: kapalı sesi öğrenmek modele gitmeyi gerektirmemeli
-  const envD = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  const envD = ENV({ ANTHROPIC_API_KEY: undefined, AI, OPENAI_API_KEY: 'sk-COK-GIZLI-ANAHTAR' });
   let sonD = null;
   for (let i = 0; i < 6; i++) sonD = await worker.fetch(healthReq('9.9.9.4'), envD);
-  const dD = await sonD.json();
-  console.log(`  sınır dolunca -> HTTP ${sonD.status} ${ok(sonD.status === 429)} | reason: ${dD.reason} ${ok(dD.reason === 'limit')} | ses yine bildirildi: ${dD.voice} ${ok(dD.voice === 'off')}`);
+  const hamD = await sonD.text(), dD = JSON.parse(hamD);
+  govdeler.push({ etiket: 'd', ham: hamD, d: dD, status: sonD.status });
+  console.log(`  sınır dolunca -> HTTP ${sonD.status} ${ok(sonD.status === 429)} | reason: ${dD.reason} ${ok(dD.reason === 'limit')} | ses yine bildirildi: ${dD.voice} ${ok(dD.voice === 'openai')}`);
+
+  // Dört gövdenin hepsi: anahtar parçası yok + izin listesi dışında «voice*» alanı yok
+  const sizan = govdeler.filter(g => SIRLAR.some(x => g.ham.includes(x)));
+  const fazla = govdeler.flatMap(g => Object.keys(g.d).filter(k => k.startsWith('voice') && !IZIN.includes(k)).map(k => g.etiket + '.' + k));
+  console.log(`  ${govdeler.length} gövde -> anahtar sızan: ${sizan.map(g => g.etiket).join(',') || 'yok'} ${ok(sizan.length === 0)} | izin dışı alan: ${fazla.join(',') || 'yok'} ${ok(fazla.length === 0)}`);
 }
