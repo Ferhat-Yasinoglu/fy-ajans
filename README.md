@@ -56,6 +56,10 @@ paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara ya
   bu siteden, dış font yok, nesne yok. `index.html` ve dil sayfalarında `connect-src`
   ayrıca FYOS ara sunucusunun adresine izin verir (`tools/set-worker.mjs` yazar).
   Yeni bir dış kaynak eklersen CSP'yi de güncelle.
+- Formlar (iletişim, paket/kurs/danışmanlık, panel haber listesi) worker'daki `POST /lead` ucuna yazar:
+  kayıt Cloudflare KV'de en çok 180 gün durur, IP kayda girmez, sahibi `GET /leads` (Basic auth;
+  `ADMIN_USER`/`ADMIN_PASS` gizli değişkenleri) ile okur. Worker'a ulaşılamazsa form eski yol olan
+  `mailto:` ile ziyaretçinin e-posta uygulamasını açar. Özgeçmiş formu dosya eklediği için hep mailto.
 - E-posta adresi HTML'de düz metin durmaz; `js/main.js` içindeki `MAIL` değişkeninde
   iki parça olarak durur ve `data-mail` / `data-mail-text` öznitelikli öğelere sayfa açılınca yazılır.
 - Formlar sunucusuzdur, mailto ile e-posta uygulamasını açar. Özgeçmiş dosyası e-postaya

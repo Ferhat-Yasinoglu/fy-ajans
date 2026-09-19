@@ -42,7 +42,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; font-src 'self'; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.hf.co https://raw.githubusercontent.com https://fy-ajans.ferhatyasinoglu.workers.dev; worker-src 'self' blob:; base-uri 'self'; object-src 'none'; form-action 'self'">
 <link rel="preload" href="fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=9ed91477">
+<link rel="stylesheet" href="css/style.css?v=0c1cb6cb">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"Organization","@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#organization","name":"FY","url":"https://ferhat-yasinoglu.github.io/fy-ajans","logo":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#logo"},"description":"FY yapay zekâ ajansı — yapay zekâ eğitimi, web tasarım ve işletme akıllılaştırma.","founder":{"@id":"https://ferhat-yasinoglu.github.io/fy-ajans/#founder"},"contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://ferhat-yasinoglu.github.io/fy-ajans/#contact","availableLanguage":["tr","de","en","fa"]},"sameAs":["https://github.com/Ferhat-Yasinoglu","https://www.linkedin.com/in/ferhat-yasinoglu","https://www.instagram.com/farhad___yaqoobi"]},
@@ -791,6 +791,7 @@
       </div>
       <div data-reveal>
         <form class="glass-strong form-card form" id="contactForm" method="post" novalidate>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="form-row">
             <div class="field"><label for="cName" data-i18n="contact.name.label">Ad *</label><input id="cName" class="input" name="name" required placeholder="Ad ve soyad" data-i18n-attr="placeholder=contact.name.ph"></div>
             <div class="field"><label for="cMail" data-i18n="contact.email.label">E-posta *</label><input id="cMail" class="input" type="email" name="email" required placeholder="you@example.com"></div>
@@ -849,6 +850,7 @@
       <p class="modal__sub" data-i18n="modal.sub">Projeni anlat; ilk fırsatta yanıtlarız.</p>
       <div class="modal__topic" id="modalTopic" hidden></div>
       <form id="modalForm" class="modal__form" method="post" novalidate>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <input class="input" name="Ad" required placeholder="Adın" aria-label="Adın" autocomplete="name" data-i18n-attr="name=modal.name.f|placeholder=modal.name.ph|aria-label=modal.name.ph">
         <input class="input" name="E-posta" type="email" required placeholder="E-posta" aria-label="E-posta" autocomplete="email" data-i18n-attr="name=modal.email.f|placeholder=modal.email.f|aria-label=modal.email.f">
         <input class="input" name="İşletme" placeholder="İşletme (isteğe bağlı)" aria-label="İşletme" autocomplete="organization" data-i18n-attr="name=modal.company.f|placeholder=modal.company.ph|aria-label=modal.company.f">
@@ -864,6 +866,6 @@
       <button class="btn btn-ghost" type="button" data-modal-close data-i18n="modal.done.close">Kapat</button>
     </div>
   </div>
-</div><script src="js/main.js?v=9ed91477"></script>
+</div><script src="js/main.js?v=0c1cb6cb"></script>
 </body>
 </html>

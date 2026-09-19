@@ -12,7 +12,8 @@ function makeKV() {
   const m = new Map();
   return { store: m,
     async get(k) { return m.has(k) ? m.get(k) : null; },
-    async put(k, v) { m.set(k, v); } };
+    async put(k, v) { m.set(k, v); },
+    async list({ prefix = '', limit = 1000 } = {}) { return { keys: [...m.keys()].filter(k => k.startsWith(prefix)).slice(0, limit).map(name => ({ name })) }; } };
 }
 let anthropic = 0, lastBody = null;
 globalThis.fetch = async (url, opts) => {
@@ -321,4 +322,67 @@ reset();
   const env2 = ENV({});                                            // AI yok: eski davranış, iade
   const d2 = await (await worker.fetch(req({ message: 'merhaba' }), env2)).json();
   console.log(`  AI bağlı değilken -> counted: ${d2.counted} ${ok(d2.counted === false)} | code: ${d2.code} ${ok(d2.code === '529')}`);
+}
+
+/* --- Formlar: /lead kaydı, bal küpü, sınır; /leads kimlik --- */
+const leadReq = (body, ip = '5.5.5.5') => req(body, { ip, url: 'https://fy-ajans.example.workers.dev/lead' });
+const leadsReq = (auth, ip = '5.5.5.5') => ({ method: 'GET', url: 'https://fy-ajans.example.workers.dev/leads',
+  headers: { get: (h) => ({ 'CF-Connecting-IP': ip, Authorization: auth })[h] ?? null } });
+const b64 = (s) => Buffer.from(s, 'utf8').toString('base64');
+
+console.log('\n=== 22) /lead: kayıt KV\'ye yazılıyor, bal küpü kaydetmiyor, doğrulama ve günlük sınır ===');
+reset();
+{
+  const env = ENV({ ANTHROPIC_API_KEY: undefined });        // AI yok: /lead yine çalışmalı
+  const r1 = await worker.fetch(leadReq({ kind: 'Web — Temel Sürüm', name: 'Ayşe', email: 'ayse@example.com', message: '  merhaba   dünya ' }), env);
+  const d1 = await r1.json();
+  const kayit = [...env.QUOTA.store.entries()].filter(([k]) => k.startsWith('lead:'));
+  const rec = kayit.length ? JSON.parse(kayit[0][1]) : {};
+  console.log(`  HTTP ${r1.status} ok:${d1.ok} ${ok(r1.status === 200 && d1.ok === true && !!d1.id)} | KV'de kayıt: ${kayit.length} ${ok(kayit.length === 1)} | boşluk sadeleşti: "${rec.message}" ${ok(rec.message === 'merhaba dünya')} | IP kayıtta yok: ${ok(!JSON.stringify(rec).includes('5.5.5.5'))}`);
+  const d2 = await (await worker.fetch(leadReq({ kind: 'x', email: 'bot@example.com', message: 'spam', website: 'http://spam' }), env)).json();
+  const kayit2 = [...env.QUOTA.store.keys()].filter(k => k.startsWith('lead:')).length;
+  console.log(`  bal küpü -> ok:${d2.ok} ${ok(d2.ok === true)} | kayıt sayısı hâlâ 1: ${kayit2} ${ok(kayit2 === 1)}`);
+  const r3 = await worker.fetch(leadReq({ kind: 'x', name: 'Ali', message: 'ne e-posta ne telefon' }), env);
+  const r4 = await worker.fetch(leadReq({ kind: 'x', email: 'bozuk@adres', message: 'x' }), env);
+  console.log(`  e-posta/telefon yok -> ${r3.status} (400) ${ok(r3.status === 400)} | bozuk e-posta -> ${r4.status} (400) ${ok(r4.status === 400)}`);
+  let son = 0;
+  for (let i = 0; i < 5; i++) son = (await worker.fetch(leadReq({ kind: 'x', phone: '+49 1', message: 'm' }), env)).status;
+  console.log(`  günlük sınır (5): 6. gönderim -> ${son} (429) ${ok(son === 429)}`);
+  const r5 = await worker.fetch(leadReq({ kind: 'x', email: 'a@b.co', message: 'm' }, '5.5.5.5'), ENV({ ANTHROPIC_API_KEY: undefined, ALLOWED_ORIGINS: 'https://baska.example' }));
+  console.log(`  yabancı origin -> ${r5.status} (403) ${ok(r5.status === 403)}`);
+}
+
+console.log('\n=== 23) /leads: ADMIN yoksa 404, yanlış kimlik 401, doğru kimlik liste (en yeni önce) ===');
+reset();
+{
+  const env = ENV({ ANTHROPIC_API_KEY: undefined });
+  await worker.fetch(leadReq({ kind: 'ilk', email: 'a@b.co', message: '1' }, '1.1.1.1'), env);
+  await new Promise(r => setTimeout(r, 5));
+  await worker.fetch(leadReq({ kind: 'ikinci', email: 'c@d.co', message: '2' }, '2.2.2.2'), env);
+  const r0 = await worker.fetch(leadsReq(null), env);
+  const envA = ENV({ ...env, ADMIN_USER: 'fy', ADMIN_PASS: 'gizli-şifre' });
+  const r1 = await worker.fetch(leadsReq(null), envA);
+  const r2 = await worker.fetch(leadsReq('Basic ' + b64('fy:yanlis')), envA);
+  const r3 = await worker.fetch(leadsReq('Basic ' + b64('fy:gizli-şifre')), envA);
+  const d3 = await r3.json();
+  console.log(`  ADMIN yok -> ${r0.status} (404) ${ok(r0.status === 404)} | kimliksiz -> ${r1.status} (401) ${ok(r1.status === 401)} | WWW-Authenticate: ${r1.headers.get('WWW-Authenticate') ? 'var' : 'YOK'} ${ok(!!r1.headers.get('WWW-Authenticate'))} | yanlış -> ${r2.status} ${ok(r2.status === 401)}`);
+  console.log(`  doğru -> ${r3.status} count:${d3.count} ${ok(r3.status === 200 && d3.count === 2)} | en yeni önce: ${d3.leads[0] && d3.leads[0].kind} ${ok(d3.leads[0] && d3.leads[0].kind === 'ikinci')}`);
+}
+
+console.log('\n=== 24) /lead bildirimi: RESEND ayarlıysa e-posta gider, sağlayıcı hatası kaydı düşürmez ===');
+reset();
+{
+  let resendCalls = 0, resendBody = null;
+  globalThis.fetch = async (u, o) => {
+    if (String(u).includes('api.resend.com')) { resendCalls++; resendBody = JSON.parse(o.body); return { ok: false, status: 401, async text() { return 'bad key'; } }; }
+    anthropic++; return { ok: true, async json() { return { content: [{ type: 'text', text: 'ok' }] }; } };
+  };
+  const env = ENV({ ANTHROPIC_API_KEY: undefined, RESEND_API_KEY: 're_test', LEAD_TO: 'sahip@example.com' });
+  const d = await (await worker.fetch(leadReq({ kind: 'Ücretsiz danışmanlık görüşmesi', name: 'Ayşe', email: 'ayse@example.com', message: 'm' }), env)).json();
+  const kayit = [...env.QUOTA.store.keys()].filter(k => k.startsWith('lead:')).length;
+  console.log(`  resend çağrısı: ${resendCalls} ${ok(resendCalls === 1)} | alıcı: ${resendBody && resendBody.to} ${ok(resendBody && resendBody.to[0] === 'sahip@example.com')} | sağlayıcı 401 iken ok:${d.ok} ${ok(d.ok === true)} | kayıt: ${kayit} ${ok(kayit === 1)}`);
+  const env2 = ENV({ ANTHROPIC_API_KEY: undefined });         // RESEND yok: hiç çağrı yok
+  resendCalls = 0;
+  await worker.fetch(leadReq({ kind: 'x', email: 'a@b.co', message: 'm' }, '3.3.3.3'), env2);
+  console.log(`  RESEND ayarsızken çağrı: ${resendCalls} ${ok(resendCalls === 0)}`);
 }
