@@ -81,11 +81,15 @@ Kayıtları okumak — tarayıcıdan aç, kullanıcı adı/şifre sorar:
 https://fy-ajans.<hesap-adın>.workers.dev/leads
 ```
 
-Bunun için iki gizli değişken gerekir; yazılmamışsa uç nokta 404 döner:
+Kullanıcı adı `wrangler.toml` içinde `ADMIN_USER` (varsayılan `FY`). Şifre için iki yol; ikisi de yoksa
+uç nokta 404 döner:
 
 ```
-npx wrangler secret put ADMIN_USER      # ya da panoda Settings → Variables and Secrets (Secret)
-npx wrangler secret put ADMIN_PASS      # uzun ve rastgele; UTF-8 karakter olur
+node tools/set-admin-pass.mjs           # panoya girmeden: rastgele şifre üretir, BİR KEZ gösterir,
+                                        # PBKDF2 özetini wrangler.toml'a yazar (şifre dosyaya girmez);
+                                        # commit + merge → dağıtım. Kendi şifren: node tools/set-admin-pass.mjs "…"
+npx wrangler secret put ADMIN_PASS      # ya da panoda Settings → Variables and Secrets (Secret);
+                                        # tanımlıysa özetin önüne geçer
 ```
 
 Yeni kayıt geldiğinde e-posta bildirimi isteğe bağlıdır: `RESEND_API_KEY` (secret) + `LEAD_TO`
