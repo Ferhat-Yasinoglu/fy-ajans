@@ -110,6 +110,9 @@ teşhis için `/admin/mail-test` (admin girişi ister) bir deneme e-postası at�
 
 ## Randevu: `/slots`, `/book`, `/bookings`, `/booking.ics`, `/calendar.ics`
 
+`/admin` üstünde «Bu hafta» kutusu: son 7 gün ve önceki 7 gündeki kayıt sayısı (randevu istekleri dahil);
+Bölüm 6'nın dört sayısından «gelen talep». Öbür üçü platformdan elle alınır.
+
 `GET /stats` (Origin denetimli, kimlik yok) yalnızca `{"bookings": N}` döner: yaklaşan randevu sayısı.
 Ana sayfadaki «Boardroom» kartı buradan beslenir; kayıt içeriği hiçbir zaman dönmez.
 

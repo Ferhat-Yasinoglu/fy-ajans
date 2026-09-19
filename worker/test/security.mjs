@@ -475,7 +475,7 @@ reset();
   const bookId = JSON.parse(env.QUOTA.store.get('book:' + slots[0].at.slice(0, 16))).id;
   const r0 = await worker.fetch({ ...adm('/admin'), headers: { get: () => null } }, env);
   const r1 = await worker.fetch(adm('/admin'), env); const page = await r1.text();
-  console.log(`  kimliksiz -> ${r0.status} (401) ${ok(r0.status === 401)} | sayfa -> ${r1.status} html ${ok(r1.status === 200 && /text\/html/.test(r1.headers.get('Content-Type')))} | CSP var: ${ok(/script-src|default-src 'none'/.test(r1.headers.get('Content-Security-Policy') || ''))} | kayıt görünüyor: ${ok(page.includes('ayse@example.com'))} | HTML kaçışı: ${ok(page.includes('Ayşe &lt;b&gt;') && !page.includes('Ayşe <b>'))} | randevu görünüyor: ${ok(page.includes('ali@example.com'))}`);
+  console.log(`  kimliksiz -> ${r0.status} (401) ${ok(r0.status === 401)} | sayfa -> ${r1.status} html ${ok(r1.status === 200 && /text\/html/.test(r1.headers.get('Content-Type')))} | CSP var: ${ok(/script-src|default-src 'none'/.test(r1.headers.get('Content-Security-Policy') || ''))} | kayıt görünüyor: ${ok(page.includes('ayse@example.com'))} | HTML kaçışı: ${ok(page.includes('Ayşe &lt;b&gt;') && !page.includes('Ayşe <b>'))} | randevu görünüyor: ${ok(page.includes('ali@example.com'))} | haftalık ölçüm: ${ok(/Gelen talep[\s\S]*<b>2<\/b> son 7 gün · 0 önceki 7 gün · ▲/.test(page))}`);
   const d1 = await worker.fetch(adm('/admin/lead/' + leadId + '/done', 'POST', { 'Sec-Fetch-Site': 'same-origin' }), env);
   const rec = JSON.parse(env.QUOTA.store.get('lead:' + leadId));
   const csrf = await worker.fetch(adm('/admin/lead/' + leadId + '/done', 'POST', { 'Sec-Fetch-Site': 'cross-site' }), env);
