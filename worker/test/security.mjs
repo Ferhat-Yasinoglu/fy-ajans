@@ -13,6 +13,7 @@ function makeKV() {
   return { store: m,
     async get(k) { return m.has(k) ? m.get(k) : null; },
     async put(k, v) { m.set(k, v); },
+    async delete(k) { m.delete(k); },
     async list({ prefix = '', limit = 1000 } = {}) { return { keys: [...m.keys()].filter(k => k.startsWith(prefix)).slice(0, limit).map(name => ({ name })) }; } };
 }
 let anthropic = 0, lastBody = null;
@@ -458,4 +459,32 @@ reset();
   const c2 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/calendar.ics?key=yanlis'), env);
   const c3 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/calendar.ics?key=' + token), BOOK_ENV());
   console.log(`  doğru anahtar -> ${c1.status} ${ok(c1.status === 200)} | VEVENT: ${(t1.match(/BEGIN:VEVENT/g) || []).length} ${ok((t1.match(/BEGIN:VEVENT/g) || []).length === 1)} | sahibe e-posta görünür: ${ok(t1.includes('ayse@example.com'))} | yanlış -> ${c2.status} (404) ${ok(c2.status === 404)} | özet tanımsız -> ${c3.status} (404) ${ok(c3.status === 404)}`);
+}
+
+console.log('\n=== 28) /admin: kimlik, HTML liste, ilgilenildi, iki adımlı silme, CSRF, randevu silince saat boşalıyor ===');
+reset();
+{
+  const env = BOOK_ENV({ ADMIN_USER: 'fy', ADMIN_PASS: 'p' });
+  const A = 'Basic ' + b64('fy:p');
+  const adm = (path, method = 'GET', extra = {}) => ({ method, url: 'https://fy-ajans.example.workers.dev' + path,
+    headers: { get: (h) => ({ Authorization: A, 'CF-Connecting-IP': '6.6.6.6', ...extra })[h] ?? null }, async text() { return ''; } });
+  await worker.fetch(leadReq({ kind: 'Web — Temel', name: 'Ayşe <b>', email: 'ayse@example.com', message: 'm' }, '1.1.1.2'), env);
+  const slots = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots);
+  await worker.fetch(bookReq({ at: slots[0].at, name: 'Ali', email: 'ali@example.com' }, '1.1.1.3'), env);
+  const leadId = JSON.parse([...env.QUOTA.store.entries()].filter(([k]) => k.startsWith('lead:'))[0][1]).id;
+  const bookId = JSON.parse(env.QUOTA.store.get('book:' + slots[0].at.slice(0, 16))).id;
+  const r0 = await worker.fetch({ ...adm('/admin'), headers: { get: () => null } }, env);
+  const r1 = await worker.fetch(adm('/admin'), env); const page = await r1.text();
+  console.log(`  kimliksiz -> ${r0.status} (401) ${ok(r0.status === 401)} | sayfa -> ${r1.status} html ${ok(r1.status === 200 && /text\/html/.test(r1.headers.get('Content-Type')))} | CSP var: ${ok(/script-src|default-src 'none'/.test(r1.headers.get('Content-Security-Policy') || ''))} | kayıt görünüyor: ${ok(page.includes('ayse@example.com'))} | HTML kaçışı: ${ok(page.includes('Ayşe &lt;b&gt;') && !page.includes('Ayşe <b>'))} | randevu görünüyor: ${ok(page.includes('ali@example.com'))}`);
+  const d1 = await worker.fetch(adm('/admin/lead/' + leadId + '/done', 'POST', { 'Sec-Fetch-Site': 'same-origin' }), env);
+  const rec = JSON.parse(env.QUOTA.store.get('lead:' + leadId));
+  const csrf = await worker.fetch(adm('/admin/lead/' + leadId + '/done', 'POST', { 'Sec-Fetch-Site': 'cross-site' }), env);
+  console.log(`  ilgilenildi -> ${d1.status} (303) ${ok(d1.status === 303)} done:${rec.done} ${ok(rec.done === true)} | yabancı site POST -> ${csrf.status} (403) ${ok(csrf.status === 403)} | hâlâ done: ${ok(JSON.parse(env.QUOTA.store.get('lead:' + leadId)).done === true)}`);
+  const c1 = await worker.fetch(adm('/admin/lead/' + leadId + '/delete'), env); const cpage = await c1.text();
+  const stillThere = env.QUOTA.store.has('lead:' + leadId);
+  const del = await worker.fetch(adm('/admin/lead/' + leadId + '/delete', 'POST', { 'Sec-Fetch-Site': 'same-origin' }), env);
+  console.log(`  silme onay sayfası -> ${c1.status} ${ok(c1.status === 200 && cpage.includes('Evet, sil'))} | GET silmedi: ${ok(stillThere)} | POST sildi -> ${del.status} ${ok(del.status === 303 && !env.QUOTA.store.has('lead:' + leadId))}`);
+  await worker.fetch(adm('/admin/booking/' + bookId + '/delete', 'POST', { 'Sec-Fetch-Site': 'same-origin' }), env);
+  const freeAgain = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots).some(s => s.at === slots[0].at);
+  console.log(`  randevu silindi, saat yeniden boş: ${ok(freeAgain && !env.QUOTA.store.has('book:' + slots[0].at.slice(0, 16)))}`);
 }
