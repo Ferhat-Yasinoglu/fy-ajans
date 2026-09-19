@@ -519,3 +519,34 @@ reset();
   const raw = await r1.text(); const body = JSON.parse(raw);
   console.log(`  yabancı Origin -> ${r0.status} (403) ${ok(r0.status === 403)} | site -> ${r1.status} ${ok(r1.status === 200)} | tek alan, sayı 1: ${ok(Object.keys(body).join() === 'bookings' && body.bookings === 1)} | ad/e-posta yok: ${ok(!raw.includes('Gizli') && !raw.includes('example.com'))}`);
 }
+
+console.log('\n=== 31) scheduled(): sağlık uyarısı yalnızca kodla, cuma özeti + JSON yedek, e-posta yoksa sessiz ===');
+reset();
+{
+  const mails = []; let anthropicHits = 0;
+  const cronFetch = (anthropicOk) => async (u, o) => {
+    if (String(u).includes('api.anthropic.com')) { anthropicHits++; return anthropicOk ? { ok: true, async json() { return {}; } } : { ok: false, status: 401, async text() { return '{"error":{"message":"invalid x-api-key SECRET-DETAIL"}}'; } }; }
+    if (String(u).includes('api.resend.com')) { mails.push(JSON.parse(o.body)); return { ok: true, async text() { return ''; } }; }
+    throw new Error('beklenmeyen istek ' + u);
+  };
+  const run = async (cron, env) => { const ps = []; await worker.scheduled({ cron }, env, { waitUntil: (p) => ps.push(p) }); await Promise.all(ps); };
+  const env = BOOK_ENV({ ANTHROPIC_API_KEY: 'sk-test', RESEND_API_KEY: 're_x', LEAD_TO: 'sahip@example.com' });
+  globalThis.fetch = cronFetch(true);
+  await worker.fetch(leadReq({ kind: 'FY — iletişim formu', name: 'Yedek Kişi', email: 'yedek@example.com', message: 'm' }, '8.8.8.1'), env);
+  mails.length = 0;
+  await run('0 6 * * *', env);
+  const quietWhenOk = mails.length === 0 && anthropicHits === 1;
+  globalThis.fetch = cronFetch(false);
+  await run('0 6 * * *', env);
+  const alert = mails[0]; const alertRaw = JSON.stringify(alert || {});
+  const alertOk = mails.length === 1 && alert.to[0] === 'sahip@example.com' && /401/.test(alert.subject) && !alertRaw.includes('SECRET-DETAIL') && !alertRaw.includes('invalid x-api-key');
+  mails.length = 0;
+  await run('30 6 * * 5', env);
+  const digest = mails[0]; const att = digest && digest.attachments && digest.attachments[0];
+  const decoded = att ? new TextDecoder().decode(Uint8Array.from(atob(att.content), c => c.charCodeAt(0))) : '';
+  const digestOk = mails.length === 1 && /hafta özeti .*: 1 talep/.test(digest.subject) && /^fy-kayitlar-\d{4}-\d{2}-\d{2}\.json$/.test(att.filename) && decoded.includes('yedek@example.com');
+  mails.length = 0;
+  await run('30 6 * * 5', BOOK_ENV({ ANTHROPIC_API_KEY: 'sk-test' }));
+  await run('0 6 * * *', BOOK_ENV({ ANTHROPIC_API_KEY: undefined, RESEND_API_KEY: 're_x', LEAD_TO: 'sahip@example.com' }));
+  console.log(`  Claude sağlamken sessiz: ${ok(quietWhenOk)} | düşünce tek uyarı, konuda kod, ham mesaj yok: ${ok(alertOk)} | cuma özeti: konu «1 talep», JSON ekinde kayıt: ${ok(digestOk)} | Resend yokken ya da anahtar yokken e-posta yok: ${ok(mails.length === 0)}`);
+}
