@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node tools/build-i18n.mjs*)",
+      "Bash(node worker/test/security.mjs)",
+      "Bash(node test/security.mjs)",
+      "Bash(npx wrangler deploy --dry-run*)",
+      "Bash(git diff*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(grep *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/uretilmis-dosya-koruma.mjs" }
+        ]
+      }
+    ]
+  }
+}
