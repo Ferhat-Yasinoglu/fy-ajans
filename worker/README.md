@@ -68,6 +68,32 @@ dönmez. Ziyaretçi başına günde 5 deneme; KV bağlı değilse 503.
 Sohbet Workers AI'da modelleri sırayla dener (`AI_MODEL`, sonra koddaki `AI_FALLBACK`); Claude
 anahtarı varsa önce Claude, düşerse Workers AI. Her hata `console.error` ile Observability'ye yazılır.
 
+## Formlar: `/lead` ve `/leads` (mini CRM)
+
+Sitedeki formlar (iletişim, paket/kurs/danışmanlık, panel haber listesi) `POST /lead` ile buraya yazar;
+worker'a ulaşılamazsa site eski yol olan `mailto:` ile ziyaretçinin e-posta uygulamasını açar. Özgeçmiş
+formu dosya eklediği için hep mailto. Kayıt Cloudflare KV'de **180 gün** durur (gizlilik metni: en geç altı
+ay), IP kayda girmez; ziyaretçi başına günde 5 gönderim; `website` bal küpü doluysa kaydetmeden «tamam» der.
+
+Kayıtları okumak — tarayıcıdan aç, kullanıcı adı/şifre sorar:
+
+```
+https://fy-ajans.<hesap-adın>.workers.dev/leads
+```
+
+Bunun için iki gizli değişken gerekir; yazılmamışsa uç nokta 404 döner:
+
+```
+npx wrangler secret put ADMIN_USER      # ya da panoda Settings → Variables and Secrets (Secret)
+npx wrangler secret put ADMIN_PASS      # uzun ve rastgele; UTF-8 karakter olur
+```
+
+Yeni kayıt geldiğinde e-posta bildirimi isteğe bağlıdır: `RESEND_API_KEY` (secret) + `LEAD_TO`
+(alıcı adres, düz değişken) tanımlıysa Resend üzerinden gider; `LEAD_FROM` verilmezse
+`FY <onboarding@resend.dev>` kullanılır (Resend'in test göndericisi; yalnızca kendi adresine gönderir,
+kendi alan adını doğrulayınca `LEAD_FROM`'u değiştir). Bildirim başarısız olsa da kayıt yazılmıştır.
+Resend'i açarsan `terms.html` bunu zaten «kullanılabilir» diye bildiriyor; kapalıyken hiçbir istek gitmez.
+
 ## Siteyi bağlama
 
 1. `js/main.js` dosyasının başındaki `FYOS_ENDPOINT` değişkenine bu adresi yaz:

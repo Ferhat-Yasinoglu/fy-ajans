@@ -1004,7 +1004,7 @@
       ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme diye bir şey yok. "Ücretsiz katıl" düğmesine basman yeter; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
       ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu — sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt benden değil, gerçek bir insandan geliyor.'],
       ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak istiyorsan "FY\'ye katıl" bölümünden özgeçmişini gönder; uygun görürsek biz sana dönüyoruz.'],
-      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site çerez kullanmıyor, seni izlemiyor. Sorduğun soru yanıtı üretmek için FY’nin kendi ara sunucusuna, oradan da yapay zekâ sağlayıcısına gidiyor; bir hesaba bağlanmıyor ve bizde saklanmıyor. Ayrıntısı Kurallar ve Gizlilik sayfasında.']
+      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site çerez kullanmıyor, seni izlemiyor. Sorduğun soru yanıtı üretmek için FY’nin kendi ara sunucusuna, oradan da yapay zekâ sağlayıcısına gidiyor; bir hesaba bağlanmıyor ve bizde saklanmıyor. Formdan gönderdiklerin yalnızca sana dönmek için en çok altı ay tutulur. Ayrıntısı Kurallar ve Gizlilik sayfasında.']
     ];
     function reply(q) {
       var lq = q.toLowerCase(), best = null, bestScore = 0;
@@ -1536,9 +1536,34 @@
     });
   })();
 
-  /* ---------- Formlar (sunucusuz: mailto ile devam) ----------
+  /* ---------- Formlar ----------
+     Worker bağlıysa (FYOS_ENDPOINT) kayıt POST /lead ile sunucuya yazılır: ziyaretçi e-posta
+     uygulaması açmadan «alındı» görür, sahibi kaydı /leads'te okur. Worker'a ulaşılamazsa ya da
+     bağlı değilse eski yol: mailto ile ziyaretçinin e-posta uygulaması açılır. Alan adları
+     sunucunun beklediği İngilizce anahtarlara çevrilir (formlar Türkçe ad kullanabiliyor).
      guard: tarayıcının kendi doğrulamasının gösteremediği durumlar için (gizli alan odaklanamadığı
      için reportValidity hiçbir balon çıkaramaz, form sessizce takılırdı). Hata metnini döndürür. */
+  var FIELD_MAP = { ad: 'name', name: 'name', 'e-posta': 'email', eposta: 'email', email: 'email', telefon: 'phone', phone: 'phone',
+    sirket: 'company', 'şirket': 'company', company: 'company', mesaj: 'message', message: 'message', website: 'website' };
+  function leadPayload(form, kind) {
+    var fd = new FormData(form), out = { kind: kind || '', lang: document.documentElement.lang || 'tr' };
+    fd.forEach(function (v, k) {
+      if (typeof v !== 'string' || !v.trim()) return;
+      var key = FIELD_MAP[String(k).toLowerCase()] || String(k).toLowerCase();
+      out[key] = v.trim();
+    });
+    return out;
+  }
+  /* sendLead(payload, onDone): worker yanıt verirse onDone(true), aksi hâlde onDone(false). */
+  function sendLead(payload, onDone) {
+    if (!FYOS_ENDPOINT || !window.fetch) { onDone(false); return; }
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 12000) : 0;
+    fetch(FYOS_ENDPOINT.replace(/\/+$/, '') + '/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl ? ctrl.signal : undefined })
+      .then(function (res) { return res.json().then(function (d) { return res.ok && d && d.ok; }); })
+      .then(function (okay) { clearTimeout(timer); onDone(!!okay); })
+      .catch(function () { clearTimeout(timer); onDone(false); });
+  }
   function wireForm(id, statusId, subject, extra, guard) {
     var form = $('#' + id), status = $('#' + statusId); if (!form) return;
     form.addEventListener('submit', function (e) {
@@ -1549,9 +1574,21 @@
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
       if (extra) lines.push('', extra);
-      status.textContent = extra ? t('formStatusResume', 'E-posta uygulaman açılıyor — özgeçmişini ek olarak eklemeyi unutma.') : t('formStatusSent', 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.');
-      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-      form.reset(); var fn = $('#jFileName'); if (fn) fn.textContent = t('fileChoose', 'Dosya seç…');
+      var viaMail = function () {
+        status.textContent = extra ? t('formStatusResume', 'E-posta uygulaman açılıyor — özgeçmişini ek olarak eklemeyi unutma.') : t('formStatusSent', 'Teşekkürler — mesajın hazırlandı, e-posta uygulaman açılıyor.');
+        location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+        form.reset(); var fn = $('#jFileName'); if (fn) fn.textContent = t('fileChoose', 'Dosya seç…');
+      };
+      // Dosya ekli formlar (özgeçmiş) sunucuya gitmez: ek yalnızca e-postayla gidebilir.
+      if (extra) { viaMail(); return; }
+      var btn = $('button[type="submit"]', form); if (btn) btn.disabled = true;
+      status.textContent = t('formSending', 'Gönderiliyor…');
+      sendLead(leadPayload(form, subject), function (okay) {
+        if (btn) btn.disabled = false;
+        if (!okay) { viaMail(); return; }
+        status.textContent = t('formStatusSaved', 'Teşekkürler — mesajın ulaştı. En geç iki iş günü içinde gerçek bir insan dönüş yapar.');
+        form.reset();
+      });
     });
   }
   wireForm('contactForm', 'contactStatus', t('subjContact', 'FY — iletişim formu'));
@@ -1624,8 +1661,13 @@
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
       var subj = 'FY — ' + (subject || t('subjDefault', 'iletişim'));
-      location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n'));
-      form.reset(); main.hidden = true; done.hidden = false;
+      var finish = function () { form.reset(); main.hidden = true; done.hidden = false; };
+      var btn = $('button[type="submit"]', form); if (btn) btn.disabled = true;
+      sendLead(leadPayload(form, subject || t('subjDefault', 'iletişim')), function (okay) {
+        if (btn) btn.disabled = false;
+        if (!okay) location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n'));
+        finish();
+      });
     });
   })();
   /* ---------- Bölüm kapakları: canlı sahne yalnız gerektiğinde ----------
