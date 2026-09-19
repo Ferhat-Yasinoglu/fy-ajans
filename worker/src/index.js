@@ -6,6 +6,8 @@
    Formlar: POST /lead kaydı KV'ye yazar; GET /leads (Basic auth) listeler.
    Randevu: GET /slots boş saatler, POST /book randevu, GET /booking.ics ziyaretçinin takvim dosyası,
    GET /bookings (Basic auth) sahibin listesi, GET /calendar.ics?key=… sahibin takvim aboneliği.
+   Yönetim: GET /admin (Basic auth) telefonda okunur sayfa; POST /admin/lead/<id>/done|delete,
+   POST /admin/booking/<id>/delete (iki adımlı silme, CSRF için Sec-Fetch-Site denetimi).
 
    GÜVENLİK — 7 Eylül 2026 denetiminde bulunan dört açık burada kapatıldı:
    1) Sayaç, model çağrısından SONRA yazılıyordu; aradaki 2-5 saniyede gelen bütün paralel
@@ -273,6 +275,11 @@ export default {
     /* /leads, /bookings: sahibin listeleri; tarayıcıdan açılır (GET, Origin yok), kimlik Basic auth.
        /booking.ics: ziyaretçinin takvim dosyası (id + kendi anahtarı). /calendar.ics: sahibin takvim
        aboneliği (anahtar özeti). Hepsi origin denetiminin ÖNÜNDE — tarayıcı gezintisi Origin taşımaz. */
+    /* /admin: sahibin telefonda okunur yönetim sayfası (HTML, JavaScript'siz). GET listeler,
+       POST işaretler/siler. Kimlik Basic auth; POST'larda ayrıca Sec-Fetch-Site/Origin denetimi
+       (tarayıcı Basic kimliği kendiliğinden eklediği için yabancı sitenin form POST'u — CSRF). */
+    if (path === '/admin' || path.startsWith('/admin/')) return handleAdmin(request, env, path);
+
     if (request.method === 'GET') {
       if (path === '/leads') return handleLeads(request, env);
       if (path === '/bookings') return handleBookings(request, env);
@@ -524,6 +531,87 @@ async function adminAuth(request, env) {
   if (user !== env.ADMIN_USER || !(await passwordOk(pass, env))) return unauthorized();
   if (!env.QUOTA) return json({ error: 'KV bağlı değil.' }, 503, {});
   return null;
+}
+
+const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const html = (body, status = 200) => new Response(body, { status, headers: {
+  'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer',
+  'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'" } });
+const ADMIN_CSS = `body{margin:0;background:#0a0a0a;color:#eee;font:16px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;padding:16px}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;color:#d4af37;margin:24px 0 8px;letter-spacing:.06em;text-transform:uppercase}
+.c{border:1px solid #2a2a2a;border-radius:12px;padding:12px 14px;margin:0 0 10px;background:#111}.c.done{opacity:.55}
+.k{color:#d4af37;font-weight:600}.m{color:#bbb;white-space:pre-wrap;margin:6px 0}.t{color:#777;font-size:13px}
+a{color:#e6c766}.r{display:flex;gap:8px;margin-top:10px}form{margin:0}
+button{background:#1c1c1c;color:#eee;border:1px solid #333;border-radius:8px;padding:8px 12px;font-size:14px}
+button.d{border-color:#7a2e2e;color:#f0b3b3}.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.e{color:#777;padding:12px 0}.w{margin:8px 0 0;color:#f0d38a}`;
+function adminPage(title, inner) {
+  return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>${esc(title)}</title><style>${ADMIN_CSS}</style></head><body>${inner}</body></html>`;
+}
+function fmtLocal(iso, tz) {
+  try { return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(iso)); } catch { return iso; }
+}
+function fmtTs(iso, tz) {
+  try { return new Intl.DateTimeFormat('tr-TR', { timeZone: tz, day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso)); } catch { return iso; }
+}
+/* Yabancı siteden gelen form POST'unu ele: modern tarayıcılar Sec-Fetch-Site gönderir; yoksa Origin. */
+function sameSite(request) {
+  const sfs = request.headers.get('Sec-Fetch-Site');
+  if (sfs) return sfs === 'same-origin' || sfs === 'none';
+  const origin = request.headers.get('Origin');
+  if (!origin) return true;                                  // eski tarayıcı, formdan gelen istek
+  try { return new URL(origin).origin === new URL(request.url).origin; } catch { return false; }
+}
+
+async function handleAdmin(request, env, path) {
+  const auth = await adminAuth(request, env);
+  if (auth) return auth;
+  const tz = bookingConfig(env).tz;
+  const back = new Response(null, { status: 303, headers: { Location: '/admin', 'Cache-Control': 'no-store' } });
+  const m = /^\/admin\/(lead|booking)\/([^/]+)\/(done|delete)$/.exec(path);
+
+  if (request.method === 'POST') {
+    if (!m) return json({ error: 'Bulunamadı.' }, 404, {});
+    if (!sameSite(request)) return json({ error: 'Yabancı kaynaktan istek.' }, 403, {});
+    const [, type, rawId, action] = m; const id = decodeURIComponent(rawId);
+    if (type === 'lead') {
+      const key = 'lead:' + id; const v = await env.QUOTA.get(key);
+      if (!v) return back;
+      if (action === 'delete') { await env.QUOTA.delete(key); return back; }
+      let rec; try { rec = JSON.parse(v); } catch { return back; }
+      rec.done = !rec.done;
+      await env.QUOTA.put(key, JSON.stringify(rec), { expirationTtl: LEAD_TTL_DAYS * 86400 });
+      return back;
+    }
+    const b = (await allBookings(env)).find(x => x.id === id);
+    if (b && action === 'delete') await env.QUOTA.delete(bookKey(b.at));      // saat yeniden boşalır
+    return back;
+  }
+
+  if (request.method !== 'GET') return json({ error: 'Yalnızca GET/POST.' }, 405, {});
+  if (m && m[3] === 'delete') {                                               // iki adımlı silme: onay sayfası
+    const [, type, rawId] = m; const id = decodeURIComponent(rawId);
+    return html(adminPage('Sil?', `<h1>Silinsin mi?</h1><p class="w">${type === 'lead' ? 'Kayıt' : 'Randevu'} geri getirilemez.${type === 'booking' ? ' Saat yeniden boşalır.' : ''}</p>
+<div class="r"><form method="post" action="/admin/${type}/${encodeURIComponent(id)}/delete"><button class="d" type="submit">Evet, sil</button></form><a href="/admin"><button type="button">Vazgeç</button></a></div>`));
+  }
+  if (m) return json({ error: 'Bulunamadı.' }, 404, {});
+
+  const bookings = (await allBookings(env)).filter(b => new Date(b.at).getTime() >= Date.now() - 86400000);
+  const list = await env.QUOTA.list({ prefix: 'lead:', limit: LEADS_LIST_MAX });
+  const leads = [];
+  for (const k of list.keys || []) { const v = await env.QUOTA.get(k.name); if (!v) continue; try { leads.push(JSON.parse(v)); } catch {} }
+  leads.sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
+
+  const bCards = bookings.map(b => `<div class="c"><div class="top"><span class="k">${esc(fmtLocal(b.at, tz))}</span><span class="t">${esc(tz)}</span></div>
+<div>${esc(b.name)}${b.company ? ' · ' + esc(b.company) : ''}</div><div><a href="mailto:${esc(b.email)}">${esc(b.email)}</a>${b.phone ? ' · <a href="tel:' + esc(b.phone) + '">' + esc(b.phone) + '</a>' : ''}</div>
+${b.message ? '<div class="m">' + esc(b.message) + '</div>' : ''}<div class="r"><a href="/admin/booking/${encodeURIComponent(b.id)}/delete"><button class="d" type="button">Sil</button></a></div></div>`).join('');
+  const lCards = leads.map(l => `<div class="c${l.done ? ' done' : ''}"><div class="top"><span class="k">${esc(l.kind)}</span><span class="t">${esc(fmtTs(l.ts, tz))}</span></div>
+<div>${esc(l.name || '—')}${l.company ? ' · ' + esc(l.company) : ''}</div><div>${l.email ? '<a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' : ''}${l.phone ? (l.email ? ' · ' : '') + '<a href="tel:' + esc(l.phone) + '">' + esc(l.phone) + '</a>' : ''}</div>
+${l.message ? '<div class="m">' + esc(l.message) + '</div>' : ''}<div class="r"><form method="post" action="/admin/lead/${encodeURIComponent(l.id)}/done"><button type="submit">${l.done ? 'Yeniden aç' : 'İlgilenildi'}</button></form><a href="/admin/lead/${encodeURIComponent(l.id)}/delete"><button class="d" type="button">Sil</button></a></div></div>`).join('');
+  return html(adminPage('FY — kayıtlar', `<div class="top"><h1>FY — kayıtlar</h1><span class="t">${leads.length} kayıt · ${bookings.length} randevu</span></div>
+<h2>Randevular</h2>${bCards || '<div class="e">Yaklaşan randevu yok.</div>'}
+<h2>Kayıtlar</h2>${lCards || '<div class="e">Kayıt yok.</div>'}
+<p class="t">Kayıtlar 180 gün, randevular 120 gün sonra kendiliğinden silinir. JSON: <a href="/leads">/leads</a> · <a href="/bookings">/bookings</a></p>`));
 }
 
 /* Kayıt listesi (mini CRM). */

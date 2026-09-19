@@ -78,8 +78,14 @@ ay), IP kayda girmez; ziyaretçi başına günde 5 gönderim; `website` bal küp
 Kayıtları okumak — tarayıcıdan aç, kullanıcı adı/şifre sorar:
 
 ```
-https://fy-ajans.<hesap-adın>.workers.dev/leads
+https://fy-ajans.<hesap-adın>.workers.dev/admin    # telefonda okunur sayfa: kayıtlar + randevular,
+                                                   # «İlgilenildi» işareti, iki adımlı silme (KVKK)
+https://fy-ajans.<hesap-adın>.workers.dev/leads    # aynı veri, JSON
 ```
+
+`/admin` JavaScript'siz saf HTML'dir (sıkı CSP); işaretleme ve silme form POST'uyla yapılır ve
+yabancı siteden gelen POST `Sec-Fetch-Site` denetimiyle reddedilir (tarayıcı Basic kimliği
+kendiliğinden eklediği için CSRF'ye karşı). Silme geri alınamaz; randevu silinince saat yeniden boşalır.
 
 Kullanıcı adı `wrangler.toml` içinde `ADMIN_USER` (varsayılan `FY`). Şifre için iki yol; ikisi de yoksa
 uç nokta 404 döner:
