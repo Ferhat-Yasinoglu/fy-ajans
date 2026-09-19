@@ -394,3 +394,68 @@ reset();
   await worker.fetch(leadReq({ kind: 'x', email: 'a@b.co', message: 'm' }, '3.3.3.3'), env2);
   console.log(`  RESEND ayarsızken çağrı: ${resendCalls} ${ok(resendCalls === 0)}`);
 }
+
+/* --- Randevu: /slots, /book, /booking.ics, /bookings, /calendar.ics --- */
+const BOOK_ENV = (over = {}) => ENV({ ANTHROPIC_API_KEY: undefined, BOOK_TZ: 'Europe/Berlin', BOOK_DAYS: '1,2,3,4,5', BOOK_HOURS: '10-17', BOOK_SLOT_MIN: '30', BOOK_HORIZON_DAYS: '14', BOOK_LEAD_HOURS: '24', ...over });
+const slotsReq = (ip = '6.6.6.6') => ({ method: 'GET', url: 'https://fy-ajans.example.workers.dev/slots',
+  headers: { get: (h) => ({ Origin: 'https://ferhat-yasinoglu.github.io', 'CF-Connecting-IP': ip })[h] ?? null } });
+const bookReq = (body, ip = '6.6.6.6') => req(body, { ip, url: 'https://fy-ajans.example.workers.dev/book' });
+const getReq = (url, auth) => ({ method: 'GET', url, headers: { get: (h) => ({ Authorization: auth, 'CF-Connecting-IP': '6.6.6.6' })[h] ?? null } });
+const berlin = (iso) => new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hourCycle: 'h23', weekday: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(iso));
+
+console.log('\n=== 25) /slots: hafta içi, 10:00-16:30 Berlin, en erken 24 saat sonra, dolu saat listeden düşüyor ===');
+reset();
+{
+  const env = BOOK_ENV();
+  const r = await worker.fetch(slotsReq(), env); const d = await r.json();
+  const all = d.days.flatMap(x => x.slots);
+  const weekdaysOnly = d.days.every(x => { const wd = new Date(x.slots[0].at).getUTCDay(); return true; }) && all.every(s => !/Sat|Sun/.test(berlin(s.at)));
+  const hoursOk = all.every(s => { const hm = berlin(s.at).slice(-5); return hm >= '10:00' && hm <= '16:30'; });
+  const leadOk = all.every(s => new Date(s.at).getTime() >= Date.now() + 24 * 3600000 - 1000);
+  const localOk = all.every(s => berlin(s.at).slice(-5) === s.local);
+  console.log(`  HTTP ${r.status} ${ok(r.status === 200)} | gün: ${d.days.length} (9-10) ${ok(d.days.length >= 9 && d.days.length <= 10)} | slot: ${all.length} ${ok(all.length >= 9 * 14)} | hafta içi: ${ok(weekdaysOnly)} | saat aralığı: ${ok(hoursOk)} | 24 saat kuralı: ${ok(leadOk)} | yerel etiket doğru: ${ok(localOk)}`);
+  const first = all[0];
+  await env.QUOTA.put('book:' + first.at.slice(0, 16), '{}');
+  const d2 = await (await worker.fetch(slotsReq(), env)).json();
+  const gone = !d2.days.flatMap(x => x.slots).some(s => s.at === first.at);
+  console.log(`  dolu saat listeden düştü mü: ${ok(gone)} | POST'suz GET /slots Origin'siz -> ${(await worker.fetch({ ...slotsReq(), headers: { get: (h) => ({ 'CF-Connecting-IP': '6.6.6.6' })[h] ?? null } }, env)).status} (403) ${ok((await worker.fetch({ ...slotsReq(), headers: { get: (h) => ({ 'CF-Connecting-IP': '6.6.6.6' })[h] ?? null } }, env)).status === 403)}`);
+}
+
+console.log('\n=== 26) /book: geçerli saat kayıt + lead, aynı saat 409, kural dışı saat 400, e-posta zorunlu, .ics ===');
+reset();
+{
+  const env = BOOK_ENV();
+  const slots = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots);
+  const at = slots[3].at;
+  const r1 = await worker.fetch(bookReq({ at, name: 'Ayşe', email: 'ayse@example.com', message: 'site' }), env); const d1 = await r1.json();
+  const keys = [...env.QUOTA.store.keys()];
+  console.log(`  HTTP ${r1.status} ok:${d1.ok} ${ok(r1.status === 200 && d1.ok === true)} | book: kaydı ${ok(keys.some(k => k === 'book:' + at.slice(0, 16)))} | lead: kaydı ${ok(keys.some(k => k.startsWith('lead:')))} | local: ${d1.local} ${ok(/^\d\d:\d\d$/.test(d1.local))} | ics yolu: ${ok(/^\/booking\.ics\?id=.+&k=[0-9a-f]{32}$/.test(d1.ics))}`);
+  const r2 = await worker.fetch(bookReq({ at, name: 'Ali', email: 'ali@example.com' }, '7.7.7.8'), env);
+  const r3 = await worker.fetch(bookReq({ at: new Date(Date.now() + 3600000).toISOString(), name: 'Ali', email: 'ali@example.com' }, '7.7.7.9'), env);
+  const r4 = await worker.fetch(bookReq({ at: slots[5].at, name: 'Ali' }, '7.7.7.10'), env);
+  console.log(`  aynı saat -> ${r2.status} (409) ${ok(r2.status === 409)} | kural dışı saat -> ${r3.status} (400) ${ok(r3.status === 400)} | e-postasız -> ${r4.status} (400) ${ok(r4.status === 400)}`);
+  const icsOk = await worker.fetch(getReq('https://fy-ajans.example.workers.dev' + d1.ics), env);
+  const body = await icsOk.text();
+  const icsBad = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/booking.ics?id=' + d1.id + '&k=yanlis'), env);
+  console.log(`  .ics -> ${icsOk.status} ${icsOk.headers.get('Content-Type')} ${ok(icsOk.status === 200 && /text\/calendar/.test(icsOk.headers.get('Content-Type')))} | DTSTART: ${ok(body.includes('DTSTART:' + at.replace(/[-:]/g, '').replace(/\.\d{3}/, '')))} | e-posta sızmadı: ${ok(!body.includes('ayse@example.com'))} | yanlış anahtar -> ${icsBad.status} (404) ${ok(icsBad.status === 404)}`);
+  let son = 0;
+  for (let i = 0; i < 2; i++) son = (await worker.fetch(bookReq({ at: slots[10 + i].at, name: 'X', email: 'x@y.co' }, '9.9.9.1'), env)).status;
+  console.log(`  günlük deneme sınırı (2): 3. -> ${(await worker.fetch(bookReq({ at: slots[13].at, name: 'X', email: 'x@y.co' }, '9.9.9.1'), env)).status} (429) ${ok((await worker.fetch(bookReq({ at: slots[14].at, name: 'X', email: 'x@y.co' }, '9.9.9.1'), env)).status === 429)}`);
+}
+
+console.log('\n=== 27) /bookings (Basic auth) ve /calendar.ics (anahtar özeti) ===');
+reset();
+{
+  const { createHash } = await import('node:crypto');
+  const token = 'takvim-anahtari-test'; const hash = createHash('sha256').update(token).digest('hex');
+  const env = BOOK_ENV({ ADMIN_USER: 'fy', ADMIN_PASS: 'p', CAL_FEED_TOKEN_HASH: hash });
+  const slots = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots);
+  await worker.fetch(bookReq({ at: slots[0].at, name: 'Ayşe', email: 'ayse@example.com', message: 'm' }), env);
+  const b0 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/bookings', null), env);
+  const b1 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/bookings', 'Basic ' + b64('fy:p')), env); const d1 = await b1.json();
+  console.log(`  kimliksiz -> ${b0.status} (401) ${ok(b0.status === 401)} | doğru -> ${b1.status} count:${d1.count} ${ok(b1.status === 200 && d1.count === 1)} | ziyaretçi anahtarı gizli: ${ok(!JSON.stringify(d1).includes('"k"'))}`);
+  const c1 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/calendar.ics?key=' + token), env); const t1 = await c1.text();
+  const c2 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/calendar.ics?key=yanlis'), env);
+  const c3 = await worker.fetch(getReq('https://fy-ajans.example.workers.dev/calendar.ics?key=' + token), BOOK_ENV());
+  console.log(`  doğru anahtar -> ${c1.status} ${ok(c1.status === 200)} | VEVENT: ${(t1.match(/BEGIN:VEVENT/g) || []).length} ${ok((t1.match(/BEGIN:VEVENT/g) || []).length === 1)} | sahibe e-posta görünür: ${ok(t1.includes('ayse@example.com'))} | yanlış -> ${c2.status} (404) ${ok(c2.status === 404)} | özet tanımsız -> ${c3.status} (404) ${ok(c3.status === 404)}`);
+}

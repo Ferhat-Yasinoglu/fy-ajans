@@ -1543,8 +1543,9 @@
      sunucunun beklediği İngilizce anahtarlara çevrilir (formlar Türkçe ad kullanabiliyor).
      guard: tarayıcının kendi doğrulamasının gösteremediği durumlar için (gizli alan odaklanamadığı
      için reportValidity hiçbir balon çıkaramaz, form sessizce takılırdı). Hata metnini döndürür. */
-  var FIELD_MAP = { ad: 'name', name: 'name', 'e-posta': 'email', eposta: 'email', email: 'email', telefon: 'phone', phone: 'phone',
-    sirket: 'company', 'şirket': 'company', company: 'company', mesaj: 'message', message: 'message', website: 'website' };
+  var FIELD_MAP = { ad: 'name', name: 'name', 'نام': 'name', 'e-posta': 'email', eposta: 'email', email: 'email', 'e-mail': 'email', 'ایمیل': 'email',
+    telefon: 'phone', phone: 'phone', 'تلفن': 'phone', sirket: 'company', 'şirket': 'company', 'işletme': 'company', isletme: 'company', unternehmen: 'company', business: 'company', company: 'company', 'کسب\u200cوکار': 'company',
+    mesaj: 'message', message: 'message', nachricht: 'message', 'پیام': 'message', website: 'website' };
   function leadPayload(form, kind) {
     var fd = new FormData(form), out = { kind: kind || '', lang: document.documentElement.lang || 'tr' };
     fd.forEach(function (v, k) {
@@ -1610,6 +1611,48 @@
   (function modal() {
     var root = $('#contactModal'); if (!root) return;
     var main = $('#modalMain'), topic = $('#modalTopic'), form = $('#modalForm'), done = $('#modalDone');
+    /* Randevu modu: «Ücretsiz danışmanlık görüşmesi» düğmesi data-book taşır. O zaman formun içine
+       gün + saat seçici gelir (boş saatler worker'daki /slots'tan), gönderim /book'a gider ve bitiş
+       panelinde randevu saati + «Takvime ekle» (.ics) bağlantısı görünür. Worker yoksa ya da saat
+       listesi yüklenemezse form sıradan mesaj gibi çalışır (ziyaretçi uygun zamanı mesaja yazar). */
+    var booking = false, slotsData = null;
+    var doneSub = $('.modal__sub', done), doneSubMail = doneSub ? doneSub.textContent : '';
+    var pick = document.createElement('div'); pick.className = 'book'; pick.id = 'bookPick'; pick.hidden = true;
+    pick.innerHTML = '<p class="book__hint" id="bookHint"></p><div class="book__row">' +
+      '<select class="input" id="bookDay"></select><select class="input" id="bookTime"></select></div>' +
+      '<p class="form-status book__status" id="bookStatus" role="status" aria-live="polite"></p>';
+    var msgField = $('textarea', form); if (msgField) form.insertBefore(pick, msgField);
+    var bookDay = $('#bookDay', pick), bookTime = $('#bookTime', pick), bookStatus = $('#bookStatus', pick), bookHint = $('#bookHint', pick);
+    bookDay.setAttribute('aria-label', t('bookDay', 'Gün')); bookTime.setAttribute('aria-label', t('bookTime', 'Saat'));
+    var lang = document.documentElement.lang || 'tr';
+    function fmtDay(iso, tz) { try { return new Intl.DateTimeFormat(lang, { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(iso)); } catch (e) { return iso.slice(0, 10); } }
+    function fmtWhen(iso, tz) { try { return new Intl.DateTimeFormat(lang, { timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).format(new Date(iso)); } catch (e) { return iso; } }
+    function fillTimes() {
+      var d = slotsData && slotsData.days.filter(function (x) { return x.date === bookDay.value; })[0];
+      bookTime.innerHTML = '';
+      (d ? d.slots : []).forEach(function (sl) { var o = document.createElement('option'); o.value = sl.at; o.textContent = sl.local; bookTime.appendChild(o); });
+    }
+    function loadSlots() {
+      slotsData = null; bookDay.innerHTML = ''; bookTime.innerHTML = '';
+      bookStatus.textContent = t('bookLoading', 'Boş saatler yükleniyor…');
+      if (!FYOS_ENDPOINT || !window.fetch) { bookStatus.textContent = t('bookNone', 'Şu an boş saat yok; mesajında uygun zamanı yaz, biz ayarlarız.'); return; }
+      fetch(FYOS_ENDPOINT.replace(/\/+$/, '') + '/slots').then(function (r) { return r.json(); }).then(function (d) {
+        if (!d || !d.days || !d.days.length) { bookStatus.textContent = t('bookNone', 'Şu an boş saat yok; mesajında uygun zamanı yaz, biz ayarlarız.'); return; }
+        slotsData = d;
+        d.days.forEach(function (x) { var o = document.createElement('option'); o.value = x.date; o.textContent = fmtDay(x.slots[0].at, d.tz); bookDay.appendChild(o); });
+        fillTimes();
+        bookHint.textContent = t('bookHint', 'Saatler {tz} saatine göre · {min} dakika').replace('{tz}', d.tz.replace(/_/g, ' ')).replace('{min}', d.slotMin);
+        bookStatus.textContent = '';
+      }).catch(function () { bookStatus.textContent = t('bookNone', 'Şu an boş saat yok; mesajında uygun zamanı yaz, biz ayarlarız.'); });
+    }
+    bookDay.addEventListener('change', fillTimes);
+    function showDone(kind, d) {
+      var when = $('#modalWhen', done), ics = $('#modalIcs', done);
+      if (doneSub) doneSub.textContent = kind === 'mail' ? doneSubMail : t('formStatusSaved', 'Teşekkürler — mesajın ulaştı. En geç iki iş günü içinde gerçek bir insan dönüş yapar.');
+      if (when) { when.hidden = kind !== 'book'; if (kind === 'book') when.textContent = t('bookDone', 'Randevun alındı: {when}. Onay ve görüşme bağlantısı e-postayla gelecek.').replace('{when}', fmtWhen(d.at, d.tz)); }
+      if (ics) { ics.hidden = kind !== 'book'; if (kind === 'book') { ics.href = FYOS_ENDPOINT.replace(/\/+$/, '') + d.ics; ics.textContent = t('bookAdd', 'Takvime ekle'); } }
+      form.reset(); main.hidden = true; done.hidden = false;
+    }
     var card = $('.modal__card', root);
     var lastFocus = null, subject = '', trapped = false;
     /* Kart aria-modal="true" diyor; klavyede de öyle davranmalı. Tab pencerenin içinde döner,
@@ -1619,8 +1662,11 @@
     function tabbables() {
       return $$(FOCUSABLE, card).filter(function (el) { return !el.hidden && el.offsetParent !== null; });
     }
-    function open(subj) {
+    function open(subj, book) {
       subject = subj || '';
+      booking = !!book;
+      pick.hidden = !booking;
+      if (booking) loadSlots();
       trapped = true;
       lastFocus = document.activeElement;
       if (topic) { topic.hidden = !subject; topic.textContent = subject ? t('modalTopic', 'Konu: ') + subject : ''; }
@@ -1639,7 +1685,7 @@
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
     $$('[data-modal]').forEach(function (el) {
-      el.addEventListener('click', function (e) { e.preventDefault(); open(el.getAttribute('data-modal')); });
+      el.addEventListener('click', function (e) { e.preventDefault(); open(el.getAttribute('data-modal'), el.hasAttribute('data-book')); });
     });
     $$('[data-modal-close]', root).forEach(function (el) { el.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) {
@@ -1661,12 +1707,31 @@
       var fd = new FormData(form), lines = [];
       fd.forEach(function (v, k) { if (typeof v === 'string' && v.trim()) lines.push(k + ': ' + v.trim()); });
       var subj = 'FY — ' + (subject || t('subjDefault', 'iletişim'));
-      var finish = function () { form.reset(); main.hidden = true; done.hidden = false; };
       var btn = $('button[type="submit"]', form); if (btn) btn.disabled = true;
-      sendLead(leadPayload(form, subject || t('subjDefault', 'iletişim')), function (okay) {
+      var viaMail = function () { location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n')); showDone('mail'); };
+      var payload = leadPayload(form, subject || t('subjDefault', 'iletişim'));
+      var at = booking && slotsData && bookTime.value;
+      if (at) {
+        // Randevu: /book; saat az önce alındıysa listeyi tazele ve pencerede kal.
+        payload.at = at;
+        var ctrl = window.AbortController ? new AbortController() : null;
+        var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 12000) : 0;
+        fetch(FYOS_ENDPOINT.replace(/\/+$/, '') + '/book', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl ? ctrl.signal : undefined })
+          .then(function (res) { return res.json().then(function (d) { return { status: res.status, d: d }; }); })
+          .then(function (r) {
+            clearTimeout(timer); if (btn) btn.disabled = false;
+            if (r.status === 200 && r.d && r.d.ok) { showDone('book', r.d); return; }
+            if (r.status === 409) { bookStatus.textContent = t('bookTaken', 'Bu saat az önce alındı; başka bir saat seç.'); loadSlots(); return; }
+            bookStatus.textContent = (r.d && r.d.error) || t('bookFail', 'Randevu alınamadı; mesajını e-postayla gönderiyoruz.');
+            if (r.status !== 400 && r.status !== 429) viaMail();
+          })
+          .catch(function () { clearTimeout(timer); if (btn) btn.disabled = false; bookStatus.textContent = t('bookFail', 'Randevu alınamadı; mesajını e-postayla gönderiyoruz.'); viaMail(); });
+        return;
+      }
+      sendLead(payload, function (okay) {
         if (btn) btn.disabled = false;
-        if (!okay) location.href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(lines.join('\n'));
-        finish();
+        if (!okay) { viaMail(); return; }
+        showDone('lead');
       });
     });
   })();

@@ -2387,3 +2387,13 @@ html[dir="rtl"] :is(.font-mono, .tab .en, .chapter__art .en, .hud__name, .hud__s
 .call__steps button:focus-visible { outline: 2px solid rgb(var(--accent-gold)); outline-offset: 2px; }
 .call__steps li.is-now button { color: rgb(var(--fg)); border-color: rgb(var(--accent-gold) / .45); background: rgb(var(--accent-gold) / .07); }
 .call__se { flex: none; font-size: 14px; }
+
+/* Randevu seçici (görüşme modalı): gün + saat, worker /slots'tan */
+.book { display: grid; gap: 8px; }
+.book__row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.book__hint { margin: 0; font-size: .85rem; color: rgb(var(--fg-dim)); }
+.book__status:empty { display: none; }
+select.input { appearance: none; -webkit-appearance: none; color-scheme: dark; background-image: linear-gradient(45deg, transparent 50%, #d4af37 50%), linear-gradient(135deg, #d4af37 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-inline-end: 34px; }
+select.input option { color: #111; background: #fff; }
+.modal__when { margin: 8px 0 12px; font-weight: 600; }
+

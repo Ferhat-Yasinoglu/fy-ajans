@@ -98,6 +98,26 @@ Yeni kayıt geldiğinde e-posta bildirimi isteğe bağlıdır: `RESEND_API_KEY` 
 kendi alan adını doğrulayınca `LEAD_FROM`'u değiştir). Bildirim başarısız olsa da kayıt yazılmıştır.
 Resend'i açarsan `terms.html` bunu zaten «kullanılabilir» diye bildiriyor; kapalıyken hiçbir istek gitmez.
 
+## Randevu: `/slots`, `/book`, `/bookings`, `/booking.ics`, `/calendar.ics`
+
+«Ücretsiz danışmanlık görüşmesi» düğmesi randevu modunda açılır: ziyaretçi boş bir gün/saat seçer
+(`GET /slots`), `POST /book` kaydı yazar (hem `book:` hem `/leads` kaydı), ziyaretçiye takvim dosyası
+verilir (`/booking.ics?id&k`, yalnızca kendi anahtarıyla). Üçüncü taraf yok; kural `wrangler.toml`
+`[vars]` içinde: `BOOK_TZ`, `BOOK_DAYS` (0=Pazar…6), `BOOK_HOURS` (yerel, bitiş hariç), `BOOK_SLOT_MIN`,
+`BOOK_HORIZON_DAYS`, `BOOK_LEAD_HOURS`. Ziyaretçi başına günde 2 deneme; kayıt 120 gün durur.
+
+Sahibi için iki yol:
+
+```
+https://fy-ajans.<hesap-adın>.workers.dev/bookings          # Basic auth (/leads ile aynı kimlik), JSON
+https://fy-ajans.<hesap-adın>.workers.dev/calendar.ics?key=… # Google Takvim → Diğer takvimler → «URL'den ekle»
+```
+
+Takvim adresinin anahtarı depoda durmaz; `node tools/set-calendar-token.mjs` bir kez üretip gösterir,
+SHA-256 özetini `CAL_FEED_TOKEN_HASH` olarak yazar. Google, abone olunan takvimleri birkaç saatte bir
+tazeler; anında görmek için `/bookings`. KV atomik olmadığından aynı saniyede iki kişi aynı saati
+alabilir — listede görünür, sahibi çözer.
+
 ## Siteyi bağlama
 
 1. `js/main.js` dosyasının başındaki `FYOS_ENDPOINT` değişkenine bu adresi yaz:

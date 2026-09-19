@@ -4,6 +4,8 @@
    Günlük soru sınırı ziyaretçi başına KV'de tutulur. Kurulum: ../README.md
    Teşhis: GET /health — tarayıcıdan açılır, yalnızca durum ve hata kodu döner.
    Formlar: POST /lead kaydı KV'ye yazar; GET /leads (Basic auth) listeler.
+   Randevu: GET /slots boş saatler, POST /book randevu, GET /booking.ics ziyaretçinin takvim dosyası,
+   GET /bookings (Basic auth) sahibin listesi, GET /calendar.ics?key=… sahibin takvim aboneliği.
 
    GÜVENLİK — 7 Eylül 2026 denetiminde bulunan dört açık burada kapatıldı:
    1) Sayaç, model çağrısından SONRA yazılıyordu; aradaki 2-5 saniyede gelen bütün paralel
@@ -45,6 +47,16 @@ const LEAD_DAILY = 5;             // ziyaretçi başına günlük form gönderim
 const LEAD_TTL_DAYS = 180;
 const LEAD_MAX = { kind: 80, name: 120, email: 200, phone: 40, company: 120, message: 2000, lang: 5 };
 const LEADS_LIST_MAX = 100;       // /leads en çok bu kadar kayıt döner (en yeni önce)
+
+/* --- Randevu (/slots, /book, /bookings, /booking.ics, /calendar.ics) ---
+   Üçüncü taraf yok: takvim kuralı wrangler.toml [vars] BOOK_* değişkenlerinde, dolu saatler KV'de
+   (book:<UTC dakika>). Ziyaretçi boş bir saati seçer, kaydı hem randevu hem /leads kaydı olarak yazılır,
+   kendisine takvim dosyası (.ics) verilir. Sahibi /bookings'te (Basic auth) görür ya da Google Takvim'e
+   /calendar.ics?key=… adresiyle abone olur (anahtarın SHA-256 özeti CAL_FEED_TOKEN_HASH'te; anahtar
+   depoda durmaz, tools/set-calendar-token.mjs üretir). KV atomik değil: aynı saniyede iki kişi aynı saati
+   alabilir — ziyaretçi sayısı için kabul edilebilir, sahibi listede görür. */
+const BOOK_TTL_DAYS = 120;
+const BOOK_DAILY = 2;             // ziyaretçi başına günlük randevu denemesi
 
 /* --- Sesli yanıt (/tts) ---
    Frenler bilerek sıkı: bu bir vitrin demosu, bir seslendirme servisi değil. */
@@ -106,6 +118,85 @@ function leadDayKey(ip) {
   const d = new Date();
   return `l:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
 }
+function bookDayKey(ip) {
+  const d = new Date();
+  return `b:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
+}
+function bookingConfig(env) {
+  const hours = String(env.BOOK_HOURS || '10-17').split('-').map(Number);
+  return {
+    tz: env.BOOK_TZ || 'Europe/Berlin',
+    days: String(env.BOOK_DAYS || '1,2,3,4,5').split(',').map(Number),   // 0 = Pazar … 6 = Cumartesi
+    start: hours[0], end: hours[1],                                       // yerel saat; bitiş hariç
+    slotMin: parseInt(env.BOOK_SLOT_MIN || '30', 10),
+    horizon: parseInt(env.BOOK_HORIZON_DAYS || '14', 10),
+    leadHours: parseInt(env.BOOK_LEAD_HOURS || '24', 10)                   // en erken randevu: şu an + bu kadar
+  };
+}
+/* Bir anın verilen saat dilimindeki parçaları. Intl dışında bağımlılık yok. */
+function localParts(date, tz) {
+  const p = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(date);
+  const g = (t) => p.find(x => x.type === t).value;
+  return { y: +g('year'), m: +g('month'), d: +g('day'), hh: +g('hour'), mm: +g('minute'),
+    wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(g('weekday')),
+    date: `${g('year')}-${g('month')}-${g('day')}`, local: `${g('hour')}:${g('minute')}` };
+}
+function tzOffsetMin(date, tz) {
+  const lp = localParts(date, tz);
+  return Math.round((Date.UTC(lp.y, lp.m - 1, lp.d, lp.hh, lp.mm) - Math.floor(date.getTime() / 60000) * 60000) / 60000);
+}
+/* Yerel saat -> UTC anı (yaz saati kenarı için iki geçiş). */
+function localToUTC(y, m, d, hh, mm, tz) {
+  const guess = Date.UTC(y, m - 1, d, hh, mm);
+  let t = guess - tzOffsetMin(new Date(guess), tz) * 60000;
+  const off2 = tzOffsetMin(new Date(t), tz);
+  if (guess - off2 * 60000 !== t) t = guess - off2 * 60000;
+  return new Date(t);
+}
+/* Kuraldan üretilen bütün aday saatler: [{ at (UTC ISO), date (yerel gün), local (HH:MM) }]. */
+function candidateSlots(cfg, now) {
+  const out = [];
+  const earliest = now.getTime() + cfg.leadHours * 3600000;
+  const today = localParts(now, cfg.tz);
+  for (let i = 0; i <= cfg.horizon; i++) {
+    const lp = localParts(new Date(Date.UTC(today.y, today.m - 1, today.d + i, 12)), cfg.tz);   // öğlen: gün kayması yok
+    if (!cfg.days.includes(lp.wd)) continue;
+    for (let mins = cfg.start * 60; mins < cfg.end * 60; mins += cfg.slotMin) {
+      const at = localToUTC(lp.y, lp.m, lp.d, Math.floor(mins / 60), mins % 60, cfg.tz);
+      if (at.getTime() < earliest) continue;
+      out.push({ at: at.toISOString(), date: lp.date, local: `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}` });
+    }
+  }
+  return out;
+}
+const bookKey = (atIso) => 'book:' + atIso.slice(0, 16);
+async function sha256hex(s) {
+  const b = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)));
+  return Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+}
+/* ICS (RFC 5545): UTC zamanlar, 74 baytta satır katlama, virgül/noktalı virgül kaçışı. */
+function icsDate(d) { return new Date(d).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+function icsText(v) { return String(v == null ? '' : v).replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/([,;])/g, '\\$1'); }
+function icsFold(line) {
+  const bytes = new TextEncoder().encode(line);
+  if (bytes.length <= 74) return line;
+  const parts = []; let cur = '';
+  for (const ch of line) { if (new TextEncoder().encode(cur + ch).length > 74) { parts.push(cur); cur = ' ' + ch; } else cur += ch; }
+  parts.push(cur);
+  return parts.join('\r\n');
+}
+function icsEvent(b, slotMin, summary, description) {
+  return ['BEGIN:VEVENT', `UID:${b.id}@fy-ajans`, `DTSTAMP:${icsDate(b.ts)}`, `DTSTART:${icsDate(b.at)}`,
+    `DTEND:${icsDate(new Date(b.at).getTime() + slotMin * 60000)}`, `SUMMARY:${icsText(summary)}`,
+    `DESCRIPTION:${icsText(description)}`, 'END:VEVENT'].map(icsFold).join('\r\n');
+}
+function icsCalendar(events, name) {
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//FY//fy-ajans//TR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    `X-WR-CALNAME:${icsText(name)}`, ...events, 'END:VCALENDAR'].join('\r\n') + '\r\n';
+}
+const icsResponse = (body, filename) => new Response(body, { status: 200, headers: {
+  'Content-Type': 'text/calendar; charset=utf-8', 'Cache-Control': 'no-store',
+  'Content-Disposition': `attachment; filename="${filename}"` } });
 function aiModels(env) {
   const own = String(env.AI_MODELS || env.AI_MODEL || '').split(',').map(s => s.trim()).filter(Boolean);
   const out = [];
@@ -179,10 +270,18 @@ export default {
        origin denetiminin ÖNÜNDE durur. Modele tek kelimelik bir soru sorar ve yalnızca durum +
        dört haneli hata kodunu döner; hata metni, anahtar ya da model çıktısı dönmez. Günde 5/IP. */
     if (path === '/health' && request.method === 'GET') return handleHealth(request, env);
-    /* /leads: kayıt listesi. Tarayıcıdan açılır (GET, Origin yok); kimlik Basic auth ile. */
-    if (path === '/leads' && request.method === 'GET') return handleLeads(request, env);
+    /* /leads, /bookings: sahibin listeleri; tarayıcıdan açılır (GET, Origin yok), kimlik Basic auth.
+       /booking.ics: ziyaretçinin takvim dosyası (id + kendi anahtarı). /calendar.ics: sahibin takvim
+       aboneliği (anahtar özeti). Hepsi origin denetiminin ÖNÜNDE — tarayıcı gezintisi Origin taşımaz. */
+    if (request.method === 'GET') {
+      if (path === '/leads') return handleLeads(request, env);
+      if (path === '/bookings') return handleBookings(request, env);
+      if (path === '/booking.ics') return handleBookingIcs(request, env);
+      if (path === '/calendar.ics') return handleCalendarFeed(request, env);
+    }
 
-    if (request.method !== 'POST') return json({ error: 'Yalnızca POST.' }, 405, cors);
+    const isSlots = path === '/slots' && request.method === 'GET';          // sayfadan fetch: Origin var
+    if (request.method !== 'POST' && !isSlots) return json({ error: 'Yalnızca POST.' }, 405, cors);
     if (!allowed.length) {
       console.error('ALLOWED_ORIGINS tanımsız — istek reddedildi');
       return json({ error: 'Sunucu yapılandırılmamış.' }, 500, cors);
@@ -192,8 +291,10 @@ export default {
 
     const isTts = path === '/tts';
     const isLead = path === '/lead';
+    const isBook = path === '/book';
+    const isChat = !isTts && !isLead && !isBook && !isSlots;
 
-    if (!isTts && !isLead && !env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
+    if (isChat && !env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
 
     // Sayaç bağlı değilse hiç yanıt üretme. Eskiden bu blok atlanır, sınır tümüyle kapanırdı.
     if (!env.QUOTA) {
@@ -215,6 +316,8 @@ export default {
     try {
       return isTts ? await handleTts(request, env, cors, ip)
         : isLead ? await handleLead(request, env, cors, ip)
+        : isSlots ? await handleSlots(env, cors)
+        : isBook ? await handleBook(request, env, cors, ip)
         : await handle(request, env, cors, ip);
     } finally {
       closeSlot(ip);
@@ -279,6 +382,12 @@ async function handleLead(request, env, cors, ip) {
   if (before >= LEAD_DAILY) return json({ error: 'Bugünlük form hakkın doldu; e-posta ile yaz.', limited: true }, 429, cors);
   await env.QUOTA.put(key, String(before + 1), { expirationTtl: secondsToMidnightUTC() });
 
+  const id = await saveLead(env, lead);
+  return json({ ok: true, id }, 200, cors);
+}
+
+/* Kaydı KV'ye yazar, isteğe bağlı bildirimi gönderir, id döner. /lead ve /book ortak. */
+async function saveLead(env, lead) {
   const id = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
   const record = { id, ts: new Date().toISOString(), ...lead };
   await env.QUOTA.put('lead:' + id, JSON.stringify(record), { expirationTtl: LEAD_TTL_DAYS * 86400 });
@@ -295,7 +404,94 @@ async function handleLead(request, env, cors, ip) {
       if (!res.ok) console.error('Bildirim e-postası', res.status, (await res.text().catch(() => '')).slice(0, 200));
     } catch (e) { console.error('Bildirim e-postası ağ hatası', e && e.message); }
   }
-  return json({ ok: true, id }, 200, cors);
+  return id;
+}
+
+/* Boş saatler: kuraldan üretilen adaylardan KV'de dolu olanlar çıkarılır. */
+async function handleSlots(env, cors) {
+  const cfg = bookingConfig(env);
+  const cand = candidateSlots(cfg, new Date());
+  const free = [];
+  for (const c of cand) if (!(await env.QUOTA.get(bookKey(c.at)))) free.push(c);
+  const days = [];
+  for (const c of free) { let d = days.find(x => x.date === c.date); if (!d) { d = { date: c.date, slots: [] }; days.push(d); } d.slots.push({ at: c.at, local: c.local }); }
+  return json({ tz: cfg.tz, slotMin: cfg.slotMin, days }, 200, cors);
+}
+
+/* Randevu: at (UTC ISO, /slots'tan gelen) + name + email zorunlu. Saat kuralda olmalı ve boş olmalı. */
+async function handleBook(request, env, cors, ip) {
+  const parsed = await readBody(request, cors);
+  if (parsed.res) return parsed.res;
+  const b = parsed.body;
+  if (String(b.website || '').trim()) return json({ ok: true }, 200, cors);
+  const clean = (k) => String(b[k] == null ? '' : b[k]).replace(/\s+/g, ' ').trim().slice(0, LEAD_MAX[k]);
+  const lead = { kind: clean('kind') || 'Ücretsiz danışmanlık görüşmesi', name: clean('name'), email: clean('email'),
+    phone: clean('phone'), company: clean('company'), message: clean('message'), lang: clean('lang') };
+  if (!lead.name) return json({ error: 'Ad gerekli.' }, 400, cors);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(lead.email)) return json({ error: 'E-posta adresi geçersiz.' }, 400, cors);
+
+  const cfg = bookingConfig(env);
+  const at = String(b.at || '');
+  const slot = candidateSlots(cfg, new Date()).find(c => c.at === at);
+  if (!slot) return json({ error: 'Bu saat seçilemez.' }, 400, cors);
+
+  const key = bookDayKey(ip);
+  const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
+  if (before >= BOOK_DAILY) return json({ error: 'Bugünlük randevu hakkın doldu; e-posta ile yaz.', limited: true }, 429, cors);
+  await env.QUOTA.put(key, String(before + 1), { expirationTtl: secondsToMidnightUTC() });
+
+  if (await env.QUOTA.get(bookKey(at))) return json({ error: 'Bu saat az önce alındı; başka bir saat seç.', taken: true }, 409, cors);
+  const id = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
+  const k = crypto.randomUUID().replace(/-/g, '');        // ziyaretçinin .ics anahtarı
+  const booking = { id, k, ts: new Date().toISOString(), at, local: `${slot.date} ${slot.local}`, tz: cfg.tz, ...lead };
+  await env.QUOTA.put(bookKey(at), JSON.stringify(booking), { expirationTtl: BOOK_TTL_DAYS * 86400 });
+  await saveLead(env, { ...lead, message: `[Randevu ${slot.date} ${slot.local} ${cfg.tz}] ${lead.message}`.slice(0, LEAD_MAX.message) });
+  return json({ ok: true, id, at, date: slot.date, local: slot.local, tz: cfg.tz, slotMin: cfg.slotMin,
+    ics: `/booking.ics?id=${encodeURIComponent(id)}&k=${k}` }, 200, cors);
+}
+
+async function allBookings(env) {
+  const list = await env.QUOTA.list({ prefix: 'book:', limit: 1000 });
+  const items = [];
+  for (const key of list.keys || []) { const v = await env.QUOTA.get(key.name); if (!v) continue; try { items.push(JSON.parse(v)); } catch {} }
+  items.sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  return items;
+}
+
+/* Ziyaretçinin takvim dosyası: id + kendi anahtarı. Kişisel veri içermez (kendi adı dışında). */
+async function handleBookingIcs(request, env) {
+  if (!env.QUOTA) return json({ error: 'KV bağlı değil.' }, 503, {});
+  const u = new URL(request.url);
+  const id = u.searchParams.get('id') || '', k = u.searchParams.get('k') || '';
+  const b = (await allBookings(env)).find(x => x.id === id);
+  if (!b || !k || k !== b.k) return json({ error: 'Bulunamadı.' }, 404, {});
+  const cfg = bookingConfig(env);
+  const ev = icsEvent(b, cfg.slotMin, 'FY — ücretsiz danışmanlık görüşmesi',
+    `${b.name}, görüşme için FY seninle e-posta üzerinden bağlantı kuracak. Konu: ${b.message || '-'}`);
+  return icsResponse(icsCalendar([ev], 'FY görüşme'), 'fy-gorusme.ics');
+}
+
+/* Sahibin listesi (Basic auth, /leads ile aynı kimlik). Gelecek + son 30 gün. */
+async function handleBookings(request, env) {
+  const auth = await adminAuth(request, env);
+  if (auth) return auth;
+  const since = Date.now() - 30 * 86400000;
+  const items = (await allBookings(env)).filter(b => new Date(b.at).getTime() >= since).map(({ k, ...rest }) => rest);
+  return json({ count: items.length, tz: bookingConfig(env).tz, bookings: items }, 200, {});
+}
+
+/* Sahibin takvim aboneliği: Google Takvim → «URL'den ekle». Anahtar depoda değil, özeti var. */
+async function handleCalendarFeed(request, env) {
+  if (!env.CAL_FEED_TOKEN_HASH) return json({ error: 'Bulunamadı.' }, 404, {});
+  if (!env.QUOTA) return json({ error: 'KV bağlı değil.' }, 503, {});
+  const key = new URL(request.url).searchParams.get('key') || '';
+  if (!key || (await sha256hex(key)) !== String(env.CAL_FEED_TOKEN_HASH).toLowerCase()) return json({ error: 'Bulunamadı.' }, 404, {});
+  const cfg = bookingConfig(env);
+  const since = Date.now() - 30 * 86400000;
+  const events = (await allBookings(env)).filter(b => new Date(b.at).getTime() >= since)
+    .map(b => icsEvent(b, cfg.slotMin, `Görüşme: ${b.name}`,
+      `${b.name} · ${b.email}${b.phone ? ' · ' + b.phone : ''}${b.company ? ' · ' + b.company : ''}\n${b.message || ''}`));
+  return icsResponse(icsCalendar(events, 'FY randevular'), 'fy-randevular.ics');
 }
 
 function b64bytes(s) { return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
@@ -311,8 +507,9 @@ async function passwordOk(pass, env) {
   return sameBytes(bits, want);
 }
 
-/* Kayıt listesi (mini CRM). Kullanıcı adı ve (şifre ya da özeti) yoksa uç nokta yok gibi davranır (404). */
-async function handleLeads(request, env) {
+/* Sahip kimliği (Basic auth). Kullanıcı adı ve (şifre ya da özeti) yoksa uç nokta yok gibi davranır (404).
+   Başarıda null, aksi hâlde hazır hata yanıtı döner. */
+async function adminAuth(request, env) {
   if (!env.ADMIN_USER || !(env.ADMIN_PASS || env.ADMIN_PASS_HASH)) return json({ error: 'Bulunamadı.' }, 404, {});
   const unauthorized = () => new Response(JSON.stringify({ error: 'Kimlik gerekli.' }), { status: 401,
     headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'WWW-Authenticate': 'Basic realm="FY kayitlar", charset="UTF-8"' } });
@@ -326,6 +523,13 @@ async function handleLeads(request, env) {
   } catch { return unauthorized(); }
   if (user !== env.ADMIN_USER || !(await passwordOk(pass, env))) return unauthorized();
   if (!env.QUOTA) return json({ error: 'KV bağlı değil.' }, 503, {});
+  return null;
+}
+
+/* Kayıt listesi (mini CRM). */
+async function handleLeads(request, env) {
+  const auth = await adminAuth(request, env);
+  if (auth) return auth;
   const list = await env.QUOTA.list({ prefix: 'lead:', limit: LEADS_LIST_MAX });
   const items = [];
   for (const k of list.keys || []) {

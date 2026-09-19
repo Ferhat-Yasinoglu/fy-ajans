@@ -7,6 +7,8 @@ compatibility_date = "2026-09-01"
 # Deploy command = npx wrangler deploy. main dalına her push otomatik dağıtır.
 
 [vars]
+# Takvim aboneliği (/calendar.ics?key=…) anahtarının SHA-256 özeti; node tools/set-calendar-token.mjs yazar.
+CAL_FEED_TOKEN_HASH = "68d165c278a40db2291ddb5958447400e734584d378320b96b48b247b36a1209"
 # /leads yönetici şifresinin PBKDF2 özeti — şifre değil; node tools/set-admin-pass.mjs yazar.
 ADMIN_PASS_HASH = "pbkdf2$100000$LoLAAo9osCZ5qdMzw3iicQ==$Rt+V+D60VeWBJvHq9mbZ35QduzOEBq15MtXUBv4kiPM="
 # Yalnızca bu kaynaklardan gelen isteklere yanıt verilir (virgülle ayır). Alan adı değişince güncelle.
@@ -16,6 +18,14 @@ ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
 DAILY_LIMIT = "10"
 # /leads (mini CRM) kullanıcı adı. Şifre: ya panoda ADMIN_PASS (Secret) ya da aşağıdaki özet.
 ADMIN_USER = "FY"
+# Randevu kuralı (ücretsiz danışmanlık görüşmesi). Saat dilimi IANA adı; günler 0=Pazar…6=Cumartesi;
+# BOOK_HOURS yerel saat, bitiş hariç (10-17 → son randevu 16:30); en erken randevu şu an + BOOK_LEAD_HOURS.
+BOOK_TZ = "Europe/Berlin"
+BOOK_DAYS = "1,2,3,4,5"
+BOOK_HOURS = "10-17"
+BOOK_SLOT_MIN = "30"
+BOOK_HORIZON_DAYS = "14"
+BOOK_LEAD_HOURS = "24"
 # Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5 (yarı fiyat).
 # Model kimliğine tarih eki YAZMA — bu dizeler olduğu gibi tamdır.
 MODEL = "claude-sonnet-5"
