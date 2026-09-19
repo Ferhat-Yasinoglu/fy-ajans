@@ -367,6 +367,14 @@ reset();
   const d3 = await r3.json();
   console.log(`  ADMIN yok -> ${r0.status} (404) ${ok(r0.status === 404)} | kimliksiz -> ${r1.status} (401) ${ok(r1.status === 401)} | WWW-Authenticate: ${r1.headers.get('WWW-Authenticate') ? 'var' : 'YOK'} ${ok(!!r1.headers.get('WWW-Authenticate'))} | yanlış -> ${r2.status} ${ok(r2.status === 401)}`);
   console.log(`  doğru -> ${r3.status} count:${d3.count} ${ok(r3.status === 200 && d3.count === 2)} | en yeni önce: ${d3.leads[0] && d3.leads[0].kind} ${ok(d3.leads[0] && d3.leads[0].kind === 'ikinci')}`);
+  // Özet yolu: ADMIN_PASS yok, ADMIN_PASS_HASH var (tools/set-admin-pass.mjs biçimi)
+  const { pbkdf2Sync, randomBytes } = await import('node:crypto');
+  const salt = randomBytes(16), hash = pbkdf2Sync('çok-gizli-şifre', salt, 100000, 32, 'sha256');
+  const envH = ENV({ ...env, ADMIN_USER: 'fy', ADMIN_PASS_HASH: `pbkdf2$100000$${salt.toString('base64')}$${hash.toString('base64')}` });
+  const h1 = await worker.fetch(leadsReq('Basic ' + b64('fy:çok-gizli-şifre')), envH);
+  const h2 = await worker.fetch(leadsReq('Basic ' + b64('fy:yanlış')), envH);
+  const h3 = await worker.fetch(leadsReq('Basic ' + b64('fy:x')), ENV({ ...env, ADMIN_USER: 'fy', ADMIN_PASS_HASH: 'bozuk' }));
+  console.log(`  özet ile doğru -> ${h1.status} (200) ${ok(h1.status === 200)} | özet ile yanlış -> ${h2.status} (401) ${ok(h2.status === 401)} | bozuk özet -> ${h3.status} (401) ${ok(h3.status === 401)}`);
 }
 
 console.log('\n=== 24) /lead bildirimi: RESEND ayarlıysa e-posta gider, sağlayıcı hatası kaydı düşürmez ===');

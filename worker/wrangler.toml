@@ -7,11 +7,15 @@ compatibility_date = "2026-09-01"
 # Deploy command = npx wrangler deploy. main dalına her push otomatik dağıtır.
 
 [vars]
+# /leads yönetici şifresinin PBKDF2 özeti — şifre değil; node tools/set-admin-pass.mjs yazar.
+ADMIN_PASS_HASH = "pbkdf2$100000$LoLAAo9osCZ5qdMzw3iicQ==$Rt+V+D60VeWBJvHq9mbZ35QduzOEBq15MtXUBv4kiPM="
 # Yalnızca bu kaynaklardan gelen isteklere yanıt verilir (virgülle ayır). Alan adı değişince güncelle.
 # BOŞ BIRAKILIRSA worker hiçbir isteğe yanıt vermez (eskiden tam tersiydi: boşsa herkese açılıyordu).
 ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
 # Ziyaretçi başına günlük soru hakkı
 DAILY_LIMIT = "10"
+# /leads (mini CRM) kullanıcı adı. Şifre: ya panoda ADMIN_PASS (Secret) ya da aşağıdaki özet.
+ADMIN_USER = "FY"
 # Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5 (yarı fiyat).
 # Model kimliğine tarih eki YAZMA — bu dizeler olduğu gibi tamdır.
 MODEL = "claude-sonnet-5"
