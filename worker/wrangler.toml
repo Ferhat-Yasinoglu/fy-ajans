@@ -58,6 +58,11 @@ id = "ac1964cdbb1e48ce8f2f8df00bb05688"
 [ai]
 binding = "AI"
 
+# Günlükler (console.error satırları) panoda Observability sekmesinde görünsün. Ücretsiz planda
+# günde 200K olay. Buraya yazılmazsa panodan açılan ayar bir sonraki dağıtımda kapanabilir.
+[observability]
+enabled = true
+
 # ---------------------------------------------------------------------------
 # İSTEĞE BAĞLI AMA ÖNERİLİR: Cloudflare'in yerleşik hız sınırı bağlantısı.
 # Günlük sayaç KV'de tutuluyor ve KV atomik artırma yapamaz; yani eşzamanlı isteklerde
