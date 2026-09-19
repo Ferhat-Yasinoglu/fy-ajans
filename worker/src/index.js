@@ -412,7 +412,7 @@ async function notifyLead(env, lead, id) {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.RESEND_API_KEY },
-      body: JSON.stringify({ from: env.LEAD_FROM || 'FY <onboarding@resend.dev>', to: [env.LEAD_TO], subject: 'FY — ' + lead.kind, text })
+      body: JSON.stringify({ from: env.LEAD_FROM || 'FY <onboarding@resend.dev>', to: [env.LEAD_TO], subject: /^FY\b/.test(lead.kind || '') ? lead.kind : 'FY — ' + (lead.kind || 'kayıt'), text })
     });
     if (res.ok) return { status: res.status };
     const body = (await res.text().catch(() => '')).slice(0, 300);
