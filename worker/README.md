@@ -44,6 +44,30 @@ aynı olmak zorundadır:
 ayarlanmaz: onları bir kez `npx wrangler secret put …` ile ya da panodan girersin, sonraki
 dağıtımlarda oldukları yerde kalırlar.
 
+## Teşhis: `/health`
+
+Sohbet "Şu an yanıt üretemiyorum" diyorsa sebebini panoya girmeden görmek için tarayıcıdan aç:
+
+```
+https://fy-ajans.<hesap-adın>.workers.dev/health
+```
+
+Örnek çıktılar:
+
+```
+{"ok":true,"provider":"workers-ai","model":"@cf/meta/llama-3.1-8b-instruct","tried":["@cf/meta/llama-3.1-8b-instruct"]}
+{"ok":false,"provider":"workers-ai","model":"@cf/meta/llama-3-8b-instruct","code":"5007","tried":[…]}
+{"ok":false,"provider":"anthropic","model":"claude-sonnet-5","code":"401"}
+```
+
+`code` Workers AI için Cloudflare'in dört haneli kodu (5007 model yok, 5035 ücretli plan gerek,
+3023 hesap engelli, 3036 günlük nöron hakkı bitti, 3040 kapasite yok), Anthropic için HTTP durumu
+(401 anahtar, 404 model adı, 429 kota, 529 aşırı yük). Hata metni, anahtar ya da model çıktısı hiç
+dönmez. Ziyaretçi başına günde 5 deneme; KV bağlı değilse 503.
+
+Sohbet Workers AI'da modelleri sırayla dener (`AI_MODEL`, sonra koddaki `AI_FALLBACK`); Claude
+anahtarı varsa önce Claude, düşerse Workers AI. Her hata `console.error` ile Observability'ye yazılır.
+
 ## Siteyi bağlama
 
 1. `js/main.js` dosyasının başındaki `FYOS_ENDPOINT` değişkenine bu adresi yaz:

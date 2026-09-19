@@ -247,3 +247,78 @@ reset();
   console.log(`  12 seri istek -> Anthropic çağrısı: ${anthropic} (10 olmalı) ${ok(anthropic === 10)}`);
   console.log(`  11. istekte sınır yanıtı geldi mi: ${sonYanit.limited ? 'evet' : 'HAYIR'} ${ok(!!sonYanit.limited)}`);
 }
+
+/* --- Workers AI: model sırası, hata kodu, /health ve Claude -> Workers AI geçişi --- */
+const makeAI = (plan) => {                     // plan: model adı -> 'ok' | hata metni
+  const calls = [];
+  return { calls, async run(model, input) {
+    calls.push(model);
+    const p = plan[model];
+    if (p === 'ok') return { response: 'yanit:' + model };
+    throw new Error(p || 'InferenceUpstreamError: ERROR 5007: No such model');
+  } };
+};
+const healthReq = (ip = '9.9.9.9') => ({ method: 'GET', url: 'https://fy-ajans.example.workers.dev/health',
+  headers: { get: (h) => ({ 'CF-Connecting-IP': ip })[h] ?? null } });
+
+console.log('\n=== 17) WORKERS AI: ilk model yoksa (5007) sıradaki deneniyor mu ===');
+reset();
+{
+  const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'InferenceUpstreamError: ERROR 5007: No such model', '@cf/meta/llama-3.1-8b-instruct-fast': 'ok' });
+  const env = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  const d = await (await worker.fetch(req({ message: 'merhaba' }), env)).json();
+  console.log(`  yanıt: ${d.reply} ${ok(d.reply === 'yanit:@cf/meta/llama-3.1-8b-instruct-fast')} | sayıldı: ${d.counted} ${ok(d.counted === true)} | deneme sırası: ${AI.calls.join(' > ')} ${ok(AI.calls.length === 2)}`);
+}
+
+console.log('\n=== 18) WORKERS AI: hepsi düşerse hak iadesi + yalnızca kod dönüyor ===');
+reset();
+{
+  const AI = makeAI({});                                           // her model 5007
+  const env = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  const d = await (await worker.fetch(req({ message: 'merhaba' }), env)).json();
+  const sayac = [...env.QUOTA.store.entries()].filter(([k]) => k.startsWith('q:')).map(([, v]) => v)[0];
+  console.log(`  counted: ${d.counted} ${ok(d.counted === false)} | code: ${d.code} ${ok(d.code === '5007')} | metin sızdı mı: ${JSON.stringify(d).includes('No such') ? 'EVET' : 'hayır'} ${ok(!JSON.stringify(d).includes('No such'))}`);
+  console.log(`  sayaç iade: ${sayac} (0 olmalı) ${ok(sayac === '0')} | denenen model: ${AI.calls.length} (3 olmalı) ${ok(AI.calls.length === 3)}`);
+}
+
+console.log('\n=== 19) WORKERS AI: 3036 (günlük nöron hakkı) model değiştirmekle geçmez, ilkinde durmalı ===');
+reset();
+{
+  const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'InferenceUpstreamError: ERROR 3036: Account limited' });
+  const env = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  const d = await (await worker.fetch(req({ message: 'merhaba' }), env)).json();
+  console.log(`  deneme: ${AI.calls.length} (1 olmalı) ${ok(AI.calls.length === 1)} | code: ${d.code} ${ok(d.code === '3036')}`);
+}
+
+console.log('\n=== 20) /health: Origin olmadan GET, yalnızca durum + kod, günde 5 ===');
+reset();
+{
+  const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'ok' });
+  const env = ENV({ ANTHROPIC_API_KEY: undefined, AI });
+  const r1 = await worker.fetch(healthReq(), env); const d1 = await r1.json();
+  console.log(`  HTTP ${r1.status} ${ok(r1.status === 200)} | ok: ${d1.ok} ${ok(d1.ok === true)} | provider: ${d1.provider} ${ok(d1.provider === 'workers-ai')} | model: ${d1.model} ${ok(d1.model === '@cf/meta/llama-3.1-8b-instruct')}`);
+  const env2 = ENV({ ANTHROPIC_API_KEY: undefined, AI: makeAI({}) });
+  const d2 = await (await worker.fetch(healthReq(), env2)).json();
+  console.log(`  hepsi düşünce -> ok: ${d2.ok} ${ok(d2.ok === false)} | code: ${d2.code} ${ok(d2.code === '5007')} | tried: ${(d2.tried || []).length} ${ok((d2.tried || []).length === 3)} | metin sızdı mı: ${JSON.stringify(d2).includes('No such') ? 'EVET' : 'hayır'} ${ok(!JSON.stringify(d2).includes('No such'))}`);
+  let son = 0;
+  for (let i = 0; i < 5; i++) son = (await worker.fetch(healthReq(), env)).status;   // 1 + 5 = 6. istek sınırda
+  console.log(`  6. istek HTTP ${son} (429 olmalı) ${ok(son === 429)} | sohbet yolu POST'suz 405 mü: ${(await worker.fetch({ ...healthReq(), url: 'https://fy-ajans.example.workers.dev/' }, env)).status} ${ok((await worker.fetch({ ...healthReq(), url: 'https://fy-ajans.example.workers.dev/' }, env)).status === 405)}`);
+  const env3 = ENV({ AI });                                        // Anthropic anahtarı var, stub ok döner
+  const d3 = await (await worker.fetch(healthReq('8.8.8.8'), env3)).json();
+  console.log(`  anahtar varken provider: ${d3.provider} ${ok(d3.provider === 'anthropic' && d3.ok === true)} | KV yokken: ${(await worker.fetch(healthReq(), ENV({ QUOTA: undefined, AI }))).status} (503) ${ok((await worker.fetch(healthReq(), ENV({ QUOTA: undefined, AI }))).status === 503)}`);
+}
+
+console.log('\n=== 21) CLAUDE DÜŞERSE: Workers AI bağlıysa o yanıtlıyor, hak yanmıyor ===');
+reset();
+{
+  globalThis.fetch = async (u, o) => { anthropic++; lastBody = JSON.parse(o.body);
+    return { ok: false, status: 529, async text() { return 'overloaded'; } }; };
+  const AI = makeAI({ '@cf/meta/llama-3.1-8b-instruct': 'ok' });
+  const env = ENV({ AI });
+  const d = await (await worker.fetch(req({ message: 'merhaba' }), env)).json();
+  const sayac = [...env.QUOTA.store.entries()].filter(([k]) => k.startsWith('q:')).map(([, v]) => v)[0];
+  console.log(`  Anthropic: ${anthropic} çağrı | yanıt Workers AI'dan mı: ${d.reply === 'yanit:@cf/meta/llama-3.1-8b-instruct' ? 'evet' : 'HAYIR'} ${ok(d.reply === 'yanit:@cf/meta/llama-3.1-8b-instruct')} | counted: ${d.counted} ${ok(d.counted === true)} | sayaç: ${sayac} (1) ${ok(sayac === '1')}`);
+  const env2 = ENV({});                                            // AI yok: eski davranış, iade
+  const d2 = await (await worker.fetch(req({ message: 'merhaba' }), env2)).json();
+  console.log(`  AI bağlı değilken -> counted: ${d2.counted} ${ok(d2.counted === false)} | code: ${d2.code} ${ok(d2.code === '529')}`);
+}

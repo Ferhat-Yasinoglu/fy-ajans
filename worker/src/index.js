@@ -2,6 +2,7 @@
    Sitedeki FYOS kutusundan gelen soruyu alır, Claude'a sorar, yanıtı döner.
    API anahtarı yalnızca burada (Cloudflare gizli değişkeni) durur; siteye hiç girmez.
    Günlük soru sınırı ziyaretçi başına KV'de tutulur. Kurulum: ../README.md
+   Teşhis: GET /health — tarayıcıdan açılır, yalnızca durum ve hata kodu döner.
 
    GÜVENLİK — 7 Eylül 2026 denetiminde bulunan dört açık burada kapatıldı:
    1) Sayaç, model çağrısından SONRA yazılıyordu; aradaki 2-5 saniyede gelen bütün paralel
@@ -23,6 +24,13 @@ const MAX_HISTORY_CHARS = 600;
 const MAX_TOKENS = 350;           // yanıt uzunluğu (kısa tutulur; maliyet)
 const MAX_BODY = 16 * 1024;       // istek gövdesi tavanı (bayt)
 const MAX_INFLIGHT_PER_IP = 2;    // aynı isolate'te aynı IP'den eşzamanlı istek tavanı
+
+/* --- Workers AI model sırası ---
+   Cloudflare modelleri emekliye ayırır (5007 «no such model») ya da ücretli plana taşır (5035);
+   tek bir ada bağlı kalmak sohbeti sessizce kapatır. Sırayla denenir, ilk yanıt veren kazanır.
+   AI_MODELS (virgülle ayrılmış) ya da AI_MODEL tanımlıysa önce onlar, sonra bu liste. */
+const AI_FALLBACK = ['@cf/meta/llama-3.1-8b-instruct', '@cf/meta/llama-3.1-8b-instruct-fast', '@cf/meta/llama-3-8b-instruct'];
+const HEALTH_DAILY = 5;           // /health: ziyaretçi başına günlük deneme (her biri modele gider)
 
 /* --- Sesli yanıt (/tts) ---
    Frenler bilerek sıkı: bu bir vitrin demosu, bir seslendirme servisi değil. */
@@ -76,6 +84,42 @@ function ttsDayKey(ip) {
   const d = new Date();
   return `t:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
 }
+function healthDayKey(ip) {
+  const d = new Date();
+  return `h:${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}:${ip}`;
+}
+function aiModels(env) {
+  const own = String(env.AI_MODELS || env.AI_MODEL || '').split(',').map(s => s.trim()).filter(Boolean);
+  const out = [];
+  for (const m of own.concat(AI_FALLBACK)) if (!out.includes(m)) out.push(m);
+  return out;
+}
+/* Cloudflare hata metnindeki dört haneli kodu çıkarır («ERROR 5007: No such model» -> 5007);
+   yoksa boş dize. Yalnızca kod döner: hata metni istemciye asla gitmez. */
+function aiErrorCode(e) {
+  const t = String((e && e.message) || e || '');
+  const m = t.match(/ERROR\s*(\d{4})\b/i) || t.match(/\b([35]\d{3})\b/);
+  return m ? m[1] : '';
+}
+/* Modelleri sırayla dener. Dönüş: { reply, model, tried } ya da { error, code, model, tried }.
+   3036 (günlük nöron hakkı bitti) ve 3023 (hesap) model değiştirmekle geçmez: ilkinde durur. */
+async function runWorkersAI(env, messages, maxTokens) {
+  const tried = [];
+  let last = null, lastModel = '';
+  for (const model of aiModels(env)) {
+    tried.push(model);
+    try {
+      const out = await env.AI.run(model, { messages, max_tokens: maxTokens });
+      return { reply: String((out && out.response) || '').trim(), model, tried };
+    } catch (e) {
+      last = e; lastModel = model;
+      const code = aiErrorCode(e);
+      console.error('Workers AI hatası', model, code || '-', String((e && e.message) || e).slice(0, 200));
+      if (code === '3036' || code === '3023') break;
+    }
+  }
+  return { error: last || new Error('model yok'), code: aiErrorCode(last), model: lastModel, tried };
+}
 function secondsToMidnightUTC() {
   const now = new Date();
   const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
@@ -107,6 +151,17 @@ export default {
     const cors = CORS(origin, allowed.length ? allowed : ['null']);
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+
+    /* Yol ayrımı: /health teşhis, /tts ses, kalan her yol sohbet.
+       request.url'i olmayan çağrılarda (birim testi doğrudan modülü çağırır) sohbet kabul edilir. */
+    let path = '/';
+    try { path = new URL(request.url).pathname.replace(/\/+$/, '') || '/'; } catch (e) {}
+
+    /* /health: tarayıcının adres çubuğuna yazılıp açılır (GET, Origin başlığı yok) — bu yüzden
+       origin denetiminin ÖNÜNDE durur. Modele tek kelimelik bir soru sorar ve yalnızca durum +
+       dört haneli hata kodunu döner; hata metni, anahtar ya da model çıktısı dönmez. Günde 5/IP. */
+    if (path === '/health' && request.method === 'GET') return handleHealth(request, env);
+
     if (request.method !== 'POST') return json({ error: 'Yalnızca POST.' }, 405, cors);
     if (!allowed.length) {
       console.error('ALLOWED_ORIGINS tanımsız — istek reddedildi');
@@ -115,10 +170,6 @@ export default {
     // Bu bir kimlik doğrulaması değil; yalnızca tarayıcıdan gelen yabancı site isteklerini eler.
     if (!allowed.includes(origin)) return json({ error: 'Bu kaynaktan istek kabul edilmiyor.' }, 403, cors);
 
-    /* Yol ayrımı: /tts metni sese çevirir, kalan her yol sohbettir — eski davranış aynen korunur.
-       request.url'i olmayan çağrılarda (birim testi doğrudan modülü çağırır) sohbet kabul edilir. */
-    let path = '/';
-    try { path = new URL(request.url).pathname.replace(/\/+$/, '') || '/'; } catch (e) {}
     const isTts = path === '/tts';
 
     if (!isTts && !env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
@@ -147,6 +198,43 @@ export default {
     }
   }
 };
+
+/* /health — bkz. fetch() içindeki açıklama. Çıktı alanları: ok, provider ('anthropic' |
+   'workers-ai'), model, code (Anthropic için HTTP durumu, Workers AI için 4 haneli kod), tried.
+   Sohbetle aynı sırayı izler: anahtar varsa Claude, düşerse Workers AI. */
+async function handleHealth(request, env) {
+  if (!env.QUOTA) return json({ ok: false, reason: 'kv' }, 503, {});
+  const ip = request.headers.get('CF-Connecting-IP') || 'anon';
+  const key = healthDayKey(ip);
+  const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
+  if (before >= HEALTH_DAILY) return json({ ok: false, reason: 'limit' }, 429, {});
+  await env.QUOTA.put(key, String(before + 1), { expirationTtl: secondsToMidnightUTC() });
+  if (!openSlot(ip)) return json({ ok: false, reason: 'busy' }, 429, {});
+  try {
+    const probe = [{ role: 'user', content: 'Merhaba' }];
+    if (env.ANTHROPIC_API_KEY) {
+      const model = env.MODEL || 'claude-sonnet-5';
+      let code = 'ağ';
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+          body: JSON.stringify({ model, max_tokens: 8, messages: probe })
+        });
+        if (res.ok) return json({ ok: true, provider: 'anthropic', model }, 200, {});
+        code = String(res.status);
+        console.error('health: Anthropic', res.status, (await res.text().catch(() => '')).slice(0, 300));
+      } catch (e) { console.error('health: Anthropic ağ', e && e.message); }
+      if (!env.AI) return json({ ok: false, provider: 'anthropic', model, code }, 200, {});
+    }
+    if (!env.AI) return json({ ok: false, reason: 'no-provider' }, 200, {});
+    const r = await runWorkersAI(env, probe, 8);
+    if (r.error) return json({ ok: false, provider: 'workers-ai', model: r.model, code: r.code || '?', tried: r.tried }, 200, {});
+    return json({ ok: true, provider: 'workers-ai', model: r.model, tried: r.tried }, 200, {});
+  } finally {
+    closeSlot(ip);
+  }
+}
 
 /* Gövde okuma — iki uç nokta da aynı tavanı ve aynı hata metinlerini kullanır.
    Dönüş: { body } ya da { res } (hazır hata yanıtı). */
@@ -300,22 +388,21 @@ async function handle(request, env, cors, ip) {
     catch (e) { console.error('Hak iadesi başarısız', e && e.message); }
   };
 
-  // Yanıt üret: Anthropic anahtarı varsa Claude; yoksa ücretsiz Cloudflare Workers AI (açık model)
+  // Yanıt üret: Anthropic anahtarı varsa Claude; yoksa (ya da Claude düşerse) ücretsiz Workers AI.
+  const EMPTY = 'Bunu şu an yanıtlayamadım; iletişim formundan yaz, gerçek bir insan döner.';
+  const DOWN = 'Şu an yanıt üretemiyorum; birazdan yeniden dene ya da iletişim formundan yaz.';
+  const sysMessages = [{ role: 'system', content: SYSTEM_PROMPT }, ...messages];
   let reply;
   if (!env.ANTHROPIC_API_KEY) {
-    try {
-      const out = await env.AI.run(env.AI_MODEL || '@cf/meta/llama-3.1-8b-instruct', {
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
-        max_tokens: MAX_TOKENS
-      });
-      reply = String((out && out.response) || '').trim();
-      if (!reply) reply = 'Bunu şu an yanıtlayamadım; iletişim formundan yaz, gerçek bir insan döner.';
-    } catch (e) {
-      console.error('Workers AI hatası', e && e.message);
+    const r = await runWorkersAI(env, sysMessages, MAX_TOKENS);
+    if (r.error) {
       await refund();
-      return json({ reply: 'Şu an yanıt üretemiyorum; birazdan yeniden dene ya da iletişim formundan yaz.', counted: false }, 200, cors);
+      // code: yalnızca dört haneli Cloudflare kodu (5007, 3023…); metin yok. Teşhis için /health de var.
+      return json({ reply: DOWN, counted: false, code: r.code || undefined }, 200, cors);
     }
+    reply = r.reply || EMPTY;
   } else {
+    let fail = '';   // '' = başarılı; aksi hâlde kısa sebep: HTTP durumu ya da 'ağ'
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -335,16 +422,25 @@ async function handle(request, env, cors, ip) {
         // Ham Anthropic hatası yalnızca kayda düşer; istemciye asla gitmez (model, kota, anahtar sızmasın).
         const err = await res.text().catch(() => '');
         console.error('Anthropic hata', res.status, err.slice(0, 300));
-        await refund();
-        return json({ reply: 'Şu an yanıt üretemiyorum; birazdan yeniden dene ya da iletişim formundan yaz.', counted: false }, 200, cors);
+        fail = String(res.status);
+      } else {
+        const data = await res.json();
+        reply = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim();
+        if (!reply) reply = EMPTY;
       }
-      const data = await res.json();
-      reply = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('').trim();
-      if (!reply) reply = 'Bunu şu an yanıtlayamadım; iletişim formundan yaz, gerçek bir insan döner.';
     } catch (e) {
       console.error('Ağ hatası', e && e.message);
-      await refund();
-      return json({ reply: 'Bağlantı kurulamadı; birazdan yeniden dene.', counted: false }, 200, cors);
+      fail = 'ağ';
+    }
+    if (fail) {
+      // Claude yanıt veremedi: Workers AI bağlıysa ona düş; o da yoksa hakkı iade et.
+      const alt = env.AI ? await runWorkersAI(env, sysMessages, MAX_TOKENS) : { error: true };
+      if (alt.error) {
+        await refund();
+        return json({ reply: fail === 'ağ' ? 'Bağlantı kurulamadı; birazdan yeniden dene.' : DOWN, counted: false, code: fail }, 200, cors);
+      }
+      console.error('Anthropic yerine Workers AI yanıtladı', alt.model, 'sebep', fail);
+      reply = alt.reply || EMPTY;
     }
   }
 
