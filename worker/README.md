@@ -110,6 +110,9 @@ teşhis için `/admin/mail-test` (admin girişi ister) bir deneme e-postası at�
 
 ## Randevu: `/slots`, `/book`, `/bookings`, `/booking.ics`, `/calendar.ics`
 
+`GET /stats` (Origin denetimli, kimlik yok) yalnızca `{"bookings": N}` döner: yaklaşan randevu sayısı.
+Ana sayfadaki «Boardroom» kartı buradan beslenir; kayıt içeriği hiçbir zaman dönmez.
+
 «Ücretsiz danışmanlık görüşmesi» düğmesi randevu modunda açılır: ziyaretçi boş bir gün/saat seçer
 (`GET /slots`), `POST /book` kaydı yazar (hem `book:` hem `/leads` kaydı), ziyaretçiye takvim dosyası
 verilir (`/booking.ics?id&k`, yalnızca kendi anahtarıyla). Üçüncü taraf yok; kural `wrangler.toml`

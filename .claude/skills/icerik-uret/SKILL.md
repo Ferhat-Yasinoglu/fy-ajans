@@ -26,8 +26,8 @@ başlıkları ve «Şimdi yap» görevleri. **Sayfada olmayan bir vaat, rakam ya
    bağlantı verir). Bölüm 6'nın kuralı: karşılama otomatik, cevap insan, aynı gün.
 7. Dosyaya yaz: `studio/YYYY-MM-DD-bolum-N.md` (ön bilgi: bölüm, dil, tarih, kaynak). Aynı bölümün
    ikinci kampanyası `-2` eki alır. `studio/README.md` klasörün ne olduğunu anlatır; oraya dokunma.
-8. `data/fy-stats.json` içindeki `studio` sayısını `studio/` altındaki kampanya dosyası sayısına eşitle
-   (README sayılmaz). Sahnedeki «Studio · N posts» kartı buradan okur.
+8. `node tools/fy-stats.mjs` çalıştır: `data/fy-stats.json` içindeki `studio` sayısını (ve öbür sayılan
+   kartları) depodan yeniden sayar. Sahnedeki «Studio · N posts» kartı buradan okur; elle yazma.
 9. Çıktıyı kullanıcıya göstermeden önce kontrol: sayfada olmayan bir iddia var mı? Rakam uydurulmuş mu?
    Her gönderinin çağrısı tek mi? Kanca içeriği karşılıyor mu? Emoji ≤ 1?
 

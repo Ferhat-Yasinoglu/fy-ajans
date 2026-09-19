@@ -505,3 +505,17 @@ reset();
   const raw = JSON.stringify(on);
   console.log(`  kimliksiz -> ${r0.status} (401) ${ok(r0.status === 401)} | kapalı: notify=off + eksik adlar ${ok(off.notify === 'off' && off.missing.join(',') === 'RESEND_API_KEY,LEAD_TO')} | açık: Resend'e tek istek, alıcı LEAD_TO ${ok(sent === 1 && dest[0] === 'sahip@example.com')} | yalnızca kod: 403 + validation_error, ham metin yok ${ok(on.ok === false && on.status === 403 && on.code === 'validation_error' && !raw.includes('own email'))}`);
 }
+
+console.log('\n=== 30) /stats: Origin şart, yalnızca yaklaşan randevu sayısı, kayıt içeriği sızmaz ===');
+reset();
+{
+  const env = BOOK_ENV();
+  const slots = (await (await worker.fetch(slotsReq(), env)).json()).days.flatMap(x => x.slots);
+  await worker.fetch(bookReq({ at: slots[0].at, name: 'Gizli Kişi', email: 'gizli@example.com' }, '7.7.7.1'), env);
+  const statsReq = (origin) => ({ method: 'GET', url: 'https://fy-ajans.example.workers.dev/stats',
+    headers: { get: (h) => ({ Origin: origin, 'CF-Connecting-IP': '7.7.7.2' })[h] ?? null } });
+  const r0 = await worker.fetch(statsReq('https://kotu.example'), env);
+  const r1 = await worker.fetch(statsReq('https://ferhat-yasinoglu.github.io'), env);
+  const raw = await r1.text(); const body = JSON.parse(raw);
+  console.log(`  yabancı Origin -> ${r0.status} (403) ${ok(r0.status === 403)} | site -> ${r1.status} ${ok(r1.status === 200)} | tek alan, sayı 1: ${ok(Object.keys(body).join() === 'bookings' && body.bookings === 1)} | ad/e-posta yok: ${ok(!raw.includes('Gizli') && !raw.includes('example.com'))}`);
+}

@@ -4,7 +4,8 @@ description: main'e merge etmeden ya da PR açmadan önce çalıştırılan kont
 ---
 1. `node tools/build-i18n.mjs --check` → «tüm anahtarlar tam, damga güncel». Değilse
    `node tools/build-i18n.mjs` çalıştır ve üretilenleri commit'le.
-2. `worker/` değiştiyse: `cd worker && node test/security.mjs` (hepsi kapalı) ve
+2. `node tools/fy-stats.mjs --check` → «fy-stats güncel». Değilse `node tools/fy-stats.mjs` ve dosyayı commit'e ekle.
+2b. `worker/` değiştiyse: `cd worker && node test/security.mjs` (hepsi kapalı) ve
    `WRANGLER_SEND_METRICS=false npx wrangler deploy --dry-run` (ERROR yok).
 3. Yeni dış kaynak var mı? `index.html` ve üretilen dil sayfalarının CSP meta etiketi onu içeriyor mu?
 4. Veri akışı değiştiyse `/gizlilik-kontrol`.

@@ -803,7 +803,6 @@
     var SUB = {
       agents: function (v, d) { return v + ' online · ' + (num(d.agentsOffline) || 0) + ' off'; },
       studio: function (v) { return v + ' posts'; },
-      coaches: function (v) { return v + ' minds'; },
       memory: function (v) { return v + ' memories'; },
       skills: function (v) { return v + ' skills'; },
       knowledge: function (v) { return v + ' notes'; },
@@ -849,6 +848,16 @@
         .then(function (d) {
           if (!d || typeof d !== 'object') return;
           data = d; paintAll(!first); first = false;
+          // Boardroom: worker'daki yaklaşan randevu sayısı (yalnızca sayı; kişisel veri yok).
+          // Worker yoksa ya da cevap vermezse dosyadaki başlangıç değeri kalır.
+          if (!FYOS_ENDPOINT) return;
+          fetch(FYOS_ENDPOINT.replace(/\/+$/, '') + '/stats', { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (s) {
+              if (!s || num(s.bookings) === null) return;
+              data.boardroom = s.bookings; paintAll(false);
+            })
+            .catch(function () {});
         })
         .catch(function () {});                                  // sessizce HTML değerlerinde kal
     }

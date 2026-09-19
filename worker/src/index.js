@@ -288,7 +288,8 @@ export default {
     }
 
     const isSlots = path === '/slots' && request.method === 'GET';          // sayfadan fetch: Origin var
-    if (request.method !== 'POST' && !isSlots) return json({ error: 'Yalnızca POST.' }, 405, cors);
+    const isStats = path === '/stats' && request.method === 'GET';          // sahne kartı: yalnızca sayı
+    if (request.method !== 'POST' && !isSlots && !isStats) return json({ error: 'Yalnızca POST.' }, 405, cors);
     if (!allowed.length) {
       console.error('ALLOWED_ORIGINS tanımsız — istek reddedildi');
       return json({ error: 'Sunucu yapılandırılmamış.' }, 500, cors);
@@ -299,7 +300,7 @@ export default {
     const isTts = path === '/tts';
     const isLead = path === '/lead';
     const isBook = path === '/book';
-    const isChat = !isTts && !isLead && !isBook && !isSlots;
+    const isChat = !isTts && !isLead && !isBook && !isSlots && !isStats;
 
     if (isChat && !env.ANTHROPIC_API_KEY && !env.AI) return json({ reply: 'Sohbet henüz açık değil. İletişim formundan yaz, gerçek bir insan yanıtlar.', counted: false }, 200, cors);
 
@@ -324,6 +325,7 @@ export default {
       return isTts ? await handleTts(request, env, cors, ip)
         : isLead ? await handleLead(request, env, cors, ip)
         : isSlots ? await handleSlots(env, cors)
+        : isStats ? await handleStats(env, cors)
         : isBook ? await handleBook(request, env, cors, ip)
         : await handle(request, env, cors, ip);
     } finally {
@@ -420,6 +422,13 @@ async function notifyLead(env, lead, id) {
     let code; try { code = JSON.parse(body).name; } catch { /* JSON değil */ }
     return { status: res.status, code: typeof code === 'string' ? code.slice(0, 40) : undefined };
   } catch (e) { console.error('Bildirim e-postası ağ hatası', e && e.message); return { status: 0, code: 'ağ' }; }
+}
+
+/* Sahne kartı «Boardroom»: yaklaşan randevu sayısı. Tek alan, tek sayı; kayıt içeriği asla dönmez. */
+async function handleStats(env, cors) {
+  const now = Date.now();
+  const bookings = (await allBookings(env)).filter(b => new Date(b.at).getTime() >= now).length;
+  return json({ bookings }, 200, { ...cors, 'Cache-Control': 'public, max-age=60' });
 }
 
 /* Boş saatler: kuraldan üretilen adaylardan KV'de dolu olanlar çıkarılır. */
