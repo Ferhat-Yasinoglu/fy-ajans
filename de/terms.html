@@ -19,7 +19,7 @@
 <link rel="icon" href="../img/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/style.css?v=dbff1183">
+<link rel="stylesheet" href="../css/style.css?v=0ddb113e">
 </head>
 <body>
 <main class="page">
@@ -28,7 +28,7 @@
       <a class="back" href="index.html" data-i18n="back.home">← Zur Startseite</a>
       <span class="eyebrow" data-i18n="terms.eyebrow">Bedingungen</span>
       <h1 class="font-display text-h1 mt-4" data-i18n="terms.title">Nutzungsbedingungen & Datenschutz</h1>
-      <p class="text-muted mt-4" data-i18n="terms.intro">Mit der Nutzung der FY-Website und der Anmeldung zum Kurs akzeptierst du die folgenden Bedingungen. Diese deutsche Fassung ist maßgeblich. Stand: 7. September 2026.</p>
+      <p class="text-muted mt-4" data-i18n="terms.intro">Mit der Nutzung der FY-Website und der Anmeldung zum Kurs akzeptierst du die folgenden Bedingungen. Diese deutsche Fassung ist maßgeblich. Stand: 19. September 2026.</p>
     </div>
     <!-- Yasal metin tek anahtarla çevrilir (terms.prose): çeviride bölüm bölüm değil, sayfa bütün olarak yeniden yazılır.
          Almanca sürüm bağlayıcı metindir; EN/FA sürümlerinin başına bu not konur. -->
@@ -43,13 +43,13 @@
       <h2>2. Cookies und Browserspeicher</h2>
       <ul>
         <li>Die Website setzt keine Cookies. Es gibt keine Werbung und keine Tracker von Dritten.</li>
-        <li>Der FYOS-Chat speichert den täglichen Fragenzähler nur im Speicher deines Browsers; diese Zahl wird nicht an uns gesendet und verschwindet, wenn du deine Browserdaten löschst.</li>
-        <li>Die Antworten von FYOS werden auf deinem Gerät erzeugt: Auf geeigneten Geräten lädt dein Browser bei der ersten Frage einmalig ein Open-Source-KI-Modell herunter und berechnet die Antworten anschließend lokal. Deine Fragen und die Antworten werden weder an uns noch an einen anderen Server gesendet; der Modell-Cache verschwindet mit den Browserdaten.</li>
+        <li>Der FYOS-Chat speichert den täglichen Fragenzähler an zwei Stellen: im Speicher deines Browsers (er verschwindet, wenn du deine Browserdaten löschst) und – um Missbrauch zu verhindern – auf dem Vermittlungsserver, gebunden an deine IP-Adresse, in Cloudflare KV. Der serverseitige Eintrag wird zum Tagesende (UTC) automatisch gelöscht.</li>
+        <li>Deine Frage an FYOS wird zur Erzeugung der Antwort an FYs eigenen Vermittlungsserver bei Cloudflare gesendet; zusammen mit der Frage gehen höchstens sechs vorherige Nachrichten desselben Gesprächs als Kontext mit. Der Vermittlungsserver leitet diesen Text an den KI-Anbieter (Anthropic, PBC oder Cloudflare Workers AI) weiter und gibt dir die Antwort zurück. Deine Fragen werden keinem Konto zugeordnet, bei uns nicht gespeichert und nicht für Werbung verwendet; der Gesprächsverlauf liegt nur im Speicher deines Browsers. Ist der Vermittlungsserver nicht erreichbar, fällt FYOS auf die Offline-Demo mit vorbereiteten Antworten zurück, und es geht keine Anfrage hinaus.</li>
 <li><strong>Der Live-Sprachmodus</strong> ist standardmäßig aus; er geht nur an, wenn du die Mikrofon-Taste drückst und zustimmst. Ist er an, wartet das Mikrofon auf das Wort »Melis«. Kann dein Browser Sprache im Gerät selbst erkennen, verlässt deine Stimme das Gerät nicht; kann er es nicht, geht deine Stimme ausschließlich zur Umwandlung in Text an den Sprachdienst deines Browser-Herstellers — welcher der beiden Fälle gilt, steht im Zustimmungsfenster. Uns erreicht keine Aufnahme, gespeichert wird nirgends etwas; das Modell, das die Antwort schreibt, läuft weiterhin auf deinem Gerät. Dass der Sprachmodus an ist, steht nur im Speicher deines Browsers und wird beim Ausschalten des Mikrofons gelöscht.</li>
       </ul>
       <h2>3. Externe Dienste und Hosting</h2>
       <ul>
-        <li>Alle Dateien der Website, einschließlich der Schrift, werden von dieser Website geladen. Einzige Ausnahme ist der FYOS-Chat: Bei deiner ersten Frage lädt dein Browser die KI-Bibliothek von cdn.jsdelivr.net und die Modelldateien von huggingface.co. Dieser Download startet nur, wenn du eine Frage stellst, und an diese Adressen geht nur die Dateianfrage, nicht deine Frage.</li>
+        <li>Alle Dateien der Website, einschließlich der Schrift, werden von dieser Website geladen. Einzige Ausnahme ist der FYOS-Chat: Wenn du eine Frage stellst, sendet dein Browser eine Anfrage an FYs Vermittlungsserver (Cloudflare Workers). Beim bloßen Surfen auf der Seite geht keine Anfrage an eine externe Adresse.</li>
         <li>Die Website wird auf GitHub Pages gehostet. GitHub kann wie jeder Webserver Zugriffsprotokolle führen; diese unterliegen der Datenschutzerklärung von GitHub und sind für uns nicht zugänglich.</li>
         <li>Die Verbindung zur Website ist verschlüsselt (HTTPS).</li>
       </ul>
@@ -110,8 +110,8 @@
         <li><strong>Lokale Modelldateien für FYOS.</strong> Nur wenn du im Chat die erste Frage stellst und dein Gerät geeignet ist, lädt dein Browser die KI-Bibliothek von jsDelivr (cdn.jsdelivr.net) und die Modelldateien von Hugging Face (huggingface.co). An diese Anbieter geht nur eine gewöhnliche Dateianfrage (IP-Adresse, Browserinformationen), nicht deine Frage. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO — Interesse, den Chat serverlos auf deinem Gerät zu betreiben. Der Zähler im Browserspeicher ist für eine von dir ausdrücklich gewünschte Funktion unbedingt erforderlich und bedarf keiner Einwilligung (§ 25 Abs. 2 Nr. 2 TDDDG).</li>
 <li><strong>Live-Sprachmodus (Spracherkennung).</strong> Läuft nur, wenn du das Mikrofon ausdrücklich einschaltest. Kann der Browser Sprache im Gerät erkennen, verlässt die Stimme das Gerät nicht und auf unserer Seite entsteht keine Verarbeitung. Kann er es nicht, geht deine Aufnahme zur Umwandlung in Text an den Sprachdienst des Browser-Herstellers (z. B. Google LLC, USA — Chrome; Microsoft Corporation, USA — Edge); diese Verarbeitung und die Übermittlung in die USA richten sich nach der Datenschutzerklärung des jeweiligen Herstellers, wir haben keinen Zugriff auf diese Daten. Grundlage: Art. 6(1)(a) — deine ausdrückliche Einwilligung; du kannst sie jederzeit durch Ausschalten des Mikrofons widerrufen, der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht.</li>
       </ul>
-      <h3>Wenn der Chat an ein echtes Modell angebunden wird</h3>
-      <p>Derzeit abgeschaltet. Am Tag der Aktivierung wird dieser Abschnitt aktualisiert, und es gilt: Zur Zählung deines täglichen Fragenkontingents wird deine IP-Adresse bis zum Tagesende in Cloudflare KV gespeichert; deine Frage und höchstens die sechs vorherigen Nachrichten werden zur Erzeugung der Antwort an Anthropic, PBC (USA) oder Cloudflare Workers AI übermittelt. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO; die Drittlandübermittlung wird nach Art. 46 DSGVO durch Standardvertragsklauseln abgesichert. Das Vorlesen der Antworten hängt an derselben Bedingung: Am Tag der Aktivierung werden der von FYOS erzeugte Antworttext und deine IP-Adresse an den Sprachdienstleister (OpenAI, L.L.C. oder ElevenLabs Inc., beide USA) übermittelt, damit dieser die Audiodatei erzeugt. Deine eigene Aufnahme geht nicht dorthin — nur die Antwort von FYOS. Es gelten dieselbe Rechtsgrundlage und dieselben Garantien für die Übermittlung.</p>
+      <h3>FYOS-Chat und Sprachausgabe</h3>
+      <p>Der Chat ist aktiv, und es gilt: Zur Zählung deines täglichen Fragenkontingents und zum Schutz vor Missbrauch wird deine IP-Adresse auf FYs Vermittlungsserver (Cloudflare KV) bis zum Tagesende (UTC) gespeichert und danach automatisch gelöscht; deine Frage und höchstens sechs vorherige Nachrichten desselben Gesprächs werden zur Erzeugung der Antwort an Anthropic, PBC (USA) oder Cloudflare Workers AI übermittelt. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO — das berechtigte Interesse, Besuchern einen funktionierenden Assistenten anzubieten und den Dienst vor Missbrauch zu schützen; die Drittlandübermittlung wird nach Art. 46 DSGVO durch Standardvertragsklauseln abgesichert. Das Vorlesen der Antworten funktioniert nur, wenn ein Schlüssel für die Sprachausgabe hinterlegt ist; in diesem Fall werden der von FYOS erzeugte Antworttext und deine IP-Adresse an den Sprachdienstleister (OpenAI, L.L.C. oder ElevenLabs Inc., beide USA) übermittelt, damit dieser die Audiodatei erzeugt. Deine eigene Aufnahme geht nicht dorthin — nur die Antwort von FYOS. Es gelten dieselbe Rechtsgrundlage und dieselben Garantien für die Übermittlung. Ist kein Schlüssel hinterlegt, wird die Stimme des Browsers verwendet, und es geht keine Anfrage hinaus.</p>
       <h3>Speicherdauer</h3>
       <ul>
         <li>Kontakt- und Angebots-E-Mails: bis die Anfrage erledigt ist; kommt kein Vertrag zustande, Löschung spätestens nach sechs Monaten.</li>
@@ -145,6 +145,6 @@
       </div>
 </div>
 </footer>
-<script src="../js/lang/de.js?v=dbff1183"></script><script src="../js/main.js?v=dbff1183"></script>
+<script src="../js/lang/de.js?v=0ddb113e"></script><script src="../js/main.js?v=0ddb113e"></script>
 </body>
 </html>

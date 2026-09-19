@@ -17,13 +17,32 @@ isteğe bağlıdır: girilmezse Worker, Cloudflare'in ücretsiz Workers AI katma
 ```
 cd worker
 npx wrangler login                      # tarayıcıda Cloudflare'e giriş
-npx wrangler kv namespace create QUOTA  # çıkan id'yi wrangler.toml'daki KV_ID_BURAYA yerine yaz
-                                        # ZORUNLU: yazılmazsa worker hiçbir soruya yanıt vermez
+npx wrangler kv namespace create QUOTA  # YALNIZCA yeni bir hesapta: çıkan id'yi wrangler.toml'daki
+                                        # [[kv_namespaces]] id değerinin yerine yaz. Mevcut hesapta
+                                        # QUOTA alanı kurulu ve id'si wrangler.toml'da yazılı.
 npx wrangler secret put ANTHROPIC_API_KEY   # İSTEĞE BAĞLI: Claude istiyorsan anahtarı yapıştır; atlarsan ücretsiz Workers AI
 npx wrangler deploy
 ```
 
 Son komut şöyle bir adres verir: `https://fy-ajans.<hesap-adın>.workers.dev`
+
+## Dağıtım: Cloudflare Workers Builds
+
+Üretim dağıtımı elle yapılmaz. Cloudflare panosundaki Worker bu GitHub deposuna bağlıdır ve
+`main` dalına gelen her push kendiliğinden dağıtılır. Panodaki ayarlar koddaki karşılıklarıyla
+aynı olmak zorundadır:
+
+| Panodaki alan | Değer | Neden |
+| --- | --- | --- |
+| Worker adı | `fy-ajans` | `wrangler.toml` içindeki `name` ile aynı olmalı; farklıysa build başka bir Worker'ı hedefler |
+| Root directory | `worker` | `wrangler.toml` depo kökünde değil, bu klasörde |
+| Deploy command | `npx wrangler deploy` | |
+| Production branch | `main` | |
+
+`npx wrangler deploy` komutunu elle çalıştırmak yalnızca hızlı deneme içindir. Gizli anahtarlar
+(`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `ELEVENLABS_API_KEY`) Workers Builds tarafından
+ayarlanmaz: onları bir kez `npx wrangler secret put …` ile ya da panodan girersin, sonraki
+dağıtımlarda oldukları yerde kalırlar.
 
 ## Siteyi bağlama
 

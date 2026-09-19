@@ -6,7 +6,7 @@ Türkçe (kaynak), Deutsch, English, فارسی.
 
 Çerçeve yok, derleme adımı yok. Düz HTML, CSS ve JavaScript. Yazı tipleri (Vazirmatn; otomasyon şemasındaki
 el yazısı vurgular için Great Vibes, SIL OFL) `fonts/` klasöründen yüklenir; sayfa kendiliğinden dışarıya istek atmaz (tek istisna:
-FYOS sohbetine soru sorulunca inen tarayıcı içi model, aşağıda).
+FYOS sohbetine soru sorulunca FY’nin Cloudflare’deki ara sunucusuna giden istek, `worker/`).
 
 ## Diller
 
@@ -53,7 +53,9 @@ paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara ya
 ## Güvenlik ve gizlilik
 
 - Her sayfada bir İçerik Güvenliği Politikası (CSP) meta etiketi var: script yalnızca
-  bu siteden, dış bağlantı ve font yok, nesne yok. Yeni bir dış kaynak eklersen CSP'yi de güncelle.
+  bu siteden, dış font yok, nesne yok. `index.html` ve dil sayfalarında `connect-src`
+  ayrıca FYOS ara sunucusunun adresine izin verir (`tools/set-worker.mjs` yazar).
+  Yeni bir dış kaynak eklersen CSP'yi de güncelle.
 - E-posta adresi HTML'de düz metin durmaz; `js/main.js` içindeki `MAIL` değişkeninde
   iki parça olarak durur ve `data-mail` / `data-mail-text` öznitelikli öğelere sayfa açılınca yazılır.
 - Formlar sunucusuzdur, mailto ile e-posta uygulamasını açar. Özgeçmiş dosyası e-postaya

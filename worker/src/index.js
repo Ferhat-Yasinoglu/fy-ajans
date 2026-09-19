@@ -135,11 +135,11 @@ export default {
     if (env.RATE_LIMITER) {
       try {
         const { success } = await env.RATE_LIMITER.limit({ key: ip });
-        if (!success) return json({ reply: 'Biraz hızlı gidiyorsun; birkaç saniye sonra yeniden dene.', limited: true }, 429, cors);
+        if (!success) return json({ reply: 'Biraz hızlı gidiyorsun; birkaç saniye sonra yeniden dene.', busy: true }, 429, cors);
       } catch (e) { console.error('Hız sınırı hatası', e && e.message); }
     }
 
-    if (!openSlot(ip)) return json({ reply: 'Bir önceki sorun hâlâ yanıtlanıyor; bitince yenisini sorabilirsin.', limited: true }, 429, cors);
+    if (!openSlot(ip)) return json({ reply: 'Bir önceki sorun hâlâ yanıtlanıyor; bitince yenisini sorabilirsin.', busy: true }, 429, cors);
     try {
       return isTts ? await handleTts(request, env, cors, ip) : await handle(request, env, cors, ip);
     } finally {
@@ -285,6 +285,9 @@ async function handle(request, env, cors, ip) {
      aradaki 2-5 saniyede gelen bütün istekler aynı eski değeri okuyordu. KV atomik artırma
      yapamaz, yani yarış tümüyle bitmez; ama pencere model gecikmesinden KV yazma süresine
      (~10-50 ms) iner, yani yüz kat daralır. Kalanı RATE_LIMITER ve harcama tavanı kapatır. */
+  /* «limited» YALNIZCA günlük hak bittiğinde (200 + left:0) döner. Saniyelik frenler
+     yukarıda «busy» ile işaretlenir: istemci ikisini karıştırırsa geçici bir 429
+     yüzünden sohbeti gün sonuna kadar kapatır (7 Eylül denetiminden sonra düzeltildi). */
   const limit = parseInt(env.DAILY_LIMIT || '10', 10);
   const key = dayKey(ip);
   const before = parseInt((await env.QUOTA.get(key)) || '0', 10);
