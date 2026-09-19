@@ -1682,7 +1682,7 @@
    "ch4.faq.q5": "Ist das dasselbe wie n8n aus Kapitel 3?",
    "ch4.faq.a5": "Geschwister. n8n ist für dauerhaft laufende Abläufe, die du klickend baust; Claude Code für Arbeiten mit Dateien und Befehlen. Sie arbeiten auch zusammen: n8n ruft mich in einem Ablauf, und ich erzeuge mit Claude Code eine Datei. In Kapitel 5 verbinden wir beide.",
    "ch4.faq.q6": "Wie teile ich das mit meinem Team?",
-   "ch4.faq.a6": "CLAUDE.md, Skills und Unteragenten-Definitionen liegen als Dateien im Ordner; teilst du den Ordner, gehen sie alle mit. Wer im selben Ordner <em>claude</em> schreibt, arbeitet mit demselben Gehirn und denselben Rezepten. Das «institutionelle Gedächtnis» einer Agentur sind genau diese Dateien.",
+   "ch4.faq.a6": "CLAUDE.md, Skills und Unteragenten-Definitionen liegen als Dateien im Ordner; teilst du den Ordner, gehen sie alle mit. Wer im selben Ordner <em>claude</em> schreibt, arbeitet mit demselben Gehirn und denselben Rezepten. Das «institutionelle Gedächtnis» einer Agentur sind genau diese Dateien. Live-Beispiel: Im Repository dieser Website liegen <a href=\"https://github.com/Ferhat-Yasinoglu/fy-ajans/blob/main/CLAUDE.md\" target=\"_blank\" rel=\"noopener\">CLAUDE.md</a>, unter <a href=\"https://github.com/Ferhat-Yasinoglu/fy-ajans/tree/main/.claude\" target=\"_blank\" rel=\"noopener\">.claude/</a> vier Skills, der Subagent «denetci» und ein Hook quelloffen.",
    "ch4.faq.do": "Mach das jetzt: Wenn du im Terminal irgendwo hängst, frag mich — füg den Text vom Bildschirm genau so ein und sag «was heißt das?». Terminalausgaben kann ich gut lesen.",
    "ch4.s19.title": "Übungen",
    "ch4.ex.e1.t": "1 · Richte die Werkstatt ein",

@@ -106,6 +106,10 @@ node tools/build-logo.mjs --kit      # + brand/ marka kiti (aynı gereksinim)
 ## Dosyalar
 
 ```
+CLAUDE.md             Claude Code için proje beyni: her oturumda okunan kısa kurallar (kursun 4. bölümünün canlı örneği)
+.claude/skills/       iş tarifleri — ceviri, worker-teshis, gizlilik-kontrol, yayin-oncesi; «/ceviri» diye çağrılır
+.claude/agents/       alt ajan: denetci (yalnızca okur; CLAUDE.md kurallarına aykırılıkları dosya:satır ile listeler)
+.claude/settings.json izinler ve kanca: üretilmiş dosyalara (de/ en/ fa/ js/lang/ sitemap.xml) elle yazmayı engeller
 index.html            ana sayfa (bütün bölümler) — Türkçe kaynak
 de/ en/ fa/           üretilmiş çeviriler (aynı klasör yapısı; elle düzenleme)
 i18n/*.json           çeviri sözlükleri;  tools/build-i18n.mjs  üretici betik
