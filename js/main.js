@@ -24,10 +24,10 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var raf = window.requestAnimationFrame;
   // FYOS gerçek yapay zekâ ara sunucusu (bkz. worker/README.md). Boş bırakılırsa çevrimdışı demo çalışır.
-  var FYOS_ENDPOINT = '';
+  var FYOS_ENDPOINT = 'https://fy-ajans.ferhatyasinoglu.workers.dev';
   // Sesli yanıt ucu (worker'ın /tts yolu): yanıtları gerçek bir insan sesiyle okutur.
   // Boş bırakılırsa FYOS_ENDPOINT'ten türetilir; ikisi de boşsa tarayıcının kendi sesi kullanılır.
-  var FYOS_VOICE_ENDPOINT = '';
+  var FYOS_VOICE_ENDPOINT = 'https://fy-ajans.ferhatyasinoglu.workers.dev/tts';
   /* Tarayıcı sesini elle sabitlemek için: adın bir parçası yeter ("Emel", "Yelda"…).
      Boşsa ses kendiliğinden seçilir ve kadın sesi tercih edilir. Cihazdaki sesleri görmek
      için konsola: FYOS_VOICE.voices().then(console.log) */
@@ -1004,7 +1004,7 @@
       ['taksit|ödeme|kart|havale|paypal|iban|nasıl alır|satın al', 'Kurs şu an ücretsiz, ödeme diye bir şey yok. "Ücretsiz katıl" düğmesine basman yeter; e-posta ile kaydını alıp erişim bilgilerini gönderiyoruz.'],
       ['iletişim|ulaş|mail|e-posta|telefon|whatsapp|görüşme|randevu|danışman', 'En hızlısı iletişim formu — sayfanın altında ya da üstteki "Bize Ulaşın" düğmesinde. Ücretsiz 30 dakikalık görüşme için de aynı form. Yanıt benden değil, gerçek bir insandan geliyor.'],
       ['iş|kariyer|başvuru|özgeçmiş|cv|katıl|çalışmak', 'FY\'ye katılmak istiyorsan "FY\'ye katıl" bölümünden özgeçmişini gönder; uygun görürsek biz sana dönüyoruz.'],
-      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site veri toplamıyor, çerez de kullanmıyor. Benim yanıtlarım senin cihazında üretiliyor; sorduğun hiçbir şey sunucuya gitmiyor, yalnızca model dosyaları bir kez iniyor. Ayrıntısı Kurallar ve Gizlilik sayfasında.']
+      ['gizlilik|veri|çerez|kvkk|güvenli', 'Bu site çerez kullanmıyor, seni izlemiyor. Sorduğun soru yanıtı üretmek için FY’nin kendi ara sunucusuna, oradan da yapay zekâ sağlayıcısına gidiyor; bir hesaba bağlanmıyor ve bizde saklanmıyor. Ayrıntısı Kurallar ve Gizlilik sayfasında.']
     ];
     function reply(q) {
       var lq = q.toLowerCase(), best = null, bestScore = 0;
@@ -1150,7 +1150,13 @@
         },
         onToken: function (text) { bump(); if (b) { b.textContent = text; log.scrollTop = log.scrollHeight; } }
       }, function (text, meta) {
-        if (meta && meta.limited) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, String(DAILY)); } catch (er) {} }
+        /* Günlük hak bitişi ile saniyelik fren farklı şeylerdir. Sunucu yalnızca günlük hak
+           bitince limited+left:0 döner; «biraz yavaşla» yanıtı busy gelir (eski sürümlerde
+           left'siz limited). Karıştırılırsa tek bir 429 sohbeti gün sonuna kadar kapatıyordu. */
+        var dayOver = meta && meta.limited && meta.left === 0;
+        var slowDown = meta && !dayOver && (meta.busy || meta.limited);
+        if (dayOver) { quota = 0; if (left) left.textContent = 0; try { localStorage.setItem(key, String(DAILY)); } catch (er) {} }
+        else if (slowDown) { quota = Math.min(DAILY, quota + 1); if (left) left.textContent = quota; try { localStorage.setItem(key, String(DAILY - quota)); } catch (er) {} }
         history.push({ role: 'assistant', content: text });
         if (streamed) { if (b) b.textContent = text; finish(text); return; }
         if (!b) b = bubble('bot', '');

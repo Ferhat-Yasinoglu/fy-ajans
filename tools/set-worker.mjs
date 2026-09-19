@@ -1,8 +1,8 @@
 /* Worker'ı siteye bağla — tek komut.
 
    Kullanım (depo kökünde):
-     node tools/set-worker.mjs https://fyos-chat.<hesap>.workers.dev            # yalnız ses
-     node tools/set-worker.mjs https://fyos-chat.<hesap>.workers.dev --sohbet   # ses + sohbet
+     node tools/set-worker.mjs https://fy-ajans.<hesap>.workers.dev            # yalnız ses
+     node tools/set-worker.mjs https://fy-ajans.<hesap>.workers.dev --sohbet   # ses + sohbet
      node tools/set-worker.mjs --temizle                                        # bağlantıyı kaldır
 
    Ne yapar:
@@ -35,7 +35,7 @@ function bitir(mesaj) { console.error('\n✗ ' + mesaj + '\n'); process.exit(1);
 
 let url = '', origin = '';
 if (!temizle) {
-  if (!arg) bitir('Worker adresi gerekli.\n  node tools/set-worker.mjs https://fyos-chat.<hesap>.workers.dev\n  node tools/set-worker.mjs --temizle');
+  if (!arg) bitir('Worker adresi gerekli.\n  node tools/set-worker.mjs https://fy-ajans.<hesap>.workers.dev\n  node tools/set-worker.mjs --temizle');
   try {
     const u = new URL(arg);
     if (u.protocol !== 'https:') bitir('Adres https:// ile başlamalı (tarayıcı http adresine istek atmaz).');
