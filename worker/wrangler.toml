@@ -10,6 +10,11 @@ keep_vars = true
 # config buradaki ad ile aynı olmak ZORUNDA. Panoda Settings → Build → Root directory = worker,
 # Deploy command = npx wrangler deploy. main dalına her push otomatik dağıtır.
 
+# Zamanlanmış görevler (UTC). Her sabah 06:00 Claude sağlık kontrolü (düşmüşse sahibe e-posta);
+# cuma 06:30 haftalık özet + kayıt yedeği. E-posta için RESEND_API_KEY + LEAD_TO gerekir. src/index.js scheduled().
+[triggers]
+crons = ["0 6 * * *", "30 6 * * 5"]
+
 [vars]
 # Takvim aboneliği (/calendar.ics?key=…) anahtarının SHA-256 özeti; node tools/set-calendar-token.mjs yazar.
 CAL_FEED_TOKEN_HASH = "68d165c278a40db2291ddb5958447400e734584d378320b96b48b247b36a1209"

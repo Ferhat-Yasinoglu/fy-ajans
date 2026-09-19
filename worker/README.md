@@ -122,6 +122,14 @@ teşhis için `/admin/mail-test` (admin girişi ister) bir deneme e-postası at�
 `/admin` üstünde «Bu hafta» kutusu: son 7 gün ve önceki 7 gündeki kayıt sayısı (randevu istekleri dahil);
 Bölüm 6'nın dört sayısından «gelen talep». Öbür üçü platformdan elle alınır.
 
+## Zamanlanmış görevler (cron)
+
+`wrangler.toml` `[triggers]`: her sabah 06:00 UTC Claude sağlık kontrolü — `ANTHROPIC_API_KEY` tanımlıysa kısa bir
+deneme; düşmüşse sahibe tek e-posta (konuda yalnızca kod: 401 anahtar, 400 bakiye, ağ). Cuma 06:30 UTC haftalık
+özet: gelen talep son 7 gün / önceki 7 gün, yaklaşan randevu, ekinde kayıtların JSON yedeği (KV kayıtları 180 günde
+silinir, yedek kalır). İkisi de `RESEND_API_KEY` + `LEAD_TO` ister; yoksa yalnızca loga yazar. Elle tetiklemek:
+panoda Worker → Settings → Trigger events → cron satırında «Run». Ham sağlayıcı mesajı e-postaya girmez.
+
 `GET /stats` (Origin denetimli, kimlik yok) yalnızca `{"bookings": N}` döner: yaklaşan randevu sayısı.
 Ana sayfadaki «Boardroom» kartı buradan beslenir; kayıt içeriği hiçbir zaman dönmez.
 

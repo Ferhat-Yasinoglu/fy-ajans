@@ -48,3 +48,6 @@ Yeni davranış eklediysen `test/security.mjs`'e numaralı bir denetim ekle (17-
   Dal push'ları önizleme sürümü üretir; merge'den önce
   `https://<dal-adı>-fy-ajans.ferhatyasinoglu.workers.dev/health` ile denenebilir.
 - Gizli anahtarlar Builds ile ayarlanmaz; bir kez panodan ya da `npx wrangler secret put …` ile girilir.
+
+Cron: her sabah sağlık kontrolü ve cuma haftalık özet e-postası (`wrangler.toml [triggers]`, `scheduled()`).
+«Claude yanıt vermiyor» e-postası gelirse konudaki kod yol gösterir; elle tetiklemek için panoda Trigger events → Run.

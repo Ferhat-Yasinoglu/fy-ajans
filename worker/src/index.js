@@ -81,8 +81,9 @@ FY hakkında bildiklerin:
 - Kurucu: Farhad Yaqoobi. Almanya'da (Kuzey Ren-Vestfalya) yaşıyor, IT okuyor, Türkçe/Almanca/İngilizce/Farsça biliyor, projelerini açık kaynak olarak GitHub'da paylaşıyor.
 - Kurs: "Yapay Zekâ Yolculuğu". 7 bölüm, tamamen proje odaklı, mutlak sıfırdan başlar, programlama bilgisi gerekmez. Şu an tamamen ücretsiz: kayıt için hiçbir ödeme alınmaz, kart bilgisi istenmez. Kurs ileride ücretli olabilir. 45 gün destek, öğrenci paneli, ömür boyu erişim. Tamamen online.
 - Bölümler: 1 Uyanış (yapay zekâ temelleri, ilk araçlar), 2 Formül (prompt yazımı: rol, bağlam, hedef, kısıt, çıktı biçimi; sistem promptu), 3 Ajan (n8n ile otomasyon, webhook, API), 4 Atölye (Claude Code, skill'ler, alt ajanlar, hafıza), 5 Laboratuvar (gerçek site, CRM ve FYOS kurmak), 6 Vitrin (Claude ile video kurgusu, Instagram algoritması, DM akıllılaştırma, içerik, kampanya), 7 Zirve (teklif, fiyatlama, müşteri kazanma; para kazandıran beceri).
-- Site paketleri: Temel (animasyonlu satış sayfası, SEO, analitik), Profesyonel (site + veritabanı + yönetim paneli + özel CRM; en çok tercih edilen), Uzman (yapay zekâ entegrasyonlu tam platform: müşteri adayı puanlama, e-posta otomasyonu, özel ajanlar, sürekli destek). Fiyat projeye göre; "Proje talep et" düğmesi.
-- Otomasyon: DM yanıtları, müşteri adayı puanlama, içerik üretimi, raporlama, iç araçlar, müşteri desteği. Ücretsiz 30 dakikalık danışmanlık görüşmesi var.
+- Site paketleri: Temel (animasyonlu satış sayfası, SEO, analitik), Profesyonel (site + veritabanı + yönetim paneli + özel CRM; en çok tercih edilen), Uzman (yapay zekâ entegrasyonlu tam platform: müşteri adayı puanlama, e-posta otomasyonu, özel ajanlar, sürekli destek). Fiyat projeye göre; rakam verme.
+- Görüşme: ücretsiz 30 dakikalık danışmanlık görüşmesi. Fiyat, teklif ya da "benim işime uyar mı" diye sorana bunu öner ve bağlantıyı aynen ver: https://ferhat-yasinoglu.github.io/fy-ajans/#contact — formda gün ve saat seçilir, görüşme Farhad ile olur.
+- Otomasyon: DM yanıtları, müşteri adayı puanlama, içerik üretimi, raporlama, iç araçlar, müşteri desteği.
 - FYOS: FY'nin ajantik işletim sistemi; ajanlar, koçlar, hafıza, beceriler ve bilgi grafiğinden oluşan ağ. Sitedeki sahne canlı bir demo. Kursun 5. bölümünde öğrenci kendi sürümünü kurar.
 - İletişim: sitedeki iletişim formu ya da üstteki "Bize Ulaşın" düğmesi. Yanıt gerçek bir insandan gelir.
 - Gizlilik: çerez ve izleme yok. Formdan gönderilenler yalnızca talebi yanıtlamak için en çok altı ay tutulur; ayrıntı Kurallar ve Gizlilik sayfasında.
@@ -332,14 +333,93 @@ export default {
     } finally {
       closeSlot(ip);
     }
-  }
+  },
+  async scheduled(event, env, ctx) { ctx.waitUntil(runScheduled(event.cron, env)); }
 };
+
+/* Zamanlanmış görevler (wrangler.toml [triggers], UTC). Her sabah: ANTHROPIC_API_KEY tanımlıysa Claude'a
+   kısa bir deneme; düşmüşse (anahtar bitti, bakiye yok, ağ) sahibe bir e-posta — sohbet zaten Workers AI ile
+   sürer, site açık kalır. Cuma sabahı: haftalık özet (gelen talep: son 7 gün / önceki 7 gün, yaklaşan randevu)
+   ve ekinde kayıtların JSON yedeği — KV kayıtları 180 günde silinir, yedek kalır. E-posta için
+   RESEND_API_KEY + LEAD_TO gerekir; yoksa yalnızca loga yazılır. Ham sağlayıcı mesajı e-postaya girmez. */
+const CRON_WEEKLY = '30 6 * * 5';
+
+async function runScheduled(cron, env) {
+  const canMail = !!(env.RESEND_API_KEY && env.LEAD_TO);
+  if (cron === CRON_WEEKLY) return weeklyDigest(env, canMail);
+  return healthAlert(env, canMail);
+}
+
+async function claudeProbe(env) {
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: env.MODEL || 'claude-sonnet-5', max_tokens: 8, messages: [{ role: 'user', content: 'Merhaba' }] })
+    });
+    if (res.ok) return { ok: true };
+    console.error('cron sağlık: Anthropic', res.status, (await res.text().catch(() => '')).slice(0, 300));
+    return { ok: false, code: String(res.status) };
+  } catch (e) { console.error('cron sağlık: ağ', e && e.message); return { ok: false, code: 'ağ' }; }
+}
+
+async function sendMail(env, subject, text, attachments) {
+  const body = { from: env.LEAD_FROM || 'FY <onboarding@resend.dev>', to: [env.LEAD_TO], subject, text };
+  if (attachments) body.attachments = attachments;
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + env.RESEND_API_KEY },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) console.error('cron e-posta', res.status, (await res.text().catch(() => '')).slice(0, 300));
+    return res.ok;
+  } catch (e) { console.error('cron e-posta ağ hatası', e && e.message); return false; }
+}
+
+async function healthAlert(env, canMail) {
+  if (!env.ANTHROPIC_API_KEY) { console.log('cron sağlık: Anthropic anahtarı yok, Workers AI kullanılıyor'); return; }
+  const p = await claudeProbe(env);
+  if (p.ok) { console.log('cron sağlık: Claude yanıt veriyor'); return; }
+  console.error('cron sağlık: Claude düştü, kod', p.code);
+  if (!canMail) return;
+  await sendMail(env, 'FYOS — Claude yanıt vermiyor (' + p.code + ')',
+    'Sabah kontrolünde Claude yanıt vermedi. Sohbet Workers AI ile sürüyor, site açık; ama ton düştü.\n' +
+    'Kod: ' + p.code + '\n\n' +
+    '401 → anahtar geçersiz ya da süresi dolmuş: platform.claude.com/settings/keys → Create key (30 gün) → Cloudflare Settings → Variables and Secrets → ANTHROPIC_API_KEY → Rotate → Deploy.\n' +
+    '400 → bakiye bitmiş olabilir: platform.claude.com/settings/billing\n' +
+    'ağ / 5xx → sağlayıcı tarafı; yarın yine bakılır.\n\n' +
+    'Kontrol: worker adresinde /health → "provider":"anthropic" ve "ok":true görülmeli.');
+}
+
+const b64utf8 = (str) => { const bytes = new TextEncoder().encode(str); let bin = ''; for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]); return btoa(bin); };
+
+async function weeklyDigest(env, canMail) {
+  if (!env.QUOTA) { console.error('cron özet: KV bağlı değil'); return; }
+  const list = await env.QUOTA.list({ prefix: 'lead:', limit: 1000 });
+  const leads = [];
+  for (const k of list.keys || []) { const v = await env.QUOTA.get(k.name); if (!v) continue; try { leads.push(JSON.parse(v)); } catch {} }
+  leads.sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
+  const now = Date.now(), wk = 7 * 86400000, tsOf = l => new Date(l.ts).getTime();
+  const thisWeek = leads.filter(l => tsOf(l) > now - wk).length;
+  const lastWeek = leads.filter(l => tsOf(l) <= now - wk && tsOf(l) > now - 2 * wk).length;
+  const bookings = (await allBookings(env)).filter(b => new Date(b.at).getTime() >= now);
+  const date = new Date(now).toISOString().slice(0, 10);
+  console.log('cron özet', date, 'talep', thisWeek, 'önceki', lastWeek, 'randevu', bookings.length);
+  if (!canMail) return;
+  const text = 'Gelen talep: ' + thisWeek + ' (son 7 gün) · ' + lastWeek + ' (önceki 7 gün)\n' +
+    'Yaklaşan randevu: ' + bookings.length + '\nToplam kayıt: ' + leads.length + '\n\n' +
+    'Bölüm 6\'nın öbür üç sayısını platformdan al ve dördünü CRM tablondaki «hafta» sayfasına yaz: kaydetme ve gönderme, izlenme süresi, yayın sayısı.\n\n' +
+    'Ekte kayıtların yedeği. Worker kayıtları 180 gün sonra siler; bu dosya kalır.';
+  await sendMail(env, 'FY — hafta özeti ' + date + ': ' + thisWeek + ' talep', text,
+    [{ filename: 'fy-kayitlar-' + date + '.json', content: b64utf8(JSON.stringify({ date, leads, bookings }, null, 1)) }]);
+}
 
 /* Sesin durumu: yalnızca «yapılandırılmış mı» sorusunun yanıtı. Sağlayıcıya HİÇ istek atmaz,
    bir kuruş harcamaz, günlük hakka dokunmaz — ve anahtarın kendisini asla döndürmez, yalnız
    varlığını. Sebebi: anahtar yokken /tts sessizce 503 dönüyor, site de tarayıcının kendi sesine
    düşüyor; sahibin bunu dışarıdan anlamasının başka yolu yoktu. */
-/* Dönen alanlar BİLEREK bu dördüyle sınırlı ve hepsi «voice» ile başlıyor: denetim 31 bunu
+/* Dönen alanlar BİLEREK bu dördüyle sınırlı ve hepsi «voice» ile başlıyor: denetim 32 bunu
    izin listesine karşı doğruluyor, yani buraya ileride anahtarla ilgili bir alan eklenirse
    test kırılır. Çağıran taraf ...v'yi EN BAŞA yayıyor ki sağlık verdisi (ok/reason) ezilemesin. */
 function voiceHealth(env) {
