@@ -15,7 +15,10 @@ DAILY_LIMIT = "10"
 # Model: en yetenekli seçenek claude-sonnet-5; bütçe için claude-haiku-4-5 (yarı fiyat).
 # Model kimliğine tarih eki YAZMA — bu dizeler olduğu gibi tamdır.
 MODEL = "claude-sonnet-5"
-# Anthropic anahtarı girilmezse Workers AI kullanılır (ücretsiz katman: günde 10.000 nöron).
+# Anthropic anahtarı girilmezse (ya da Claude düşerse) Workers AI kullanılır (ücretsiz katman:
+# günde 10.000 nöron). Bu model ilk denenir; yanıt vermezse src/index.js içindeki AI_FALLBACK
+# listesi sırayla denenir. Birden fazla model yazmak için virgülle ayır (AI_MODELS da olur).
+# Teşhis: tarayıcıdan https://<worker-adresi>/health aç -> hangi model yanıt verdi / hangi kod düştü.
 AI_MODEL = "@cf/meta/llama-3.1-8b-instruct"
 
 # Günlük sayaç için KV alanı. `npx wrangler kv namespace create QUOTA` çıktısındaki id'yi
