@@ -2,6 +2,10 @@ name = "fy-ajans"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 
+# Panodan girilen düz değişkenler (ör. LEAD_TO) her dağıtımda silinmesin. Secret'lar zaten kalır;
+# keep_vars olmadan wrangler deploy yalnızca aşağıdaki [vars] listesini bırakır.
+keep_vars = true
+
 # Workers Builds (GitHub deposu bağlı): Cloudflare panosunda Worker adı "fy-ajans"; wrangler
 # config buradaki ad ile aynı olmak ZORUNDA. Panoda Settings → Build → Root directory = worker,
 # Deploy command = npx wrangler deploy. main dalına her push otomatik dağıtır.
