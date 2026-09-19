@@ -1,7 +1,7 @@
 # FY — Claude için proje beyni
 
 Bu dosya her oturumda okunur; kısa kalır. İş tarifleri `.claude/skills/` altında (`/ceviri`, `/worker-teshis`,
-`/gizlilik-kontrol`, `/yayin-oncesi`), yalnızca okuyan denetçi `.claude/agents/denetci.md`, zorla uygulanan
+`/gizlilik-kontrol`, `/yayin-oncesi`, `/icerik-uret`), yalnızca okuyan denetçi `.claude/agents/denetci.md`, zorla uygulanan
 kural `.claude/settings.json` (kanca). Ayrıntılı dosya haritası README.md'de.
 
 ## Ne bu
