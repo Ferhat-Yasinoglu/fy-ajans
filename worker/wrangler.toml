@@ -22,7 +22,7 @@ CAL_FEED_TOKEN_HASH = "68d165c278a40db2291ddb5958447400e734584d378320b96b48b247b
 ADMIN_PASS_HASH = "pbkdf2$100000$LoLAAo9osCZ5qdMzw3iicQ==$Rt+V+D60VeWBJvHq9mbZ35QduzOEBq15MtXUBv4kiPM="
 # Yalnızca bu kaynaklardan gelen isteklere yanıt verilir (virgülle ayır). Alan adı değişince güncelle.
 # BOŞ BIRAKILIRSA worker hiçbir isteğe yanıt vermez (eskiden tam tersiydi: boşsa herkese açılıyordu).
-ALLOWED_ORIGINS = "https://ferhat-yasinoglu.github.io"
+ALLOWED_ORIGINS = "https://fyajans.de,https://ferhat-yasinoglu.github.io"
 # Ziyaretçi başına günlük soru hakkı
 DAILY_LIMIT = "10"
 # /leads (mini CRM) kullanıcı adı. Şifre: ya panoda ADMIN_PASS (Secret) ya da aşağıdaki özet.
