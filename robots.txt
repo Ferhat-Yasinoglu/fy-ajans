@@ -8,4 +8,4 @@ Disallow: /fa/portal/
 Disallow: /dashboard/
 Disallow: /login
 
-Sitemap: https://ferhat-yasinoglu.github.io/fy-ajans/sitemap.xml
+Sitemap: https://fyajans.de/sitemap.xml

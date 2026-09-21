@@ -8,7 +8,9 @@
    Ne yapar:
      1. Sitedeki bütün mutlak adresleri eski tabandan https://<alan-adı> adresine çevirir
         (canonical, hreflang, Open Graph, Twitter, JSON-LD, sitemap, robots, README).
-     2. 404.html içindeki /fy-ajans/ kök-göreli yollarını / yapar. GitHub Pages'te site bir
+     2. farhad-yaqoobi.vcf içindeki URL satırı da döner (.vcf taranan uzantılardan; kartı
+        yeniden üretmeden adres güncel kalır).
+     2b. 404.html içindeki /fy-ajans/ kök-göreli yollarını / yapar. GitHub Pages'te site bir
         alt dizinde duruyordu; kendi alan adında kökte duruyor.
      3. Depo köküne CNAME dosyasını yazar — GitHub Pages özel alan adını buradan okur.
      4. worker/wrangler.toml içindeki ALLOWED_ORIGINS listesine yeni adresi ekler. Bu liste
@@ -31,7 +33,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const ESKI_TABAN = 'https://ferhat-yasinoglu.github.io/fy-ajans';
 const ESKI_YOL = '/fy-ajans/';
-const UZANTI = new Set(['.html', '.xml', '.txt', '.webmanifest', '.md', '.toml']);
+const UZANTI = new Set(['.html', '.xml', '.txt', '.webmanifest', '.md', '.toml', '.vcf']);
 const ATLA = new Set(['node_modules', '.git', '.wrangler', '.github']);
 
 const args = process.argv.slice(2);

@@ -84,8 +84,9 @@ paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara ya
   ve daha sıkı seçenek `worker/README.md` içinde. Seslendirme anahtarı eklersen sağlayıcı
   panelinde aylık harcama tavanını koy.
 - `.gitignore` gizli dosyaları dışarıda tutar. Depoya anahtar, şifre ya da `.env` girmesin.
-- GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). github.io adresleri
-  için HTTPS zaten zorunlu; http istekleri otomatik https'e yönlenir, ek ayar gerekmez.
+- GitHub tarafında: hesapta iki aşamalı doğrulama açık (GitHub Mobile). Özel alan adında HTTPS
+  kendiliğinden gelmez: DNS doğrulaması geçtikten sonra Settings → Pages → «Enforce HTTPS»
+  işaretlenmeli; işaretlenene kadar http istekleri https'e yönlenmez.
 
 ## Logo
 
@@ -143,7 +144,9 @@ img/logo.svg          favicon (koyu yuvarlak kare + harfler), aynı betik üreti
 js/fyos-local.js      FYOS tarayıcı içi model (WebGPU, ücretsiz)
 js/fyos-voice.js      FYOS canlı sesli mod: «Melis» uyandırma kelimesi, konuşmadan metne, metinden sese (tarayıcı API'leri, bağımlılıksız; worker varsa gerçek insan sesi)
 worker/               FYOS için Cloudflare Worker (gerçek yapay zekâ sohbeti; isteğe bağlı)
-tools/set-domain.ps1  alan adı değişince tüm adresleri tek komutla çevirir
+tools/set-domain.mjs  alan adı değişince tüm adresleri tek komutla çevirir (--kuru: yalnız göster, --geri: Pages adresine dön)
+tools/set-domain.ps1  aynısının Windows ikizi — .mjs kadar kapsamlı değil; tercih edilen araç .mjs
+CNAME                 GitHub Pages özel alan adını buradan okur (set-domain.mjs yazar)
 tools/set-admin-pass.mjs  /leads ve /bookings şifresi: rastgele üretir, bir kez gösterir, PBKDF2 özetini wrangler.toml'a yazar
 tools/set-calendar-token.mjs  /calendar.ics abonelik anahtarı: bir kez gösterir, SHA-256 özetini wrangler.toml'a yazar
 tools/set-worker.mjs  worker'ı siteye bağlar: uç noktalar, CSP connect-src ve çeviriler tek komutta (--temizle ile geri alır)
@@ -156,7 +159,7 @@ tools/build-logo.mjs  logo üretici: SVG'ler bağımlılıksız, PNG'ler için -
 tools/build-og-profile.mjs  bağlantı sayfasının paylaşım görseli (Playwright + Chromium)
 tools/build-vcard.mjs  kişi kartı üretici (Playwright + Chromium; fotoğrafın karesini kırpar)
 brand/                marka kiti: profil fotoğrafı, şeffaf PNG, tek renk siyah/beyaz, TR/EN/DE yatay kilit (--kit üretir; liste brand/README.md)
-404.html              bulunamayan sayfa (kendi kendine yeter; alan adı değişince içindeki /fy-ajans/ yollarını güncelle)
+404.html              bulunamayan sayfa (kendi kendine yeter; yolları kök-göreli — alan adı aracı çevirir)
 robots.txt  sitemap.xml  manifest.webmanifest
 ```
 
@@ -210,7 +213,11 @@ Site Almanya'dan tüketiciye 100 €'luk dijital kurs sattığı için üç bilg
 
 ## Yayın adresi ve içerik kararları
 
-- Site adresi `https://ferhat-yasinoglu.github.io/fy-ajans/` olarak ayarlı (canonical, Open Graph, JSON-LD, sitemap, robots). GitHub'da `fy-ajans` deposu açıp Pages'i etkinleştirmen yeterli. Başka bir alan adına geçersen bu adresi topluca değiştir.
+- Site adresi `https://fyajans.de/` olarak ayarlı (canonical, Open Graph, JSON-LD, sitemap, robots, CNAME).
+  Özel alan adı üç adım ister: alan adının DNS'inde dört A kaydı (`@` → 185.199.108.153, .109.153,
+  .110.153, .111.153) ve `www` için CNAME → `ferhat-yasinoglu.github.io`; depoda Settings → Pages →
+  Custom domain; doğrulama geçince «Enforce HTTPS». DNS girilmeden CNAME yayına girerse site
+  adreslenemez. Başka bir alan adına geçersen `node tools/set-domain.mjs <alan-adı>`.
 - Kurs fiyatı `100 €`, üstü çizili eski fiyat `200 €` (index.html, contact/course.html, JSON-LD Offer).
 - Kurs sayıları: 7 bölüm · 49 ders · 7 gerçek proje · 14 şablon. Gerçek müfredata göre güncelle.
 - Kurucu fotoğrafı `img/founder.jpg` (1000×1000 JPEG); Hakkında bölümünde ve bağlantı sayfasındaki avatarda kullanılır. Değiştirmek için aynı adla üzerine yaz.
