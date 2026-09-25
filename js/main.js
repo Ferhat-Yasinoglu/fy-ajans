@@ -6,6 +6,14 @@
   'use strict';
   // Betik çalışıyor: giriş animasyonlarının gizlemesi ancak bu sınıfla devreye girer (css: ".js …").
   // Betik yüklenmez ya da ayrıştırılamazsa sınıf eklenmez, sayfa olduğu gibi görünür kalır.
+  /* Betik ilk boyamadan SONRA geliyor (js/boot.js). O anda ekranda duran giriş öğeleri «js»
+     sınıfıyla bir an kaybolup yeniden belirmesin diye önce .is-in alır; gizleme yalnız ekran
+     dışındakilere kalır, kaydırınca eskisi gibi belirirler. Üst çubuk da hazır sayılır. */
+  (function () {
+    var vh = window.innerHeight || 800, els = document.querySelectorAll('[data-reveal], .jstep');
+    for (var i = 0; i < els.length; i++) { var r = els[i].getBoundingClientRect(); if (r.bottom > 0 && r.top < vh) els[i].classList.add('is-in'); }
+    var nv = document.getElementById('nav'); if (nv) nv.classList.add('is-ready');
+  })();
   document.documentElement.classList.add('js');
   // Metinler: Türkçe varsayılanlar bu dosyada; diğer diller js/lang/<dil>.js ile window.FY_STRINGS'e yazılır
   // (i18n/<dil>.json → tools/build-i18n.mjs). Dil dosyası yüklenmezse Türkçe kalır.
@@ -94,12 +102,18 @@
   }
 
   /* ---------- Canvas yardımcıları ---------- */
-  function fit(canvas) {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function fit(canvas, maxDpr) {
+    var dpr = Math.min(window.devicePixelRatio || 1, maxDpr || 2);
     var r = canvas.getBoundingClientRect();
     var w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
-    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-      canvas.width = w * dpr; canvas.height = h * dpr;
+    /* Bit eşlem ölçüsü TAM SAYIYA yuvarlanır. Eskiden w*dpr ile karşılaştırılıyordu; dpr
+       kesirliyse (Lighthouse'un telefonu 1,75; gerçek telefonlar 2,625 / 2,75 / 3,5) 823×1,75 =
+       1440,25 hiçbir zaman tuvalin 1440'ına eşit olmuyor ve her çağrı tuvali yeniden ayırıp
+       siliyordu — döngü her karede çağırdığı için telefonda saniyede 60 kez. Masaüstünde
+       (dpr 1) hiç görülmedi; PSI mobilde LCP ve TBT'yi yiyen buydu. */
+    var W = Math.round(w * dpr), H = Math.round(h * dpr);
+    if (canvas.width !== W || canvas.height !== H) {
+      canvas.width = W; canvas.height = H;
     }
     var ctx = canvas.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -133,8 +147,11 @@
        düzenleme demekti (PSI: main.js:99 ve :109 kare başına). Görünürlüğü IntersectionObserver
        bildiriyor; ölçü yarım saniyede bir tazeleniyor ki yazı tipi yüklenmesi gibi sessiz
        kaymalar kaçmasın. IntersectionObserver yoksa görünürlük de aynı turda yoklanır. */
+    /* Bit eşlem en fazla DPR 1: koyu zemin üstünde yumuşak bir ışık ağı, keskinlik gerektirmiyor;
+       telefonda piksel sayısı üçte bire iniyor. Lighthouse'un makinesinde GPU yok, tuval ana
+       iş parçacığında çiziliyor — her piksel doğrudan TBT ve LCP'ye yazılıyor. */
     var F = null, shown = true, tick = 0, hasIO = 'IntersectionObserver' in window;
-    function measure() { F = fit(canvas); if (!hasIO) shown = visible(canvas); }
+    function measure() { F = fit(canvas, 1); if (!hasIO) shown = visible(canvas); }
     if (hasIO) new IntersectionObserver(function (es) { shown = es[es.length - 1].isIntersecting; }).observe(canvas);
 
     function build() {
@@ -155,9 +172,16 @@
       }
       for (var p = 0; p < Math.min(18, traces.length); p++) pulses.push({ tr: Math.floor(rnd(0, traces.length)), t: Math.random(), sp: rnd(.0012, .004) });
     }
-    function draw(now) {
-      if (++tick >= 30) { tick = 0; measure(); }
-      if (!shown) { raf(draw); return; }
+    /* Saniyede ~33 kare: ağ yavaş kayıyor, 60 kare göze bir şey katmıyor ama işi ikiye
+       katlıyor. Hız değerleri 60 kareye göre ayarlıydı; dt ile ölçeklenir, görünen hız aynı. */
+    var last = 0, dt = 1;
+    function draw(now, once) {
+      if (!once) {
+        if (now - last < 28) { raf(draw); return; }
+        dt = last ? Math.min(3, (now - last) / 16.7) : 1; last = now;
+        if (++tick >= 30) { tick = 0; measure(); }
+        if (!shown) { raf(draw); return; }
+      }
       var f = F, ctx = f.ctx, time = (now - t0) / 1000;
       ctx.clearRect(0, 0, f.w, f.h);
       var px = (mouse.x - .5) * 18, py = (mouse.y - .5) * 18;
@@ -177,7 +201,7 @@
       // gezinen ışık darbeleri
       pulses.forEach(function (pu) {
         var tr = traces[pu.tr]; if (!tr) return;
-        pu.t += pu.sp; if (pu.t > 1) { pu.t = 0; pu.tr = Math.floor(rnd(0, traces.length)); }
+        pu.t += pu.sp * dt; if (pu.t > 1) { pu.t = 0; pu.tr = Math.floor(rnd(0, traces.length)); }
         var segCount = tr.pts.length - 1, ft = pu.t * segCount, si = Math.min(segCount - 1, Math.floor(ft)), lt = ft - si;
         var a = tr.pts[si], b = tr.pts[si + 1];
         var x = a[0] + (b[0] - a[0]) * lt + px * tr.depth, yy = a[1] + (b[1] - a[1]) * lt + py * tr.depth;
@@ -195,11 +219,15 @@
       ctx.globalAlpha = 1;
       // fare eğimi yumuşakça hedefe yaklaşır
       if (!reduce && logo && (Math.abs(tilt.tx - tilt.x) > .01 || Math.abs(tilt.ty - tilt.y) > .01)) {
-        tilt.x += (tilt.tx - tilt.x) * .08; tilt.y += (tilt.ty - tilt.y) * .08; applyLogo();
+        tilt.x += (tilt.tx - tilt.x) * .08 * dt; tilt.y += (tilt.ty - tilt.y) * .08 * dt; applyLogo();
       }
-      if (!reduce) raf(draw);
+      if (!reduce && !once) raf(draw);
     }
-    build(); raf(draw);
+    build();
+    /* İlk kare hemen: arka plan ilk boyamada yerinde. Döngü sayfa yüklendikten sonra başlar;
+       açılış penceresinde ana iş parçacığını tuval değil, boyama ve yazı tipleri kullansın. */
+    draw(performance.now(), true);
+    if (!reduce) { if (document.readyState === 'complete') raf(draw); else addEventListener('load', function () { raf(draw); }); }
     addEventListener('resize', build);
     // Eğim yalnız gerçek imleçle: dokunmatikte tarayıcı her dokunuşa sahte mousemove üretir ve logo eğik kalırdı
     var finePointer = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);

@@ -213,6 +213,12 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
    LCP öğesi betiği beklemesin diye ilk boyamadan itibaren görünür (bkz. .hero__logo). */
 [data-reveal] { transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
 .js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(24px); }
+/* Hero'daki giriş öğeleri betiği beklemez: ilk boyamada CSS animasyonuyla belirirler (betik ilk
+   boyamadan sonra yüklenir, bkz. js/boot.js). Betik gelince main.js bunlara hemen .is-in verir,
+   yani üstteki .js kuralı onları bir daha gizlemez. */
+.hero [data-reveal] { animation: reveal-in .7s cubic-bezier(.22,1,.36,1) both; }
+.hero [data-reveal] + [data-reveal] { animation-delay: 70ms; }
+@keyframes reveal-in { from { opacity: 0; transform: translateY(24px); } }
 .js [data-reveal="x"]:not(.is-in) { transform: translateX(10px); }
 
 /* ---------- Üst çubuk ---------- */
@@ -224,6 +230,8 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
   transition: opacity .6s ease, transform .6s ease;
 }
 .js .nav:not(.is-ready) { opacity: 0; transform: translateY(-20px); }
+.nav { animation: nav-in .6s ease both; }              /* giriş kayması betiksiz, ilk boyamada */
+@keyframes nav-in { from { opacity: 0; transform: translateY(-20px); } }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 .nav__brand { display: flex; align-items: center; gap: 8px; }
 .nav__links { display: none; align-items: center; gap: 28px; font-size: 14px; color: rgb(var(--fg-muted)); }
@@ -254,6 +262,10 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 
 /* Dil seçici: dört dilin bağlantıları; geçerli dil aria-current="page" taşır (üretici betik yazar) */
 .lang { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+/* Dil menüsündeki «فا» dışında Arapça harf olmayan sayfalarda o iki harf sistem yazı tipiyle
+   çizilir: aksi hâlde yalnız onlar için 46 KB'lık Arapça alt küme iniyor ve yavaş bağlantıda
+   LCP'ye yazılıyordu. Farsça sayfada Vazirmatn zaten yüklü, orada dokunulmaz. */
+html:not([lang="fa"]) .lang a[lang="fa"] { font-family: system-ui, "Segoe UI", Tahoma, sans-serif; }
 .lang a { padding: 6px 7px; border-radius: 8px; color: rgb(var(--fg-muted)); line-height: 1; transition: color .2s, background .2s; }
 .lang a:hover { color: rgb(var(--fg)); }
 .lang a[aria-current="page"] { color: rgb(var(--accent-gold-bright)); background: rgb(var(--accent-gold) / .1); }

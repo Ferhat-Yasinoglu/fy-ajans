@@ -33,11 +33,15 @@ paylaşılan varlıkların içerik özetinden bir damga hesaplayıp sayfalara ya
 
 ```html
 <link rel="stylesheet" href="css/style.css?v=55b039d8">
-<script src="js/main.js?v=55b039d8"></script>
+<script src="js/boot.js?v=55b039d8"></script>
 ```
 
+`js/boot.js` küçük bir yükleyici: ana betiği (`js/main.js`) ilk boyamadan iki kare sonra ekler
+ve damgayı kendi adresinden ona devreder. Böylece sayfa, betik değerlendirilene kadar boş
+kalmıyor ve Lighthouse LCP hesabına betiği katmıyor.
+
 - Damga **içerik özeti**, zaman damgası değil: kaynak değişmediyse çıktı da değişmez.
-- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`,
+- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`, `js/boot.js`,
   `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
 - `js/main.js` damgayı kendi adresinden okuyup sonradan yüklediği betiklere devrediyor
   (`js/fyos-voice.js`, `js/fyos-local.js`), yani onlar da bayat kalmıyor.

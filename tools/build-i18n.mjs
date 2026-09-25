@@ -120,10 +120,10 @@ function translate(src, html, dict, report) {
      damga gelince eşleşmeyi bırakıyor, else dalı da olmadığı için otuz sayfanın dil dosyası
      etiketi HİÇ UYARI VERMEDEN düşüyordu (üç dil de Türkçe'ye döner, --check yine 0 der,
      «33 dosya yazıldı» çıktısı bile aynı kalır). else dalı o sessizliği kapatıyor. */
-  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/main\\.js(\\?[^"]*)?"></script>`);
+  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/(?:main|boot)\\.js(\\?[^"]*)?"></script>`);
   if (dict.js) {
     if (mainRe.test(html)) html = html.replace(mainRe, (all, pre, q) => `<script src="${pre}js/lang/${lang}.js${q || ''}"></script>${all}`);
-    else report.error.push(`${src}: js/main.js etiketi bulunamadı — ${lang} dil dosyası EKLENMEDİ`);
+    else report.error.push(`${src}: js/boot.js (ya da main.js) etiketi bulunamadı — ${lang} dil dosyası EKLENMEDİ`);
   }
 
   // 5) mutlak adresler: canonical, og:url, twitter, JSON-LD "url"
