@@ -3,7 +3,7 @@
    Kaynak: kökteki Türkçe HTML (index.html, contact/*.html, portal/login.html, terms.html, impressum.html).
    Sözlük: i18n/<dil>.json  (biçim: i18n/README.md)
    Çıktı:  <dil>/…  aynı klasör yapısıyla; js/lang/<dil>.js; sitemap.xml
-           + Türkçe kaynakların css/style.css ve js/main.js etiketlerine ?v=<içerik özeti>
+           + Türkçe kaynakların css/style.css ve js/boot.js etiketlerine ?v=<içerik özeti>
              damgası (tools/lib/stamp.mjs) — kaynaklara dokunan tek adım budur
 
    Kullanım (depo kökünde):   node tools/build-i18n.mjs          üret
@@ -185,7 +185,7 @@ for (const src of SOURCES) {
   const before = read(src);
   const stamped = stampHtml(before, TOKEN);
   if (stamped.css !== 1) throw new Error(`${src}: stylesheet etiketi beklenen biçimde değil (${stamped.css} eşleşme) — tools/lib/stamp.mjs`);
-  if (stamped.js !== 1) report.error.push(`${src}: js/main.js etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
+  if (stamped.js !== 1) report.error.push(`${src}: js/boot.js (ya da main.js) etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
   srcHtml.set(src, stamped.html);
   if (stamped.html !== before) stale.push(src);
 }

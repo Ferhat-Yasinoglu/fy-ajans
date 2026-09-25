@@ -213,11 +213,12 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
    LCP öğesi betiği beklemesin diye ilk boyamadan itibaren görünür (bkz. .hero__logo). */
 [data-reveal] { transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
 .js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(24px); }
-/* Hero'daki giriş öğeleri betiği beklemez: ilk boyamada CSS animasyonuyla belirirler (betik ilk
-   boyamadan sonra yüklenir, bkz. js/boot.js). Betik gelince main.js bunlara hemen .is-in verir,
-   yani üstteki .js kuralı onları bir daha gizlemez. */
-.hero [data-reveal] { animation: reveal-in .7s cubic-bezier(.22,1,.36,1) both; }
-.hero [data-reveal] + [data-reveal] { animation-delay: 70ms; }
+/* İlk ekrandaki giriş öğeleri betiği beklemez: ilk boyamada CSS animasyonuyla belirirler (betik
+   ilk boyamadan sonra yüklenir, bkz. js/boot.js). Betik gelince main.js ekranda duranlara hemen
+   .is-in verir, yani üstteki .js kuralı onları bir daha gizlemez; ekran dışındakiler animasyonu
+   görünmeden bitirir, .js kuralıyla gizlenir ve kaydırınca eskisi gibi geçişle belirir. */
+[data-reveal] { animation: reveal-in .7s cubic-bezier(.22,1,.36,1) both; }
+[data-reveal] + [data-reveal] { animation-delay: 70ms; }
 @keyframes reveal-in { from { opacity: 0; transform: translateY(24px); } }
 .js [data-reveal="x"]:not(.is-in) { transform: translateX(10px); }
 

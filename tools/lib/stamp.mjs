@@ -1,7 +1,7 @@
 /* Varlık sürüm damgası (tools/build-i18n.mjs kullanır).
    Saf yardımcılar: assetToken yalnız okur, stampHtml dize→dize. Dosya yazma çağıranda kalır.
 
-   Neden var: GitHub Pages css/style.css ve js/main.js dosyalarını kısa bir max-age ile
+   Neden var: GitHub Pages css/style.css ve js/boot.js, js/main.js dosyalarını kısa bir max-age ile
    veriyor ve başlıkları değiştirmenin yolu yok. Dağıtımdan sonra bir süre ziyaretçi YENİ
    HTML + ESKİ CSS/JS karışımı alabiliyor; bu karışım "biraz eski" değil, bozuk görünüyor
    (ör. bir sınıf HTML'e girer ama kuralı eski CSS'te yoktur). Adresin sonundaki ?v=<özet>
@@ -35,7 +35,7 @@ export function assetToken(root) {
 /* Etikete çapalı: hem açılış özniteliğini hem kapanışı istiyorlar.
    Şart, çünkü index.html'de «js/main.js» dört ayrı YORUM satırında düz metin olarak geçiyor;
    çıplak dosya adına bakan bir ifade o yorumları bozardı. Satır başına da çapalanamaz:
-   index.html'de etiket «</div><script src="js/main.js"></script>» biçiminde, satır ortasında.
+   index.html'de etiket «</div><script src="js/boot.js"></script>» biçiminde, satır ortasında.
    Eski damga yakalanmayan isteğe bağlı grupla yutuluyor, yani ?v=a?v=b üretmek imkânsız. */
 const CSS_RE = /(<link rel="stylesheet" href="(?:\.\.\/)*css\/style\.css)(?:\?v=[0-9a-f]+)?(">)/g;
 /* Sayfalar main.js'i doğrudan değil js/boot.js üzerinden yüklüyor (ilk boyamadan sonra); damga
