@@ -130,7 +130,8 @@ contact/course.html   kurs sayfası
 claude/index.html      Claude Rehberi — bağımsız başvuru sayfası ve sözlük (dört dilde)
 course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (dört dilde)
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
-css/style.css         tüm stiller ve tasarım tokenları
+css/style.css         tüm sayfaların stili ve tasarım tokenları
+css/lesson.css        yalnız ders sayfalarının (course/) stili — style.css'ten bölündü, ondan sonra yüklenir
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 data/fy-stats.json    sahne kartlarındaki sayılar (Agents, Skills, Knowledge…); sayfa 60 sn'de bir okur
 img/founder.jpg       kurucu fotoğrafı

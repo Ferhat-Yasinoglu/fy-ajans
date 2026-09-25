@@ -1872,6 +1872,7 @@
     var i = 0, idle = window.requestIdleCallback ? function (f) { requestIdleCallback(f, { timeout: 1500 }); } : function (f) { setTimeout(f, 200); };
     function step() { if (i < lazySecs.length) { lazySecs[i++].classList.add('is-rendered'); idle(step); } }
     function start() { setTimeout(function () { idle(step); }, 300); }
+    if (location.hash) renderAllSections();               // derin bağlantı: hedef, üstündekiler dizilirken kaymasın
     if (document.readyState === 'complete') start(); else addEventListener('load', start);
   })();
 

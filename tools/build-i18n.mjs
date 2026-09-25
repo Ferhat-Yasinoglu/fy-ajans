@@ -186,6 +186,9 @@ for (const src of SOURCES) {
   const stamped = stampHtml(before, TOKEN);
   if (stamped.css !== 1) throw new Error(`${src}: stylesheet etiketi beklenen biçimde değil (${stamped.css} eşleşme) — tools/lib/stamp.mjs`);
   if (stamped.js !== 1) report.error.push(`${src}: js/boot.js (ya da main.js) etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
+  // css/lesson.css yalnız ders sayfalarında ve orada mutlaka: eksilirse sayfa çıplak, sızarsa boşuna yük
+  const wantLesson = /^course\/chapter-\d+\.html$/.test(src) ? 1 : 0;
+  if (stamped.lesson !== wantLesson) report.error.push(`${src}: css/lesson.css bağlantısı ${stamped.lesson} kez geçiyor, ${wantLesson} bekleniyordu`);
   srcHtml.set(src, stamped.html);
   if (stamped.html !== before) stale.push(src);
 }
