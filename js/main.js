@@ -118,8 +118,7 @@
   (function hero() {
     var canvas = $('#heroCanvas'), logo = $('#heroLogo');
     if (!canvas) return;
-    // Logo belirir (opaklık kutuda, büyüme resimde — css). Kutunun transform'u yalnız aşağıdaki eğim + kaydırma için.
-    if (logo) setTimeout(function () { logo.classList.add('is-in'); }, 250);
+    // Logo ilk boyamadan itibaren görünür (css .hero__logo); betik beklenmiyor. Kutunun transform'u yalnız aşağıdaki eğim + kaydırma için.
     var traces = [], pulses = [], mouse = { x: 0.5, y: 0.5 }, t0 = performance.now();
     var cell = 44;
     // Logo dönüşümü iki parçadan birleşir: kaydırma (ölçek + kayma) ve fare eğimi (3B). Azaltılmış hareket: ikisi de kapalı.
@@ -129,8 +128,17 @@
       logo.style.transform = scrollT + (tilt.x || tilt.y ? ' rotateX(' + tilt.y.toFixed(2) + 'deg) rotateY(' + tilt.x.toFixed(2) + 'deg)' : '');
     }
 
+    /* Ölçü ve görünürlük her karede okunmuyor. fit() ile visible() getBoundingClientRect
+       çağırıyor; açılış geçişleri düzeni kirli tutarken bu, her karede zorunlu bir yeniden
+       düzenleme demekti (PSI: main.js:99 ve :109 kare başına). Görünürlüğü IntersectionObserver
+       bildiriyor; ölçü yarım saniyede bir tazeleniyor ki yazı tipi yüklenmesi gibi sessiz
+       kaymalar kaçmasın. IntersectionObserver yoksa görünürlük de aynı turda yoklanır. */
+    var F = null, shown = true, tick = 0, hasIO = 'IntersectionObserver' in window;
+    function measure() { F = fit(canvas); if (!hasIO) shown = visible(canvas); }
+    if (hasIO) new IntersectionObserver(function (es) { shown = es[es.length - 1].isIntersecting; }).observe(canvas);
+
     function build() {
-      var f = fit(canvas); traces = []; pulses = [];
+      measure(); var f = F; traces = []; pulses = [];
       var cols = Math.ceil(f.w / cell), rows = Math.ceil(f.h / cell);
       var n = Math.round((cols * rows) / 14);
       for (var i = 0; i < n; i++) {
@@ -148,8 +156,9 @@
       for (var p = 0; p < Math.min(18, traces.length); p++) pulses.push({ tr: Math.floor(rnd(0, traces.length)), t: Math.random(), sp: rnd(.0012, .004) });
     }
     function draw(now) {
-      if (!visible(canvas)) { raf(draw); return; }
-      var f = fit(canvas), ctx = f.ctx, time = (now - t0) / 1000;
+      if (++tick >= 30) { tick = 0; measure(); }
+      if (!shown) { raf(draw); return; }
+      var f = F, ctx = f.ctx, time = (now - t0) / 1000;
       ctx.clearRect(0, 0, f.w, f.h);
       var px = (mouse.x - .5) * 18, py = (mouse.y - .5) * 18;
       traces.forEach(function (tr) {
@@ -312,6 +321,15 @@
     function linkShown() {
       if (shownRound !== fitRound) { shownRound = fitRound; shownLink = !!(linkC && linkC.offsetParent); }
       return shownLink;
+    }
+    /* Sahne ekranda mı: IntersectionObserver söyler; yoksa fit turuyla aynı kadansta visible()
+       ile bakılır. Eskiden her karede getBoundingClientRect okunuyordu — sahne ekranın çok
+       altındayken bile, yani bütün açılış boyunca boşuna zorunlu yeniden düzenleme. */
+    var meshIO = 'IntersectionObserver' in window, meshVis = !meshIO, meshRound = -1;
+    if (meshIO) new IntersectionObserver(function (es) { meshVis = es[es.length - 1].isIntersecting; }).observe(canvas);
+    function meshShown() {
+      if (!meshIO && meshRound !== fitRound) { meshRound = fitRound; meshVis = visible(canvas); }
+      return meshVis;
     }
     function fitC(c) {
       var e = null;
@@ -565,8 +583,8 @@
 
     var sparkTimer = 0, tPrev = performance.now(), q = 0;
     function draw(now) {
-      if (!visible(canvas) && !ripples.length) { raf(draw); return; }
-      if (++fitFrame >= 30) { fitFrame = 0; fitRound++; }
+      if (++fitFrame >= 30) { fitFrame = 0; fitRound++; }   // tur gizliyken de ilerler: yoklama ve ölçü tazelenebilsin
+      if (!meshShown() && !ripples.length) { raf(draw); return; }
       var f = fitC(canvas), ctx = f.ctx;
       if (f.w !== w || f.h !== h) { w = f.w; h = f.h; buildEdges(); linksReady = false; }
       var s = Math.min((now - tPrev) / 1000, .05); tPrev = now; q += s;
