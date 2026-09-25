@@ -209,7 +209,8 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 /* ---------- Reveal ----------
    Gizleme yalnızca betik çalışınca devreye girer: main.js ilk iş <html>'e "js" sınıfı ekler.
    Betik yüklenmez, engellenir ya da ayrıştırılamazsa sınıf eklenmez ve sayfa olduğu gibi görünür kalır.
-   Aynı kural .nav, .hero__logo ve .jstep__card için de geçerli (aşağıda). */
+   Aynı kural .nav ve .jstep__card için de geçerli (aşağıda). .hero__logo bu kapıdan çıkarıldı:
+   LCP öğesi betiği beklemesin diye ilk boyamadan itibaren görünür (bkz. .hero__logo). */
 [data-reveal] { transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
 .js [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(24px); }
 .js [data-reveal="x"]:not(.is-in) { transform: translateX(10px); }
@@ -297,9 +298,13 @@ textarea.input { height: auto; min-height: 120px; padding: 12px 16px; }
 /* Hero logosu: img/logo-hero.svg (halka, ışın, parçacıklar, yansıma — animasyonlar SVG'nin içinde, CSS ile).
    Kutu oranı SVG'nin viewBox'ıyla aynı (960×880); JS fare ile hafif 3B eğim verir (.hero__logo-wrap perspective). */
 .hero__logo-wrap { flex: 1; display: grid; place-items: center; padding: 24px 0; pointer-events: none; perspective: 1200px; }
-.hero__logo { position: relative; width: min(82vw, 40vh); aspect-ratio: 960 / 880; transition: opacity .5s ease; transform-style: preserve-3d; will-change: transform; }
-/* Belirme kısa bir opaklık geçişi; asıl açılış (halka çizimi, harfler, ağ) SVG'nin içinde. Kutunun transform'u JS'e ait (eğim + kaydırma). */
-.js .hero__logo:not(.is-in) { opacity: 0; }
+.hero__logo { position: relative; width: min(82vw, 40vh); aspect-ratio: 960 / 880; transform-style: preserve-3d; will-change: transform; }
+/* Kutu ilk boyamadan itibaren görünür; betiği beklemez. Eskiden main.js çalışıp 250 ms geçene
+   kadar «.js …:not(.is-in) { opacity: 0 }» ile gizliydi ve Chrome opacity:0 öğeyi LCP
+   saymadığından sayfanın en büyük boyaması betiğin peşine takılıyordu (PSI masaüstü: 472 ms'lik
+   LCP'nin 220 ms'si «öğe oluşturma gecikmesi», mobilde 2 sn'yi aşıyordu). Ayrı bir solma da
+   yok: asıl açılış (halka çizimi, harfler, ağ) zaten SVG'nin içinde ve boş kareden başlıyor.
+   Kutunun transform'u JS'e ait (eğim + kaydırma). */
 .hero__logo img.hero__mark { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* Harf logosu (img/logo-mark.svg, 738×513): parıltı ve animasyon dosyanın içinde, CSS filtre gerekmez */
 .nav__brand img.nav__mark { display: block; height: 38px; width: auto; }
