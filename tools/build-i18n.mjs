@@ -3,7 +3,7 @@
    Kaynak: kökteki Türkçe HTML (index.html, contact/*.html, portal/login.html, terms.html, impressum.html).
    Sözlük: i18n/<dil>.json  (biçim: i18n/README.md)
    Çıktı:  <dil>/…  aynı klasör yapısıyla; js/lang/<dil>.js; sitemap.xml
-           + Türkçe kaynakların css/style.css ve js/main.js etiketlerine ?v=<içerik özeti>
+           + Türkçe kaynakların css/style.css ve js/boot.js etiketlerine ?v=<içerik özeti>
              damgası (tools/lib/stamp.mjs) — kaynaklara dokunan tek adım budur
 
    Kullanım (depo kökünde):   node tools/build-i18n.mjs          üret
@@ -120,10 +120,10 @@ function translate(src, html, dict, report) {
      damga gelince eşleşmeyi bırakıyor, else dalı da olmadığı için otuz sayfanın dil dosyası
      etiketi HİÇ UYARI VERMEDEN düşüyordu (üç dil de Türkçe'ye döner, --check yine 0 der,
      «33 dosya yazıldı» çıktısı bile aynı kalır). else dalı o sessizliği kapatıyor. */
-  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/main\\.js(\\?[^"]*)?"></script>`);
+  const mainRe = new RegExp(`<script src="(${up(d + 1).replace(/\./g, '\\.')})js/(?:main|boot)\\.js(\\?[^"]*)?"></script>`);
   if (dict.js) {
     if (mainRe.test(html)) html = html.replace(mainRe, (all, pre, q) => `<script src="${pre}js/lang/${lang}.js${q || ''}"></script>${all}`);
-    else report.error.push(`${src}: js/main.js etiketi bulunamadı — ${lang} dil dosyası EKLENMEDİ`);
+    else report.error.push(`${src}: js/boot.js (ya da main.js) etiketi bulunamadı — ${lang} dil dosyası EKLENMEDİ`);
   }
 
   // 5) mutlak adresler: canonical, og:url, twitter, JSON-LD "url"
@@ -185,7 +185,7 @@ for (const src of SOURCES) {
   const before = read(src);
   const stamped = stampHtml(before, TOKEN);
   if (stamped.css !== 1) throw new Error(`${src}: stylesheet etiketi beklenen biçimde değil (${stamped.css} eşleşme) — tools/lib/stamp.mjs`);
-  if (stamped.js !== 1) report.error.push(`${src}: js/main.js etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
+  if (stamped.js !== 1) report.error.push(`${src}: js/boot.js (ya da main.js) etiketi beklenen biçimde değil (${stamped.js} eşleşme) — damgalanmadı`);
   srcHtml.set(src, stamped.html);
   if (stamped.html !== before) stale.push(src);
 }
