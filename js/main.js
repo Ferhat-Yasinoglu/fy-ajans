@@ -1869,9 +1869,18 @@
   var lazySecs = $$('main > section.section');
   function renderAllSections() { lazySecs.forEach(function (s) { s.classList.add('is-rendered'); }); }
   if (lazySecs.length) (function () {
-    var i = 0, idle = window.requestIdleCallback ? function (f) { requestIdleCallback(f, { timeout: 1500 }); } : function (f) { setTimeout(f, 200); };
-    function step() { if (i < lazySecs.length) { lazySecs[i++].classList.add('is-rendered'); idle(step); } }
-    function start() { setTimeout(function () { idle(step); }, 300); }
+    /* Dizme yalnız gerçekten boşta (zaman aşımı yok: hero tuvali 30 karede bir boşluk bırakıyor,
+       yeter) ve yüklemeden 1 sn sonra başlar: her bölümün düzeni kendi kısa görevinde kalsın,
+       yükleme penceresindeki işlere binmesin. Boşluk hiç gelmezse 4 sn'lik sigorta ilerletir. */
+    var i = 0, idle = window.requestIdleCallback ? function (f) { requestIdleCallback(f); } : function (f) { setTimeout(f, 250); };
+    var guard = 0;
+    function step() {
+      clearTimeout(guard);
+      if (i >= lazySecs.length) return;
+      lazySecs[i++].classList.add('is-rendered');
+      idle(step); guard = setTimeout(step, 4000);
+    }
+    function start() { setTimeout(function () { idle(step); guard = setTimeout(step, 4000); }, 1000); }
     if (location.hash) renderAllSections();               // derin bağlantı: hedef, üstündekiler dizilirken kaymasın
     if (document.readyState === 'complete') start(); else addEventListener('load', start);
   })();
