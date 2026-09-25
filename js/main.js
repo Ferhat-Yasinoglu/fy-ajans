@@ -1862,12 +1862,26 @@
     imgs.forEach(function (img) { io.observe(img); });
   })();
 
+  /* ---------- Ekran dışı bölümler: ilk boyamadan sonra birer birer dizilir ----------
+     css: «main > section.section:not(.is-rendered) { content-visibility: auto }». Sayfa yüklenip
+     boşa düşünce bölümler sırayla is-rendered alır; hepsi birden dizilse tek bir uzun görev olurdu.
+     Sayfa içi bağlantıya tıklanınca önce hepsi dizilir ki hedefin konumu doğru ölçülsün. */
+  var lazySecs = $$('main > section.section');
+  function renderAllSections() { lazySecs.forEach(function (s) { s.classList.add('is-rendered'); }); }
+  if (lazySecs.length) (function () {
+    var i = 0, idle = window.requestIdleCallback ? function (f) { requestIdleCallback(f, { timeout: 1500 }); } : function (f) { setTimeout(f, 200); };
+    function step() { if (i < lazySecs.length) { lazySecs[i++].classList.add('is-rendered'); idle(step); } }
+    function start() { setTimeout(function () { idle(step); }, 300); }
+    if (document.readyState === 'complete') start(); else addEventListener('load', start);
+  })();
+
   /* ---------- Sayfa içi bağlantılarda sabit çubuk payı ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (a.hasAttribute('data-modal')) return;
       var id = a.getAttribute('href').slice(1), el = id && document.getElementById(id);
       if (!el) return; e.preventDefault();
+      renderAllSections();                                  // hedefin üstündeki bölümler gerçek yüksekliğini alsın
       var top = el.getBoundingClientRect().top + scrollY - 64;
       scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
       history.replaceState(null, '', '#' + id);

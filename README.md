@@ -41,8 +41,8 @@ ve damgayı kendi adresinden ona devreder. Böylece sayfa, betik değerlendirile
 kalmıyor ve Lighthouse LCP hesabına betiği katmıyor.
 
 - Damga **içerik özeti**, zaman damgası değil: kaynak değişmediyse çıktı da değişmez.
-- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`, `js/boot.js`,
-  `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
+- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `css/lesson.css` (yalnız ders
+  sayfalarının yüklediği ders kuralları), `js/main.js`, `js/boot.js`, `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
 - `js/main.js` damgayı kendi adresinden okuyup sonradan yüklediği betiklere devrediyor
   (`js/fyos-voice.js`, `js/fyos-local.js`), yani onlar da bayat kalmıyor.
 - **CSS, JS ya da sözlük değiştirdiysen commit'ten önce betiği çalıştır.** Unutursan

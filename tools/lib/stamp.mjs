@@ -15,7 +15,7 @@ import { join } from 'node:path';
    yani özet alınırken henüz yazılmamış olabiliyor. Yerine i18n/*.json giriyor — lang dosyası
    sözlüğün saf fonksiyonu olduğu için sözlük değişir ⇔ lang dosyası değişir.
    .html dosyaları da yok: damga onların içine yazıldığı için sabit nokta döngüsü olurdu. */
-const ASSETS = ['css/style.css', 'js/main.js', 'js/boot.js', 'js/fyos-local.js', 'js/fyos-voice.js'];
+const ASSETS = ['css/style.css', 'css/lesson.css', 'js/main.js', 'js/boot.js', 'js/fyos-local.js', 'js/fyos-voice.js'];
 
 /** İçerik özeti — zaman damgası DEĞİL: kaynak değişmediyse iki çalıştırma aynı damgayı verir.
     .gitattributes'taki «* text=auto eol=lf» sayesinde bayt özeti her işletim sisteminde aynı. */
@@ -38,6 +38,8 @@ export function assetToken(root) {
    index.html'de etiket «</div><script src="js/boot.js"></script>» biçiminde, satır ortasında.
    Eski damga yakalanmayan isteğe bağlı grupla yutuluyor, yani ?v=a?v=b üretmek imkânsız. */
 const CSS_RE = /(<link rel="stylesheet" href="(?:\.\.\/)*css\/style\.css)(?:\?v=[0-9a-f]+)?(">)/g;
+/* Ders sayfaları bir de css/lesson.css yükler (style.css'ten bölünen ders kuralları); aynı damga. */
+const LESSON_RE = /(<link rel="stylesheet" href="(?:\.\.\/)*css\/lesson\.css)(?:\?v=[0-9a-f]+)?(">)/g;
 /* Sayfalar main.js'i doğrudan değil js/boot.js üzerinden yüklüyor (ilk boyamadan sonra); damga
    boot.js etiketine yazılır, boot.js onu main.js'e devreder. main.js de kabul edilir. */
 const MAIN_RE = /(<script src="(?:\.\.\/)*js\/(?:main|boot)\.js)(?:\?v=[0-9a-f]+)?("><\/script>)/g;
@@ -45,8 +47,9 @@ const MAIN_RE = /(<script src="(?:\.\.\/)*js\/(?:main|boot)\.js)(?:\?v=[0-9a-f]+
 /** Sayfanın iki paylaşılan varlık etiketini damgalar. Sayaçlar çağıranın doğrulaması için:
     beklenen biçimde bulunamayan bir etiket sessizce damgasız gitmemeli. */
 export function stampHtml(html, token) {
-  let css = 0, js = 0;
+  let css = 0, js = 0, lesson = 0;
   html = html.replace(CSS_RE, (_, a, b) => { css++; return a + '?v=' + token + b; });
+  html = html.replace(LESSON_RE, (_, a, b) => { lesson++; return a + '?v=' + token + b; });
   html = html.replace(MAIN_RE, (_, a, b) => { js++; return a + '?v=' + token + b; });
-  return { html: html, css: css, js: js };
+  return { html: html, css: css, js: js, lesson: lesson };
 }
