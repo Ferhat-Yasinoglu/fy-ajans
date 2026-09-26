@@ -1862,12 +1862,36 @@
     imgs.forEach(function (img) { io.observe(img); });
   })();
 
+  /* ---------- Ekran dışı bölümler: ilk boyamadan sonra birer birer dizilir ----------
+     css: «main > section.section:not(.is-rendered) { content-visibility: auto }». Sayfa yüklenip
+     boşa düşünce bölümler sırayla is-rendered alır; hepsi birden dizilse tek bir uzun görev olurdu.
+     Sayfa içi bağlantıya tıklanınca önce hepsi dizilir ki hedefin konumu doğru ölçülsün. */
+  var lazySecs = $$('main > section.section');
+  function renderAllSections() { lazySecs.forEach(function (s) { s.classList.add('is-rendered'); }); }
+  if (lazySecs.length) (function () {
+    /* Dizme yalnız gerçekten boşta (zaman aşımı yok: hero tuvali 30 karede bir boşluk bırakıyor,
+       yeter) ve yüklemeden 1 sn sonra başlar: her bölümün düzeni kendi kısa görevinde kalsın,
+       yükleme penceresindeki işlere binmesin. Boşluk hiç gelmezse 4 sn'lik sigorta ilerletir. */
+    var i = 0, idle = window.requestIdleCallback ? function (f) { requestIdleCallback(f); } : function (f) { setTimeout(f, 250); };
+    var guard = 0;
+    function step() {
+      clearTimeout(guard);
+      if (i >= lazySecs.length) return;
+      lazySecs[i++].classList.add('is-rendered');
+      idle(step); guard = setTimeout(step, 4000);
+    }
+    function start() { setTimeout(function () { idle(step); guard = setTimeout(step, 4000); }, 1000); }
+    if (location.hash) renderAllSections();               // derin bağlantı: hedef, üstündekiler dizilirken kaymasın
+    if (document.readyState === 'complete') start(); else addEventListener('load', start);
+  })();
+
   /* ---------- Sayfa içi bağlantılarda sabit çubuk payı ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (a.hasAttribute('data-modal')) return;
       var id = a.getAttribute('href').slice(1), el = id && document.getElementById(id);
       if (!el) return; e.preventDefault();
+      renderAllSections();                                  // hedefin üstündeki bölümler gerçek yüksekliğini alsın
       var top = el.getBoundingClientRect().top + scrollY - 64;
       scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
       history.replaceState(null, '', '#' + id);

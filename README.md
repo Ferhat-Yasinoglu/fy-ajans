@@ -41,8 +41,8 @@ ve damgayı kendi adresinden ona devreder. Böylece sayfa, betik değerlendirile
 kalmıyor ve Lighthouse LCP hesabına betiği katmıyor.
 
 - Damga **içerik özeti**, zaman damgası değil: kaynak değişmediyse çıktı da değişmez.
-- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `js/main.js`, `js/boot.js`,
-  `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
+- Üretici `tools/lib/stamp.mjs`. Özete giren dosyalar: `css/style.css`, `css/lesson.css` (yalnız ders
+  sayfalarının yüklediği ders kuralları), `js/main.js`, `js/boot.js`, `js/fyos-local.js`, `js/fyos-voice.js`, `i18n/*.json`.
 - `js/main.js` damgayı kendi adresinden okuyup sonradan yüklediği betiklere devrediyor
   (`js/fyos-voice.js`, `js/fyos-local.js`), yani onlar da bayat kalmıyor.
 - **CSS, JS ya da sözlük değiştirdiysen commit'ten önce betiği çalıştır.** Unutursan
@@ -130,7 +130,8 @@ contact/course.html   kurs sayfası
 claude/index.html      Claude Rehberi — bağımsız başvuru sayfası ve sözlük (dört dilde)
 course/chapter-1.html Bölüm 1 dersi «Önce beni tanı» (dört dilde)
 portal/login.html     öğrenci paneli (henüz kapalı; şifresiz "haber ver" formu)
-css/style.css         tüm stiller ve tasarım tokenları
+css/style.css         tüm sayfaların stili ve tasarım tokenları
+css/lesson.css        yalnız ders sayfalarının (course/) stili — style.css'ten bölündü, ondan sonra yüklenir
 js/main.js            üst çubuk, animasyonlar, FYOS sahnesi, akordeon, formlar
 data/fy-stats.json    sahne kartlarındaki sayılar (Agents, Skills, Knowledge…); sayfa 60 sn'de bir okur
 img/founder.jpg       kurucu fotoğrafı
